@@ -187,6 +187,17 @@ namespace BetterTexts.Patches
         // descrição do status Stealth já menciona o crítico garantido).
         // REGRA: nada relacionado a Bard/música (Crescendo, Harmony, Songs) — a árvore
         // chega na próxima atualização do jogo; não mexer.
+        // Rótulos da ficha de personagem que NUNCA devem receber explicação
+        // (ex.: a linha "Life Steal" do bloco de Stats é só um número + nome).
+        private static readonly HashSet<string> GlossaryLabelExclusions = new HashSet<string>
+        {
+            "Life Steal",
+            "Lifesteal",
+            "Stealth",
+            "Enrage",
+            "Marked Prey",
+        };
+
         private static readonly (Regex Match, string Append, string ExcludeIfContains)[] SkillGlossaryRules =
         {
             (new Regex(@"\bStealth\b", RegexOptions.Compiled),
@@ -439,6 +450,10 @@ namespace BetterTexts.Patches
                     {
                         foreach (var rule in SkillGlossaryRules)
                         {
+                            if (GlossaryLabelExclusions.Contains(original.Trim()))
+                            {
+                                break;
+                            }
                             if (rule.Match.IsMatch(original) &&
                                 !original.Contains(rule.ExcludeIfContains))
                             {
@@ -455,7 +470,7 @@ namespace BetterTexts.Patches
                         string low = original.ToLower();
                         bool hasVerb = low.Contains("increased") || low.Contains("added") ||
                             low.Contains("lowered") || low.Contains("reduced") ||
-                            low.Contains("resistance");
+                            low.Contains("granted");
                         if (hasVerb && ArmorAffixRegex.IsMatch(original) &&
                             !original.Contains("blocks damage"))
                         {
