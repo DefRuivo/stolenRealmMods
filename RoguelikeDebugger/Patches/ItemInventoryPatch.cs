@@ -56,46 +56,37 @@ namespace RoguelikeDebugger.Patches
                         $"[Item] '{it.name}' | tipo={it.ItemType} | raridade={it.Rarity} | " +
                         $"lvlMin={it.MinLevel} | desc=\"{desc.Replace("\n", " ")}\"");
                 }
+
+                // Coleta ATIVA dos afixos: o getter é lazy e não é acessado no menu,
+                // então carregamos a lista nós mesmos (o próprio jogo faz o mesmo
+                // Resources.LoadAll quando precisa).
+                DumpItemMods();
             }
             catch (Exception e)
             {
                 Plugin.Log.LogWarning($"[Item] erro no inventário: {e.Message}");
             }
         }
-    }
 
-    [HarmonyPatch(typeof(Game), "get_ItemMods")]
-    public static class ItemModInventoryPatch
-    {
         private static bool _modsDumped;
-        private static int _modsLast = -1;
-        private static int _modsStable;
 
-        private static void Postfix(ItemMod[] __result)
+        private static void DumpItemMods()
         {
             try
             {
-                if (_modsDumped || __result == null || __result.Length <= 1)
+                if (_modsDumped)
                 {
                     return;
                 }
-                if (__result.Length == _modsLast)
-                {
-                    _modsStable++;
-                }
-                else
-                {
-                    _modsStable = 1;
-                    _modsLast = __result.Length;
-                }
-                if (_modsStable < 5)
+                var mods = Game.Instance.ItemMods;
+                if (mods == null || mods.Length <= 1)
                 {
                     return;
                 }
                 _modsDumped = true;
 
-                Plugin.Log.LogInfo($"[ItemMod] Inventário: {__result.Length} afixos carregados.");
-                foreach (var mod in __result)
+                Plugin.Log.LogInfo($"[ItemMod] Inventário: {mods.Length} afixos carregados.");
+                foreach (var mod in mods)
                 {
                     if (mod == null)
                     {
