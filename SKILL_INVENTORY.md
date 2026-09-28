@@ -1,5 +1,7 @@
 # Inventário de Skills/Spells — Stolen Realm (BT-7)
 
+> **Fontes de verdade (ordem de prioridade)**: 1) comportamento observado no código atual do jogo; 2) **patch notes oficiais — sempre a versão MAIS RECENTE** (atual: v1.3.1, 15/09/2026); 3) StolenRealmModAPI; 4) textos do próprio jogo (localização); 5) mods open-source/wiki/Discord/Reddit (sempre triangulados, nunca fonte única).
+
 > 453 skills (dump RoguelikeDebugger 28/09).
 
 

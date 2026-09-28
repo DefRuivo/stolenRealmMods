@@ -1,4 +1,19 @@
-# Varredura de Tooltips — Stolen Realm
+# Varredura de Tooltips — Stolen Realm (BetterTexts)
+
+## RV-7 — Life Steal em triangulação (em andamento)
+
+**Status das fontes:**
+- Patch notes MAIS RECENTES (v1.3.1, 15/09/2026): sem mudanças em Life Steal → vale o rework do **v0.22**: "Player Life Steal reworked: Now heals a percentage of the player's **Max Health** when hitting. Reduced for AOE." (antes disso era % do dano causado)
+- Localização ATUAL do jogo: "Life Steal **heals you for a percentage of your Max Health** each time you hit. Reduced for area of effect abilities." ✓
+- Código (`Character.ApplyAction`): o bloco de lifesteal calcula `vida perdida do ALVO × LifeSteal% × multiplicador de nível` (base = dano) — conflita com as fontes oficiais
+- **Teste empírico instrumentado**: `[LifeSteal]` + `[Dmg]` no RoguelikeDebugger — uma batalha decide
+- Texto do glossário = redação oficial do jogo (pendente do resultado empírico)
+
+## Regra de fonte de verdade
+
+Patch notes oficiais são fonte da verdade; usar sempre a versão **mais recente** (atual: v1.3.1 — 15/09/2026). Divergência entre fontes → código observado vence.
+
+
 
 > **Objetivo**: tooltip informativo e detalhado para TODA mecânica/spell/item — explicando COMO funciona de fato, não só traduzindo ou estendendo o texto.
 > **Regra de ouro**: mecânica SEMPRE confirmada no código (ILSpy/Cecil) + log de validação (RoguelikeDebugger) ANTES de escrever o texto. Zero invenção.
