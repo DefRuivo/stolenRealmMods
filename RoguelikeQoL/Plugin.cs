@@ -65,36 +65,42 @@ namespace RoguelikeQoL
                         if (_serifFont == null)
                         {
                             Log.LogWarning("QoL fonte: nenhuma fonte serifada disponível no SO.");
-                            yield return new WaitForSeconds(30f);
-                            continue;
                         }
                     }
-                    foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
+                    if (_serifFont != null)
                     {
-                        if (t == null)
+                        foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
                         {
-                            continue;
-                        }
-                        if (!_seenTexts.Contains(t))
-                        {
-                            // Primeira vez que vemos este texto: registra a fonte original
-                            // como fallback do serifado (uma única vez).
-                            if (t.font != null && t.font != _serifFont &&
-                                !_serifFont.fallbackFontAssetTable.Contains(t.font))
+                            if (t == null)
                             {
-                                _serifFont.fallbackFontAssetTable.Add(t.font);
+                                continue;
                             }
-                            _seenTexts.Add(t);
-                        }
-                        if (t.font != _serifFont)
-                        {
-                            t.font = _serifFont;
+                            if (!_seenTexts.Contains(t))
+                            {
+                                // Primeira vez que vemos este texto: registra a fonte original
+                                // como fallback do serifado (uma única vez).
+                                if (t.font != null && t.font != _serifFont &&
+                                    !_serifFont.fallbackFontAssetTable.Contains(t.font))
+                                {
+                                    _serifFont.fallbackFontAssetTable.Add(t.font);
+                                }
+                                _seenTexts.Add(t);
+                            }
+                            if (t.font != _serifFont)
+                            {
+                                t.font = _serifFont;
+                            }
                         }
                     }
                 }
                 catch (System.Exception e)
                 {
                     Log.LogWarning($"QoL fonte erro: {e.Message}");
+                }
+                if (_serifFont == null)
+                {
+                    // sem fonte disponível: espera mais antes de tentar de novo
+                    yield return new WaitForSeconds(30f);
                 }
             }
         }
