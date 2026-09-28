@@ -224,8 +224,8 @@ namespace BetterTexts.Patches
         }
 
         /// <summary>
-        /// Nota dinâmica do Damage Reduction (RV-5): lê a ordem de redução de dano real
-        /// do GlobalSettings e diz explicitamente o que vem DEPOIS da redução geral.
+        /// Nota dinâmica do Damage Reduction (RV-5/RV-7): lê a ordem de redução de dano real
+        /// do GlobalSettings e mostra a cadeia completa do cálculo.
         /// Padrão do jogo: GeneralReduction → Resists → Armor.
         /// </summary>
         private static string BuildDamageReductionNote()
@@ -242,24 +242,19 @@ namespace BetterTexts.Patches
                 {
                     return null;
                 }
-                var after = new List<string>();
-                bool foundGeneral = false;
+                var names = new List<string>();
                 foreach (var stage in order)
                 {
                     string s = stage.ToString();
-                    if (s == "GeneralReduction")
-                    {
-                        foundGeneral = true;
-                        continue;
-                    }
-                    if (foundGeneral)
-                    {
-                        after.Add(s == "Resists" ? "Resistances" : s == "Armor" ? "Armor" : s);
-                    }
+                    names.Add(
+                        s == "Resists" ? "Resistances" :
+                        s == "Armor" ? "Armor" :
+                        s == "GeneralReduction" ? "General Reductions" : s);
                 }
-                if (after.Count > 0)
+                if (names.Count == order.Length)
                 {
-                    return "\nReduces all damage you take. Applied before " + string.Join(" and ", after) + ".";
+                    return "\nReduces all damage you take. Damage is reduced in this order: "
+                        + string.Join(", then ", names) + ".";
                 }
                 return "\nReduces all damage you take.";
             }
