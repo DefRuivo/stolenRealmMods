@@ -58,4 +58,16 @@
     </Reference>
   </ItemGroup>
 
+  <!-- INFRA-1: deploy automático após o build — copia a DLL para o perfil do r2modman.
+       O caminho usa $(USERPROFILE) (env var do Windows) + o perfil Default do mod manager.
+       Se o jogo estiver aberto, a cópia falha (arquivo em uso) — feche o jogo antes de buildar. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build">
+    <PropertyGroup>
+      <BepInExPluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</BepInExPluginsDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(BepInExPluginsDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(BepInExPluginsDir)" />
+    <Message Importance="high" Text="INFRA-1: $(TargetFileName) copiado para $(BepInExPluginsDir)" />
+  </Target>
+
 </Project>
