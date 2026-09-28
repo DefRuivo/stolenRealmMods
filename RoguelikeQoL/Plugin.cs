@@ -50,6 +50,27 @@ namespace RoguelikeQoL
     }
 
     /// <summary>
+    /// Gatilho da fonte (QoL-2): a cada localização de texto (o funil Localize roda em
+    /// TODA renderização de UI), pede uma varredura de fonte com throttle. Assim a fonte
+    /// aplica assim que qualquer tela renderiza — sem depender de Update/foco/timeScale.
+    /// </summary>
+    [HarmonyPatch(typeof(OptionsManager), nameof(OptionsManager.Localize))]
+    public static class LocalizeFontTrigger
+    {
+        private static void Postfix()
+        {
+            try
+            {
+                QoLUpdater.Instance?.MaybeSweep();
+            }
+            catch
+            {
+                // nunca quebrar a localização por causa da fonte
+            }
+        }
+    }
+
+    /// <summary>
     /// MonoBehaviour dedicado que roda o HUD (QoL-1) e a varredura de fonte (QoL-2)
     /// em Update com TEMPO REAL — imune a timeScale=0 e ao ciclo de vida do plugin.
     /// </summary>
@@ -65,7 +86,32 @@ namespace RoguelikeQoL
 
         private void Awake()
         {
+            Instance = this;
             CreateHud();
+            FontSweep(); // primeira passada imediata (textos já existentes no boot)
+        }
+
+        public static QoLUpdater Instance { get; private set; }
+
+        /// <summary>
+        /// Disparada por QUALQUER localização de texto (postfix do Localize) — aplica a
+        /// fonte imediatamente quando a UI renderiza, sem depender de Update/foco/timeScale.
+        /// Throttle de 2s de tempo real para não varrer a cada caractere.
+        /// </summary>
+        public void MaybeSweep()
+        {
+            try
+            {
+                if (Time.realtimeSinceStartup - _lastFontSweep >= 2f)
+                {
+                    _lastFontSweep = Time.realtimeSinceStartup;
+                    FontSweep();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Log.LogWarning($"QoL fonte erro: {e.Message}");
+            }
         }
 
         private void CreateHud()
