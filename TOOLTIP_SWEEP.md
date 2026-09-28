@@ -95,6 +95,16 @@ Candidatos já mapeados no código (a inventariar por completo):
 
 ## Fase 3 — Equipamentos/Itens (BT-8)
 
+**Inventários completos** (28/09): **905 itens base** (`ITEM_INVENTORY.md`) e **285 afixos** (`ITEM_MOD_INVENTORY.md` — 192 prefixos, 90 sufixos, 3 EndGame).
+
+Implementado:
+- **Armor** (32 afixos): nota dinâmica com a fórmula do código — `dano - Armor/N` com cap `maxArmorReductionPercent` (valores do GlobalSettings)
+- **Resist** (27 afixos): sufixo da mecânica de resistência (reuso da BT-6b)
+- **Lifesteal** (1 afixo): coberto automaticamente pela regra de glossário Life Steal
+- Guardas anti-colisão: só textos com verbo de modificação; "Summon resistance" excluído (não é resistência de dano)
+
+Pendências: validação visual; RV-4 (revisão externa).
+
 Candidatos já mapeados:
 - `ItemTooltip`, `Item.get_ItemName`, `ItemMod.GetDescription`
 - `CraftingRecipe.GetDescription`, `ItemSearch.*` (busca de itens)

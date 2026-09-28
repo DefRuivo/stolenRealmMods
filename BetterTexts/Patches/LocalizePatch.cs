@@ -225,7 +225,8 @@ namespace BetterTexts.Patches
             }
             return "\nArmor blocks damage: each " + gs.ArmorPerDamagePointReduction.ToString("0.##") +
                 " Armor reduces damage taken by 1 (capped at " +
-                gs.maxArmorReductionPercent.ToString("0.##") + "% of the incoming damage).";
+                gs.maxArmorReductionPercent.ToString("0.##") +
+                "% of the incoming damage). Armor and Magic Armor do not reduce Shadow damage.";
         }
 
         private static string BuildAttributeEffects(string attribute)
