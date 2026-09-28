@@ -81,9 +81,10 @@ Inventário completo extraído do banco de localização (19 powerups, 70 chaves
 - 6d: quest/questitem → avaliados, sem mudança
 
 ### BT-7 (skills) — implementada
-- 7a: glossário Stealth (crit 100%), Crescendo (stack ↑ poder da song), Harmony (+1 atributo/stack), Marked Prey (+10% dano tomado/stack)
-- 7b: glossário Enrage (imune a movement impairing/knockback), Life Steal (cura % do dano), Songs (tocar outra encerra o buff — confirmado pelo BardSkillTest do próprio jogo)
+- 7a: glossário Stealth (crit 100%) e Marked Prey (+10% dano tomado/stack)
+- 7b: glossário Enrage (imune a movement impairing/knockback), Life Steal (cura % do dano)
 - 7c: varredura das 453 descrições — 31 curtas avaliadas; Chaos já explica o dano aleatório; Helping/Hurting são caóticas por design
+- **REGRA: nada de Bard/música** (Crescendo, Harmony, Songs removidos do glossário — Bard chega na próxima atualização do jogo)
 - Pendências anotadas: summon scaling (verificar em runtime, RD-1); "AP cost" vs "Action" (RV-6); Coin of Chaos (críptica por design)
 
 Candidatos já mapeados no código (a inventariar por completo):
