@@ -185,17 +185,13 @@ namespace BetterTexts.Patches
         // das descrições dos PRÓPRIOS status do jogo (inventário da BT-6, sem invenção).
         // A exclusão evita redundância quando o texto já define o termo (ex.: a
         // descrição do status Stealth já menciona o crítico garantido).
+        // REGRA: nada relacionado a Bard/música (Crescendo, Harmony, Songs) — a árvore
+        // chega na próxima atualização do jogo; não mexer.
         private static readonly (Regex Match, string Append, string ExcludeIfContains)[] SkillGlossaryRules =
         {
             (new Regex(@"\bStealth\b", RegexOptions.Compiled),
              "\nStealth: attacking from stealth has 100% critical hit chance.",
              "critical hit chance"),
-            (new Regex(@"\bCrescendo\b", RegexOptions.Compiled),
-             "\nCrescendo: each stack increases the power of your songs.",
-             "power of the song"),
-            (new Regex(@"\bHarmony\b", RegexOptions.Compiled),
-             "\nHarmony: grants +1 to an attribute per stack.",
-             "+1"),
             (new Regex(@"Marked Prey", RegexOptions.Compiled),
              "\nMarked Prey: increases damage taken by 10% per stack.",
              "Damage taken"),
@@ -210,11 +206,6 @@ namespace BetterTexts.Patches
             (new Regex(@"Life Steal|Lifesteal", RegexOptions.Compiled),
              "\nLife Steal: heals you for a percentage of the damage you deal.",
              "heals you for"),
-            // BT-7b: Songs do Bard — BardSkillTest do próprio jogo: tocar uma song
-            // encerra o buff das outras ("buff stop ... per other Song").
-            (new Regex(@"\(Song\)", RegexOptions.Compiled),
-             "\nPlaying another song ends this song's buff.",
-             "another song"),
         };
 
         private static string BuildAttributeEffects(string attribute)

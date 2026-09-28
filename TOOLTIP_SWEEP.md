@@ -72,13 +72,19 @@ Inventário completo extraído do banco de localização (19 powerups, 70 chaves
 
 ## Fase 2 — Efeitos/status + Spells/Skills (BT-6 e BT-7)
 
-**Inventário completo coletado** (28/09, dump do RoguelikeDebugger): **600 statuses** — 497 Normal, 83 Fortune, 14 Quest, 6 QuestItem. Lista completa em `STATUS_INVENTORY.md`.
+**Inventário completo coletado** (28/09, dump do RoguelikeDebugger): **600 statuses** — 497 Normal, 83 Fortune, 14 Quest, 6 QuestItem (lista em `STATUS_INVENTORY.md`) — e **453 skills** em 14 árvores (lista em `SKILL_INVENTORY.md`).
 
-Subtasks BT-6:
-- **BT-6a** ✓ implementado (instalado): statuses que concedem atributos (potions, canções, leeches, "X increased by...") → explicação dinâmica "Effects per point" — aguarda confirmação visual
-- **BT-6b** ✓ implementado (instalado): statuses que reduzem resistências (Heat, Frostbitten, Severely Burned, Sundered, Curse of Elements, Fracture, Mortal Fracture) → explicação da mecânica de resistência negativa (fórmula `dano × (1-Resist/100)` verificada)
-- **BT-6c** ✓ parcial (instalado): Fortunes que concedem atributos (`@Might@ increased by {12,60}`) → efeitos por ponto; demais fortunes têm descrições claras
-- **BT-6d** ✓ avaliado: statuses de Quest/QuestItem são textos de objetivo, sem mecânica a explicar — sem mudanças
+### BT-6 (statuses) — implementada
+- 6a: statuses de atributo → efeitos por ponto dinâmicos
+- 6b: statuses de resistência → mecânica de resistência negativa
+- 6c: fortunes de atributo → efeitos por ponto
+- 6d: quest/questitem → avaliados, sem mudança
+
+### BT-7 (skills) — implementada
+- 7a: glossário Stealth (crit 100%), Crescendo (stack ↑ poder da song), Harmony (+1 atributo/stack), Marked Prey (+10% dano tomado/stack)
+- 7b: glossário Enrage (imune a movement impairing/knockback), Life Steal (cura % do dano), Songs (tocar outra encerra o buff — confirmado pelo BardSkillTest do próprio jogo)
+- 7c: varredura das 453 descrições — 31 curtas avaliadas; Chaos já explica o dano aleatório; Helping/Hurting são caóticas por design
+- Pendências anotadas: summon scaling (verificar em runtime, RD-1); "AP cost" vs "Action" (RV-6); Coin of Chaos (críptica por design)
 
 Candidatos já mapeados no código (a inventariar por completo):
 - `Tooltip.ShowActionStatusTooltip` (ActionStatusInfo → AttributeEffects)
