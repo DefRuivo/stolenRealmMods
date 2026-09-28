@@ -243,9 +243,10 @@ namespace RoguelikeQoL
                         return TMP_FontAsset.CreateFontAsset(osFont);
                     }
                 }
-                catch
+                catch (System.Exception e)
                 {
-                    // tenta a próxima candidata
+                    // expõe o motivo real (CreateFontAsset pode lançar por shader/atlas)
+                    Plugin.Log.LogWarning($"QoL fonte: '{name}' falhou: {e.GetType().Name}: {e.Message}");
                 }
             }
             return null;
