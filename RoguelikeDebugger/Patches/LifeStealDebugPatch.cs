@@ -26,13 +26,25 @@ namespace RoguelikeDebugger.Patches
 
                 if (message == "[source] healed [value] health from life steal" && source != null)
                 {
+                    // O atributo genérico "LifeSteal" costuma ser 0 no build atual —
+                    // o lifesteal real vem dos atributos POR TIPO DE SKILL (LifeStealShadow etc.).
+                    var perType = new System.Collections.Generic.List<string>();
+                    foreach (SkillType st in Enum.GetValues(typeof(SkillType)))
+                    {
+                        float v = source["LifeSteal" + st];
+                        if (v > 0f)
+                        {
+                            perType.Add($"{st}={v:F1}");
+                        }
+                    }
                     float ls = source["LifeSteal"];
                     float maxHp = source.MaxHealth;
                     float expectedMaxHpHeal = maxHp * ls / 100f;
                     Plugin.Log.LogInfo(
                         $"[LifeSteal] {source.CharacterName} curou {value:F1} | " +
                         $"vidaMáxima={maxHp:F1} | LifeSteal%={ls:F1} | nível={source.Level} | " +
-                        $"(se base=vidaMáx, cura esperada sem redutores={expectedMaxHpHeal:F1})");
+                        $"porTipo=[{string.Join(", ", perType)}] | " +
+                        $"(15% da vidaMáx seria {maxHp * 0.15f:F1})");
                 }
                 else if (message == "[source] dealt [value] Damage to [target]" &&
                     source != null && !source.IsAI && value > 0f)
