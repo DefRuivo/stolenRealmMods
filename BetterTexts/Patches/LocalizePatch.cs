@@ -181,6 +181,26 @@ namespace BetterTexts.Patches
             "@Resistances@ lowered by 20%. Reduces healing received by 50%",      // Mortal Fracture
         };
 
+        // BT-7a: glossário de mecânicas nos tooltips de skills — definições tiradas
+        // das descrições dos PRÓPRIOS status do jogo (inventário da BT-6, sem invenção).
+        // A exclusão evita redundância quando o texto já define o termo (ex.: a
+        // descrição do status Stealth já menciona o crítico garantido).
+        private static readonly (Regex Match, string Append, string ExcludeIfContains)[] SkillGlossaryRules =
+        {
+            (new Regex(@"\bStealth\b", RegexOptions.Compiled),
+             "\nStealth: attacking from stealth has 100% critical hit chance.",
+             "critical hit chance"),
+            (new Regex(@"\bCrescendo\b", RegexOptions.Compiled),
+             "\nCrescendo: each stack increases the power of your songs.",
+             "power of the song"),
+            (new Regex(@"\bHarmony\b", RegexOptions.Compiled),
+             "\nHarmony: grants +1 to an attribute per stack.",
+             "+1"),
+            (new Regex(@"Marked Prey", RegexOptions.Compiled),
+             "\nMarked Prey: increases damage taken by 10% per stack.",
+             "Damage taken"),
+        };
+
         private static string BuildAttributeEffects(string attribute)
         {
             var gs = GlobalSettingsManager.instance?.globalSettings;
@@ -378,6 +398,21 @@ namespace BetterTexts.Patches
                             if (original.StartsWith(prefix, StringComparison.Ordinal))
                             {
                                 __result += ResistanceExplainSuffix;
+                                appended = true;
+                                break;
+                            }
+                        }
+                    }
+
+                    // Glossário de mecânicas nos tooltips de skills (BT-7a).
+                    if (!appended)
+                    {
+                        foreach (var rule in SkillGlossaryRules)
+                        {
+                            if (rule.Match.IsMatch(original) &&
+                                !original.Contains(rule.ExcludeIfContains))
+                            {
+                                __result += rule.Append;
                                 appended = true;
                                 break;
                             }
