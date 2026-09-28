@@ -243,18 +243,28 @@ namespace BetterTexts.Patches
                     return null;
                 }
                 var names = new List<string>();
+                bool foundGeneral = false;
                 foreach (var stage in order)
                 {
                     string s = stage.ToString();
-                    names.Add(
-                        s == "Resists" ? "Resistances" :
-                        s == "Armor" ? "Armor" :
-                        s == "GeneralReduction" ? "General Reductions" : s);
+                    if (s == "GeneralReduction")
+                    {
+                        foundGeneral = true;
+                        continue;
+                    }
+                    if (foundGeneral)
+                    {
+                        names.Add(
+                            s == "Resists" ? "Resistances" :
+                            s == "Armor" ? "Armor" : s);
+                    }
                 }
-                if (names.Count == order.Length)
+                if (foundGeneral && names.Count > 0)
                 {
-                    return "\nReduces all damage you take. Damage is reduced in this order: "
-                        + string.Join(", then ", names) + ".";
+                    // Redação do usuário (18:55): "Applied before X and Y" —
+                    // lista somente as etapas que vêm DEPOIS da redução geral.
+                    return "\nReduces all damage you take. Applied before "
+                        + string.Join(" and ", names) + ".";
                 }
                 return "\nReduces all damage you take.";
             }
