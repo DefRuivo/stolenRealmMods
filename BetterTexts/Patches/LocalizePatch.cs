@@ -208,6 +208,26 @@ namespace BetterTexts.Patches
              "heals you for"),
         };
 
+        // BT-8: afixos de itens — mecânicas verificadas no código (Character.ApplyAction):
+        // Armor: dano - (Armor/ArmorPerDamagePointReduction), com cap maxArmorReductionPercent.
+        // Resists: dano × (1 - Resist/100) por elemento.
+        // Só disparam em textos com verbo de modificação ("increased/added/...") para não
+        // poluir rótulos simples (ex.: o label "Armor" da ficha de stats).
+        private static readonly Regex ArmorAffixRegex = new Regex(@"\bArmor\b", RegexOptions.Compiled);
+        private static readonly Regex ResistAffixRegex = new Regex(@"\bResistance\w*\b", RegexOptions.Compiled);
+
+        private static string BuildArmorNote()
+        {
+            var gs = GlobalSettingsManager.instance?.globalSettings;
+            if (gs == null)
+            {
+                return null;
+            }
+            return "\nArmor blocks damage: each " + gs.ArmorPerDamagePointReduction.ToString("0.##") +
+                " Armor reduces damage taken by 1 (capped at " +
+                gs.maxArmorReductionPercent.ToString("0.##") + "% of the incoming damage).";
+        }
+
         private static string BuildAttributeEffects(string attribute)
         {
             var gs = GlobalSettingsManager.instance?.globalSettings;
@@ -423,6 +443,32 @@ namespace BetterTexts.Patches
                                 appended = true;
                                 break;
                             }
+                        }
+                    }
+
+                    // Afixos de itens (BT-8): Armor e Resistências.
+                    if (!appended)
+                    {
+                        string low = original.ToLower();
+                        bool hasVerb = low.Contains("increased") || low.Contains("added") ||
+                            low.Contains("lowered") || low.Contains("reduced") ||
+                            low.Contains("resistance");
+                        if (hasVerb && ArmorAffixRegex.IsMatch(original) &&
+                            !original.Contains("blocks damage"))
+                        {
+                            string note = BuildArmorNote();
+                            if (note != null)
+                            {
+                                __result += note;
+                                appended = true;
+                            }
+                        }
+                        else if (hasVerb && ResistAffixRegex.IsMatch(original) &&
+                            !original.Contains("Summon resistance") &&
+                            !original.Contains("resistances reduce"))
+                        {
+                            __result += ResistanceExplainSuffix;
+                            appended = true;
                         }
                     }
 
