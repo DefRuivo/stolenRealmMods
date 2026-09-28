@@ -13,6 +13,23 @@
 
 Patch notes oficiais são fonte da verdade; usar sempre a versão **mais recente** (atual: v1.3.1 — 15/09/2026). Divergência entre fontes → código observado vence.
 
+## RV-8 — Auditoria completa de correção (pós-Life Steal) — CONCLUÍDA ✓
+
+Método: 4 camadas de verificação — (1) chaves exatas no banco de localização atual, (2) código atual, (3) notas v1.3.1 completas, (4) dumps ao vivo do build instalado.
+
+| Grupo | Verificação | Status |
+|---|---|---|
+| Powerups (todas as chaves) | varredura resources.assets | ✓ presentes no build atual |
+| Efeitos por atributo (Might/Dex/Int/Vit/Reflex) | batem com `ShowMainStatTooltip` atual | ✓ |
+| Skill Tree Removal | `MinimumTreesRemaining=4` + lock nível 1 no código atual | ✓ (frase final é edição do usuário) |
+| Treasure/Gold/Damage/Movement/Range/Summon | notas v1.3.1 completas | ✓ nada invalidado |
+| Armor (cap) | dinâmico — lê `maxArmorReductionPercent` ao vivo (99% desde v0.22; wiki diz 80% = desatualizada) | ✓ correto por construção |
+| Resistência negativa | fórmula atual | ✓ |
+| Chaves BT-6/7/8 (status/skills/itens) | dumps coletados do build instalado | ✓ atuais por construção |
+| **Life Steal** | **era o único erro — corrigido e confirmado empiricamente** | ✓ |
+
+
+
 
 
 > **Objetivo**: tooltip informativo e detalhado para TODA mecânica/spell/item — explicando COMO funciona de fato, não só traduzindo ou estendendo o texto.
