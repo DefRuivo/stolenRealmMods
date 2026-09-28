@@ -193,10 +193,34 @@ namespace BetterTexts.Patches
         {
             "Life Steal",
             "Lifesteal",
+            "% Life Steal",
+            "% Lifesteal",
             "Stealth",
             "Enrage",
             "Marked Prey",
         };
+
+        /// <summary>
+        /// Rótulos curtos ("Life Steal", "Life Steal: 15%", "% Life Steal", "X Applied")
+        /// são exibição pura e não devem receber explicação do glossário.
+        /// </summary>
+        private static bool IsGlossaryLabel(string original)
+        {
+            string t = original.Trim();
+            if (GlossaryLabelExclusions.Contains(t) || t.EndsWith(" Applied"))
+            {
+                return true;
+            }
+            if (t.Length <= 24)
+            {
+                string low = t.ToLower();
+                if (low.StartsWith("life steal") || low.StartsWith("lifesteal"))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
 
         private static readonly (Regex Match, string Append, string ExcludeIfContains)[] SkillGlossaryRules =
         {
@@ -450,8 +474,7 @@ namespace BetterTexts.Patches
                     {
                         foreach (var rule in SkillGlossaryRules)
                         {
-                            if (GlossaryLabelExclusions.Contains(original.Trim()) ||
-                                original.Trim().EndsWith(" Applied"))
+                            if (IsGlossaryLabel(original))
                             {
                                 break;
                             }

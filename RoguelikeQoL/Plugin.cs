@@ -47,7 +47,15 @@ namespace RoguelikeQoL
             var panelGo = new GameObject("Panel");
             panelGo.transform.SetParent(go.transform, false);
             var text = panelGo.AddComponent<Text>();
-            text.font = Resources.GetBuiltinResource<Font>("Arial.ttf");
+            // Unity 2022 removeu os recursos builtin antigos: "Arial.ttf" retorna null.
+            // Usamos "LegacyRuntime.ttf" e, se faltar, criamos uma fonte dinâmica do SO.
+            Font font = Resources.GetBuiltinResource<Font>("LegacyRuntime.ttf");
+            if (font == null)
+            {
+                font = Font.CreateDynamicFontFromOSFont("Arial", 18);
+            }
+            text.font = font;
+            Log.LogInfo($"Roguelike QoL: HUD criado (fonte={((font != null) ? font.name : "null")}).");
             text.fontSize = 18;
             text.color = new Color(1f, 0.95f, 0.6f, 0.95f);
             text.horizontalOverflow = HorizontalWrapMode.Overflow;
