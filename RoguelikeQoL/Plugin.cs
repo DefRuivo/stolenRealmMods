@@ -1,6 +1,9 @@
+using System.Collections;
+using System.Collections.Generic;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -23,6 +26,10 @@ namespace RoguelikeQoL
         private Text _hudText;
         private float _lastUpdate = -99f;
 
+        // QoL-2: fonte serifada (Times New Roman ou similar) aplicada globalmente.
+        private TMP_FontAsset _serifFont;
+        private readonly HashSet<TMP_Text> _seenTexts = new HashSet<TMP_Text>();
+
         private void Awake()
         {
             Log = Logger;
@@ -33,6 +40,85 @@ namespace RoguelikeQoL
             Logger.LogInfo("Roguelike QoL: patches aplicados.");
 
             CreateHud();
+        }
+
+        private void Start()
+        {
+            StartCoroutine(FontApplier());
+        }
+
+        /// <summary>
+        /// QoL-2: aplica a fonte serifada a todos os textos TMP do jogo, incluindo os que
+        /// surgirem depois (novas janelas/telas). A fonte original do jogo entra como
+        /// fallback do font asset serifado, para ícones/símbolos não virarem quadrados.
+        /// </summary>
+        private IEnumerator FontApplier()
+        {
+            while (true)
+            {
+                yield return new WaitForSeconds(2f);
+                try
+                {
+                    if (_serifFont == null)
+                    {
+                        _serifFont = CreateSerifFont();
+                        if (_serifFont == null)
+                        {
+                            Log.LogWarning("QoL fonte: nenhuma fonte serifada disponível no SO.");
+                            yield return new WaitForSeconds(30f);
+                            continue;
+                        }
+                    }
+                    foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
+                    {
+                        if (t == null)
+                        {
+                            continue;
+                        }
+                        if (!_seenTexts.Contains(t))
+                        {
+                            // Primeira vez que vemos este texto: registra a fonte original
+                            // como fallback do serifado (uma única vez).
+                            if (t.font != null && t.font != _serifFont &&
+                                !_serifFont.fallbackFontAssetTable.Contains(t.font))
+                            {
+                                _serifFont.fallbackFontAssetTable.Add(t.font);
+                            }
+                            _seenTexts.Add(t);
+                        }
+                        if (t.font != _serifFont)
+                        {
+                            t.font = _serifFont;
+                        }
+                    }
+                }
+                catch (System.Exception e)
+                {
+                    Log.LogWarning($"QoL fonte erro: {e.Message}");
+                }
+            }
+        }
+
+        private static TMP_FontAsset CreateSerifFont()
+        {
+            string[] candidates = { "Times New Roman", "Georgia", "Liberation Serif", "Cambria", "Book Antiqua" };
+            foreach (var name in candidates)
+            {
+                try
+                {
+                    Font osFont = Font.CreateDynamicFontFromOSFont(name, 36);
+                    if (osFont != null)
+                    {
+                        Log.LogInfo($"QoL fonte: usando '{name}' como fonte serifada.");
+                        return TMP_FontAsset.CreateFontAsset(osFont);
+                    }
+                }
+                catch
+                {
+                    // tenta a próxima candidata
+                }
+            }
+            return null;
         }
 
         private void CreateHud()
