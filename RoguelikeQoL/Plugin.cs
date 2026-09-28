@@ -40,11 +40,11 @@ namespace RoguelikeQoL
             Logger.LogInfo("Roguelike QoL: patches aplicados.");
 
             CreateHud();
-        }
 
-        private void Start()
-        {
-            StartCoroutine(FontApplier());
+            // InvokeRepeating (não coroutine): roda a varredura de fonte a cada 2s
+            // a partir do 2º segundo de jogo.
+            InvokeRepeating(nameof(FontSweep), 2f, 2f);
+            Log.LogInfo("QoL fonte: varredura agendada (a cada 2s).");
         }
 
         /// <summary>
@@ -52,56 +52,45 @@ namespace RoguelikeQoL
         /// surgirem depois (novas janelas/telas). A fonte original do jogo entra como
         /// fallback do font asset serifado, para ícones/símbolos não virarem quadrados.
         /// </summary>
-        private IEnumerator FontApplier()
+        private void FontSweep()
         {
-            while (true)
+            try
             {
-                yield return new WaitForSeconds(2f);
-                try
-                {
-                    if (_serifFont == null)
-                    {
-                        _serifFont = CreateSerifFont();
-                        if (_serifFont == null)
-                        {
-                            Log.LogWarning("QoL fonte: nenhuma fonte serifada disponível no SO.");
-                        }
-                    }
-                    if (_serifFont != null)
-                    {
-                        foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
-                        {
-                            if (t == null)
-                            {
-                                continue;
-                            }
-                            if (!_seenTexts.Contains(t))
-                            {
-                                // Primeira vez que vemos este texto: registra a fonte original
-                                // como fallback do serifado (uma única vez).
-                                if (t.font != null && t.font != _serifFont &&
-                                    !_serifFont.fallbackFontAssetTable.Contains(t.font))
-                                {
-                                    _serifFont.fallbackFontAssetTable.Add(t.font);
-                                }
-                                _seenTexts.Add(t);
-                            }
-                            if (t.font != _serifFont)
-                            {
-                                t.font = _serifFont;
-                            }
-                        }
-                    }
-                }
-                catch (System.Exception e)
-                {
-                    Log.LogWarning($"QoL fonte erro: {e.Message}");
-                }
                 if (_serifFont == null)
                 {
-                    // sem fonte disponível: espera mais antes de tentar de novo
-                    yield return new WaitForSeconds(30f);
+                    _serifFont = CreateSerifFont();
+                    if (_serifFont == null)
+                    {
+                        Log.LogWarning("QoL fonte: nenhuma fonte serifada disponível no SO.");
+                        return;
+                    }
                 }
+                foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
+                {
+                    if (t == null)
+                    {
+                        continue;
+                    }
+                    if (!_seenTexts.Contains(t))
+                    {
+                        // Primeira vez que vemos este texto: registra a fonte original
+                        // como fallback do serifado (uma única vez).
+                        if (t.font != null && t.font != _serifFont &&
+                            !_serifFont.fallbackFontAssetTable.Contains(t.font))
+                        {
+                            _serifFont.fallbackFontAssetTable.Add(t.font);
+                        }
+                        _seenTexts.Add(t);
+                    }
+                    if (t.font != _serifFont)
+                    {
+                        t.font = _serifFont;
+                    }
+                }
+            }
+            catch (System.Exception e)
+            {
+                Log.LogWarning($"QoL fonte erro: {e.Message}");
             }
         }
 
