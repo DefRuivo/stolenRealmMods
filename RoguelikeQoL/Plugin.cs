@@ -25,6 +25,7 @@ namespace RoguelikeQoL
 
         private Text _hudText;
         private float _lastUpdate = -99f;
+        private float _lastFontSweep = -99f;
 
         // QoL-2: fonte serifada (Times New Roman ou similar) aplicada globalmente.
         private TMP_FontAsset _serifFont;
@@ -41,10 +42,7 @@ namespace RoguelikeQoL
 
             CreateHud();
 
-            // InvokeRepeating (não coroutine): roda a varredura de fonte a cada 2s
-            // a partir do 2º segundo de jogo.
-            InvokeRepeating(nameof(FontSweep), 2f, 2f);
-            Log.LogInfo("QoL fonte: varredura agendada (a cada 2s).");
+            Log.LogInfo("QoL fonte: varredura via Update (tempo real, imune a timeScale=0).");
         }
 
         /// <summary>
@@ -169,6 +167,14 @@ namespace RoguelikeQoL
             {
                 Log.LogWarning($"QoL HUD erro: {e.Message}");
                 _hudText.text = "";
+            }
+
+            // Varredura de fonte a cada 2s de TEMPO REAL — Update roda mesmo com
+            // timeScale=0 (menu), ao contrário de coroutines/InvokeRepeating.
+            if (Time.realtimeSinceStartup - _lastFontSweep >= 2f)
+            {
+                _lastFontSweep = Time.realtimeSinceStartup;
+                FontSweep();
             }
         }
 
