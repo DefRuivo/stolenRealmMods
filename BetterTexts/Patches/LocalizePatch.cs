@@ -199,6 +199,22 @@ namespace BetterTexts.Patches
             (new Regex(@"Marked Prey", RegexOptions.Compiled),
              "\nMarked Prey: increases damage taken by 10% per stack.",
              "Damage taken"),
+            // BT-7b: Enrage — status do jogo: "Immune to all movement impairing effects
+            // and knockback." (verificado: statuses TriggersEnrage rolam StatusResistImpairment
+            // em alvos com CanEnrage; troca de fase limpa esses statuses).
+            (new Regex(@"\bEnrage\b", RegexOptions.Compiled),
+             "\nEnraged characters are immune to movement impairing effects and knockback.",
+             "immune to"),
+            // BT-7b: Life Steal — fórmula verificada em ApplyAction:
+            // cura = dano causado x (LifeSteal/100) x multiplicadores de nível.
+            (new Regex(@"Life Steal|Lifesteal", RegexOptions.Compiled),
+             "\nLife Steal: heals you for a percentage of the damage you deal.",
+             "heals you for"),
+            // BT-7b: Songs do Bard — BardSkillTest do próprio jogo: tocar uma song
+            // encerra o buff das outras ("buff stop ... per other Song").
+            (new Regex(@"\(Song\)", RegexOptions.Compiled),
+             "\nPlaying another song ends this song's buff.",
+             "another song"),
         };
 
         private static string BuildAttributeEffects(string attribute)
