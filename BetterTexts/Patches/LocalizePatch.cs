@@ -450,7 +450,8 @@ namespace BetterTexts.Patches
                     {
                         foreach (var rule in SkillGlossaryRules)
                         {
-                            if (GlossaryLabelExclusions.Contains(original.Trim()))
+                            if (GlossaryLabelExclusions.Contains(original.Trim()) ||
+                                original.Trim().EndsWith(" Applied"))
                             {
                                 break;
                             }
