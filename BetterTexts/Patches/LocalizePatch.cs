@@ -49,11 +49,11 @@ namespace BetterTexts.Patches
             // Damage and Healing — VERIFICADO: soma no atributo "DamageMod" base, que entra
             // em (1 + (DamageMod + DamageMod<Tipo> + ManaPowerMod)/100) × (1+AbilityPower/100)
             // para TODOS os tipos de dano E para a cura (DamageModHealing usa a mesma base).
-            { "+ 5% to Damage and Healing", "\nIncreases all damage you deal and your healing, for every damage type." },
-            { "+ 10% to Damage and Healing", "\nIncreases all damage you deal and your healing, for every damage type." },
-            { "+ 15% to Damage and Healing", "\nIncreases all damage you deal and your healing, for every damage type." },
-            { "+ 20% to Damage and Healing", "\nIncreases all damage you deal and your healing, for every damage type." },
-            { "+ 25% to Damage and Healing", "\nIncreases all damage you deal and your healing, for every damage type." },
+            { "+ 5% to Damage and Healing", "\nIncreases all damage you deal and all healing you do." },
+            { "+ 10% to Damage and Healing", "\nIncreases all damage you deal and all healing you do." },
+            { "+ 15% to Damage and Healing", "\nIncreases all damage you deal and all healing you do." },
+            { "+ 20% to Damage and Healing", "\nIncreases all damage you deal and all healing you do." },
+            { "+ 25% to Damage and Healing", "\nIncreases all damage you deal and all healing you do." },
 
             // Damage Reduction — VERIFICADO: atributo "DamageReduction" vira camada
             // multiplicativa (1 - (DamageReduction + Resilience + TakeCover)/100) na cadeia
