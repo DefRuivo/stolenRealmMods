@@ -201,10 +201,12 @@ namespace BetterTexts.Patches
             (new Regex(@"\bEnrage\b", RegexOptions.Compiled),
              "\nEnraged characters are immune to movement impairing effects and knockback.",
              "immune to"),
-            // BT-7b: Life Steal — fórmula verificada em ApplyAction:
-            // cura = dano causado x (LifeSteal/100) x multiplicadores de nível.
+            // BT-7b: Life Steal — RV-7: TEXTO OFICIAL do jogo (localização + patch notes v0.22):
+            // "Life Steal heals you for a percentage of your Max Health each time you hit.
+            // Reduced for area of effect abilities." — o código atual calcula a partir da
+            // vida perdida do ALVO; pendente confirmação empírica via [LifeSteal] debug.
             (new Regex(@"Life Steal|Lifesteal", RegexOptions.Compiled),
-             "\nLife Steal: heals you for a percentage of the damage you deal.",
+             "\nLife Steal: heals you for a percentage of your Max Health each time you hit. Reduced for area of effect abilities.",
              "heals you for"),
         };
 
