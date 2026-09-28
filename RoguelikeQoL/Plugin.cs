@@ -231,21 +231,60 @@ namespace RoguelikeQoL
 
         private static TMP_FontAsset CreateSerifFont()
         {
-            string[] candidates = { "Times New Roman", "Georgia", "Liberation Serif", "Cambria", "Book Antiqua" };
-            foreach (var name in candidates)
+            // Caminhos de ARQUIVO primeiro (mais confiável que resolução por nome no Unity):
+            string[] fileCandidates =
+            {
+                "C:/Windows/Fonts/times.ttf",                    // Times New Roman
+                "C:/Windows/Fonts/georgia.ttf",                  // Georgia (serifa parecida)
+                "C:/Windows/Fonts/LiberationSerif-Regular.ttf",  // Liberation Serif
+            };
+            foreach (var path in fileCandidates)
+            {
+                try
+                {
+                    if (!System.IO.File.Exists(path))
+                    {
+                        continue;
+                    }
+                    Font fileFont = new Font(path);
+                    if (fileFont == null)
+                    {
+                        continue;
+                    }
+                    TMP_FontAsset asset = TMP_FontAsset.CreateFontAsset(fileFont);
+                    if (asset != null)
+                    {
+                        Plugin.Log.LogInfo($"QoL fonte: usando '{path}' como fonte serifada.");
+                        return asset;
+                    }
+                    Plugin.Log.LogWarning($"QoL fonte: '{path}' carregou mas CreateFontAsset retornou null.");
+                }
+                catch (System.Exception e)
+                {
+                    Plugin.Log.LogWarning($"QoL fonte: '{path}' falhou: {e.GetType().Name}: {e.Message}");
+                }
+            }
+
+            // Último recurso: resolução por nome do SO.
+            string[] nameCandidates = { "Times New Roman", "Georgia", "Liberation Serif", "Cambria" };
+            foreach (var name in nameCandidates)
             {
                 try
                 {
                     Font osFont = Font.CreateDynamicFontFromOSFont(name, 36);
-                    if (osFont != null)
+                    if (osFont == null)
                     {
-                        Plugin.Log.LogInfo($"QoL fonte: usando '{name}' como fonte serifada.");
-                        return TMP_FontAsset.CreateFontAsset(osFont);
+                        continue;
+                    }
+                    TMP_FontAsset asset = TMP_FontAsset.CreateFontAsset(osFont);
+                    if (asset != null)
+                    {
+                        Plugin.Log.LogInfo($"QoL fonte: usando '{name}' (OS) como fonte serifada.");
+                        return asset;
                     }
                 }
                 catch (System.Exception e)
                 {
-                    // expõe o motivo real (CreateFontAsset pode lançar por shader/atlas)
                     Plugin.Log.LogWarning($"QoL fonte: '{name}' falhou: {e.GetType().Name}: {e.Message}");
                 }
             }
