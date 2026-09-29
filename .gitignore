@@ -7,3 +7,32 @@ dist/
 *_lib/
 b_*.txt
 build_*.txt
+
+# Notas/dumps de trabalho de IA — superados pelo censo em docs/cobertura/
+TOOLTIP_SWEEP.md
+STATUS_INVENTORY.md
+SKILL_INVENTORY.md
+ITEM_INVENTORY.md
+ITEM_MOD_INVENTORY.md
+
+# Nao utilizados / uso local do editor
+ReloadProbe/
+*.code-workspace
+
+# Scratch: defasados (test-cycle.sh segue rastreado)
+scratch/old/
+scratch/tooltip.cs
+scratch/shot.ps1
+scratch/shot.png
+
+# Segredos — nunca publicar
+.env
+.env.*
+*.key
+*.pem
+*.p12
+*.pfx
+*.jks
+*.keystore
+credentials*.json
+secrets*.json
