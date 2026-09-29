@@ -96,9 +96,18 @@ namespace RoguelikeDebugger.Patches
                         }
                     }
 
+                    // AURA (29/09): o "within N hexes" dos selos (`Seal of Protection/Might/
+                    // Salvation`), do `Bless` e afins NÃO está no alvo da ação — a ação é
+                    // auto-aplicada (`self=1`, `range=0`) e o raio mora AQUI, no status.
+                    // `IsAura` + `AuraRadius` (default **3**, que é exatamente o número dos
+                    // três selos) + quem ela afeta. Sem este campo, toda a classe de
+                    // afirmação "N hexes" fica sem par no dump — foi o que travou 6 itens da
+                    // árvore Light.
                     Plugin.Log.LogInfo(
                         $"[Status] '{s.Name}' | tipo={s.StatusType} | raridade={s.Rarity} | " +
                         $"efeitos={ef} | efeitosDano={efGerais} | nEfeitosDano={nGerais} | " +
+                        $"aura={(s.IsAura ? "sim" : "nao")} | raio={s.AuraRadius} | " +
+                        $"auraAli={(s.AuraEffectsAllies ? "sim" : "nao")} | auraIni={(s.AuraEffectsEnemies ? "sim" : "nao")} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
             }
