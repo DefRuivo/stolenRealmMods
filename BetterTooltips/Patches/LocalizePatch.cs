@@ -156,6 +156,20 @@ namespace BetterTooltips.Patches
               "\nDamage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received." },
             { "Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.",
               "\nDamage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received." },
+            // Fechamento do lote da Light (29/09): quatro que tambem escalam e nao diziam.
+            // `Holy Ground` era o caso mais enganoso - o STATUS dele guarda o valor na chave
+            // `HolyDamage`, mas o teste do proprio jogo prova que CURA:
+            //   Assert(caster.Health > hp, "Holy Ground did not heal the caster standing on it")
+            // A chave e so o slot de armazenamento; o multiplicador de Holy Power entra
+            // igual (num7 *= 1 + DamageModHealing/100).
+            { "Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ",
+              "\nHealing scales with your Attack Power and Holy Power." },
+            { "Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",
+              "\nHealing scales with your Attack Power and Holy Power." },
+            { "Calls down a shield that protects the target absorbing *0 damage. ",
+              "\nAbsorption scales with your Attack Power and Holy Power." },
+            { "Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",
+              "\nDamage and absorption scale with your Attack Power and Holy Power." },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
