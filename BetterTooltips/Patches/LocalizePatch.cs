@@ -141,7 +141,7 @@ namespace BetterTooltips.Patches
             { "Restores target's health by *0.",
               "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
             { "Restores *0 health to all allies within 2 hexes of target.",
-              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
+              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.\nThe 2-hex area is centred on the chosen TARGET, not on the caster." },
             { "Target restores *0 health per turn. ",
               "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
             { "All allies within 3 hexes of you heal for *0 per turn. ",
