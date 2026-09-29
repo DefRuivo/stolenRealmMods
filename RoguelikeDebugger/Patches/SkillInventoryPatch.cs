@@ -126,6 +126,90 @@ namespace RoguelikeDebugger.Patches
                     $"expr={Junta(ac.DescriptionExpressions)} | " +
                     $"desc=\"{Limpa(ac.Description)}\"");
 
+                // RV-8b-0f: PROPRIEDADES DA AÇÃO. A tooltip mostra dano/efeito, mas omite
+                // limite de alvos, alcance, knockback, nº de golpes, cooldown e chance de
+                // proc - que é a classe de dúvida que sobrou no Ranger (`Rally` +3 x +2,
+                // `Volley` 5 x 3 alvos). O `RangeAdderAttributes` que eu tinha anotado no
+                // quadro NÃO é campo público do ActionInfo: é um Dictionary privado do
+                // `ActionProperties` (l.317488, já convertido em CacheAttributeName) - o
+                // "alcance por hex" que interessa chega por ATRIBUTO (`Patient Hunter` dá
+                // `RangeTypeAdderRanged`), e isso o campo `attr` do dump já cobre.
+                var alvos = new System.Text.StringBuilder();
+                int nAlvos = 0;
+                if (ac.Targets != null)
+                {
+                    foreach (var t in ac.Targets)
+                    {
+                        var ti = t as TargetInfo;
+                        if (ti == null)
+                        {
+                            continue;
+                        }
+                        nAlvos++;
+                        alvos.Append('[')
+                             .Append("sel=").Append(Limpa(ti.Selection)).Append(';')
+                             .Append("rsel=").Append(Limpa(ti.RangeSelection)).Append(';')
+                             .Append("blast=").Append(Limpa(ti.BlastRange)).Append(';')
+                             .Append("range=").Append(ti.SimpleRange).Append(';')
+                             .Append("ali=").Append(ti.TargetAllies ? 1 : 0)
+                             .Append("ini=").Append(ti.TargetEnemies ? 1 : 0)
+                             .Append("self=").Append(ti.TargetSelf ? 1 : 0).Append(']');
+                    }
+                }
+
+                var chances = new System.Text.StringBuilder();
+                if (ac.ActionChances != null)
+                {
+                    foreach (var ch in ac.ActionChances)
+                    {
+                        if (ch != null)
+                        {
+                            chances.Append(ch.ActionInfo != null ? Limpa(ch.ActionInfo.name) : "?")
+                                   .Append(':').Append(ch.Chance).Append(',');
+                        }
+                    }
+                }
+
+                // Status que a acao APLICA (RV-8b-0f). Sem isto o `Rally` fica indecidivel:
+                // a acao dele tem nEfeitos=0 e o "+3 de movimento" que o texto promete mora
+                // num ActionStatusInfo, nao num GeneralEffect. O valor em si esta no status
+                // (coluna `attr` do status.csv), entao aqui basta o NOME para ligar um ao
+                // outro. `SourceStatusEffects` sao os aplicados em quem usa a acao.
+                var statusAplic = new System.Text.StringBuilder();
+                if (ac.StatusEffects != null)
+                {
+                    foreach (var st in ac.StatusEffects)
+                    {
+                        if (st != null)
+                        {
+                            statusAplic.Append(Limpa(st.Name)).Append(',');
+                        }
+                    }
+                }
+                var statusFonte = new System.Text.StringBuilder();
+                if (ac.SourceStatusEffects != null)
+                {
+                    foreach (var st in ac.SourceStatusEffects)
+                    {
+                        if (st != null)
+                        {
+                            statusFonte.Append(Limpa(st.Name)).Append(',');
+                        }
+                    }
+                }
+
+                Plugin.Log.LogInfo(
+                    $"[ActionProps] '{nome}' | tipo={ac.ActionType} | beneficio={ac.BenefitType} | " +
+                    $"skillType={ac.SkillType} | nAlvos={nAlvos} | alvos={alvos} | " +
+                    $"alcance={(ac.UseMaxRangeOverride ? ac.MaxRangeOverride.ToString() : "-")} | " +
+                    $"alcanceBlast={(ac.UseMaxRangeBlastOverride ? ac.MaxRangeBlastOverride.ToString() : "-")} | " +
+                    $"knockback={(ac.UseKnockback ? ac.KnockbackAmount.ToString() : "-")} | " +
+                    $"hits={(ac.UseMultipleHits ? ac.NumHits.ToString() : "-")} | " +
+                    $"exprHits={Limpa(ac.NumHitsEquation)} | alcanceHits={Limpa(ac.MultipleHitRange)} | " +
+                    $"cooldown={Limpa(ac.Cooldown)} | cargas={Limpa(ac.MaxCharges)}/{Limpa(ac.InitialCharges)} | " +
+                    $"precisa={Limpa(ac.UseCondition)} | condFalha={Limpa(ac.UseConditionFailText)} | " +
+                    $"statusAplicados={statusAplic} | statusFonte={statusFonte} | chances={chances}");
+
                 // RV-8b-2h: INVOCAÇÕES. A tooltip de "Nature Summoning I" diz apenas
                 // "Summons a Raven, Coyote, or Raccoon to fight for you." - não diz o que
                 // cada bicho faz. Os dados existem no asset: ActionInfo.Summons é a lista
@@ -314,6 +398,41 @@ namespace RoguelikeDebugger.Patches
                         $"danoExpr={Junta(sk.DamageExpressionOverrides)} | " +
                         $"upg={Limpa(sk.UpgradeText)} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
+
+                    // RV-8b-0f: GATILHOS. A dúvida do `Marked Prey` ("Attacks" x "Basic
+                    // attacks") se decide aqui: `TriggerType` diz QUANDO dispara e
+                    // `AddBasicAttackToActionList` diz se ataque básico conta. Não existe
+                    // um valor `OnBasicAttack` no enum (são 29 valores, de OnHittingAny a
+                    // OnGettingHitAnyIncludingProcs) - quem responde é este par. Sem isso a
+                    // tooltip pode prometer mais do que o jogo faz.
+                    if (sk.SkillTriggers != null)
+                    {
+                        foreach (var tg in sk.SkillTriggers)
+                        {
+                            if (tg == null)
+                            {
+                                continue;
+                            }
+                            var acoesTg = new System.Text.StringBuilder();
+                            if (tg.Actions != null)
+                            {
+                                foreach (var a in tg.Actions)
+                                {
+                                    if (a != null)
+                                    {
+                                        acoesTg.Append(Limpa(a.name)).Append(',');
+                                    }
+                                }
+                            }
+                            Plugin.Log.LogInfo(
+                                $"[Trigger] '{sk.SkillName}' | tipo={tg.TriggerType} | " +
+                                $"cond={Limpa(tg.Condition)} | addBasicAttack={(tg.AddBasicAttackToActionList ? "sim" : "nao")} | " +
+                                $"garanteUm={(tg.GauranteeOneAction ? "sim" : "nao")} | " +
+                                $"chanceIgual={(tg.GiveAllActionsEqualChance ? "sim" : "nao")} | " +
+                                $"chances={Junta(tg.ActionChanceEquations)} | acoes={acoesTg} | " +
+                                $"nEfeitos={(tg.GeneralEffects == null ? 0 : tg.GeneralEffects.Length)}");
+                        }
+                    }
                 }
 
                 // Depois das skills, as ações que elas concedem (RV-8b-0c).
