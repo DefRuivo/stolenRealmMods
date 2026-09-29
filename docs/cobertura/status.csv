@@ -1,561 +1,561 @@
-nome,tipo,raridade,efeitos,classe,descricao,status
-Affinity: Cold,Normal,Common,DamageModCold:Base:2,buff,Increases @Cold Damage@ dealt by [0]%.,pendente
-Affinity: Fire,Normal,Common,DamageModFire:Base:2,buff,Increases @Fire Damage@ dealt by [0]%.,pendente
-Affinity: Holy,Normal,Common,DamageModHealing:Base:2,buff,Increases @Holy Damage@ and @Healing@ dealt by [0]%.,pendente
-Affinity: Lightning,Normal,Common,DamageModLightning:Base:2,buff,Increases @Lightning Damage@ dealt by [0]%.,pendente
-Affinity: Physical,Normal,Common,DamageModPhysical:Base:2,buff,Increases @Physical Damage@ dealt by [0]%.,pendente
-Affinity: Shadow,Normal,Common,DamageModShadow:Base:2,buff,Increases @Shadow Damage@ dealt by [0]%.,pendente
-Aged,Normal,Common,"MightBase:Percentage:-10, DexterityBase:Percentage:-10",debuff,You have been magically aged! Might and Dexterity are reduced by 10%.,pendente
-Ancestral Protection,Fortune,Legendary,"Armor:Base:{20,300}, MagicArmor:Base:{20,300}",indefinido,"Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you. Grants {20,300} Armor and Magic Armor.  <i><color=#808080>""You do not walk this world alone. With every step you take, you tread upon the footprints of your ancestors. They have blazed the trail before you, weathering storms you cannot fathom, crossing paths you cannot see.""</i></color>",pendente
-Angered,Normal,Common,"DamageReduction:Base:-15, DamageMod:Base:25, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:15",buff,Increases damage dealt by 25%. Increases max life and damage taken by 15%.,pendente
-Anthulk Carapace,Normal,Common,,indefinido,50% chance to cast Anthulk Spines when struck.,pendente
-Anthulk Venom,Normal,Common,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,buff,The target takes [0] increased flat physical damage. Stacks up to 10 times.,pendente
-Anthulk Venom,Normal,Mythic,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,buff,The target takes [0] increased flat physical damage. Stacks up to 5 times.,pendente
-Antidote,Normal,Common,ImmunityPoisoned:Set:1,buff,Immune to poisoned.,pendente
-Ascendancy,Normal,Common,"MightBase:Percentage:20, DexterityBase:Percentage:20, VitalityBase:Percentage:20, IntelligenceBase:Percentage:20, ReflexBase:Percentage:20",buff,Increases target ally's stats by 20%.  Lasts 5 turns. ,pendente
-Aura of Flame,Normal,Common,,indefinido,*0 fire damage dealt to enemies within the aura.,pendente
-Aura of Flame,Normal,Common,,indefinido,[0] fire damage dealt to enemies within the aura.,pendente
-Aura Of Frost,Normal,Common,,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
-Aura of Frost,Normal,Common,,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
-Aura of Lightning,Normal,Common,,indefinido,*0 lightning damage dealt to enemies within the aura each time they perform an action.,pendente
-Avenging Ancestors,Fortune,Legendary,,indefinido,"Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you.",pendente
-Ball Lightning,Fortune,Mythic,BallLightningAmount:Base:ActionStatus.GetFlatDamageValue * 15 * Target.DamageModLightning,indefinido,"Dealing lightning damage grants a stack of Overcharge: Each stack adds <color=#CBB396>[0]</color> lightning damage to your next basic attack.  <i><color=#808080>In fury, the sky roars, a tempest untamed, Lightning cracks, an ephemeral fire, wild and unchained.</color></i>",pendente
-Battered,Normal,Common,"Armor:Percentage:-25, MagicArmor:Percentage:-25",debuff,Reduces @Armor@ and @Magic Armor@ by @25%@ per stack.,pendente
-Battle Fury,Normal,Common,"DamageMod:Base:30, ModelScaleMultiplier:Base:10",buff,Increases damage dealt by 30%.,pendente
-Berserker's Rage,Normal,Common,"DamageReduction:Base:-25, DamageMod:Base:25, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",buff,Increases Damage and Damage Taken by 25%. Increases max life by 15%.,pendente
-Berserking,Normal,Common,"DamageMod:Base:Source.HealthRatioInverse * 100, MaxHealth:Percentage:25",buff,Maximum health increased by 25% Deals more damage at lower health,pendente
-Blackbeard's Curse,Normal,Common,Invincible:Set:1,buff,Protected by Blackbeard's Chest.  Invulnerable.,pendente
-Bleeding,Normal,Common,"ResistPhysical:Base:-5, BleedingDamage:Base:Mathf.Max(1, Source.GetCustomActionDamage(""GL-Bleeding"", ""TargetStored[\""PhysicalDamage\""] = Source.AttackPower * .05f""))",debuff,Target takes [1] physical damage for each hex they move. Reduces Physical Resistance by [0]%.,pendente
-Bless,Normal,Common,"MaxHealth:Percentage:10, MaxMana:Percentage:10, DamageMod:Base:10",buff,@Maximum health@ and @maximum mana@ increased by 10%.  @Damage dealt@ increased by 10%.,pendente
-Blessing of the Mountain,Normal,Common,,indefinido,Taking damage grants a stack of Thunder Charged.,pendente
-Blessing of the Mountain,Fortune,Mythic,"StatusResistImpairment:Base:{50, 50}, MaxHealth:Percentage:{15,30}",buff,"Grants a 50% chance to resist any control effects.  Increases @Max Health@ by {15,30}%.  <i><color=#808080>Enough is enough!</i></color> ",pendente
-Blessing of the Seraph,Normal,Common,Recovery:Base:10,buff,Recover 5% Max Health and Mana per turn.,pendente
-Blessing of the Seraph,Fortune,Rare,HealthPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))),buff,"@Health Recovery@ increased by [0].  <i><color=#808080>""In this realm of wild and woe, No good springs forth unless you sow.""</i></color> ",pendente
-Blind,Normal,Common,Blind:Set:1,buff,Skill range is reduced to 1 hex.,pendente
-Blind,Normal,Common,Blind:Set:1,buff,Blind.,pendente
-Blood Boil,Normal,Common,,indefinido,Target takes *0 shadow damage per turn.,pendente
-Blood Frenzy,Normal,Common,"DamageMod:Base:25, LifeSteal:Base:25, ModelScaleMultiplier:Base:10",buff,Increases damage dealt and life steal by 25%.,pendente
-Blood Howl,Normal,Common,LifeOnHitTarget:Base:4,buff,Attackers lifesteal for [0]%.,pendente
-Blood Link,Normal,Common,SoulLink:Set:1,buff,The Council's health pool is shared.,pendente
-Blood Mist,Normal,Common,,indefinido,Applies Bleeding to enemies in range.,pendente
-Bloodied Bargain,Fortune,Mythic,"DamageModPhysical:Base:{8,40}",buff,"Increases @Physical Damage@ by {8,40}%. Physical damage you deal applies 1 stack of @Bleeding@.  <i><color=#808080>A price in blood must be paid, just be sure you're not the one to pay it.</color></i>",pendente
-Boar Charm,Fortune,Rare,,indefinido,"Allows you to summon a @level@ {1,30} Wild Boar to fight for you.  <i><color=#808080>The boar you rescued follows you.</i></color> ",pendente
-Bolstering Ballad,Normal,Common,"VitalityBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad""), Armor:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad""), MagicArmor:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad"")",buff,"Vitality, Armor and Magic Armor increased by [0].",pendente
-Bone Collector,Normal,Common,"MaxHealth:Percentage:6, DamageMod:Base:6",buff,@Maximum health@ and @Damage Dealt@ increased by 6% per stack.,pendente
-Bottled Anger,Normal,Common,"DamageMod:Base:20, DamageReduction:Base:-10",buff,Damage increased by 20%. Damage taken increased by 10%.,pendente
-Bottled Fury,Normal,Common,"DamageMod:Base:40, DamageReduction:Base:-20",buff,Damage increased by 40%. Damage taken increased by 20%.,pendente
-Bottled Irritation,Normal,Common,"DamageMod:Base:10, DamageReduction:Base:-5",buff,Damage increased by 10%. Damage taken increased by 5%.,pendente
-Bottled Rage,Normal,Common,"DamageMod:Base:30, DamageReduction:Base:-15",buff,Damage increased by 30%. Damage taken increased by 15%.,pendente
-Bottled Wrath,Normal,Common,"DamageMod:Base:50, DamageReduction:Base:-25",buff,Damage increased by 50%. Damage taken increased by 25%.,pendente
-Bounty Hunter's Mark,Normal,Common,"CritChanceTarget:Base:8, DamageReduction:Base:-15",buff,Chance of suffering critical strikes increased by 8%. Damage taken increased by 15%.,pendente
-Brain Freeze,Normal,Common,,indefinido,Deals 8% of the targets Max Health in cold damage each time the target performs an action.,pendente
-Brain Freeze,Normal,Common,,indefinido,*0 cold damage is applied to the target when they perform an action.,pendente
-Brawler's Brew,Fortune,Rare,"MightBase:Base:{12,60}",buff,"@Might@ increased by {12,60}. Applies @Blind@ at the start of your turn.",pendente
-Break The Ice,Normal,Common,DamageMod:Base:100,buff,Your first attack in battle deals 100% additional damage.,pendente
-Brilliance,Fortune,Uncommon,"IntelligenceBase:Base:{4,20}",buff,"@Intelligence@ increased by {4,20}.",pendente
-Bristlethorn Vines,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageReturnedFlatPhysical:Base:3 * IslandLevel",debuff,Movement reduced by 1. Physical return damage increased by [1].,pendente
-Bruised,Normal,Common,MaxHealth:Percentage:-10,debuff,Reduces @Max Health@ by @10%@ per stack.,pendente
-Burning Aura,Normal,Common,,indefinido,*0 fire damage dealt to enemies within the aura.,pendente
-Burning Aura,Normal,Common,,indefinido,[0] fire damage dealt to enemies within the aura.,pendente
-Burning Demon Hearts,QuestItem,Common,,indefinido,,pendente
-Burning Ground,Normal,Common,,indefinido,Targets in burning ground receive fire damage.,pendente
-Burning Ground,Normal,Common,,indefinido,Targets in burning ground receive *0 fire damage.,pendente
-Call of the Reaper,Fortune,Rare,"DamageMod:Base:{6,30}, DamageReduction:Base:{-10, -10}",buff,"Increases @Damage@ by {6,30}%. Increases @Damage Taken@ by 10%.  <i><color=#808080>""Judge not a life until its final breath, for the Reaper's touch brings truth to death.""</i></color>  ",pendente
-Caution,Normal,Common,DodgeChance:Base:5,buff,Dodge Chance increased by  [0]%.,pendente
-Celerity,Fortune,Uncommon,"DexterityBase:Base:{4,20}",buff,"@Dexterity@ increased by {4,20}.",pendente
-Chained,Normal,Common,Rooted:Set:1,buff,Cannot move.,pendente
-Champion of Blood,Normal,Common,,indefinido,Striking enemies heals the Countess for 10% of her Max Health,pendente
-Chaos Coin,Fortune,Mythic,,indefinido,<i><color=#808080>Will you flip the Coin of Chaos?</i></color>   Grants the skill @Coin Flip@,pendente
-Chaos Curse,Normal,Common,,indefinido,Cursed to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,pendente
-Chi Strike,Normal,Common,DamageMod:Base:-20,debuff,Your damage dealt is reduced by 20%,pendente
-Chilled,Normal,Common,"TurnFreeMovementPoints:Base:Target.CanBeEffectedByChilled ? (Target.ChilledEffectHalved ? -.5f : -1) : 0, DamageMod:Base:-(Source[""ChilledDamageReduction""]), MaxHealth:Percentage:Source[""Frostbite""] == 1 ? -5 : 0, Armor:Percentage:Source[""InvulnerableWinter""] == 1 ? 5 : 0, MagicArmor:Percentage:Source[""InvulnerableWinter""] == 1 ? 5 : 0",debuff,Movement points reduced by one per stack.  Lasts 2 turns.  Five stacks of Chilled freezes the target.,pendente
-Chilling Aura,Normal,Common,,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
-Chromatic Tonic,Normal,Common,MagicArmor:Base:400,buff,Magic armor increased by 400.,pendente
-Claw of the Anthulk,Fortune,Mythic,,buff,"Your weapon attacks apply level {1,30} Anthulk Venom: Increases the Physical Damage the target takes by GetFlatDamageDealt(.5, Physical) per stack.  <i><color=#808080>""The venomous claw of a mature Anthulk.""</i></color>",pendente
-Combo Breaker,Normal,Common,ManaPowerMod:Base:10,buff,Damage and healing from non basic skills increased by 10%.,pendente
-Confused,Normal,Common,IntelligenceBase:Percentage:-20,debuff,Reduces @Intelligence@ by @20%@ per stack.,pendente
-Conqueror Aura,Normal,Common,"CritChance:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",buff,Critical hit chance increased by [0]%.,pendente
-Consumption,Normal,Common,MaxHealth:Percentage:-20,debuff,@Maximum health@ reduced by 20%.,pendente
-Consumption,Normal,Common,MaxHealth:Percentage:10,buff,Max Health increased by 10%.,pendente
-Consumption,Normal,Common,MaxHealth:Percentage:-10,debuff,@Maximum health@ reduced by 10%.,pendente
-Contagion,Normal,Common,HealingReceivedBonus:Base:-1,debuff,Target takes [1] shadow damage each turn. Reduces healing taken by [0]%.,pendente
-Control Resistance,Normal,Common,StatusResistImpairment:Base:43 + (Source.NumPartyCharacters * 7),indefinido,Has a [0]% chance to resist any control effects.,pendente
-Corrosive Bite,Normal,Common,"ResistPhysical:Base:-10, ResistCold:Base:-10, ResistFire:Base:-10, ResistLightning:Base:-10",debuff,Lowers All Resistance by 10% per stack.,pendente
-Corrupted Consumables I,Normal,Common,ConsumableCooldown:Base:1,buff,Consumable Cooldown increased by 1.,pendente
-Corrupted Consumables II,Normal,Common,ConsumableCooldown:Base:2,buff,Consumable Cooldown increased by 2.,pendente
-Corrupted Consumables III,Normal,Common,ConsumableCooldown:Base:3,buff,Consumable Cooldown increased by 3.,pendente
-Counter Melody,Normal,Common,"ImmunityMovementImpairing:Set:1, ImmunityChilledEffect:Set:1, ImmunityDisabled:Set:1, ImmunityFrozen:Set:1, ImmunityKnockback:Set:1, ImmunitySlow:Set:1, ImmunityStunned:Set:1",buff,Immune to Crowd Control effects.,pendente
-Courage of the Ymir,Fortune,Mythic,"ExtraTurnActionPoints:Base:(Source.HasWeaponType(""Sword_1H"")",buff,"Increases your @Action Points@ by @1@. If you are using a One-Handed Sword, Axe, Hammer, Gun, or Wand.  <i><color=#808080>You carry the Speed of the Ymir!</color></i>",pendente
-Crash and Flow,Normal,Common,DamageMod:Base:10,buff,Damage and healing increased by 10%.  Caused by recently dodging.,pendente
-Crescendo of Ballad,Normal,Common,,buff,Crescendo of Bolstering Ballad. Each stack increases the power of the song.,pendente
-Crescendo of Recovery,Normal,Common,,buff,Crescendo of Rhythm of Recovery. Each stack increases the power of the song.,pendente
-Crescendo of Refrain,Normal,Common,,buff,Crescendo of Resonating Refrain. Each stack increases the power of the song.,pendente
-Crescendo of Swiftness,Normal,Common,,buff,Crescendo of Song of Swiftness. Each stack increases the power of the song.,pendente
-Crescendo of Valor,Normal,Common,,buff,Crescendo of Verse of Valor. Each stack increases the power of the song.,pendente
-Crippled,Normal,Common,TurnFreeMovementPoints:Base:-1,debuff,Reduces @Movement Points@ by @1@ per stack.,pendente
-Crystal Ball,Fortune,Rare,"PerHexRangeDamageBonus:Base:{.5,1.5}, RangeTypeAdderRanged:Base:{1,3}",buff,"Gain {.5,1.5}% bonus damage for every hex between you and your target. Skill range increased by {1,3}.  <i><color=#808080>It doesn't show the future but a clearer picture of the present.</color></i> ",pendente
-Crystal Bite,Normal,Common,"DamageReduction:Base:-10, TurnFreeMovementPoints:Base:-1",debuff,"Target takes *0 shadow damage each turn, increases damage taken by 10% and reduces movement by 1. Stacks up to 5 times.",pendente
-Cupid Shot,Normal,Common,TeamIndexOverride:Set:Source.TeamIndex + 1,indefinido,Charmed,pendente
-Curse,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20, HealingReceivedBonus:Base:-50",debuff,@All resistances@ lowered by 20%. Healing received lowered by 50%.,pendente
-Curse of Death,Normal,Common,,indefinido,Cursed to die when this status expires.,pendente
-Curse of Elements,Normal,Common,"ResistCold:Base:-25, ResistFire:Base:-25, ResistLightning:Base:-25",debuff,Reduces Elemental resistances by 25%.,pendente
-Curse of Frailty,Normal,Common,ResistPhysical:Base:-25,debuff,Reduces Physical resistance by 25%.,pendente
-Curse of Ruin,Normal,Common,"MightBase:Percentage:-15, DexterityBase:Percentage:-15, IntelligenceBase:Percentage:-15, VitalityBase:Percentage:-15, Recovery:Percentage:-15",debuff,All stats reduced by 15%,pendente
-Curse of Sorrow,Normal,Common,HealingReceivedBonus:Base:-50,debuff,Healing is reduced by 50%.,pendente
-Curse of the Reaper,Fortune,Rare,"LifeOnHit:Base:{6,6}, MaxHealth:Percentage:{-15, -15}",debuff,"Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>""A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.""</i></color>",pendente
-Curse of Weakness,Normal,Common,DamageMod:Base:-25,debuff,Damage reduced by 25%.,pendente
-Cursed,Normal,Common,,indefinido,Applies Curse on striking and when struck,pendente
-Cursed,Normal,Common,"MightBase:Percentage:-10, DexterityBase:Percentage:-10, IntelligenceBase:Percentage:-10, VitalityBase:Percentage:-10, ReflexBase:Percentage:-10",debuff,Reduces @All Stats@ by @10%@ per stack.,pendente
-Cursed Bite,Normal,Common,HealingReceivedBonus:Base:-50,debuff,Reduces healing received by 50%.,pendente
-Cursed Coin,Normal,Common,DarkRitual:Set:1,buff,Health cannot drop below 1.,pendente
-Cursed Coin,Fortune,Legendary,,indefinido,"The first time your health is brought below @1@ instead receive @Cursed Coin@: Health cannot drop below 1. Lasts 2 turns. Applies Ritual Sickness. 1 charge per Quest.  <i><color=#808080>""Cursed life is still life.""</color></i>",pendente
-Damage,Normal,Common,,indefinido,Damaged.  ,pendente
-Damage Reduced by 20%,Normal,Common,DamageMod:Base:-20,debuff,Damage reduced by 20%.,pendente
-Damage Reduced by 5%,Normal,Common,DamageMod:Base:-5,debuff,Damage reduced by 5%.,pendente
-Damage Reduced by 50%,Normal,Common,DamageMod:Base:-50,debuff,Damage reduced by 50%.,pendente
-Dark Clones,Normal,Common,Invincible:Set:1,buff,Invulnerable while Dark Clones are alive.,pendente
-Dark Discoveries,Quest,Common,,indefinido,Locate and destroy the runaway experiments. ,pendente
-Dark Ritual,Normal,Common,DarkRitual:Set:1,buff,Health cannot drop below 1.,pendente
-Deal with a Devil,Normal,Common,"GoldMod:Base:50, DropQuantityMod:Base:50, ExperienceMod:Base:50",buff,"<i><color=#808080>You've made a deal with a devil!</i></color>   Increases experience, item drops, and gold gained by 50%. ",pendente
-Death,Normal,Common,,indefinido,Death.,pendente
-Decay Shrine Aura,Normal,Common,,indefinido,Take [0]% of your Max Health in Shadow Damage per turn.,pendente
-Decaying,Normal,Common,MaxHealth:Percentage:-25,debuff,Max Health reduced by 25%.,pendente
-Defense Flask,Normal,Common,Armor:Base:50,buff,Armor increased by 50.,pendente
-Destructive,Normal,Common,DamageMod:Base:50,buff,Damage increased by 50% ,pendente
-Dexterity,Normal,Common,DexterityBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),buff,Dexterity increased by [0].,pendente
-Diamond Protection,Normal,Common,DamageReduction:Base:25,buff,Damage taken reduced by 25%.,pendente
-Dire Bite,Normal,Common,HealingReceivedBonus:Base:-100,debuff,Reduces healing received by 100%.,pendente
-Dire Howl,Normal,Common,LifeOnHitTarget:Base:6,buff,Attackers lifesteal for [0]%.,pendente
-Disabled,Normal,Common,Disabled:Set:1,buff,Cannot perform actions.,pendente
-Disappointment,Normal,Common,DamageMod:Base:-20,debuff,The disappointment of <color=#EE4B2B><b>Shawn</b></color> follows your every move. You swiftly leave to escape. Damage and healing done are reduced by 20%.,pendente
-Diseased,Normal,Common,MaxHealth:Percentage:-15,debuff,Maximum health reduced by 15%.,pendente
-Dispelling Fracture,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20",debuff,@Resistance@ lowered by 20%.,pendente
-Dodging Strikes,Normal,Common,DodgeChance:Base:8,buff,Dodge chance increased by 8%.,pendente
-Dragon Claw Talisman,Fortune,Rare,,indefinido,"Summons a @level@ {1,30} Red Dragon Whelp to fight for you.  <i><color=#808080>""The magically preserved claw of a Dragonling.""</i></color>",pendente
-Dreadful Dissonance,Normal,Common,"Feared:Set:1, Disabled:Set:1",buff,Feared.,pendente
-Drop of Shadow,Fortune,Mythic,"DamageModShadow:Base:{10,40}",buff,"Shadow damage you deal applies @Sludge@. Increase @Shadow Damage@ by {10,40}%.  <i><color=#808080>""It's stickier than you imagined.""</color></i> ",pendente
-Dwarf King's Rage,Normal,Common,"DamageMod:Base:10, ModelScaleMultiplier:Base:7",buff,Increases damage dealt by 10%.,pendente
-Dwarf Rage!,Quest,Common,,indefinido,,pendente
-Dwarven Aura,Normal,Common,,indefinido,Your attacks have a [0]% chance to stun the target.,pendente
-Dwarven Force Generator,Fortune,Rare,,indefinido,"All Teleport (Relocate, Teleport Self, Teleport Other, Escape) spells deal *0 physical damage on entry within 1 hex and knockback 2 hexes.  <i><color=#808080>Crafted by Durn Spellbeard, widely known for his legendary entrances.</i></color>  ",pendente
-Ebony Dragon Scale,Fortune,Mythic,,buff,"Gain the ability to shapeshift into a Black Dragonkin.  <i><color=#808080>""The scale emanates a palpable aura of malevolence, a taint that seems to claw at the very air around it.""</color></i>",pendente
-Edwin's Enchantment,Normal,Common,"DamageMod:Base:{50,50}, MaxHealth:Percentage:{-50,-50}",debuff,Damage and healing increased by 50%. Max Health reduced by 50%.,pendente
-Edwin's Enchantment,Fortune,Rare,"ManaPowerMod:Base:{25,50}, HealthAsManaCost:Set:{100, 100}",buff,"Power for mana use increased by {25,50}%. Mana costs are now paid in Health instead.   <i><color=#808080>With each enchantment used, Edwin's vitality waned noticeably, his physical health deteriorating even as his reputation grew.</i></color>",pendente
-Elemental Equilibrium,Fortune,Mythic,,buff,"Dealing damage with a specific element will grant you a buff that increases all elemental damage. Stacks for each element.  <i><color=#808080>""Who defines sanity, after all? Is it the crowd of sheep who mindlessly follow the whims of their shepherd, their dull lives dictated by rules and norms? Or is it the lone wolf, who, by daring to break free from the pack, is deemed insane?""</color></i>",pendente
-Elemental Equilibrium: Cold,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",indefinido,Adds [0] damage to elemental attacks.,pendente
-Elemental Equilibrium: Fire,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",indefinido,Adds [0] damage to elemental attacks.,pendente
-Elemental Equilibrium: Lightning,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",indefinido,Adds [0] damage to elemental attacks.,pendente
-Elemental Power,Fortune,Rare,"DamageModCold:Base:{5,25}, DamageModFire:Base:{5,25}, DamageModLightning:Base:{5,25}",buff,"Increases @Elemental Damage@ by {5,25}%.",pendente
-Elemental Protection,Normal,Common,"ResistCold:Base:15, ResistFire:Base:15, ResistLightning:Base:15",buff,@Elemental resistance@ increased by 15%.,pendente
-Elixir of the Scarlet Ox,Fortune,Legendary,,indefinido,"Grants Elixir of the Scarlet Ox: Grants 1 additional Action Point and 3 Movement Points. Applies Exhaustion. 1 charge.  <i><color=#808080>""Bestows upon you wings.  Metaphorically of course.""</color></i> ",pendente
-Elusive,Normal,Common,DodgeChance:Base:25,buff,Dodge Chance increased by 25%,pendente
-Emblem of the Iron Fortress,Fortune,Mythic,"DamageReturnedFlatPhysical:Base:Source[""Armor""] * {.03f, .03f}, Armor:Base:{10, 250}",indefinido,"Grants {10,250} Armor. 3% of your Armor is added as physical damage return.  <i><color=#808080>The Iron Fortress, an indomitable monolith of enduring strength, stood resolute and unyielding for hundreds of years, its towering parapets and impenetrable defenses the silent testament to countless civilizations that had crumbled in their futile attempts to conquer it.</color></i>",pendente
-Emerald Protection,Normal,Common,DamageReduction:Base:25,buff,Damage taken reduced by 25%.,pendente
-Emperor's Blessing,Normal,Common,"MaxHealth:Percentage:10, MaxMana:Percentage:10, DamageMod:Base:10",buff,"Max Health, Max Mana and Damage increased by 10%.",pendente
-Empowered Blood ,Normal,Common,DamageMod:Base:50,buff,Increases damage dealt by 50%.  Gained from fallen allies.,pendente
-Enchant Cold,Normal,Common,,indefinido,Skills have a chance to deal [0] additional cold damage.,pendente
-Enchant Cold,Normal,Common,,indefinido,Skills have a chance to deal *0 additional cold damage.,pendente
-Enchant Fire,Normal,Common,,indefinido,Skills have a chance to deal [0] additional fire damage.,pendente
-Enchant Fire,Normal,Common,,indefinido,Skills have a chance to deal *0 additional fire damage.,pendente
-Enchant Holy,Normal,Common,,indefinido,Skills have a chance to deal [0] additional holy damage.,pendente
-Enchant Holy,Fortune,Legendary,,indefinido,"Grants @level@ {1,30} Enchant Holy.  <i><color=#808080>Brandish your weapon in glorious light.</i></color> ",pendente
-Enchant Lightning,Normal,Common,,indefinido,Skills have a chance to deal [0] additional lightning damage.,pendente
-Enchant Lightning,Normal,Common,,indefinido,Skills have a chance to deal *0 additional lightning damage.,pendente
-Enchant Shadow,Normal,Common,,indefinido,Skills have a chance to deal [0] additional shadow damage.,pendente
-Enchant Shadow,Fortune,Legendary,,indefinido,"Grants @level@ {1,30} Enchant Shadow.  <i><color=#808080>Wreathe your weapon in darkest shadow.</i></color> ",pendente
-Enchanted Pumpkin,Fortune,Legendary,"HealthPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))), ManaPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23)))",buff,"Gain [0] Health and Mana each turn.  <i><color=#808080>There is an intoxicating aroma about it. It smells of autumn nights and whispered tales around a fire, of ancient magic and timeless tales.</color></i> ",pendente
-Enchanted Whetstone,Fortune,Rare,"WeaponDamageMod:Base:{10, 40}",buff,"Weapon damage increased by {10,40}%  <i><color=#808080>Captain Henry Irons would be proud!</color></i>",pendente
-Endurance,Fortune,Rare,"MaxHealth:Base:{5, 500}",buff,"Increases @Max Health@ by {5, 500}.",pendente
-Enduring Evasion,Normal,Common,,indefinido,Dodging incoming attacks.,pendente
-Energy Aura,Normal,Common,"ManaCostMod:Base:Mathf.Round(-50 * (1 + (Target[""ShrineEffectBonus""] / 100)))",debuff,Decreases the cost of mana using abilities by [0]%.,pendente
-Enfeebled,Normal,Common,DamageMod:Base:-20,debuff,Reduces @Damage@ by @20%@ per stack.,pendente
-Enraged,Normal,Common,"ImmunityMovementImpairing:Set:1, ImmunityChilledEffect:Set:1, ImmunityDisabled:Set:1, ImmunityFrozen:Set:1, ImmunityKnockback:Set:1, ImmunitySlow:Set:1, ImmunityStunned:Set:1",buff,Immune to all movement impairing effects and knockback.,pendente
-Ethereal,Fortune,Rare,"ResistPhysical:Base:{10,50}, ResistCold:Base:{-5,-25}, ResistFire:Base:{-5,-25}, ResistLightning:Base:{-5,-25}",debuff,"Increases @Physical Resistance@ by {10,50}%. Reduces @Elemental Resistance@ by {5,25}%.",pendente
-Evasion,Normal,Common,,indefinido,Dodging incoming attacks.,pendente
-Evasive Movement,Normal,Common,OpportunityAttackImmunity:Set:1,buff,Grants immunity to opportunity attacks.,pendente
-Everlasting Sacrifice,Fortune,Mythic,"DamageModHealing:Base:{50,100}",buff,"@Holy Power@ increased by {50,100}%. Take 20% of your Max Health in Holy Damage each turn.",pendente
-Evolution,Normal,Common,DamageMod:Base:5,buff,Damage increased by 5% per stack.  Can stack up to 10 times.,pendente
-Evolution,Normal,Common,MaxHealth:Percentage:5,buff,Max Health increased by 5% per stack.  Can stack up to 10 times.,pendente
-Exhaustion,Normal,Common,RecentlyHasted:Set:1,buff,Cannot receive additional actions points.  Caused by receiving additional action points this turn.,pendente
-Explosive,Normal,Common,,indefinido,Explodes on death,pendente
-Eye Drops,Normal,Common,ImmunityBlind:Set:1,buff,Immune to Bleeding.,pendente
-Faerie Swarm,Normal,Common,,indefinido,Target takes *0 physical damage and 1 stack of {STA=Bleeding} per turn.,pendente
-Fate,Normal,Common,"MightBase:Base:10000, VitalityBase:Base:100, IntelligenceBase:Base:100, ImmunityDisabled:Set:1, ImmunityRooted:Set:1, Armor:Base:0, MagicArmor:Base:0, Recovery:Base:0, SummonDamageMod:Base:500, SummonHealthMod:Base:500, ImmunityPoisoned:Set:1, ImmunityBleeding:Set:1, DarkRitual:Set:1",buff,Potential realized.,pendente
-Fatigued,Normal,Common,DexterityBase:Percentage:-20,debuff,Reduces Dexterity by @20%@ per stack.,pendente
-Fever,Normal,Common,Fever:Set:1,buff,Mana costs now take from health instead.,pendente
-Fire Shield,Normal,Common,ResistFire:Base:10,buff,@Fire resistance@ increased by 10%.   Attackers take *0 fire damage.,pendente
-Fire Thorns,Normal,Common,"DamageReturnedFlatFire:Base:{1,300}",indefinido,Reflects [0] fire damage back to attackers.,pendente
-Fizzled,Normal,Common,,indefinido,Fizzled.,pendente
-Flame Shrine Aura,Normal,Common,,indefinido,Attackers take Fire Damage.,pendente
-Focused Strike,Normal,Common,DamageReduction:Base:-20,debuff,Increases damage received by 20%.,pendente
-Forbidden Power,Normal,Common,"ManaCostMod:Base:50, ManaPowerMod:Base:50",buff,All mana costs increased by 50%. Power of mana costing abilities increased by 50%.,pendente
-Fortified Flask,Normal,Common,Armor:Base:200,buff,Armor increased by 200.,pendente
-Fortitude,Fortune,Uncommon,"VitalityBase:Base:{4,20}",buff,"@Vitality@ increased by {4,20}.",pendente
-Fracture,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20",debuff,@Resistance@ lowered by 20%.,pendente
-Fractured Foot,Normal,Common,TurnFreeMovementPoints:Base:-2,debuff,Decreases movement points by 2.,pendente
-Freeze Earth,Normal,Common,,indefinido,Applies 1 stack of Chilled.,pendente
-Freezing,Normal,Common,,indefinido,Freezes all enemies on death,pendente
-Frenzy,Normal,Common,,buff,Action Points Increase by 1.,pendente
-Frost Armor,Normal,Common,ResistCold:Base:10,buff,@Cold resistance@ increased by 10%.  Attackers take *0 cold damage.,pendente
-Frost Nova,Normal,Common,Rooted:Set:1,buff,Immobilized.,pendente
-Frost Thorns,Normal,Common,"DamageReturnedFlatCold:Base:{1,300}",indefinido,Reflects [0] cold damage back to attackers.,pendente
-Frostbitten,Normal,Common,ResistCold:Base:-25,debuff,Reduces @Cold Resistance@ by @25%@ per stack.,pendente
-Frozen,Normal,Common,"Rooted:Set:1, Disabled:Set:1, ImmunityChilled:Set:1",buff,Cannot move or perform actions.,pendente
-Frozen Lich Heart,Fortune,Mythic,"DamageModColdToFrozen:Base:{100, 200}, ImmunityChilled:Set:1 * (1 + ((StatusLevel - 1) * (0.23)))",buff,"Your cold damage is increased by [0]% against targets that are frozen. Grants immunity to chilled.  <i><color=#808080>The Frozen Heart of the Lich, pulsating with a masterful power of ice and the chill of a thousand winters, imbued its holder with a profound affinity for the cold, such that even in the harshest blizzards they would find a comfortable sanctuary.</color></i>",pendente
-Fury,Normal,Common,"DamageMod:Base:Mathf.Round(25 * (1 + (Target[""ShrineEffectBonus""] / 100))), DamageReduction:Base:Mathf.Round(-25 * (1 + (Target[""ShrineEffectBonus""] / 100)))",buff,Damage increased by [0]%. Damage taken increased by [0]%. ,pendente
-Ghost Armor,Normal,Common,,indefinido,Absorbs the next attack.,pendente
-Giant,Normal,Common,"DamageMod:Base:25, MaxHealth:Percentage:25, ModelScaleMultiplier:Base:25",buff,Damage and Health increased by 25% Size increased by 25%,pendente
-Gift to the Conquered,Fortune,Rare,"MightBase:Base:{3,15}, DexterityBase:Base:{3,15}, IntelligenceBase:Base:{3,15}, VitalityBase:Base:{3,15}, ReflexBase:Base:{3,15}",buff,"@All Stats@ increased by {3,15}.  <i><color=#808080>""To kneel is not to surrender, but to acknowledge a power greater than oneself.""</i></color>",pendente
-Glory,Normal,Common,Invincible:Set:1,buff,Immune to damage.,pendente
-Glory of the Conqueror,Fortune,Rare,"CritChance:Base:{4,12}",buff,"@Critical Hit Chance@ increased by {4,12}%.   <i><color=#808080>""The path to glory does not lie in submission. It begins with defiance.""</i></color>",pendente
-Gore,Normal,Common,HealingReceivedBonus:Base:-50,debuff,Reduces healing received by 50%.,pendente
-Grace of the Rogue,Fortune,Rare,"ReflexBase:Base:{5,25}",buff,"@Reflex@ increased by {5,25}.  <i><color=#808080>""No matter the odds, there is always a way, always a chance, if only one has the will to seize it.""</i></color>",pendente
-Greater Damage,Normal,Common,,indefinido,Damaged.  ,pendente
-Greater Heal,Normal,Common,,indefinido,Healed.,pendente
-Growing Hatred,Normal,Common,"ExtraTurnActionPoints:Base:1, ModelScaleMultiplier:Base:25",buff,Grants 1 additional Action Point. Increases Damage Taken by 25%.,pendente
-Guardian Aura,Normal,Common,"DamageReduction:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",debuff,Reduces Damage taken by [0]%. ,pendente
-Guardian Flask,Normal,Common,Armor:Base:800,buff,Armor increased by 800.,pendente
-Guardian Shield,Normal,Common,DamageReduction:Base:50,buff,Damage taken decreased by 50%.,pendente
-Guile of the Rogue,Fortune,Rare,"DexterityBase:Base:{5,25}",buff,"@Dexterity@ increased by {5,25}.  <i><color=#808080>""Justice is not always a path of righteousness walked in the light. Sometimes, it is a road shrouded in darkness, a route navigated by the quiet flicker of rebellion.""</i></color>",pendente
-Harmonize,Normal,Common,,indefinido,Your actions spread Harmony to nearby allies.,pendente
-Harmony,Normal,Common,DexterityBase:Base:1,buff,Harmony: +1 Dexterity per stack.,pendente
-Harmony,Normal,Common,IntelligenceBase:Base:1,buff,Harmony: +1 Intelligence per stack.,pendente
-Harmony,Normal,Common,MightBase:Base:1,buff,Harmony: +1 Might per stack.,pendente
-Harmony,Normal,Common,ReflexBase:Base:1,buff,Harmony: +1 Reflex per stack.,pendente
-Harmony,Normal,Common,VitalityBase:Base:1,buff,Harmony: +1 Vitality per stack.,pendente
-Haunt,Normal,Common,,indefinido,Deals *0 damage. Lifesteals for 8%.,pendente
-Heal,Normal,Common,,indefinido,Healed.,pendente
-Heat,Normal,Common,"ResistCold:Base:-5, ResistFire:Base:-5, ResistLightning:Base:-5",debuff,Elemental resistance reduced by 5% per stack.  Lasts [0] turns.  Can stack up to 10 times.,pendente
-Holy Ground,Normal,Common,,indefinido,Targets in holy ground receive healing.,pendente
-Holy Ground,Normal,Common,,indefinido,Targets in holy ground are healed *0 per turn.,pendente
-Holy Ground,Normal,Common,,indefinido,Taking *0 Holy Damage per turn while in Holy Ground.,pendente
-Honor of the Ymir,Fortune,Mythic,"PerHexRangeDamageBonus:Base:Source.HasWeaponType(""Staff"")",buff,"Every hex between you and your target increases damage dealt by an additional @12%@ when wielding a Staff, Bow, or Two Handed Gun.  <i><color=#808080>You carry the Speed of the Ymir!</color></i>",pendente
-Horn of Devotion,Fortune,Legendary,"ShrineEffectBonus:Base:{50,100}",buff,"Increases the effect of Shrines by {50,100}%.  <i><color=#808080>""Given to great warriors to aid them in battle.""</i></color>",pendente
-Howl,Normal,Common,"Feared:Set:1, Disabled:Set:1",buff,Causes you to run as far away as possible from the source of fear and leaves you unable to cast actions.,pendente
-Howl,Normal,Common,DamageMod:Base:-20,debuff,Damage dealt reduced by 20%.,pendente
-Hunger,Normal,Common,ManaOnHit:Base:10,buff,Grants 10% @mana steal@.  Sacrifices 10% maximum health per turn.,pendente
-Hunger for Vengeance,Quest,Common,,indefinido,,pendente
-Hunger of Ksvaldir,Normal,Common,,indefinido,Sacrifices 10% maximum health per turn.,pendente
-Ice Crystal,Fortune,Mythic,,indefinido,"<i><color=#808080>The magic crystal emanates cold.</color></i>  Allows you to summon a @level@ {1,30} Ice Golem to fight for you. Benefits from your @Cold Damage@.",pendente
-Ice Storm,Normal,Common,,indefinido,Deals *0 cold damage to enemies in range.,pendente
-Ignite,Normal,Common,,indefinido,Targets in burning ground receive *0 fire damage.,pendente
-Immobilized,Normal,Common,Rooted:Set:1,buff,Cannot move.,pendente
-Immolate,Normal,Common,,indefinido,Target takes *0 fire damage per turn.,pendente
-Immortal Night,Normal,Common,"MaxHealth:Percentage:-25, MaxMana:Percentage:-25",debuff,@Maximum health@ and @maximum mana@ lowered by 25% per stack.,pendente
-Immunity,Normal,Common,"Invincible:Set:1, ImmunityMovementImpairing:Set:1, ImmunityDisabled:Set:1, ImmunitySlow:Set:1",buff,Can only be harmed by destroying Soul Fetishes.  Immune to movement imparing effects.,pendente
-Improvise,Normal,Common,,debuff,Songs no longer clear each other's Crescendo.,pendente
-Incalculable Rage,Normal,Common,"ExtraTurnActionPoints:Base:1, TurnFreeMovementPoints:Base:-6, ModelScaleMultiplier:Base:20",debuff,Grants 1 additional Action Points. Lowers movement points by 6.,pendente
-Increased Armor,Normal,Common,"Armor:Base:5 * Source.Level, MagicArmor:Base:5 * Source.Level",buff,@Armor@ and @Magic Armor@ increased by [0].  ,pendente
-Increased Damage and Healing by 10%,Normal,Common,DamageMod:Base:10,buff,Increases Damage and Healing by 10%.,pendente
-Increased Damage and Healing by 100%,Normal,Common,DamageMod:Base:100,buff,Increases Damage and Healing by 100%.,pendente
-Increased Damage and Healing by 1000%,Normal,Common,DamageMod:Base:1000,buff,Increases Damage and Healing by 1000%.,pendente
-Increased Damage and Healing by 25%,Normal,Common,DamageMod:Base:25,buff,Increases Damage and Healing by 25%.,pendente
-Indestructible,Normal,Common,"Armor:Percentage:10, MagicArmor:Percentage:10, DamageReturnedMod:Base:10",buff,"@Armor@, @Magic Armor@, and @Return Damage@ increased by 10% per stack.",pendente
-Inner Warmth,Normal,Common,ImmunityFrozen:Set:1,buff,Cannot be frozen.  Caused by being recently frozen.,pendente
-Inspiration,Normal,Common,"ResistPhysical:Base:1, ResistCold:Base:1, ResistFire:Base:1, ResistLightning:Base:1, ResistDivine:Base:1",buff,Inspiration: +1% to all Resistance per stack.,pendente
-Inspiration,Normal,Common,"ResistPhysical:Base:2, ResistCold:Base:2, ResistFire:Base:2, ResistLightning:Base:2, ResistDivine:Base:2",buff,Inspiration: +2% to all Resistance per stack.,pendente
-Inspiring Aura,Normal,Common,DamageMod:Base:60,buff,Damage increased by 60%.,pendente
-Intelligence,Normal,Common,IntelligenceBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),buff,Intelligence increased by [0].,pendente
-Into the Fray,Normal,Common,"MightBase:Percentage:2 * Target.NumEnemiesWithin(5), VitalityBase:Percentage:2 * Target.NumEnemiesWithin(5)",buff,Gain 2% @might@ and @vitality@ for every enemy within 5 hexes of your character.,pendente
-Invincible,Normal,Common,Invincible:Set:1,buff,Cannot take damage.,pendente
-Invincible,Normal,Common,Invincible:Set:1,buff,Invincible.,pendente
-Ivory Dragon Scale,Fortune,Mythic,,buff,"Gain the ability to shapeshift into a White Dragonkin.  <i><color=#808080>""Imbued with a gentle radiance, it serves as a testament to the enduring strength of the forces of light""</i></color> ",pendente
-Lady of the Well,Quest,Common,,indefinido,"Search the Forest at night for the Lady of the Well, vanquish her, and bring her <quest>Shadow-Drenched Heart</quest> to The Paladin.",pendente
-Leech Dexterity,Normal,Common,DexterityBase:Base:2 * (.1f * Target.Level),indefinido,[0] @dexterity@ absorbed per stack.  Stacks up to 10 times.,pendente
-Leech Intelligence,Normal,Common,IntelligenceBase:Base:2 * (.1f * Target.Level),indefinido,[0] @intelligence@ absorbed per stack.  Stacks up to 10 times.,pendente
-Leech Might,Normal,Common,MightBase:Base:2 * (.1f * Target.Level),indefinido,[0] @might@ absorbed per stack.  Stacks up to 10 times.,pendente
-Legacy of the Mad Mage,Quest,Common,,indefinido,What have you unleashed upon the world?,pendente
-Lesser Damage,Normal,Common,,indefinido,Damaged.  ,pendente
-Lesser Heal,Normal,Common,,indefinido,Healed.,pendente
-Lethal Life I,Normal,Common,HealthPerTurnPercent:Base:-10,debuff,Lose 10% of your Max Health at the start of each turn.,pendente
-Lethal Life II,Normal,Common,HealthPerTurnPercent:Base:-15,debuff,Lose 15% of your Max Health at the start of each turn.,pendente
-Lethal Life III,Normal,Common,HealthPerTurnPercent:Base:-20,debuff,Lose 20% of your Max Health at the start of each turn.,pendente
-Lightning Shield,Normal,Common,ResistLightning:Base:10,buff,@Lightning resistance@ increased by 10%.   Attackers take *0 lightning damage.,pendente
-Lingering Light,Normal,Common,,indefinido,Restores *0 health per turn.,pendente
-Living Armor,Normal,Common,"Armor:Base:3.5f * Source.Level, MagicArmor:Base:3.5f * Source.Level",buff,@armor@ and @magic armor@ increased by [0].   Regenerate *0 of @health@ each turn.,pendente
-March of the Warrior,Fortune,Rare,"TurnFreeMovementPoints:Base:{1,4, dr}",buff,"@Movement Points@ increased by [0].  <i><color=#808080>""Your courage must not be reckless, but calculated. Do not fear death; for it is an eventual certainty. ""</i></color>",pendente
-Mark of the Alpha,Fortune,Mythic,"SummonDamageMod:Base:{5,25}, SummonHealthMod:Base:{5,25}",buff,"<i><color=#808080>""Look at me, I'm the alpha now!</i></color>   Changes your @Nature Summons@ into @Pack Summons@. Increases Summon Damage and Health by {5,25}%",pendente
-Marked for Death,Normal,Common,DamageReduction:Base:-50,debuff,Damage Taken increased by 50%.,pendente
-Marked Prey,Normal,Common,DamageReduction:Base:-10,debuff,Damage taken increased by 10% per stack.,pendente
-Martial Prowess,Fortune,Rare,"DamageModPhysical:Base:{5,20}",buff,"Increases @Physical Damage@ by {5,20}%.",pendente
-Masochism,Normal,Common,DamageMod:Base:2,buff,Damage or healing increased by 2%.,pendente
-Masochism,Normal,Common,DamageMod:Base:5,buff,Damage or healing increased by 5%.,pendente
-Mass Haunt,Normal,Common,,indefinido,Deals *0 damage.,pendente
-Master of Rage,Quest,Common,,indefinido,Slay the nearby Wendigo. ,pendente
-Master of the Blade,Fortune,Mythic,"DamageModPhysical:Base:{8,40}",buff,"<i><color=#808080>A true master of the blade.</color></i>  Increases @Physical Damage@ by {8,40}%. Physical damage you deal applies 1 stack of @Bleeding@.",pendente
-Meteor,Normal,Common,,indefinido,Targets in burning ground receive *0 fire damage.,pendente
-Might,Normal,Common,MightBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),buff,Might increased by [0].,pendente
-Might of the Conqueror,Normal,Common,CritChance:Set:100,buff,Your next action has 100% Critical Hit Chance.,pendente
-Might of the Iceclaw,Normal,Common,"DamageMod:Base:50, ModelScaleMultiplier:Base:15",buff,Damage increased by 50%.,pendente
-Might of the Warrior,Fortune,Rare,"MightBase:Base:{5,25}",buff,"@Might@ increased by {5,25}.  <i><color=#808080>""Your strength lays in your conviction, your unyielding belief that this fight is right. The blade you wield is an extension of this conviction, a physical manifestation of your oath.""</i></color>",pendente
-Mind Blossom,Normal,Common,TeamIndexOverride:Set:Source.TeamIndex + 1,indefinido,Charmed,pendente
-Mind Exhaustion,Normal,Common,IntelligenceBase:Percentage:-5,debuff,Intelligence reduced by 5%,pendente
-Miniature,Normal,Common,"TurnFreeMovementPoints:Base:3, ExtraTurnActionPoints:Base:1, MaxHealth:Percentage:-25, DamageMod:Base:-25, ModelScaleMultiplier:Base:-25",debuff,Movement increased by 3 Action Points increased by 1 Max Health reduced by 25% Damage reduced by 25%,pendente
-Mirror Shard,Fortune,Legendary,,indefinido,Summon a Dark clone of yourself but it fights for you.   <i><color=#808080>You hold a shard of your shattered reflection!</color></i> ,pendente
-Missing Soul,Normal,Common,"MaxHealth:Percentage:-20, MaxMana:Percentage:-20",debuff,Something important is missing from you. Max Health and Mana reduced by 20%. ,pendente
-Molten Crystal,Fortune,Mythic,,indefinido,"<i><color=#808080>The magic crystal emanates heat.</color></i>  Allows you to summon a @level@ {1,30} Molten Golem to fight for you. Benefits from your @Fire Damage@.",pendente
-Molten Plating,Normal,Common,DamageReduction:Base:60,buff,Damage taken reduced by 60%.,pendente
-Momentum,Normal,Common,"DamageMod:Base:Target[""MomentumValue""]",buff,Damage or healing of your next action is increased by [0]%.,pendente
-Mortal Fracture,Normal,Common,"ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistPhysical:Base:-20, ResistDivine:Base:-20, HealingReceivedBonus:Base:-50",debuff,@Resistances@ lowered by 20%. Reduces healing received by 50%.,pendente
-Mortally Wounded,Normal,Common,HealingReceivedBonus:Base:-25,debuff,Reduces @Healing Received@ by @25%@ per stack.,pendente
-Muddled Movement I,Normal,Common,TurnFreeMovementPoints:Base:-1,debuff,Movement Points reduced by 1.,pendente
-Muddled Movement II,Normal,Common,TurnFreeMovementPoints:Base:-2,debuff,Movement Points reduced by 2.,pendente
-Muddled Movement III,Normal,Common,TurnFreeMovementPoints:Base:-3,debuff,Movement Points reduced by 3.,pendente
-Muse,Normal,Common,ManaCostMod:Base:-10,debuff,Mana costs reduced.,pendente
-Necromantic,Normal,Common,,indefinido,Summons a Skeletal Warrior on death,pendente
-Necronomicon,Fortune,Mythic,"SummonDamageMod:Base:{5,25}, SummonHealthMod:Base:{5,25}",buff,"<i><color=#808080>You carry the Necronomicon!</i></color>   Changes your @Skeletal Summons@ into something... stronger. Increases Summon Damage and Health by {5,25}%",pendente
-Negating Tonic,Normal,Common,MagicArmor:Base:50,buff,Magic armor increased by 50.,pendente
-Nullifying Tonic,Normal,Common,MagicArmor:Base:100,buff,Magic armor increased by 100.,pendente
-Obsidian Plating,Normal,Common,DamageReduction:Base:75,buff,Damage taken reduced by 75%.,pendente
-Oculus Gem,Fortune,Rare,,indefinido,"Teleports you randomly when struck. 4 turn cooldown.  <i><color=#808080>Where you'll go, nobody knows!</i></color> ",pendente
-Oil of Acceleration,Normal,Common,TurnFreeMovementPoints:Base:5,buff,Movement Points increased by 5.,pendente
-Oil of Alacrity,Normal,Common,TurnFreeMovementPoints:Base:4,buff,Movement Points increased by 4.,pendente
-Oil of Momentum,Normal,Common,TurnFreeMovementPoints:Base:2,buff,Movement Points increased by 2.,pendente
-Oil of Movement,Normal,Common,TurnFreeMovementPoints:Base:1,buff,Movement Points increased by 1.,pendente
-Oil of Speed,Normal,Common,TurnFreeMovementPoints:Base:3,buff,Movement Points increased by 3.,pendente
-One Punch Monk,Normal,Common,DamageMod:Base:Target.UsingIgnoreCostAction ? 0 : 200,indefinido,Your next ability has its damage or healing tripled.,pendente
-Otherworldly Tether,Normal,Common,Invincible:Set:1,buff,The Dead One's tether to this world wanes.  Lasts [0] more round(s).,pendente
-Overcharge,Normal,Common,,indefinido,Adds *0 lightning damage to your next basic attack.  Can stack up to 10 times.,pendente
-Overflowing Energy,Fortune,Rare,"IntelligenceBase:Base:{3,15}, ManaCostMod:Base:{4,20}, ManaPowerMod:Base:{8,40}",buff,"Increases @Mana Costs@ by {4,20}%, power of all @Mana Abilites@ by {8,40}% and @Intelligence@ by {3,15}.  <i><color=#808080>The energies of a Mana Spring swell within you!</i></color> ",pendente
-Overgrow,Normal,Common,"DamageMod:Base:25, MaxHealth:Percentage:25, ModelScaleMultiplier:Base:25",buff,Increases Damage Dealt and Max Health by 25%.,pendente
-Overload,Normal,Common,CritChance:Set:100,buff,Critical Hit Chance set to 100%.,pendente
-Overwhelming Power,Normal,Common,DamageMod:Base:100,buff,Increases the damage or healing of your next skill by 100%.,pendente
-Pain Suppression,Normal,Common,DamageReduction:Base:50,buff,Damage Reduction increased by 50%.,pendente
-Patient Hunter,Normal,Common,"DamageMod:Base:10, RangeTypeAdderRanged:Base:1",buff,"Damage increased by 10%, Range increased by 1 per stack.",pendente
-Perfect Rage,Normal,Common,"DamageMod:Base:{50,100}, ModelScaleMultiplier:Base:20, AiControlledPlayer:Set:1",buff,Cannot control your character. Increases damage by [0]%. Grants enrage.,pendente
-Perfect Rage,Fortune,Mythic,,indefinido,"Grants the skill Perfect Rage.  <i><color=#808080>""Rage, like fire, in our veins does ignite, A storm within, both destroyer and might.""</i></color> ",pendente
-Petrification,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageReduction:Base:-20",debuff,Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.,pendente
-Petrify,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-100",buff,Stunned.  Damage Taken increased by 100%.,pendente
-Phoenix Feather,Fortune,Rare,,indefinido,"Brings you back with 20% Health. 1 charge per Quest.  <i><color=#808080>""The glowing feather of a Phoenix.""</color></i> ",pendente
-Physical Thorns,Normal,Common,"DamageReturnedFlatPhysical:Base:{1,300}",indefinido,Reflects [0] physical damage back to attackers.,pendente
-Pirate's Rum,Fortune,Legendary,"DamageReduction:Base:{5,20}",debuff,"Increases @Damage Reduction@ by {5,20}%.  <i><color=#808080>Numbs everything, including pain!</i></color> ",pendente
-Point Blank,Normal,Common,DamageMod:Base:50,buff,Ranged spells deal damage the closer you are. Calculates how much ranged you have and the closer you are from your max range the more damage you deal.,pendente
-Point Blank,Fortune,Mythic,"PerHexRangeDamageInverseBonus:Base:{3, 12}",buff,"Your ranged damage is increased by [0]% for every hex less than your max range you use.  <i><color=#808080>""Hardest shot in all the land!""</color></i>",pendente
-Poison Thorns,Normal,Common,,indefinido,Attackers take 2 stacks of poison.,pendente
-Poison Weapon,Normal,Common,,indefinido,Attacks apply @1@ stack of poison.,pendente
-Poisoned,Normal,Common,"HealingReceivedBonus:Base:-1, PoisonDamage:Base:Mathf.Max(1, Source.GetCustomActionDamage(""GL-Poisoned"", ""TargetStored[\""ShadowDamage\""] = Source.SpellPower(\""Shadow\"") * .1f"")), ContagionLevel:Base:Source[""ContagionSource""] > 0 ? 1 : 0",debuff,Target takes [1] shadow damage each turn. Reduces healing taken by [0]%.,pendente
-Polished,Fortune,Uncommon,"Armor:Base:{15,250}, MagicArmor:Base:{15,250}",buff,"Increases @Armor@ and @Magic Armor@ by {15,250}.",pendente
-Potion of Avoidance,Normal,Common,ReflexBase:Base:20,buff,Reflex increased by 20.,pendente
-Potion of Brawn,Normal,Common,MightBase:Base:10,buff,Might increased by 10.,pendente
-Potion of Celerity,Normal,Common,DexterityBase:Base:20,buff,Dexterity increased by 20.,pendente
-Potion of Dexterity,Normal,Common,DexterityBase:Base:30,buff,Dexterity increased by 30.,pendente
-Potion of Dexterity,Normal,Common,DexterityBase:Base:50,buff,Dexterity increased by 50.,pendente
-Potion of Dexterity,Normal,Common,DexterityBase:Base:10,buff,Dexterity increased by 10.,pendente
-Potion of Dexterity,Normal,Common,DexterityBase:Base:40,buff,Dexterity increased by 40.,pendente
-Potion of Dodging,Normal,Common,ReflexBase:Base:40,buff,Reflex increased by 40.,pendente
-Potion of Eluding,Normal,Common,ReflexBase:Base:10,buff,Reflex increased by 10.,pendente
-Potion of Endurance,Normal,Common,VitalityBase:Base:20,buff,Vitality increased by 20.,pendente
-Potion of Evasion,Normal,Common,ReflexBase:Base:50,buff,Reflex increased by 50.,pendente
-Potion of Fire Protection,Normal,Common,"ImmunityHeat:Set:1, ResistFire:Base:30",buff,Fire resistance increased by 30%.   Immune to Heat.,pendente
-Potion of Force,Normal,Common,MightBase:Base:40,buff,Might increased by 40.,pendente
-Potion of Fortitude,Normal,Common,VitalityBase:Base:40,buff,Vitality increased by 40.,pendente
-Potion of Frost Protection,Normal,Common,"ImmunityChilled:Set:1, ResistCold:Base:30",buff,Cold resistance increased by 30%.   Immune to Chilled.,pendente
-Potion of Intelligence,Normal,Common,IntelligenceBase:Base:40,buff,Intelligence increased by 40.,pendente
-Potion of Life,Normal,Common,VitalityBase:Base:50,buff,Vitality increased by 50.,pendente
-Potion of Lightning Protection,Normal,Common,"ImmunityShocked:Set:1, ResistLightning:Base:30",buff,Lightning resistance increased by 30%.   Immune to Shocked.,pendente
-Potion of Might,Normal,Common,MightBase:Base:30,buff,Might increased by 30.,pendente
-Potion of Mind,Normal,Common,IntelligenceBase:Base:50,buff,Intelligence increased by 50.,pendente
-Potion of Physical Protection,Normal,Common,"ImmunityBleeding:Set:1, ResistPhysical:Base:30",buff,Physical resistance increased by 30%.   Immune to Bleed.,pendente
-Potion of Power,Normal,Common,MightBase:Base:50,buff,Might increased by 50.,pendente
-Potion of Reason,Normal,Common,IntelligenceBase:Base:20,buff,Intelligence increased by 20.,pendente
-Potion of Recovery,Normal,Common,"HealthPerTurnPercent:Base:8, ManaPerTurnPercent:Base:8",buff,Recover 8% of Max Health and Mana per turn.,pendente
-Potion of Recovery,Normal,Common,HealthPerTurnPercent:Base:15,buff,Recover 15% of Max Health per turn.,pendente
-Potion of Recovery,Normal,Common,ManaPerTurnPercent:Base:15,buff,Recover 15% of Max Mana per turn.,pendente
-Potion of Reflex,Normal,Common,ReflexBase:Base:30,buff,Reflex increased by 30.,pendente
-Potion of Strength,Normal,Common,MightBase:Base:20,buff,Might increased by 20.,pendente
-Potion of Thought,Normal,Common,IntelligenceBase:Base:30,buff,Intelligence increased by 30.,pendente
-Potion of Vigor,Normal,Common,VitalityBase:Base:5,buff,Vitality increased by 5.,pendente
-Potion of Vitality,Normal,Common,VitalityBase:Base:30,buff,Vitality increased by 30.,pendente
-Potion of Wits,Normal,Common,IntelligenceBase:Base:10,buff,Intelligence increased by 10.,pendente
-Power Globule,Normal,Common,"DamageMod:Base:10, SummonDamageMod:Base:10",buff,Increases damage and summon damage by 10%,pendente
-Prepared,Normal,Common,"DropQuantityMod:Base:20, GoldMod:Base:20",buff,Item and gold drops are increased by 20%.,pendente
-Prismatic Tonic,Normal,Common,MagicArmor:Base:800,buff,Magic armor increased by 800.,pendente
-Protection Flask,Normal,Common,Armor:Base:100,buff,Armor increased by 100.,pendente
-Quick Draw,Normal,Common,QuickDraw:Set:1,buff,Your next 3 basic attacks have no AP cost.,pendente
-Rage,Normal,Common,"DamageMod:Base:15, DamageReduction:Base:-15, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",buff,Increases damage dealt and max life by 15%. Increases damage received by 15%.,pendente
-Rage of the Dwarf King,Normal,Common,"DamageMod:Base:30, ModelScaleMultiplier:Base:10",buff,Increases damage dealt by 30%.,pendente
-Rage Spores,Normal,Common,"DamageMod:Base:25, DamageReduction:Base:-25",buff,Increases damage dealt and received by 25%.,pendente
-Rage Unleashed,Normal,Common,"DamageMod:Base:50, DamageReduction:Base:-50",buff,"@Damage@ dealt and taken increased by @50@%.  <i><color=#808080>""You have given into your rage!""</i></color>",pendente
-Rainstorm,Normal,Common,ManaPowerMod:Base:50,buff,Increases the power of mana using abilities by 50%.,pendente
-Raise Skeletal Lackey,Normal,Common,,indefinido,Provides invulnerability to all allies.,pendente
-Raise Skeletal Lackey,Normal,Common,"MaxHealth:Multiplicative:.5, DamageMod:Multiplicative:.5, Armor:Multiplicative:.5, DodgeChance:Multiplicative:.5, MagicArmor:Multiplicative:.5, ModelScaleMultiplier:Set:-40",debuff,"Max Health, Damage, Armor, and Dodge Chance reduced by 50%.",pendente
-Rally,Normal,Common,TurnFreeMovementPoints:Base:3,buff,Increases @movement points@ by 3.,pendente
-Rampage,Normal,Common,"ExtraTurnActionPoints:Base:1, ModelScaleMultiplier:Base:15, DamageMod:Base:50, DamageReduction:Base:-50",buff,Increases damage dealt and taken by 50%. Grants 1 additional Action Point,pendente
-Rampaging,Normal,Common,"DamageMod:Base:50, ResistCold:Base:-25, ResistFire:Base:-25, ResistLightning:Base:-25, ResistPhysical:Base:-25, CanEnrage:Set:1",debuff,Increased damage by 50% All resistances lowered by 25% Control Resistance,pendente
-Ranged Precision,Normal,Common,PerHexRangeDamageBonus:Base:1,buff,Every hex between you and your target increases damage dealt by an additional 1%.,pendente
-Ready to Explode!,Normal,Common,,indefinido,Will explode next turn.,pendente
-Reaper Aura,Normal,Common,"LifeOnHit:Base:Mathf.Round(8 * (1 + (Target[""ShrineEffectBonus""] / 100)))",buff,Lifesteal increased by [0]%.,pendente
-Reduced Resistances I,Normal,Common,"ResistCold:Base:-10, ResistFire:Base:-10, ResistLightning:Base:-10, ResistPhysical:Base:-10",debuff,All Resistances reduced by 10%,pendente
-Reduced Resistances II,Normal,Common,"ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistPhysical:Base:-20",debuff,All Resistances reduced by 20%,pendente
-Reduced Resistances III,Normal,Common,"ResistCold:Base:-30, ResistFire:Base:-30, ResistLightning:Base:-30, ResistPhysical:Base:-30",debuff,All Resistances reduced by 30%,pendente
-Regenerate,Normal,Common,,indefinido,Deals *0 holy damage per turn.,pendente
-Regenerate,Normal,Common,,indefinido,Restores *0 health per turn.,pendente
-Regenerating,Normal,Common,HealthPerTurnPercent:Base:10,buff,Gain 10% @Max Health@ regen per turn.,pendente
-Resilient,Normal,Common,"ResistCold:Base:25, ResistFire:Base:25, ResistLightning:Base:25, ResistPhysical:Base:25, ResistDivine:Base:25",buff,All Resistances increased by 25%,pendente
-Resonating Refrain,Normal,Common,,indefinido,Deals [0] physical damage in a 4 hex area whenever you act.,pendente
-Restrained,Normal,Common,ReflexBase:Percentage:-20,debuff,Reduces @Reflex@ by @20%@ per stack.,pendente
-Restricted Range I,Normal,Common,RangeTypeAdderRanged:Base:-2,debuff,Range is reduced by 2 Hexes.,pendente
-Restricted Range II,Normal,Common,RangeTypeAdderRanged:Base:-4,debuff,Range is reduced by 4 Hexes.,pendente
-Restricted Range III,Normal,Common,RangeTypeAdderRanged:Base:-6,debuff,Range is reduced by 6 Hexes.,pendente
-Rhythm of Recovery,Normal,Common,"HealthPerTurnPercent:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Recovery""), ManaPerTurnPercent:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Recovery"")",buff,Regain [0]% of Life and Mana each turn.,pendente
-Ritual Sickness,Normal,Common,DarkRitualedRecently:Set:1,buff,Cannot have Dark Ritual cast on you,pendente
-Rogue Aura,Normal,Common,"DodgeChance:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",buff,Increases dodge chance by [0]%.,pendente
-Ruby of Rancor,Normal,Common,"ManaCostMod:Set:{-25,-100}",debuff,"3 extra Action Points granted. Mana Costs reduced by {25,100}%. Die at the end of your turn.",pendente
-Ruby of Rancor,Fortune,Mythic,,debuff,"Grants 1 charge of Ruby of Rancor: Grants 3 extra Action Points and reduces Mana Costs. Die at the end of your turn.  <i><color=#808080>The gem seems to hum in your grasp, as if resonating with your heartbeat, its pulses syncing with your own.</color></i>",pendente
-Ruby Protection,Normal,Common,DamageReduction:Base:25,buff,Damage taken reduced by 25%.,pendente
-Ruby Rancor,Normal,Common,ExtraTurnActionPoints:Set:1,buff,Grants an additional Action Point.,pendente
-Rune of Exploding,Normal,Common,,indefinido,,pendente
-Rune of Refreshment,Fortune,Mythic,,indefinido,Reset all cooldowns. Cost 75% of Max Mana. 1 charge per battle.  <i><color=#808080>A tremendous sacrifice is required to power this inert rune.</color></i>,pendente
-Salvation,Normal,Common,MaxHealth:Percentage:10,buff,@Maximum health@ increased by 10% per stack.,pendente
-Sandstone Plating,Normal,Common,DamageReduction:Base:50,buff,Damage taken reduced by 50%.,pendente
-Savage Scorn,Normal,Common,DamageReduction:Base:-20,debuff,Damage taken increased by 20%.,pendente
-Scroll of Monster Summoning,Fortune,Legendary,,indefinido,"Summons a random @level@ {1,30} Monster to fight for you.  <i><color=#808080>""Something on this list has to be useful...""</i></color>",pendente
-Seal of Might,Normal,Common,DamageMod:Base:30,buff,Damage increased by 30%.,pendente
-Seal of Protection,Normal,Common,DamageReduction:Base:10,buff,Decreases damage taken by 10%.,pendente
-Seal of Salvation,Normal,Common,,indefinido,Restores *0 health per turn.,pendente
-Self Awareness,Normal,Common,"MaxHealth:Percentage:-20, CritChance:Base:10",debuff,Max Health is reduced by 20%. Crit Chance is increased by 10%.,pendente
-Self Doubt,Normal,Common,"MaxMana:Percentage:-20, DodgeChance:Base:10",debuff,Max Mana is reduced by 20%. Dodge Chance is increased by 10%.,pendente
-Seraph Aura,Normal,Common,"HealthPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target[""ShrineEffectBonus""] / 100)))",indefinido,Recover [0]% of maximum health each turn. ,pendente
-Severely Burned,Normal,Common,ResistFire:Base:-25,debuff,Reduces @Fire Resistance@ by @25%@ per stack.,pendente
-Shadow-Drenched Heart,QuestItem,Common,,indefinido,,pendente
-Shaman Aura,Normal,Common,"ManaPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target[""ShrineEffectBonus""] / 100)))",indefinido,Recover [0]% of maximum mana each turn. ,pendente
-Shapeshift: Black Dragonkin,Normal,Common,,debuff,Shapeshifted into a Black Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,pendente
-Shapeshift: Blue Dragonkin,Normal,Common,,buff,Shapeshifted into a Blue Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,pendente
-Shapeshift: Box,Normal,Common,"DamageReduction:Base:-100, Rooted:Set:1, Silenced:Set:1",buff,Shapeshifted into a box. Damage taken increased by 100%.,pendente
-Shapeshift: Dire Werewolf,Normal,Common,,buff,Shapeshifted into a Dire Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,pendente
-Shapeshift: Green Dragonkin,Normal,Common,,buff,Shapeshifted into a Green Dragonkin. Basic attack empowered. Gain new abilities. Armor and Lightning Resistance increased.,pendente
-Shapeshift: Red Dragonkin,Normal,Common,,buff,Shapeshifted into a Red Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,pendente
-Shapeshift: Vampire Bat,Normal,Common,TurnFreeMovementPoints:Base:4,buff,Shapeshifted into a Vampire Bat. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
-Shapeshift: Werewolf,Normal,Common,,buff,Shapeshifted into a Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,pendente
-Shapeshift: White Dragonkin,Normal,Common,,debuff,Shapeshifted into a White Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,pendente
-Sharpened,Fortune,Uncommon,DamageFlatPhysical:Base:ActionStatus.GetFlatDamageValue,buff,Increases @Physical Damage@ by GetFlatDamageValue().,pendente
-Shield Flask,Normal,Common,Armor:Base:400,buff,Armor increased by 400.,pendente
-Shield of Light,Normal,Common,,indefinido,Shielded from [0] damage.,pendente
-Shield of Retribution,Normal,Common,"ShieldOfRetribution:Base:Source.SpellPower(""Light"") * 3f * Source.DamageModHealing",indefinido,Shielded from [0] damage.,pendente
-Shield of the Guardian,Fortune,Rare,"ResistPhysical:Base:{4,12}, ResistCold:Base:{4,12}, ResistFire:Base:{4,12}, ResistLightning:Base:{4,12}, ResistDivine:Base:{4,12}",buff,"Increases all @Resistances@ by {4,12}%  <i><color=#808080>""To protect what is most important. Both heart and home.""</i></color>",pendente
-Shocked,Normal,Common,CritDamageTarget:Base:10,buff,Incoming critical strike damage increased by 10% per stack.  Lasts 3 turns.  Can stack up to 10 times.,pendente
-Shocked,Normal,Common,ResistLightning:Base:-25,debuff,Reduces @Lightning Resistance@ by @25%@ per stack.,pendente
-Shocking Aura,Normal,Common,,indefinido,*0 lightning damage dealt to enemies within the aura each time they perform an action.,pendente
-Silver Signet,Fortune,Legendary,"AdditionalWeaponDamage:Base:Source[""Armor""] * {.01f, .01f}, Armor:Base:{8, 200}",indefinido,"Grants {8,200} Armor. 1% of your Armor is added as Additional Weapon Damage.  <i><color=#808080>""Be both the storm and the mountain, in war's tumultuous dance, Blend the fury of offense, with defense's steadfast stance.""</i></color>  ",pendente
-Sleep,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-50",buff,Cannot move or perform actions and damage taken increased by 50%.  Can be awakened by getting attacked.,pendente
-Sleep,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-50",indefinido,Asleep.,pendente
-Slightly Petrified,Fortune,Uncommon,"TurnFreeMovementPoints:Base:{-1, -1}, Armor:Base:{8,200}",debuff,"@Armor@ increased by {8,200}. @Movement@ reduced by @1@.",pendente
-Slow,Normal,Common,MovementCostPerHexMod:Set:100,buff,Movement costs doubled.,pendente
-Slow Poison Aura,Normal,Common,,indefinido,Applies bleeding to enemies in range.,pendente
-Slow Poison Aura,Normal,Common,,indefinido,Slows and applies poison to enemies in range.,pendente
-Slowed,Normal,Common,"CooldownMod:Base:1, CooldownModBasic:Base:-1",buff,@Cooldowns@ increased by @1@ turn.,pendente
-Sludge,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageMod:Base:-5, RangeTypeAdderRanged:Base:-1",debuff,Lowers movement and range by 1 and lowers Damage by 5% per stack.,pendente
-Sludge Bolt,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageMod:Base:-10, RangeTypeAdderRanged:Base:-1",debuff,Lowers movement and range by 1 and lowers Damage by 10% per stack.,pendente
-Smashed,Normal,Common,"MightBase:Percentage:-15, DexterityBase:Percentage:-15, IntelligenceBase:Percentage:-15, VitalityBase:Percentage:-15, ReflexBase:Percentage:-15",debuff,Breathing hurts quite a bit. All stats reduced by 15%,pendente
-Smelt,Normal,Common,,indefinido,Target takes *0 fire damage per turn.,pendente
-Smoke Bomb,Normal,Common,DodgeChance:Base:50,buff,@Dodge chance@ increased by 50%.,pendente
-Smoke Cloud,Normal,Common,DodgeChance:Base:50,buff,@Dodge chance@ increased by 50%.,pendente
-Song of Swiftness,Normal,Common,"DexterityBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Swiftness""), ReflexBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Swiftness"")",buff,Dexterity and Reflex increased by [0].,pendente
-Soul Fire,Normal,Common,HealingReceivedBonus:Base:-50,debuff,Healing Received reduced by 50%.,pendente
-Soul Fracture,Normal,Common,"MaxHealth:Percentage:-25, MaxMana:Percentage:-25",debuff,@Maximum health@ and @maximum mana@ lowered by 25%.,pendente
-Soul Link,Normal,Common,SoulLink:Set:1,buff,All damage and healing dealt to one target is also dealt to the linked target.,pendente
-Soul of Fire,Normal,Common,HealingReceivedBonus:Base:-5,debuff,Healing received reduced by 5% per stack.,pendente
-Soul of Fire,Fortune,Mythic,"DamageModFire:Base:{6,30}, SoulOfFire:Set:{1, 1}",debuff,"Gain {6,30}% Increased Fire Damage. Your stacks of Heat now reduce Healing Received by 5% per stack.  <i><color=#808080>The burning soul of Lord Infernicus!</color></i> ",pendente
-Spectral Binding,Normal,Common,Invincible:Set:1,buff,Will leave when finished playing with you.,pendente
-Spectral Mark,Normal,Common,DamageReduction:Base:-50,debuff,Damage taken increased by 50%.,pendente
-Spore Cloud,Normal,Common,"DamageMod:Base:-10, TurnFreeMovementPoints:Base:-1",debuff,Decreases damage dealt by 10% and movement by 1. Stacks up to 5 times.,pendente
-Stalker's Mark,Normal,Common,"CritChanceTarget:Base:12, DamageReduction:Base:-25",buff,Chance of suffering critical strikes increased by 12%. Damage taken increased by 25%.,pendente
-Stasis,Normal,Common,"Rooted:Set:1, Armor:Base:15 * Source.Level, MagicArmor:Base:15 * Source.Level",buff,@Armor@ and @Magic Armor@ increased by [0].   Immobilized.,pendente
-Stealth,Normal,Common,"Hidden:Set:1, UntargetableByEnemies:Set:1",buff,Invisible.  Attacking from Stealth has 100% critical hit chance.,pendente
-Stealth,Normal,Common,"Hidden:Set:1, UntargetableByEnemies:Set:1",buff,Invisible. Attacking from Stealth has 100% critical hit chance.,pendente
-Stoney Visage,Normal,Common,,buff,Enemies gain 1 stack of Petrification when hitting Medusa.,pendente
-Strength,Fortune,Common,"MightBase:Base:{4,20}",buff,"@Might@ increased by {4,20}.",pendente
-Strength of the Ymir,Fortune,Mythic,"CanDualWieldTwoHanded:Set:1 * (1 + ((StatusLevel - 1) * (0.23))), StrengthOfYmirDamageReduction:Base:Target.IsDualWielding2H ? {50,35} : 0",debuff,"Allows you to wield Two-handed Axes, Swords, and Hammers in one hand. Weapon Damage is lowered by {50,35}% if you choose to do so.  <i><color=#808080>You carry the Might of the Ymir!</color></i>",pendente
-Stunned,Normal,Common,"Rooted:Set:1, Disabled:Set:1",buff,Cannot move or perform actions.,pendente
-Stunned,Normal,Common,"Rooted:Set:1, Disabled:Set:1",buff,Stunned.,pendente
-Sundered,Normal,Common,ResistPhysical:Base:-25,debuff,Reduces @Physical Resistance@ by @25%@ per stack.,pendente
-Swan Song,Normal,Common,Invincible:Set:1,buff,Invincible.,pendente
-Swiftness,Normal,Common,TurnFreeMovementPoints:Base:1,buff,Movement increased by [0].,pendente
-Sword of the Guardian,Fortune,Rare,"DamageMod:Base:{5, 20}",buff,"Increases @Damage@ by {5, 20}%.  <i><color=#808080>""To strike down those who would harm. In defense of the defenseless.""</i></color>",pendente
-Tadashi's Armor,Normal,Common,,indefinido,Absorbs the next attack.,pendente
-Tadashi's Ritual,Normal,Common,DarkRitual:Set:1,buff,Health cannot drop below 1.,pendente
-Taste for Blood,Fortune,Rare,"LifeOnHit:Base:{4, 4}",buff,"Increases @Life Steal@ by 4%.  <i><color=#808080>""Everyone needs to eat.""</i></color>",pendente
-Taunted,Normal,Common,Taunted:Set:1,buff,Taunted.,pendente
-Taunted,Normal,Common,"DamageMod:Base:-20, Taunted:Set:1",debuff,Forced to attack the taunter. Damage reduced by 20%.,pendente
-Teleporting,Normal,Common,,indefinido,Teleports randomly when struck,pendente
-Tempered Rage,Normal,Common,"DamageMod:Base:15, Armor:Percentage:15, MagicArmor:Percentage:15, ModelScaleMultiplier:Base:10",buff,"Increases Damage, Armor, and Magic Armor by 15%.",pendente
-Tenacity of the Forest,Normal,Common,VitalityBase:Base:5+(5*0.2*IslandLevel)-(5*0.2),buff,Vitality increased by [0].,pendente
-Test Event Status - Boss Event,Normal,Common,,indefinido,A key,pendente
-Test Event Status - Critical Failure,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",debuff,Critical Failure,pendente
-Test Event Status - Critical Success,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",debuff,Critical Success,pendente
-Test Event Status - Failure,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",debuff,Failure,pendente
-Test Event Status - Success,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",debuff,Success,pendente
-Test Event Status - Test Key,QuestItem,Common,,indefinido,A key,pendente
-Test Fortune,Fortune,Mythic,DamageModColdToFrozen:Base:100 * (1 + ((StatusLevel - 1) * (0.23))),indefinido,,pendente
-The Animator - Quest Accept,Quest,Common,,indefinido,,pendente
-The Bad Bloom,Normal,Common,,buff,Enemies gain 2 stacks of poison.,pendente
-The Good Bloom,Normal,Common,,indefinido,Heals for *0 @health@ and @mana@.,pendente
-The Heart of Iron,Fortune,Mythic,,indefinido,"<i><color=#808080>You bear the Heart of Iron!</i></color>   Allows you to raise a @level@ {1,30} Iron Golem to fight for you. Benefits from your @Physical Damage@.",pendente
-The Mad Mage - Part 1,Quest,Common,,indefinido,,pendente
-The Mad Mage - Part 2,Quest,Common,,indefinido,,pendente
-The Mad Mage - Part 4,Quest,Common,,indefinido,,pendente
-The Mad Mage - Part 5,Quest,Common,,indefinido,,pendente
-The True King,Fortune,Mythic,"DamageModHealing:Base:{6,30}, ManaCostModLight:Base:{-10000, -10000}",debuff,"Light Spells no longer cost mana to cast. @Holy Power@ increased by {6,30}%.  <i><color=#808080>""The light is your birth right.""</color></i> ",pendente
-Thunder Charged,Normal,Common,ModelScaleMultiplier:Base:10,buff,The next damage you deal causes a Thunder Bolt to strike your target. Stacks.,pendente
-Thunder Crystal,Fortune,Mythic,,indefinido,"<i><color=#808080>Energy hums within this magic crystal.</color></i>  Allows you to summon a @level@ {1,30} Thunder Golem to fight for you. Benefits from your @Lightning Damage@.",pendente
-Titan Bloom,Normal,Common,"DamageMod:Base:15, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",buff,Increases Max Health and Damage by [0]%. Stacks.,pendente
-Tome of Tadashi,Fortune,Legendary,"DodgeChance:Base:{2,10}",indefinido,"Grants spells that can allow the user to escape death. Grants {2,10}% Dodge Chance.  <i><color=#808080>""Living is more than just staying alive, but staying alive can certainly help.""</i></color>  ",pendente
-Torn Soul,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",debuff,All stats reduced by 5%,pendente
-Touch of Flame,Fortune,Rare,DamageFlatFire:Base:ActionStatus.GetFlatDamageValue,buff,Increases @Fire Damage@ by GetFlatDamageValue().,pendente
-Touch of Frost,Fortune,Rare,DamageFlatCold:Base:ActionStatus.GetFlatDamageValue,buff,Increases @Cold Damage@ by GetFlatDamageValue().,pendente
-Touch of Thunder,Fortune,Rare,DamageFlatLightning:Base:ActionStatus.GetFlatDamageValue,buff,Increases @Lightning Damage@ by GetFlatDamageValue().,pendente
-Toxic,Normal,Common,,indefinido,Applies @2@ @poison@ when striking Applies @2@ @poison@ when struck,pendente
-Tracker's Mark,Normal,Common,"CritChanceTarget:Base:8, DamageReduction:Base:-15",buff,Chance of suffering critical strikes increased by 8%. Damage taken increased by 15%.,pendente
-Tranquility of the Forest,Normal,Common,Recovery:Base:5+(5*0.2*IslandLevel)-(5*0.2),buff,Recovery increased by [0].,pendente
-Transcendence,Normal,Common,Invincible:Set:1,buff,Cannot take damage.,pendente
-Transcendence,Fortune,Mythic,"MaxHealth:Multiplicative:{.5,.65}",debuff,"Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",pendente
-Treasure of Moltendunn,Quest,Common,,indefinido,,pendente
-Trial of the Ymir,Quest,Common,,indefinido,A greater challenge looms ahead.,pendente
-Trophy Hunter,Normal,Common,DamageMod:Base:10,buff,@Damage Dealt@ increased by 10% per stack.,pendente
-Uncanny Evasion,Normal,Common,,indefinido,Dodging incoming attacks.,pendente
-Uncanny Evasion,Normal,Common,CounterAttackDamageMod:Base:50,buff,Increases Counter Attack damage by 50%.,pendente
-Undying,Normal,Common,,indefinido,Applies Dark Ritual on death,pendente
-Unholy Sacrifice,Fortune,Mythic,"DamageModShadow:Base:{6,30}",buff,"Grants the skill @Unholy Sacrifice@. Increases @Shadow Damage@ by {6,30}%.",pendente
-Unyielding Contender,Normal,Common,"Armor:Percentage:50, MagicArmor:Percentage:50, MaxHealth:Percentage:50",buff,"Grants 50% increased Armor, Magic Armor, and Max Health.",pendente
-Vampire Lord Aura,Normal,Common,LifeSteal:Base:50,buff,@Life steal@ increased by 50%.,pendente
-Vampiric,Normal,Common,LifeOnHit:Base:10,buff,Life Steal increased by 10%,pendente
-Vampiric Aura,Normal,Common,LifeOnHit:Base:5,buff,@Life Steal@ increased by 5%.,pendente
-Vampiric Aura,Normal,Common,LifeSteal:Base:20,buff,@Life steal@ increased by 20%.,pendente
-Vampiric Aura,Normal,Common,LifeOnHit:Base:5,buff,@Life steal@ increased by 5%.,pendente
-Vampiric Aura,Normal,Common,LifeSteal:Base:50,buff,@Life steal@ increased.,pendente
-Vampirism,Fortune,Mythic,"LifeOnHit:Base:{12,12}, ChildOfTheAbyss:Set:{1,1}, DamageMod:Base:{35,35}, ResistFire:Base:{-25,-25}",debuff,"Increases @Life Steal@ by @12@% and @Damage@ by @35@%.  Gain the ability to shapeshift into a @Vampire Bat@.  Decreases @Fire Resistance@ by @25@%. Can no longer heal from anything but lifesteal.  <i><color=#808080>""A vampire not evil, a paradox in twilight's gleam, Cleansing the world, in a dark redemption's dream.""</i></color>  ",pendente
-Variety: Fire I,Normal,Common,DamageModFire:Base:40,buff,Increases @Fire Damage@ dealt by 40%.,pendente
-Variety: Fire II,Normal,Common,DamageModFire:Base:100,buff,Increases @Fire Damage@ dealt by 100%.,pendente
-Variety: Frost I,Normal,Common,DamageModCold:Base:40,buff,Increases @Cold Damage@ dealt by 40%.,pendente
-Variety: Frost II,Normal,Common,DamageModCold:Base:100,buff,Increases @Cold Damage@ dealt by 100%.,pendente
-Variety: Holy I,Normal,Common,DamageModHealing:Base:40,buff,Increases @Holy Power@ by 40%.,pendente
-Variety: Holy II,Normal,Common,DamageModHealing:Base:100,buff,Increases @Holy Power@ by 100%.,pendente
-Variety: Lightning I,Normal,Common,DamageModLightning:Base:40,buff,Increases @Lightning Damage@ dealt by 40%.,pendente
-Variety: Lightning II,Normal,Common,DamageModLightning:Base:100,buff,Increases @Lightning Damage@ dealt by 100%.,pendente
-Variety: Physical I,Normal,Common,DamageModPhysical:Base:40,buff,Increases @Physical Damage@ dealt by 40%.,pendente
-Variety: Physical II,Normal,Common,DamageModPhysical:Base:100,buff,Increases @Physical Damage@ dealt by 100%.,pendente
-Variety: Shadow I,Normal,Common,DamageModShadow:Base:40,buff,Increases @Shadow Damage@ dealt by 40%.,pendente
-Variety: Shadow II,Normal,Common,DamageModShadow:Base:100,buff,Increases @Shadow Damage@ dealt by 100%.,pendente
-Vengeful,Normal,Common,,buff,Gains increased damage for each ally killed,pendente
-Vengeful,Normal,Common,"DamageMod:Base:15, ModelScaleMultiplier:Base:5",buff,Increases damage dealt by 15%.,pendente
-Vengeful Shadows,Normal,Common,,indefinido,Attackers take [0] shadow damage.,pendente
-Venomous Skin,Normal,Common,,indefinido,Attackers are infected with 3 stacks of poison.,pendente
-Verse of Valor,Normal,Common,"MightBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Valor"")",buff,Might increased by [0].,pendente
-Visually Impaired,Normal,Common,RangeTypeAdderRanged:Base:-3,debuff,Reduces @Range@ by @3@ per stack.,pendente
-Vitality,Normal,Common,VitalityBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),buff,Vitality increased by [0].,pendente
-Warding Tonic,Normal,Common,MagicArmor:Base:200,buff,Magic armor increased by 200.,pendente
-Warrior Aura,Normal,Common,"DamageMod:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",buff,Damage increased by [0]%. ,pendente
-Warrior's Blade,Normal,Common,DamageMod:Base:50,buff,Damage increased 50%.,pendente
-Weakened,Normal,Common,MightBase:Percentage:-20,debuff,Reduces @Might@ by 20% per stack.,pendente
-Well Fed:  Experience,Normal,Common,ExperienceMod:Base:50,buff,Experience gained increased by 50%. ,pendente
-Well Fed: Stats,Normal,Common,"MightBase:Percentage:10, DexterityBase:Percentage:10, IntelligenceBase:Percentage:10, VitalityBase:Percentage:10, ReflexBase:Percentage:10",buff,Stats increased by 10%.,pendente
-Well Fed: Treasure,Normal,Common,"GoldMod:Base:50, DropQuantityMod:Base:50",buff,Increases item drops and gold gained by 50%. ,pendente
-Will of the Shaman,Fortune,Rare,ManaPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))),buff,"@Mana Recovery@ increased by [0].  <i><color=#808080>""Unseen yet felt, the spirit dances like a flame in the wind, a whisper of the unseen world that echoes in our hearts.",pendente
-Wilting,Normal,Common,Recovery:Percentage:-30,debuff,Recovery reduced by 30%.,pendente
-Witch's Brew,Normal,Common,Recovery:Percentage:-30,debuff,Recovery reduced by 30%.,pendente
-Wrath of the Righteous,Fortune,Mythic,"DamageModHealing:Base:{6,30}",buff,"Healing skills in the Light tree can now deal damage to enemies as well as heal allies. @Holy Power@ increased by {6,30}%.  <i><color=#808080>""The light of vengence burns brightly!""</color></i> ",pendente
-Wrath of the Righteous,Quest,Common,,indefinido,"Search the Castle for <b>The Jester</b>, and bring an end to his evil.",pendente
-"Ymir Rune, Courage",QuestItem,Common,,indefinido,,pendente
-"Ymir Rune, Honor",QuestItem,Common,,indefinido,,pendente
-"Ymir Rune, Strength",QuestItem,Common,,indefinido,,pendente
-You Are Smart,Normal,Common,IntelligenceBase:Percentage:1000,buff,Intelligence increased.,pendente
+nome,tipo,raridade,efeitos,efeitosDano,nEfeitosDano,classe,descricao,status
+Affinity: Cold,Normal,Common,DamageModCold:Base:2,,0,buff,Increases @Cold Damage@ dealt by [0]%.,pendente
+Affinity: Fire,Normal,Common,DamageModFire:Base:2,,0,buff,Increases @Fire Damage@ dealt by [0]%.,pendente
+Affinity: Holy,Normal,Common,DamageModHealing:Base:2,,0,buff,Increases @Holy Damage@ and @Healing@ dealt by [0]%.,pendente
+Affinity: Lightning,Normal,Common,DamageModLightning:Base:2,,0,buff,Increases @Lightning Damage@ dealt by [0]%.,pendente
+Affinity: Physical,Normal,Common,DamageModPhysical:Base:2,,0,buff,Increases @Physical Damage@ dealt by [0]%.,pendente
+Affinity: Shadow,Normal,Common,DamageModShadow:Base:2,,0,buff,Increases @Shadow Damage@ dealt by [0]%.,pendente
+Aged,Normal,Common,"MightBase:Percentage:-10, DexterityBase:Percentage:-10",,0,debuff,You have been magically aged! Might and Dexterity are reduced by 10%.,pendente
+Ancestral Protection,Fortune,Legendary,"Armor:Base:{20,300}, MagicArmor:Base:{20,300}",,0,indefinido,"Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you. Grants {20,300} Armor and Magic Armor.  <i><color=#808080>""You do not walk this world alone. With every step you take, you tread upon the footprints of your ancestors. They have blazed the trail before you, weathering storms you cannot fathom, crossing paths you cannot see.""</i></color>",pendente
+Angered,Normal,Common,"DamageReduction:Base:-15, DamageMod:Base:25, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:15",,0,buff,Increases damage dealt by 25%. Increases max life and damage taken by 15%.,pendente
+Anthulk Carapace,Normal,Common,,,0,indefinido,50% chance to cast Anthulk Spines when struck.,pendente
+Anthulk Venom,Normal,Common,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 10 times.,pendente
+Anthulk Venom,Normal,Mythic,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 5 times.,pendente
+Antidote,Normal,Common,ImmunityPoisoned:Set:1,,0,buff,Immune to poisoned.,pendente
+Ascendancy,Normal,Common,"MightBase:Percentage:20, DexterityBase:Percentage:20, VitalityBase:Percentage:20, IntelligenceBase:Percentage:20, ReflexBase:Percentage:20",,0,buff,Increases target ally's stats by 20%.  Lasts 5 turns. ,pendente
+Aura of Flame,Normal,Common,,,0,indefinido,*0 fire damage dealt to enemies within the aura.,pendente
+Aura of Flame,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .4f,1,indefinido,[0] fire damage dealt to enemies within the aura.,pendente
+Aura Of Frost,Normal,Common,,,0,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
+Aura of Frost,Normal,Common,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .4f,1,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
+Aura of Lightning,Normal,Common,,,0,indefinido,*0 lightning damage dealt to enemies within the aura each time they perform an action.,pendente
+Avenging Ancestors,Fortune,Legendary,,,0,indefinido,"Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you.",pendente
+Ball Lightning,Fortune,Mythic,BallLightningAmount:Base:ActionStatus.GetFlatDamageValue * 15 * Target.DamageModLightning,,0,indefinido,"Dealing lightning damage grants a stack of Overcharge: Each stack adds <color=#CBB396>[0]</color> lightning damage to your next basic attack.  <i><color=#808080>In fury, the sky roars, a tempest untamed, Lightning cracks, an ephemeral fire, wild and unchained.</color></i>",pendente
+Battered,Normal,Common,"Armor:Percentage:-25, MagicArmor:Percentage:-25",,0,debuff,Reduces @Armor@ and @Magic Armor@ by @25%@ per stack.,pendente
+Battle Fury,Normal,Common,"DamageMod:Base:30, ModelScaleMultiplier:Base:10",,0,buff,Increases damage dealt by 30%.,pendente
+Berserker's Rage,Normal,Common,"DamageReduction:Base:-25, DamageMod:Base:25, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",,0,buff,Increases Damage and Damage Taken by 25%. Increases max life by 15%.,pendente
+Berserking,Normal,Common,"DamageMod:Base:Source.HealthRatioInverse * 100, MaxHealth:Percentage:25",,0,buff,Maximum health increased by 25% Deals more damage at lower health,pendente
+Blackbeard's Curse,Normal,Common,Invincible:Set:1,,0,buff,Protected by Blackbeard's Chest.  Invulnerable.,pendente
+Bleeding,Normal,Common,"ResistPhysical:Base:-5, BleedingDamage:Base:Mathf.Max(1, Source.GetCustomActionDamage(""GL-Bleeding"", ""TargetStored[\""PhysicalDamage\""] = Source.AttackPower * .05f""))",,0,debuff,Target takes [1] physical damage for each hex they move. Reduces Physical Resistance by [0]%.,pendente
+Bless,Normal,Common,"MaxHealth:Percentage:10, MaxMana:Percentage:10, DamageMod:Base:10",,0,buff,@Maximum health@ and @maximum mana@ increased by 10%.  @Damage dealt@ increased by 10%.,pendente
+Blessing of the Mountain,Normal,Common,,,0,indefinido,Taking damage grants a stack of Thunder Charged.,pendente
+Blessing of the Mountain,Fortune,Mythic,"StatusResistImpairment:Base:{50, 50}, MaxHealth:Percentage:{15,30}",,0,buff,"Grants a 50% chance to resist any control effects.  Increases @Max Health@ by {15,30}%.  <i><color=#808080>Enough is enough!</i></color> ",pendente
+Blessing of the Seraph,Normal,Common,Recovery:Base:10,,0,buff,Recover 5% Max Health and Mana per turn.,pendente
+Blessing of the Seraph,Fortune,Rare,HealthPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))),,0,buff,"@Health Recovery@ increased by [0].  <i><color=#808080>""In this realm of wild and woe, No good springs forth unless you sow.""</i></color> ",pendente
+Blind,Normal,Common,Blind:Set:1,,0,buff,Skill range is reduced to 1 hex.,pendente
+Blind,Normal,Common,Blind:Set:1,,0,buff,Blind.,pendente
+Blood Boil,Normal,Common,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .4f,1,indefinido,Target takes *0 shadow damage per turn.,pendente
+Blood Frenzy,Normal,Common,"DamageMod:Base:25, LifeSteal:Base:25, ModelScaleMultiplier:Base:10",,0,buff,Increases damage dealt and life steal by 25%.,pendente
+Blood Howl,Normal,Common,LifeOnHitTarget:Base:4,,0,buff,Attackers lifesteal for [0]%.,pendente
+Blood Link,Normal,Common,SoulLink:Set:1,,0,buff,The Council's health pool is shared.,pendente
+Blood Mist,Normal,Common,,,0,indefinido,Applies Bleeding to enemies in range.,pendente
+Bloodied Bargain,Fortune,Mythic,"DamageModPhysical:Base:{8,40}",,0,buff,"Increases @Physical Damage@ by {8,40}%. Physical damage you deal applies 1 stack of @Bleeding@.  <i><color=#808080>A price in blood must be paid, just be sure you're not the one to pay it.</color></i>",pendente
+Boar Charm,Fortune,Rare,,,0,indefinido,"Allows you to summon a @level@ {1,30} Wild Boar to fight for you.  <i><color=#808080>The boar you rescued follows you.</i></color> ",pendente
+Bolstering Ballad,Normal,Common,"VitalityBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad""), Armor:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad""), MagicArmor:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Ballad"")",,0,buff,"Vitality, Armor and Magic Armor increased by [0].",pendente
+Bone Collector,Normal,Common,"MaxHealth:Percentage:6, DamageMod:Base:6",,0,buff,@Maximum health@ and @Damage Dealt@ increased by 6% per stack.,pendente
+Bottled Anger,Normal,Common,"DamageMod:Base:20, DamageReduction:Base:-10",,0,buff,Damage increased by 20%. Damage taken increased by 10%.,pendente
+Bottled Fury,Normal,Common,"DamageMod:Base:40, DamageReduction:Base:-20",,0,buff,Damage increased by 40%. Damage taken increased by 20%.,pendente
+Bottled Irritation,Normal,Common,"DamageMod:Base:10, DamageReduction:Base:-5",,0,buff,Damage increased by 10%. Damage taken increased by 5%.,pendente
+Bottled Rage,Normal,Common,"DamageMod:Base:30, DamageReduction:Base:-15",,0,buff,Damage increased by 30%. Damage taken increased by 15%.,pendente
+Bottled Wrath,Normal,Common,"DamageMod:Base:50, DamageReduction:Base:-25",,0,buff,Damage increased by 50%. Damage taken increased by 25%.,pendente
+Bounty Hunter's Mark,Normal,Common,"CritChanceTarget:Base:8, DamageReduction:Base:-15",,0,buff,Chance of suffering critical strikes increased by 8%. Damage taken increased by 15%.,pendente
+Brain Freeze,Normal,Common,,,0,indefinido,Deals 8% of the targets Max Health in cold damage each time the target performs an action.,pendente
+Brain Freeze,Normal,Common,,,0,indefinido,*0 cold damage is applied to the target when they perform an action.,pendente
+Brawler's Brew,Fortune,Rare,"MightBase:Base:{12,60}",,0,buff,"@Might@ increased by {12,60}. Applies @Blind@ at the start of your turn.",pendente
+Break The Ice,Normal,Common,DamageMod:Base:100,,0,buff,Your first attack in battle deals 100% additional damage.,pendente
+Brilliance,Fortune,Uncommon,"IntelligenceBase:Base:{4,20}",,0,buff,"@Intelligence@ increased by {4,20}.",pendente
+Bristlethorn Vines,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageReturnedFlatPhysical:Base:3 * IslandLevel",,0,debuff,Movement reduced by 1. Physical return damage increased by [1].,pendente
+Bruised,Normal,Common,MaxHealth:Percentage:-10,,0,debuff,Reduces @Max Health@ by @10%@ per stack.,pendente
+Burning Aura,Normal,Common,,,0,indefinido,*0 fire damage dealt to enemies within the aura.,pendente
+Burning Aura,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .8f,1,indefinido,[0] fire damage dealt to enemies within the aura.,pendente
+Burning Demon Hearts,QuestItem,Common,,,0,indefinido,,pendente
+Burning Ground,Normal,Common,,TargetStored['FireDamage'] = Target.TeamIndex == 1 ? Target.FodderHealthAtLevel * .3f : Source.SpellPower('Fire') * .5f,1,indefinido,Targets in burning ground receive fire damage.,pendente
+Burning Ground,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .5f,1,indefinido,Targets in burning ground receive *0 fire damage.,pendente
+Call of the Reaper,Fortune,Rare,"DamageMod:Base:{6,30}, DamageReduction:Base:{-10, -10}",,0,buff,"Increases @Damage@ by {6,30}%. Increases @Damage Taken@ by 10%.  <i><color=#808080>""Judge not a life until its final breath, for the Reaper's touch brings truth to death.""</i></color>  ",pendente
+Caution,Normal,Common,DodgeChance:Base:5,,0,buff,Dodge Chance increased by  [0]%.,pendente
+Celerity,Fortune,Uncommon,"DexterityBase:Base:{4,20}",,0,buff,"@Dexterity@ increased by {4,20}.",pendente
+Chained,Normal,Common,Rooted:Set:1,,0,buff,Cannot move.,pendente
+Champion of Blood,Normal,Common,,,0,indefinido,Striking enemies heals the Countess for 10% of her Max Health,pendente
+Chaos Coin,Fortune,Mythic,,,0,indefinido,<i><color=#808080>Will you flip the Coin of Chaos?</i></color>   Grants the skill @Coin Flip@,pendente
+Chaos Curse,Normal,Common,,TargetStored['ColdDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Cold') * 0.13f : 0; TargetStored['FireDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Fire') * 0.13f : 0; TargetStored['LightningDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Lightning') * 0.13f : 0; TargetStored['PhysicalDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Physical') * 0.13f : 0; TargetStored['ShadowDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Shadow') * 0.13f : 0; TargetStored['HolyDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.13f : 0,6,indefinido,Cursed to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,pendente
+Chi Strike,Normal,Common,DamageMod:Base:-20,,0,debuff,Your damage dealt is reduced by 20%,pendente
+Chilled,Normal,Common,"TurnFreeMovementPoints:Base:Target.CanBeEffectedByChilled ? (Target.ChilledEffectHalved ? -.5f : -1) : 0, DamageMod:Base:-(Source[""ChilledDamageReduction""]), MaxHealth:Percentage:Source[""Frostbite""] == 1 ? -5 : 0, Armor:Percentage:Source[""InvulnerableWinter""] == 1 ? 5 : 0, MagicArmor:Percentage:Source[""InvulnerableWinter""] == 1 ? 5 : 0",,0,debuff,Movement points reduced by one per stack.  Lasts 2 turns.  Five stacks of Chilled freezes the target.,pendente
+Chilling Aura,Normal,Common,,,0,indefinido,Deals *0 cold damage per turn while in the aura.,pendente
+Chromatic Tonic,Normal,Common,MagicArmor:Base:400,,0,buff,Magic armor increased by 400.,pendente
+Claw of the Anthulk,Fortune,Mythic,,,0,buff,"Your weapon attacks apply level {1,30} Anthulk Venom: Increases the Physical Damage the target takes by GetFlatDamageDealt(.5, Physical) per stack.  <i><color=#808080>""The venomous claw of a mature Anthulk.""</i></color>",pendente
+Combo Breaker,Normal,Common,ManaPowerMod:Base:10,,0,buff,Damage and healing from non basic skills increased by 10%.,pendente
+Confused,Normal,Common,IntelligenceBase:Percentage:-20,,0,debuff,Reduces @Intelligence@ by @20%@ per stack.,pendente
+Conqueror Aura,Normal,Common,"CritChance:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Critical hit chance increased by [0]%.,pendente
+Consumption,Normal,Common,MaxHealth:Percentage:-20,,0,debuff,@Maximum health@ reduced by 20%.,pendente
+Consumption,Normal,Common,MaxHealth:Percentage:10,,0,buff,Max Health increased by 10%.,pendente
+Consumption,Normal,Common,MaxHealth:Percentage:-10,,0,debuff,@Maximum health@ reduced by 10%.,pendente
+Contagion,Normal,Common,HealingReceivedBonus:Base:-1,TargetStored['ShadowDamage'] = Source['ContagionLevel'],1,debuff,Target takes [1] shadow damage each turn. Reduces healing taken by [0]%.,pendente
+Control Resistance,Normal,Common,StatusResistImpairment:Base:43 + (Source.NumPartyCharacters * 7),,0,indefinido,Has a [0]% chance to resist any control effects.,pendente
+Corrosive Bite,Normal,Common,"ResistPhysical:Base:-10, ResistCold:Base:-10, ResistFire:Base:-10, ResistLightning:Base:-10",,0,debuff,Lowers All Resistance by 10% per stack.,pendente
+Corrupted Consumables I,Normal,Common,ConsumableCooldown:Base:1,,0,buff,Consumable Cooldown increased by 1.,pendente
+Corrupted Consumables II,Normal,Common,ConsumableCooldown:Base:2,,0,buff,Consumable Cooldown increased by 2.,pendente
+Corrupted Consumables III,Normal,Common,ConsumableCooldown:Base:3,,0,buff,Consumable Cooldown increased by 3.,pendente
+Counter Melody,Normal,Common,"ImmunityMovementImpairing:Set:1, ImmunityChilledEffect:Set:1, ImmunityDisabled:Set:1, ImmunityFrozen:Set:1, ImmunityKnockback:Set:1, ImmunitySlow:Set:1, ImmunityStunned:Set:1",,0,buff,Immune to Crowd Control effects.,pendente
+Courage of the Ymir,Fortune,Mythic,"ExtraTurnActionPoints:Base:(Source.HasWeaponType(""Sword_1H"")",,0,buff,"Increases your @Action Points@ by @1@. If you are using a One-Handed Sword, Axe, Hammer, Gun, or Wand.  <i><color=#808080>You carry the Speed of the Ymir!</color></i>",pendente
+Crash and Flow,Normal,Common,DamageMod:Base:10,,0,buff,Damage and healing increased by 10%.  Caused by recently dodging.,pendente
+Crescendo of Ballad,Normal,Common,,,0,buff,Crescendo of Bolstering Ballad. Each stack increases the power of the song.,pendente
+Crescendo of Recovery,Normal,Common,,,0,buff,Crescendo of Rhythm of Recovery. Each stack increases the power of the song.,pendente
+Crescendo of Refrain,Normal,Common,,,0,buff,Crescendo of Resonating Refrain. Each stack increases the power of the song.,pendente
+Crescendo of Swiftness,Normal,Common,,,0,buff,Crescendo of Song of Swiftness. Each stack increases the power of the song.,pendente
+Crescendo of Valor,Normal,Common,,,0,buff,Crescendo of Verse of Valor. Each stack increases the power of the song.,pendente
+Crippled,Normal,Common,TurnFreeMovementPoints:Base:-1,,0,debuff,Reduces @Movement Points@ by @1@ per stack.,pendente
+Crystal Ball,Fortune,Rare,"PerHexRangeDamageBonus:Base:{.5,1.5}, RangeTypeAdderRanged:Base:{1,3}",,0,buff,"Gain {.5,1.5}% bonus damage for every hex between you and your target. Skill range increased by {1,3}.  <i><color=#808080>It doesn't show the future but a clearer picture of the present.</color></i> ",pendente
+Crystal Bite,Normal,Common,"DamageReduction:Base:-10, TurnFreeMovementPoints:Base:-1",TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .3f,1,debuff,"Target takes *0 shadow damage each turn, increases damage taken by 10% and reduces movement by 1. Stacks up to 5 times.",pendente
+Cupid Shot,Normal,Common,TeamIndexOverride:Set:Source.TeamIndex + 1,,0,indefinido,Charmed,pendente
+Curse,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20, HealingReceivedBonus:Base:-50",,0,debuff,@All resistances@ lowered by 20%. Healing received lowered by 50%.,pendente
+Curse of Death,Normal,Common,,,0,indefinido,Cursed to die when this status expires.,pendente
+Curse of Elements,Normal,Common,"ResistCold:Base:-25, ResistFire:Base:-25, ResistLightning:Base:-25",,0,debuff,Reduces Elemental resistances by 25%.,pendente
+Curse of Frailty,Normal,Common,ResistPhysical:Base:-25,,0,debuff,Reduces Physical resistance by 25%.,pendente
+Curse of Ruin,Normal,Common,"MightBase:Percentage:-15, DexterityBase:Percentage:-15, IntelligenceBase:Percentage:-15, VitalityBase:Percentage:-15, Recovery:Percentage:-15",,0,debuff,All stats reduced by 15%,pendente
+Curse of Sorrow,Normal,Common,HealingReceivedBonus:Base:-50,,0,debuff,Healing is reduced by 50%.,pendente
+Curse of the Reaper,Fortune,Rare,"LifeOnHit:Base:{6,6}, MaxHealth:Percentage:{-15, -15}",,0,debuff,"Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>""A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.""</i></color>",pendente
+Curse of Weakness,Normal,Common,DamageMod:Base:-25,,0,debuff,Damage reduced by 25%.,pendente
+Cursed,Normal,Common,,,0,indefinido,Applies Curse on striking and when struck,pendente
+Cursed,Normal,Common,"MightBase:Percentage:-10, DexterityBase:Percentage:-10, IntelligenceBase:Percentage:-10, VitalityBase:Percentage:-10, ReflexBase:Percentage:-10",,0,debuff,Reduces @All Stats@ by @10%@ per stack.,pendente
+Cursed Bite,Normal,Common,HealingReceivedBonus:Base:-50,,0,debuff,Reduces healing received by 50%.,pendente
+Cursed Coin,Normal,Common,DarkRitual:Set:1,,0,buff,Health cannot drop below 1.,pendente
+Cursed Coin,Fortune,Legendary,,,0,indefinido,"The first time your health is brought below @1@ instead receive @Cursed Coin@: Health cannot drop below 1. Lasts 2 turns. Applies Ritual Sickness. 1 charge per Quest.  <i><color=#808080>""Cursed life is still life.""</color></i>",pendente
+Damage,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 0.3f; TargetStored['HolyDamage'] = Source.SpellPower('Light') * 0.3f; TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 0.3f; TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 0.3f; TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * 0.3f; TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 0.3f,6,indefinido,Damaged.  ,pendente
+Damage Reduced by 20%,Normal,Common,DamageMod:Base:-20,,0,debuff,Damage reduced by 20%.,pendente
+Damage Reduced by 5%,Normal,Common,DamageMod:Base:-5,,0,debuff,Damage reduced by 5%.,pendente
+Damage Reduced by 50%,Normal,Common,DamageMod:Base:-50,,0,debuff,Damage reduced by 50%.,pendente
+Dark Clones,Normal,Common,Invincible:Set:1,,0,buff,Invulnerable while Dark Clones are alive.,pendente
+Dark Discoveries,Quest,Common,,,0,indefinido,Locate and destroy the runaway experiments. ,pendente
+Dark Ritual,Normal,Common,DarkRitual:Set:1,,0,buff,Health cannot drop below 1.,pendente
+Deal with a Devil,Normal,Common,"GoldMod:Base:50, DropQuantityMod:Base:50, ExperienceMod:Base:50",,0,buff,"<i><color=#808080>You've made a deal with a devil!</i></color>   Increases experience, item drops, and gold gained by 50%. ",pendente
+Death,Normal,Common,,Target.Kill(),1,indefinido,Death.,pendente
+Decay Shrine Aura,Normal,Common,,,0,indefinido,Take [0]% of your Max Health in Shadow Damage per turn.,pendente
+Decaying,Normal,Common,MaxHealth:Percentage:-25,,0,debuff,Max Health reduced by 25%.,pendente
+Defense Flask,Normal,Common,Armor:Base:50,,0,buff,Armor increased by 50.,pendente
+Destructive,Normal,Common,DamageMod:Base:50,,0,buff,Damage increased by 50% ,pendente
+Dexterity,Normal,Common,DexterityBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),,0,buff,Dexterity increased by [0].,pendente
+Diamond Protection,Normal,Common,DamageReduction:Base:25,,0,buff,Damage taken reduced by 25%.,pendente
+Dire Bite,Normal,Common,HealingReceivedBonus:Base:-100,,0,debuff,Reduces healing received by 100%.,pendente
+Dire Howl,Normal,Common,LifeOnHitTarget:Base:6,,0,buff,Attackers lifesteal for [0]%.,pendente
+Disabled,Normal,Common,Disabled:Set:1,,0,buff,Cannot perform actions.,pendente
+Disappointment,Normal,Common,DamageMod:Base:-20,,0,debuff,The disappointment of <color=#EE4B2B><b>Shawn</b></color> follows your every move. You swiftly leave to escape. Damage and healing done are reduced by 20%.,pendente
+Diseased,Normal,Common,MaxHealth:Percentage:-15,,0,debuff,Maximum health reduced by 15%.,pendente
+Dispelling Fracture,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20",,0,debuff,@Resistance@ lowered by 20%.,pendente
+Dodging Strikes,Normal,Common,DodgeChance:Base:8,,0,buff,Dodge chance increased by 8%.,pendente
+Dragon Claw Talisman,Fortune,Rare,,,0,indefinido,"Summons a @level@ {1,30} Red Dragon Whelp to fight for you.  <i><color=#808080>""The magically preserved claw of a Dragonling.""</i></color>",pendente
+Dreadful Dissonance,Normal,Common,"Feared:Set:1, Disabled:Set:1",,0,buff,Feared.,pendente
+Drop of Shadow,Fortune,Mythic,"DamageModShadow:Base:{10,40}",,0,buff,"Shadow damage you deal applies @Sludge@. Increase @Shadow Damage@ by {10,40}%.  <i><color=#808080>""It's stickier than you imagined.""</color></i> ",pendente
+Dwarf King's Rage,Normal,Common,"DamageMod:Base:10, ModelScaleMultiplier:Base:7",,0,buff,Increases damage dealt by 10%.,pendente
+Dwarf Rage!,Quest,Common,,,0,indefinido,,pendente
+Dwarven Aura,Normal,Common,,,0,indefinido,Your attacks have a [0]% chance to stun the target.,pendente
+Dwarven Force Generator,Fortune,Rare,,,0,indefinido,"All Teleport (Relocate, Teleport Self, Teleport Other, Escape) spells deal *0 physical damage on entry within 1 hex and knockback 2 hexes.  <i><color=#808080>Crafted by Durn Spellbeard, widely known for his legendary entrances.</i></color>  ",pendente
+Ebony Dragon Scale,Fortune,Mythic,,,0,buff,"Gain the ability to shapeshift into a Black Dragonkin.  <i><color=#808080>""The scale emanates a palpable aura of malevolence, a taint that seems to claw at the very air around it.""</color></i>",pendente
+Edwin's Enchantment,Normal,Common,"DamageMod:Base:{50,50}, MaxHealth:Percentage:{-50,-50}",,0,debuff,Damage and healing increased by 50%. Max Health reduced by 50%.,pendente
+Edwin's Enchantment,Fortune,Rare,"ManaPowerMod:Base:{25,50}, HealthAsManaCost:Set:{100, 100}",,0,buff,"Power for mana use increased by {25,50}%. Mana costs are now paid in Health instead.   <i><color=#808080>With each enchantment used, Edwin's vitality waned noticeably, his physical health deteriorating even as his reputation grew.</i></color>",pendente
+Elemental Equilibrium,Fortune,Mythic,,,0,buff,"Dealing damage with a specific element will grant you a buff that increases all elemental damage. Stacks for each element.  <i><color=#808080>""Who defines sanity, after all? Is it the crowd of sheep who mindlessly follow the whims of their shepherd, their dull lives dictated by rules and norms? Or is it the lone wolf, who, by daring to break free from the pack, is deemed insane?""</color></i>",pendente
+Elemental Equilibrium: Cold,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",,0,indefinido,Adds [0] damage to elemental attacks.,pendente
+Elemental Equilibrium: Fire,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",,0,indefinido,Adds [0] damage to elemental attacks.,pendente
+Elemental Equilibrium: Lightning,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",,0,indefinido,Adds [0] damage to elemental attacks.,pendente
+Elemental Power,Fortune,Rare,"DamageModCold:Base:{5,25}, DamageModFire:Base:{5,25}, DamageModLightning:Base:{5,25}",,0,buff,"Increases @Elemental Damage@ by {5,25}%.",pendente
+Elemental Protection,Normal,Common,"ResistCold:Base:15, ResistFire:Base:15, ResistLightning:Base:15",,0,buff,@Elemental resistance@ increased by 15%.,pendente
+Elixir of the Scarlet Ox,Fortune,Legendary,,,0,indefinido,"Grants Elixir of the Scarlet Ox: Grants 1 additional Action Point and 3 Movement Points. Applies Exhaustion. 1 charge.  <i><color=#808080>""Bestows upon you wings.  Metaphorically of course.""</color></i> ",pendente
+Elusive,Normal,Common,DodgeChance:Base:25,,0,buff,Dodge Chance increased by 25%,pendente
+Emblem of the Iron Fortress,Fortune,Mythic,"DamageReturnedFlatPhysical:Base:Source[""Armor""] * {.03f, .03f}, Armor:Base:{10, 250}",,0,indefinido,"Grants {10,250} Armor. 3% of your Armor is added as physical damage return.  <i><color=#808080>The Iron Fortress, an indomitable monolith of enduring strength, stood resolute and unyielding for hundreds of years, its towering parapets and impenetrable defenses the silent testament to countless civilizations that had crumbled in their futile attempts to conquer it.</color></i>",pendente
+Emerald Protection,Normal,Common,DamageReduction:Base:25,,0,buff,Damage taken reduced by 25%.,pendente
+Emperor's Blessing,Normal,Common,"MaxHealth:Percentage:10, MaxMana:Percentage:10, DamageMod:Base:10",,0,buff,"Max Health, Max Mana and Damage increased by 10%.",pendente
+Empowered Blood ,Normal,Common,DamageMod:Base:50,,0,buff,Increases damage dealt by 50%.  Gained from fallen allies.,pendente
+Enchant Cold,Normal,Common,,,0,indefinido,Skills have a chance to deal [0] additional cold damage.,pendente
+Enchant Cold,Normal,Common,,,0,indefinido,Skills have a chance to deal *0 additional cold damage.,pendente
+Enchant Fire,Normal,Common,,,0,indefinido,Skills have a chance to deal [0] additional fire damage.,pendente
+Enchant Fire,Normal,Common,,,0,indefinido,Skills have a chance to deal *0 additional fire damage.,pendente
+Enchant Holy,Normal,Common,,,0,indefinido,Skills have a chance to deal [0] additional holy damage.,pendente
+Enchant Holy,Fortune,Legendary,,,0,indefinido,"Grants @level@ {1,30} Enchant Holy.  <i><color=#808080>Brandish your weapon in glorious light.</i></color> ",pendente
+Enchant Lightning,Normal,Common,,,0,indefinido,Skills have a chance to deal [0] additional lightning damage.,pendente
+Enchant Lightning,Normal,Common,,Target['EnchantLightningMagedrawValue'] = Source.SpellPower('Lightning') * .2f,1,indefinido,Skills have a chance to deal *0 additional lightning damage.,pendente
+Enchant Shadow,Normal,Common,,,0,indefinido,Skills have a chance to deal [0] additional shadow damage.,pendente
+Enchant Shadow,Fortune,Legendary,,,0,indefinido,"Grants @level@ {1,30} Enchant Shadow.  <i><color=#808080>Wreathe your weapon in darkest shadow.</i></color> ",pendente
+Enchanted Pumpkin,Fortune,Legendary,"HealthPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))), ManaPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23)))",,0,buff,"Gain [0] Health and Mana each turn.  <i><color=#808080>There is an intoxicating aroma about it. It smells of autumn nights and whispered tales around a fire, of ancient magic and timeless tales.</color></i> ",pendente
+Enchanted Whetstone,Fortune,Rare,"WeaponDamageMod:Base:{10, 40}",,0,buff,"Weapon damage increased by {10,40}%  <i><color=#808080>Captain Henry Irons would be proud!</color></i>",pendente
+Endurance,Fortune,Rare,"MaxHealth:Base:{5, 500}",,0,buff,"Increases @Max Health@ by {5, 500}.",pendente
+Enduring Evasion,Normal,Common,,,0,indefinido,Dodging incoming attacks.,pendente
+Energy Aura,Normal,Common,"ManaCostMod:Base:Mathf.Round(-50 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,debuff,Decreases the cost of mana using abilities by [0]%.,pendente
+Enfeebled,Normal,Common,DamageMod:Base:-20,,0,debuff,Reduces @Damage@ by @20%@ per stack.,pendente
+Enraged,Normal,Common,"ImmunityMovementImpairing:Set:1, ImmunityChilledEffect:Set:1, ImmunityDisabled:Set:1, ImmunityFrozen:Set:1, ImmunityKnockback:Set:1, ImmunitySlow:Set:1, ImmunityStunned:Set:1",,0,buff,Immune to all movement impairing effects and knockback.,pendente
+Ethereal,Fortune,Rare,"ResistPhysical:Base:{10,50}, ResistCold:Base:{-5,-25}, ResistFire:Base:{-5,-25}, ResistLightning:Base:{-5,-25}",,0,debuff,"Increases @Physical Resistance@ by {10,50}%. Reduces @Elemental Resistance@ by {5,25}%.",pendente
+Evasion,Normal,Common,,,0,indefinido,Dodging incoming attacks.,pendente
+Evasive Movement,Normal,Common,OpportunityAttackImmunity:Set:1,,0,buff,Grants immunity to opportunity attacks.,pendente
+Everlasting Sacrifice,Fortune,Mythic,"DamageModHealing:Base:{50,100}",,0,buff,"@Holy Power@ increased by {50,100}%. Take 20% of your Max Health in Holy Damage each turn.",pendente
+Evolution,Normal,Common,DamageMod:Base:5,,0,buff,Damage increased by 5% per stack.  Can stack up to 10 times.,pendente
+Evolution,Normal,Common,MaxHealth:Percentage:5,,0,buff,Max Health increased by 5% per stack.  Can stack up to 10 times.,pendente
+Exhaustion,Normal,Common,RecentlyHasted:Set:1,,0,buff,Cannot receive additional actions points.  Caused by receiving additional action points this turn.,pendente
+Explosive,Normal,Common,,,0,indefinido,Explodes on death,pendente
+Eye Drops,Normal,Common,ImmunityBlind:Set:1,,0,buff,Immune to Bleeding.,pendente
+Faerie Swarm,Normal,Common,,TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * .4f,1,indefinido,Target takes *0 physical damage and 1 stack of {STA=Bleeding} per turn.,pendente
+Fate,Normal,Common,"MightBase:Base:10000, VitalityBase:Base:100, IntelligenceBase:Base:100, ImmunityDisabled:Set:1, ImmunityRooted:Set:1, Armor:Base:0, MagicArmor:Base:0, Recovery:Base:0, SummonDamageMod:Base:500, SummonHealthMod:Base:500, ImmunityPoisoned:Set:1, ImmunityBleeding:Set:1, DarkRitual:Set:1",,0,buff,Potential realized.,pendente
+Fatigued,Normal,Common,DexterityBase:Percentage:-20,,0,debuff,Reduces Dexterity by @20%@ per stack.,pendente
+Fever,Normal,Common,Fever:Set:1,,0,buff,Mana costs now take from health instead.,pendente
+Fire Shield,Normal,Common,ResistFire:Base:10,,0,buff,@Fire resistance@ increased by 10%.   Attackers take *0 fire damage.,pendente
+Fire Thorns,Normal,Common,"DamageReturnedFlatFire:Base:{1,300}",,0,indefinido,Reflects [0] fire damage back to attackers.,pendente
+Fizzled,Normal,Common,,,0,indefinido,Fizzled.,pendente
+Flame Shrine Aura,Normal,Common,,,0,indefinido,Attackers take Fire Damage.,pendente
+Focused Strike,Normal,Common,DamageReduction:Base:-20,,0,debuff,Increases damage received by 20%.,pendente
+Forbidden Power,Normal,Common,"ManaCostMod:Base:50, ManaPowerMod:Base:50",,0,buff,All mana costs increased by 50%. Power of mana costing abilities increased by 50%.,pendente
+Fortified Flask,Normal,Common,Armor:Base:200,,0,buff,Armor increased by 200.,pendente
+Fortitude,Fortune,Uncommon,"VitalityBase:Base:{4,20}",,0,buff,"@Vitality@ increased by {4,20}.",pendente
+Fracture,Normal,Common,"ResistPhysical:Base:-20, ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistDivine:Base:-20",,0,debuff,@Resistance@ lowered by 20%.,pendente
+Fractured Foot,Normal,Common,TurnFreeMovementPoints:Base:-2,,0,debuff,Decreases movement points by 2.,pendente
+Freeze Earth,Normal,Common,,,0,indefinido,Applies 1 stack of Chilled.,pendente
+Freezing,Normal,Common,,,0,indefinido,Freezes all enemies on death,pendente
+Frenzy,Normal,Common,,,0,buff,Action Points Increase by 1.,pendente
+Frost Armor,Normal,Common,ResistCold:Base:10,,0,buff,@Cold resistance@ increased by 10%.  Attackers take *0 cold damage.,pendente
+Frost Nova,Normal,Common,Rooted:Set:1,,0,buff,Immobilized.,pendente
+Frost Thorns,Normal,Common,"DamageReturnedFlatCold:Base:{1,300}",,0,indefinido,Reflects [0] cold damage back to attackers.,pendente
+Frostbitten,Normal,Common,ResistCold:Base:-25,,0,debuff,Reduces @Cold Resistance@ by @25%@ per stack.,pendente
+Frozen,Normal,Common,"Rooted:Set:1, Disabled:Set:1, ImmunityChilled:Set:1",,0,buff,Cannot move or perform actions.,pendente
+Frozen Lich Heart,Fortune,Mythic,"DamageModColdToFrozen:Base:{100, 200}, ImmunityChilled:Set:1 * (1 + ((StatusLevel - 1) * (0.23)))",,0,buff,"Your cold damage is increased by [0]% against targets that are frozen. Grants immunity to chilled.  <i><color=#808080>The Frozen Heart of the Lich, pulsating with a masterful power of ice and the chill of a thousand winters, imbued its holder with a profound affinity for the cold, such that even in the harshest blizzards they would find a comfortable sanctuary.</color></i>",pendente
+Fury,Normal,Common,"DamageMod:Base:Mathf.Round(25 * (1 + (Target[""ShrineEffectBonus""] / 100))), DamageReduction:Base:Mathf.Round(-25 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Damage increased by [0]%. Damage taken increased by [0]%. ,pendente
+Ghost Armor,Normal,Common,,,0,indefinido,Absorbs the next attack.,pendente
+Giant,Normal,Common,"DamageMod:Base:25, MaxHealth:Percentage:25, ModelScaleMultiplier:Base:25",,0,buff,Damage and Health increased by 25% Size increased by 25%,pendente
+Gift to the Conquered,Fortune,Rare,"MightBase:Base:{3,15}, DexterityBase:Base:{3,15}, IntelligenceBase:Base:{3,15}, VitalityBase:Base:{3,15}, ReflexBase:Base:{3,15}",,0,buff,"@All Stats@ increased by {3,15}.  <i><color=#808080>""To kneel is not to surrender, but to acknowledge a power greater than oneself.""</i></color>",pendente
+Glory,Normal,Common,Invincible:Set:1,,0,buff,Immune to damage.,pendente
+Glory of the Conqueror,Fortune,Rare,"CritChance:Base:{4,12}",,0,buff,"@Critical Hit Chance@ increased by {4,12}%.   <i><color=#808080>""The path to glory does not lie in submission. It begins with defiance.""</i></color>",pendente
+Gore,Normal,Common,HealingReceivedBonus:Base:-50,,0,debuff,Reduces healing received by 50%.,pendente
+Grace of the Rogue,Fortune,Rare,"ReflexBase:Base:{5,25}",,0,buff,"@Reflex@ increased by {5,25}.  <i><color=#808080>""No matter the odds, there is always a way, always a chance, if only one has the will to seize it.""</i></color>",pendente
+Greater Damage,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 0.6f; TargetStored['HolyDamage'] = Source.SpellPower('Light') * 0.6f; TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 0.6f; TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 0.6f; TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * 0.6f; TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 0.6f,6,indefinido,Damaged.  ,pendente
+Greater Heal,Normal,Common,,TargetStored['Healing'] = Target['MaxHealth'],1,indefinido,Healed.,pendente
+Growing Hatred,Normal,Common,"ExtraTurnActionPoints:Base:1, ModelScaleMultiplier:Base:25",,0,buff,Grants 1 additional Action Point. Increases Damage Taken by 25%.,pendente
+Guardian Aura,Normal,Common,"DamageReduction:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,debuff,Reduces Damage taken by [0]%. ,pendente
+Guardian Flask,Normal,Common,Armor:Base:800,,0,buff,Armor increased by 800.,pendente
+Guardian Shield,Normal,Common,DamageReduction:Base:50,,0,buff,Damage taken decreased by 50%.,pendente
+Guile of the Rogue,Fortune,Rare,"DexterityBase:Base:{5,25}",,0,buff,"@Dexterity@ increased by {5,25}.  <i><color=#808080>""Justice is not always a path of righteousness walked in the light. Sometimes, it is a road shrouded in darkness, a route navigated by the quiet flicker of rebellion.""</i></color>",pendente
+Harmonize,Normal,Common,,,0,indefinido,Your actions spread Harmony to nearby allies.,pendente
+Harmony,Normal,Common,DexterityBase:Base:1,,0,buff,Harmony: +1 Dexterity per stack.,pendente
+Harmony,Normal,Common,IntelligenceBase:Base:1,,0,buff,Harmony: +1 Intelligence per stack.,pendente
+Harmony,Normal,Common,MightBase:Base:1,,0,buff,Harmony: +1 Might per stack.,pendente
+Harmony,Normal,Common,ReflexBase:Base:1,,0,buff,Harmony: +1 Reflex per stack.,pendente
+Harmony,Normal,Common,VitalityBase:Base:1,,0,buff,Harmony: +1 Vitality per stack.,pendente
+Haunt,Normal,Common,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .5f; SourceStored['HealingForced'] = (Source['MaxHealth'] * .025f),2,indefinido,Deals *0 damage. Lifesteals for 8%.,pendente
+Heal,Normal,Common,,TargetStored['Healing'] = Source.SpellPower('Light') * 1.0f,1,indefinido,Healed.,pendente
+Heat,Normal,Common,"ResistCold:Base:-5, ResistFire:Base:-5, ResistLightning:Base:-5",TargetStored['FireDamage'] = Source['AvatarOfFlame'] == 1 ?  Source.SpellPower('Fire') * .2f : 0,1,debuff,Elemental resistance reduced by 5% per stack.  Lasts [0] turns.  Can stack up to 10 times.,pendente
+Holy Ground,Normal,Common,,TargetStored['Healing'] = Target.TeamIndex == 1 ? Target.FodderHealthAtLevel * .3f : Source.SpellPower('Light') * 1f,1,indefinido,Targets in holy ground receive healing.,pendente
+Holy Ground,Normal,Common,,TargetStored['Healing'] = Source.SpellPower() * .75f,1,indefinido,Targets in holy ground are healed *0 per turn.,pendente
+Holy Ground,Normal,Common,,TargetStored['HolyDamage'] = Source.SpellPower() * .75f,1,indefinido,Taking *0 Holy Damage per turn while in Holy Ground.,pendente
+Honor of the Ymir,Fortune,Mythic,"PerHexRangeDamageBonus:Base:Source.HasWeaponType(""Staff"")",,0,buff,"Every hex between you and your target increases damage dealt by an additional @12%@ when wielding a Staff, Bow, or Two Handed Gun.  <i><color=#808080>You carry the Speed of the Ymir!</color></i>",pendente
+Horn of Devotion,Fortune,Legendary,"ShrineEffectBonus:Base:{50,100}",,0,buff,"Increases the effect of Shrines by {50,100}%.  <i><color=#808080>""Given to great warriors to aid them in battle.""</i></color>",pendente
+Howl,Normal,Common,"Feared:Set:1, Disabled:Set:1",,0,buff,Causes you to run as far away as possible from the source of fear and leaves you unable to cast actions.,pendente
+Howl,Normal,Common,DamageMod:Base:-20,,0,debuff,Damage dealt reduced by 20%.,pendente
+Hunger,Normal,Common,ManaOnHit:Base:10,TargetStored['ShadowDamage'] = Target.MaxHealth * .1f,1,buff,Grants 10% @mana steal@.  Sacrifices 10% maximum health per turn.,pendente
+Hunger for Vengeance,Quest,Common,,,0,indefinido,,pendente
+Hunger of Ksvaldir,Normal,Common,,TargetStored['ShadowDamage'] = Target.MaxHealth * .1f,1,indefinido,Sacrifices 10% maximum health per turn.,pendente
+Ice Crystal,Fortune,Mythic,,,0,indefinido,"<i><color=#808080>The magic crystal emanates cold.</color></i>  Allows you to summon a @level@ {1,30} Ice Golem to fight for you. Benefits from your @Cold Damage@.",pendente
+Ice Storm,Normal,Common,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .9f,1,indefinido,Deals *0 cold damage to enemies in range.,pendente
+Ignite,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,1,indefinido,Targets in burning ground receive *0 fire damage.,pendente
+Immobilized,Normal,Common,Rooted:Set:1,,0,buff,Cannot move.,pendente
+Immolate,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .5f,1,indefinido,Target takes *0 fire damage per turn.,pendente
+Immortal Night,Normal,Common,"MaxHealth:Percentage:-25, MaxMana:Percentage:-25",,0,debuff,@Maximum health@ and @maximum mana@ lowered by 25% per stack.,pendente
+Immunity,Normal,Common,"Invincible:Set:1, ImmunityMovementImpairing:Set:1, ImmunityDisabled:Set:1, ImmunitySlow:Set:1",,0,buff,Can only be harmed by destroying Soul Fetishes.  Immune to movement imparing effects.,pendente
+Improvise,Normal,Common,,,0,debuff,Songs no longer clear each other's Crescendo.,pendente
+Incalculable Rage,Normal,Common,"ExtraTurnActionPoints:Base:1, TurnFreeMovementPoints:Base:-6, ModelScaleMultiplier:Base:20",,0,debuff,Grants 1 additional Action Points. Lowers movement points by 6.,pendente
+Increased Armor,Normal,Common,"Armor:Base:5 * Source.Level, MagicArmor:Base:5 * Source.Level",,0,buff,@Armor@ and @Magic Armor@ increased by [0].  ,pendente
+Increased Damage and Healing by 10%,Normal,Common,DamageMod:Base:10,,0,buff,Increases Damage and Healing by 10%.,pendente
+Increased Damage and Healing by 100%,Normal,Common,DamageMod:Base:100,,0,buff,Increases Damage and Healing by 100%.,pendente
+Increased Damage and Healing by 1000%,Normal,Common,DamageMod:Base:1000,,0,buff,Increases Damage and Healing by 1000%.,pendente
+Increased Damage and Healing by 25%,Normal,Common,DamageMod:Base:25,,0,buff,Increases Damage and Healing by 25%.,pendente
+Indestructible,Normal,Common,"Armor:Percentage:10, MagicArmor:Percentage:10, DamageReturnedMod:Base:10",,0,buff,"@Armor@, @Magic Armor@, and @Return Damage@ increased by 10% per stack.",pendente
+Inner Warmth,Normal,Common,ImmunityFrozen:Set:1,,0,buff,Cannot be frozen.  Caused by being recently frozen.,pendente
+Inspiration,Normal,Common,"ResistPhysical:Base:1, ResistCold:Base:1, ResistFire:Base:1, ResistLightning:Base:1, ResistDivine:Base:1",,0,buff,Inspiration: +1% to all Resistance per stack.,pendente
+Inspiration,Normal,Common,"ResistPhysical:Base:2, ResistCold:Base:2, ResistFire:Base:2, ResistLightning:Base:2, ResistDivine:Base:2",,0,buff,Inspiration: +2% to all Resistance per stack.,pendente
+Inspiring Aura,Normal,Common,DamageMod:Base:60,,0,buff,Damage increased by 60%.,pendente
+Intelligence,Normal,Common,IntelligenceBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),,0,buff,Intelligence increased by [0].,pendente
+Into the Fray,Normal,Common,"MightBase:Percentage:2 * Target.NumEnemiesWithin(5), VitalityBase:Percentage:2 * Target.NumEnemiesWithin(5)",,0,buff,Gain 2% @might@ and @vitality@ for every enemy within 5 hexes of your character.,pendente
+Invincible,Normal,Common,Invincible:Set:1,,0,buff,Cannot take damage.,pendente
+Invincible,Normal,Common,Invincible:Set:1,,0,buff,Invincible.,pendente
+Ivory Dragon Scale,Fortune,Mythic,,,0,buff,"Gain the ability to shapeshift into a White Dragonkin.  <i><color=#808080>""Imbued with a gentle radiance, it serves as a testament to the enduring strength of the forces of light""</i></color> ",pendente
+Lady of the Well,Quest,Common,,,0,indefinido,"Search the Forest at night for the Lady of the Well, vanquish her, and bring her <quest>Shadow-Drenched Heart</quest> to The Paladin.",pendente
+Leech Dexterity,Normal,Common,DexterityBase:Base:2 * (.1f * Target.Level),,0,indefinido,[0] @dexterity@ absorbed per stack.  Stacks up to 10 times.,pendente
+Leech Intelligence,Normal,Common,IntelligenceBase:Base:2 * (.1f * Target.Level),,0,indefinido,[0] @intelligence@ absorbed per stack.  Stacks up to 10 times.,pendente
+Leech Might,Normal,Common,MightBase:Base:2 * (.1f * Target.Level),,0,indefinido,[0] @might@ absorbed per stack.  Stacks up to 10 times.,pendente
+Legacy of the Mad Mage,Quest,Common,,,0,indefinido,What have you unleashed upon the world?,pendente
+Lesser Damage,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 0.15f; TargetStored['HolyDamage'] = Source.SpellPower('Light') * 0.15f; TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 0.15f; TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 0.15f; TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * 0.15f; TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 0.15f,6,indefinido,Damaged.  ,pendente
+Lesser Heal,Normal,Common,,TargetStored['Healing'] = Source.SpellPower('Light') * .5f,1,indefinido,Healed.,pendente
+Lethal Life I,Normal,Common,HealthPerTurnPercent:Base:-10,,0,debuff,Lose 10% of your Max Health at the start of each turn.,pendente
+Lethal Life II,Normal,Common,HealthPerTurnPercent:Base:-15,,0,debuff,Lose 15% of your Max Health at the start of each turn.,pendente
+Lethal Life III,Normal,Common,HealthPerTurnPercent:Base:-20,,0,debuff,Lose 20% of your Max Health at the start of each turn.,pendente
+Lightning Shield,Normal,Common,ResistLightning:Base:10,,0,buff,@Lightning resistance@ increased by 10%.   Attackers take *0 lightning damage.,pendente
+Lingering Light,Normal,Common,,TargetStored['Healing'] = Source.SpellPower('Light') * .4f,1,indefinido,Restores *0 health per turn.,pendente
+Living Armor,Normal,Common,"Armor:Base:3.5f * Source.Level, MagicArmor:Base:3.5f * Source.Level",TargetStored['Healing'] = Source.SpellPower('Light') * .5f,1,buff,@armor@ and @magic armor@ increased by [0].   Regenerate *0 of @health@ each turn.,pendente
+March of the Warrior,Fortune,Rare,"TurnFreeMovementPoints:Base:{1,4, dr}",,0,buff,"@Movement Points@ increased by [0].  <i><color=#808080>""Your courage must not be reckless, but calculated. Do not fear death; for it is an eventual certainty. ""</i></color>",pendente
+Mark of the Alpha,Fortune,Mythic,"SummonDamageMod:Base:{5,25}, SummonHealthMod:Base:{5,25}",,0,buff,"<i><color=#808080>""Look at me, I'm the alpha now!</i></color>   Changes your @Nature Summons@ into @Pack Summons@. Increases Summon Damage and Health by {5,25}%",pendente
+Marked for Death,Normal,Common,DamageReduction:Base:-50,,0,debuff,Damage Taken increased by 50%.,pendente
+Marked Prey,Normal,Common,DamageReduction:Base:-10,,0,debuff,Damage taken increased by 10% per stack.,pendente
+Martial Prowess,Fortune,Rare,"DamageModPhysical:Base:{5,20}",,0,buff,"Increases @Physical Damage@ by {5,20}%.",pendente
+Masochism,Normal,Common,DamageMod:Base:2,,0,buff,Damage or healing increased by 2%.,pendente
+Masochism,Normal,Common,DamageMod:Base:5,,0,buff,Damage or healing increased by 5%.,pendente
+Mass Haunt,Normal,Common,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .5f,1,indefinido,Deals *0 damage.,pendente
+Master of Rage,Quest,Common,,,0,indefinido,Slay the nearby Wendigo. ,pendente
+Master of the Blade,Fortune,Mythic,"DamageModPhysical:Base:{8,40}",,0,buff,"<i><color=#808080>A true master of the blade.</color></i>  Increases @Physical Damage@ by {8,40}%. Physical damage you deal applies 1 stack of @Bleeding@.",pendente
+Meteor,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .6f,1,indefinido,Targets in burning ground receive *0 fire damage.,pendente
+Might,Normal,Common,MightBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),,0,buff,Might increased by [0].,pendente
+Might of the Conqueror,Normal,Common,CritChance:Set:100,,0,buff,Your next action has 100% Critical Hit Chance.,pendente
+Might of the Iceclaw,Normal,Common,"DamageMod:Base:50, ModelScaleMultiplier:Base:15",,0,buff,Damage increased by 50%.,pendente
+Might of the Warrior,Fortune,Rare,"MightBase:Base:{5,25}",,0,buff,"@Might@ increased by {5,25}.  <i><color=#808080>""Your strength lays in your conviction, your unyielding belief that this fight is right. The blade you wield is an extension of this conviction, a physical manifestation of your oath.""</i></color>",pendente
+Mind Blossom,Normal,Common,TeamIndexOverride:Set:Source.TeamIndex + 1,,0,indefinido,Charmed,pendente
+Mind Exhaustion,Normal,Common,IntelligenceBase:Percentage:-5,,0,debuff,Intelligence reduced by 5%,pendente
+Miniature,Normal,Common,"TurnFreeMovementPoints:Base:3, ExtraTurnActionPoints:Base:1, MaxHealth:Percentage:-25, DamageMod:Base:-25, ModelScaleMultiplier:Base:-25",,0,debuff,Movement increased by 3 Action Points increased by 1 Max Health reduced by 25% Damage reduced by 25%,pendente
+Mirror Shard,Fortune,Legendary,,,0,indefinido,Summon a Dark clone of yourself but it fights for you.   <i><color=#808080>You hold a shard of your shattered reflection!</color></i> ,pendente
+Missing Soul,Normal,Common,"MaxHealth:Percentage:-20, MaxMana:Percentage:-20",,0,debuff,Something important is missing from you. Max Health and Mana reduced by 20%. ,pendente
+Molten Crystal,Fortune,Mythic,,,0,indefinido,"<i><color=#808080>The magic crystal emanates heat.</color></i>  Allows you to summon a @level@ {1,30} Molten Golem to fight for you. Benefits from your @Fire Damage@.",pendente
+Molten Plating,Normal,Common,DamageReduction:Base:60,,0,buff,Damage taken reduced by 60%.,pendente
+Momentum,Normal,Common,"DamageMod:Base:Target[""MomentumValue""]",,0,buff,Damage or healing of your next action is increased by [0]%.,pendente
+Mortal Fracture,Normal,Common,"ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistPhysical:Base:-20, ResistDivine:Base:-20, HealingReceivedBonus:Base:-50",,0,debuff,@Resistances@ lowered by 20%. Reduces healing received by 50%.,pendente
+Mortally Wounded,Normal,Common,HealingReceivedBonus:Base:-25,,0,debuff,Reduces @Healing Received@ by @25%@ per stack.,pendente
+Muddled Movement I,Normal,Common,TurnFreeMovementPoints:Base:-1,,0,debuff,Movement Points reduced by 1.,pendente
+Muddled Movement II,Normal,Common,TurnFreeMovementPoints:Base:-2,,0,debuff,Movement Points reduced by 2.,pendente
+Muddled Movement III,Normal,Common,TurnFreeMovementPoints:Base:-3,,0,debuff,Movement Points reduced by 3.,pendente
+Muse,Normal,Common,ManaCostMod:Base:-10,,0,debuff,Mana costs reduced.,pendente
+Necromantic,Normal,Common,,,0,indefinido,Summons a Skeletal Warrior on death,pendente
+Necronomicon,Fortune,Mythic,"SummonDamageMod:Base:{5,25}, SummonHealthMod:Base:{5,25}",,0,buff,"<i><color=#808080>You carry the Necronomicon!</i></color>   Changes your @Skeletal Summons@ into something... stronger. Increases Summon Damage and Health by {5,25}%",pendente
+Negating Tonic,Normal,Common,MagicArmor:Base:50,,0,buff,Magic armor increased by 50.,pendente
+Nullifying Tonic,Normal,Common,MagicArmor:Base:100,,0,buff,Magic armor increased by 100.,pendente
+Obsidian Plating,Normal,Common,DamageReduction:Base:75,,0,buff,Damage taken reduced by 75%.,pendente
+Oculus Gem,Fortune,Rare,,,0,indefinido,"Teleports you randomly when struck. 4 turn cooldown.  <i><color=#808080>Where you'll go, nobody knows!</i></color> ",pendente
+Oil of Acceleration,Normal,Common,TurnFreeMovementPoints:Base:5,,0,buff,Movement Points increased by 5.,pendente
+Oil of Alacrity,Normal,Common,TurnFreeMovementPoints:Base:4,,0,buff,Movement Points increased by 4.,pendente
+Oil of Momentum,Normal,Common,TurnFreeMovementPoints:Base:2,,0,buff,Movement Points increased by 2.,pendente
+Oil of Movement,Normal,Common,TurnFreeMovementPoints:Base:1,,0,buff,Movement Points increased by 1.,pendente
+Oil of Speed,Normal,Common,TurnFreeMovementPoints:Base:3,,0,buff,Movement Points increased by 3.,pendente
+One Punch Monk,Normal,Common,DamageMod:Base:Target.UsingIgnoreCostAction ? 0 : 200,,0,indefinido,Your next ability has its damage or healing tripled.,pendente
+Otherworldly Tether,Normal,Common,Invincible:Set:1,,0,buff,The Dead One's tether to this world wanes.  Lasts [0] more round(s).,pendente
+Overcharge,Normal,Common,,,0,indefinido,Adds *0 lightning damage to your next basic attack.  Can stack up to 10 times.,pendente
+Overflowing Energy,Fortune,Rare,"IntelligenceBase:Base:{3,15}, ManaCostMod:Base:{4,20}, ManaPowerMod:Base:{8,40}",,0,buff,"Increases @Mana Costs@ by {4,20}%, power of all @Mana Abilites@ by {8,40}% and @Intelligence@ by {3,15}.  <i><color=#808080>The energies of a Mana Spring swell within you!</i></color> ",pendente
+Overgrow,Normal,Common,"DamageMod:Base:25, MaxHealth:Percentage:25, ModelScaleMultiplier:Base:25",,0,buff,Increases Damage Dealt and Max Health by 25%.,pendente
+Overload,Normal,Common,CritChance:Set:100,,0,buff,Critical Hit Chance set to 100%.,pendente
+Overwhelming Power,Normal,Common,DamageMod:Base:100,,0,buff,Increases the damage or healing of your next skill by 100%.,pendente
+Pain Suppression,Normal,Common,DamageReduction:Base:50,,0,buff,Damage Reduction increased by 50%.,pendente
+Patient Hunter,Normal,Common,"DamageMod:Base:10, RangeTypeAdderRanged:Base:1",,0,buff,"Damage increased by 10%, Range increased by 1 per stack.",pendente
+Perfect Rage,Normal,Common,"DamageMod:Base:{50,100}, ModelScaleMultiplier:Base:20, AiControlledPlayer:Set:1",,0,buff,Cannot control your character. Increases damage by [0]%. Grants enrage.,pendente
+Perfect Rage,Fortune,Mythic,,,0,indefinido,"Grants the skill Perfect Rage.  <i><color=#808080>""Rage, like fire, in our veins does ignite, A storm within, both destroyer and might.""</i></color> ",pendente
+Petrification,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageReduction:Base:-20",,0,debuff,Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.,pendente
+Petrify,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-100",,0,buff,Stunned.  Damage Taken increased by 100%.,pendente
+Phoenix Feather,Fortune,Rare,,,0,indefinido,"Brings you back with 20% Health. 1 charge per Quest.  <i><color=#808080>""The glowing feather of a Phoenix.""</color></i> ",pendente
+Physical Thorns,Normal,Common,"DamageReturnedFlatPhysical:Base:{1,300}",,0,indefinido,Reflects [0] physical damage back to attackers.,pendente
+Pirate's Rum,Fortune,Legendary,"DamageReduction:Base:{5,20}",,0,debuff,"Increases @Damage Reduction@ by {5,20}%.  <i><color=#808080>Numbs everything, including pain!</i></color> ",pendente
+Point Blank,Normal,Common,DamageMod:Base:50,,0,buff,Ranged spells deal damage the closer you are. Calculates how much ranged you have and the closer you are from your max range the more damage you deal.,pendente
+Point Blank,Fortune,Mythic,"PerHexRangeDamageInverseBonus:Base:{3, 12}",,0,buff,"Your ranged damage is increased by [0]% for every hex less than your max range you use.  <i><color=#808080>""Hardest shot in all the land!""</color></i>",pendente
+Poison Thorns,Normal,Common,,,0,indefinido,Attackers take 2 stacks of poison.,pendente
+Poison Weapon,Normal,Common,,,0,indefinido,Attacks apply @1@ stack of poison.,pendente
+Poisoned,Normal,Common,"HealingReceivedBonus:Base:-1, PoisonDamage:Base:Mathf.Max(1, Source.GetCustomActionDamage(""GL-Poisoned"", ""TargetStored[\""ShadowDamage\""] = Source.SpellPower(\""Shadow\"") * .1f"")), ContagionLevel:Base:Source[""ContagionSource""] > 0 ? 1 : 0",,0,debuff,Target takes [1] shadow damage each turn. Reduces healing taken by [0]%.,pendente
+Polished,Fortune,Uncommon,"Armor:Base:{15,250}, MagicArmor:Base:{15,250}",,0,buff,"Increases @Armor@ and @Magic Armor@ by {15,250}.",pendente
+Potion of Avoidance,Normal,Common,ReflexBase:Base:20,,0,buff,Reflex increased by 20.,pendente
+Potion of Brawn,Normal,Common,MightBase:Base:10,,0,buff,Might increased by 10.,pendente
+Potion of Celerity,Normal,Common,DexterityBase:Base:20,,0,buff,Dexterity increased by 20.,pendente
+Potion of Dexterity,Normal,Common,DexterityBase:Base:30,,0,buff,Dexterity increased by 30.,pendente
+Potion of Dexterity,Normal,Common,DexterityBase:Base:50,,0,buff,Dexterity increased by 50.,pendente
+Potion of Dexterity,Normal,Common,DexterityBase:Base:10,,0,buff,Dexterity increased by 10.,pendente
+Potion of Dexterity,Normal,Common,DexterityBase:Base:40,,0,buff,Dexterity increased by 40.,pendente
+Potion of Dodging,Normal,Common,ReflexBase:Base:40,,0,buff,Reflex increased by 40.,pendente
+Potion of Eluding,Normal,Common,ReflexBase:Base:10,,0,buff,Reflex increased by 10.,pendente
+Potion of Endurance,Normal,Common,VitalityBase:Base:20,,0,buff,Vitality increased by 20.,pendente
+Potion of Evasion,Normal,Common,ReflexBase:Base:50,,0,buff,Reflex increased by 50.,pendente
+Potion of Fire Protection,Normal,Common,"ImmunityHeat:Set:1, ResistFire:Base:30",,0,buff,Fire resistance increased by 30%.   Immune to Heat.,pendente
+Potion of Force,Normal,Common,MightBase:Base:40,,0,buff,Might increased by 40.,pendente
+Potion of Fortitude,Normal,Common,VitalityBase:Base:40,,0,buff,Vitality increased by 40.,pendente
+Potion of Frost Protection,Normal,Common,"ImmunityChilled:Set:1, ResistCold:Base:30",,0,buff,Cold resistance increased by 30%.   Immune to Chilled.,pendente
+Potion of Intelligence,Normal,Common,IntelligenceBase:Base:40,,0,buff,Intelligence increased by 40.,pendente
+Potion of Life,Normal,Common,VitalityBase:Base:50,,0,buff,Vitality increased by 50.,pendente
+Potion of Lightning Protection,Normal,Common,"ImmunityShocked:Set:1, ResistLightning:Base:30",,0,buff,Lightning resistance increased by 30%.   Immune to Shocked.,pendente
+Potion of Might,Normal,Common,MightBase:Base:30,,0,buff,Might increased by 30.,pendente
+Potion of Mind,Normal,Common,IntelligenceBase:Base:50,,0,buff,Intelligence increased by 50.,pendente
+Potion of Physical Protection,Normal,Common,"ImmunityBleeding:Set:1, ResistPhysical:Base:30",,0,buff,Physical resistance increased by 30%.   Immune to Bleed.,pendente
+Potion of Power,Normal,Common,MightBase:Base:50,,0,buff,Might increased by 50.,pendente
+Potion of Reason,Normal,Common,IntelligenceBase:Base:20,,0,buff,Intelligence increased by 20.,pendente
+Potion of Recovery,Normal,Common,"HealthPerTurnPercent:Base:8, ManaPerTurnPercent:Base:8",,0,buff,Recover 8% of Max Health and Mana per turn.,pendente
+Potion of Recovery,Normal,Common,HealthPerTurnPercent:Base:15,,0,buff,Recover 15% of Max Health per turn.,pendente
+Potion of Recovery,Normal,Common,ManaPerTurnPercent:Base:15,,0,buff,Recover 15% of Max Mana per turn.,pendente
+Potion of Reflex,Normal,Common,ReflexBase:Base:30,,0,buff,Reflex increased by 30.,pendente
+Potion of Strength,Normal,Common,MightBase:Base:20,,0,buff,Might increased by 20.,pendente
+Potion of Thought,Normal,Common,IntelligenceBase:Base:30,,0,buff,Intelligence increased by 30.,pendente
+Potion of Vigor,Normal,Common,VitalityBase:Base:5,,0,buff,Vitality increased by 5.,pendente
+Potion of Vitality,Normal,Common,VitalityBase:Base:30,,0,buff,Vitality increased by 30.,pendente
+Potion of Wits,Normal,Common,IntelligenceBase:Base:10,,0,buff,Intelligence increased by 10.,pendente
+Power Globule,Normal,Common,"DamageMod:Base:10, SummonDamageMod:Base:10",,0,buff,Increases damage and summon damage by 10%,pendente
+Prepared,Normal,Common,"DropQuantityMod:Base:20, GoldMod:Base:20",,0,buff,Item and gold drops are increased by 20%.,pendente
+Prismatic Tonic,Normal,Common,MagicArmor:Base:800,,0,buff,Magic armor increased by 800.,pendente
+Protection Flask,Normal,Common,Armor:Base:100,,0,buff,Armor increased by 100.,pendente
+Quick Draw,Normal,Common,QuickDraw:Set:1,,0,buff,Your next 3 basic attacks have no AP cost.,pendente
+Rage,Normal,Common,"DamageMod:Base:15, DamageReduction:Base:-15, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",,0,buff,Increases damage dealt and max life by 15%. Increases damage received by 15%.,pendente
+Rage of the Dwarf King,Normal,Common,"DamageMod:Base:30, ModelScaleMultiplier:Base:10",,0,buff,Increases damage dealt by 30%.,pendente
+Rage Spores,Normal,Common,"DamageMod:Base:25, DamageReduction:Base:-25",,0,buff,Increases damage dealt and received by 25%.,pendente
+Rage Unleashed,Normal,Common,"DamageMod:Base:50, DamageReduction:Base:-50",,0,buff,"@Damage@ dealt and taken increased by @50@%.  <i><color=#808080>""You have given into your rage!""</i></color>",pendente
+Rainstorm,Normal,Common,ManaPowerMod:Base:50,,0,buff,Increases the power of mana using abilities by 50%.,pendente
+Raise Skeletal Lackey,Normal,Common,,,0,indefinido,Provides invulnerability to all allies.,pendente
+Raise Skeletal Lackey,Normal,Common,"MaxHealth:Multiplicative:.5, DamageMod:Multiplicative:.5, Armor:Multiplicative:.5, DodgeChance:Multiplicative:.5, MagicArmor:Multiplicative:.5, ModelScaleMultiplier:Set:-40",,0,debuff,"Max Health, Damage, Armor, and Dodge Chance reduced by 50%.",pendente
+Rally,Normal,Common,TurnFreeMovementPoints:Base:3,Target['FreeMovementPoints'] = Target['FreeMovementPoints'] + 3,1,buff,Increases @movement points@ by 3.,pendente
+Rampage,Normal,Common,"ExtraTurnActionPoints:Base:1, ModelScaleMultiplier:Base:15, DamageMod:Base:50, DamageReduction:Base:-50",,0,buff,Increases damage dealt and taken by 50%. Grants 1 additional Action Point,pendente
+Rampaging,Normal,Common,"DamageMod:Base:50, ResistCold:Base:-25, ResistFire:Base:-25, ResistLightning:Base:-25, ResistPhysical:Base:-25, CanEnrage:Set:1",,0,debuff,Increased damage by 50% All resistances lowered by 25% Control Resistance,pendente
+Ranged Precision,Normal,Common,PerHexRangeDamageBonus:Base:1,,0,buff,Every hex between you and your target increases damage dealt by an additional 1%.,pendente
+Ready to Explode!,Normal,Common,,,0,indefinido,Will explode next turn.,pendente
+Reaper Aura,Normal,Common,"LifeOnHit:Base:Mathf.Round(8 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Lifesteal increased by [0]%.,pendente
+Reduced Resistances I,Normal,Common,"ResistCold:Base:-10, ResistFire:Base:-10, ResistLightning:Base:-10, ResistPhysical:Base:-10",,0,debuff,All Resistances reduced by 10%,pendente
+Reduced Resistances II,Normal,Common,"ResistCold:Base:-20, ResistFire:Base:-20, ResistLightning:Base:-20, ResistPhysical:Base:-20",,0,debuff,All Resistances reduced by 20%,pendente
+Reduced Resistances III,Normal,Common,"ResistCold:Base:-30, ResistFire:Base:-30, ResistLightning:Base:-30, ResistPhysical:Base:-30",,0,debuff,All Resistances reduced by 30%,pendente
+Regenerate,Normal,Common,,TargetStored['HolyDamage'] = Source.SpellPower('Light') * .5f,1,indefinido,Deals *0 holy damage per turn.,pendente
+Regenerate,Normal,Common,,TargetStored['Healing'] = Source.SpellPower('Light') * .5f,1,indefinido,Restores *0 health per turn.,pendente
+Regenerating,Normal,Common,HealthPerTurnPercent:Base:10,,0,buff,Gain 10% @Max Health@ regen per turn.,pendente
+Resilient,Normal,Common,"ResistCold:Base:25, ResistFire:Base:25, ResistLightning:Base:25, ResistPhysical:Base:25, ResistDivine:Base:25",,0,buff,All Resistances increased by 25%,pendente
+Resonating Refrain,Normal,Common,,,0,indefinido,Deals [0] physical damage in a 4 hex area whenever you act.,pendente
+Restrained,Normal,Common,ReflexBase:Percentage:-20,,0,debuff,Reduces @Reflex@ by @20%@ per stack.,pendente
+Restricted Range I,Normal,Common,RangeTypeAdderRanged:Base:-2,,0,debuff,Range is reduced by 2 Hexes.,pendente
+Restricted Range II,Normal,Common,RangeTypeAdderRanged:Base:-4,,0,debuff,Range is reduced by 4 Hexes.,pendente
+Restricted Range III,Normal,Common,RangeTypeAdderRanged:Base:-6,,0,debuff,Range is reduced by 6 Hexes.,pendente
+Rhythm of Recovery,Normal,Common,"HealthPerTurnPercent:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Recovery""), ManaPerTurnPercent:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Recovery"")",,0,buff,Regain [0]% of Life and Mana each turn.,pendente
+Ritual Sickness,Normal,Common,DarkRitualedRecently:Set:1,,0,buff,Cannot have Dark Ritual cast on you,pendente
+Rogue Aura,Normal,Common,"DodgeChance:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Increases dodge chance by [0]%.,pendente
+Ruby of Rancor,Normal,Common,"ManaCostMod:Set:{-25,-100}",,0,debuff,"3 extra Action Points granted. Mana Costs reduced by {25,100}%. Die at the end of your turn.",pendente
+Ruby of Rancor,Fortune,Mythic,,,0,debuff,"Grants 1 charge of Ruby of Rancor: Grants 3 extra Action Points and reduces Mana Costs. Die at the end of your turn.  <i><color=#808080>The gem seems to hum in your grasp, as if resonating with your heartbeat, its pulses syncing with your own.</color></i>",pendente
+Ruby Protection,Normal,Common,DamageReduction:Base:25,,0,buff,Damage taken reduced by 25%.,pendente
+Ruby Rancor,Normal,Common,ExtraTurnActionPoints:Set:1,,0,buff,Grants an additional Action Point.,pendente
+Rune of Exploding,Normal,Common,,,0,indefinido,,pendente
+Rune of Refreshment,Fortune,Mythic,,,0,indefinido,Reset all cooldowns. Cost 75% of Max Mana. 1 charge per battle.  <i><color=#808080>A tremendous sacrifice is required to power this inert rune.</color></i>,pendente
+Salvation,Normal,Common,MaxHealth:Percentage:10,,0,buff,@Maximum health@ increased by 10% per stack.,pendente
+Sandstone Plating,Normal,Common,DamageReduction:Base:50,,0,buff,Damage taken reduced by 50%.,pendente
+Savage Scorn,Normal,Common,DamageReduction:Base:-20,,0,debuff,Damage taken increased by 20%.,pendente
+Scroll of Monster Summoning,Fortune,Legendary,,,0,indefinido,"Summons a random @level@ {1,30} Monster to fight for you.  <i><color=#808080>""Something on this list has to be useful...""</i></color>",pendente
+Seal of Might,Normal,Common,DamageMod:Base:30,,0,buff,Damage increased by 30%.,pendente
+Seal of Protection,Normal,Common,DamageReduction:Base:10,,0,buff,Decreases damage taken by 10%.,pendente
+Seal of Salvation,Normal,Common,,TargetStored['Healing'] = Source.SpellPower() * 1f,1,indefinido,Restores *0 health per turn.,pendente
+Self Awareness,Normal,Common,"MaxHealth:Percentage:-20, CritChance:Base:10",,0,debuff,Max Health is reduced by 20%. Crit Chance is increased by 10%.,pendente
+Self Doubt,Normal,Common,"MaxMana:Percentage:-20, DodgeChance:Base:10",,0,debuff,Max Mana is reduced by 20%. Dodge Chance is increased by 10%.,pendente
+Seraph Aura,Normal,Common,"HealthPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,indefinido,Recover [0]% of maximum health each turn. ,pendente
+Severely Burned,Normal,Common,ResistFire:Base:-25,,0,debuff,Reduces @Fire Resistance@ by @25%@ per stack.,pendente
+Shadow-Drenched Heart,QuestItem,Common,,,0,indefinido,,pendente
+Shaman Aura,Normal,Common,"ManaPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,indefinido,Recover [0]% of maximum mana each turn. ,pendente
+Shapeshift: Black Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a Black Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,pendente
+Shapeshift: Blue Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Blue Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,pendente
+Shapeshift: Box,Normal,Common,"DamageReduction:Base:-100, Rooted:Set:1, Silenced:Set:1",,0,buff,Shapeshifted into a box. Damage taken increased by 100%.,pendente
+Shapeshift: Dire Werewolf,Normal,Common,,,0,buff,Shapeshifted into a Dire Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,pendente
+Shapeshift: Green Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Green Dragonkin. Basic attack empowered. Gain new abilities. Armor and Lightning Resistance increased.,pendente
+Shapeshift: Red Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Red Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,pendente
+Shapeshift: Vampire Bat,Normal,Common,TurnFreeMovementPoints:Base:4,Target['FreeMovementPoints'] = Target['FreeMovementPoints'] + 4,1,buff,Shapeshifted into a Vampire Bat. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
+Shapeshift: Werewolf,Normal,Common,,,0,buff,Shapeshifted into a Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,pendente
+Shapeshift: White Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a White Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,pendente
+Sharpened,Fortune,Uncommon,DamageFlatPhysical:Base:ActionStatus.GetFlatDamageValue,,0,buff,Increases @Physical Damage@ by GetFlatDamageValue().,pendente
+Shield Flask,Normal,Common,Armor:Base:400,,0,buff,Armor increased by 400.,pendente
+Shield of Light,Normal,Common,,,0,indefinido,Shielded from [0] damage.,pendente
+Shield of Retribution,Normal,Common,"ShieldOfRetribution:Base:Source.SpellPower(""Light"") * 3f * Source.DamageModHealing",,0,indefinido,Shielded from [0] damage.,pendente
+Shield of the Guardian,Fortune,Rare,"ResistPhysical:Base:{4,12}, ResistCold:Base:{4,12}, ResistFire:Base:{4,12}, ResistLightning:Base:{4,12}, ResistDivine:Base:{4,12}",,0,buff,"Increases all @Resistances@ by {4,12}%  <i><color=#808080>""To protect what is most important. Both heart and home.""</i></color>",pendente
+Shocked,Normal,Common,CritDamageTarget:Base:10,,0,buff,Incoming critical strike damage increased by 10% per stack.  Lasts 3 turns.  Can stack up to 10 times.,pendente
+Shocked,Normal,Common,ResistLightning:Base:-25,,0,debuff,Reduces @Lightning Resistance@ by @25%@ per stack.,pendente
+Shocking Aura,Normal,Common,,,0,indefinido,*0 lightning damage dealt to enemies within the aura each time they perform an action.,pendente
+Silver Signet,Fortune,Legendary,"AdditionalWeaponDamage:Base:Source[""Armor""] * {.01f, .01f}, Armor:Base:{8, 200}",,0,indefinido,"Grants {8,200} Armor. 1% of your Armor is added as Additional Weapon Damage.  <i><color=#808080>""Be both the storm and the mountain, in war's tumultuous dance, Blend the fury of offense, with defense's steadfast stance.""</i></color>  ",pendente
+Sleep,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-50",,0,buff,Cannot move or perform actions and damage taken increased by 50%.  Can be awakened by getting attacked.,pendente
+Sleep,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-50",,0,indefinido,Asleep.,pendente
+Slightly Petrified,Fortune,Uncommon,"TurnFreeMovementPoints:Base:{-1, -1}, Armor:Base:{8,200}",,0,debuff,"@Armor@ increased by {8,200}. @Movement@ reduced by @1@.",pendente
+Slow,Normal,Common,MovementCostPerHexMod:Set:100,,0,buff,Movement costs doubled.,pendente
+Slow Poison Aura,Normal,Common,,,0,indefinido,Applies bleeding to enemies in range.,pendente
+Slow Poison Aura,Normal,Common,,,0,indefinido,Slows and applies poison to enemies in range.,pendente
+Slowed,Normal,Common,"CooldownMod:Base:1, CooldownModBasic:Base:-1",,0,buff,@Cooldowns@ increased by @1@ turn.,pendente
+Sludge,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageMod:Base:-5, RangeTypeAdderRanged:Base:-1",,0,debuff,Lowers movement and range by 1 and lowers Damage by 5% per stack.,pendente
+Sludge Bolt,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageMod:Base:-10, RangeTypeAdderRanged:Base:-1",,0,debuff,Lowers movement and range by 1 and lowers Damage by 10% per stack.,pendente
+Smashed,Normal,Common,"MightBase:Percentage:-15, DexterityBase:Percentage:-15, IntelligenceBase:Percentage:-15, VitalityBase:Percentage:-15, ReflexBase:Percentage:-15",,0,debuff,Breathing hurts quite a bit. All stats reduced by 15%,pendente
+Smelt,Normal,Common,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .6f,1,indefinido,Target takes *0 fire damage per turn.,pendente
+Smoke Bomb,Normal,Common,DodgeChance:Base:50,,0,buff,@Dodge chance@ increased by 50%.,pendente
+Smoke Cloud,Normal,Common,DodgeChance:Base:50,,0,buff,@Dodge chance@ increased by 50%.,pendente
+Song of Swiftness,Normal,Common,"DexterityBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Swiftness""), ReflexBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Swiftness"")",,0,buff,Dexterity and Reflex increased by [0].,pendente
+Soul Fire,Normal,Common,HealingReceivedBonus:Base:-50,,0,debuff,Healing Received reduced by 50%.,pendente
+Soul Fracture,Normal,Common,"MaxHealth:Percentage:-25, MaxMana:Percentage:-25",,0,debuff,@Maximum health@ and @maximum mana@ lowered by 25%.,pendente
+Soul Link,Normal,Common,SoulLink:Set:1,,0,buff,All damage and healing dealt to one target is also dealt to the linked target.,pendente
+Soul of Fire,Normal,Common,HealingReceivedBonus:Base:-5,,0,debuff,Healing received reduced by 5% per stack.,pendente
+Soul of Fire,Fortune,Mythic,"DamageModFire:Base:{6,30}, SoulOfFire:Set:{1, 1}",,0,debuff,"Gain {6,30}% Increased Fire Damage. Your stacks of Heat now reduce Healing Received by 5% per stack.  <i><color=#808080>The burning soul of Lord Infernicus!</color></i> ",pendente
+Spectral Binding,Normal,Common,Invincible:Set:1,,0,buff,Will leave when finished playing with you.,pendente
+Spectral Mark,Normal,Common,DamageReduction:Base:-50,,0,debuff,Damage taken increased by 50%.,pendente
+Spore Cloud,Normal,Common,"DamageMod:Base:-10, TurnFreeMovementPoints:Base:-1",,0,debuff,Decreases damage dealt by 10% and movement by 1. Stacks up to 5 times.,pendente
+Stalker's Mark,Normal,Common,"CritChanceTarget:Base:12, DamageReduction:Base:-25",,0,buff,Chance of suffering critical strikes increased by 12%. Damage taken increased by 25%.,pendente
+Stasis,Normal,Common,"Rooted:Set:1, Armor:Base:15 * Source.Level, MagicArmor:Base:15 * Source.Level",,0,buff,@Armor@ and @Magic Armor@ increased by [0].   Immobilized.,pendente
+Stealth,Normal,Common,"Hidden:Set:1, UntargetableByEnemies:Set:1",,0,buff,Invisible.  Attacking from Stealth has 100% critical hit chance.,pendente
+Stealth,Normal,Common,"Hidden:Set:1, UntargetableByEnemies:Set:1",,0,buff,Invisible. Attacking from Stealth has 100% critical hit chance.,pendente
+Stoney Visage,Normal,Common,,,0,buff,Enemies gain 1 stack of Petrification when hitting Medusa.,pendente
+Strength,Fortune,Common,"MightBase:Base:{4,20}",,0,buff,"@Might@ increased by {4,20}.",pendente
+Strength of the Ymir,Fortune,Mythic,"CanDualWieldTwoHanded:Set:1 * (1 + ((StatusLevel - 1) * (0.23))), StrengthOfYmirDamageReduction:Base:Target.IsDualWielding2H ? {50,35} : 0",,0,debuff,"Allows you to wield Two-handed Axes, Swords, and Hammers in one hand. Weapon Damage is lowered by {50,35}% if you choose to do so.  <i><color=#808080>You carry the Might of the Ymir!</color></i>",pendente
+Stunned,Normal,Common,"Rooted:Set:1, Disabled:Set:1",,0,buff,Cannot move or perform actions.,pendente
+Stunned,Normal,Common,"Rooted:Set:1, Disabled:Set:1",,0,buff,Stunned.,pendente
+Sundered,Normal,Common,ResistPhysical:Base:-25,,0,debuff,Reduces @Physical Resistance@ by @25%@ per stack.,pendente
+Swan Song,Normal,Common,Invincible:Set:1,,0,buff,Invincible.,pendente
+Swiftness,Normal,Common,TurnFreeMovementPoints:Base:1,,0,buff,Movement increased by [0].,pendente
+Sword of the Guardian,Fortune,Rare,"DamageMod:Base:{5, 20}",,0,buff,"Increases @Damage@ by {5, 20}%.  <i><color=#808080>""To strike down those who would harm. In defense of the defenseless.""</i></color>",pendente
+Tadashi's Armor,Normal,Common,,,0,indefinido,Absorbs the next attack.,pendente
+Tadashi's Ritual,Normal,Common,DarkRitual:Set:1,,0,buff,Health cannot drop below 1.,pendente
+Taste for Blood,Fortune,Rare,"LifeOnHit:Base:{4, 4}",,0,buff,"Increases @Life Steal@ by 4%.  <i><color=#808080>""Everyone needs to eat.""</i></color>",pendente
+Taunted,Normal,Common,Taunted:Set:1,,0,buff,Taunted.,pendente
+Taunted,Normal,Common,"DamageMod:Base:-20, Taunted:Set:1",,0,debuff,Forced to attack the taunter. Damage reduced by 20%.,pendente
+Teleporting,Normal,Common,,,0,indefinido,Teleports randomly when struck,pendente
+Tempered Rage,Normal,Common,"DamageMod:Base:15, Armor:Percentage:15, MagicArmor:Percentage:15, ModelScaleMultiplier:Base:10",,0,buff,"Increases Damage, Armor, and Magic Armor by 15%.",pendente
+Tenacity of the Forest,Normal,Common,VitalityBase:Base:5+(5*0.2*IslandLevel)-(5*0.2),,0,buff,Vitality increased by [0].,pendente
+Test Event Status - Boss Event,Normal,Common,,,0,indefinido,A key,pendente
+Test Event Status - Critical Failure,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",,0,debuff,Critical Failure,pendente
+Test Event Status - Critical Success,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",,0,debuff,Critical Success,pendente
+Test Event Status - Failure,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",,0,debuff,Failure,pendente
+Test Event Status - Success,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",,0,debuff,Success,pendente
+Test Event Status - Test Key,QuestItem,Common,,,0,indefinido,A key,pendente
+Test Fortune,Fortune,Mythic,DamageModColdToFrozen:Base:100 * (1 + ((StatusLevel - 1) * (0.23))),,0,indefinido,,pendente
+The Animator - Quest Accept,Quest,Common,,,0,indefinido,,pendente
+The Bad Bloom,Normal,Common,,,0,buff,Enemies gain 2 stacks of poison.,pendente
+The Good Bloom,Normal,Common,,TargetStored['Healing'] = Source.SpellPower() * .4f; TargetStored['ManaDamage'] = Source.SpellPower() * -.4f,2,indefinido,Heals for *0 @health@ and @mana@.,pendente
+The Heart of Iron,Fortune,Mythic,,,0,indefinido,"<i><color=#808080>You bear the Heart of Iron!</i></color>   Allows you to raise a @level@ {1,30} Iron Golem to fight for you. Benefits from your @Physical Damage@.",pendente
+The Mad Mage - Part 1,Quest,Common,,,0,indefinido,,pendente
+The Mad Mage - Part 2,Quest,Common,,,0,indefinido,,pendente
+The Mad Mage - Part 4,Quest,Common,,,0,indefinido,,pendente
+The Mad Mage - Part 5,Quest,Common,,,0,indefinido,,pendente
+The True King,Fortune,Mythic,"DamageModHealing:Base:{6,30}, ManaCostModLight:Base:{-10000, -10000}",,0,debuff,"Light Spells no longer cost mana to cast. @Holy Power@ increased by {6,30}%.  <i><color=#808080>""The light is your birth right.""</color></i> ",pendente
+Thunder Charged,Normal,Common,ModelScaleMultiplier:Base:10,,0,buff,The next damage you deal causes a Thunder Bolt to strike your target. Stacks.,pendente
+Thunder Crystal,Fortune,Mythic,,,0,indefinido,"<i><color=#808080>Energy hums within this magic crystal.</color></i>  Allows you to summon a @level@ {1,30} Thunder Golem to fight for you. Benefits from your @Lightning Damage@.",pendente
+Titan Bloom,Normal,Common,"DamageMod:Base:15, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:10",,0,buff,Increases Max Health and Damage by [0]%. Stacks.,pendente
+Tome of Tadashi,Fortune,Legendary,"DodgeChance:Base:{2,10}",,0,indefinido,"Grants spells that can allow the user to escape death. Grants {2,10}% Dodge Chance.  <i><color=#808080>""Living is more than just staying alive, but staying alive can certainly help.""</i></color>  ",pendente
+Torn Soul,Normal,Common,"MightBase:Percentage:-5, DexterityBase:Percentage:-5, IntelligenceBase:Percentage:-5, VitalityBase:Percentage:-5, ReflexBase:Percentage:-5",,0,debuff,All stats reduced by 5%,pendente
+Touch of Flame,Fortune,Rare,DamageFlatFire:Base:ActionStatus.GetFlatDamageValue,,0,buff,Increases @Fire Damage@ by GetFlatDamageValue().,pendente
+Touch of Frost,Fortune,Rare,DamageFlatCold:Base:ActionStatus.GetFlatDamageValue,,0,buff,Increases @Cold Damage@ by GetFlatDamageValue().,pendente
+Touch of Thunder,Fortune,Rare,DamageFlatLightning:Base:ActionStatus.GetFlatDamageValue,,0,buff,Increases @Lightning Damage@ by GetFlatDamageValue().,pendente
+Toxic,Normal,Common,,,0,indefinido,Applies @2@ @poison@ when striking Applies @2@ @poison@ when struck,pendente
+Tracker's Mark,Normal,Common,"CritChanceTarget:Base:8, DamageReduction:Base:-15",,0,buff,Chance of suffering critical strikes increased by 8%. Damage taken increased by 15%.,pendente
+Tranquility of the Forest,Normal,Common,Recovery:Base:5+(5*0.2*IslandLevel)-(5*0.2),,0,buff,Recovery increased by [0].,pendente
+Transcendence,Normal,Common,Invincible:Set:1,,0,buff,Cannot take damage.,pendente
+Transcendence,Fortune,Mythic,"MaxHealth:Multiplicative:{.5,.65}",,0,debuff,"Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",pendente
+Treasure of Moltendunn,Quest,Common,,,0,indefinido,,pendente
+Trial of the Ymir,Quest,Common,,,0,indefinido,A greater challenge looms ahead.,pendente
+Trophy Hunter,Normal,Common,DamageMod:Base:10,,0,buff,@Damage Dealt@ increased by 10% per stack.,pendente
+Uncanny Evasion,Normal,Common,,,0,indefinido,Dodging incoming attacks.,pendente
+Uncanny Evasion,Normal,Common,CounterAttackDamageMod:Base:50,,0,buff,Increases Counter Attack damage by 50%.,pendente
+Undying,Normal,Common,,,0,indefinido,Applies Dark Ritual on death,pendente
+Unholy Sacrifice,Fortune,Mythic,"DamageModShadow:Base:{6,30}",,0,buff,"Grants the skill @Unholy Sacrifice@. Increases @Shadow Damage@ by {6,30}%.",pendente
+Unyielding Contender,Normal,Common,"Armor:Percentage:50, MagicArmor:Percentage:50, MaxHealth:Percentage:50",,0,buff,"Grants 50% increased Armor, Magic Armor, and Max Health.",pendente
+Vampire Lord Aura,Normal,Common,LifeSteal:Base:50,,0,buff,@Life steal@ increased by 50%.,pendente
+Vampiric,Normal,Common,LifeOnHit:Base:10,,0,buff,Life Steal increased by 10%,pendente
+Vampiric Aura,Normal,Common,LifeOnHit:Base:5,,0,buff,@Life Steal@ increased by 5%.,pendente
+Vampiric Aura,Normal,Common,LifeSteal:Base:20,,0,buff,@Life steal@ increased by 20%.,pendente
+Vampiric Aura,Normal,Common,LifeOnHit:Base:5,,0,buff,@Life steal@ increased by 5%.,pendente
+Vampiric Aura,Normal,Common,LifeSteal:Base:50,,0,buff,@Life steal@ increased.,pendente
+Vampirism,Fortune,Mythic,"LifeOnHit:Base:{12,12}, ChildOfTheAbyss:Set:{1,1}, DamageMod:Base:{35,35}, ResistFire:Base:{-25,-25}",,0,debuff,"Increases @Life Steal@ by @12@% and @Damage@ by @35@%.  Gain the ability to shapeshift into a @Vampire Bat@.  Decreases @Fire Resistance@ by @25@%. Can no longer heal from anything but lifesteal.  <i><color=#808080>""A vampire not evil, a paradox in twilight's gleam, Cleansing the world, in a dark redemption's dream.""</i></color>  ",pendente
+Variety: Fire I,Normal,Common,DamageModFire:Base:40,,0,buff,Increases @Fire Damage@ dealt by 40%.,pendente
+Variety: Fire II,Normal,Common,DamageModFire:Base:100,,0,buff,Increases @Fire Damage@ dealt by 100%.,pendente
+Variety: Frost I,Normal,Common,DamageModCold:Base:40,,0,buff,Increases @Cold Damage@ dealt by 40%.,pendente
+Variety: Frost II,Normal,Common,DamageModCold:Base:100,,0,buff,Increases @Cold Damage@ dealt by 100%.,pendente
+Variety: Holy I,Normal,Common,DamageModHealing:Base:40,,0,buff,Increases @Holy Power@ by 40%.,pendente
+Variety: Holy II,Normal,Common,DamageModHealing:Base:100,,0,buff,Increases @Holy Power@ by 100%.,pendente
+Variety: Lightning I,Normal,Common,DamageModLightning:Base:40,,0,buff,Increases @Lightning Damage@ dealt by 40%.,pendente
+Variety: Lightning II,Normal,Common,DamageModLightning:Base:100,,0,buff,Increases @Lightning Damage@ dealt by 100%.,pendente
+Variety: Physical I,Normal,Common,DamageModPhysical:Base:40,,0,buff,Increases @Physical Damage@ dealt by 40%.,pendente
+Variety: Physical II,Normal,Common,DamageModPhysical:Base:100,,0,buff,Increases @Physical Damage@ dealt by 100%.,pendente
+Variety: Shadow I,Normal,Common,DamageModShadow:Base:40,,0,buff,Increases @Shadow Damage@ dealt by 40%.,pendente
+Variety: Shadow II,Normal,Common,DamageModShadow:Base:100,,0,buff,Increases @Shadow Damage@ dealt by 100%.,pendente
+Vengeful,Normal,Common,,,0,buff,Gains increased damage for each ally killed,pendente
+Vengeful,Normal,Common,"DamageMod:Base:15, ModelScaleMultiplier:Base:5",,0,buff,Increases damage dealt by 15%.,pendente
+Vengeful Shadows,Normal,Common,,,0,indefinido,Attackers take [0] shadow damage.,pendente
+Venomous Skin,Normal,Common,,,0,indefinido,Attackers are infected with 3 stacks of poison.,pendente
+Verse of Valor,Normal,Common,"MightBase:Base:5 * Source.GetNumStatuses(""BRD_Crescendo_Valor"")",,0,buff,Might increased by [0].,pendente
+Visually Impaired,Normal,Common,RangeTypeAdderRanged:Base:-3,,0,debuff,Reduces @Range@ by @3@ per stack.,pendente
+Vitality,Normal,Common,VitalityBase:Base:Mathf.Round(1f+(0.2f*IslandLevel)),,0,buff,Vitality increased by [0].,pendente
+Warding Tonic,Normal,Common,MagicArmor:Base:200,,0,buff,Magic armor increased by 200.,pendente
+Warrior Aura,Normal,Common,"DamageMod:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Damage increased by [0]%. ,pendente
+Warrior's Blade,Normal,Common,DamageMod:Base:50,,0,buff,Damage increased 50%.,pendente
+Weakened,Normal,Common,MightBase:Percentage:-20,,0,debuff,Reduces @Might@ by 20% per stack.,pendente
+Well Fed:  Experience,Normal,Common,ExperienceMod:Base:50,,0,buff,Experience gained increased by 50%. ,pendente
+Well Fed: Stats,Normal,Common,"MightBase:Percentage:10, DexterityBase:Percentage:10, IntelligenceBase:Percentage:10, VitalityBase:Percentage:10, ReflexBase:Percentage:10",,0,buff,Stats increased by 10%.,pendente
+Well Fed: Treasure,Normal,Common,"GoldMod:Base:50, DropQuantityMod:Base:50",,0,buff,Increases item drops and gold gained by 50%. ,pendente
+Will of the Shaman,Fortune,Rare,ManaPerTurn:Base:12 * (1 + ((StatusLevel - 1) * (0.23))),,0,buff,"@Mana Recovery@ increased by [0].  <i><color=#808080>""Unseen yet felt, the spirit dances like a flame in the wind, a whisper of the unseen world that echoes in our hearts.",pendente
+Wilting,Normal,Common,Recovery:Percentage:-30,,0,debuff,Recovery reduced by 30%.,pendente
+Witch's Brew,Normal,Common,Recovery:Percentage:-30,,0,debuff,Recovery reduced by 30%.,pendente
+Wrath of the Righteous,Fortune,Mythic,"DamageModHealing:Base:{6,30}",,0,buff,"Healing skills in the Light tree can now deal damage to enemies as well as heal allies. @Holy Power@ increased by {6,30}%.  <i><color=#808080>""The light of vengence burns brightly!""</color></i> ",pendente
+Wrath of the Righteous,Quest,Common,,,0,indefinido,"Search the Castle for <b>The Jester</b>, and bring an end to his evil.",pendente
+"Ymir Rune, Courage",QuestItem,Common,,,0,indefinido,,pendente
+"Ymir Rune, Honor",QuestItem,Common,,,0,indefinido,,pendente
+"Ymir Rune, Strength",QuestItem,Common,,,0,indefinido,,pendente
+You Are Smart,Normal,Common,IntelligenceBase:Percentage:1000,,0,buff,Intelligence increased.,pendente

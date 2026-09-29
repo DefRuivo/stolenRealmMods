@@ -70,9 +70,36 @@ namespace RoguelikeDebugger.Patches
                               .Append(e.Amount).Append(", ");
                         }
                     }
+
+                    // RV-8b-0e: os GeneralEffect.Action NA ORDEM. E ESTA a lista que o `*N`
+                    // do texto indexa quando o dano da skill vem de um status
+                    // (Tooltip.GetDamageString l.2218 -> l.2233). O `efeitos=` acima e
+                    // AttributeEffects - campo DIFERENTE; nao confundir os dois.
+                    var efGerais = new System.Text.StringBuilder();
+                    int nGerais = 0;
+                    if (s.Effects != null)
+                    {
+                        foreach (var e in s.Effects)
+                        {
+                            var ge = e as GeneralEffect;
+                            if (ge == null)
+                            {
+                                continue;
+                            }
+                            nGerais++;   // conta MESMO o de Action vazio: e assim que o tooltip indexa
+                            if (!string.IsNullOrEmpty(ge.Action))
+                            {
+                                efGerais.Append(ge.Action.Replace("\n", " ").Replace("\r", " ")
+                                                        .Replace("|", "/").Replace("\"", "'").Trim())
+                                        .Append("; ");
+                            }
+                        }
+                    }
+
                     Plugin.Log.LogInfo(
                         $"[Status] '{s.Name}' | tipo={s.StatusType} | raridade={s.Rarity} | " +
-                        $"efeitos={ef} | desc=\"{desc.Replace("\n", " ")}\"");
+                        $"efeitos={ef} | efeitosDano={efGerais} | nEfeitosDano={nGerais} | " +
+                        $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
             }
             catch (Exception e)

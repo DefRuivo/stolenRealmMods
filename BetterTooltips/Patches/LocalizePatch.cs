@@ -180,6 +180,55 @@ namespace BetterTooltips.Patches
                 "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
                 "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0]."
             },
+
+            // ---- RV-8b-2, grafia/gramatica (29/09) ----
+            // Levantado por varredura em TODAS as 417 skills: "benefical" (3x),
+            // "additonal" (2x), "abilites" (1x) e "the damage of by" (3x).
+            // Aqui so a GRAFIA: espaco duplo e espaco no fim ficam a cargo da regra geral
+            // de normalizacao no fim do postfix (uma entrada por frase seria centenas).
+            {
+                // "additonal" -> "additional"
+                "Sacrifice 15% of your maximum health in exchange for an additonal action this turn.  Applies {STA=Exhaustion}.",
+                "Sacrifice 15% of your maximum health in exchange for an additional action this turn.  Applies {STA=Exhaustion}."
+            },
+            {
+                // "abilites" -> "abilities"
+                "Increase the range of all non-melee abilites by 1 hex. ",
+                "Increase the range of all non-melee abilities by 1 hex. "
+            },
+            {
+                // "increases the damage of by X%" -> "increases the damage by X%"
+                "Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.",
+                "Deals *0 weapon damage. Every hex between you and your target increases the damage by 10%.  Called Shot cannot be dodged or blocked."
+            },
+            {
+                // "benefical" -> "beneficial"
+                "Deals *0 weapon damage, removes 1 random benefical status from the target and lowers the target's @Resistance@ by 20% for 2 turns.",
+                "Deals *0 weapon damage, removes 1 random beneficial status from the target and lowers the target's @Resistance@ by 20% for 2 turns."
+            },
+            {
+                "Deals *0 weapon damage. Removes 1 random benefical status from the target.",
+                "Deals *0 weapon damage. Removes 1 random beneficial status from the target."
+            },
+            {
+                // "additonal" -> "additional"
+                "Every enemy slain on your turn grants 1 additonal AP.  Can only grant up to 1 additional AP per turn.",
+                "Every enemy slain on your turn grants 1 additional AP.  Can only grant up to 1 additional AP per turn."
+            },
+            {
+                "Deals *0 shadow damage and removes a random benefical status from the target. If a status is removed, the target suffers an additional *0 shadow damage.",
+                "Deals *0 shadow damage and removes a random beneficial status from the target. If a status is removed, the target suffers an additional *0 shadow damage."
+            },
+            {
+                // "increases the damage of by 10%" -> "increases the damage by 10%"
+                "Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 10%. ",
+                "Deals *0 weapon damage.  Every hex between you and your target increases the damage by 10%. "
+            },
+            {
+                // "increases the damage of by 15%" -> "increases the damage by 15%"
+                "Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ",
+                "Deals *0 weapon damage.  Every hex between you and your target increases the damage by 15%. "
+            },
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
@@ -584,6 +633,28 @@ namespace BetterTooltips.Patches
                     {
                         Plugin.Log.LogInfo($"BetterTooltips: explicação adicionada a '{original}'");
                     }
+                }
+            }
+
+            // Normalizacao de espacos (RV-8b-2): o padrao do jogo e UM espaco depois do
+            // ponto (116 ocorrencias contra 77), mas varias frases vem com dois e a
+            // diferenca APARECE no tooltip. E regra geral de proposito: vale para todo
+            // texto localizado (skills, status, itens, dicas), nao so para as skills que a
+            // varredura achou - centenas de entradas na tabela nao escalariam.
+            // Roda DEPOIS das tabelas porque as chaves de TextFixes casam com o texto
+            // ORIGINAL, espacos duplos inclusos.
+            // NAO aparamos o fim: espaco sobrando no fim nao aparece no tooltip, e aparar
+            // poderia colar palavras se o jogo concatenar strings.
+            if (__result.Contains("  "))
+            {
+                string antes = __result;
+                while (__result.Contains("  "))
+                {
+                    __result = __result.Replace("  ", " ");
+                }
+                if (_appliedFixes.Add("espacos:" + antes))
+                {
+                    Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
                 }
             }
         }

@@ -31,6 +31,9 @@ CSV_SKILLS = os.path.join(RAIZ, "docs", "cobertura", "skills.csv")
 CSV_DETALHE = os.path.join(RAIZ, "docs", "cobertura", "skills-detalhe.csv")
 # As acoes concedidas (RV-8b-0c): a formula de DANO do `*N` mora aqui, nao na skill.
 CSV_ACOES = os.path.join(RAIZ, "docs", "cobertura", "acoes.csv")
+# Os status (RV-8b-0e): quando o dano da skill vem de um status, e a lista de
+# GeneralEffect DELE que o `*N` indexa.
+CSV_STATUS = os.path.join(RAIZ, "docs", "cobertura", "status.csv")
 SAIDA = os.path.join(RAIZ, "docs", "cobertura", "auditoria-tooltips.md")
 
 PLACEHOLDER = re.compile(r"(\*\d+|\[\d+\]|\{[^}]*\}|@[^@]+@)")
@@ -155,6 +158,11 @@ def main():
         with open(CSV_ACOES, encoding="utf-8") as fh:
             for r in csv.DictReader(fh):
                 acoes[r["nome"]] = r
+    statuses = {}
+    if os.path.isfile(CSV_STATUS):
+        with open(CSV_STATUS, encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                statuses[r["nome"]] = r
     h, h_nv = [], []
     for r in linhas:
         idxs = [int(x) for x in re.findall(r"\*(\d)", r["descricao"])]
@@ -169,11 +177,15 @@ def main():
             continue
         ac = acoes[acs[0]]
         if ac.get("refStatus", "").strip():
-            # O dano vem de um STATUS; o censo ainda não despeja os GeneralEffect dos
-            # status, então NÃO dá para conferir. Não é defeito — é escopo em aberto.
-            h_nv.append((r["arvore"], r["nome"], ",".join(sorted(set(map(str, idxs))))))
-            continue
-        n = int(ac.get("nEfeitosRef") or 0) if ac.get("refAcao", "").strip() else int(ac.get("nEfeitos") or 0)
+            # O dano vem de um STATUS (Tooltip l.2218): a lista e a dos GeneralEffect DELE
+            # (RV-8b-0e). Sem o status no censo, nao da para conferir - e ai sim e lacuna.
+            st = statuses.get(ac["refStatus"].strip())
+            n = int(st.get("nEfeitosDano") or 0) if st else 0
+            if n == 0:
+                h_nv.append((r["arvore"], r["nome"], ac["refStatus"].strip()))
+                continue
+        else:
+            n = int(ac.get("nEfeitosRef") or 0) if ac.get("refAcao", "").strip() else int(ac.get("nEfeitos") or 0)
         # Os DamageExpressionOverrides da SKILL ESTENDEM a lista de efeitos (Tooltip
         # l.2240-2252): se a skill tem 2 overrides e a acao 1 efeito, `*1` existe.
         n_skill = len([x for x in (det.get("danoExpr") or "").split(";") if x.strip()])
