@@ -93,6 +93,8 @@ namespace BetterTooltips.Patches
               "\nRaven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Raise an Undead Ranger to fight by your side.",
               "\nUndead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
+            { "Raise an Undead Berserker to fight by your side.",
+              "\nUndead Berserker: Bleeding Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
 
             // Brambles e Ice Wall NAO invocam bicho: sao objetos destrutiveis que bloqueiam
             // hexes. Passam pelo MESMO caminho de beneficio dos bichos (CreateDestructible
