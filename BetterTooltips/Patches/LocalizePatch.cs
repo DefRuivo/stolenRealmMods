@@ -42,6 +42,30 @@ namespace BetterTooltips.Patches
             { "Grants [0] Return Shadow Damage.", "\nScales with your character level." },
             { "Physical damage increased by [0].", "\nScales with your character level." },
 
+            // Segunda leva (RV-8b-2i): a varredura `tools/check_scaling.py` percorreu as
+            // fórmulas de TODAS as skills e achou 9 que escalam com `Source.Level` sem
+            // dizer isso no texto. Cinco já estavam cobertas acima (a curva FlatDamage) e
+            // estas são as outras. A `Shapeshift Dragonkin` entra pela tabela de
+            // correções: quem está nas DUAS tabelas só executa a correção, então uma
+            // explicação aqui ficaria código morto.
+            // Não cobertas de propósito: Attack Power (70 skills) e Spell Power (~65) —
+            // são o caminho padrão de dano, o valor já aparece na tooltip e repetir
+            // "escala com ataque" em 135 skills seria ruído, não informação.
+            { "@Intelligence@ grants [0] @Armor@ and @Magic Armor@ per point.  Current Bonus: [1]",
+              "\nScales with your character level." },
+            { "Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.",
+              "\nScales with your character level." },
+            { "Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.",
+              "\nScales with your character level." },
+            { "Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.",
+              "\nScales with your character level." },
+            { "Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.",
+              "\nScales with your character level." },
+            { "Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",
+              "\nScales with your character level." },
+            { "Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.",
+              "\nScales with your character level." },
+
             // ---- O que cada INVOCAÇÃO faz (RV-8b-2h) ----
             // Fonte: os assets do jogo, via dump. `ActionInfo.Summons` é a lista de
             // CharacterInfo e `CharacterInfo.SkillsAndAI[].Skill` são as habilidades da
@@ -223,8 +247,11 @@ namespace BetterTooltips.Patches
             {
                 // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
                 // "Gain the ability to shapeshift into" (mesma redacao, mais verbosa).
+                // O "Scales with" tambem entra aqui (RV-8b-2i): a formula e
+                // `10 * Source.Level`, e quem esta nas duas tabelas so executa a CORRECAO
+                // - uma explicacao no TextAppends para este texto nunca rodaria.
                 "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
-                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0]."
+                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\nScales with your character level."
             },
 
             // ---- RV-8b-2, grafia/gramatica (29/09) ----
