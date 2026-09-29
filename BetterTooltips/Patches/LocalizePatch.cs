@@ -91,6 +91,19 @@ namespace BetterTooltips.Patches
               "\nWolf: Melee Attack, Howl\nDoes not inherit your stats." },
             { "Summon a Raven to fight your enemies. ",
               "\nRaven: Melee Attack, Evasion\nDoes not inherit your stats." },
+            { "Raise an Undead Ranger to fight by your side.",
+              "\nUndead Ranger: Ranged Attack, Hide In Shadows\nDoes not inherit your stats." },
+
+            // Brambles e Ice Wall NAO invocam bicho: invocam o MESMO objeto (a criatura
+            // `Brambles`) para bloquear hexes. Sao os UNICOS de 18 invocadores com
+            // `herdaStats=sim` - o objeto herda os seus atributos, ao contrario dos
+            // Raise/Summon/Animal Companion (16 com `herdaStats=nao`). Eu tinha
+            // generalizado "herdaStats=nao em todas"; o dump dos 18 mostrou 16 nao / 2 sim,
+            // e os 2 sao justamente estes. Por isso a frase aqui e o INVERSO da dos bichos.
+            { "Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.",
+              "\nCounts as a summon and inherits your stats." },
+            { "Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.",
+              "\nCounts as a summon and inherits your stats." },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
@@ -208,8 +221,13 @@ namespace BetterTooltips.Patches
             },
             {
                 // "a Undead Wizard" -> artigo errado (som de vogal)
+                // RV-8b-2 (lote Shadow): a explicacao da invocacao entra AQUI, dentro do
+                // valor, e nao no TextAppends - quem esta nas duas tabelas so executa a
+                // correcao, e uma explicacao no appends nunca rodaria. Fonte das
+                // habilidades e o dump `[Summon]` (CharacterInfo.SkillsAndAI[].Skill);
+                // `herdaStats=nao` em todos os Raise/Summon desta arvore.
                 "Raise a Undead Wizard to fight by your side.",
-                "Raise an Undead Wizard to fight by your side."
+                "Raise an Undead Wizard to fight by your side.\nUndead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not inherit your stats."
             },
             {
                 // espaco duplo no meio + espaco sobrando no fim
@@ -229,20 +247,20 @@ namespace BetterTooltips.Patches
             // Nomes: "Raise Skeletal Archer/Mage/Warrior" -> descricoes diziam "Summon".
             {
                 "Summon a skeletal archer to fight by your side.",
-                "Raise a skeletal archer to fight by your side."
+                "Raise a skeletal archer to fight by your side.\nSkeletal Archer: Ranged Attack\nDoes not inherit your stats."
             },
             {
                 "Summon a skeletal mage to fight by your side.",
-                "Raise a skeletal mage to fight by your side."
+                "Raise a skeletal mage to fight by your side.\nSkeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not inherit your stats."
             },
             {
                 "Summon a skeletal warrior to fight by your side.",
-                "Raise a skeletal warrior to fight by your side."
+                "Raise a skeletal warrior to fight by your side.\nSkeletal Warrior: Melee Attack, Cleave\nDoes not inherit your stats."
             },
             {
                 // Unico invocador com fecho diferente: 6 usam "by your side", 1 usava "for you".
                 "Raise a Mighty Iron Golem to fight for you.",
-                "Raise a Mighty Iron Golem to fight by your side."
+                "Raise a Mighty Iron Golem to fight by your side.\nIron Golem: Ground Slam\nDoes not inherit your stats."
             },
             {
                 // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
