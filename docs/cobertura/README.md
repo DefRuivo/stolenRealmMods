@@ -81,10 +81,37 @@ Ferramentas de apoio:
   existem mesmo nos textos do jogo. Uma chave com um espaço a mais (ou escrita de memória
   em vez de copiada do asset) **nunca dispara**, e a falha é silenciosa.
 - `python tools/audit_tooltips.py [arvore]` — auditoria de conteúdo das skills (RV-8b):
-  tipo de dano declarado, valor dinâmico presente, área mencionada, descrições curtas e
-  **famílias de redação divergentes**. Escreve `docs/cobertura/auditoria-tooltips.md`.
+  tipo de dano declarado, valor dinâmico presente, área mencionada, descrições curtas,
+  **famílias de redação divergentes** e **placeholder `[N]` apontando para expressão
+  inexistente**. Escreve `docs/cobertura/auditoria-tooltips.md`.
+
 - `python tools/scan_tokens.py` — a varredura da gramática de texto (RV-8a).
 - Relatório de cada lote fica em `docs/cobertura/revisao/`.
+
+## Detalhe mecânico das skills (`skills-detalhe.csv`)
+
+Arquivo **companheiro** do `skills.csv`, gerado pelo mesmo `census.py` (RV-8b-0). Traz o que
+o jogo **calcula**, não o que ele escreve. Fica separado para a checklist principal não
+virar uma planilha ilegível.
+
+| coluna | o que é |
+|---|---|
+| `skid` | `SkillInfo.Guid` — identidade estável (resolve nome repetido: 453 linhas para 451 nomes) |
+| `passivo` | `SkillInfo.IsPassive` (passiva = não concede ação) — muda como se lê a tooltip |
+| `acts` | `ActionsGranted` — as ações que a skill concede |
+| `attr` | `AttributeEffects`, no mesmo formato do dump de status (RV-9) |
+| `expr` | **`DescriptionExpressions` — o array que o `[N]` do texto indexa em runtime** |
+| `danoExpr` | `DamageExpressionOverrides` |
+| `upg` | `UpgradeText` |
+| `pstat` | `PassiveActionStatuses` — **sempre vazio**: o campo existe na classe, mas o jogo não popula no nível da skill |
+
+É aqui que se confere se os **números** escritos na tooltip batem com a mecânica. Exemplos
+reais: `Battle Ready` diz *"1% of your @Armor@"* e o `expr` é `Source['Armor'] * .01f`;
+`Invulnerable Winter` diz *"per point"* e o `expr` traz as duas pontas
+(`1 + (.14f * Source.Level)` por ponto, `Source['Intelligence'] * (1 + ...)` no total).
+
+**Limite conhecido:** a fórmula de **dano** (o `*N` do texto) **não** está na skill — está na
+**ação** que ela concede (RV-8b-0c): das 150 skills que usam `*N`, 131 não têm `danoExpr`.
 
 ## Vocabulário da coluna `status`
 
