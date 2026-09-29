@@ -99,7 +99,11 @@ def indice_censo():
 def tabela(linhas, cabecalho):
     out = ["| %s |" % " | ".join(cabecalho), "|" + "---|" * len(cabecalho)]
     for c in linhas:
-        out.append("| " + " | ".join(str(x).replace("|", "\\|")[:220] for x in c) + " |")
+        # Quebra de linha REAL dentro da celula destroi a tabela markdown - e as
+        # explicacoes de invocacao tem \n de proposito (uma criatura por linha). Viram
+        # <br>, que o markdown renderiza como quebra dentro da celula.
+        celulas = [str(x).replace("|", "\\|").replace("\n", "<br>")[:340] for x in c]
+        out.append("| " + " | ".join(celulas) + " |")
     return out
 
 

@@ -48,23 +48,25 @@ namespace BetterTooltips.Patches
             // criatura - a tooltip só diz o NOME de cada bicho, nunca o que ele faz.
             // `herdaStats=nao` em todas estas: o invocado NÃO herda seus atributos, então
             // nenhuma delas escala com o que você investe.
-            // (Só em inglês: são chaves do texto original do jogo.)
+            // Uma linha por criatura: com três nomes e suas habilidades numa linha só o
+            // texto fica ilegível no tooltip. O \n é o mesmo separador que o jogo usa nos
+            // textos dele; e só ASCII, para não depender de glifo na fonte do jogo.
             { "Summons a Raven, Coyote, or Raccoon to fight for you.",
-              "\nOne is summoned at random. Raven: Melee Attack, Evasion. Raccoon: Melee Attack, Steal Action. Coyote: Melee Attack, Cripple. Does not inherit your stats." },
+              "\nOne is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not inherit your stats." },
             { "Summons a Stag, Wolf, or Boar to fight for you.",
-              "\nOne is summoned at random. Stag: Stunning Kick, Melee Attack. Wolf: Melee Attack, Howl. Boar: Melee Attack, Fracture. Does not inherit your stats." },
+              "\nOne is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not inherit your stats." },
             { "Summons a Bear, Moose, or Panther to fight for you.",
-              "\nOne is summoned at random. The Bear is a Grizzly: Stunning Slam, Wild Cleave. Moose: Ground Slam, Melee Attack. Panther: Shadow Walk, Melee Attack. Does not inherit your stats." },
+              "\nOne is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not inherit your stats." },
             { "Summons a Tundra Wolf to fight for you.",
-              "\nTundra Wolf: Melee Attack, Howl. Does not inherit your stats." },
+              "\nTundra Wolf: Melee Attack, Howl\nDoes not inherit your stats." },
             { "Summons a Dire Wolf to fight for you.",
-              "\nDire Wolf: Melee Attack, Blood Howl. Does not inherit your stats." },
+              "\nDire Wolf: Melee Attack, Blood Howl\nDoes not inherit your stats." },
             { "Summon a grizzly to fight your enemies.",
-              "\nGrizzly: Stunning Slam, Wild Cleave. Does not inherit your stats." },
+              "\nGrizzly: Stunning Slam, Wild Cleave\nDoes not inherit your stats." },
             { "Summon a wolf to fight your enemies.",
-              "\nWolf: Melee Attack, Howl. Does not inherit your stats." },
+              "\nWolf: Melee Attack, Howl\nDoes not inherit your stats." },
             { "Summon a Raven to fight your enemies. ",
-              "\nRaven: Melee Attack, Evasion. Does not inherit your stats." },
+              "\nRaven: Melee Attack, Evasion\nDoes not inherit your stats." },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
@@ -296,7 +298,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack. Does not inherit your stats."
+                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack\nDoes not inherit your stats."
             },
         };
 
