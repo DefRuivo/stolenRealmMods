@@ -265,15 +265,19 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
-            // DEFEITO DE TEXTO: o tooltip dizia "up to 4 times" mas o campo
-            // `DashMaxChainCount` do asset e 3. A semantica foi provada pelos dois irmaos,
-            // que dizem 4 E tem 4 (`Dodging Strikes`, `Power Strikes`): o laco
-            // `DashChainCount < DashMaxChainCount`, com o contador iniciando em 1, produz
-            // exatamente `DashMaxChainCount` golpes. Logo o texto do `Dashing Strikes`
-            // exagerava um golpe. Se a desenvolvedora subir o asset para 4, esta chave
-            // precisa sair.
+            // DEFEITO DE TEXTO: o asset exige o proximo alvo dentro de 3 hexes
+            // (`chainAlvo=... Cell.InRange(LastCell, 3)`), nao 2.
+            { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. ",
+              "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 3 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. " },
+            // DEFEITO DE TEXTO: idem `Dodging Strikes` (`Cell.InRange(LastCell, 3)`).
+            { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you hit increases the damage of Power Strikes by 50%.",
+              "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 3 hexes to strike again. Strikes up to 4 times.  Each time you hit increases the damage of Power Strikes by 50%." },
+            // DEFEITO DE TEXTO (2 em 1): "up to 4 times" com `DashMaxChainCount=3` (os irmaos
+            // dizem 4 E tem 4, o laco `DashChainCount < DashMaxChainCount` produz
+            // exatamente o campo) e "within 2 hexes" com `InRange(LastCell, 3)`
+            // (`InRange(c, n) => Distance <= n`). Se a dev subir o asset, esta chave sai.
             { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.",
-              "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 3 times." },
+              "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 3 hexes to strike again. Strikes up to 3 times." },
             // ---- Textos de UI e dicas de loading (fontes: o log do boot do jogo) ----
             // Não estão no censo de tooltips (que cobre skills/status/itens/afixos/
             // powerups). O defeito era o espaço duplo deixado depois do ponto.
