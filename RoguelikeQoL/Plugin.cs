@@ -114,6 +114,53 @@ namespace RoguelikeQoL
                         }
                     }
                 }
+                // Roguelike powerups (ex.: "Light's Brilliance") — nome + efeitos por nível.
+                try
+                {
+                    var nm = NetworkingManager.Instance;
+                    if (nm != null && nm.NetworkManager != null && nm.NetworkManager.Root != null)
+                    {
+                        var root = nm.NetworkManager.Root;
+                        if (root.RoguelikePowerupsByConnection != null &&
+                            root.RoguelikePowerupsByConnection.ContainsKey(character.OwnerID))
+                        {
+                            var set = root.RoguelikePowerupsByConnection[character.OwnerID];
+                            if (set != null && set.PowerupAndLevels != null)
+                            {
+                                sb.Append(" | powerups: ");
+                                foreach (var pal in set.PowerupAndLevels)
+                                {
+                                    if (pal == null || pal.Level <= 0)
+                                    {
+                                        continue;
+                                    }
+                                    RoguelikePowerup p = Game.Instance.GetFromRoguelikePowerupDict(Game.Instance.GetGuidFromString(pal.Guid));
+                                    if (p == null || p.PowerupLevels == null || pal.Level - 1 >= p.PowerupLevels.Length)
+                                    {
+                                        continue;
+                                    }
+                                    sb.Append(p.Name).Append(" L").Append(pal.Level).Append(": ");
+                                    var effs = p.PowerupLevels[pal.Level - 1].CharacterEffects;
+                                    if (effs != null)
+                                    {
+                                        foreach (var ei in effs)
+                                        {
+                                            if (ei != null && ei.CharacterAttribute != null)
+                                            {
+                                                sb.Append(ei.CharacterAttribute.name).Append(':').Append(ei.CharacterEffectMethod).Append(':').Append(ei.Amount).Append(", ");
+                                            }
+                                        }
+                                    }
+                                    sb.Append("; ");
+                                }
+                            }
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    sb.Append(" | powerups ERRO: ").Append(ex.Message);
+                }
                 Plugin.Log.LogInfo(sb.ToString());
             }
             catch (System.Exception ex)
