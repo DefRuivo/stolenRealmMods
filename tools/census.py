@@ -53,7 +53,7 @@ LINE = re.compile(
 FIELD = re.compile(
     r"(?P<key>tipo|dano|tier|tags|raridade|lvlMin|guid|nivel|custo|efeitos"
     r"|skid|passivo|attr|acts|pstat|expr|danoExpr|upg"
-    r"|efeitosRef|refAcao|refStatus|nEfeitos|nEfeitosRef)=(?P<val>[^|]+)")
+    r"|efeitosRef|refAcao|refStatus|nEfeitos|nEfeitosRef|efeitosDano|nEfeitosDano)=(?P<val>[^|]+)")
 DESC = re.compile(r'desc="(?P<desc>.*)"\s*$')
 VALOR = re.compile(r":(-?\d+(?:\.\d+)?)\s*,")
 
@@ -93,7 +93,10 @@ CATS = {
     "Action":  ("acoes.csv",    ["nome", "dano", "efeitosRef", "efeitos", "nEfeitosRef",
                                  "nEfeitos", "refAcao", "refStatus", "expr", "danoExpr",
                                  "descricao", "status"]),
-    "Status":  ("status.csv",   ["nome", "tipo", "raridade", "efeitos", "classe", "descricao", "status"]),
+    # `efeitos` = AttributeEffects; `efeitosDano` = GeneralEffect.Action NA ORDEM, que e
+    # o que o `*N` indexa quando o dano da skill vem de um status (RV-8b-0e).
+    "Status":  ("status.csv",   ["nome", "tipo", "raridade", "efeitos", "efeitosDano",
+                                 "nEfeitosDano", "classe", "descricao", "status"]),
     "Item":    ("itens.csv",    ["nome", "tipo", "raridade", "lvlMin", "descricao", "status"]),
     "ItemMod": ("afixos.csv",   ["nome", "tipo", "raridade", "descricao", "status"]),
     "Powerup": ("powerups.csv", ["nome", "guid", "nivel", "custo", "efeitos", "descricao", "status"]),
@@ -189,6 +192,8 @@ def parse(path):
                 elif cat == "Status":
                     w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""),
                                 f.get("efeitos", "").strip().rstrip(","),
+                                f.get("efeitosDano", "").strip().rstrip(";").strip(),
+                                f.get("nEfeitosDano", ""),
                                 classe_status(f.get("efeitos", ""), desc), desc,
                                 st or "pendente"])
                 elif cat == "Item":
