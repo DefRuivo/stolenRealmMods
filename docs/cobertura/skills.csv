@@ -318,7 +318,7 @@ Raise Skeletal Archer,Shadow,1,None,Ranged,nao,,Summon a skeletal archer to figh
 Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",nao,,Summon a skeletal mage to fight by your side.,corrigido
 Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",nao,,Summon a skeletal warrior to fight by your side.,corrigido
 Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",nao,,Raise an Undead Berserker to fight by your side.,pendente
-Raise Undead Ranger,Shadow,1,None,Ranged,nao,,Raise an Undead Ranger to fight by your side.,pendente
+Raise Undead Ranger,Shadow,1,None,Ranged,nao,,Raise an Undead Ranger to fight by your side.,revisado
 Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",nao,,Raise a Undead Wizard to fight by your side.,corrigido
 Rally,Ranger,1,None,"Beneficial,AreaEffect",nao,,Increases movement of all allies within 4 hexes by 3.,revisado
 Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
