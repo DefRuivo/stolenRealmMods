@@ -81,7 +81,46 @@ namespace RoguelikeQoL
     [HarmonyPatch(typeof(InventoryManager), nameof(InventoryManager.UpdateStats))]
     public static class InventoryStatBaseCombined
     {
-        private static bool _loggedSample;
+        private static bool _loggedDiag;
+
+        internal static void LogDiagnostic(Character character)
+        {
+            if (_loggedDiag)
+            {
+                return;
+            }
+            _loggedDiag = true;
+            try
+            {
+                var sb = new System.Text.StringBuilder();
+                sb.Append("QoL-3 diag: char=").Append(character.CharacterName);
+                CharacterAttribute[] baseAttrs = Game.Instance.LevelableCharacterAttributes;
+                CharacterAttribute[] finalAttrs = Game.Instance.LevelableCharacterAttributesFinal;
+                int n = System.Math.Min(baseAttrs.Length, finalAttrs.Length);
+                for (int i = 0; i < n; i++)
+                {
+                    sb.Append("; ").Append(baseAttrs[i].name).Append('=').Append(Mathf.Ceil(character[baseAttrs[i].name]))
+                      .Append('/').Append(finalAttrs[i].name).Append('=').Append(Mathf.Ceil(character[finalAttrs[i].name]));
+                }
+                sb.Append(" | AbilityPower=").Append(Mathf.Ceil(character["AbilityPower"]));
+                if (character.Effects != null)
+                {
+                    sb.Append(" | effects: ");
+                    foreach (CharacterEffect e in character.Effects)
+                    {
+                        if (e != null && e.CharacterAttribute != null)
+                        {
+                            sb.Append(e.CharacterAttribute.name).Append(':').Append(e.CharacterEffectMethod).Append(':').Append(e.Amount).Append(", ");
+                        }
+                    }
+                }
+                Plugin.Log.LogInfo(sb.ToString());
+            }
+            catch (System.Exception ex)
+            {
+                Plugin.Log.LogWarning("QoL-3 diag erro: " + ex.Message);
+            }
+        }
 
         private static void Postfix(InventoryManager __instance, Character character)
         {
@@ -115,22 +154,7 @@ namespace RoguelikeQoL
                     component.text = FormatBaseCombined(baseVal, combinedVal);
                 }
 
-                // Diagnóstico único: registra os pares base/final e seus valores (1x por sessão).
-                if (!_loggedSample)
-                {
-                    _loggedSample = true;
-                    var sb = new System.Text.StringBuilder();
-                    for (int i = 0; i < count; i++)
-                    {
-                        if (baseAttrs[i] != null && finalAttrs[i] != null)
-                        {
-                            sb.Append(baseAttrs[i].name).Append('=').Append(Mathf.Ceil(character[baseAttrs[i].name]))
-                              .Append('/').Append(finalAttrs[i].name).Append('=').Append(Mathf.Ceil(character[finalAttrs[i].name]))
-                              .Append("; ");
-                        }
-                    }
-                    Plugin.Log.LogInfo("QoL-3 stats (personagem): " + sb);
-                }
+                InventoryStatBaseCombined.LogDiagnostic(character);
             }
             catch (System.Exception e)
             {
@@ -183,6 +207,7 @@ namespace RoguelikeQoL
                     sb.Append(InventoryStatBaseCombined.FormatBaseCombined(baseVal, combinedVal)).Append('\n');
                 }
                 __instance.StatValues.text = sb.ToString();
+                InventoryStatBaseCombined.LogDiagnostic(character);
             }
             catch (System.Exception e)
             {
