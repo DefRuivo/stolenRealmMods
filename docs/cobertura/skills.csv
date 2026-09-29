@@ -90,7 +90,7 @@ Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain s
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
 Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
 Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,revisado
-Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,revisado
+Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,corrigido
 Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
 Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a dagger dealing *0 weapon damage.  Deals 50% additional @critical hit damage@.,corrigido
 Death Dealer I,Thief,1,None,,sim,"CritDamage:Base:16,",Increase @Critical Hit Damage and Healing@ by 16%.,pendente

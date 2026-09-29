@@ -265,6 +265,15 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // DEFEITO DE TEXTO: o tooltip dizia "up to 4 times" mas o campo
+            // `DashMaxChainCount` do asset e 3. A semantica foi provada pelos dois irmaos,
+            // que dizem 4 E tem 4 (`Dodging Strikes`, `Power Strikes`): o laco
+            // `DashChainCount < DashMaxChainCount`, com o contador iniciando em 1, produz
+            // exatamente `DashMaxChainCount` golpes. Logo o texto do `Dashing Strikes`
+            // exagerava um golpe. Se a desenvolvedora subir o asset para 4, esta chave
+            // precisa sair.
+            { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.",
+              "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 3 times." },
             // ---- Textos de UI e dicas de loading (fontes: o log do boot do jogo) ----
             // Não estão no censo de tooltips (que cobre skills/status/itens/afixos/
             // powerups). O defeito era o espaço duplo deixado depois do ponto.
