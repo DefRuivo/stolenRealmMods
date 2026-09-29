@@ -9,11 +9,9 @@ b_*.txt
 build_*.txt
 
 # Notas/dumps de trabalho de IA — superados pelo censo em docs/cobertura/
-TOOLTIP_SWEEP.md
-STATUS_INVENTORY.md
-SKILL_INVENTORY.md
-ITEM_INVENTORY.md
-ITEM_MOD_INVENTORY.md
+*.md
+!README.md
+
 
 # Nao utilizados / uso local do editor
 ReloadProbe/
