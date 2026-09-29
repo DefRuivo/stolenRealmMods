@@ -4,3 +4,6 @@ lib/
 .vs/
 *.user
 dist/
+*_lib/
+b_*.txt
+build_*.txt
