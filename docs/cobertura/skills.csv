@@ -30,7 +30,7 @@ Blinding Light,Light,2,None,"Harmful,Ranged",nao,,Summons a radiant light applyi
 Blood Drinker,Warrior,4,None,,sim,"DamageModBasic:Base:50, LifeOnHitBasic:Base:5,",Increases basic attack damage by 50%. Basic attacks now @Life steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Blood Howl,Innate,1,Physical,"Harmful,DealsDamage,AreaEffect",nao,,Howl causing *0 physical damage to all enemies within 2 hexes.  Applies a debuff that causes all attackers to lifesteal for [1]% against this target for 2 turns.,corrigido
 Bloodlet,Warrior,2,None,Beneficial,nao,,Sacrifice 15% of your maximum health in exchange for an additonal action this turn.  Applies {STA=Exhaustion}.,corrigido
-Body and Soul,Monk,4,None,,sim,"Armor:Base:Source[""Vitality""] * 5, MagicArmor:Base:Source[""Intelligence""] * 5,",Intelligence now gives 5 Magic Armor per point and Vitality now gives 5 Armor per point.,pendente
+Body and Soul,Monk,4,None,,sim,"Armor:Base:Source[""Vitality""] * 5, MagicArmor:Base:Source[""Intelligence""] * 5,",Intelligence now gives 5 Magic Armor per point and Vitality now gives 5 Armor per point.,revisado
 Bolstering Ballad,Bard,2,None,Beneficial,nao,,"(Song) Allies within 4 hexes of you gain 5 Vitality, Armor and Magic Armor. Every time Bolstering Ballad is cast consecutively gain Crescendo of Bolstering: increases the amount given. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.",intocavel
 Bone Collector,Warrior,4,None,,sim,,Every enemy slain grants 6% @maximum health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times.,corrigido
 Bounty Hunter's Mark,Ranger,2,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ against the target.  If the target dies while Bounty Hunter's Mark is active, all cooldowns are reduced by 1.",corrigido
@@ -67,15 +67,15 @@ Cleave,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree a
 Coin of Chaos,Shadow,5,None,Ranged,nao,,Flip the Coin of Chaos!,sem-explicacao
 Cold Heart,Cold,3,None,,sim,"DamageModCold:Base:Source.GetNumStatusesCaused(""GL-ChilledStatus"") * 5,",Each stack of chilled you've applied increases your cold damage by 5%.,pendente
 Colossus,Warrior,5,None,,sim,"Colossus:Set:1,",Damage you deal splashes to enemies within 1 hex for 50% of the damage dealt.,pendente
-Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,pendente
+Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,revisado
 Conduit,Lightning,5,None,,sim,"ExtraTurnActionPoints:Base:1,",Gain an additional action each turn.,pendente
 Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",nao,,Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,revisado
 Contagion,Nature,3,None,,sim,"ContagionSource:Set:1,",Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,revisado
 Contaminated Wound,Thief,4,None,,sim,"ContaminatedWound:Set:1,",Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,pendente
-Contemplation I,Monk,1,None,,sim,"MaxMana:Percentage:10,",Max Mana increased by 10%.,pendente
-Contemplation II,Monk,2,None,,sim,"MaxMana:Percentage:15,",Max Mana increased by an additional 15%.,pendente
+Contemplation I,Monk,1,None,,sim,"MaxMana:Percentage:10,",Max Mana increased by 10%.,revisado
+Contemplation II,Monk,2,None,,sim,"MaxMana:Percentage:15,",Max Mana increased by an additional 15%.,revisado
 Counter Melody,Bard,1,None,Beneficial,nao,,Grant an ally immunity to Crowd Control effects for 1 turn.,intocavel
-Crash and Flow,Monk,4,None,,sim,,Dodging an attack increases your damage dealt by 10%. Stacks 5. Lasts 1 turn.,pendente
+Crash and Flow,Monk,4,None,,sim,,Dodging an attack increases your damage dealt by 10%. Stacks 5. Lasts 1 turn.,revisado
 Cripple,Thief,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *0 weapon damage.  Applies {STA=Slow} for 1 turn.,corrigido
 Crippling Shot,Ranger,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Applies {STA=Slow}.,corrigido
 Crushing Slam,Warrior,4,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage to all enemies within a line.,pendente
@@ -90,7 +90,7 @@ Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain s
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
 Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
 Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,revisado
-Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,pendente
+Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,revisado
 Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
 Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a dagger dealing *0 weapon damage.  Deals 50% additional @critical hit damage@.,corrigido
 Death Dealer I,Thief,1,None,,sim,"CritDamage:Base:16,",Increase @Critical Hit Damage and Healing@ by 16%.,pendente
@@ -128,8 +128,8 @@ Enchant Lightning,Lightning,2,Lightning,"Beneficial,Ranged",nao,,Enchants the ta
 Encore,Bard,5,None,Beneficial,sim,"BardEncoreChance:Set:50,",Whenever you make an action or free action it has a 50% chance to cast again.,intocavel
 Endless Night,Shadow,5,None,Beneficial,sim,"DamageFlatShadow:Base:Source[""MaxHealth""] * .02f,",Gain 2% of your maximum health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0].,corrigido
 Endless Quiver,Ranger,4,None,,sim,"CooldownModRanger:Base:-1,",Reduces all Ranger cooldowns by 1.,revisado
-Endurance I,Monk,1,None,,sim,"MaxHealth:Percentage:10,",Max Health increased by 10%.,pendente
-Endurance II,Monk,2,None,,sim,"MaxHealth:Percentage:15,",Max Health increased by an additional 15%.,pendente
+Endurance I,Monk,1,None,,sim,"MaxHealth:Percentage:10,",Max Health increased by 10%.,revisado
+Endurance II,Monk,2,None,,sim,"MaxHealth:Percentage:15,",Max Health increased by an additional 15%.,revisado
 Enduring Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next 2 attacks.,pendente
 Energy Cannon,Lightning,5,Lightning,"DealsDamage,Harmful",nao,,Deals *0 lightning damage in a 6 hex line 10 times.,pendente
 Entangle,Nature,1,None,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @2@ stacks of {STA=Poisoned}.,revisado
@@ -141,7 +141,7 @@ Exorcism,Shadow,4,Shadow,"Harmful,Ranged",nao,,"Deals *0 shadow damage and remov
 Fabricate,Chaos,4,None,,sim,,When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area of you.,pendente
 Fade,Thief,3,None,,sim,,"Whenever an enemy dies, you have a 50% chance to gain {STA=Stealth} for 1 turn. ",pendente
 Faerie Swarm,Nature,1,Physical,"Harmful,Ranged,DealsDamage",nao,,Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.,corrigido
-Falcon Dash,Monk,3,Weapon,"Harmful,DealsDamage",nao,,Dash to the target area and dealing *0 weapon damage to affected area.,pendente
+Falcon Dash,Monk,3,Weapon,"Harmful,DealsDamage",nao,,Dash to the target area and dealing *0 weapon damage to affected area.,revisado
 Fencer's Finesse I,Thief,1,None,,sim,"DodgeChance:Base:5,",Increases @dodge chance@ by 5%.,pendente
 Fencer's Finesse II,Thief,2,None,,sim,"DodgeChance:Base:8,",Increases @dodge chance@ by an additional 8%.,pendente
 Fever,Fire,4,None,Beneficial,sim,"HealthAsManaCost:Set:100,",Mana costs are now paid in Health instead.,pendente
@@ -159,12 +159,12 @@ Fissure,Fire,4,Fire,"Harmful,DealsDamage",nao,,Open the earth in a line spawning
 Flame Lash,Fire,5,None,,sim,"IncreasedFireDamagePerTargetHeatStack:Base:10,",Your fire spells deal 10% more damage per stack of heat on targets.,pendente
 Flame Slash,Basic,1,Fire,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 fire damage to all enemies.,pendente
 Flash Fire,Fire,4,None,,sim,"CooldownModFire:Base:-1,",Reduces the cooldown of all fire spells by 1. ,pendente
-Focused Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy dealing *0 weapon damage. Applies a debuff that increases the damage this target takes from all sources for 2 turns by 20%.,pendente
-Force Kick,Monk,2,Physical,"Harmful,Melee,DealsDamage",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 5 hexes.   Any enemy hit by the target also receives *0 physical damage.,pendente
+Focused Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy dealing *0 weapon damage. Applies a debuff that increases the damage this target takes from all sources for 2 turns by 20%.,revisado
+Force Kick,Monk,2,Physical,"Harmful,Melee,DealsDamage",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 5 hexes.   Any enemy hit by the target also receives *0 physical damage.,corrigido
 Force Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage in a line and knocks targets back up to 4 hexes.  Any enemy hit by the target also receives [1] damage.,corrigido
 Fracture,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Lowers targets @Resistance@ by 20% for 2 turns.,corrigido
 Freeze Earth,Cold,1,None,"MovementImpairing,CrowdControl,Ranged,Harmful",nao,,Freezes the ground in the target area applying 1 stack of Chilled to enemies that enter.,pendente
-Front Kick,Monk,1,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 3 hexes.   Any enemy hit by the target also receives *0 damage.,pendente
+Front Kick,Monk,1,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 3 hexes.   Any enemy hit by the target also receives *0 damage.,corrigido
 Frost Armor,Cold,1,Cold,"Beneficial,Ranged",nao,,Envelopes the caster in frost granting 10% @Cold Resistance@.   Attackers take *0 cold damage.,pendente
 Frost Borne,Cold,1,None,,sim,"ResistCold:Base:10,",Increases @cold resistance@ by 10%,pendente
 Frost Breath,Innate,1,Cold,"Harmful,Ranged,DealsDamage,Elemental",nao,,Deals *0 cold damage each turn.,pendente
@@ -211,7 +211,7 @@ Ice Wall,Cold,3,None,"CrowdControl,Ranged",nao,,Summon pillars of ice to block 4
 Icefall,Cold,5,None,,sim,"Icefall:Set:1,",When enemies are frozen by you they release a @frost nova@. ,pendente
 Immolate,Fire,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Burns the target for *0 fire damage each turn.,pendente
 Improvise,Bard,5,None,Beneficial,sim,"BardImprovise:Set:1,",No longer lose Crescendo stacks when playing another song.,intocavel
-Incapacitate,Monk,1,Physical,Harmful,nao,,Incapacitates the target applying {STA=Sleep} for 2 turns.,pendente
+Incapacitate,Monk,1,Physical,Harmful,nao,,Incapacitates the target applying {STA=Sleep} for 2 turns.,revisado
 Indestructible,Warrior,5,None,,sim,,"Getting hit increases @armor@, @magic armor@, and @return damage@ by 10% per stack. Stacks 10 times.",pendente
 Inspiration I,Bard,1,None,Beneficial,sim,,"Whenever you heal or apply a beneficial status to an ally, give them Inspiration: Gives 1% to all Resistance. Duration 2 turns. Stacks refresh duration.",intocavel
 Inspiration II,Bard,3,None,Beneficial,sim,,"Whenever you heal or apply a beneficial status to an ally, give them Inspiration: Gives 2% to all Resistance. Duration 2 turns. Stacks refresh duration.",intocavel
@@ -247,15 +247,15 @@ Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",nao,,Removes 20% of the ta
 Mana Shield,Lightning,3,None,,sim,"ManaShield:Base:90,",90% of the damage taken is lost in mana instead of health.,pendente
 Many Sided Strike,Monk,5,Weapon,"Harmful,DealsDamage",nao,,Hit enemies in the target area 5x randomly.  Deals *0 weapon damage per hit. ,corrigido
 Marked Prey,Ranger,5,None,,sim,,Attacks now apply {STA=Marked Prey}.  All stacks are removed at the end of your turn.,corrigido
-Masochism I,Monk,1,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ,pendente
-Masochism II,Monk,2,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,pendente
+Masochism I,Monk,1,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ,revisado
+Masochism II,Monk,2,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,revisado
 Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *0 health to all allies within 2 hexes of target.,revisado
 Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,revisado
 Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,pendente
 Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,pendente
 Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,pendente
 Master Of Ice,Cold,5,None,,sim,"MasterOfIce:Set:1,","Each turn you freeze an enemy, you gain an additional action.",pendente
-Meditation,Monk,3,Healing,"Beneficial,Ranged",nao,,Put the target ally into a meditative state restoring 20% of max health and mana. ,pendente
+Meditation,Monk,3,Healing,"Beneficial,Ranged",nao,,Put the target ally into a meditative state restoring 20% of max health and mana. ,revisado
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target 3 times.  Applies {STA=Bleeding} on hit.,pendente
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target 2 times.  Applies {STA=Bleeding} on hit.,pendente
@@ -263,9 +263,9 @@ Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,"Deals *0 weapon 
 Meteor,Fire,4,Fire,"Harmful,Ranged,DealsDamage",nao,,Call down a ball of fire to smash your enemies. Deals *0 fire damage within 2 hexes. Fire remains on the impacted area dealing *1 fire damage per turn.,pendente
 Meteor Shower,Fire,5,Fire,"Harmful,Ranged,DealsDamage",nao,,Summon a rain of meteors to bombard enemies within 4 hexes of the target location. Deals *0 fire damage 3 times.,pendente
 Mind Blossom,Nature,5,None,"Ranged,Harmful,TriggersEnrage",nao,,Charm the enemy target for 1 turn.  Cannot target bosses.,corrigido
-Momentum I,Monk,1,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.,pendente
-Momentum II,Monk,2,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ,pendente
-Momentum III,Monk,3,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ,pendente
+Momentum I,Monk,1,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.,revisado
+Momentum II,Monk,2,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ,revisado
+Momentum III,Monk,3,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ,revisado
 Mortal Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Resistance@ by 20% and @Healing@ received by 50% for 2 turns.,pendente
 Move Object,Innate,1,None,,nao,,Transport a movable object in the battlefield.,pendente
 Muse I,Bard,1,None,Beneficial,sim,,Allies within 4 hexes gain 10% reduced Mana Costs.,intocavel
@@ -279,7 +279,7 @@ Necromancer I,Shadow,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:
 Necromancer II,Shadow,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health.,revisado
 Omnism I,Chaos,1,None,,sim,"ShrineEffectBonus:Base:8,",Increases the effectiveness of shrines by 8%.,pendente
 Omnism II,Chaos,2,None,,sim,"ShrineEffectBonus:Base:20,",Increases the effectiveness of shrines by an additional 12%.,pendente
-One Punch Monk,Monk,5,None,,sim,,"The first damaging or healing ability you use on your turn has its effectiveness tripled, after which you are unable to use any more damaging or healing abilities that turn.",pendente
+One Punch Monk,Monk,5,None,,sim,,"The first damaging or healing ability you use on your turn has its effectiveness tripled, after which you are unable to use any more damaging or healing abilities that turn.",revisado
 Opening Act,Bard,4,None,Beneficial,sim,,Your songs start with 5 stacks of Crescendo.,intocavel
 Opportunist,Warrior,2,None,,sim,"OpportunityAttackDamageMod:Base:25, CounterAttackDamageMod:Base:25,",Increases damage of @opportunity attacks@ and @counter attacks@ by 25%.,pendente
 Overload,Lightning,4,None,Beneficial,nao,,Gives the target 100% Critical Hit Chance for 1 turn. ,pendente
@@ -289,7 +289,7 @@ Pack Hunter I,Nature,2,None,,sim,"DamageMod:Base:12 * Source.NumAlliesWithin(1),
 Pack Summoning I,Nature,1,None,Ranged,nao,,Summons a Timber Wolf to fight for you,corrigido
 Pack Summoning II,Nature,3,None,Ranged,nao,,Summons a Tundra Wolf to fight for you.,revisado
 Pack Summoning III,Nature,5,None,Ranged,nao,,Summons a Dire Wolf to fight for you.,revisado
-Pain Suppression,Monk,2,Physical,Beneficial,nao,,The target's Damage Reduction is increased by 50% for 1 turn.,pendente
+Pain Suppression,Monk,2,Physical,Beneficial,nao,,The target's Damage Reduction is increased by 50% for 1 turn.,revisado
 Paralyzing Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy dealing *0 weapon damage.  Stuns the target for 1 turn.,corrigido
 Patient Hunter,Ranger,3,None,Beneficial,sim,,Patient Hunter gives 10% @increased damage@ and 1 @skill range@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.,corrigido
 Perfected Soul,Monk,5,None,,sim,"Might:Base:Source.HighestStatName != ""MightBase"" ? Source[Source.HighestStatName] * .1f : 0, Dexterity:Base:Source.HighestStatName != ""DexterityBase"" ? Source[Source.HighestStatName] * .1f : 0, Vitality:Base:Source.HighestStatName != ""VitalityBase"" ? Source[Source.HighestStatName] * .1f : 0, Intelligence:Base:Source.HighestStatName != ""IntelligenceBase"" ? Source[Source.HighestStatName] * .1f : 0, Reflex:Base:Source.HighestStatName != ""ReflexBase"" ? Source[Source.HighestStatName] * .1f : 0, Might:Base:Source.Level, Dexterity:Base:Source.Level, Intelligence:Base:Source.Level, Vitality:Base:Source.Level, Reflex:Base:Source.Level,","Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",corrigido
@@ -306,7 +306,7 @@ Precision I,Ranger,2,None,,sim,"CritChance:Base:4, CritDamage:Base:16,",Increase
 Precision II,Ranger,3,None,,sim,"CritChance:Base:6, CritDamage:Base:24,",Increase @critical hit chance@ by an additional 6%. Increase @critical hit damage@ by an additional 24%.,revisado
 Provoke,Bard,3,None,Harmful,nao,,"Taunts enemies within 3 hexes, reducing their damage by 20% and forcing them to attack you.",intocavel
 Purify,Light,3,None,"Beneficial,Ranged",nao,,Removes all negative statuses from the target. Can be used when Disabled.,revisado
-Quaking Fist,Monk,5,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage to all foes within 3 hexes. ,pendente
+Quaking Fist,Monk,5,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage to all foes within 3 hexes. ,revisado
 Quick Draw,Ranger,4,Physical,Beneficial,nao,,Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.,revisado
 Quick Hands,Ranger,3,None,,sim,,Your basic attack has a 50% chance to strike twice.  Can only trigger once per turn.,corrigido
 Quickening,Light,4,None,Beneficial,sim,,"Every time one of your Light skills is cast on an ally, one of the ally's spells has it's cooldown lowered by 1 turn.  This effect can only happen once per turn.",corrigido
@@ -367,12 +367,12 @@ Smoke Bomb,Thief,4,None,"CrowdControl,Beneficial,Ranged",nao,,Increases @dodge c
 Sniper Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ,corrigido
 Soft Step,Thief,5,None,,sim,"OpportunityAttackImmunity:Set:1,",Moving 5 hexes in a row grants {STA=Stealth} for your current turn.  Your character no longer takes attacks of opportunity.  ,corrigido
 Song of Swiftness,Bard,3,None,Beneficial,nao,,(Song) Allies within 4 hexes of you gain 5 Dexterity and Reflex. Every time Song of Swiftness is cast consecutively gain Crescendo of Swiftness: increases the amount given by 5. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
-Soul Cleanse,Monk,4,Healing,Beneficial,nao,,Removes all negative status effects from target ally. Each status effect removed heals the target for 10% of their max health.   Can be used when Disabled.,pendente
+Soul Cleanse,Monk,4,Healing,Beneficial,nao,,Removes all negative status effects from target ally. Each status effect removed heals the target for 10% of their max health.   Can be used when Disabled.,corrigido
 Soul Crush,Shadow,3,Shadow,"Harmful,DealsDamage,Ranged",nao,,Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ,corrigido
 Soul Exchange,Shadow,5,None,"Harmful,DealsDamage,Ranged",nao,,"Swaps the life force of both you and a target, dealing *0 @Shadow Damage@ based on your missing Health. @Lifesteals@ 100%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect abilities.",corrigido
 Soul Link,Shadow,4,Shadow,Ranged,nao,,All damage and healing dealt to one target is also dealt to the linked target.,revisado
 Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,revisado
-Speed,Monk,4,None,,sim,"DexterityBase:Percentage:15, ReflexBase:Percentage:15,",Increases @Dexterity@ and @Reflex@ by 15%.,pendente
+Speed,Monk,4,None,,sim,"DexterityBase:Percentage:15, ReflexBase:Percentage:15,",Increases @Dexterity@ and @Reflex@ by 15%.,revisado
 Staff Attack,Basic,0,None,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Staff Attack,Basic,0,Healing,"Beneficial,Ranged",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
 Stage Presence I,Bard,1,None,Beneficial,sim,"DamageMod:Base:3 * Source.NumAlliesWithin(4), DamageModHealing:Base:3 * Source.NumAlliesWithin(4),",Gain 3% increased damage and healing for each ally within 4 hexes.,intocavel
@@ -388,9 +388,9 @@ Storm Weathered I,Lightning,1,None,,sim,"ResistCold:Base:5, ResistFire:Base:5, R
 Storm Weathered II,Lightning,2,None,,sim,"ResistCold:Base:8, ResistFire:Base:8, ResistLightning:Base:8,",Increase all @elemental resistances@ by an additional 8%.,pendente
 Stormbringer I,Lightning,1,None,,sim,"CritChance:Base:5,",Increases @critical hit chance@ by 5%.,pendente
 Stormbringer II,Lightning,2,None,,sim,"CritChance:Base:8,",Increases @critical hit chance@ by an additional 8%.,pendente
-Strength,Monk,4,None,,sim,"MightBase:Percentage:15, VitalityBase:Percentage:15,",Increases @Might@ and @Vitality@ by 15%.,pendente
+Strength,Monk,4,None,,sim,"MightBase:Percentage:15, VitalityBase:Percentage:15,",Increases @Might@ and @Vitality@ by 15%.,revisado
 Stun Spores,Nature,3,None,"Harmful,Ranged",nao,,Infects enemies with Stunning Spores applying {STA=Stun} for 1 turns.,corrigido
-Stunning Kick,Monk,2,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and stunning them for 1 turn.,pendente
+Stunning Kick,Monk,2,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and stunning them for 1 turn.,revisado
 Stunning Slam,Warrior,4,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.,pendente
 Summon Raven,Ranger,1,None,Ranged,nao,,Summon a Raven to fight your enemies. ,revisado
 Summon Wolf,Ranger,3,Physical,Ranged,nao,,Summon a wolf to fight your enemies.,revisado
@@ -447,6 +447,6 @@ Wanderer,Warrior,1,None,,sim,"TurnFreeMovementPoints:Base:1,",Increase @movement
 Warmonger I,Warrior,1,None,,sim,"DamageMod:Base:8,",Increase all Damage and Healing by 8%. ,pendente
 Warmonger II,Warrior,2,None,,sim,"DamageMod:Base:12,",Increase all Damage and Healing by 12%. ,pendente
 Warrior's Boon,Warrior,3,Healing,Beneficial,nao,,Heals 25% of your maximum health and removes all negative statuses. Can be used when Disabled.,pendente
-Weapon of Choice,Monk,3,None,,sim,"AdditionalWeaponDamage:Base:Source.SumOfAllAttributes * .03f,",3% of your total attribute value is added to your character as @Additional Weapon Damage@.   Current Bonus: [0],pendente
-Willpower,Monk,3,None,,sim,"DamageReduction:Base:Math.Round(Source.HealthRatioInverse, 1) * 40,",Every 10% of your max health you are missing increases damage reduction by 4%.,pendente
+Weapon of Choice,Monk,3,None,,sim,"AdditionalWeaponDamage:Base:Source.SumOfAllAttributes * .03f,",3% of your total attribute value is added to your character as @Additional Weapon Damage@.   Current Bonus: [0],corrigido
+Willpower,Monk,3,None,,sim,"DamageReduction:Base:Math.Round(Source.HealthRatioInverse, 1) * 40,",Every 10% of your max health you are missing increases damage reduction by 4%.,revisado
 Wrath of the  Righteous,Light,5,None,Beneficial,sim,,Healing skills in the Light tree can now deal damage to enemies as well as heal allies.,revisado

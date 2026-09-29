@@ -205,6 +205,16 @@ namespace RoguelikeDebugger.Patches
                     $"alcanceBlast={(ac.UseMaxRangeBlastOverride ? ac.MaxRangeBlastOverride.ToString() : "-")} | " +
                     $"knockback={(ac.UseKnockback ? ac.KnockbackAmount.ToString() : "-")} | " +
                     $"hits={(ac.UseMultipleHits ? ac.NumHits.ToString() : "-")} | " +
+                    // Campos do `ActionInfo` que eu nao despejava e que resolvem casos concretos
+                    // do Monk: DashMaxChainCount e o TETO da serie de golpes (padrao 1, e o
+                    // codigo para a corrente em `ChainCount < BaseAction.DashMaxChainCount`);
+                    // KnockbackCollideAction e o "any enemy hit by the target also receives
+                    // damage" dos chutes de knockback; ActivationIndicatorHexes pode ser a area
+                    // das skills self-cast (Cyclone Kick 4 / Quaking Fist 3).
+                    $"maxChain={ac.DashMaxChainCount} | " +
+                    $"colisao={(ac.KnockbackCollideAction != null ? ac.KnockbackCollideAction.name : "-")} | " +
+                    $"hexesAtiv={(string.IsNullOrEmpty(ac.ActivationIndicatorHexes) ? "-" : ac.ActivationIndicatorHexes.Replace('\n', ','))} | " +
+                    $"numHitsEq={(ac.UseNumHitsEquation ? "Sim" : "-")} | " +
                     $"exprHits={Limpa(ac.NumHitsEquation)} | alcanceHits={Limpa(ac.MultipleHitRange)} | " +
                     $"cooldown={Limpa(ac.Cooldown)} | cargas={Limpa(ac.MaxCharges)}/{Limpa(ac.InitialCharges)} | " +
                     $"precisa={Limpa(ac.UseCondition)} | condFalha={Limpa(ac.UseConditionFailText)} | " +
