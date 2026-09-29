@@ -1,0 +1,114 @@
+==========================================================
+ STOLEN REALM - MODS  (instalar em 5 minutos)
+==========================================================
+
+O QUE VEM AQUI
+--------------
+3 mods que melhoram textos, tooltips e a exibicao dos atributos.
+Nenhum deles muda o balanceamento, o conteudo ou os arquivos do jogo.
+
+  BetterTexts   -> textos e tooltips mais claros e corretos
+  BetterStats   -> mostra os atributos como "base (total)"
+  BetterFont    -> troca a fonte do jogo por uma serifada (Times New Roman)
+
+Voce pode instalar so os que quiser - cada um e independente.
+
+O QUE VOCE PRECISA
+------------------
+- Stolen Realm instalado pelo Steam
+- Windows
+- ~10 minutos
+
+
+==========================================================
+ CAMINHO 1 (recomendado) - usando o r2modman
+==========================================================
+
+1) Baixe e instale o r2modman:
+   https://github.com/ebkr/r2modmanPlus/releases
+   (arquivo "r2modman-Setup-x.y.z.exe")
+
+2) Abra o r2modman e escolha o jogo "Stolen Realm".
+
+3) Crie um perfil (o nome pode ser qualquer um, ex.: MeusMods).
+
+4) Na aba "Online", procure "BepInEx" (BepInExPack) e clique em
+   "Download with dependencies".
+   (Se o perfil ja tiver o BepInEx instalado, pule este passo.)
+
+5) Clique em "Start modded" e espere o jogo abrir. Depois FECHE o jogo.
+   (Esse passo e o que cria a pasta onde os mods vao morar.)
+
+6) No r2modman, clique na engrenagem (Settings) e depois em
+   "Browse profile folder".
+
+7) Na janela que abrir, entre na pasta:  BepInEx  e depois  plugins
+
+8) Copie para DENTRO da pasta "plugins" as pastas que vieram neste pacote
+   (BetterTexts, BetterStats, BetterFont).
+
+   ATENCAO: o resultado tem que ficar exatamente assim -
+      ...\BepInEx\plugins\BetterTexts\BetterTexts.dll
+      ...\BepInEx\plugins\BetterStats\BetterStats.dll
+      ...\BepInEx\plugins\BetterFont\BetterFont.dll
+
+   Ou seja: uma PASTA por mod, com a DLL DENTRO dela.
+
+9) Volte ao r2modman e clique em "Start modded". Pronto.
+
+
+==========================================================
+ CAMINHO 2 - sem r2modman (BepInEx instalado na mao)
+==========================================================
+
+1) Baixe o BepInEx 5, versao x64:
+   https://github.com/BepInEx/BepInEx/releases
+   (arquivo "BepInEx_win_x64_5.4.23.x.zip")
+
+2) Extraia TODO o conteudo do zip DENTRO da pasta do jogo, que fica em:
+      ...\steamapps\common\Stolen Realm\
+   (tem que aparecer um arquivo winhttp.dll ao lado do "Stolen Realm.exe")
+
+3) Abra o jogo pela Steam uma vez e FECHE.
+   (Isso cria as pastas do BepInEx.)
+
+4) Copie as pastas dos mods deste pacote para:
+      ...\steamapps\common\Stolen Realm\BepInEx\plugins\
+   (mesma estrutura do passo 8 do Caminho 1)
+
+5) Abra o jogo pela Steam normalmente. Pronto.
+
+
+==========================================================
+ FUNCIONOU?  /  COMO DESINSTALAR
+==========================================================
+
+Funcionou se: no menu a fonte estiver serifada e os tooltips mais claros.
+
+Para conferir com certeza, abra o arquivo de log:
+   ...\BepInEx\LogOutput.log
+e procure por "carregado." - deve ter uma linha para cada mod
+(ex.: "Better Texts carregado.").
+
+Desinstalar: apague as pastas dos mods dentro de "BepInEx\plugins".
+Tirar um mod nao afeta os outros. Nada no jogo original e alterado.
+
+
+==========================================================
+ OS 3 PROBLEMAS MAIS COMUNS
+==========================================================
+
+1) "Nao aconteceu nada"
+   Quase sempre o mod foi copiado um nivel acima ou abaixo. Confira que o
+   caminho final e: ...\BepInEx\plugins\<NomeDoMod>\<NomeDoMod>.dll
+   (uma PASTA por mod, com a DLL DENTRO dela - nao deixe a DLL solta em
+   "plugins").
+
+2) "O jogo nao abre mais"
+   Provavelmente foi o BepInEx errado (tem que ser o win_x64 da versao 5.x).
+   Apague o BepInEx que voce extraiu na pasta do jogo e refaca pelo Caminho 1.
+
+3) "Quero voltar como era antes"
+   Apague as pastas dos mods em BepInEx\plugins. Se voce usou o Caminho 2 e
+   quiser remover tudo, apague tambem a pasta BepInEx e o winhttp.dll da
+   pasta do jogo. Nenhum arquivo original do jogo foi modificado.

@@ -13,39 +13,39 @@
 
   <ItemGroup>
     <Reference Include="BepInEx">
-      <HintPath>lib\BepInEx.dll</HintPath>
+      <HintPath>..\lib\BepInEx.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>lib\UnityEngine.dll</HintPath>
+      <HintPath>..\lib\UnityEngine.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="0Harmony">
-      <HintPath>lib\0Harmony.dll</HintPath>
+      <HintPath>..\lib\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Assembly-CSharp">
-      <HintPath>lib\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.Serialization">
-      <HintPath>lib\Sirenix.Serialization.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Serialization.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.Serialization.Config">
-      <HintPath>lib\Sirenix.Serialization.Config.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Serialization.Config.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">
-      <HintPath>lib\Sirenix.OdinInspector.Attributes.dll</HintPath>
+      <HintPath>..\lib\Sirenix.OdinInspector.Attributes.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.Utilities">
-      <HintPath>lib\Sirenix.Utilities.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Utilities.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>

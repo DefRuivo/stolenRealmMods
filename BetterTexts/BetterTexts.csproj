@@ -15,45 +15,45 @@
   <ItemGroup>
     <!-- Referência ao BepInEx 5 (copiada do perfil do r2modman) -->
     <Reference Include="BepInEx">
-      <HintPath>lib\BepInEx.dll</HintPath>
+      <HintPath>..\lib\BepInEx.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Unity 2022.3 divide o UnityEngine em módulos: a fachada UnityEngine.dll
          reencaminha os tipos para UnityEngine.CoreModule.dll (onde vive o MonoBehaviour) -->
     <Reference Include="UnityEngine">
-      <HintPath>lib\UnityEngine.dll</HintPath>
+      <HintPath>..\lib\UnityEngine.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>lib\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Harmony (HarmonyX) — para interceptar métodos do jogo -->
     <Reference Include="0Harmony">
-      <HintPath>lib\0Harmony.dll</HintPath>
+      <HintPath>..\lib\0Harmony.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Código do jogo — para referenciar os tipos internos (OptionsManager etc.).
          Referência de compilação apenas: NUNCA distribuir nem modificar esta DLL. -->
     <Reference Include="Assembly-CSharp">
-      <HintPath>lib\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <!-- Odin/Sirenix — o Assembly-CSharp usa o serializador Odin em vários tipos -->
     <Reference Include="Sirenix.Serialization">
-      <HintPath>lib\Sirenix.Serialization.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Serialization.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.Serialization.Config">
-      <HintPath>lib\Sirenix.Serialization.Config.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Serialization.Config.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.OdinInspector.Attributes">
-      <HintPath>lib\Sirenix.OdinInspector.Attributes.dll</HintPath>
+      <HintPath>..\lib\Sirenix.OdinInspector.Attributes.dll</HintPath>
       <Private>false</Private>
     </Reference>
     <Reference Include="Sirenix.Utilities">
-      <HintPath>lib\Sirenix.Utilities.dll</HintPath>
+      <HintPath>..\lib\Sirenix.Utilities.dll</HintPath>
       <Private>false</Private>
     </Reference>
   </ItemGroup>
