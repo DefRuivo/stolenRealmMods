@@ -21,6 +21,15 @@ O QUE VOCE PRECISA
 
 
 ==========================================================
+ ATENCAO: SE VOCE JA TINHA A VERSAO ANTERIOR
+==========================================================
+
+O mod "BetterTexts" mudou de nome para "BetterTooltips". Se voce ja tinha
+instalado a versao antiga, APAGUE a pasta "BetterTexts" (e a DLL dela) de dentro
+de BepInEx\plugins antes de copiar a nova. Se as duas ficarem la, as mesmas
+correcoes sao aplicadas duas vezes.
+
+==========================================================
  CAMINHO 1 (recomendado) - usando o r2modman
 ==========================================================
 
