@@ -7,7 +7,7 @@ Aid,Chaos,3,None,,sim,,Healing an ally has a 10% chance to apply Helping.,sem-ex
 Ambush I,Thief,1,None,,sim,"Ambush:Base:16,",Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
 Ambush II,Thief,2,None,,sim,"Ambush:Base:24,",Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
 Animal Companion Grizzly,Ranger,5,Physical,Ranged,nao,,Summon a grizzly to fight your enemies.,revisado
-Ascendancy,Light,5,None,"Beneficial,Ranged",nao,,Increases the target allies' stats by 20%.,pendente
+Ascendancy,Light,5,None,"Beneficial,Ranged",nao,,Increases the target allies' stats by 20%.,revisado
 Aura of Flame,Fire,3,Fire,Beneficial,nao,,Continually deals *0 fire damage to enemies within 3 hexes of your character.,pendente
 Aura Of Frost,Cold,3,None,Beneficial,nao,,Deals *0 cold damage to enemies that start their turns within 3 hexes of your character.,pendente
 Aura of Lightning,Lightning,3,Lightning,Beneficial,nao,,Each time an action is made by an enemy within the aura they suffer *0 lightning damage. ,pendente
@@ -425,7 +425,7 @@ Thunder Storm,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Summon a t
 Thunder Struck,Lightning,5,None,,sim,,Your lightning damage has a 10% chance to conjure a thunderbolt on a random enemy dealing *0 lightning damage within 2 hexes of its blast.,pendente
 Thunder Wrath,Lightning,5,Lightning,"DealsDamage,Harmful,Elemental,Ranged",nao,,Summons 4 thunder bolts targeting enemies at random within a 10 hex radius.  Each bolt deals *0 lightning damage to foes within 3 hexes of its blast.,corrigido
 Titan Bloom,Nature,5,None,"Beneficial,Ranged",nao,,Creates a magic mushroom that increases the @Max Health@ and @Damage@ of allies within its aura by [0]%. Stacks up to 5 times.,revisado
-Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,pendente
+Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,revisado
 Tracker's Mark,Ranger,1,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",corrigido
 Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target applying {STA=Sleep} for 2 turns.,revisado
 Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,pendente
