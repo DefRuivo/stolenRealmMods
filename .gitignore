@@ -7,6 +7,8 @@ dist/
 *_lib/
 b_*.txt
 build_*.txt
+__pycache__/
+*.pyc
 
 # Notas/dumps de trabalho de IA — superados pelo censo em docs/cobertura/
 *.md
