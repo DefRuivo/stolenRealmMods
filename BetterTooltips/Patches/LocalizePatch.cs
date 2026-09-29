@@ -28,6 +28,44 @@ namespace BetterTooltips.Patches
         // Logo: +X% Treasure Find = +X% de chance de drop, acumulando com a party.
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // ---- Escala por NÍVEL (RV-8b-2g) ----
+            // Fonte: código do jogo. `GetFlatDamageValue(level, rarity) =
+            // Mathf.Ceil(FlatDamageNodes.GetMultipler((int)level) * GetStatRarityMod(rarity))`
+            // — é uma CURVA DE NÍVEL, não um atributo. O valor atual já aparece na tooltip
+            // (é o [0]); o que faltava era dizer COM O QUE ele escala, que era a pergunta
+            // legítima do jogador ("invisto em Might para isso melhorar?").
+            // São as 5 skills do jogo que usam essa curva (Huntsman I/II, Thorns I/II e
+            // Vengeful Shadows); a chave "Physical damage increased by [0]." cobre as duas
+            // Huntsman porque as duas escalam igual.
+            { "Grants [0] Return Physical Damage.", "\nScales with your character level." },
+            { "Grants an additional [0] Return Physical Damage.", "\nScales with your character level." },
+            { "Grants [0] Return Shadow Damage.", "\nScales with your character level." },
+            { "Physical damage increased by [0].", "\nScales with your character level." },
+
+            // ---- O que cada INVOCAÇÃO faz (RV-8b-2h) ----
+            // Fonte: os assets do jogo, via dump. `ActionInfo.Summons` é a lista de
+            // CharacterInfo e `CharacterInfo.SkillsAndAI[].Skill` são as habilidades da
+            // criatura - a tooltip só diz o NOME de cada bicho, nunca o que ele faz.
+            // `herdaStats=nao` em todas estas: o invocado NÃO herda seus atributos, então
+            // nenhuma delas escala com o que você investe.
+            // (Só em inglês: são chaves do texto original do jogo.)
+            { "Summons a Raven, Coyote, or Raccoon to fight for you.",
+              "\nOne is summoned at random. Raven: Melee Attack, Evasion. Raccoon: Melee Attack, Steal Action. Coyote: Melee Attack, Cripple. Does not inherit your stats." },
+            { "Summons a Stag, Wolf, or Boar to fight for you.",
+              "\nOne is summoned at random. Stag: Stunning Kick, Melee Attack. Wolf: Melee Attack, Howl. Boar: Melee Attack, Fracture. Does not inherit your stats." },
+            { "Summons a Bear, Moose, or Panther to fight for you.",
+              "\nOne is summoned at random. The Bear is a Grizzly: Stunning Slam, Wild Cleave. Moose: Ground Slam, Melee Attack. Panther: Shadow Walk, Melee Attack. Does not inherit your stats." },
+            { "Summons a Tundra Wolf to fight for you.",
+              "\nTundra Wolf: Melee Attack, Howl. Does not inherit your stats." },
+            { "Summons a Dire Wolf to fight for you.",
+              "\nDire Wolf: Melee Attack, Blood Howl. Does not inherit your stats." },
+            { "Summon a grizzly to fight your enemies.",
+              "\nGrizzly: Stunning Slam, Wild Cleave. Does not inherit your stats." },
+            { "Summon a wolf to fight your enemies.",
+              "\nWolf: Melee Attack, Howl. Does not inherit your stats." },
+            { "Summon a Raven to fight your enemies. ",
+              "\nRaven: Melee Attack, Evasion. Does not inherit your stats." },
+
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
             // diz no próprio comentário qual atributo/método confirma a mecânica.
@@ -258,7 +296,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you."
+                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack. Does not inherit your stats."
             },
         };
 

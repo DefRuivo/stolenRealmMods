@@ -47,13 +47,14 @@ OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # ATENCAO ao mexer no dump: os campos vem separados por "|" e nenhum valor pode conter
 # "|", e o desc= precisa continuar por ULTIMO (o regex DESC e ancorado no fim da linha).
 LINE = re.compile(
-    r"^\[[^\]]*:Roguelike Debugger\]\s+\[(?P<cat>Skill|Action|Status|ItemMod|Item|Powerup)\]\s+"
+    r"^\[[^\]]*:Roguelike Debugger\]\s+\[(?P<cat>Skill|Action|Summon|Status|ItemMod|Item|Powerup)\]\s+"
     r"'(?P<name>.*?)'\s+\|\s*(?P<rest>.*)$"
 )
 FIELD = re.compile(
     r"(?P<key>tipo|dano|tier|tags|raridade|lvlMin|guid|nivel|custo|efeitos"
     r"|skid|passivo|attr|acts|pstat|expr|danoExpr|upg"
-    r"|efeitosRef|refAcao|refStatus|nEfeitos|nEfeitosRef|efeitosDano|nEfeitosDano)=(?P<val>[^|]+)")
+    r"|efeitosRef|refAcao|refStatus|nEfeitos|nEfeitosRef|efeitosDano|nEfeitosDano"
+    r"|sorteio|herdaStats|morreComCaster|persistente|doencaDeInvocacao|criaturas)=(?P<val>[^|]+)")
 DESC = re.compile(r'desc="(?P<desc>.*)"\s*$')
 VALOR = re.compile(r":(-?\d+(?:\.\d+)?)\s*,")
 
@@ -95,6 +96,10 @@ CATS = {
                                  "descricao", "status"]),
     # `efeitos` = AttributeEffects; `efeitosDano` = GeneralEffect.Action NA ORDEM, que e
     # o que o `*N` indexa quando o dano da skill vem de um status (RV-8b-0e).
+    # Summon (RV-8b-2h): invocacoes. `criaturas` traz cada bicho invocavel e as Skills
+    # dele - e o que responde "o que cada summon faz", que a tooltip nao diz.
+    "Summon":  ("invocacoes.csv", ["nome", "sorteio", "herdaStats", "morreComCaster",
+                                   "persistente", "doencaDeInvocacao", "criaturas", "status"]),
     "Status":  ("status.csv",   ["nome", "tipo", "raridade", "efeitos", "efeitosDano",
                                  "nEfeitosDano", "classe", "descricao", "status"]),
     "Item":    ("itens.csv",    ["nome", "tipo", "raridade", "lvlMin", "descricao", "status"]),
@@ -135,8 +140,8 @@ def parse(path):
             fields = {k: v.strip() for k, v in FIELD.findall(rest)}
             dm = DESC.search(rest)
             desc = dm.group("desc") if dm else ""
-            if not dm:
-                truncadas += 1   # descricao cortada pelo debugger
+            if not dm and cat != "Summon":
+                truncadas += 1   # a linha de invocacao nao tem desc=, por desenho   # descricao cortada pelo debugger
             rows[cat].append((m.group("name"), fields, desc))
 
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -188,6 +193,11 @@ def parse(path):
                                 f.get("nEfeitosRef", ""), f.get("nEfeitos", ""),
                                 f.get("refAcao", ""), f.get("refStatus", ""),
                                 f.get("expr", ""), f.get("danoExpr", ""), desc,
+                                st or "pendente"])
+                elif cat == "Summon":
+                    w.writerow([nome, f.get("sorteio", ""), f.get("herdaStats", ""),
+                                f.get("morreComCaster", ""), f.get("persistente", ""),
+                                f.get("doencaDeInvocacao", ""), f.get("criaturas", ""),
                                 st or "pendente"])
                 elif cat == "Status":
                     w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""),

@@ -1,0 +1,19 @@
+nome,sorteio,herdaStats,morreComCaster,persistente,doencaDeInvocacao,criaturas,status
+[Necronomicon] Raise Undead Berserker,nao,nao,nao,nao,nao,"Undead Berserker[Bleeding Cleave,];",pendente
+[Necronomicon] Raise Undead Ranger,nao,nao,nao,nao,nao,"Undead Ranger[Ranged Attack,Hide In Shadows,];",pendente
+[Necronomicon] Raise Undead Wizard,nao,nao,nao,nao,nao,"Undead Wizard[Bone Explosion,Bone Explosion,Consumption,Ghost Armor,];",pendente
+Animal Companion Grizzly,nao,nao,nao,nao,nao,"Grizzly[Stunning Slam,Wild Cleave,];",pendente
+Animal Companion Raven,nao,nao,nao,nao,nao,"Raven[Melee Attack,Evasion,];",pendente
+Animal Companion Wolf,nao,nao,nao,nao,nao,"Wolf[Melee Attack,Howl,];",pendente
+Brambles,nao,sim,nao,nao,nao,Brambles[];,pendente
+Ice Wall New,nao,sim,nao,nao,nao,Brambles[];,pendente
+Nature Summoning I,sim,nao,nao,nao,nao,"Raven[Melee Attack,Evasion,]; Raccoon[Melee Attack,Steal Action,]; Coyote[Melee Attack,Cripple,];",pendente
+Nature Summoning I  [Pack Summoning],nao,nao,nao,nao,nao,"Timber Wolf[Cripple,Melee Attack,];",pendente
+Nature Summoning II,sim,nao,nao,nao,nao,"Wolf[Melee Attack,Howl,]; Boar[Melee Attack,Fracture,]; Stag[Stunning Kick,Melee Attack,];",pendente
+Nature Summoning II  [Pack Summoning],nao,nao,nao,nao,nao,"Tundra Wolf[Melee Attack,Howl,];",pendente
+Nature Summoning III,sim,nao,nao,nao,nao,"Grizzly[Stunning Slam,Wild Cleave,]; Moose[Ground Slam,Melee Attack,]; Panther[Shadow Walk,Melee Attack,];",pendente
+Nature Summoning III  [Pack Summoning],nao,nao,nao,nao,nao,"Dire Wolf[Melee Attack,Blood Howl,];",pendente
+Raise Iron Golem,nao,nao,nao,nao,nao,"Iron Golem[Ground Slam,];",pendente
+Raise Skeletal Archer,nao,nao,nao,nao,nao,"Skeletal Archer[Ranged Attack,];",pendente
+Raise Skeletal Mage,nao,nao,nao,nao,nao,"Skeletal Mage[Frost Nova,Fireball,Twister,Ghost Armor,];",pendente
+Raise Skeletal Warrior,nao,nao,nao,nao,nao,"Skeletal Warrior[Melee Attack,Cleave,];",pendente
