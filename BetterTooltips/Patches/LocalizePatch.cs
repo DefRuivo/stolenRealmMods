@@ -123,6 +123,40 @@ namespace BetterTooltips.Patches
             // Malevolence, Hurting e Helping seguem omitidos DE PROPOSITO. Nao "corrigir"
             // isto de novo: e design, nao omissao. Ver a excecao do Chaos na regra de omissao.
 
+            // ---- O que INFLUENCIA a cura e o dano holy (arvore Light, 29/09) ----
+            // Fonte: GetActionDamage, l.38843-38859. O multiplicador da cura e o MESMO do
+            // dano holy:
+            //     float num24 = source["DamageModHealing"];         // <- "Holy Power"
+            //     float num26 = target?["HealingReceivedBonus"];
+            //     num7 *= 1f + num24 / 100f;    // dano holy
+            //     num9 *= 1f + num24 / 100f;    // cura
+            //     num9 *= 1f + num26 / 100f;    // cura, pelo lado do ALVO
+            // A BASE da cura vem de `Source.SpellPower('Light')` - e `SpellPower(type)`
+            // devolve **`AttackPower`** (l.36040): entao escala com arma/Might, NAO com
+            // Inteligencia. As curas por % de vida (`Healing Hand`, `Divine Intervention`)
+            // nao tem essa base e por isso levam so a linha do Holy Power.
+            // "Holy Power" e o nome que o PROPRIO JOGO usa: `Empowered Light` diz "Increases
+            // Holy Power and Healing Received by 10%" e o efeito dela e `DamageModHealing` -
+            // o mesmo atributo que multiplica a cura aqui.
+            { "Restores target's health by *0.",
+              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "Restores *0 health to all allies within 2 hexes of target.",
+              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "Target restores *0 health per turn. ",
+              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "All allies within 3 hexes of you heal for *0 per turn. ",
+              "\nHealing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "The caster reaches out in aid healing 30% of target's maximum health.",
+              "\nHealing scales with your Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "Restores the target to full health.",
+              "\nHealing scales with your Holy Power.\nReduced by effects that lower the target's healing received." },
+            { "Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.",
+              "\nDamage scales with your Attack Power and Holy Power." },
+            { "Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.",
+              "\nDamage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received." },
+            { "Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.",
+              "\nDamage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received." },
+
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
             // diz no próprio comentário qual atributo/método confirma a mecânica.

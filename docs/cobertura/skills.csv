@@ -26,7 +26,7 @@ Bless,Light,2,None,"Beneficial,AreaEffect",nao,,"Bless all allies within 5 hexes
 Blessed By Light I,Light,1,None,Beneficial,sim,"ManaCostMod:Base:-10,",Mana costs reduced by 10%.,revisado
 Blessed By Light II,Light,2,None,Beneficial,sim,"ManaCostMod:Base:-15,",Mana costs reduced by an additional 15%.,revisado
 Blind,Shadow,1,Shadow,"Harmful,Ranged",nao,,Deals *0 shadow damage.  Applies {STA=Blind} for 1 turn.,corrigido
-Blinding Light,Light,2,None,"Harmful,Ranged",nao,,Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.,pendente
+Blinding Light,Light,2,None,"Harmful,Ranged",nao,,Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.,revisado
 Blood Drinker,Warrior,4,None,,sim,"DamageModBasic:Base:50, LifeOnHitBasic:Base:5,",Increases basic attack damage by 50%. Basic attacks now @Life steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Blood Howl,Innate,1,Physical,"Harmful,DealsDamage,AreaEffect",nao,,Howl causing *0 physical damage to all enemies within 2 hexes.  Applies a debuff that causes all attackers to lifesteal for [1]% against this target for 2 turns.,corrigido
 Bloodlet,Warrior,2,None,Beneficial,nao,,Sacrifice 15% of your maximum health in exchange for an additonal action this turn.  Applies {STA=Exhaustion}.,corrigido
@@ -38,7 +38,7 @@ Brain Freeze,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Deals *0 cold damage 
 Brambles,Nature,1,None,"CrowdControl,Ranged",nao,,Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.,revisado
 Branching Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Bounces to enemies within 3 hexes. Each bounce increases its damage by 50%.,revisado
 Break The Ice,Cold,2,None,Beneficial,sim,,"The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",pendente
-Breath of Life,Light,1,Holy,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.,pendente
+Breath of Life,Light,1,Holy,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.,revisado
 Breath of Winter,Cold,3,None,"Harmful,DealsDamage,Elemental,AreaEffect",nao,,Conjures the breath of a frost dragon dealing *0 cold damage to all enemies in a cone. ,pendente
 Bristles,Nature,3,None,,sim,"Bristles:Set:1,",Summons gain 50% of your return damage.,revisado
 Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",nao,,Ignite an area in flames. Enemies take *0 fire damage each turn they remain on burning ground.,pendente
@@ -48,7 +48,7 @@ Call of the Grave,Shadow,1,None,,sim,"CallOfTheGrave:Set:1,",Deal 20% additional
 Call of the Wild,Nature,4,None,,sim,"CooldownModSummon:Base:-1,",Summoning skill cooldowns reduced by 1.,revisado
 Called Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.,corrigido
 Cauterize,Fire,2,None,"Beneficial,Ranged",nao,,Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.,pendente
-Celestial Light,Light,2,Holy,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
+Celestial Light,Light,2,Holy,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.,revisado
 Chain Frost,Cold,5,None,"Harmful,DealsDamage,Elemental,Ranged",nao,,Deals *0 cold damage.  Bounces between enemies within 4 hexes up to 10 times.,corrigido
 Chain Lightning,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,Ranged",nao,,Conjures a lightning bolt that chains up to 5 enemies near the target dealing *0 lightning damage to each target.  ,pendente
 Challenger,Warrior,1,None,,sim,"Armor:Percentage:5 * Source.NumEnemiesWithin(1), MagicArmor:Percentage:5 * Source.NumEnemiesWithin(1),",For every enemy within 1 hex of your character gain 5% to @Armor@ and @magic armor@.,pendente
@@ -82,7 +82,7 @@ Crushing Slam,Warrior,4,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage
 Crystalize I,Cold,1,None,,sim,"ResistPhysical:Base:5,",Increases @Physical Resistance@ by 5%.,pendente
 Crystalize II,Cold,2,None,,sim,"ResistPhysical:Base:10,",Increases @Physical Resistance@ by an additional 10%.,pendente
 Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",nao,,Charm the enemy target for 1 turn.  Cannot target bosses.,corrigido
-Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,pendente
+Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,revisado
 Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,revisado
 Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
 Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,pendente
@@ -110,7 +110,7 @@ Disperse,Chaos,3,Weapon,"DealsDamage,Harmful,Elemental",nao,,Teleports all enemi
 Displacement,Chaos,2,None,,sim,,Teleport randomly when taking damage.,pendente
 Disruption I,Chaos,1,None,,sim,"IgnoreDamageChance:Base:4,",4% chance to negate all damage when taking damage.,pendente
 Disruption II,Chaos,2,None,,sim,"IgnoreDamageChance:Base:6,",6% chance to negate all damage when taking damage.,pendente
-Divine Intervention,Light,4,Healing,"Beneficial,Ranged,Healing",nao,,Restores the target to full health.,pendente
+Divine Intervention,Light,4,Healing,"Beneficial,Ranged,Healing",nao,,Restores the target to full health.,revisado
 Dodging Strikes,Monk,4,Weapon,"Harmful,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. ,corrigido
 Double Edge,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage to the target and 15% of the damage back to you. ,pendente
 Dreadful Dissonance,Bard,2,None,Harmful,nao,,Enemies within 1 hex of you are feared for 1 turn. 3 turn cooldown. Action.,intocavel
@@ -249,7 +249,7 @@ Many Sided Strike,Monk,5,Weapon,"Harmful,DealsDamage",nao,,Hit enemies in the ta
 Marked Prey,Ranger,5,None,,sim,,Attacks now apply {STA=Marked Prey}.  All stacks are removed at the end of your turn.,corrigido
 Masochism I,Monk,1,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ,pendente
 Masochism II,Monk,2,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,pendente
-Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *0 health to all allies within 2 hexes of target.,pendente
+Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *0 health to all allies within 2 hexes of target.,revisado
 Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,revisado
 Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,pendente
 Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,pendente
@@ -329,7 +329,7 @@ Reaper's Scythe,Shadow,5,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shado
 Reaper's Toll,Shadow,3,None,,sim,,Every enemy that dies heals you for 10% of your maximum health.,revisado
 Recharge,Lightning,4,None,,sim,"Recharge:Set:1,","You have a 33% chance to completely refund the mana cost spent while using abilities. When mana is refunded this way, a random ability will have its cooldown lowered by 1.",pendente
 Redemption,Light,5,None,Beneficial,sim,,Redeem the soul of the first character to die in your party.  The target's health and mana are fully restored.  Does not affect summoned creatures.,corrigido
-Regenerate,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Target restores *0 health per turn. ,pendente
+Regenerate,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Target restores *0 health per turn. ,revisado
 Relocate,Ranger,2,None,,nao,,Jump to the target area.  Unaffected by increased range modifiers.,corrigido
 Replicate,Chaos,5,None,"Harmful,Ranged,DealsDamage",nao,,"Creates a clone of yourself that can cast your abilities. The Replicate Clone explodes for damage on death, each element has a @50%@ chance to deal *0 damage.",pendente
 Resonating Refrain,Bard,4,None,Beneficial,nao,,(Song) (Aura) Deal physical damage in a 4 hex area every time you use an action or a free action. Every time Resonating Refrain is cast gain Resonating Crescendo: increases the damage. Stacks. Lose Crescendo stacks when you switch songs. Cooldown 1 turn. Free Action.,intocavel
