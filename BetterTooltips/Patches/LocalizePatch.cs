@@ -116,11 +116,10 @@ namespace BetterTooltips.Patches
             // Ascendancy: o status concede 20% e DURA 5 TURNOS; a skill so dizia o 20%.
             { "Increases the target allies' stats by 20%.",
               "\nLasts 5 turns." },
-            // Touch of Chaos: "a random Chaos Modifier" sem dizer o tamanho do sorteio. Sao
-            // 17 modificadores no asset - o numero muda a decisao (3 opcoes e uma aposta
-            // muito melhor que 17), e o jogador nao tem como descobrir sozinho.
-            { "Enchant an ally with a random Chaos Modifier.",
-              "\nOne of 17 possible modifiers." },
+            // Touch of Chaos: REVERTIDO a pedido do usuario (29/09). A arvore do Chaos e
+            // divertida justamente por NAO revelar os resultados - Coin of Chaos, Benevolence,
+            // Malevolence, Hurting e Helping seguem omitidos DE PROPOSITO. Nao "corrigir"
+            // isto de novo: e design, nao omissao. Ver a excecao do Chaos na regra de omissao.
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
