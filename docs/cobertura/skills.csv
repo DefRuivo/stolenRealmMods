@@ -1,7 +1,7 @@
 nome,arvore,tier,dano,tags,passivo,attr,descricao,status
 Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",nao,,Hurls an orb of dark energy dealing *0 shadow damage to all targets in range.,pendente
-Adaptation I,Nature,1,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 6 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 6 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 6 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 6 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain a 6% resistance to the last type of damage taken.,pendente
-Adaptation II,Nature,2,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain an additional 9% resistance to the last type of damage taken.,pendente
+Adaptation I,Nature,1,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 6 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 6 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 6 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 6 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain a 6% resistance to the last type of damage taken.,revisado
+Adaptation II,Nature,2,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain an additional 9% resistance to the last type of damage taken.,revisado
 Affinity,Chaos,3,None,,sim,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
 Aid,Chaos,3,None,,sim,,Healing an ally has a 10% chance to apply Helping.,sem-explicacao
 Ambush I,Thief,1,None,,sim,"Ambush:Base:16,",Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
@@ -14,8 +14,8 @@ Aura of Lightning,Lightning,3,Lightning,Beneficial,nao,,Each time an action is m
 Avatar of Flame,Fire,5,None,,sim,"AvatarOfFlame:Set:1,",Each stack of @heat@ now applies [0] fire damage to the target per turn.,pendente
 Bash,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Knocks the target back up to 3 hexes.,corrigido
 Battle Ready,Warrior,3,None,,sim,"AdditionalWeaponDamage:Base:Source[""Armor""] * .01f,",1% of your @Armor@ value is added to your character as @Additional Weapon Damage@.  Current Bonus: [0],corrigido
-Beast Master I,Nature,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health. ,pendente
-Beast Master II,Nature,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health. ,pendente
+Beast Master I,Nature,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health. ,revisado
+Beast Master II,Nature,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health. ,revisado
 Benevolence,Chaos,4,None,Beneficial,nao,,Applies @Helping@ to all allies.,pendente
 Berserker's Rage,Warrior,2,None,Beneficial,nao,,Increases @Damage dealt@ and @damage received@ by 25%. Increases @Max Life@ by 15%.,pendente
 Beserker's Blood,Warrior,3,None,,sim,"DamageMod:Base:Source.HealthRatioInverse * 100,"," For every 1% of health missing, gain 1% increased damage.",pendente
@@ -45,7 +45,7 @@ Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",nao,,Ignite an area in f
 Burning Reach,Fire,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all non-melee abilites by 1 hex. ,corrigido
 Calculated Risk,Thief,4,None,,sim,,When you are hit you have a 100% chance to cast @evasion@. 1 turn cooldown.,pendente
 Call of the Grave,Shadow,1,None,,sim,"CallOfTheGrave:Set:1,",Deal 20% additional damage to enemies below 50% health.,pendente
-Call of the Wild,Nature,4,None,,sim,"CooldownModSummon:Base:-1,",Summoning skill cooldowns reduced by 1.,pendente
+Call of the Wild,Nature,4,None,,sim,"CooldownModSummon:Base:-1,",Summoning skill cooldowns reduced by 1.,revisado
 Called Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.,corrigido
 Cauterize,Fire,2,None,"Beneficial,Ranged",nao,,Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.,pendente
 Celestial Light,Light,2,Holy,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
@@ -70,7 +70,7 @@ Colossus,Warrior,5,None,,sim,"Colossus:Set:1,",Damage you deal splashes to enemi
 Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,pendente
 Conduit,Lightning,5,None,,sim,"ExtraTurnActionPoints:Base:1,",Gain an additional action each turn.,pendente
 Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",nao,,Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,pendente
-Contagion,Nature,3,None,,sim,"ContagionSource:Set:1,",Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,pendente
+Contagion,Nature,3,None,,sim,"ContagionSource:Set:1,",Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,revisado
 Contaminated Wound,Thief,4,None,,sim,"ContaminatedWound:Set:1,",Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,pendente
 Contemplation I,Monk,1,None,,sim,"MaxMana:Percentage:10,",Max Mana increased by 10%.,pendente
 Contemplation II,Monk,2,None,,sim,"MaxMana:Percentage:15,",Max Mana increased by an additional 15%.,pendente
@@ -117,7 +117,7 @@ Dreadful Dissonance,Bard,2,None,Harmful,nao,,Enemies within 1 hex of you are fea
 Dual-Wield Mastery,Warrior,3,None,,sim,"DodgeChance:Base:Source.IsDualWielding ? 5 : 0, CritChance:Base:Source.IsDualWielding ? 5 : 0, CritDamage:Base:Source.IsDualWielding ? 20 : 0,","While dual-wielding, @dodge chance@ increased by 5%, @critical hit chance@ increased by 5%, and @critical hit damage@ is increased by 20%.",pendente
 Eagle Eye,Ranger,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all ranged skills by 1 hex.,revisado
 Echo,Bard,3,None,Beneficial,sim,,50% chance when you deal damage or healing to deal 50% of the amount again.,intocavel
-Ecosystem,Nature,5,None,,sim,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:Percentage:Source.SummonCount * 5f, SummonDamageMod:Base:Source.SummonCount * 5f, SummonHealthMod:Base:Source.SummonCount * 5f,","Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",pendente
+Ecosystem,Nature,5,None,,sim,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:Percentage:Source.SummonCount * 5f, SummonDamageMod:Base:Source.SummonCount * 5f, SummonHealthMod:Base:Source.SummonCount * 5f,","Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",revisado
 Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @elemental resistance@ by 15%. ,pendente
 Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,pendente
 Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,pendente
@@ -132,7 +132,7 @@ Endurance I,Monk,1,None,,sim,"MaxHealth:Percentage:10,",Max Health increased by 
 Endurance II,Monk,2,None,,sim,"MaxHealth:Percentage:15,",Max Health increased by an additional 15%.,pendente
 Enduring Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next 2 attacks.,pendente
 Energy Cannon,Lightning,5,Lightning,"DealsDamage,Harmful",nao,,Deals *0 lightning damage in a 6 hex line 10 times.,pendente
-Entangle,Nature,1,None,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @2@ stacks of {STA=Poisoned}.,pendente
+Entangle,Nature,1,None,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @2@ stacks of {STA=Poisoned}.,revisado
 Escape,Thief,1,None,,nao,,Teleport to the target area.  Unaffected by increased range modifiers.,corrigido
 Evasion,Thief,2,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack.,pendente
 Evolution,Nature,5,None,,sim,,Getting hit increases max health by 5% stacking 10x. Hitting increases damage by 5% stacking 10x. Only one of the buffs can be active at a time.,pendente
@@ -173,7 +173,7 @@ Frost Shard,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Impale your 
 Frostbite I,Cold,1,None,,sim,"ChilledDamageReduction:Base:2,",Your stacks of @chilled@ now reduce the targets damage by 2%.,pendente
 Frostbite II,Cold,2,None,,sim,"ChilledDamageReduction:Base:3,",Your stacks of @Chilled@ now reduce the targets damage by an additional 3%.,pendente
 Frozen Core,Cold,4,None,,sim,"Frostbite:Set:1,",Each stack of @chilled@ now reduces the target's maxium health by 5%.,pendente
-Frozen Orb,Cold,2,Cold,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled},pendente
+Frozen Orb,Cold,2,Cold,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled},corrigido
 Frozen Spikes,Cold,3,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Hurl 5 shards of ice dealing *0 cold damage to each target.,pendente
 Fuel for the Flames I,Fire,3,None,,sim,"ManaCostMod:Base:20, ManaPowerMod:Base:40,",Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.,pendente
 Fuel for the Flames II,Fire,4,None,,sim,"ManaCostMod:Base:30, ManaPowerMod:Base:60,",Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.,pendente
@@ -235,7 +235,7 @@ Light's Strength,Light,3,None,Beneficial,sim,"MightBase:Percentage:20,",Increase
 Lightning Breath,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breath lightning dealing *0 lightning damage to all enemies in a cone. ,pendente
 Lightning Shield,Lightning,1,Lightning,"Beneficial,Ranged",nao,,Increases @Lightning Resistance@ by 10%. Attackers take *0 lightning damage.,pendente
 Lingering Light,Light,4,None,Beneficial,sim,,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",pendente
-Living Armor,Nature,2,None,"Beneficial,Ranged",nao,,Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.,pendente
+Living Armor,Nature,2,None,"Beneficial,Ranged",nao,,Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.,revisado
 Long Shot,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 10%. ,corrigido
 Ludicrous Display,Bard,3,None,Beneficial,sim,,On the enemies' first turn they are all taunted towards you.,intocavel
 Magic Hat I,Chaos,2,None,"Beneficial,Ranged",nao,,Produce a random barrel on the target hex.,pendente
@@ -250,7 +250,7 @@ Marked Prey,Ranger,5,None,,sim,,Attacks now apply {STA=Marked Prey}.  All stacks
 Masochism I,Monk,1,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ,pendente
 Masochism II,Monk,2,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,pendente
 Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *0 health to all allies within 2 hexes of target.,pendente
-Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,pendente
+Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,revisado
 Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,pendente
 Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,pendente
 Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,pendente
@@ -272,9 +272,9 @@ Muse I,Bard,1,None,Beneficial,sim,,Allies within 4 hexes gain 10% reduced Mana C
 Muse II,Bard,2,None,Beneficial,sim,,Allies within 4 hexes gain an additional 15% reduced Mana Costs (25% total with Muse I).,intocavel
 Mythic Reach,Ranger,5,None,,sim,"RangeTypeAdderRanged:Base:5,",All ranged abilities get an additional 5 hex range.,revisado
 Natural Selection,Nature,4,None,,sim,,When an Ally or an Enemy dies gain 5% of your max Health and Mana.,pendente
-Nature Summoning I,Nature,1,None,Ranged,nao,,"Summons a Raven, Coyote, or Raccoon to fight for you.",pendente
-Nature Summoning II,Nature,3,None,Ranged,nao,,"Summons a Stag, Wolf, or Boar to fight for you.",pendente
-Nature Summoning III,Nature,5,None,Ranged,nao,,"Summons a Bear, Moose, or Panther to fight for you.",pendente
+Nature Summoning I,Nature,1,None,Ranged,nao,,"Summons a Raven, Coyote, or Raccoon to fight for you.",revisado
+Nature Summoning II,Nature,3,None,Ranged,nao,,"Summons a Stag, Wolf, or Boar to fight for you.",revisado
+Nature Summoning III,Nature,5,None,Ranged,nao,,"Summons a Bear, Moose, or Panther to fight for you.",revisado
 Necromancer I,Shadow,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health.,pendente
 Necromancer II,Shadow,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health.,pendente
 Omnism I,Chaos,1,None,,sim,"ShrineEffectBonus:Base:8,",Increases the effectiveness of shrines by 8%.,pendente
@@ -286,9 +286,9 @@ Overload,Lightning,4,None,Beneficial,nao,,Gives the target 100% Critical Hit Cha
 Overwhelming Power,Fire,4,None,Beneficial,nao,,Increases the damage of your next damaging action by 100%.,pendente
 Pack Hunter I,Nature,1,None,,sim,"DamageMod:Base:8 * Source.NumAlliesWithin(1),",For every ally within 1 hex of you gain 8% @increased Damage@.,pendente
 Pack Hunter I,Nature,2,None,,sim,"DamageMod:Base:12 * Source.NumAlliesWithin(1),",For every ally within 1 hex of you gain an additional 12% @increased Damage@.,pendente
-Pack Summoning I,Nature,1,None,Ranged,nao,,Summons a Timber Wolf to fight for you,pendente
-Pack Summoning II,Nature,3,None,Ranged,nao,,Summons a Tundra Wolf to fight for you.,pendente
-Pack Summoning III,Nature,5,None,Ranged,nao,,Summons a Dire Wolf to fight for you.,pendente
+Pack Summoning I,Nature,1,None,Ranged,nao,,Summons a Timber Wolf to fight for you,corrigido
+Pack Summoning II,Nature,3,None,Ranged,nao,,Summons a Tundra Wolf to fight for you.,revisado
+Pack Summoning III,Nature,5,None,Ranged,nao,,Summons a Dire Wolf to fight for you.,revisado
 Pain Suppression,Monk,2,Physical,Beneficial,nao,,The target's Damage Reduction is increased by 50% for 1 turn.,pendente
 Paralyzing Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy dealing *0 weapon damage.  Stuns the target for 1 turn.,corrigido
 Patient Hunter,Ranger,3,None,Beneficial,sim,,Patient Hunter gives 10% @increased damage@ and 1 @skill range@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.,corrigido
@@ -311,7 +311,7 @@ Quick Draw,Ranger,4,Physical,Beneficial,nao,,Your next 3 basic attacks have no A
 Quick Hands,Ranger,3,None,,sim,,Your basic attack has a 50% chance to strike twice.  Can only trigger once per turn.,corrigido
 Quickening,Light,4,None,Beneficial,sim,,"Every time one of your Light skills is cast on an ally, one of the ally's spells has it's cooldown lowered by 1 turn.  This effect can only happen once per turn.",corrigido
 Rage,Warrior,1,None,Beneficial,nao,,Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.,corrigido
-Rage Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies and allies with Rage Spores that increase @damage dealt@ and reduce @damage reduction@ by 25% for 2 turns.,pendente
+Rage Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies and allies with Rage Spores that increase @damage dealt@ and reduce @damage reduction@ by 25% for 2 turns.,revisado
 Rainstorm,Nature,4,None,"Beneficial,Ranged",nao,,Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.,pendente
 Raise Iron Golem,Shadow,5,None,Ranged,nao,,Raise a Mighty Iron Golem to fight for you.,corrigido
 Raise Skeletal Archer,Shadow,1,None,Ranged,nao,,Summon a skeletal archer to fight by your side.,corrigido
@@ -358,10 +358,10 @@ Shock,Lightning,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",nao,,Reaches o
 Shocking Shackles,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Deals *0 lightning damage.  Applies {STA=Stunned}.,corrigido
 Show Stopper,Bard,3,None,Beneficial,sim,,Enemies who hit you have a 25% chance to stun themselves for 1 turn.,intocavel
 Shroud,Thief,2,None,,sim,,Applies {STA=Stealth} at the start of each battle.,pendente
-Skin Walker,Nature,3,None,,sim,"CooldownModShapeshifting:Base:-2,",Reduces the cooldown of Shapeshifting skills by 2.,pendente
+Skin Walker,Nature,3,None,,sim,"CooldownModShapeshifting:Base:-2,",Reduces the cooldown of Shapeshifting skills by 2.,revisado
 Slam,Warrior,3,Weapon,"Harmful,DealsDamage,AreaEffect",nao,,Deals *0 weapon damage to all enemies within a line.,pendente
 Slaying Shot,Ranger,5,Weapon,"Beneficial,Ranged",nao,,Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged.,revisado
-Sleep Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies with Sleep Spores applying {STA=Sleep} for 2 turns.,pendente
+Sleep Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies with Sleep Spores applying {STA=Sleep} for 2 turns.,revisado
 Sleight of Hand,Thief,5,None,"Harmful,Melee",nao,,Steal all of the target's beneficial statuses while giving the target all your negative statuses. ,pendente
 Smoke Bomb,Thief,4,None,"CrowdControl,Beneficial,Ranged",nao,,Increases @dodge chance@ by 50% for friendly characters in smoke.,pendente
 Sniper Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ,corrigido
@@ -389,12 +389,12 @@ Storm Weathered II,Lightning,2,None,,sim,"ResistCold:Base:8, ResistFire:Base:8, 
 Stormbringer I,Lightning,1,None,,sim,"CritChance:Base:5,",Increases @critical hit chance@ by 5%.,pendente
 Stormbringer II,Lightning,2,None,,sim,"CritChance:Base:8,",Increases @critical hit chance@ by an additional 8%.,pendente
 Strength,Monk,4,None,,sim,"MightBase:Percentage:15, VitalityBase:Percentage:15,",Increases @Might@ and @Vitality@ by 15%.,pendente
-Stun Spores,Nature,3,None,"Harmful,Ranged",nao,,Infects enemies with Stunning Spores applying {STA=Stun} for 1 turns.,pendente
+Stun Spores,Nature,3,None,"Harmful,Ranged",nao,,Infects enemies with Stunning Spores applying {STA=Stun} for 1 turns.,corrigido
 Stunning Kick,Monk,2,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and stunning them for 1 turn.,pendente
 Stunning Slam,Warrior,4,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.,pendente
 Summon Raven,Ranger,1,None,Ranged,nao,,Summon a Raven to fight your enemies. ,revisado
 Summon Wolf,Ranger,3,Physical,Ranged,nao,,Summon a wolf to fight your enemies.,revisado
-Sun Fire,Fire,2,Fire,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat},pendente
+Sun Fire,Fire,2,Fire,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat},corrigido
 Sunder,Warrior,5,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged. @Life Steals@ for 25%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Survivalist I,Ranger,1,None,,sim,"ResistPhysical:Base:3, ResistCold:Base:3, ResistFire:Base:3, ResistLightning:Base:3, DodgeChance:Base:3,",Increases @all resistance@ and @dodge chance@ by 3%.,revisado
 Survivalist II,Ranger,2,None,,sim,"ResistPhysical:Base:5, ResistCold:Base:5, ResistFire:Base:5, ResistLightning:Base:5, DodgeChance:Base:5,",Increases @all resistance@ and @dodge chance@ by an additional 5%.,revisado
@@ -411,20 +411,20 @@ Telekinesis,Chaos,1,None,"Harmful,Ranged,DealsDamage,Elemental",nao,,Moves any @
 Teleport Other,Lightning,3,None,,nao,,Teleports the target to the location of your choosing in a flash of lightning.  Unaffected by increased range modifiers.,corrigido
 Teleport Self,Lightning,2,None,,nao,,Teleports the caster to the target location in a flash of lightning.  Unaffected by increased range modifiers.,corrigido
 Tempered Rage,Warrior,2,None,Beneficial,nao,,"Increases @Damage@, @Armor@, and @Magic Armor@ by 15%.",pendente
-The Bad Bloom,Nature,2,None,"Harmful,Ranged",nao,,Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.,pendente
-The Good Bloom,Nature,3,Healing,"Beneficial,Ranged",nao,,Creates a magic blossom that regenerates *0 of @health@ and @mana@ per turn. This effect stacks. ,pendente
+The Bad Bloom,Nature,2,None,"Harmful,Ranged",nao,,Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.,revisado
+The Good Bloom,Nature,3,Healing,"Beneficial,Ranged",nao,,Creates a magic blossom that regenerates *0 of @health@ and @mana@ per turn. This effect stacks. ,revisado
 The Good Doctor,Light,4,None,Beneficial,sim,"CooldownModLight:Base:-1,",Reduces the cooldown of all Light spells by 1.,pendente
 Thirst I,Shadow,2,None,,sim,"LifeOnHit:Base:4,",Increases @Life Steal@ by 4%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Thirst II,Shadow,3,None,,sim,"LifeOnHit:Base:6,",Increases @Life Steal@ by 6%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
-Thorns I,Nature,1,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Grants [0] Return Physical Damage.,pendente
-Thorns II,Nature,2,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Grants an additional [0] Return Physical Damage.,pendente
+Thorns I,Nature,1,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Grants [0] Return Physical Damage.,revisado
+Thorns II,Nature,2,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Grants an additional [0] Return Physical Damage.,revisado
 Thunder Blast,Innate,2,Lightning,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.,pendente
 Thunder Bolt,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,AreaEffect,Ranged",nao,,Summon lightning from the sky to strike an area dealing *0 lightning damage. ,pendente
 Thunder Slash,Basic,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 lightning damage to all enemies.,pendente
 Thunder Storm,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Summon a thunderstorm over a large area that deals *0 lightning damage every turn to enemies within it's range.,pendente
 Thunder Struck,Lightning,5,None,,sim,,Your lightning damage has a 10% chance to conjure a thunderbolt on a random enemy dealing *0 lightning damage within 2 hexes of its blast.,pendente
 Thunder Wrath,Lightning,5,Lightning,"DealsDamage,Harmful,Elemental,Ranged",nao,,Summons 4 thunder bolts targeting enemies at random within a 10 hex radius.  Each bolt deals *0 lightning damage to foes within 3 hexes of its blast.,corrigido
-Titan Bloom,Nature,5,None,"Beneficial,Ranged",nao,,Creates a magic mushroom that increases the @Max Health@ and @Damage@ of allies within its aura by [0]%. Stacks up to 5 times.,pendente
+Titan Bloom,Nature,5,None,"Beneficial,Ranged",nao,,Creates a magic mushroom that increases the @Max Health@ and @Damage@ of allies within its aura by [0]%. Stacks up to 5 times.,revisado
 Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,pendente
 Tracker's Mark,Ranger,1,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",corrigido
 Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target applying {STA=Sleep} for 2 turns.,revisado
@@ -439,7 +439,7 @@ Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life St
 Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
 Variety II,Chaos,4,None,,sim,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,pendente
 Vengeful Shadows,Shadow,2,None,,sim,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Grants [0] Return Shadow Damage.,pendente
-Venomous Skin,Nature,2,None,"Beneficial,Ranged",nao,,Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.,pendente
+Venomous Skin,Nature,2,None,"Beneficial,Ranged",nao,,Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.,revisado
 Verse of Valor,Bard,1,None,Beneficial,nao,,"(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",intocavel
 Vitality Break,Warrior,4,None,"Harmful,DealsDamage",nao,,Consumes 50% of your @current health@ to deal *0 weapon damage. Damage is increased by how much health is consumed. ,pendente
 Volley,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",nao,,Shoot up to 5 enemies near the target area dealing *0 weapon damage per target.  The arrow can chain to targets within 3 hexes of the last target hit.,corrigido

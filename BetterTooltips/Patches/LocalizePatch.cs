@@ -235,6 +235,31 @@ namespace BetterTooltips.Patches
                 "Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ",
                 "Deals *0 weapon damage.  Every hex between you and your target increases the damage by 15%. "
             },
+
+            // ---- RV-8b-2e, concordancia e pontuacao (29/09) ----
+            // Levantado por varredura em TODAS as 417 skills, com o PADRAO DO JOGO como
+            // régua: "1 turns" aparece 1x em 417 (os outros usam "1 turn"); e das 8
+            // descricoes sem ponto final, 6 sao o padrao "Current Bonus: [0]" (termina em
+            // valor dinamico, e sao 6 de 6 -> fica como esta). Sobram estas 3, cujos
+            // irmaos TEM ponto: Frozen Orb/Sun Fire (Bleeding Shot e Entangle tem) e
+            // Pack Summoning I (II e III tem).
+            {
+                // unico caso de concordancia errada no jogo inteiro
+                "Infects enemies with Stunning Spores applying {STA=Stun} for 1 turns.",
+                "Infects enemies with Stunning Spores applying {STA=Stun} for 1 turn."
+            },
+            {
+                "Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled}",
+                "Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled}."
+            },
+            {
+                "Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat}",
+                "Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat}."
+            },
+            {
+                "Summons a Timber Wolf to fight for you",
+                "Summons a Timber Wolf to fight for you."
+            },
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
