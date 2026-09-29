@@ -23,8 +23,8 @@ Blasting Shot,Ranger,3,Physical,"Ranged,Harmful",nao,,Deals *0 weapon damage to 
 Bleeding Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.  Applies 2 stacks of {STA=Bleeding} on all targets hit. ,corrigido
 Bleeding Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,corrigido
 Bless,Light,2,None,"Beneficial,AreaEffect",nao,,"Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",corrigido
-Blessed By Light I,Light,1,None,Beneficial,sim,"ManaCostMod:Base:-10,",Mana costs reduced by 10%.,pendente
-Blessed By Light II,Light,2,None,Beneficial,sim,"ManaCostMod:Base:-15,",Mana costs reduced by an additional 15%.,pendente
+Blessed By Light I,Light,1,None,Beneficial,sim,"ManaCostMod:Base:-10,",Mana costs reduced by 10%.,revisado
+Blessed By Light II,Light,2,None,Beneficial,sim,"ManaCostMod:Base:-15,",Mana costs reduced by an additional 15%.,revisado
 Blind,Shadow,1,Shadow,"Harmful,Ranged",nao,,Deals *0 shadow damage.  Applies {STA=Blind} for 1 turn.,corrigido
 Blinding Light,Light,2,None,"Harmful,Ranged",nao,,Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.,pendente
 Blood Drinker,Warrior,4,None,,sim,"DamageModBasic:Base:50, LifeOnHitBasic:Base:5,",Increases basic attack damage by 50%. Basic attacks now @Life steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
@@ -118,7 +118,7 @@ Dual-Wield Mastery,Warrior,3,None,,sim,"DodgeChance:Base:Source.IsDualWielding ?
 Eagle Eye,Ranger,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all ranged skills by 1 hex.,revisado
 Echo,Bard,3,None,Beneficial,sim,,50% chance when you deal damage or healing to deal 50% of the amount again.,intocavel
 Ecosystem,Nature,5,None,,sim,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:Percentage:Source.SummonCount * 5f, SummonDamageMod:Base:Source.SummonCount * 5f, SummonHealthMod:Base:Source.SummonCount * 5f,","Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",revisado
-Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @elemental resistance@ by 15%. ,pendente
+Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @elemental resistance@ by 15%. ,revisado
 Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,pendente
 Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,pendente
 En Garde,Thief,3,None,,sim,"CounterAttacksPerTurn:Base:2,",Increases your maximum amount of Counter Attacks per turn by 2.,pendente
@@ -190,7 +190,7 @@ Harmonize I,Bard,1,None,Beneficial,sim,,"Whenever an ally makes an action within
 Harmonize II,Bard,2,None,Beneficial,sim,,"Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
 Haste,Fire,3,None,"Beneficial,Ranged",nao,,Target gains an additional action this turn. Applies {STA=Exhaustion}.,pendente
 Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
-Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",nao,,The caster reaches out in aid healing 30% of target's maximum health.,pendente
+Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",nao,,The caster reaches out in aid healing 30% of target's maximum health.,revisado
 Heavy Rains,Lightning,4,None,,sim,"CritDamage:Base:Source[""Intelligence""] * 1, CritChance:Base:Source[""Intelligence""] * .1f,",Each point of @intelligence@ now grants .1% @critical hit chance@ and 1% @critical hit damage@.,pendente
 Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,sem-explicacao
 Hidden Blade,Thief,3,None,,sim,"CritDamageTreeBasic:Base:75,",Increases @Critical Hit Damage@ for your basic attack by 75%. ,pendente
@@ -339,9 +339,9 @@ Rune of Exploding,Fire,3,Fire,"Harmful,Ranged,Elemental,AreaEffect,DealsDamage",
 Rupture,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.,pendente
 Salvation,Light,5,None,Beneficial,sim,,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives {STA=Salvation}.  Lasts 3 turns.",corrigido
 Savage Scorn,Bard,1,None,Harmful,nao,,Increases the damage the target takes by 20% for 2 turns.,intocavel
-Seal of Might,Light,3,None,Beneficial,nao,,Increase damage of all allies within 3 hexes by 30%.,pendente
-Seal of Protection,Light,2,None,Beneficial,nao,,Decreases damage taken by 10% for you and allies within 3 hexes.,pendente
-Seal of Salvation,Light,5,None,Beneficial,nao,,All allies within 3 hexes of you heal for *0 per turn. ,pendente
+Seal of Might,Light,3,None,Beneficial,nao,,Increase damage of all allies within 3 hexes by 30%.,revisado
+Seal of Protection,Light,2,None,Beneficial,nao,,Decreases damage taken by 10% for you and allies within 3 hexes.,revisado
+Seal of Salvation,Light,5,None,Beneficial,nao,,All allies within 3 hexes of you heal for *0 per turn. ,revisado
 Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",nao,,Breathe out a stream of shadow energy dealing *0 shadow damage to all enemies in range.,revisado
 Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Slash nearby targets dealing *0 shadow damage to all enemies in range.,pendente
 Shadow Walk,Thief,4,None,,nao,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,corrigido
