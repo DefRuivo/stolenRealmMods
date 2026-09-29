@@ -472,7 +472,12 @@ namespace RoguelikeDebugger.Patches
                                 $"chanceIgual={(tg.GiveAllActionsEqualChance ? "sim" : "nao")} | " +
                                 $"chances={Junta(tg.ActionChanceEquations)} | acoes={acoesTg} | " +
                                 $"status={statusTg} | chancesStatus={Junta(tg.ActionStatusChanceEquations)} | " +
-                                $"nEfeitos={(tg.GeneralEffects == null ? 0 : tg.GeneralEffects.Length)}");
+                                $"nEfeitos={(tg.GeneralEffects == null ? 0 : tg.GeneralEffects.Length)} | " +
+                                // O cooldown PROPRIO do trigger: e ele que vale no caminho de proc
+                                // (`TriggerCooldownDict[trigger] = trigger.Cooldown`), nao o da acao.
+                                // O `Calculated Risk` cita "1 turn cooldown" no texto e a acao `Evasion`
+                                // dele tem cooldown=3 - este campo desempata.
+                                $"cooldownTrig=tg.Cooldown");
                         }
                     }
                 }
