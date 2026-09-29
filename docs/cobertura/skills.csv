@@ -16,7 +16,7 @@ Bash,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  
 Battle Ready,Warrior,3,None,,sim,"AdditionalWeaponDamage:Base:Source[""Armor""] * .01f,",1% of your @Armor@ value is added to your character as @Additional Weapon Damage@.  Current Bonus: [0],corrigido
 Beast Master I,Nature,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health. ,revisado
 Beast Master II,Nature,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health. ,revisado
-Benevolence,Chaos,4,None,Beneficial,nao,,Applies @Helping@ to all allies.,pendente
+Benevolence,Chaos,4,None,Beneficial,nao,,Applies @Helping@ to all allies.,sem-explicacao
 Berserker's Rage,Warrior,2,None,Beneficial,nao,,Increases @Damage dealt@ and @damage received@ by 25%. Increases @Max Life@ by 15%.,pendente
 Beserker's Blood,Warrior,3,None,,sim,"DamageMod:Base:Source.HealthRatioInverse * 100,"," For every 1% of health missing, gain 1% increased damage.",pendente
 Blasting Shot,Ranger,3,Physical,"Ranged,Harmful",nao,,Deals *0 weapon damage to all targets in area.  Targets are knocked back 3 hexes. ,corrigido
@@ -57,7 +57,7 @@ Chaos Crash,Chaos,1,Weapon,"Harmful,Ranged,DealsDamage,Elemental",nao,,Hurls a b
 Chaos Crush,Chaos,5,Weapon,"Harmful,Ranged,DealsDamage",nao,,Call down chaos to crush your enemies. Deals between *0 and *1 damage within 2 hexes. Always hits with all damage types.,pendente
 Chaos Curse,Chaos,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Curses the target to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,pendente
 Chaos Cut,Chaos,2,Weapon,"DealsDamage,Harmful,Elemental",nao,,Summons a whirling blade of chaos in a line. Every damage type has a 50% chance to deal *0 damage.,pendente
-Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",nao,,Enchant an ally with a random chaos modifier.,pendente
+Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",nao,,Enchant an ally with a random chaos modifier.,sem-explicacao
 Charge,Warrior,2,Weapon,"Harmful,DealsDamage",nao,,Charges to the target and deals *0 weapon damage to all enemies in your path.,pendente
 Chi Strike,Monk,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Strike an enemy dealing *0 weapon damage.  Reduces the targets damage dealt by 20% for 1 turn.,corrigido
 Child of the Abyss,Shadow,5,None,Beneficial,sim,"MaxHealth:Percentage:100, ChildOfTheAbyss:Set:1,",Increases @Max Health@ by 100%. Can no longer be healed by any means other than life steal.,pendente
@@ -192,7 +192,7 @@ Haste,Fire,3,None,"Beneficial,Ranged",nao,,Target gains an additional action thi
 Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
 Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",nao,,The caster reaches out in aid healing 30% of target's maximum health.,pendente
 Heavy Rains,Lightning,4,None,,sim,"CritDamage:Base:Source[""Intelligence""] * 1, CritChance:Base:Source[""Intelligence""] * .1f,",Each point of @intelligence@ now grants .1% @critical hit chance@ and 1% @critical hit damage@.,pendente
-Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,pendente
+Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,sem-explicacao
 Hidden Blade,Thief,3,None,,sim,"CritDamageTreeBasic:Base:75,",Increases @Critical Hit Damage@ for your basic attack by 75%. ,pendente
 Hide In Shadows,Thief,2,None,Beneficial,nao,,Grants {STA=Stealth} for 2 turns. ,pendente
 Holy Ground,Light,4,Healing,"Beneficial,Ranged",nao,,Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ,pendente
@@ -203,7 +203,7 @@ Howl,Warrior,3,None,"Harmful,DealsDamage",nao,,Deals *0 physical damage.  Enemie
 Hunger,Shadow,3,None,,sim,,Grants 10% @mana steal@.  Sacrifices 10% maximum health per turn.,corrigido
 Huntsman I,Ranger,1,None,,sim,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Physical damage increased by [0].,revisado
 Huntsman II,Ranger,2,None,,sim,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Physical damage increased by [0].,revisado
-Hurting,Chaos,2,None,"Beneficial,Ranged",nao,,Chaotically harm the target enemy. Results may vary greatly...,pendente
+Hurting,Chaos,2,None,"Beneficial,Ranged",nao,,Chaotically harm the target enemy. Results may vary greatly...,sem-explicacao
 Ice Lance,Cold,2,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,The caster hurls a razor-like shard of ice piercing foes in a line dealing *0 cold damage. ,pendente
 Ice Slash,Basic,1,Cold,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 cold damage to all enemies.,pendente
 Ice Storm,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Conjure a massive ice storm dealing *0 cold damage to affected enemies each turn.,pendente
@@ -242,7 +242,7 @@ Magic Hat I,Chaos,2,None,"Beneficial,Ranged",nao,,Produce a random barrel on the
 Magic Hat II,Chaos,3,None,"Beneficial,Ranged",nao,,Produce a random Shrine on the target hex. The shrine is destructable and moveable.,pendente
 Magic Hat III,Chaos,4,None,"Beneficial,Ranged",nao,,Produce a random Globule on the target hex.,pendente
 Maim,Thief,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Applies {STA=Disabled} for 1 turn.,corrigido
-Malevolence,Chaos,4,None,Beneficial,nao,,Applies @Hurting@ to all enemies.,pendente
+Malevolence,Chaos,4,None,Beneficial,nao,,Applies @Hurting@ to all enemies.,sem-explicacao
 Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",nao,,Removes 20% of the target's max mana and restores 20% of the caster's max mana.,pendente
 Mana Shield,Lightning,3,None,,sim,"ManaShield:Base:90,",90% of the damage taken is lost in mana instead of health.,pendente
 Many Sided Strike,Monk,5,Weapon,"Harmful,DealsDamage",nao,,Hit enemies in the target area 5x randomly.  Deals *0 weapon damage per hit. ,corrigido
@@ -425,7 +425,7 @@ Thunder Storm,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Summon a t
 Thunder Struck,Lightning,5,None,,sim,,Your lightning damage has a 10% chance to conjure a thunderbolt on a random enemy dealing *0 lightning damage within 2 hexes of its blast.,pendente
 Thunder Wrath,Lightning,5,Lightning,"DealsDamage,Harmful,Elemental,Ranged",nao,,Summons 4 thunder bolts targeting enemies at random within a 10 hex radius.  Each bolt deals *0 lightning damage to foes within 3 hexes of its blast.,corrigido
 Titan Bloom,Nature,5,None,"Beneficial,Ranged",nao,,Creates a magic mushroom that increases the @Max Health@ and @Damage@ of allies within its aura by [0]%. Stacks up to 5 times.,revisado
-Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,revisado
+Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,sem-explicacao
 Tracker's Mark,Ranger,1,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",corrigido
 Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target applying {STA=Sleep} for 2 turns.,revisado
 Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,pendente
