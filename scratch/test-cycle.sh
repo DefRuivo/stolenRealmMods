@@ -5,11 +5,15 @@
 # Uso:   bash test-cycle.sh [SEG_APOS_PLUGIN] [PADRAO_GREP]
 # Ex.:   bash test-cycle.sh 20 "QoL fonte|Roguelike QoL"
 set -u
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
-STEAM="/c/Program Files (x86)/Steam/steam.exe"
+# Caminhos derivados de variáveis padrão (APPDATA) — nada de usuário hardcoded.
+# Exige git-bash: cygpath converte o perfil para o formato de caminho MSYS.
+STEAM="${STEAM:-/c/Program Files (x86)/Steam/steam.exe}"
 APPID=1330000
-PRELOADER="%USERPROFILE%\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\core\BepInEx.Preloader.dll"
-LOG="/c/Users/<user>/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log"
+PERFIL="$APPDATA\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx"
+PRELOADER="$PERFIL\core\BepInEx.Preloader.dll"
+LOG="$(cygpath -u "$PERFIL")/LogOutput.log"
 WAIT_AFTER="${1:-20}"
 PATTERN="${2:-QoL fonte|Roguelike QoL}"
 
@@ -45,7 +49,11 @@ echo "  aguardando +${WAIT_AFTER}s para o font sweep rodar..."
 sleep "$WAIT_AFTER"
 
 echo "[5/6] capturando screenshot da tela..."
-powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:/dev/stolen-realm/scratch/shot.ps1" -Path "C:/dev/stolen-realm/scratch/shot.png" 2>&1 | tail -1
+if [ -f "$SCRIPT_DIR/shot.ps1" ]; then
+  powershell.exe -NoProfile -ExecutionPolicy Bypass -File "$SCRIPT_DIR/shot.ps1" -Path "$SCRIPT_DIR/shot.png" 2>&1 | tail -1
+else
+  echo "  shot.ps1 ausente (só existe localmente) — pulando screenshot"
+fi
 
 echo "[6/6] linhas relevantes do log:"
 grep -aE "$PATTERN" "$LOG" 2>/dev/null | sort | uniq -c | sort -rn | head -40 || echo "  (nenhuma linha casou)"
