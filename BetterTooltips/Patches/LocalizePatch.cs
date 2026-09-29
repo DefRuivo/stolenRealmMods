@@ -86,12 +86,12 @@ namespace BetterTooltips.Patches
                 }
                 int ini = ((i > 0 && __3[i - 1] == '\n') ? i - 1 : i);
                 string nota = __3.Substring(ini, f + "</color>".Length - ini);
-                __3 = __3.Remove(ini, f + "</color>".Length - ini).TrimEnd() + "\n" + nota.TrimStart('\n').TrimEnd();
+                __3 = __3.Remove(ini, f + "</color>".Length - ini).TrimEnd() + "\n\n" + nota.TrimStart('\n').TrimEnd();
             }
         }
         /// <summary>
         /// A cor das explicacoes do mod NAO e escolhida por nos: e a cor de "texto especial" do
-        /// PROPRIO tooltip do jogo (`specialTextColor`, campo do Tooltip em GUIManager), a mesma
+        /// PROPRIO tooltip do jogo (`specialDescColor`, campo do Tooltip em GUIManager), a MESMA
         /// que colore os nomes de status nas linhas nativas do tipo
         /// "All [damage type] damage applies {STA=Heat}". Fonte: Tooltip.cs do Assembly, onde a
         /// linha 214387 usa `ColorUtility.ToHtmlStringRGB(specialTextColor)` e a 214388 monta o
@@ -113,7 +113,7 @@ namespace BetterTooltips.Patches
                 {
                     Tooltip t = GUIManager.instance != null ? GUIManager.instance.tooltip : null;
                     _corEspecialDoJogo = t != null
-                        ? UnityEngine.ColorUtility.ToHtmlStringRGB(t.specialTextColor)
+                        ? UnityEngine.ColorUtility.ToHtmlStringRGB(t.specialDescColor)
                         : string.Empty;
                     Plugin.Log.LogInfo("BetterTooltips: cor do jogo para explicacoes = #" + _corEspecialDoJogo);
                 }
