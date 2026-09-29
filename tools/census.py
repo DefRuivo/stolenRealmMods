@@ -13,6 +13,12 @@ DescriptionExpressions (o array que o [N] do texto indexa em runtime), os overri
 dano e o UpgradeText. Fica separado para a checklist principal nao virar planilha
 ilegivel; e ali que se confere se os NUMEROS escritos na tooltip batem com a mecanica.
 
+RV-8b-0c: categoria Action (acoes.csv) - as acoes concedidas pelas skills. O campo
+`efeitosRef` traz os GeneralEffect.Action da acao EFETIVA, que e a que o tooltip usa:
+o jogo NAO le os efeitos da propria acao, e sim os de `TooltipDamageInfoRefAction`
+(Tooltip.GetDamageString). E esse array, NA ORDEM, que o `*N` do texto indexa - a
+formula de DANO mora aqui, nao na skill.
+
 Uso:
     python tools/census.py                       # le o LogOutput.log do perfil
     python tools/census.py <caminho-do-log>
@@ -22,10 +28,12 @@ import os
 import re
 import sys
 
+
 def _appdata():
     """APPDATA do Windows, com fallback para ~/AppData/Roaming."""
     return os.environ.get("APPDATA") or os.path.join(
         os.path.expanduser("~"), "AppData", "Roaming")
+
 
 DEFAULT_LOG = os.path.join(
     _appdata(), "r2modmanPlus-local", "StolenRealm", "profiles", "Default",
@@ -39,12 +47,13 @@ OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__)
 # ATENCAO ao mexer no dump: os campos vem separados por "|" e nenhum valor pode conter
 # "|", e o desc= precisa continuar por ULTIMO (o regex DESC e ancorado no fim da linha).
 LINE = re.compile(
-    r"^\[[^\]]*:Roguelike Debugger\]\s+\[(?P<cat>Skill|Status|ItemMod|Item|Powerup)\]\s+"
+    r"^\[[^\]]*:Roguelike Debugger\]\s+\[(?P<cat>Skill|Action|Status|ItemMod|Item|Powerup)\]\s+"
     r"'(?P<name>.*?)'\s+\|\s*(?P<rest>.*)$"
 )
 FIELD = re.compile(
     r"(?P<key>tipo|dano|tier|tags|raridade|lvlMin|guid|nivel|custo|efeitos"
-    r"|skid|passivo|attr|acts|pstat|expr|danoExpr|upg)=(?P<val>[^|]+)")
+    r"|skid|passivo|attr|acts|pstat|expr|danoExpr|upg"
+    r"|efeitosRef|refAcao|refStatus|nEfeitos|nEfeitosRef)=(?P<val>[^|]+)")
 DESC = re.compile(r'desc="(?P<desc>.*)"\s*$')
 VALOR = re.compile(r":(-?\d+(?:\.\d+)?)\s*,")
 
@@ -78,6 +87,12 @@ def classe_status(efeitos, desc):
 CATS = {
     "Skill":   ("skills.csv",   ["nome", "arvore", "tier", "dano", "tags", "passivo",
                                  "attr", "descricao", "status"]),
+    # Action (RV-8b-0c): `efeitosRef` = os GeneralEffect.Action da acao EFETIVA (o ref do
+    # tooltip), NA ORDEM = o array que o `*N` do texto da skill indexa. A formula de dano
+    # mora aqui, nao na skill. `efeitos` sao os da propria acao, para comparacao.
+    "Action":  ("acoes.csv",    ["nome", "dano", "efeitosRef", "efeitos", "nEfeitosRef",
+                                 "nEfeitos", "refAcao", "refStatus", "expr", "danoExpr",
+                                 "descricao", "status"]),
     "Status":  ("status.csv",   ["nome", "tipo", "raridade", "efeitos", "classe", "descricao", "status"]),
     "Item":    ("itens.csv",    ["nome", "tipo", "raridade", "lvlMin", "descricao", "status"]),
     "ItemMod": ("afixos.csv",   ["nome", "tipo", "raridade", "descricao", "status"]),
@@ -163,6 +178,14 @@ def parse(path):
                     w.writerow([nome, f.get("tipo", ""), f.get("tier", ""), f.get("dano", ""),
                                 f.get("tags", ""), f.get("passivo", ""), f.get("attr", ""),
                                 desc, st or padrao])
+                elif cat == "Action":
+                    w.writerow([nome, f.get("dano", ""),
+                                f.get("efeitosRef", "").strip().rstrip(";").strip(),
+                                f.get("efeitos", "").strip().rstrip(";").strip(),
+                                f.get("nEfeitosRef", ""), f.get("nEfeitos", ""),
+                                f.get("refAcao", ""), f.get("refStatus", ""),
+                                f.get("expr", ""), f.get("danoExpr", ""), desc,
+                                st or "pendente"])
                 elif cat == "Status":
                     w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""),
                                 f.get("efeitos", "").strip().rstrip(","),

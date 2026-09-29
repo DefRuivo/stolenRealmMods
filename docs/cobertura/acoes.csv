@@ -1,0 +1,277 @@
+nome,dano,efeitosRef,efeitos,nEfeitosRef,nEfeitos,refAcao,refStatus,expr,danoExpr,descricao,status
+[Necronomicon] Raise Undead Berserker,None,,,0,0,,,,,,pendente
+[Necronomicon] Raise Undead Ranger,None,,,0,0,,,,,,pendente
+[Necronomicon] Raise Undead Wizard,None,,,0,0,,,,,,pendente
+Animal Companion Grizzly,Physical,,,0,0,,,,,,pendente
+Animal Companion Raven,None,,,0,0,,,,,,pendente
+Animal Companion Wolf,Physical,,,0,0,,,,,,pendente
+Ascendancy,None,,,0,0,,,,,,pendente
+Aura Of Flame,Fire,,,0,0,,Aura of Flame,,,,pendente
+Aura Of Frost,None,,,0,0,,Aura of Frost,,,,pendente
+Aura of Lightning,Lightning,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .4f,,1,0,Aura of Lightning Proc,,,,,pendente
+Aura of Lightning Proc,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .4f,0,1,,,,,,pendente
+Bash,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Benevolence,None,,,0,0,,,,,,pendente
+Berserker's Rage,None,,,0,0,,,,,,pendente
+Blasting Shot,Physical,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Bleeding Cleave,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Bleeding Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Bless,None,,,0,0,,,,,,pendente
+Blind,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1.1f,0,1,,,,,,pendente
+Blinding Light,None,,TargetStored['HolyDamage'] = Source.SpellPower('Holy') * .8f,0,1,,,,,,pendente
+Blood Howl,None,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.1f,0,1,,,,,,pendente
+Bloodlet,None,,TargetStored['PhysicalDamage'] = Target['MaxHealth'] * .15f; Target['ActionPoints'] = Target['ActionPoints'] + (Target['RecentlyHasted'] == 0 ? 1 : 0),0,2,,,,,,pendente
+Bolstering Ballad,None,,,0,0,,,,,,pendente
+Bounty Hunter's Mark,None,,,0,0,,,,,,pendente
+Brain Freeze,None,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1f,,1,0,Brain Freeze Proc,,,,,pendente
+Brain Freeze Proc,None,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1f,0,1,,,,,,pendente
+Brambles,None,,,0,0,,,,,,pendente
+Branching Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * (2f + (ChainCount * 1f)),0,1,,,,,,pendente
+Breath of Winter,None,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1.6f,0,1,,,,,,pendente
+Burning Ground,Fire,,,0,0,,Burning Ground,,,,pendente
+Called Shot,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1.2f) *  (1 + ((Source.Cell.Distance(Target.Cell) - 1) * .1f)),0,1,,,,,,pendente
+Cauterize,None,,"TargetStored['FireDamage'] = Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)",0,1,,,,,,pendente
+Chain Frost,None,,TargetStored['ColdDamage'] = Source.SpellPower() * .5f,0,1,,,,,,pendente
+Chain Lightning,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .8f,0,1,,,,,,pendente
+Chaos Cloud,Fire,,TargetStored['ColdDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Cold') * 0.18f : 0; TargetStored['HolyDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.18f : 0; TargetStored['FireDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Fire') * 0.18f : 0; TargetStored['LightningDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Lightning') * 0.18f : 0; TargetStored['PhysicalDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Physical') * 0.18f : 0; TargetStored['ShadowDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Shadow') * 0.18f : 0,0,6,,,,,,pendente
+Chaos Crash,Fire,,TargetStored['ColdDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Cold') * 0.5f : 0; TargetStored['HolyDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.5f : 0; TargetStored['FireDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Fire') * 0.5f : 0; TargetStored['LightningDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Lightning') * 0.5f : 0; TargetStored['PhysicalDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Physical') * 0.5f : 0; TargetStored['ShadowDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Shadow') * 0.5f : 0,0,6,,,,,,pendente
+Chaos Crush,Fire,,,0,0,,,,,,pendente
+Chaos Curse,Fire,,,0,0,,Chaos Curse,,,,pendente
+Chaos Cut,Lightning,,TargetStored['ColdDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Cold') * 0.4f : 0; TargetStored['HolyDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.4f : 0; TargetStored['FireDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Fire') * 0.4f : 0; TargetStored['LightningDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Lightning') * 0.4f : 0; TargetStored['PhysicalDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Physical') * 0.4f : 0; TargetStored['ShadowDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Shadow') * 0.4f : 0,0,6,,,,,,pendente
+Chaos Touch,Fire,,,0,0,,Chaos Curse,,,,pendente
+Charge,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Chi Strike,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Chilling Strike,Cold,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1.5f,0,1,,,,,,pendente
+Cleave,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.5f,0,1,,,,,,pendente
+Coin Flip,None,,,0,0,,,,,,pendente
+Consumption,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .7f,0,1,,,,,,pendente
+Counter Melody,None,,,0,0,,,,,,pendente
+Cripple,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .7f,0,1,,,,,,pendente
+Crippling Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .7f,0,1,,,,,,pendente
+Crushing Slam,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 2.4f),0,1,,,,,,pendente
+Cupid Shot,Physical,,,0,0,,,,,,pendente
+Cure,Healing,,TargetStored['Healing'] = Source.SpellPower('Light') * 1.5f,0,1,,,,,,pendente
+Curse,None,,,0,0,,,,,,pendente
+Cursed Bite,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.7f,0,1,,,,,,pendente
+Cyclone Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Daft Diversion,None,,,0,0,,,,,,pendente
+Dagger Throw,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .7f,0,1,,,,,,pendente
+Dark Ritual,None,,,0,0,,,,,,pendente
+Dashing Strikes,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.5f,0,1,,,,,,pendente
+Dazzling Darts,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .4f,0,1,,,,,,pendente
+Deadly Dagger Throw,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f; SourceStored['AdditionalCritDamage'] = 50,0,2,,,,,,pendente
+Deathblow,Weapon,,SourceStored['AdditionalCritDamage'] = 200; TargetStored[Source.WeaponDamageType] = Source.AttackPower * 2f,0,2,,,,,,pendente
+Detonate,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.6f,0,1,,,,,,pendente
+Discharge,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .9f,0,1,,,,,,pendente
+Dismiss Shapeshift,None,,,0,0,,,,,,pendente
+Dispelling Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Disperse,None,,,0,0,,,,,,pendente
+Divine Intervention,Healing,,TargetStored['Healing'] = Target['MaxHealth'],0,1,,,,,,pendente
+Dodging Strikes,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f,0,1,,,,,,pendente
+Double Edge,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f; SourceStored['DamageReturned'] = 15,0,2,,,,,,pendente
+Dragonkin Frozen Orb,Fire,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 2f,0,1,,,,,,pendente
+Dragonkin Holy Blast,Fire,,TargetStored['HolyDamage'] = Source.SpellPower('Light') * 2f,0,1,,,,,,pendente
+Dragonkin Holy Breath,None,,TargetStored['HolyDamage'] = Source.SpellPower('Light') * 1.6f,0,1,,,,,,pendente
+Dragonkin Holy Slash,None,,TargetStored['HolyDamage'] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Dragonkin Shadow Orb,Fire,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 2.1f,0,1,,,,,,pendente
+Dragonkin Sun Fire,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2.2f,0,1,,,,,,pendente
+Dragonkin Thunder Blast,Fire,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 2.1f,0,1,,,,,,pendente
+Dreadful Dissonance,None,,,0,0,,,,,,pendente
+Elemental Protection,None,,,0,0,,,,,,pendente
+Enchant Cold,Cold,TargetStored['ColdDamage'] = Source['EnchantColdValue'],"Target['EnchantColdValue'] = Source.GetCustomActionDamage('Enchant Cold', 'TargetStored[\'ColdDamage\'] = Source.SpellPower(\'Cold\') * .15f')",1,1,Enchant Cold Tick,,,,,pendente
+Enchant Cold Tick,None,,TargetStored['ColdDamage'] = Source['EnchantColdValue'],0,1,,,,,,pendente
+Enchant Fire,None,,"Target['EnchantFireValue'] = Source.GetCustomActionDamage('Enchant Fire', 'TargetStored[\'FireDamage\'] = Source.SpellPower(\'Fire\') * .15f')",0,1,,,,,,pendente
+Enchant Lightning,Lightning,,"Target['EnchantLightningValue'] = Source.GetCustomActionDamage('Enchant Lightning', 'TargetStored[\'LightningDamage\'] = Source.SpellPower(\'Lightning\') * .15f')",0,1,,,,,,pendente
+Enduring Evasion,None,,Target['EvasionCharges'] = 2,0,1,,,,,,pendente
+Energy Cannon,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .2f,0,1,,,,,,pendente
+Entangle,None,,TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * .3f,0,1,,,,,,pendente
+Escape,None,,,0,0,,,,,,pendente
+Evasion,None,,Target['EvasionCharges'] = 1,0,1,,,,,,pendente
+Exorcism,Shadow,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,1,1,Exorcism Proc,,,,,pendente
+Exorcism Proc,None,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,0,1,,,,,,pendente
+Faerie Swarm,Physical,,,0,0,,Faerie Swarm,,,,pendente
+Falcon Dash,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Finale,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * .35f * Source.DamageModPhysical,0,1,,,,,,pendente
+Fire Breath,None,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.6f,0,1,,,,,,pendente
+Fire Shield,None,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .15f,,1,0,Fire Shield Tick,,,,,pendente
+Fire Shield Tick,None,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .15f,0,1,,,,,,pendente
+Fire Storm,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.1f,0,1,,,,,,pendente
+Fireball,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.1f,0,1,,,,,,pendente
+Fireblast,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.5f,0,1,,,,,,pendente
+Fissure,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,0,1,,,,,,pendente
+Flame Slash,None,,TargetStored['FireDamage'] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Focused Strike,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.4f,0,1,,,,,,pendente
+Force Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.7f,0,1,,,,,,pendente
+Fracture,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .7f,0,1,,,,,,pendente
+Freeze Earth,None,,,0,0,,,,,,pendente
+Front Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.5f,0,1,,,,,,pendente
+Frost Armor,Cold,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .15f,,1,0,Frost Armor Tick,,,,,pendente
+Frost Armor Tick,None,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .15f,0,1,,,,,,pendente
+Frost Breath,None,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1.6f,0,1,,,,,,pendente
+Frost Nova,Cold,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1f,0,1,,,,,,pendente
+Frost Shard,Cold,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1.3f,0,1,,,,,,pendente
+Frost Slash,None,,TargetStored['ColdDamage'] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Frozen Chains,None,,,0,0,,,,,,pendente
+Frozen Spikes,Cold,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .2f,0,1,,,,,,pendente
+Garrote,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Ghost Armor,None,,Target['GhostArmorValue'] = 1,0,1,,,,,,pendente
+Gore,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Gouge,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Greater Blood Howl,None,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Greater Cursed Bite,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 2.2f,0,1,,,,,,pendente
+Haste,None,,Target['ActionPoints'] = Target['ActionPoints'] + (Target['RecentlyHasted'] == 0 ? 1 : 0),0,1,,,,,,pendente
+Haunt,Shadow,,,0,0,,Haunt,,,,pendente
+Healing Hand,Healing,,TargetStored['Healing'] = Target['MaxHealth'] * .3f,0,1,,,,,,pendente
+Helping,None,,,0,0,,,,,,pendente
+Hide In Shadows,None,,,0,0,,,,,,pendente
+Holy Ground,Healing,,,0,0,,Holy Ground,,,,pendente
+Howl,None,,TargetStored['PhysicalDamage'] = Source.AttackPower * .7f,0,1,,,,,,pendente
+Hurting,None,,,0,0,,,,,,pendente
+Ice Lance,Cold,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * 1.2f,0,1,,,,,,pendente
+Ice Storm,None,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .9f,,1,0,Ice Storm Trigger,,,,,pendente
+Ice Storm Trigger,None,,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .9f,0,1,,,,,,pendente
+Ice Wall New,None,,,0,0,,,,,,pendente
+Immolate,Fire,,,0,0,,Immolate,,,,pendente
+Impaling Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 3f,0,1,,,,,,pendente
+Incapacitate,Physical,,,0,0,,,,,,pendente
+Laxing Lullaby,None,,,0,0,,,,,,pendente
+Life Cleave,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.5f; SourceStored['LifeOnHit'] = 10,0,2,,,,,,pendente
+Light's Beckon,None,,,0,0,,,,,,pendente
+Lightning Breath,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 1.6f,0,1,,,,,,pendente
+Lightning Shield,Lightning,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .15f,,1,0,Lightning Shield Tick,,,,,pendente
+Lightning Shield Tick,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .15f,0,1,,,,,,pendente
+Living Armor,None,,,0,0,,Living Armor,,,,pendente
+Long Shot,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1f) *  (1 + ((Source.Cell.Distance(Target.Cell) - 1) * .1f)),0,1,,,,,,pendente
+Magic Hat I,None,,,0,0,,,,,,pendente
+Magic Hat II,None,,,0,0,,,,,,pendente
+Magic Hat III,None,,,0,0,,,,,,pendente
+Maim,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Malevolence,None,,,0,0,,,,,,pendente
+Many Sided Strike,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Mass Cure,Healing,,TargetStored['Healing'] = Source.SpellPower('Light') * 1.8f,0,1,,,,,,pendente
+Mass Entangle,None,,TargetStored['PhysicalDamage'] = Source.SpellPower('Physical') * .6f,0,1,,,,,,pendente
+Mass Freeze,None,,,0,0,,,,,,pendente
+Mass Haste,None,,Target['ActionPoints'] = Target['ActionPoints'] + (Target['RecentlyHasted'] == 0 ? 1 : 0),0,1,,,,,,pendente
+Meditation,Healing,,TargetStored['Healing'] = Target['MaxHealth'] * .2f; TargetStored['ManaDamage'] = -(Target['MaxMana'] * .2f),0,2,,,,,,pendente
+Melee Attack,Weapon,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Melee Attack Healing,Physical,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Melee Attack Werewolf,Physical,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower * 1.2f,0,1,,,,,,pendente
+Meteor,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1.6f,0,1,,,,,,pendente
+Meteor Shower,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .7f,0,1,,,,,,pendente
+Mind Blossom,None,,,0,0,,,,,,pendente
+Mortal Fracture,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Move Object,None,,,0,0,,,,,,pendente
+Nature Summoning I,None,,,0,0,,,,,,pendente
+Nature Summoning I  [Pack Summoning],None,,,0,0,,,,,,pendente
+Nature Summoning II,None,,,0,0,,,,,,pendente
+Nature Summoning II  [Pack Summoning],None,,,0,0,,,,,,pendente
+Nature Summoning III,None,,,0,0,,,,,,pendente
+Nature Summoning III  [Pack Summoning],None,,,0,0,,,,,,pendente
+Overload,None,,,0,0,,,,,,pendente
+Overwhelming Power,None,,,0,0,,,,,,pendente
+Pain Suppression,Physical,,,0,0,,,,,,pendente
+Paralyzing Strike,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.4f,0,1,,,,,,pendente
+Piercing Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 2f,0,1,,,,,,pendente
+Pinning Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Poison Cloud - Player,Shadow,,,0,0,,,,,,pendente
+Poison Weapon,None,,,0,0,,,,,,pendente
+Poisoned Dagger Throw,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Power Strikes,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1.8f) * (1 + (ChainCount * .5f)),0,1,,,,,,pendente
+Provoke,None,,,0,0,,,,,,pendente
+Purge,None,,TargetStored['ManaDamage'] = Target.MaxMana * .2f; SourceStored['ManaDamage'] = Source.MaxMana * -.2f,0,2,,,,,,pendente
+Purify,None,,,0,0,,,,,,pendente
+Quaking Fist,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 2.5f,0,1,,,,,,pendente
+Quick Draw,Physical,,,0,0,,,,,,pendente
+Rage,None,,,0,0,,,,,,pendente
+Rage Spores,None,,,0,0,,,,,,pendente
+Rainstorm,None,,,0,0,,,,,,pendente
+Raise Iron Golem,None,,,0,0,,,,,,pendente
+Raise Skeletal Archer,None,,,0,0,,,,,,pendente
+Raise Skeletal Mage,None,,,0,0,,,,,,pendente
+Raise Skeletal Warrior,None,,,0,0,,,,,,pendente
+Rally,None,,,0,0,,,,,,pendente
+Ranged Attack,Weapon,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Ranged Attack Healing,Physical,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Reaper's Scythe,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 10.0f *  Target.HealthRatioInverse,0,1,,,,,,pendente
+Regenerate,Healing,,,0,0,,Regenerate,,,,pendente
+Relocate,None,,,0,0,,,,,,pendente
+Replicate,None,,,0,0,,,,,,pendente
+Resonating Refrain,None,,,0,0,,,,,,pendente
+Rhythm of Recovery,None,,,0,0,,,,,,pendente
+Rune of Exploding,Fire,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,,1,0,Rune of Exploding Proc,,,,,pendente
+Rune of Exploding Proc,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,0,1,,,,,,pendente
+Rupture,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
+Savage Scorn,Fire,,,0,0,,,,,,pendente
+Seal of Might,None,,,0,0,,,,,,pendente
+Seal of Protection,None,,,0,0,,,,,,pendente
+Seal of Salvation,None,,,0,0,,Seal of Salvation,,,,pendente
+Shadow Breath,None,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1.6f,0,1,,,,,,pendente
+Shadow Slash,None,,TargetStored['ShadowDamage'] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Shadow Walk,None,,,0,0,,,,,,pendente
+Shapeshift Blue Dragonkin,None,,,0,0,,,,,,pendente
+Shapeshift Box,None,,,0,0,,,,,,pendente
+Shapeshift Greater Werewolf,None,,,0,0,,,,,,pendente
+Shapeshift Green Dragonkin,None,,,0,0,,,,,,pendente
+Shapeshift Red Dragonkin,None,,,0,0,,,,,,pendente
+Shapeshift Werewolf,None,,,0,0,,,,,,pendente
+Shatter,None,,TargetStored['ColdDamage'] = (Target.NumChilledStacks + 1) * (Source.SpellPower('Cold') * .7f),0,1,,,,,,pendente
+Shattering Cord,None,,,0,0,,,,,,pendente
+Shield Of Light,None,,"Target['ShieldOfLightValue'] = Source.GetCustomActionDamage('Shield Of Light', 'TargetStored[\'Healing\'] = Source.SpellPower(\'Light\') * 1.6f')",0,1,,,,,,pendente
+Shield Of Retribution,Holy,,"Target['ShieldOfRetributionValue'] = Source.GetCustomActionDamage('Shield Of Retribution', 'TargetStored[\'Healing\'] = Source.SpellPower(\'Healing\') * 3f'); Target['ShieldOfRetributionStartValue'] =  Target['ShieldOfRetributionValue']",0,2,,,,,,pendente
+Shock,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .6f,0,1,,,,,,pendente
+Shocking Shackles,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 2f,0,1,,,,,,pendente
+Slam,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Slaying Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 4f,0,1,,,,,,pendente
+Sleep Spores,None,,,0,0,,,,,,pendente
+Sleight of Hand,None,,,0,0,,,,,,pendente
+Smoke Bomb,None,,,0,0,,,,,,pendente
+Sniper Shot,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1f) *  (1 + ((Source.Cell.Distance(Target.Cell) - 1) * .15f)),0,1,,,,,,pendente
+Song of Swiftness,None,,,0,0,,,,,,pendente
+Soul Cleanse,Physical,,,0,0,,,,,,pendente
+Soul Exchange,None,,TargetStored['ShadowDamage'] = (((Source.MaxHealth - Source.Health) * .35f) + Source.SpellPower('Shadow')); SourceStored['HealingForced'] = (Source['MaxHealth']),0,2,,,,,,pendente
+Soul Fracture,Shadow,,TargetStored['ShadowDamage'] = (Source['MaxHealth'] *.2f),0,1,,,,,,pendente
+Soul Link,Shadow,,,0,0,,,,,,pendente
+Spectral Chains,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * .7f,0,1,,,,,,pendente
+Staff Attack,Weapon,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Staff Attack Healing,Healing,,TargetStored['Healing'] = Source.BasicAttackPower,0,1,,,,,,pendente
+Stalker's Mark,None,,,0,0,,,,,,pendente
+Stasis,None,,,0,0,,,,,,pendente
+Static Field,Lightning,,"TargetStored['LightningDamage'] = Target.LastHealthRatio > SelectedCell.GetAverageHealthRatioInRange(2) ? Target['Health'] -  Target['MaxHealth'] * Mathf.Max(.3f, SelectedCell.GetAverageHealthRatioInRange(2)) : 0; TargetStored['Healing'] = Target.LastHealthRatio <= SelectedCell.GetAverageHealthRatioInRange(2) ? Target['MaxHealth'] * SelectedCell.GetAverageHealthRatioInRange(2) - Target['Health'] : 0",0,2,,,,,,pendente
+Steal Action,None,,Source['ActionPoints'] = Source['ActionPoints'] + (Source['RecentlyHasted'] == 0 ? 1 : 0),0,1,,,,,,pendente
+Steal Status,None,,,0,0,,,,,,pendente
+Stun Spores,None,,,0,0,,,,,,pendente
+Stunning Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.5f,0,1,,,,,,pendente
+Stunning Slam,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f,0,1,,,,,,pendente
+Sunder,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 2f; SourceStored['HealingForced'] = (Source['MaxHealth'] * .25f),0,2,,,,,,pendente
+Swan Song,None,,,0,0,,,,,,pendente
+Sweeping Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Switcheroo,None,,,0,0,,,,,,pendente
+Tainted Touch,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1.2f; SourceStored['HealingForced'] = (Source['MaxHealth'] * .12f),0,2,,,,,,pendente
+Taunt,Fire,,,0,0,,,,,,pendente
+Telekinesis,None,,,0,0,,,,,,pendente
+Teleport Other,None,,,0,0,,,,,,pendente
+Teleport Self,None,,,0,0,,,,,,pendente
+Tempered Rage,None,,,0,0,,,,,,pendente
+The Bad Bloom,None,,,0,0,,,,,,pendente
+The Good Bloom,Healing,,,0,0,,The Good Bloom,,,,pendente
+Threatening Fracture,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
+Thunder Bolt,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 1.1f,0,1,,,,,,pendente
+Thunder Slash,None,,TargetStored['LightningDamage'] = Source.AttackPower * 1.2f,0,1,,,,,,pendente
+Thunder Storm,Lightning,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .9f,,1,0,Thunder Storm Periodic Effect,,,,,pendente
+Thunder Storm Periodic Effect,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .9f,0,1,,,,,,pendente
+Thunder Wrath,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 1.0f,0,1,,,,,,pendente
+Titan Bloom,None,,,0,0,,,,,,pendente
+Touch of Chaos,Cold,,,0,0,,,,,,pendente
+Tracker's Mark,None,,,0,0,,,,,,pendente
+Tranquilizing Shot,None,,,0,0,,,,,,pendente
+Twister,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 1.2f,0,1,,,,,,pendente
+Unarmed Attack,Weapon,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
+Unarmed Attack Healing,Healing,,TargetStored['Healing'] = Source.BasicAttackPower,0,1,,,,,,pendente
+Uncanny Evasion,None,,Target['EvasionCharges'] = 1,0,1,,,,,,pendente
+Unyielding Contender,None,,,0,0,,,,,,pendente
+Vampiric Aura,None,,,0,0,,,,,,pendente
+Venomous Skin,None,,,0,0,,,,,,pendente
+Verse of Valor,None,,,0,0,,,,,,pendente
+Vitality Break,None,,TargetStored[Source.WeaponDamageType] = (Source['Health'] * .4f); Source['Health'] = Source['Health'] / 2,0,2,,,,,,pendente
+Volley,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
+Warrior's Boon,Healing,,TargetStored['Healing'] = Target['MaxHealth'] * .25f,0,1,,,,,,pendente
