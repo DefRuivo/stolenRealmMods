@@ -151,6 +151,35 @@ namespace BetterTooltips.Patches
                 "Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ",
                 "Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health."
             },
+
+            // ---- RV-8b, padronizacao pela MAIORIA (29/09) ----
+            // Regra do projeto: quando skills irmas divergem na redacao, vale o padrao da
+            // maioria - e a maioria costuma estar no proprio NOME da skill. Levantado por
+            // tools/audit_tooltips.py (checagem E2).
+            // Nomes: "Raise Skeletal Archer/Mage/Warrior" -> descricoes diziam "Summon".
+            {
+                "Summon a skeletal archer to fight by your side.",
+                "Raise a skeletal archer to fight by your side."
+            },
+            {
+                "Summon a skeletal mage to fight by your side.",
+                "Raise a skeletal mage to fight by your side."
+            },
+            {
+                "Summon a skeletal warrior to fight by your side.",
+                "Raise a skeletal warrior to fight by your side."
+            },
+            {
+                // Unico invocador com fecho diferente: 6 usam "by your side", 1 usava "for you".
+                "Raise a Mighty Iron Golem to fight for you.",
+                "Raise a Mighty Iron Golem to fight by your side."
+            },
+            {
+                // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
+                // "Gain the ability to shapeshift into" (mesma redacao, mais verbosa).
+                "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
+                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0]."
+            },
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();

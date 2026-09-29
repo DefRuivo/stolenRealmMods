@@ -3,7 +3,7 @@ Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",Hurls an o
 Adaptation I,Nature,1,None,,Gain a 6% resistance to the last type of damage taken.,pendente
 Adaptation II,Nature,2,None,,Gain an additional 9% resistance to the last type of damage taken.,pendente
 Affinity,Chaos,3,None,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
-Aid,Chaos,3,None,,Healing an ally has a 10% chance to apply Helping.,pendente
+Aid,Chaos,3,None,,Healing an ally has a 10% chance to apply Helping.,sem-explicacao
 Ambush I,Thief,1,None,,Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
 Ambush II,Thief,2,None,,Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
 Animal Companion Grizzly,Ranger,5,Physical,Ranged,Summon a grizzly to fight your enemies.,pendente
@@ -64,7 +64,7 @@ Child of the Abyss,Shadow,5,None,Beneficial,Increases @Max Health@ by 100%. Can 
 Chilling Strike,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Melee",The caster's hand becomes imbued with frost thrusting it at the target dealing *0 cold damage.,pendente
 Circle of Life,Nature,4,None,,"When an enemy dies, you have a 50% chance to spawn a Good Bloom or Bad Bloom.",pendente
 Cleave,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",Swing in a 180 degree arc striking all foes for *0 weapon damage.,pendente
-Coin of Chaos,Shadow,5,None,Ranged,Flip the Coin of Chaos!,pendente
+Coin of Chaos,Shadow,5,None,Ranged,Flip the Coin of Chaos!,sem-explicacao
 Cold Heart,Cold,3,None,,Each stack of chilled you've applied increases your cold damage by 5%.,pendente
 Colossus,Warrior,5,None,,Damage you deal splashes to enemies within 1 hex for 50% of the damage dealt.,pendente
 Combo Breaker,Monk,3,None,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,pendente
@@ -185,7 +185,7 @@ Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies 
 Gouge,Thief,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,pendente
 Guardian I,Warrior,1,None,,Increase @Physical Resistance@ by 5%.,pendente
 Guardian II,Warrior,2,None,,Increase @Physical Resistance@ by an additional 10%.,pendente
-Harm,Chaos,3,None,,Damaging an Enemy has a 10% chance to apply Hurting.,pendente
+Harm,Chaos,3,None,,Damaging an Enemy has a 10% chance to apply Hurting.,sem-explicacao
 Harmonize I,Bard,1,None,Beneficial,"Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
 Harmonize II,Bard,2,None,Beneficial,"Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
 Haste,Fire,3,None,"Beneficial,Ranged",Target gains an additional action this turn. Applies {STA=Exhaustion}.,pendente
@@ -313,10 +313,10 @@ Quickening,Light,4,None,Beneficial,"Every time one of your Light skills is cast 
 Rage,Warrior,1,None,Beneficial,Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.,pendente
 Rage Spores,Nature,4,None,"Harmful,Ranged",Infects enemies and allies with Rage Spores that increase @damage dealt@ and reduce @damage reduction@ by 25% for 2 turns.,pendente
 Rainstorm,Nature,4,None,"Beneficial,Ranged",Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.,pendente
-Raise Iron Golem,Shadow,5,None,Ranged,Raise a Mighty Iron Golem to fight for you.,pendente
-Raise Skeletal Archer,Shadow,1,None,Ranged,Summon a skeletal archer to fight by your side.,pendente
-Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",Summon a skeletal mage to fight by your side.,pendente
-Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",Summon a skeletal warrior to fight by your side.,pendente
+Raise Iron Golem,Shadow,5,None,Ranged,Raise a Mighty Iron Golem to fight for you.,corrigido
+Raise Skeletal Archer,Shadow,1,None,Ranged,Summon a skeletal archer to fight by your side.,corrigido
+Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",Summon a skeletal mage to fight by your side.,corrigido
+Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",Summon a skeletal warrior to fight by your side.,corrigido
 Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",Raise an Undead Berserker to fight by your side.,pendente
 Raise Undead Ranger,Shadow,1,None,Ranged,Raise an Undead Ranger to fight by your side.,pendente
 Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",Raise a Undead Wizard to fight by your side.,corrigido
@@ -346,7 +346,7 @@ Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",Breathe out a stream 
 Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",Slash nearby targets dealing *0 shadow damage to all enemies in range.,pendente
 Shadow Walk,Thief,4,None,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,pendente
 Shapeshift Dire Werewolf,Nature,5,None,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,pendente
-Shapeshift Dragonkin,Nature,5,None,Beneficial,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",pendente
+Shapeshift Dragonkin,Nature,5,None,Beneficial,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",corrigido
 Shapeshift Vampire Bat,Innate,3,None,12,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
 Shapeshift Werewolf,Nature,3,None,Beneficial,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,pendente
 Shatter,Cold,5,None,"Harmful,Ranged",Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,pendente

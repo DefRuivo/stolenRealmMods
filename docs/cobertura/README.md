@@ -80,8 +80,25 @@ Ferramentas de apoio:
 - `python tools/check_fix_keys.py` — confere se as chaves das tabelas do `BetterTooltips`
   existem mesmo nos textos do jogo. Uma chave com um espaço a mais (ou escrita de memória
   em vez de copiada do asset) **nunca dispara**, e a falha é silenciosa.
+- `python tools/audit_tooltips.py [arvore]` — auditoria de conteúdo das skills (RV-8b):
+  tipo de dano declarado, valor dinâmico presente, área mencionada, descrições curtas e
+  **famílias de redação divergentes**. Escreve `docs/cobertura/auditoria-tooltips.md`.
 - `python tools/scan_tokens.py` — a varredura da gramática de texto (RV-8a).
 - Relatório de cada lote fica em `docs/cobertura/revisao/`.
+
+## Vocabulário da coluna `status`
+
+| status | significado |
+|---|---|
+| `pendente` | ainda não revisada |
+| `revisado` | conferida contra o código e ≥2 fontes externas; o texto atual está certo |
+| `corrigido` | tinha defeito e foi corrigida no `BetterTooltips` |
+| `sem-explicacao` | **não deve ser explicada** por escolha de design (flavor) — sai da auditoria |
+| `intocavel` | árvore Bard: não revisar nem alterar |
+
+> **O censo é o estado ANTES.** Ele é gerado a partir do jogo, então mostra o texto
+> original — não o que o `BetterTooltips` corrige em tempo de execução. As auditorias
+> continuam acusando o que já foi corrigido; quem diz o que já está pronto é o `status`.
 
 ## Gramática dos textos (essencial para revisar)
 
