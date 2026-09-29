@@ -22,7 +22,7 @@ Beserker's Blood,Warrior,3,None,,sim,"DamageMod:Base:Source.HealthRatioInverse *
 Blasting Shot,Ranger,3,Physical,"Ranged,Harmful",nao,,Deals *0 weapon damage to all targets in area.  Targets are knocked back 3 hexes. ,corrigido
 Bleeding Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.  Applies 2 stacks of {STA=Bleeding} on all targets hit. ,corrigido
 Bleeding Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,corrigido
-Bless,Light,2,None,"Beneficial,AreaEffect",nao,,"Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",revisado
+Bless,Light,2,None,"Beneficial,AreaEffect",nao,,"Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",corrigido
 Blessed By Light I,Light,1,None,Beneficial,sim,"ManaCostMod:Base:-10,",Mana costs reduced by 10%.,revisado
 Blessed By Light II,Light,2,None,Beneficial,sim,"ManaCostMod:Base:-15,",Mana costs reduced by an additional 15%.,revisado
 Blind,Shadow,1,Shadow,"Harmful,Ranged",nao,,Deals *0 shadow damage.  Applies {STA=Blind} for 1 turn.,corrigido
@@ -435,7 +435,7 @@ Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon
 Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
 Uncanny Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,pendente
 Unyielding Contender,Warrior,5,None,Beneficial,nao,,"Grants 50% increased Armor, Magic Armor, and Max Health for 2 turns. Grants Enrage. Usable while stunned.",pendente
-Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,revisado
+Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
 Variety II,Chaos,4,None,,sim,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,pendente
 Vengeful Shadows,Shadow,2,None,,sim,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Grants [0] Return Shadow Damage.,revisado
