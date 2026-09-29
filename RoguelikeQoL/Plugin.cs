@@ -344,6 +344,28 @@ namespace RoguelikeQoL
                         float pw = component.GetPreferredValues("(" + combinedVal.ToString("F0") + ")").x;
                         Plugin.Log.LogInfo($"QoL-3 box: largura={component.rectTransform.rect.width:0.#} fontSize={component.fontSize:0.#} baseW={bw:0.#} parenW={pw:0.#}");
                     }
+                    if (!_shiftedValues)
+                    {
+                        _shiftedValues = true;
+                        try
+                        {
+                            RectTransform holderRt = __instance.AttributesValuesMainHolder as RectTransform;
+                            if (holderRt != null)
+                            {
+                                // QoL-3 (inventário): a coluna de valores "37 (77)" vaza pra fora do frame
+                                // (alinhada à esquerda num x fixo). Como sobra vão entre os labels e os
+                                // valores, desloca a coluna pra esquerda pra caber dentro do painel.
+                                Vector2 p = holderRt.anchoredPosition;
+                                holderRt.anchoredPosition = new Vector2(p.x - 40f, p.y);
+                                RectTransform childRt = __instance.AttributesValuesMainHolder.GetChild(0) as RectTransform;
+                                Plugin.Log.LogInfo($"QoL-3 shift: holder x {p.x:0.#} -> {p.x - 40f:0.#} | holderRect={holderRt.rect} | childRect={(childRt != null ? childRt.rect.ToString() : "?")} | childPos={(childRt != null ? childRt.anchoredPosition.ToString() : "?")} | childAlign={component.alignment}");
+                            }
+                        }
+                        catch (System.Exception ex)
+                        {
+                            Plugin.Log.LogWarning("QoL-3 shift erro: " + ex.Message);
+                        }
+                    }
                 }
 
                 InventoryStatBaseCombined.LogDiagnostic(character);
@@ -355,6 +377,7 @@ namespace RoguelikeQoL
         }
 
         private static bool _loggedBox;
+        private static bool _shiftedValues;
 
         internal static string FormatBaseCombined(float baseVal, float combinedVal, int smallSize)
         {
