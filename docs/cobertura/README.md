@@ -71,6 +71,18 @@ python tools/census.py                       # gera/atualiza os CSVs desta pasta
 O `tools/census.py` lê o `LogOutput.log` do perfil e escreve os 5 arquivos.
 Se você mexer num mod, rebuilde antes de rodar o ciclo.
 
+**A coluna `status` sobrevive à regeneração** — o script carrega os status do arquivo
+anterior antes de reescrever, então o trabalho de revisão não é perdido ao rodar o censo
+de novo. (Só evite marcar status com o CSV aberto no Excel, que pode regravar por cima.)
+
+Ferramentas de apoio:
+
+- `python tools/check_fix_keys.py` — confere se as chaves das tabelas do `BetterTooltips`
+  existem mesmo nos textos do jogo. Uma chave com um espaço a mais (ou escrita de memória
+  em vez de copiada do asset) **nunca dispara**, e a falha é silenciosa.
+- `python tools/scan_tokens.py` — a varredura da gramática de texto (RV-8a).
+- Relatório de cada lote fica em `docs/cobertura/revisao/`.
+
 ## Gramática dos textos (essencial para revisar)
 
 O mesmo `[...]` significa coisas diferentes conforme a categoria — extraído do código

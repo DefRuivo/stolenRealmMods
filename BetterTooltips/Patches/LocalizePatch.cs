@@ -127,6 +127,30 @@ namespace BetterTooltips.Patches
                 "A well timed healing or mana potion can turn the tide of battle. ",
                 "A well timed healing or mana potion can turn the tide of battle."
             },
+
+            // ---- RV-8b, arvore Shadow (29/09) ----
+            // Só gramática/espacamento, sem tocar em mecânica. A chave é o texto EXATO
+            // do asset (espaços duplos e espaço no fim contam).
+            {
+                // "creates an poison gas cloud applies" -> artigo errado + falta conectivo
+                "The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.",
+                "The caster creates a poison gas cloud that applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target."
+            },
+            {
+                // "a Undead Wizard" -> artigo errado (som de vogal)
+                "Raise a Undead Wizard to fight by your side.",
+                "Raise an Undead Wizard to fight by your side."
+            },
+            {
+                // espaco duplo no meio + espaco sobrando no fim
+                "Completely negates the next attack.  Lasts until hit. ",
+                "Completely negates the next attack. Lasts until hit."
+            },
+            {
+                // espaco sobrando no fim
+                "Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ",
+                "Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health."
+            },
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
