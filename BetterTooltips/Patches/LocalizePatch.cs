@@ -51,7 +51,7 @@ namespace BetterTooltips.Patches
             // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
             // nao dizia. Muda a decisao de quem hesita em usar num aliado quase morto.
             { "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.",
-               "\n<b><color=#8FC1E3>This cannot reduce the target below 1 health.</color></b>" },
+              "\n<b><color=#8FC1E3>This cannot reduce the target below 1 health.</color></b>" },
             // ---- Escala por NÍVEL (RV-8b-2g) ----
             // Fonte: código do jogo. `GetFlatDamageValue(level, rarity) =
             // Mathf.Ceil(FlatDamageNodes.GetMultipler((int)level) * GetStatRarityMod(rarity))`
@@ -76,19 +76,19 @@ namespace BetterTooltips.Patches
             // são o caminho padrão de dano, o valor já aparece na tooltip e repetir
             // "escala com ataque" em 135 skills seria ruído, não informação.
             { "@Intelligence@ grants [0] @Armor@ and @Magic Armor@ per point.  Current Bonus: [1]",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
             { "Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.",
-               "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
+              "\n<b><color=#8FC1E3>Scales with your character level.</color></b>" },
 
             // ---- O que cada INVOCAÇÃO faz (RV-8b-2h) ----
             // Fonte: os assets do jogo, via dump. `ActionInfo.Summons` é a lista de
@@ -100,25 +100,25 @@ namespace BetterTooltips.Patches
             // texto fica ilegível no tooltip. O \n é o mesmo separador que o jogo usa nos
             // textos dele; e só ASCII, para não depender de glifo na fonte do jogo.
             { "Summons a Raven, Coyote, or Raccoon to fight for you.",
-               "\n<b><color=#8FC1E3>One is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>One is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summons a Stag, Wolf, or Boar to fight for you.",
-               "\n<b><color=#8FC1E3>One is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>One is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summons a Bear, Moose, or Panther to fight for you.",
-               "\n<b><color=#8FC1E3>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summons a Tundra Wolf to fight for you.",
-               "\n<b><color=#8FC1E3>Tundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Tundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summons a Dire Wolf to fight for you.",
-               "\n<b><color=#8FC1E3>Dire Wolf: Melee Attack, Blood Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Dire Wolf: Melee Attack, Blood Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summon a grizzly to fight your enemies.",
-               "\n<b><color=#8FC1E3>Grizzly: Stunning Slam, Wild Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Grizzly: Stunning Slam, Wild Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summon a wolf to fight your enemies.",
-               "\n<b><color=#8FC1E3>Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Summon a Raven to fight your enemies. ",
-               "\n<b><color=#8FC1E3>Raven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Raven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Raise an Undead Ranger to fight by your side.",
-               "\n<b><color=#8FC1E3>Undead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Undead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
             { "Raise an Undead Berserker to fight by your side.",
-               "\n<b><color=#8FC1E3>Undead Berserker: Bleeding Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
+              "\n<b><color=#8FC1E3>Undead Berserker: Bleeding Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>" },
 
             // Brambles e Ice Wall NAO invocam bicho: sao objetos destrutiveis que bloqueiam
             // hexes. Passam pelo MESMO caminho de beneficio dos bichos (CreateDestructible
@@ -132,16 +132,16 @@ namespace BetterTooltips.Patches
             // incondicionalmente no CreateSummon. Chama-la de "herdaStats" foi rotulo meu e
             // induzia a conclusao errada ("nao herda = nao escala").
             { "Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.",
-               "\n<b><color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color></b>" },
+              "\n<b><color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color></b>" },
             { "Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.",
-               "\n<b><color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color></b>" },
+              "\n<b><color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color></b>" },
 
             // ---- Omissao: o texto nao pode estar certo pela METADE (RV-8b-3, 29/09) ----
             // Regra do usuario: se o resultado depende de algo que o texto nao diz, e defeito.
             // Achado por tools/check_omissao.py (classes O1..O6).
             // Ascendancy: o status concede 20% e DURA 5 TURNOS; a skill so dizia o 20%.
             { "Increases the target allies' stats by 20%.",
-               "\n<b><color=#8FC1E3>Lasts 5 turns.</color></b>" },
+              "\n<b><color=#8FC1E3>Lasts 5 turns.</color></b>" },
             // Touch of Chaos: REVERTIDO a pedido do usuario (29/09). A arvore do Chaos e
             // divertida justamente por NAO revelar os resultados - Coin of Chaos, Benevolence,
             // Malevolence, Hurting e Helping seguem omitidos DE PROPOSITO. Nao "corrigir"
@@ -163,23 +163,23 @@ namespace BetterTooltips.Patches
             // Holy Power and Healing Received by 10%" e o efeito dela e `DamageModHealing` -
             // o mesmo atributo que multiplica a cura aqui.
             { "Restores target's health by *0.",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
             { "Restores *0 health to all allies within 2 hexes of target.",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.\nThe 2-hex area is centred on the chosen TARGET, not on the caster.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.\nThe 2-hex area is centred on the chosen TARGET, not on the caster.</color></b>" },
             { "Target restores *0 health per turn. ",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
             { "All allies within 3 hexes of you heal for *0 per turn. ",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
             { "The caster reaches out in aid healing 30% of target's maximum health.",
-               "\n<b><color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
             { "Restores the target to full health.",
-               "\n<b><color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color></b>" },
             { "Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.",
-               "\n<b><color=#8FC1E3>Damage scales with your Attack Power and Holy Power.</color></b>" },
+              "\n<b><color=#8FC1E3>Damage scales with your Attack Power and Holy Power.</color></b>" },
             { "Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.",
-               "\n<b><color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color></b>" },
             { "Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.",
-               "\n<b><color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color></b>" },
+              "\n<b><color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color></b>" },
             // Fechamento do lote da Light (29/09): quatro que tambem escalam e nao diziam.
             // `Holy Ground` era o caso mais enganoso - o STATUS dele guarda o valor na chave
             // `HolyDamage`, mas o teste do proprio jogo prova que CURA:
@@ -187,13 +187,13 @@ namespace BetterTooltips.Patches
             // A chave e so o slot de armazenamento; o multiplicador de Holy Power entra
             // igual (num7 *= 1 + DamageModHealing/100).
             { "Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color></b>" },
             { "Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",
-               "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color></b>" },
+              "\n<b><color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color></b>" },
             { "Calls down a shield that protects the target absorbing *0 damage. ",
-               "\n<b><color=#8FC1E3>Absorption scales with your Attack Power and Holy Power.</color></b>" },
+              "\n<b><color=#8FC1E3>Absorption scales with your Attack Power and Holy Power.</color></b>" },
             { "Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",
-               "\n<b><color=#8FC1E3>Damage and absorption scale with your Attack Power and Holy Power.</color></b>" },
+              "\n<b><color=#8FC1E3>Damage and absorption scale with your Attack Power and Holy Power.</color></b>" },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
