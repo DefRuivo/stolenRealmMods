@@ -335,7 +335,8 @@ namespace RoguelikeQoL
                     }
                     float baseVal = GetBaseValue(character, baseAttrs[i]);
                     float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
-                    component.text = FormatBaseCombined(baseVal, combinedVal);
+                    int smallSize = (component.fontSize > 0f) ? Mathf.Max(6, Mathf.RoundToInt(component.fontSize * 0.7f)) : 0;
+                    component.text = FormatBaseCombined(baseVal, combinedVal, smallSize);
                 }
 
                 InventoryStatBaseCombined.LogDiagnostic(character);
@@ -346,13 +347,20 @@ namespace RoguelikeQoL
             }
         }
 
-        internal static string FormatBaseCombined(float baseVal, float combinedVal)
+        internal static string FormatBaseCombined(float baseVal, float combinedVal, int smallSize)
         {
-            if (combinedVal != baseVal)
+            if (combinedVal == baseVal)
             {
-                return baseVal.ToString("F0") + " (" + combinedVal.ToString("F0") + ")";
+                return baseVal.ToString("F0");
             }
-            return baseVal.ToString("F0");
+            string parens = "(" + combinedVal.ToString("F0") + ")";
+            if (smallSize > 0)
+            {
+                // Valor entre parênteses menor (tag <size> do TMP) pra caber no quadrado do stat
+                // sem quebrar a linha nem vazar pra fora.
+                return baseVal.ToString("F0") + " <size=" + smallSize + ">" + parens + "</size>";
+            }
+            return baseVal.ToString("F0") + " " + parens;
         }
     }
 
@@ -388,7 +396,8 @@ namespace RoguelikeQoL
                     }
                     float baseVal = InventoryStatBaseCombined.GetBaseValue(character, baseAttrs[i]);
                     float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
-                    sb.Append(InventoryStatBaseCombined.FormatBaseCombined(baseVal, combinedVal)).Append('\n');
+                    int smallSize = (__instance.StatValues.fontSize > 0f) ? Mathf.Max(6, Mathf.RoundToInt(__instance.StatValues.fontSize * 0.7f)) : 0;
+                    sb.Append(InventoryStatBaseCombined.FormatBaseCombined(baseVal, combinedVal, smallSize)).Append('\n');
                 }
                 __instance.StatValues.text = sb.ToString();
                 InventoryStatBaseCombined.LogDiagnostic(character);
