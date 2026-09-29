@@ -418,9 +418,26 @@ namespace RoguelikeDebugger.Patches
                             {
                                 foreach (var a in tg.Actions)
                                 {
-                                    if (a != null)
+                                    if (a != null && !string.IsNullOrEmpty(a.name))
                                     {
                                         acoesTg.Append(Limpa(a.name)).Append(',');
+                                        // RV-8b-2e: ação concedida por GATILHO não está em
+                                        // ActionsGranted, então nunca entrava no inventário de
+                                        // ações - e o valor que a tooltip promete mora nela
+                                        // (`Natural Selection` promete 5% de vida máxima, e o
+                                        // `Natural Succession Proc` não existe no assembly).
+                                        _acoes[a.name] = a;
+                                    }
+                                }
+                            }
+                            var statusTg = new System.Text.StringBuilder();
+                            if (tg.ActionStatuses != null)
+                            {
+                                foreach (var st in tg.ActionStatuses)
+                                {
+                                    if (st != null)
+                                    {
+                                        statusTg.Append(Limpa(st.Name)).Append(',');
                                     }
                                 }
                             }
@@ -430,6 +447,7 @@ namespace RoguelikeDebugger.Patches
                                 $"garanteUm={(tg.GauranteeOneAction ? "sim" : "nao")} | " +
                                 $"chanceIgual={(tg.GiveAllActionsEqualChance ? "sim" : "nao")} | " +
                                 $"chances={Junta(tg.ActionChanceEquations)} | acoes={acoesTg} | " +
+                                $"status={statusTg} | chancesStatus={Junta(tg.ActionStatusChanceEquations)} | " +
                                 $"nEfeitos={(tg.GeneralEffects == null ? 0 : tg.GeneralEffects.Length)}");
                         }
                     }
