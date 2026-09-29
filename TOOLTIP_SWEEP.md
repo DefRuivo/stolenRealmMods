@@ -1,4 +1,4 @@
-# Varredura de Tooltips — Stolen Realm (BetterTexts)
+# Varredura de Tooltips — Stolen Realm (BetterTooltips)
 
 ## RV-7 — Life Steal em triangulação (em andamento)
 
@@ -144,7 +144,7 @@ Candidatos já mapeados:
 
 ---
 
-## Textos já publicados (BetterTexts)
+## Textos já publicados (BetterTooltips)
 
 | Texto | Conteúdo | Evidência |
 |---|---|---|

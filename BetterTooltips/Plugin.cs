@@ -2,17 +2,17 @@ using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
 
-namespace BetterTexts
+namespace BetterTooltips
 {
     /// <summary>
-    /// Plugin BetterTexts — melhora textos, tooltips e descrições do Stolen Realm.
+    /// Plugin BetterTooltips — melhora textos, tooltips e descrições do Stolen Realm.
     ///
     /// [BepInPlugin] registra o mod no BepInEx com:
     ///   - GUID:    identificador único do mod (padrão: dominio.dono.nome)
     ///   - Nome:    nome legível exibido nos logs
     ///   - Versão:  versão do mod
     /// </summary>
-    [BepInPlugin("com.gumatos.bettertexts", "Better Texts", "0.1.0")]
+    [BepInPlugin("com.gumatos.bettertooltips", "Better Tooltips", "0.1.0")]
     public class Plugin : BaseUnityPlugin
     {
         /// <summary>
@@ -27,14 +27,14 @@ namespace BetterTexts
         private void Awake()
         {
             Log = Logger;
-            Logger.LogInfo("Better Texts carregado.");
+            Logger.LogInfo("Better Tooltips carregado.");
 
             // Harmony cria um "patch room" identificado pelo GUID.
             // PatchAll() procura todas as classes com [HarmonyPatch] neste
             // assembly e aplica os patches nos métodos do jogo.
-            var harmony = new Harmony("com.gumatos.bettertexts");
+            var harmony = new Harmony("com.gumatos.bettertooltips");
             harmony.PatchAll();
-            Logger.LogInfo("Better Texts: patches aplicados.");
+            Logger.LogInfo("Better Tooltips: patches aplicados.");
         }
     }
 }

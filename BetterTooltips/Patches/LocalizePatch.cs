@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using HarmonyLib;
 
-namespace BetterTexts.Patches
+namespace BetterTooltips.Patches
 {
     /// <summary>
     /// Intercepta OptionsManager.Localize(string original, LanguageGender, Gender) — o funil
@@ -378,7 +378,7 @@ namespace BetterTexts.Patches
                 __result = fixedText;
                 if (_appliedFixes.Add(original))
                 {
-                    Plugin.Log.LogInfo($"BetterTexts: corrigido '{original}' -> '{fixedText}'");
+                    Plugin.Log.LogInfo($"BetterTooltips: corrigido '{original}' -> '{fixedText}'");
                 }
             }
             else if (TextAppends.TryGetValue(original, out string append))
@@ -386,7 +386,7 @@ namespace BetterTexts.Patches
                 __result += append;
                 if (_appliedAppends.Add(original))
                 {
-                    Plugin.Log.LogInfo($"BetterTexts: explicação adicionada a '{original}'");
+                    Plugin.Log.LogInfo($"BetterTooltips: explicação adicionada a '{original}'");
                 }
             }
             else
@@ -401,7 +401,7 @@ namespace BetterTexts.Patches
                         __result += effects;
                         if (_appliedAppends.Add(original))
                         {
-                            Plugin.Log.LogInfo($"BetterTexts: efeitos por ponto adicionados a '{original}'");
+                            Plugin.Log.LogInfo($"BetterTooltips: efeitos por ponto adicionados a '{original}'");
                         }
                     }
                 }
@@ -416,7 +416,7 @@ namespace BetterTexts.Patches
                             __result += note;
                             if (_appliedAppends.Add(original))
                             {
-                                Plugin.Log.LogInfo($"BetterTexts: ordem de redução adicionada a '{original}'");
+                                Plugin.Log.LogInfo($"BetterTooltips: ordem de redução adicionada a '{original}'");
                             }
                         }
                     }
@@ -516,7 +516,7 @@ namespace BetterTexts.Patches
 
                     if (appended && _appliedAppends.Add(original))
                     {
-                        Plugin.Log.LogInfo($"BetterTexts: explicação adicionada a '{original}'");
+                        Plugin.Log.LogInfo($"BetterTooltips: explicação adicionada a '{original}'");
                     }
                 }
             }

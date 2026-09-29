@@ -7,8 +7,8 @@
 #
 # Uso:
 #   bash tools/pack-for-friends.sh                  # pacote padrão (amigos)
-#   bash tools/pack-for-friends.sh BetterTexts      # só um mod
-#   bash tools/pack-for-friends.sh BetterTexts BetterFont BetterStats
+#   bash tools/pack-for-friends.sh BetterTooltips      # só um mod
+#   bash tools/pack-for-friends.sh BetterTooltips BetterFont BetterStats
 #
 # Saída: dist/StolenRealm-Mods-<AAAA-MM-DD>.zip
 # ============================================================================
@@ -21,7 +21,7 @@ cd "$(dirname "$0")/.."
 if [ "$#" -gt 0 ]; then
   MODS=("$@")
 else
-  MODS=(BetterTexts BetterStats BetterFont)
+  MODS=(BetterTooltips BetterStats BetterFont)
 fi
 
 STAGE="dist/_stage/StolenRealm-Mods"
