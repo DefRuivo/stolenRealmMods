@@ -49,9 +49,36 @@ namespace RoguelikeDebugger.Patches
                     }
                     // Censo (RV-7): descricao COMPLETA.
                     var desc = it.OptionalDescription ?? "";
+
+                    // CONSÚMIVEL (29/09, pedido do usuário): o item lança `ConsumableAction`
+                    // como AÇÃO normal (`ExecuteAction(..., ItemInfo.ConsumableAction)`), e
+                    // toda cura de ação passa pelo `GetActionDamage` — exatamente onde o
+                    // `ChildOfTheAbyss` zera o `num9` (o valor de Healing). Dumpamos a ação e
+                    // os efeitos dela para provar de que lado a poção cai, em vez de supor.
+                    var cons = new System.Text.StringBuilder();
+                    if (it.IsConsumable && it.ConsumableAction != null)
+                    {
+                        cons.Append(it.ConsumableAction.name).Append("::");
+                        if (it.ConsumableAction.Effects != null)
+                        {
+                            foreach (var ef in it.ConsumableAction.Effects)
+                            {
+                                // `Effects` é IEffectInfo[] (interface, sem `Action`): o campo
+                                // mora no GeneralEffect, que é o tipo concreto.
+                                var ge = ef as GeneralEffect;
+                                if (ge != null && !string.IsNullOrEmpty(ge.Action))
+                                {
+                                    cons.Append(ge.Action).Append("; ");
+                                }
+                            }
+                        }
+                    }
+                    // O campo novo entra ANTES do desc=: o parser do censo ancora o desc no
+                    // fim da linha, e nenhum valor pode conter '|' (vira o separador).
                     Plugin.Log.LogInfo(
                         $"[Item] '{it.name}' | tipo={it.ItemType} | raridade={it.Rarity} | " +
-                        $"lvlMin={it.MinLevel} | desc=\"{desc.Replace("\n", " ")}\"");
+                        $"lvlMin={it.MinLevel} | consumivel={cons.ToString().Replace("|", "/").Replace("\n", " ")} | " +
+                        $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
 
                 // Coleta ATIVA dos afixos: o getter é lazy e não é acessado no menu,
