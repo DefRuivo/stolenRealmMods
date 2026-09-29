@@ -71,6 +71,26 @@ python tools/census.py                       # gera/atualiza os CSVs desta pasta
 O `tools/census.py` lê o `LogOutput.log` do perfil e escreve os 5 arquivos.
 Se você mexer num mod, rebuilde antes de rodar o ciclo.
 
+## Gramática dos textos (essencial para revisar)
+
+O mesmo `[...]` significa coisas diferentes conforme a categoria — extraído do código
+(`Tooltip`), em 29/09:
+
+| Categoria | Pipeline | O que o colchete significa |
+|---|---|---|
+| `skills`, `status`, `powerups` | `Tooltip.ApplyDescriptionExpressions` | `[N]` = **índice da N-ésima expressão** do asset (o jogo avalia e colore em `<color=#CBB396>`); `[[X]]` = atributo (vira `<b>nome</b>`); `@x@` = negrito |
+| `itens`, `afixos` | `OptionsManager.Localize(...).Replace("[token]", valor)` | `[level value]`, `{SKL=...}`, `[15]` = **token nomeado de template**, trocado pelo próprio chamador |
+
+Consequência prática nas categorias de **expressão**: um `[` que não seja seguido de
+dígito faz o jogo devolver `Parsing Error with: X` **no lugar do tooltip inteiro**; e um
+índice de 2+ dígitos (`[10]`) é lido só pelo primeiro dígito — o jogo remove 3 caracteres
+e usa a **expressão errada**. Em itens/afixos, o mesmo padrão é normal.
+
+A varredura `python tools/scan_tokens.py` → `alerta-tokens.md` aplica essa regra:
+em 29/09 deu **0 alertas** nas categorias de expressão e **102 ocorrências esperadas**
+de template em itens/afixos. Ou seja: **não há placeholder vazando** no jogo hoje —
+o que sobra para o `RV-8` é revisão de **conteúdo** (mecânica × texto), não de sintaxe.
+
 ## O que este censo AINDA não cobre
 
 Honestidade sobre o limite atual — falta censo para:
