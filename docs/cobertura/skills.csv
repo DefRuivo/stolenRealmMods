@@ -85,7 +85,7 @@ Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",nao,,Charm the enemy target for 1 
 Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,revisado
 Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,revisado
 Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
-Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,pendente
+Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,revisado
 Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
 Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
@@ -189,7 +189,7 @@ Harm,Chaos,3,None,,sim,,Damaging an Enemy has a 10% chance to apply Hurting.,sem
 Harmonize I,Bard,1,None,Beneficial,sim,,"Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
 Harmonize II,Bard,2,None,Beneficial,sim,,"Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
 Haste,Fire,3,None,"Beneficial,Ranged",nao,,Target gains an additional action this turn. Applies {STA=Exhaustion}.,pendente
-Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",nao,,The caster reaches out in aid healing 30% of target's maximum health.,revisado
 Heavy Rains,Lightning,4,None,,sim,"CritDamage:Base:Source[""Intelligence""] * 1, CritChance:Base:Source[""Intelligence""] * .1f,",Each point of @intelligence@ now grants .1% @critical hit chance@ and 1% @critical hit damage@.,pendente
 Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,sem-explicacao
@@ -226,7 +226,7 @@ Leech Intelligence,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points
 Leech Might,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.,revisado
 Lich Lord,Shadow,5,None,Beneficial,sim,"LichLord:Set:1,",Removes the AP cost from all summoning skills.,revisado
 Life Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.  Lifesteals for 10% per target hit.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
-Light's Beckon,Light,3,None,,nao,,Teleport any target on the battlefield within 3 hexes of your character.,pendente
+Light's Beckon,Light,3,None,,nao,,Teleport any target on the battlefield within 3 hexes of your character.,revisado
 Light's Brilliance,Light,3,None,Beneficial,sim,"IntelligenceBase:Percentage:20,",Increase @intelligence@ by 20%.,pendente
 Light's Celerity,Light,3,None,Beneficial,sim,"DexterityBase:Percentage:20,",Increase @dexterity@ by 20%.,pendente
 Light's Endurance,Light,3,None,Beneficial,sim,"VitalityBase:Percentage:20,",Increase @vitality@ by 20%.,pendente
@@ -401,7 +401,7 @@ Survivalist II,Ranger,2,None,,sim,"ResistPhysical:Base:5, ResistCold:Base:5, Res
 Sustenance I,Chaos,1,None,,sim,,Consuming any Globule heals you for 8% of max life and mana.,pendente
 Sustenance II,Chaos,2,None,,sim,,Consuming any Globule heals you for 20% of max life and mana.,pendente
 Swan Song,Bard,5,None,Beneficial,nao,,Allies within 4 hexes gain Invincible for 1 turn. Cooldown 5. Action.,intocavel
-Sweeping Kick,Monk,3,Physical,"Harmful,DealsDamage",nao,,Deal *0 physical damage to all enemies within 1 hex. Knocks back all enemies up to 3 hexes. Targets are crippled for 1 turn. ,pendente
+Sweeping Kick,Monk,3,Physical,"Harmful,DealsDamage",nao,,Deal *0 physical damage to all enemies within 1 hex. Knocks back all enemies up to 3 hexes. Targets are crippled for 1 turn. ,revisado
 Swiftness,Thief,1,None,,sim,"TurnFreeMovementPoints:Base:1,",Increases your @movement points@ by 1.,pendente
 Switcheroo,Chaos,1,None,Ranged,nao,,"Swap places with an @Enemy@, @Ally@, or @Object@.",pendente
 Tainted Touch,Shadow,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Reaches out to the target with dark energy dealing *0 shadow damage. @Life Steals@ for 12%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
@@ -429,7 +429,7 @@ Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a rand
 Tracker's Mark,Ranger,1,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",corrigido
 Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target applying {STA=Sleep} for 2 turns.,revisado
 Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,pendente
-Twister,Lightning,2,Lightning,"DealsDamage,Harmful,Elemental",nao,,Summons a raging tempest that deals *0 lightning damage in a line.  Targets hit are {STA=Crippled} for 2 turns.,corrigido
+Twister,Lightning,2,Lightning,"DealsDamage,Harmful,Elemental",nao,,Summons a raging tempest that deals *0 lightning damage in a line.  Targets hit are {STA=Crippled} for 2 turns.,revisado
 Two-Handed Mastery,Warrior,3,None,,sim,"DamageMod:Base:Source.WieldingTwoHanded ? 20 : 0,",While a two handed weapon is equipped all damage is increased by 20%. ,pendente
 Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
