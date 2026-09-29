@@ -110,7 +110,7 @@ namespace RoguelikeQoL
             }
             catch (System.Exception e)
             {
-                Plugin.Log.LogWarning($"QoL fonte erro: {e.Message}");
+                Plugin.Log.LogWarning($"QoL fonte erro: {e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -210,6 +210,12 @@ namespace RoguelikeQoL
                     {
                         // Primeira vez que vemos este texto: registra a fonte original
                         // como fallback do serifado (uma única vez).
+                        // QoL-2c: fallbackFontAssetTable vem null em font asset criado
+                        // em runtime (CreateFontAsset) — inicializa antes de usar.
+                        if (_serifFont.fallbackFontAssetTable == null)
+                        {
+                            _serifFont.fallbackFontAssetTable = new List<TMP_FontAsset>();
+                        }
                         if (t.font != null && t.font != _serifFont &&
                             !_serifFont.fallbackFontAssetTable.Contains(t.font))
                         {
@@ -225,7 +231,7 @@ namespace RoguelikeQoL
             }
             catch (System.Exception e)
             {
-                Plugin.Log.LogWarning($"QoL fonte erro: {e.Message}");
+                Plugin.Log.LogWarning($"QoL fonte erro: {e.Message}\n{e.StackTrace}");
             }
         }
 
