@@ -4,8 +4,8 @@ Adaptation I,Nature,1,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken 
 Adaptation II,Nature,2,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain an additional 9% resistance to the last type of damage taken.,revisado
 Affinity,Chaos,3,None,,sim,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
 Aid,Chaos,3,None,,sim,,Healing an ally has a 10% chance to apply Helping.,sem-explicacao
-Ambush I,Thief,1,None,,sim,"Ambush:Base:16,",Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
-Ambush II,Thief,2,None,,sim,"Ambush:Base:24,",Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
+Ambush I,Thief,1,None,,sim,"Ambush:Base:16,",Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,revisado
+Ambush II,Thief,2,None,,sim,"Ambush:Base:24,",Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,revisado
 Animal Companion Grizzly,Ranger,5,Physical,Ranged,nao,,Summon a grizzly to fight your enemies.,revisado
 Ascendancy,Light,5,None,"Beneficial,Ranged",nao,,Increases the target allies' stats by 20%.,revisado
 Aura of Flame,Fire,3,Fire,Beneficial,nao,,Continually deals *0 fire damage to enemies within 3 hexes of your character.,pendente
@@ -43,7 +43,7 @@ Breath of Winter,Cold,3,None,"Harmful,DealsDamage,Elemental,AreaEffect",nao,,Con
 Bristles,Nature,3,None,,sim,"Bristles:Set:1,",Summons gain 50% of your return damage.,revisado
 Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",nao,,Ignite an area in flames. Enemies take *0 fire damage each turn they remain on burning ground.,pendente
 Burning Reach,Fire,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all non-melee abilites by 1 hex. ,corrigido
-Calculated Risk,Thief,4,None,,sim,,When you are hit you have a 100% chance to cast @evasion@. 1 turn cooldown.,pendente
+Calculated Risk,Thief,4,None,,sim,,When you are hit you have a 100% chance to cast @evasion@. 1 turn cooldown.,revisado
 Call of the Grave,Shadow,1,None,,sim,"CallOfTheGrave:Set:1,",Deal 20% additional damage to enemies below 50% health.,revisado
 Call of the Wild,Nature,4,None,,sim,"CooldownModSummon:Base:-1,",Summoning skill cooldowns reduced by 1.,revisado
 Called Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.,corrigido
@@ -71,7 +71,7 @@ Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker
 Conduit,Lightning,5,None,,sim,"ExtraTurnActionPoints:Base:1,",Gain an additional action each turn.,pendente
 Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",nao,,Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,revisado
 Contagion,Nature,3,None,,sim,"ContagionSource:Set:1,",Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,revisado
-Contaminated Wound,Thief,4,None,,sim,"ContaminatedWound:Set:1,",Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,pendente
+Contaminated Wound,Thief,4,None,,sim,"ContaminatedWound:Set:1,",Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,revisado
 Contemplation I,Monk,1,None,,sim,"MaxMana:Percentage:10,",Max Mana increased by 10%.,revisado
 Contemplation II,Monk,2,None,,sim,"MaxMana:Percentage:15,",Max Mana increased by an additional 15%.,revisado
 Counter Melody,Bard,1,None,Beneficial,nao,,Grant an ally immunity to Crowd Control effects for 1 turn.,intocavel
@@ -87,15 +87,15 @@ Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resista
 Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
 Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,revisado
 Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
-Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
+Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,revisado
 Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
 Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,revisado
 Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,corrigido
 Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
 Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a dagger dealing *0 weapon damage.  Deals 50% additional @critical hit damage@.,corrigido
-Death Dealer I,Thief,1,None,,sim,"CritDamage:Base:16,",Increase @Critical Hit Damage and Healing@ by 16%.,pendente
-Death Dealer II,Thief,2,None,,sim,"CritDamage:Base:24,",Increase @Critical Hit Damage and Healing@ by an additional 24%.,pendente
-Deathblow,Thief,5,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *1 weapon damage. Critical hits deal an additional 200% @Critical Hit Damage@.,pendente
+Death Dealer I,Thief,1,None,,sim,"CritDamage:Base:16,",Increase @Critical Hit Damage and Healing@ by 16%.,revisado
+Death Dealer II,Thief,2,None,,sim,"CritDamage:Base:24,",Increase @Critical Hit Damage and Healing@ by an additional 24%.,revisado
+Deathblow,Thief,5,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *1 weapon damage. Critical hits deal an additional 200% @Critical Hit Damage@.,revisado
 Deep Freeze,Cold,2,None,"Harmful,MovementImpairing,Ranged",nao,,Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.,pendente
 Detonate,Fire,3,Fire,"Harmful,DealsDamage,AreaEffect",nao,,Deals *0 fire damage to all foes within 2 hexes of your character.,pendente
 Diamond Ice,Cold,3,None,,sim,"DamageFlatCold:Base:Source[""Armor""] * .01f,",1% of your @Armor@ value is added to your character as @Additional Cold Damage@.  Current Bonus: [0],corrigido
@@ -121,7 +121,7 @@ Ecosystem,Nature,5,None,,sim,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:
 Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @elemental resistance@ by 15%. ,revisado
 Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,revisado
 Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,revisado
-En Garde,Thief,3,None,,sim,"CounterAttacksPerTurn:Base:2,",Increases your maximum amount of Counter Attacks per turn by 2.,pendente
+En Garde,Thief,3,None,,sim,"CounterAttacksPerTurn:Base:2,",Increases your maximum amount of Counter Attacks per turn by 2.,revisado
 Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 cold damage to attacks. ,pendente
 Enchant Fire,Fire,2,None,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 fire damage to attacks. ,pendente
 Enchant Lightning,Lightning,2,Lightning,"Beneficial,Ranged",nao,,Enchants the target's weapon to add *0 lightning damage to attacks. ,pendente
@@ -130,23 +130,23 @@ Endless Night,Shadow,5,None,Beneficial,sim,"DamageFlatShadow:Base:Source[""MaxHe
 Endless Quiver,Ranger,4,None,,sim,"CooldownModRanger:Base:-1,",Reduces all Ranger cooldowns by 1.,revisado
 Endurance I,Monk,1,None,,sim,"MaxHealth:Percentage:10,",Max Health increased by 10%.,revisado
 Endurance II,Monk,2,None,,sim,"MaxHealth:Percentage:15,",Max Health increased by an additional 15%.,revisado
-Enduring Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next 2 attacks.,pendente
+Enduring Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next 2 attacks.,revisado
 Energy Cannon,Lightning,5,Lightning,"DealsDamage,Harmful",nao,,Deals *0 lightning damage in a 6 hex line 10 times.,pendente
 Entangle,Nature,1,None,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @2@ stacks of {STA=Poisoned}.,revisado
 Escape,Thief,1,None,,nao,,Teleport to the target area.  Unaffected by increased range modifiers.,corrigido
-Evasion,Thief,2,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack.,pendente
+Evasion,Thief,2,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack.,revisado
 Evolution,Nature,5,None,,sim,,Getting hit increases max health by 5% stacking 10x. Hitting increases damage by 5% stacking 10x. Only one of the buffs can be active at a time.,revisado
 Executioner,Warrior,4,None,,sim,,Every enemy slain on your turn grants 1 additonal AP.  Can only grant up to 1 additional AP per turn.,corrigido
 Exorcism,Shadow,4,Shadow,"Harmful,Ranged",nao,,"Deals *0 shadow damage and removes a random benefical status from the target. If a status is removed, the target suffers an additional *0 shadow damage.",corrigido
 Fabricate,Chaos,4,None,,sim,,When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area of you.,pendente
-Fade,Thief,3,None,,sim,,"Whenever an enemy dies, you have a 50% chance to gain {STA=Stealth} for 1 turn. ",pendente
+Fade,Thief,3,None,,sim,,"Whenever an enemy dies, you have a 50% chance to gain {STA=Stealth} for 1 turn. ",revisado
 Faerie Swarm,Nature,1,Physical,"Harmful,Ranged,DealsDamage",nao,,Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.,corrigido
 Falcon Dash,Monk,3,Weapon,"Harmful,DealsDamage",nao,,Dash to the target area and dealing *0 weapon damage to affected area.,revisado
-Fencer's Finesse I,Thief,1,None,,sim,"DodgeChance:Base:5,",Increases @dodge chance@ by 5%.,pendente
-Fencer's Finesse II,Thief,2,None,,sim,"DodgeChance:Base:8,",Increases @dodge chance@ by an additional 8%.,pendente
+Fencer's Finesse I,Thief,1,None,,sim,"DodgeChance:Base:5,",Increases @dodge chance@ by 5%.,revisado
+Fencer's Finesse II,Thief,2,None,,sim,"DodgeChance:Base:8,",Increases @dodge chance@ by an additional 8%.,revisado
 Fever,Fire,4,None,Beneficial,sim,"HealthAsManaCost:Set:100,",Mana costs are now paid in Health instead.,pendente
 Fickle Flame,Fire,5,None,,sim,"FickleFlame:Set:1,","Each time a damage or healing skill is cast, it receives a random effectiveness modifier from 50% up to 250%. ",pendente
-Fight Dirty,Thief,3,None,,sim,,Your attacks apply 2 stacks of {STA=Poisoned}.,pendente
+Fight Dirty,Thief,3,None,,sim,,Your attacks apply 2 stacks of {STA=Poisoned}.,revisado
 Finale,Bard,5,None,Harmful,nao,,"Unleash a blast of physical damage in a 4 hex AOE around you for every action made by you or an ally this turn, including this one. Action. 2 turn cooldown.",intocavel
 Fire Borne,Fire,1,None,,sim,"ResistFire:Base:10,",Increases @fire resistance@ by 10%.,pendente
 Fire Breath,Innate,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breath fire dealing *0 fire damage to all enemies in a cone. ,pendente
@@ -177,11 +177,11 @@ Frozen Orb,Cold,2,Cold,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hu
 Frozen Spikes,Cold,3,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Hurl 5 shards of ice dealing *0 cold damage to each target.,pendente
 Fuel for the Flames I,Fire,3,None,,sim,"ManaCostMod:Base:20, ManaPowerMod:Base:40,",Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.,pendente
 Fuel for the Flames II,Fire,4,None,,sim,"ManaCostMod:Base:30, ManaPowerMod:Base:60,",Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.,pendente
-Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,pendente
+Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,revisado
 Gathering Storm,Lightning,2,None,,sim,"MaxMana:Percentage:20,",Increases @maximum mana@ by 20%.,pendente
 Ghost Armor,Shadow,1,None,"Beneficial,Ranged",nao,,Completely negates the next attack.  Lasts until hit. ,corrigido
 Glory,Light,2,None,Beneficial,sim,,The first time you receive fatal damage in battle you are revived with 1 health and become immune to all damage for 1 turn.,revisado
-Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn. ,pendente
+Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn. ,revisado
 Gouge,Thief,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,corrigido
 Guardian I,Warrior,1,None,,sim,"ResistPhysical:Base:5,",Increase @Physical Resistance@ by 5%.,pendente
 Guardian II,Warrior,2,None,,sim,"ResistPhysical:Base:10,",Increase @Physical Resistance@ by an additional 10%.,pendente
@@ -193,8 +193,8 @@ Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage t
 Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",nao,,The caster reaches out in aid healing 30% of target's maximum health.,revisado
 Heavy Rains,Lightning,4,None,,sim,"CritDamage:Base:Source[""Intelligence""] * 1, CritChance:Base:Source[""Intelligence""] * .1f,",Each point of @intelligence@ now grants .1% @critical hit chance@ and 1% @critical hit damage@.,pendente
 Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,sem-explicacao
-Hidden Blade,Thief,3,None,,sim,"CritDamageTreeBasic:Base:75,",Increases @Critical Hit Damage@ for your basic attack by 75%. ,pendente
-Hide In Shadows,Thief,2,None,Beneficial,nao,,Grants {STA=Stealth} for 2 turns. ,pendente
+Hidden Blade,Thief,3,None,,sim,"CritDamageTreeBasic:Base:75,",Increases @Critical Hit Damage@ for your basic attack by 75%. ,revisado
+Hide In Shadows,Thief,2,None,Beneficial,nao,,Grants {STA=Stealth} for 2 turns. ,revisado
 Holy Ground,Light,4,Healing,"Beneficial,Ranged",nao,,Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ,revisado
 Holy Slash,Basic,1,Holy,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
 Hot Head I,Fire,1,None,,sim,"DamageMod:Base:8,",Increase all Damage and Healing by 8%. ,pendente
@@ -253,7 +253,7 @@ Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *
 Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,revisado
 Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,pendente
 Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,pendente
-Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,pendente
+Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,revisado
 Master Of Ice,Cold,5,None,,sim,"MasterOfIce:Set:1,","Each turn you freeze an enemy, you gain an additional action.",pendente
 Meditation,Monk,3,Healing,"Beneficial,Ranged",nao,,Put the target ally into a meditative state restoring 20% of max health and mana. ,revisado
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
@@ -299,7 +299,7 @@ Pinning Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon d
 Plot Armor I,Bard,4,None,Beneficial,sim,"MaxDamagePercentPerHit:Set:50,",The max damage you can take in 1 hit is 50% of your max health.,intocavel
 Plot Armor II,Bard,5,None,Beneficial,sim,"MaxDamagePercentPerHit:Set:25,",The max damage you can take in 1 hit is 25% of your max health.,intocavel
 Poison Cloud,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",nao,,The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.,corrigido
-Poison Weapon,Thief,1,None,Beneficial,nao,,Attacks now apply 1 stack of {STA=Poisoned}.,pendente
+Poison Weapon,Thief,1,None,Beneficial,nao,,Attacks now apply 1 stack of {STA=Poisoned}.,revisado
 Poisoned Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a poisoned dagger dealing *0 weapon damage.  Applies 2 stacks of {STA=Poisoned}.,corrigido
 Power Strikes,Monk,4,Weapon,"Harmful,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you hit increases the damage of Power Strikes by 50%.,corrigido
 Precision I,Ranger,2,None,,sim,"CritChance:Base:4, CritDamage:Base:16,",Increase @critical hit chance@ by 4%. Increase @critical hit damage@ by 16%.,revisado
@@ -336,7 +336,7 @@ Resonating Refrain,Bard,4,None,Beneficial,nao,,(Song) (Aura) Deal physical damag
 Reverberate,Chaos,5,None,,sim,,When you take a @Free Action@ or @Action@ you have a 33% chance explode in chaos dealing all types of damage and healing.,pendente
 Rhythm of Recovery,Bard,2,None,Beneficial,nao,,(Song) Allies within 4 hexes of you regain 5% Max Life and Mana. Every time Rhythm of Recovery is cast consecutively gain Crescendo of Recovery: increases the amount regained by 5%. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
 Rune of Exploding,Fire,3,Fire,"Harmful,Ranged,Elemental,AreaEffect,DealsDamage",nao,,"Place a rune on the selected hex. After 1 turn, it detonates dealing *0 fire damage to all enemies within 1 hex.",pendente
-Rupture,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.,pendente
+Rupture,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.,revisado
 Salvation,Light,5,None,Beneficial,sim,,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives {STA=Salvation}.  Lasts 3 turns.",corrigido
 Savage Scorn,Bard,1,None,Harmful,nao,,Increases the damage the target takes by 20% for 2 turns.,intocavel
 Seal of Might,Light,3,None,Beneficial,nao,,Increase damage of all allies within 3 hexes by 30%.,revisado
@@ -357,13 +357,13 @@ Shield of Retribution,Light,4,Holy,"Beneficial,Ranged",nao,,"Conjures a shield i
 Shock,Lightning,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",nao,,Reaches out and shocks the target dealing *0 lightning damage. Applies {STA=Disabled} to the target.,pendente
 Shocking Shackles,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Deals *0 lightning damage.  Applies {STA=Stunned}.,corrigido
 Show Stopper,Bard,3,None,Beneficial,sim,,Enemies who hit you have a 25% chance to stun themselves for 1 turn.,intocavel
-Shroud,Thief,2,None,,sim,,Applies {STA=Stealth} at the start of each battle.,pendente
+Shroud,Thief,2,None,,sim,,Applies {STA=Stealth} at the start of each battle.,revisado
 Skin Walker,Nature,3,None,,sim,"CooldownModShapeshifting:Base:-2,",Reduces the cooldown of Shapeshifting skills by 2.,revisado
 Slam,Warrior,3,Weapon,"Harmful,DealsDamage,AreaEffect",nao,,Deals *0 weapon damage to all enemies within a line.,pendente
 Slaying Shot,Ranger,5,Weapon,"Beneficial,Ranged",nao,,Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged.,revisado
 Sleep Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies with Sleep Spores applying {STA=Sleep} for 2 turns.,revisado
-Sleight of Hand,Thief,5,None,"Harmful,Melee",nao,,Steal all of the target's beneficial statuses while giving the target all your negative statuses. ,pendente
-Smoke Bomb,Thief,4,None,"CrowdControl,Beneficial,Ranged",nao,,Increases @dodge chance@ by 50% for friendly characters in smoke.,pendente
+Sleight of Hand,Thief,5,None,"Harmful,Melee",nao,,Steal all of the target's beneficial statuses while giving the target all your negative statuses. ,revisado
+Smoke Bomb,Thief,4,None,"CrowdControl,Beneficial,Ranged",nao,,Increases @dodge chance@ by 50% for friendly characters in smoke.,revisado
 Sniper Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ,corrigido
 Soft Step,Thief,5,None,,sim,"OpportunityAttackImmunity:Set:1,",Moving 5 hexes in a row grants {STA=Stealth} for your current turn.  Your character no longer takes attacks of opportunity.  ,corrigido
 Song of Swiftness,Bard,3,None,Beneficial,nao,,(Song) Allies within 4 hexes of you gain 5 Dexterity and Reflex. Every time Song of Swiftness is cast consecutively gain Crescendo of Swiftness: increases the amount given by 5. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
@@ -381,7 +381,7 @@ Stalker's Mark,Ranger,2,None,"Harmful,Ranged",nao,,"Gain 25% @increased damage@ 
 Stasis,Cold,4,None,"Beneficial,Ranged",nao,,Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.,pendente
 Static Field,Lightning,4,Lightning,"Harmful,Ranged",nao,,Averages all the current health percentages of targets within 3 hexes and redistributes them to be even. ,pendente
 Steal Action,Thief,3,None,"Harmful,Melee",nao,,Steals the target's action granting 1 additional action this turn. Applies {STA=Disabled} to the target for 1 turn.  Applies {STA=Exhaustion}.,corrigido
-Steal Status,Thief,3,None,"Harmful,Ranged",nao,,Steals a random positive status from the target.,pendente
+Steal Status,Thief,3,None,"Harmful,Ranged",nao,,Steals a random positive status from the target.,revisado
 Storm Borne,Lightning,1,None,,sim,"ResistLightning:Base:10,",Increases @lightning resistance@ by 10%.,pendente
 Storm Brewing,Lightning,3,None,,sim,"CritChance:Base:Source.GetNumStatusesCaused(""GL-Shocked"") * 1,",Each stack of @shocked@ you've applied increases your @critical hit chance@ by 1%.,pendente
 Storm Weathered I,Lightning,1,None,,sim,"ResistCold:Base:5, ResistFire:Base:5, ResistLightning:Base:5,",Increase all @elemental resistances@ by 5%.,pendente
@@ -402,7 +402,7 @@ Sustenance I,Chaos,1,None,,sim,,Consuming any Globule heals you for 8% of max li
 Sustenance II,Chaos,2,None,,sim,,Consuming any Globule heals you for 20% of max life and mana.,pendente
 Swan Song,Bard,5,None,Beneficial,nao,,Allies within 4 hexes gain Invincible for 1 turn. Cooldown 5. Action.,intocavel
 Sweeping Kick,Monk,3,Physical,"Harmful,DealsDamage",nao,,Deal *0 physical damage to all enemies within 1 hex. Knocks back all enemies up to 3 hexes. Targets are crippled for 1 turn. ,revisado
-Swiftness,Thief,1,None,,sim,"TurnFreeMovementPoints:Base:1,",Increases your @movement points@ by 1.,pendente
+Swiftness,Thief,1,None,,sim,"TurnFreeMovementPoints:Base:1,",Increases your @movement points@ by 1.,revisado
 Switcheroo,Chaos,1,None,Ranged,nao,,"Swap places with an @Enemy@, @Ally@, or @Object@.",pendente
 Tainted Touch,Shadow,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Reaches out to the target with dark energy dealing *0 shadow damage. @Life Steals@ for 12%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Take Cover,Ranger,4,None,,sim,"TakeCover:Set:1,",Damage you take from enemies further than 2 hexes from you is reduced by 35%.,revisado
@@ -428,12 +428,12 @@ Titan Bloom,Nature,5,None,"Beneficial,Ranged",nao,,Creates a magic mushroom that
 Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",nao,,Enchant an ally with a random Chaos Modifier.,sem-explicacao
 Tracker's Mark,Ranger,1,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",corrigido
 Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target applying {STA=Sleep} for 2 turns.,revisado
-Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,pendente
+Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,revisado
 Twister,Lightning,2,Lightning,"DealsDamage,Harmful,Elemental",nao,,Summons a raging tempest that deals *0 lightning damage in a line.  Targets hit are {STA=Crippled} for 2 turns.,revisado
 Two-Handed Mastery,Warrior,3,None,,sim,"DamageMod:Base:Source.WieldingTwoHanded ? 20 : 0,",While a two handed weapon is equipped all damage is increased by 20%. ,pendente
 Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
-Uncanny Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,pendente
+Uncanny Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,revisado
 Unyielding Contender,Warrior,5,None,Beneficial,nao,,"Grants 50% increased Armor, Magic Armor, and Max Health for 2 turns. Grants Enrage. Usable while stunned.",pendente
 Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
