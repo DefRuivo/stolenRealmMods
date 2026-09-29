@@ -47,11 +47,8 @@ namespace RoguelikeDebugger.Patches
                     {
                         continue;
                     }
+                    // Censo (RV-7): descricao COMPLETA.
                     var desc = it.OptionalDescription ?? "";
-                    if (desc.Length > 100)
-                    {
-                        desc = desc.Substring(0, 100) + "...";
-                    }
                     Plugin.Log.LogInfo(
                         $"[Item] '{it.name}' | tipo={it.ItemType} | raridade={it.Rarity} | " +
                         $"lvlMin={it.MinLevel} | desc=\"{desc.Replace("\n", " ")}\"");
@@ -61,6 +58,9 @@ namespace RoguelikeDebugger.Patches
                 // então carregamos a lista nós mesmos (o próprio jogo faz o mesmo
                 // Resources.LoadAll quando precisa).
                 DumpItemMods();
+
+                // Idem para os powerups (RV-7): o getter também é lazy e o menu não acessa.
+                PowerupInventoryPatch.Trigger();
             }
             catch (Exception e)
             {
@@ -92,11 +92,8 @@ namespace RoguelikeDebugger.Patches
                     {
                         continue;
                     }
+                    // Censo (RV-7): descricao COMPLETA.
                     var desc = mod.Description ?? "";
-                    if (desc.Length > 100)
-                    {
-                        desc = desc.Substring(0, 100) + "...";
-                    }
                     Plugin.Log.LogInfo(
                         $"[ItemMod] '{mod.name}' | tipo={mod.ItemModType} | raridade={mod.Rarity} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");

@@ -1,0 +1,906 @@
+nome,tipo,raridade,lvlMin,descricao,status
+Abaddon,Weapon,Mythic,1,20% chance to cast Level [level value] {SKL=Raise Servant of Abaddon} on enemy death.,pendente
+Abyssal Binding,Ring,Mythic,1,,pendente
+Abyssal Chain,Amulet,Mythic,1,,pendente
+Abyssal Pearl,Commodity,Mythic,1,,pendente
+Abyssal Shield,Shield,Rare,1,,pendente
+Abyssal Staff,Weapon,Legendary,1,,pendente
+Adamant Band,Ring,Mythic,1,,pendente
+Adamant Chain,Amulet,Mythic,1,,pendente
+Adamant Fragments,Commodity,Legendary,1,,pendente
+Adamant Helm,Head,Mythic,1,,pendente
+Adamant Platemail,Armor,Mythic,1,,pendente
+Amber,Material,Rare,1,,pendente
+Amber Necklace,Amulet,Uncommon,1,,pendente
+Amber Ring,Ring,Uncommon,1,,pendente
+Amulet of Alacrity,Amulet,Legendary,1,,pendente
+Amulet of Brilliance,Amulet,Mythic,1,,pendente
+Amulet of Power,Amulet,Mythic,1,,pendente
+Amulet of Vision,Amulet,Legendary,1,,pendente
+Ancient Staff,Weapon,Mythic,1,Increases the power and cost of all @Mana Abilites@ by 5% of your Max Mana.,pendente
+Ancient Sword,Weapon,Legendary,1,10% chance to cast Level [level value] {SKL=Curse} when striking.,pendente
+Anglerfish,Commodity,Legendary,1,,pendente
+Animal Furs,Armor,Rare,1,,pendente
+Animal Hide,Commodity,Uncommon,1,,pendente
+Anthulk Shell,Shield,Mythic,1,25% Chance when hit to cast Level [level value] {SKL=Ankheg Spines}.,pendente
+Antidote,Consumable,Uncommon,1,Removes all poison.,pendente
+Apocalypse,Weapon,Mythic,1,,pendente
+Aquamarine,Material,Rare,1,,pendente
+Arcane Axolotl,Material,Legendary,1,,pendente
+Arcane Pillar,Weapon,Mythic,1,,pendente
+Arcane Robes,Armor,Mythic,1,,pendente
+Arcane Sceptre,Weapon,Mythic,1,,pendente
+Arcane Veil,Head,Mythic,1,,pendente
+Archer's Cap,Head,Rare,1,,pendente
+Archer's Garb,Armor,Rare,1,,pendente
+Arena Plate,Armor,Legendary,1,Casts Warrior's Boon on the wearer when dropped below 30% hp. Can trigger once every 5 turns.,pendente
+Artic Fox Fur,Commodity,Legendary,1,,pendente
+Ashroot,Material,Rare,1,,pendente
+Ashweed,Material,Uncommon,1,,pendente
+Assassin's Edge,Weapon,Legendary,1,,pendente
+Assassin's Garb,Armor,Rare,1,10% chance to cast Hide in Shadows whenever an enemy dies.,pendente
+Assassin's Mask,Head,Rare,1,10% chance to cast Hide in Shadows whenever an enemy dies.,pendente
+Assistant's Attire,Armor,Rare,1,,pendente
+Assistant's Cap,Head,Rare,1,,pendente
+Azure Crab,Commodity,Rare,1,,pendente
+Azurite Crystal,Commodity,Mythic,1,,pendente
+Bagh nakha,Weapon,Legendary,1,Basic attacks have a 20% chance to proc an additional attack once per turn.,pendente
+Band of Blades,Ring,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Band of Freedom,Ring,Mythic,1,,pendente
+Barbute,Head,Uncommon,1,,pendente
+Battered Heater,Shield,Common,1,,pendente
+Battle Hammer,Weapon,Rare,1,,pendente
+Bear Charm,Amulet,Rare,1,,pendente
+Bear Claw,Commodity,Rare,1,,pendente
+Beatin' stick,Weapon,Common,1,,pendente
+Bedlam Burner,Weapon,Mythic,1,10% chance to cast Hurting on striking.,pendente
+Bent Rod,Weapon,Common,1,,pendente
+Bewitched Bones,Material,Rare,1,,pendente
+Big Bag of Voodoo,Commodity,Mythic,1,,pendente
+Big Game Hunter,Weapon,Mythic,1,,pendente
+Bioluminescence Gland,Material,Legendary,1,,pendente
+Bishop Staff,Weapon,Mythic,1,Grants the passive skill {SKL=Wrath of the Righteous}.,pendente
+Black Belt,Armor,Mythic,1,,pendente
+Black Crusade,Weapon,Mythic,1,Attacks with this weapon cause 2 stacks of Bleeding.,pendente
+Black Dragon Eye,Amulet,Mythic,1,,pendente
+Black Dragon Scale,Ring,Mythic,1,,pendente
+Black Opal,Material,Legendary,1,,pendente
+Black Sapphire,Commodity,Legendary,1,,pendente
+Blackguard,Shield,Rare,1,,pendente
+Blackguard Casque,Head,Legendary,1,,pendente
+Blackguard Chainmail,Armor,Legendary,1,,pendente
+Blade Fist,Weapon,Rare,1,,pendente
+Bladed Buckler,Shield,Rare,1,,pendente
+Bladed Great Helm,Head,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Bladed Helm,Head,Legendary,1,,pendente
+Bladed Mail,Armor,Legendary,1,,pendente
+Bleeding Band,Ring,Legendary,1,Weapon attacks apply 1 stack of bleeding.,pendente
+Blessed Locket,Amulet,Uncommon,1,,pendente
+Blighted Band,Ring,Rare,1,,pendente
+Blood Berry,Material,Rare,1,,pendente
+Blood Mask,Head,Uncommon,1,,pendente
+Blood Mask Tunic,Armor,Uncommon,1,,pendente
+Blood Runed Cleaver,Weapon,Rare,1,,pendente
+Bloodletter,Weapon,Rare,1,,pendente
+Blue Dragon Eye,Amulet,Mythic,1,,pendente
+Blue Dragon Scale,Ring,Mythic,1,,pendente
+Blue Drake Scale,Commodity,Rare,1,,pendente
+Blunderbuss,Weapon,Rare,1,,pendente
+Boar Charm,Amulet,Rare,1,,pendente
+Boarding Axe,Weapon,Uncommon,1,,pendente
+Bone Cleaver,Weapon,Legendary,1,Weapon attacks apply 2 stacks of bleeding.,pendente
+Bone Dust,Commodity,Uncommon,1,,pendente
+Bone Jester Jacket,Armor,Mythic,1,,pendente
+Bone Jester Mask,Head,Mythic,1,,pendente
+Bone Ring,Ring,Rare,1,,pendente
+Bone Shard,Weapon,Rare,1,,pendente
+Bone Shiv,Weapon,Uncommon,1,,pendente
+Boot Blade,Weapon,Common,1,,pendente
+Bottled Anger,Consumable,Uncommon,1,Damage dealt increased by 20%. Damage taken increased by 10% for 5 turns.,pendente
+Bottled Fury,Consumable,Legendary,1,Damage dealt increased by 40%. Damage taken increased by 20% for 5 turns.,pendente
+Bottled Irritation,Consumable,Common,1,Damage dealt increased by 10%. Damage taken increased by 5% for 5 turns.,pendente
+Bottled Rage,Consumable,Rare,1,Damage dealt increased by 30%. Damage taken increased by 15% for 5 turns.,pendente
+Bottled Wrath,Consumable,Mythic,1,Damage dealt increased by 50%. Damage taken increased by 25% for 5 turns.,pendente
+Bowie Knife,Weapon,Uncommon,1,,pendente
+Brass Chain,Amulet,Uncommon,1,,pendente
+Brass Knuckles,Weapon,Uncommon,1,,pendente
+Brass Loop,Ring,Uncommon,1,,pendente
+Breastplate,Armor,Uncommon,1,,pendente
+Bristlethorn,Material,Uncommon,1,,pendente
+Broadsword,Weapon,Uncommon,1,,pendente
+Broken Blade,Weapon,Common,1,,pendente
+Broken Sword,Weapon,Common,1,,pendente
+Bronze Pendant,Amulet,Uncommon,1,,pendente
+Bronze Ring,Ring,Uncommon,1,,pendente
+Burning Core,Commodity,Rare,1,,pendente
+Cactusblossom,Commodity,Uncommon,1,,pendente
+Canary Chapeau,Head,Uncommon,1,,pendente
+Canary Coat,Armor,Uncommon,1,,pendente
+Canary Feathered Beret,Head,Uncommon,1,,pendente
+Canary Tunic,Armor,Uncommon,1,,pendente
+Candy Leaf,Material,Legendary,1,,pendente
+Captain's Sidearm,Weapon,Rare,1,,pendente
+Ceremonial Spear,Weapon,Rare,1,,pendente
+Cestus,Weapon,Rare,1,Gain Additional Weapon Damage equal to 5% of your Dexterity.,pendente
+Chain Coif,Head,Uncommon,1,,pendente
+Chain Helm,Head,Uncommon,1,,pendente
+Chain Mail,Armor,Uncommon,1,,pendente
+Challenger's Garb,Armor,Rare,1,,pendente
+Champion Blade,Weapon,Mythic,1,Grants the passive skill {SKL=Colossus}.,pendente
+Champion's Garb,Armor,Legendary,1,,pendente
+Chitin Shield,Shield,Rare,1,,pendente
+Chromatic Koi,Material,Mythic,1,,pendente
+Chromatic Tonic,Consumable,Legendary,1,Gain 400 Magic Armor for 5 turns.,pendente
+Claw of Kuvonn,Ring,Mythic,1,All creatures you summon have Ghost Armor applied.,pendente
+Cleric's Garb,Armor,Rare,1,,pendente
+Cleric's Hammer,Weapon,Rare,1,,pendente
+Coach Gun,Weapon,Rare,1,,pendente
+Cold Steel Axe,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Ice Lance} on striking.,pendente
+Coldsteel Vanquisher,Weapon,Mythic,1,,pendente
+Competitor's Garb,Armor,Uncommon,1,,pendente
+Composite Longbow,Weapon,Rare,1,,pendente
+Concealed Pistol,Weapon,Uncommon,1,,pendente
+Conduit Ring,Ring,Uncommon,1,,pendente
+Conduit Rod,Weapon,Rare,1,,pendente
+Contender's Chain,Amulet,Legendary,1,,pendente
+Copper Knuckles,Weapon,Uncommon,1,,pendente
+Copper Ore,Material,Uncommon,1,,pendente
+Copper Pendant,Amulet,Uncommon,1,,pendente
+Copper Ring,Ring,Uncommon,1,,pendente
+Copper Scepter,Weapon,Uncommon,1,,pendente
+Coral,Commodity,Uncommon,1,,pendente
+Corrupted Roots,Commodity,Mythic,1,,pendente
+Corrupted Shard,Weapon,Rare,1,Striking with this weapon applies 1 stack of poison.,pendente
+Crimson Brand,Weapon,Mythic,1,,pendente
+Crimson Coat,Armor,Rare,1,,pendente
+Crimson Crusher,Weapon,Legendary,1,,pendente
+Crimson Guard,Shield,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Crimson Hatchet,Weapon,Legendary,1,,pendente
+Crimson Sceptre,Weapon,Legendary,1,,pendente
+Crimson Slayer,Weapon,Legendary,1,Weapon attacks apply 2 stacks of bleeding.,pendente
+Crimson Squid,Commodity,Rare,1,,pendente
+Crown of Mana,Head,Mythic,1,,pendente
+Cruel Blade,Weapon,Rare,1,,pendente
+Crusader Chainmail,Armor,Rare,1,,pendente
+Crusader Sword,Weapon,Legendary,1,,pendente
+Crusader's Chain Hood,Head,Rare,1,,pendente
+Crystal Baton,Weapon,Rare,1,,pendente
+Crystal Cane,Weapon,Rare,1,,pendente
+Crystal Rod,Weapon,Rare,1,,pendente
+Crystal Shillelagh,Weapon,Rare,1,,pendente
+Crystal Spire,Weapon,Mythic,1,,pendente
+Crystal Staff,Weapon,Rare,1,,pendente
+Crystal Urchin,Commodity,Mythic,1,,pendente
+Crystalline Snowflake,Commodity,Uncommon,1,,pendente
+Cultist Hood,Head,Rare,1,,pendente
+Cultist Robes,Armor,Rare,1,10% chance upon being hit to grant Ghost Armor.,pendente
+Cursed Coin,Commodity,Rare,1,,pendente
+Cursed Idol,Commodity,Rare,1,,pendente
+Cursed Papyrus,Commodity,Legendary,1,,pendente
+Cutlass,Weapon,Uncommon,1,,pendente
+Dandelion,Material,Uncommon,1,,pendente
+Dandelion Bud,Material,Rare,1,,pendente
+Dark God's Sceptre,Weapon,Mythic,1,,pendente
+Dark Steel Helm,Head,Legendary,1,,pendente
+Dark Steel Locket,Amulet,Legendary,1,,pendente
+Dark Steel Platemail,Armor,Legendary,1,,pendente
+Dark Steel Ring,Ring,Legendary,1,,pendente
+Dead One's Head,Shield,Mythic,1,,pendente
+Dead One's Mind,Head,Mythic,1,,pendente
+Dead One's Phylactery,Amulet,Mythic,1,Grants the passive Grants the passive skill {SKL=Lich Lord}.,pendente
+Dead One's Robes,Armor,Mythic,1,,pendente
+Dead One's Scythe,Weapon,Mythic,1,,pendente
+Deep Dweller,Commodity,Mythic,1,,pendente
+Defense Flask,Consumable,Common,1,Gain 50 Physical Armor for 5 turns.,pendente
+Demon Skull,Shield,Mythic,1,10% chance when struck to cast Level [level value] {SKL=Burning Ground}.,pendente
+Demon Soul,Commodity,Legendary,1,,pendente
+Desert Rose,Material,Legendary,1,,pendente
+Diamond,Material,Legendary,1,,pendente
+Diamond Necklace,Amulet,Rare,1,,pendente
+Diamond Ring,Ring,Rare,1,,pendente
+Discipline,Head,Mythic,1,,pendente
+Divinity Staff,Weapon,Legendary,1,,pendente
+Dragon Fist,Weapon,Mythic,1,5% chance to cast Level [level value] {SKL=Thunder Bolt} when hitting an enemy with any ability.  5% chance to cast Level [level value] {SKL=Frost Nova} when hitting an enemy with any ability.  5% chance to cast Level [level value] {SKL=Fireball} when hitting an enemy with any ability.,pendente
+Dragon's Blood Amulet,Amulet,Mythic,1,,pendente
+Drake Eye Pendant,Amulet,Legendary,1,,pendente
+Draught of Life,Amulet,Mythic,1,,pendente
+Duelist's Vest,Armor,Legendary,1,,pendente
+Dwarven Defender,Shield,Mythic,1,"<i><color=#808080>""Guardian bold, in steel and gold, against despair, a shield does hold. Unyielding stand, with heart in hand, the shield defends the soul's last stand.""</i></color>",pendente
+Dwarven Greatsword,Weapon,Rare,1,,pendente
+Dwarven Handaxe,Weapon,Rare,1,Basic attacks have a 15% chance to proc an additional attack once per turn.,pendente
+Dwarven Helm,Head,Legendary,1,,pendente
+Dwarven Lord's Sceptre,Weapon,Mythic,1,,pendente
+Dwarven Morningstar,Weapon,Rare,1,,pendente
+Dwarven Pickaxe,Weapon,Rare,1,,pendente
+Dwarven Platemail,Armor,Legendary,1,,pendente
+Dwarven Sceptre,Weapon,Rare,1,,pendente
+Dwarven Spellhammer,Weapon,Rare,1,,pendente
+Dwarven Spellshield,Shield,Rare,1,,pendente
+Eagle Charm,Amulet,Rare,1,,pendente
+Earthshaker,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Stunning Slam} on striking.,pendente
+Ectoplasm,Commodity,Rare,1,,pendente
+El Capitan,Head,Legendary,1,,pendente
+Elder Branch,Weapon,Rare,1,,pendente
+Elegant Blade,Weapon,Rare,1,,pendente
+Elemental Chain,Amulet,Legendary,1,,pendente
+Elemental Gi,Armor,Legendary,1,,pendente
+Elemental Hood,Head,Legendary,1,,pendente
+Elemental Loop,Ring,Legendary,1,,pendente
+Elephant Gun,Weapon,Rare,1,,pendente
+Ember King's Might,Weapon,Mythic,1,15% chance to cast Level [level value] {SKL=Detonate} on striking.,pendente
+Ember King's Will,Head,Mythic,1,The wearer gains Level [level value] {SKL=Aura of Flame}.,pendente
+Emberstone,Material,Rare,1,,pendente
+Emberstone Ring,Ring,Mythic,1,,pendente
+Emberstone Staff,Weapon,Mythic,1,20% chance to cast Level [level value] {SKL=Burning Ground} when hitting with any ability.,pendente
+Emblem of Power,Commodity,Legendary,1,,pendente
+Emerald,Material,Legendary,1,,pendente
+Emerald Cross Cap,Head,Rare,1,,pendente
+Emerald Cross Helm,Head,Rare,1,,pendente
+Emerald Cross Tunic,Armor,Rare,1,,pendente
+Emperor's Cuirass,Armor,Mythic,1,Casts Emperor's Blessing on the wearer.,pendente
+Enchanted Bark,Commodity,Rare,1,,pendente
+Enchanted Spark,Commodity,Uncommon,1,,pendente
+Enchanter's Hat,Head,Uncommon,1,,pendente
+Enchanter's Robe,Armor,Uncommon,1,,pendente
+Energizing Elixir,Consumable,Legendary,1,Grants an additional Action Point.,pendente
+Energy Vestments,Armor,Mythic,1,,pendente
+Enforcer Helm,Head,Rare,1,,pendente
+Enraptured Static,Commodity,Uncommon,1,,pendente
+Essence of Flame,Material,Mythic,1,,pendente
+Essence of Frost,Material,Mythic,1,,pendente
+Essence of Shadow,Material,Mythic,1,,pendente
+Essence of Thunder,Material,Mythic,1,,pendente
+Ethereal Charm,Amulet,Mythic,1,,pendente
+Ethereal Loop,Ring,Mythic,1,,pendente
+Excalibur,Weapon,Mythic,1,Gain Increased Holy Power equal to 20% of your Might. ,pendente
+Executioner Axe,Weapon,Mythic,1,Weapon attacks apply 2 stacks of bleeding.,pendente
+Eyedrops,Consumable,Uncommon,1,Removes Blind.,pendente
+Fallen Cleric Robes,Armor,Mythic,1,10% chance on hit to cast Level [level value] {SKL=Consumption},pendente
+Feather,Commodity,Uncommon,1,,pendente
+Femur,Weapon,Uncommon,1,,pendente
+Fencer's Gift,Weapon,Mythic,1,,pendente
+Fiddler Crab,Material,Uncommon,1,,pendente
+Fighter's Half-Plate,Armor,Rare,1,,pendente
+Fine Feather,Commodity,Rare,1,,pendente
+Fire Core,Commodity,Rare,1,,pendente
+Fire Garb,Armor,Uncommon,1,,pendente
+Fire Gi,Armor,Legendary,1,,pendente
+Fire Hood,Head,Legendary,1,,pendente
+Fire Kelp,Commodity,Common,1,,pendente
+Fire Salamander,Commodity,Rare,1,,pendente
+Fire Wraps,Armor,Rare,1,,pendente
+Fishing Spear,Weapon,Common,1,,pendente
+Flame Grasp,Weapon,Mythic,1,Gain Added Damage to Fire equal to 20% of your Intelligence.,pendente
+Flame Hat,Head,Legendary,1,,pendente
+Flame Vestments,Armor,Mythic,1,Gain Level [level value] {SKL=Enchant Fire}.,pendente
+Flanged Mace,Weapon,Rare,1,,pendente
+Flayer Blade,Weapon,Legendary,1,Striking with this weapon applies 1 stack of {STA=Bleeding}.,pendente
+Flintlock Pistol,Weapon,Uncommon,1,,pendente
+Flintlock Rifle,Weapon,Rare,1,,pendente
+Foe-Crusher,Weapon,Legendary,1,10% chance to cast Level [level value] {SKL=Slam} on striking.,pendente
+Foestave,Weapon,Rare,1,,pendente
+Forest Glaive,Weapon,Legendary,1,,pendente
+Forest Pendant,Amulet,Rare,1,,pendente
+Forgemaster's Links,Armor,Mythic,1,The wearer gains Level [level value] {SKL=Fire Shield}.,pendente
+Fork,Weapon,Common,1,,pendente
+Forkaxe,Weapon,Uncommon,1,,pendente
+Fortified Flask,Consumable,Rare,1,Gain 200 Physical Armor for 5 turns.,pendente
+Fossil,Material,Rare,1,,pendente
+Fox Charm,Amulet,Rare,1,,pendente
+Fox Pelt,Commodity,Uncommon,1,,pendente
+Fox Tooth,Commodity,Rare,1,,pendente
+Friendship Band,Ring,Uncommon,1,,pendente
+Frog Helm,Head,Rare,1,,pendente
+Frost Core,Commodity,Rare,1,,pendente
+Frost Grasp,Weapon,Mythic,1,Gain Added Damage to Cold equal to 20% of your Intelligence.,pendente
+Frost Hat,Head,Legendary,1,,pendente
+Frost Leaf,Material,Rare,1,,pendente
+Frost Mantle,Armor,Mythic,1,Gain Level [level value] {SKL=Enchant Cold}.,pendente
+Full Plate Helm,Head,Rare,1,,pendente
+Full Platemail,Armor,Rare,1,,pendente
+Fury Staff,Weapon,Mythic,1,,pendente
+Garnet,Material,Rare,1,,pendente
+Gatecrasher,Weapon,Rare,1,Grants the skill Slam.,pendente
+Gathering Scythe,Tool,Common,1,,pendente
+Gemstone Baton,Weapon,Uncommon,1,,pendente
+Gemstone Cane,Weapon,Uncommon,1,,pendente
+Gemstone Ritual Staff,Weapon,Uncommon,1,,pendente
+Gemstone Shillelagh,Weapon,Uncommon,1,,pendente
+Gemstone Staff,Weapon,Uncommon,1,,pendente
+Gemstone Wand,Weapon,Uncommon,1,,pendente
+Gemstone Wand Rod,Weapon,Uncommon,1,,pendente
+Gemstone Wand Sprig,Weapon,Uncommon,1,,pendente
+Gentleman's Cap,Head,Rare,1,,pendente
+Gentleman's Pistol,Weapon,Legendary,1,,pendente
+Gentleman's Vest,Armor,Rare,1,,pendente
+Ghost Face,Head,Mythic,1,,pendente
+Ghost Hunter,Weapon,Mythic,1,Grants the skill {SKL=Spectral Mark}.,pendente
+Ghost Salamander,Commodity,Legendary,1,,pendente
+Ghost Shroom,Material,Legendary,1,,pendente
+Giant Leech,Material,Uncommon,1,,pendente
+Giant Ray,Commodity,Rare,1,,pendente
+Giant Stalk,Commodity,Rare,1,,pendente
+Gigantic Fossil,Material,Rare,1,,pendente
+Gilded Axe,Weapon,Legendary,1,,pendente
+Gilded Hatchet,Weapon,Legendary,1,,pendente
+Gilded Kite Shield,Shield,Mythic,1,10% chance upon getting hit to cast Level [level value] {SKL=Shield of Light}.,pendente
+Gilded Rapier,Weapon,Legendary,1,,pendente
+Gilded Scepter,Weapon,Legendary,1,,pendente
+Gilded Spear,Weapon,Legendary,1,,pendente
+Gilded Staff,Weapon,Legendary,1,,pendente
+Gladiator's Garb,Armor,Legendary,1,Grants the passive Quick Hands.,pendente
+Gladiator's Mark,Ring,Legendary,1,,pendente
+Gladiator's Spear,Weapon,Rare,1,,pendente
+Gladius,Weapon,Legendary,1,,pendente
+Glaive,Weapon,Uncommon,1,,pendente
+Glass,Commodity,Rare,1,,pendente
+Glass Lobster,Commodity,Rare,1,,pendente
+Glyph of Almada,Commodity,Common,1,,pendente
+Gobfather's Smasher,Weapon,Mythic,1,,pendente
+Goblin Bone Axe,Weapon,Rare,1,Weapon attacks apply 1 stacks of bleeding.,pendente
+Goblin Bone Necklace,Amulet,Uncommon,1,,pendente
+Goblin Bone Ring,Ring,Uncommon,1,,pendente
+Goblin Chieftain Axe,Weapon,Mythic,1,Casts {SKL=Rally} at the start of each turn.,pendente
+Goblin Club,Weapon,Uncommon,1,,pendente
+Goblin Matchete,Weapon,Uncommon,1,,pendente
+Goblin Shaman Staff,Weapon,Legendary,1,,pendente
+Goblin Shield,Shield,Uncommon,1,,pendente
+Goblin Shortsword,Weapon,Common,1,,pendente
+Goblin Spear,Weapon,Uncommon,1,,pendente
+Gold Bar,Commodity,Legendary,1,,pendente
+Gold Cestus,Weapon,Legendary,1,Gain Additional Weapon Damage equal to 7.5% of your Dexterity.,pendente
+Gold Dust,Material,Legendary,1,,pendente
+Gold Necklace,Amulet,Rare,1,,pendente
+Gold Ore,Material,Rare,1,,pendente
+Gold Ring,Ring,Rare,1,,pendente
+Gold Statue Arm,Commodity,Legendary,1,The Golden Arm of the Mountain King.,pendente
+Gold Statue Head,Commodity,Legendary,1,The Golden Head of the Mountain King.,pendente
+Gold Statue Torso,Commodity,Legendary,1,Most of the Golden Torso of the Mountain King.,pendente
+Goldbloom,Material,Uncommon,1,,pendente
+Golden Aspis,Shield,Legendary,1,,pendente
+Golden Bear Head,Head,Legendary,1,,pendente
+Golden Cross,Weapon,Legendary,1,,pendente
+Golden Fleece,Armor,Legendary,1,,pendente
+Golden Scepter,Weapon,Legendary,1,,pendente
+Golden Valkyrie Helm,Head,Mythic,1,Basic attacks have a 25% chance to proc an additional attack once per turn.,pendente
+Golden Valkyrie Plate,Armor,Mythic,1,Basic attacks have a 25% chance to proc an additional attack once per turn.,pendente
+Golden Valkyrie Spear,Weapon,Mythic,1,Applies Seal of Might at the start of battle.,pendente
+Golem Eye,Commodity,Legendary,1,,pendente
+Goliath Bass,Commodity,Legendary,1,,pendente
+Grandfather Odachi,Weapon,Mythic,1,Gain Additional Weapon Damage equal to 40% of your Might.,pendente
+Grandmaster's Gi,Armor,Mythic,1,,pendente
+Grave Kiss,Material,Uncommon,1,,pendente
+Gravestone,Shield,Rare,1,,pendente
+Great Helm,Head,Rare,1,,pendente
+Greater Healing Potion,Consumable,Legendary,1,Restores 600 health.,pendente
+Greater Mana Potion,Consumable,Legendary,1,Restores 600 mana.,pendente
+Green Dragon Eye,Amulet,Mythic,1,,pendente
+Green Dragon Scale,Ring,Mythic,1,,pendente
+Green Drake Scale,Commodity,Rare,1,,pendente
+Griffin Horn,Weapon,Legendary,1,Gain Additional Weapon Damage equal to 30% of your Dexterity.,pendente
+Guard's Spear,Weapon,Uncommon,1,,pendente
+Guardian Flask,Consumable,Mythic,1,Gain 800 Physical Armor for 5 turns.,pendente
+Guardian's Way,Armor,Rare,1,Gain Armor and Magic Armor equal to your Might.,pendente
+Hailstone,Material,Legendary,1,,pendente
+Hailstone Ring,Ring,Mythic,1,,pendente
+Hailstone Staff,Weapon,Mythic,1,15% chance to cast Level [level value] {SKL=Frost Nova} when hitting with any ability.,pendente
+Halberd,Weapon,Uncommon,1,,pendente
+Half-Halberd,Weapon,Uncommon,1,,pendente
+Hammertooth Shark,Material,Mythic,1,,pendente
+Hand Axe,Weapon,Uncommon,1,,pendente
+Hand Cannon,Weapon,Legendary,1,,pendente
+Harmonious Garb,Armor,Legendary,1,,pendente
+Harpoon,Weapon,Uncommon,1,,pendente
+Harvester,Weapon,Mythic,1,20% chance to cast Level [level value] {SKL=Reaper's Scythe} on striking.,pendente
+Hatchet,Weapon,Uncommon,1,,pendente
+Healing Potion,Consumable,Rare,1,Restores 300 health.,pendente
+Heart of Rage,Commodity,Rare,1,,pendente
+Heart of the Mountain,Commodity,Mythic,1,,pendente
+Heart Pendant,Amulet,Rare,1,,pendente
+Heart Signet,Ring,Mythic,1,,pendente
+Heater,Shield,Uncommon,1,,pendente
+Heavenly Blade,Weapon,Mythic,1,,pendente
+Hero's Blade,Weapon,Rare,1,,pendente
+Hod's Hood,Head,Common,1,,pendente
+Holy Blade,Weapon,Legendary,1,,pendente
+Holy Heater,Shield,Legendary,1,,pendente
+Holy Symbol,Weapon,Mythic,1,,pendente
+Hope Locket,Amulet,Rare,1,,pendente
+Humble Garb,Armor,Uncommon,1,,pendente
+Hunter's Bow,Weapon,Rare,1,,pendente
+Hunter's Trappings,Armor,Rare,1,,pendente
+Hunting Knife,Weapon,Uncommon,1,,pendente
+Hunting Rifle,Weapon,Legendary,1,Attacks with this weapon apply 1 stack of bleeding.,pendente
+Hunting Spear,Weapon,Rare,1,,pendente
+Ice Garb,Armor,Uncommon,1,,pendente
+Ice Gi,Armor,Legendary,1,,pendente
+Ice Hood,Head,Legendary,1,,pendente
+Ice King's Axe,Weapon,Mythic,1,20% chance to cast Level [level value] {SKL=Breath of Winter} on striking.,pendente
+Ice Wraps,Armor,Rare,1,,pendente
+Ice-Runed Axe,Weapon,Rare,1,,pendente
+Icefin,Material,Uncommon,1,,pendente
+Ichor Oyster,Commodity,Uncommon,1,,pendente
+Ilsalay's Indestructible Aegis,Shield,Mythic,1,Grants the passive skill {SKL=Indestructible}.,pendente
+Imp Claw,Commodity,Uncommon,1,,pendente
+Imp Horns,Commodity,Uncommon,1,,pendente
+Inner Strength,Armor,Mythic,1,,pendente
+Iron Aspis,Shield,Uncommon,1,,pendente
+Iron Band,Ring,Uncommon,1,,pendente
+Iron Breaker,Weapon,Rare,1,,pendente
+Iron Choker,Amulet,Uncommon,1,,pendente
+Iron Fortress Band,Ring,Mythic,1,,pendente
+Iron Greatsword,Weapon,Uncommon,1,,pendente
+Iron Heater,Shield,Rare,1,,pendente
+Iron Longsword,Weapon,Uncommon,1,,pendente
+Iron Mace,Weapon,Uncommon,1,,pendente
+Iron Mallet,Weapon,Uncommon,1,,pendente
+Iron Ore,Material,Uncommon,1,,pendente
+Iron Pistol,Weapon,Rare,1,,pendente
+Iron Sabre,Weapon,Uncommon,1,,pendente
+Iron Scepter,Weapon,Rare,1,,pendente
+Iron Spear,Weapon,Rare,1,,pendente
+Iron Sword,Weapon,Uncommon,1,,pendente
+Iron Thorn Cuirass,Armor,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Ironbark Shield,Shield,Legendary,1,,pendente
+Ivory Aegis,Shield,Mythic,1,10% chance when hit to cast Level [level value] {SKL=Mass Cure}.,pendente
+Ivory Musket,Weapon,Legendary,1,,pendente
+Ivory Tusk,Commodity,Rare,1,,pendente
+Jewel Encrusted Skull,Commodity,Mythic,1,,pendente
+JJ's Miracle Cure All,Consumable,Mythic,1,Removes all negative status effects.  Can be used when Disabled.,pendente
+Jungle Spores,Material,Uncommon,1,,pendente
+King's Signet,Ring,Mythic,1,,pendente
+Kingdom Guard,Shield,Legendary,1,,pendente
+Kingsblade,Weapon,Mythic,1,,pendente
+Kingslayer,Weapon,Mythic,1,,pendente
+Kitchen Knife,Weapon,Common,1,,pendente
+Knight's Full Plate,Armor,Legendary,1,,pendente
+Knight's Plate Helm,Head,Legendary,1,,pendente
+Knuckle Dagger,Weapon,Rare,1,,pendente
+Ksvaldir,Weapon,Mythic,1,Applies Hunger Ksvaldir: Sacrifices 10% of your max health per turn.,pendente
+Kunai,Weapon,Uncommon,1,,pendente
+Kunzite Crystal,Commodity,Mythic,1,,pendente
+Larimar Crystal,Commodity,Mythic,1,,pendente
+Last Word,Weapon,Mythic,1,Basic attacks have a 25% chance to proc an additional attack once per turn.,pendente
+Lavafish,Material,Uncommon,1,,pendente
+Lavengrass,Material,Uncommon,1,,pendente
+Lavenroot,Material,Rare,1,,pendente
+Laying on Hands,Weapon,Mythic,1,Gain Additional Healing to Heals equal to 50% of your Might.,pendente
+Leather Armor,Armor,Uncommon,1,,pendente
+Leather Doublet,Armor,Common,1,,pendente
+Leather Hood,Head,Common,1,,pendente
+Leather Jerkin,Armor,Common,1,,pendente
+Leviathan Plate,Armor,Mythic,1,,pendente
+Leviathan Skull,Head,Mythic,1,,pendente
+Life-Runed Hatchet,Weapon,Rare,1,,pendente
+Light Healing Potion,Consumable,Uncommon,1,Restores 150 health.,pendente
+Light Mana Potion,Consumable,Uncommon,1,Restores 150 mana.,pendente
+Lightning Garb,Armor,Uncommon,1,,pendente
+Lightning Gi,Armor,Legendary,1,,pendente
+Lightning Hood,Head,Legendary,1,,pendente
+Lightning Perch,Material,Rare,1,,pendente
+Lightning Wraps,Armor,Rare,1,,pendente
+Lion Charm,Amulet,Rare,1,,pendente
+Lionheart Breastplate,Armor,Rare,1,,pendente
+Lionheart Leather,Armor,Rare,1,,pendente
+Lionheart Plate,Armor,Rare,1,,pendente
+Living Axe,Weapon,Mythic,1,,pendente
+Living Band,Ring,Legendary,1,,pendente
+Living Stone,Commodity,Rare,1,,pendente
+Logan's Paw,Weapon,Mythic,1,Gain Additional Physical Damage equal to 2.5% of your Max Health.,pendente
+Long Bore Handgun,Weapon,Rare,1,,pendente
+Longbow,Weapon,Uncommon,1,,pendente
+Longsword,Weapon,Uncommon,1,,pendente
+Lost Valuables,Commodity,Rare,1,,pendente
+Mace,Weapon,Uncommon,1,,pendente
+Magedraw,Weapon,Mythic,1,Gain {SKL=Enchant Fire}. Gain {SKL=Enchant Cold}. Gain {SKL=Enchant Lightning}.,pendente
+Magmamouth,Material,Rare,1,,pendente
+Magus Hat,Head,Rare,1,,pendente
+Magus Robe,Armor,Rare,1,,pendente
+Mana Potion,Consumable,Rare,1,Restores 300 mana.,pendente
+Mark of Nobility,Ring,Legendary,1,,pendente
+Marksman's Cap,Head,Legendary,1,Basic attacks have a 20% chance to proc an additional attack once per turn.,pendente
+Martyr's Chain,Amulet,Legendary,1,,pendente
+Master Swordfish,Commodity,Mythic,1,,pendente
+Master's Gi,Armor,Legendary,1,,pendente
+Meditating Brew,Consumable,Rare,1,Regenerate 15% of your Mana every turn for 5 turns.,pendente
+Medusa Staff,Weapon,Mythic,1,Grants the skill {SKL=Petrify}.,pendente
+Memory Locket,Amulet,Uncommon,1,,pendente
+Mending Band,Ring,Rare,1,,pendente
+Meteorite Band,Ring,Legendary,1,,pendente
+Minor Healing Potion,Consumable,Common,1,Restores 75 health.,pendente
+Minor Mana Potion,Consumable,Common,1,Restores 75 mana.,pendente
+Minotaur Axe,Weapon,Legendary,1,,pendente
+Mithril Loop,Ring,Legendary,1,,pendente
+Mithril Ore,Material,Legendary,1,,pendente
+Mithril Pendant,Amulet,Legendary,1,,pendente
+Mjolnir,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Thunder Bolt} on striking.,pendente
+Moon Fish,Material,Rare,1,,pendente
+Moonstone,Commodity,Legendary,1,,pendente
+Moonstone Necklace,Amulet,Rare,1,,pendente
+Mottled Eel,Commodity,Uncommon,1,,pendente
+Mountain Salmon,Commodity,Rare,1,,pendente
+Mourning Star,Weapon,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Mummy Linen,Commodity,Rare,1,,pendente
+Musket,Weapon,Common,1,,pendente
+Musket Pistol,Weapon,Uncommon,1,,pendente
+Musketoon,Weapon,Uncommon,1,,pendente
+Mystic Blade,Weapon,Uncommon,1,,pendente
+Mystic Staff,Weapon,Rare,1,,pendente
+Naginata,Weapon,Legendary,1,Gain Additional Weapon Damage equal to 30% of your Dexterity.,pendente
+Navy Chapeau,Head,Uncommon,1,,pendente
+Navy Coat,Armor,Uncommon,1,,pendente
+Navy Feathered Beret,Head,Uncommon,1,,pendente
+Navy Robes,Armor,Uncommon,1,,pendente
+Negating Tonic,Consumable,Common,1,Gain 50 Magic Armor for 5 turns.,pendente
+Night Stalker Leathers,Armor,Mythic,1,20% chance to cast Stealth on turn start.,pendente
+Night Stalker Mask,Head,Mythic,1,20% chance to cast Stealth on turn start.,pendente
+Ninja Gear,Armor,Mythic,1,,pendente
+Ninja Hood,Head,Mythic,1,,pendente
+Ninjato,Weapon,Mythic,1,Gain Additional Weapon Damage equal to 10% of your Dexterity.,pendente
+Nobleman's Vest,Armor,Rare,1,,pendente
+Northern Cod,Commodity,Uncommon,1,,pendente
+Novice Gi,Armor,Common,1,,pendente
+Nullifying Tonic,Consumable,Uncommon,1,Gain 100 Magic Armor for 5 turns.,pendente
+Oasis Amulet,Amulet,Rare,1,,pendente
+Oasis Glaive,Weapon,Legendary,1,,pendente
+Obsidian,Material,Legendary,1,,pendente
+Obsidian Blade,Weapon,Rare,1,,pendente
+Obsidian Cestus,Weapon,Mythic,1,,pendente
+Obsidian Dagger,Weapon,Rare,1,,pendente
+Obsidian Hatchet,Weapon,Rare,1,,pendente
+Obsidian Shell,Commodity,Rare,1,,pendente
+Obsidian Talon,Weapon,Legendary,1,Striking with this weapon applies 1 stack of Poison.,pendente
+Ocean Iguana,Material,Legendary,1,,pendente
+Oculus Stone,Weapon,Mythic,1,,pendente
+Oil of Acceleration,Consumable,Mythic,1,Movement Points increased by 5 for 5 turns.,pendente
+Oil of Alacrity,Consumable,Legendary,1,Movement Points increased by 4 for 5 turns.,pendente
+Oil of Momentum,Consumable,Uncommon,1,Movement Points increased by 2 for 5 turns.,pendente
+Oil of Movement,Consumable,Common,1,Movement Points increased by 1 for 5 turns.,pendente
+Oil of Speed,Consumable,Rare,1,Movement Points increased by 3 for 5 turns.,pendente
+Olive Chapeau,Head,Uncommon,1,,pendente
+Olive Coat,Armor,Uncommon,1,,pendente
+Olive Feathered Beret,Head,Uncommon,1,,pendente
+Olive Tunic,Armor,Uncommon,1,,pendente
+Onyx,Material,Rare,1,,pendente
+Opal,Commodity,Rare,1,,pendente
+Opal Necklace,Amulet,Uncommon,1,,pendente
+Opal Ring,Ring,Uncommon,1,,pendente
+Orichalcum Band,Ring,Legendary,1,,pendente
+Orichalcum Chain,Amulet,Legendary,1,,pendente
+Orichalcum Ore,Material,Rare,1,,pendente
+Ornate Sword,Weapon,Legendary,1,,pendente
+Outlaw Coat,Armor,Uncommon,1,,pendente
+Outlaw Mask,Head,Uncommon,1,,pendente
+Overgrown Thorn,Material,Rare,1,,pendente
+Paladin Platemail,Armor,Rare,1,Grants the wearer the ability to cast Healing Hand.,pendente
+Paladin's Hammer,Weapon,Rare,1,,pendente
+Paladin's Helm,Head,Uncommon,1,,pendente
+Parmula,Shield,Rare,1,,pendente
+Particle of Light,Commodity,Uncommon,1,,pendente
+Peace Lily,Material,Uncommon,1,,pendente
+Peaceful Garb,Armor,Rare,1,,pendente
+Peacekeeper,Weapon,Mythic,1,,pendente
+Pearl,Commodity,Rare,1,,pendente
+Pearl Necklace,Amulet,Uncommon,1,,pendente
+Pearl Ring,Ring,Uncommon,1,,pendente
+Peashooter,Weapon,Common,1,,pendente
+Pendant of Cunning,Amulet,Mythic,1,,pendente
+Peridot,Material,Rare,1,,pendente
+Phantom Piercer,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Reaper's Scythe} on striking.,pendente
+Phoenix Claymore,Weapon,Mythic,1,Grants the passive {SKL=Glory}. Gain Level [level value] {SKL=Enchant Fire} while holding this weapon.,pendente
+Pike,Weapon,Uncommon,1,,pendente
+Pink Jellyfish,Material,Uncommon,1,,pendente
+Pirate Sidearm,Weapon,Rare,1,,pendente
+Pirate's Cutlass,Weapon,Uncommon,1,,pendente
+Plague Jacket,Armor,Legendary,1,Attacks apply 1 stack of poison.,pendente
+Plague Mask,Head,Legendary,1,Attacks apply 1 stack of poison.,pendente
+Poleaxe,Weapon,Uncommon,1,,pendente
+Potion of Agility,Consumable,Rare,1,Dexterity increased by 30 for 5 turns.,pendente
+Potion of Avoidance,Consumable,Uncommon,1,Reflex increased by 20 for 5 turns.,pendente
+Potion of Brawn,Consumable,Common,1,Might increased by 10 for 5 turns.,pendente
+Potion of Celerity,Consumable,Uncommon,1,Dexterity increased by 20 for 5 turns.,pendente
+Potion of Dexterity,Consumable,Mythic,1,Dexterity increased by 50 for 5 turns.,pendente
+Potion of Dodging,Consumable,Legendary,1,Reflex increased by 40 for 5 turns.,pendente
+Potion of Eluding,Consumable,Common,1,Reflex increased by 10 for 5 turns.,pendente
+Potion of Endurance,Consumable,Uncommon,1,Vitality increased by 20 for 5 turns.,pendente
+Potion of Evasion,Consumable,Mythic,1,Reflex increased by 50 for 5 turns.,pendente
+Potion of Fire Protection,Consumable,Rare,1,Gain 30% Fire resistance and immunity to Heat for 5 turns.,pendente
+Potion of Force,Consumable,Legendary,1,Might increased by 40 for 5 turns.,pendente
+Potion of Fortitude,Consumable,Legendary,1,Vitality increased by 40 for 5 turns.,pendente
+Potion of Frost Protection,Consumable,Rare,1,Gain 30% Cold resistance and immunity to Chilled for 5 turns.,pendente
+Potion of Intellect,Consumable,Legendary,1,Intelligence increased by 40 for 5 turns.,pendente
+Potion of Life,Consumable,Mythic,1,Vitality increased by 50 for 5 turns.,pendente
+Potion of Lightning Protection,Consumable,Rare,1,Gain 30% Lightning resistance and immunity to Shocked for 5 turns.,pendente
+Potion of Might,Consumable,Rare,1,Might increased by 30 for 5 turns.,pendente
+Potion of Mind,Consumable,Mythic,1,Intelligence increased by 50 for 5 turns.,pendente
+Potion of Physical Protection,Consumable,Rare,1,Gain 30% Physical resistance and immunity to Bleed for 5 turns.,pendente
+Potion of Power,Consumable,Mythic,1,Might increased by 50 for 5 turns.,pendente
+Potion of Quickness,Consumable,Common,1,Dexterity increased by 10 for 5 turns.,pendente
+Potion of Reason,Consumable,Uncommon,1,Intelligence increased by 20 for 5 turns.,pendente
+Potion of Reflex,Consumable,Rare,1,Reflex increased by 30 for 5 turns.,pendente
+Potion of Strength,Consumable,Uncommon,1,Might increased by 20 for 5 turns.,pendente
+Potion of Swiftness,Consumable,Legendary,1,Dexterity increased by 40 for 5 turns.,pendente
+Potion of Thought,Consumable,Rare,1,Intelligence increased by 30 for 5 turns.,pendente
+Potion of Vigor,Consumable,Common,1,Vitality increased by 10 for 5 turns.,pendente
+Potion of Vitality,Consumable,Rare,1,Vitality increased by 30 for 5 turns.,pendente
+Potion of Wits,Consumable,Common,1,Intelligence increased by 10 for 5 turns.,pendente
+Praetorian Cuirass,Armor,Legendary,1,,pendente
+Praetorian Helm,Head,Legendary,1,,pendente
+Prayer Beads,Amulet,Rare,1,,pendente
+Primitive Rags,Armor,Common,1,,pendente
+Primitive Spear,Weapon,Common,1,,pendente
+Prismatic Tonic,Consumable,Mythic,1,Gain 800 Magic Armor for 5 turns.,pendente
+Pristine Animal Hide,Commodity,Rare,1,,pendente
+Problem Solver,Weapon,Mythic,1,,pendente
+Professional Finery,Armor,Legendary,1,,pendente
+Promise Ring,Ring,Uncommon,1,,pendente
+Protection Flask,Consumable,Uncommon,1,Gain 100 Physical Armor for 5 turns.,pendente
+Pupil's Attire,Armor,Rare,1,,pendente
+Pupil's Cap,Head,Rare,1,,pendente
+Purifying Band,Ring,Legendary,1,,pendente
+Purifying Essence,Commodity,Mythic,1,,pendente
+Quarterstaff,Weapon,Rare,1,,pendente
+Rabbit's Spear,Weapon,Mythic,1,,pendente
+Rage Casque,Head,Mythic,1,The wearer gains Berserker's Rage.,pendente
+Raider Axe,Weapon,Uncommon,1,,pendente
+Rainbow Carp,Material,Rare,1,,pendente
+Rainbow Fish,Material,Rare,1,,pendente
+Ranger Hood,Head,Rare,1,,pendente
+Ranger Tunic,Armor,Rare,1,,pendente
+Rapier,Weapon,Rare,1,,pendente
+Rare Black Feather,Commodity,Rare,1,,pendente
+Rare Blue Feather,Commodity,Rare,1,,pendente
+Rare Pollen,Material,Rare,1,,pendente
+Rare Red Feather,Commodity,Rare,1,,pendente
+Razor Wire,Amulet,Mythic,1,Gain Added Return Damage Physical equal to 2% of your Armor.,pendente
+Recurve Bow,Weapon,Rare,1,,pendente
+Red Cap,Material,Uncommon,1,,pendente
+Red Dragon Eye,Amulet,Mythic,1,,pendente
+Red Dragon Scale,Ring,Mythic,1,,pendente
+Red Drake Scale,Commodity,Rare,1,,pendente
+Red Spores,Material,Rare,1,,pendente
+Regenerating Brew,Consumable,Rare,1,Regenerate 15% of your Health every turn for 5 turns.,pendente
+Rejuvenating Brew,Consumable,Rare,1,Regenerate 8% of your Health and Mana every turn for 5 turns.,pendente
+Resolve,Armor,Mythic,1,,pendente
+Ring of Alacrity,Ring,Legendary,1,,pendente
+Ring of Brilliance,Ring,Mythic,1,,pendente
+Ring of Cunning,Ring,Mythic,1,,pendente
+Ring of Haste,Ring,Legendary,1,,pendente
+Ring of Power,Ring,Mythic,1,,pendente
+Ring of Protection,Ring,Rare,1,,pendente
+Ring of Vision,Ring,Legendary,1,,pendente
+Ritual Blade,Weapon,Uncommon,1,,pendente
+Ritual Sword,Weapon,Rare,1,,pendente
+River Moss,Commodity,Common,1,,pendente
+River Salmon,Material,Uncommon,1,,pendente
+Rock Crab,Commodity,Uncommon,1,,pendente
+Rockbreaker,Weapon,Rare,1,15% chance to cast Level [level value] {SKL=Fracture} when striking.,pendente
+Rocktopus,Material,Mythic,1,,pendente
+Roguestone,Commodity,Mythic,1,,pendente
+Rose Thorn,Material,Rare,1,,pendente
+Ruby,Material,Legendary,1,,pendente
+Ruby Battleaxe,Weapon,Legendary,1,,pendente
+Ruby Glaive,Weapon,Legendary,1,,pendente
+Ruby Halberd,Weapon,Legendary,1,,pendente
+Ruby Ring,Ring,Rare,1,,pendente
+Ruby Sword,Weapon,Legendary,1,10% chance to apply Level [level value] {SKL=Immolate} on hit.,pendente
+Ruby Tonfa,Weapon,Legendary,1,Gain Added Damage to Fire equal to 10% of your Might.,pendente
+Rusty Pickaxe,Tool,Common,1,,pendente
+Sabre,Weapon,Uncommon,1,,pendente
+Sai,Weapon,Legendary,1,Gain Additional Weapon Damage equal to 7.5% of your Reflex.,pendente
+Sand Shark,Material,Legendary,1,,pendente
+Sand Spear,Weapon,Legendary,1,,pendente
+Sand Sultan Simitar,Weapon,Uncommon,1,,pendente
+Sand Sultan Tunic,Armor,Uncommon,1,,pendente
+Sand Sultan Wrap,Head,Uncommon,1,,pendente
+Sanguine Sage,Material,Rare,1,,pendente
+Sapphire,Material,Legendary,1,,pendente
+Sapphire Cestus,Weapon,Legendary,1,Gain Added Damage to Cold equal to 10% of your Might.,pendente
+Sapphire Claymore,Weapon,Legendary,1,,pendente
+Sapphire Poleaxe,Weapon,Legendary,1,,pendente
+Sapphire Ring,Ring,Rare,1,,pendente
+Sapphire Spear,Weapon,Legendary,1,,pendente
+Sapphire Sword,Weapon,Legendary,1,10% chance to cast Level [level value] {SKL=Frost Shard} on hit.,pendente
+Savage Shield,Shield,Legendary,1,,pendente
+Scarlet Chapeau,Head,Uncommon,1,,pendente
+Scarlet Coat,Armor,Uncommon,1,,pendente
+Scarlet Feathered Beret,Head,Uncommon,1,,pendente
+Scarlet Robes,Armor,Uncommon,1,,pendente
+Scholar's Attire,Armor,Rare,1,,pendente
+Scholar's Hat,Head,Rare,1,,pendente
+Scimitar,Weapon,Uncommon,1,,pendente
+Scorpionfish,Material,Uncommon,1,,pendente
+Seaweed,Material,Common,1,,pendente
+Serpant Sturgeon,Commodity,Rare,1,,pendente
+Shadow Stalker Bow,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Spectral Chains} on striking. 10% chance to cast Level [level value] {SKL=Blind} on striking.,pendente
+Shadowstalker Body Armor,Armor,Legendary,1,15% chance to cast Stealth on turn start.,pendente
+Shadowstalker Mask,Head,Legendary,1,15% chance to cast Stealth on turn start.,pendente
+Shako,Head,Mythic,1,,pendente
+Sharpened Stick,Weapon,Common,1,,pendente
+Sharpshooter,Weapon,Legendary,1,,pendente
+Shield Crusher,Weapon,Legendary,1,,pendente
+Shield Flask,Consumable,Legendary,1,Gain 400 Physical Armor for 5 turns.,pendente
+Shield Turtle,Material,Rare,1,,pendente
+Shiny Blue Crusher,Weapon,Mythic,1,,pendente
+Shiny Orange Basher,Weapon,Mythic,1,,pendente
+Shiny Red Smasher,Weapon,Mythic,1,,pendente
+Shortbow,Weapon,Common,1,,pendente
+Shortsword,Weapon,Common,1,,pendente
+Shovel,Weapon,Uncommon,1,,pendente
+Siegebreaker,Weapon,Mythic,1,,pendente
+Silver Band,Ring,Rare,1,,pendente
+Silver Kite Shield,Shield,Legendary,1,10% chance to cast Level [level value] {SKL=Blinding Light} when struck.,pendente
+Silver Necklace,Amulet,Rare,1,,pendente
+Silver Ore,Material,Rare,1,,pendente
+Silver Shot,Weapon,Legendary,1,,pendente
+Silver-Edged Axe,Weapon,Rare,1,,pendente
+Silver-Edged Dagger,Weapon,Rare,1,,pendente
+Silver-Edged Longsword,Weapon,Rare,1,,pendente
+Silver-Edged Shortsword,Weapon,Rare,1,,pendente
+Simple Hood,Head,Common,1,,pendente
+Simple Robe,Armor,Common,1,,pendente
+Sinister Sprout,Material,Legendary,1,,pendente
+Skeleton Necklace,Amulet,Rare,1,,pendente
+Skull Mace,Weapon,Legendary,1,,pendente
+Sky Spear,Weapon,Legendary,1,,pendente
+Slayer Axe,Weapon,Mythic,1,,pendente
+Slayer Blade,Weapon,Legendary,1,,pendente
+Slayer Mask,Head,Mythic,1,,pendente
+Slayer Plate,Armor,Mythic,1,,pendente
+Sledge Hammer,Weapon,Rare,1,,pendente
+Sludge Fish,Material,Common,1,,pendente
+Smouldering Hat,Head,Rare,1,,pendente
+Smouldering Robes,Armor,Rare,1,,pendente
+Snow Crab,Commodity,Uncommon,1,,pendente
+Snub Nose Musket,Weapon,Uncommon,1,,pendente
+Soldier's Axe,Weapon,Rare,1,,pendente
+Soul of Fear,Commodity,Mythic,1,,pendente
+Soul of Light,Commodity,Rare,1,,pendente
+Soul of Night,Commodity,Rare,1,,pendente
+Spear,Weapon,Uncommon,1,,pendente
+Spectral Hammer,Weapon,Mythic,1,10% chance to shoot a Ghostly Cannon Ball on striking.,pendente
+Spike Fist,Weapon,Legendary,1,Gain Added Return Damage Physical equal to 1% of your Max Health.,pendente
+Spiked Axe,Weapon,Common,1,,pendente
+Spiked Club,Weapon,Common,1,,pendente
+Spiked Collar,Amulet,Uncommon,1,,pendente
+Spiked Mace,Weapon,Uncommon,1,,pendente
+Spiked Ring,Ring,Uncommon,1,,pendente
+Spiked Rolling Pin,Weapon,Common,1,,pendente
+Spikemail,Armor,Rare,1,,pendente
+Staff,Weapon,Common,1,,pendente
+Stag Helm,Head,Legendary,1,,pendente
+Stag Plate,Armor,Legendary,1,Grants the passive Disengage.,pendente
+Stalker's Bow,Weapon,Rare,1,,pendente
+Stalker's Hood,Head,Rare,1,10% chance to cast Stealth on turn start.,pendente
+Stalker's Leather,Armor,Rare,1,10% chance to cast Stealth on turn start.,pendente
+Starfish,Commodity,Uncommon,1,,pendente
+Steel Chain,Amulet,Rare,1,,pendente
+Steel Dagger,Weapon,Rare,1,,pendente
+Steel Knuckles,Weapon,Uncommon,1,,pendente
+Steel Ring,Ring,Rare,1,,pendente
+Stiletto,Weapon,Rare,1,Striking with this weapon has a 50% chance to apply 1 stack of {STA=Bleeding}.,pendente
+Stone Axe,Weapon,Common,1,,pendente
+Stone Dagger,Weapon,Common,1,,pendente
+Stone Hammer,Weapon,Common,1,,pendente
+Stone Wraps,Armor,Uncommon,1,,pendente
+Stone-Cleaver,Weapon,Legendary,1,,pendente
+Stonefish,Material,Rare,1,,pendente
+Straight Sword,Weapon,Uncommon,1,,pendente
+Studded Leather,Armor,Uncommon,1,,pendente
+Student's Gi,Armor,Rare,1,,pendente
+Sugar-Brier,Material,Rare,1,,pendente
+Sultan Sword,Weapon,Rare,1,,pendente
+Summoner's Hat,Head,Legendary,1,,pendente
+Summoner's Robe,Armor,Legendary,1,,pendente
+Sun Staff,Weapon,Mythic,1,,pendente
+Sunflower,Material,Rare,1,,pendente
+Sunpetals,Material,Rare,1,,pendente
+Sunstone Necklace,Amulet,Mythic,1,10% chance to cast Level [level value] {SKL=Blinding Light} when hitting with any ability.,pendente
+Sunstone Ring,Ring,Mythic,1,10% chance to cast Level [level value] {SKL=Blinding Light} when hitting with any ability.,pendente
+Sunwalker Hood,Head,Legendary,1,,pendente
+Sunwalker Robes,Armor,Legendary,1,,pendente
+Super Healing Potion,Consumable,Mythic,1,Restores 1200 health.,pendente
+Super Mana Potion,Consumable,Mythic,1,Restores 1200 mana.,pendente
+Swashbuckler Vest,Armor,Rare,1,,pendente
+Sword Guard,Weapon,Legendary,1,,pendente
+Talon,Commodity,Uncommon,1,,pendente
+Thief's Blade,Weapon,Rare,1,25% chance to Steal Status when striking.,pendente
+Thief's Garb,Armor,Rare,1,Grants the ability Steal Action.,pendente
+Thief's Hood,Head,Uncommon,1,,pendente
+Thief's Ring,Ring,Legendary,1,,pendente
+Thorn Shield,Shield,Legendary,1,Attackers gain 4 stacks of poison.,pendente
+Thunder Core,Commodity,Uncommon,1,,pendente
+Thunder Grasp,Weapon,Mythic,1,Gain Added Damage to Lightning equal to 20% of your Intelligence.,pendente
+Thunder Hat,Head,Legendary,1,,pendente
+Thunder Pipe,Weapon,Mythic,1,,pendente
+Thunder Robes,Armor,Mythic,1,Gain Level [level value] {SKL=Enchant Lightning}.,pendente
+Thunderforce,Weapon,Mythic,1,15% Chance to cast Level [level value] {SKL=Chain Lightning} when striking with this weapon.,pendente
+Thunderstone,Material,Legendary,1,,pendente
+Thunderstone Ring,Ring,Mythic,1,,pendente
+Thunderstone Staff,Weapon,Mythic,1,10% chance to proc a Level [level value] {SKL=Thunder Bolt} when hitting with any ability.,pendente
+Titanium Band,Ring,Legendary,1,,pendente
+Titanium Chain,Amulet,Legendary,1,,pendente
+Tlaloc Garments,Armor,Rare,1,,pendente
+Tlaloc Horns,Head,Rare,1,,pendente
+Toadstool,Material,Uncommon,1,,pendente
+Toga,Armor,Common,1,,pendente
+Tonfa,Weapon,Rare,1,Gain Additional Physical Damage equal to 1% of your Max Health.,pendente
+Topaz,Material,Legendary,1,,pendente
+Topaz Cestus,Weapon,Legendary,1,Gain Added Damage to Lightning equal to 10% of your Might.,pendente
+Topaz Greataxe,Weapon,Legendary,1,,pendente
+Topaz Greatsword,Weapon,Legendary,1,,pendente
+Topaz Polearm,Weapon,Legendary,1,,pendente
+Topaz Ring,Ring,Rare,1,,pendente
+Topaz Sword,Weapon,Legendary,1,8% chance on striking to cast Level [level value] {SKL=Shock}.,pendente
+Topaz Sword-Staff,Weapon,Legendary,1,,pendente
+Trainer's Band,Ring,Uncommon,1,,pendente
+Trainer's Pendant,Amulet,Uncommon,1,,pendente
+Traveler's Coat,Armor,Common,1,,pendente
+Traveler's Hat,Head,Uncommon,1,,pendente
+Traveler's Robe,Armor,Rare,1,,pendente
+Tribal Guardian,Shield,Legendary,1,,pendente
+Tribal Headhunter,Weapon,Rare,1,Grants the passive skill Executioner.,pendente
+Tribal Shield,Shield,Rare,1,,pendente
+Trophy Hunter,Weapon,Mythic,1,Grants the passive skill {SKL=Trophy Hunter}.,pendente
+Tundra Helm,Head,Common,1,,pendente
+Tundra Regalia,Armor,Common,1,,pendente
+Tungsten Choker,Amulet,Uncommon,1,,pendente
+Tungsten Ring,Ring,Uncommon,1,,pendente
+Tunic,Armor,Uncommon,1,,pendente
+Turtle Crab,Material,Rare,1,,pendente
+Tusks of the Father,Commodity,Mythic,1,,pendente
+Twisted Dagger,Weapon,Legendary,1,Striking with this weapon applies 2 stack of Poison.,pendente
+Two-Handed Axe,Weapon,Common,1,,pendente
+Unidentifiable Remains,Commodity,Common,1,,pendente
+Valler's Pocket Watch,Amulet,Mythic,1,,pendente
+Valuables,Commodity,Legendary,1,,pendente
+Vampire Blood,Commodity,Rare,1,,pendente
+Vampire Fang,Commodity,Rare,1,,pendente
+Vampire Fish,Commodity,Uncommon,1,,pendente
+Vanquisher Blade,Weapon,Legendary,1,,pendente
+Vanquisher Sword,Weapon,Legendary,1,,pendente
+Vial of Blood,Amulet,Rare,1,,pendente
+Viking Axe,Weapon,Uncommon,1,,pendente
+Viking Hammer,Weapon,Uncommon,1,,pendente
+Viking Warhammer,Weapon,Uncommon,1,,pendente
+Violet Cap,Head,Uncommon,1,,pendente
+Violet Coat,Armor,Uncommon,1,,pendente
+Violet Feathered Beret,Head,Uncommon,1,,pendente
+Violet Robes,Armor,Uncommon,1,,pendente
+Volcanic,Weapon,Mythic,1,,pendente
+Walking Stick,Weapon,Common,1,,pendente
+Wand,Weapon,Common,1,,pendente
+Warding Amulet,Amulet,Rare,1,,pendente
+Warding Ring,Ring,Rare,1,,pendente
+Warding Tonic,Consumable,Rare,1,Gain 200 Magic Armor for 5 turns.,pendente
+Warhammer,Weapon,Uncommon,1,,pendente
+Warlord Mantle,Armor,Mythic,1,,pendente
+Warmachine Gauntlet,Weapon,Mythic,1,10% chance to cast Level [level value] {SKL=Meteor} when Striking.,pendente
+Warrior's Path,Armor,Rare,1,,pendente
+Wedding Band,Ring,Rare,1,,pendente
+Weight of the Void,Amulet,Mythic,1,Grants the passive skill {SKL=Child of the Abyss}.,pendente
+Westarch Defender,Shield,Mythic,1,10% chance to cast Level [level value] {SKL=Howl} when struck.,pendente
+Wild Soul,Commodity,Legendary,1,,pendente
+Will to Survive,Armor,Mythic,1,Gain Armor and Magic Armor equal to 2x your Might. 10% chance upon getting hit to cast Level [level value] {SKL=Pain Suppression}.,pendente
+Windstrike,Weapon,Mythic,1,Gain Additional Weapon Damage equal to 35% of your Might.,pendente
+Winged Axe,Weapon,Mythic,1,Basic attacks have a 25% chance to proc an additional attack once per turn.,pendente
+Wintercrest,Material,Uncommon,1,,pendente
+Wisp of Shadow,Commodity,Uncommon,1,,pendente
+Witch's Broom,Weapon,Mythic,1,Damage you deal applies 2 stacks of @Poison@.,pendente
+Wizard's Hat,Head,Legendary,1,,pendente
+Wizard's Robe,Armor,Legendary,1,,pendente
+Wolf Charm,Amulet,Rare,1,,pendente
+Wolf Fang,Commodity,Rare,1,,pendente
+Wolf Pelt,Commodity,Uncommon,1,,pendente
+Wolf-Fang Necklace,Amulet,Rare,1,,pendente
+Wolfshead Hood,Head,Mythic,1,,pendente
+Wooden Buckler,Shield,Uncommon,1,,pendente
+Wooden Heater,Shield,Uncommon,1,,pendente
+Wooden Mallet,Weapon,Common,1,,pendente
+Wooden Rod,Tool,Common,1,,pendente
+Wooden Round Shield,Shield,Uncommon,1,,pendente
+Woodland Helm,Head,Common,1,,pendente
+Woodland Regalia,Armor,Common,1,,pendente
+Wrecking Ball,Weapon,Legendary,1,10% chance to cast Quaking Fist on striking.,pendente
+Yari,Weapon,Rare,1,,pendente
+Zweihander,Weapon,Rare,1,,pendente
