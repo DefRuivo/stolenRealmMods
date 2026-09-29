@@ -267,6 +267,17 @@ namespace BetterTooltips.Patches
             // Só gramática/espacamento, sem tocar em mecânica. A chave é o texto EXATO
             // do asset (espaços duplos e espaço no fim contam).
             {
+                // Haunt: o texto dizia "Lifesteals for 6%" e o codigo faz
+                // `SourceStored['HealingForced'] = Source['MaxHealth'] * .025f` - 2,5%.
+                // Alem disso o PROPRIO texto do status diz 8%: os tres numeros divergiam.
+                // Vale o codigo (regra do projeto: ele vence em divergencia), entao o texto
+                // da skill passa a dizer 2,5%. O 8% do status e inconsistencia de dados do
+                // jogo e NAO se conserta por aqui: status nao estao no dicionario de
+                // localizacao, e um campo bruto do asset (fica para o RV-9).
+                "Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.",
+                "Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 2.5%. @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities."
+            },
+            {
                 // "creates an poison gas cloud applies" -> artigo errado + falta conectivo
                 "The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.",
                 "The caster creates a poison gas cloud that applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target."
