@@ -110,8 +110,25 @@ reais: `Battle Ready` diz *"1% of your @Armor@"* e o `expr` é `Source['Armor'] 
 `Invulnerable Winter` diz *"per point"* e o `expr` traz as duas pontas
 (`1 + (.14f * Source.Level)` por ponto, `Source['Intelligence'] * (1 + ...)` no total).
 
-**Limite conhecido:** a fórmula de **dano** (o `*N` do texto) **não** está na skill — está na
-**ação** que ela concede (RV-8b-0c): das 150 skills que usam `*N`, 131 não têm `danoExpr`.
+### A fórmula de dano (`acoes.csv`, RV-8b-0c)
+
+O `*N` do texto é uma **faixa de dano**, e o valor sai de uma corrente que **não** está na skill
+(`Tooltip.GetDamageString` + o trecho de l.1443):
+
+1. a skill olha **só a primeira ação** que concede (`ActionsGranted.FirstOrDefault()`);
+2. dentro dela, a lista de efeitos vem do `TooltipDamageInfoRefAction` **se** existir, senão da
+   própria ação (l.2222) — e, se houver `TooltipDamageInfoRefStatus`, vem do **status** (l.2218);
+3. a lista é dos `GeneralEffect` **na ordem do array, contando as entradas de `Action` vazio** —
+   por isso `nEfeitos`/`nEfeitosRef`, e não o tamanho da lista legível;
+4. os `DamageExpressionOverrides` da **skill** estendem essa lista por índice (l.2240-2252).
+
+Exemplos que fecham: `Holy Slash` diz *"dealing \*0 holy damage … healing \*1"* e as expressões
+são `HolyDamage = AttackPower * 1.2f` + `Healing = AttackPower * 1.5f`; `Chaos Crush` diz
+*"between \*0 and \*1"* com `1.2f` e `6f` (mín/máx); `Meteor` usa `\*1` para o fogo residual.
+
+**Escopo aberto (`RV-8b-0e`):** 12 skills resolvem o dano por um **status**
+(`TooltipDamageInfoRefStatus`) e o censo ainda não despeja os `GeneralEffect` dos status — essas
+não dão para conferir. É lacuna do censo, não defeito do jogo.
 
 ## Vocabulário da coluna `status`
 

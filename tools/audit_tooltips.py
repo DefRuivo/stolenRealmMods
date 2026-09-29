@@ -29,6 +29,8 @@ CSV_SKILLS = os.path.join(RAIZ, "docs", "cobertura", "skills.csv")
 # Detalhe mecanico das skills (RV-8b-0): o que o jogo CALCULA. Sem ele nao da para
 # conferir se o texto aponta para a expressao certa - so da para ler a prosa.
 CSV_DETALHE = os.path.join(RAIZ, "docs", "cobertura", "skills-detalhe.csv")
+# As acoes concedidas (RV-8b-0c): a formula de DANO do `*N` mora aqui, nao na skill.
+CSV_ACOES = os.path.join(RAIZ, "docs", "cobertura", "acoes.csv")
 SAIDA = os.path.join(RAIZ, "docs", "cobertura", "auditoria-tooltips.md")
 
 PLACEHOLDER = re.compile(r"(\*\d+|\[\d+\]|\{[^}]*\}|@[^@]+@)")
@@ -143,6 +145,42 @@ def main():
         if len(aberturas) > 1:
             variantes.append((fecho, aberturas, membros))
 
+    # H: o `*N` (faixa de dano) indexa `effects[N]`, e `effects` NAO é a skill: é a
+    # PRIMEIRA ação concedida (Tooltip l.1443) e, dentro dela, ou o
+    # `TooltipDamageInfoRefAction` (l.2222) ou o `TooltipDamageInfoRefStatus` (l.2218).
+    # A contagem que vale inclui os GeneralEffect de Action vazio — por isso usa
+    # nEfeitos/nEfeitosRef, e não o tamanho da lista de efeitos.
+    acoes = {}
+    if os.path.isfile(CSV_ACOES):
+        with open(CSV_ACOES, encoding="utf-8") as fh:
+            for r in csv.DictReader(fh):
+                acoes[r["nome"]] = r
+    h, h_nv = [], []
+    for r in linhas:
+        idxs = [int(x) for x in re.findall(r"\*(\d)", r["descricao"])]
+        if not idxs:
+            continue
+        det = detalhe.get(r["nome"])
+        if det is None:
+            continue
+        # O jogo usa ActionsGranted.FirstOrDefault() — a primeira, nao a melhor de todas.
+        acs = [a.strip() for a in (det.get("acts") or "").split(";") if a.strip()]
+        if not acs or acs[0] not in acoes:
+            continue
+        ac = acoes[acs[0]]
+        if ac.get("refStatus", "").strip():
+            # O dano vem de um STATUS; o censo ainda não despeja os GeneralEffect dos
+            # status, então NÃO dá para conferir. Não é defeito — é escopo em aberto.
+            h_nv.append((r["arvore"], r["nome"], ",".join(sorted(set(map(str, idxs))))))
+            continue
+        n = int(ac.get("nEfeitosRef") or 0) if ac.get("refAcao", "").strip() else int(ac.get("nEfeitos") or 0)
+        # Os DamageExpressionOverrides da SKILL ESTENDEM a lista de efeitos (Tooltip
+        # l.2240-2252): se a skill tem 2 overrides e a acao 1 efeito, `*1` existe.
+        n_skill = len([x for x in (det.get("danoExpr") or "").split(";") if x.strip()])
+        n = max(n, n_skill)
+        if n <= max(idxs):
+            h.append((r["arvore"], r["nome"], max(idxs), n, r["descricao"]))
+
     def tabela(rows, cabecalho):
         out = ["| %s |" % " | ".join(cabecalho), "|" + "---|" * len(cabecalho)]
         for r in rows:
@@ -160,8 +198,11 @@ def main():
          "| E2 · famílias por **nome** com abertura divergente (precisa) | %d |" % len(familias_nome),
          "| E · famílias por **fecho** com abertura divergente (candidatas) | %d |" % len(variantes),
          "| G · placeholder `[N]` apontando para **expressão inexistente** | %d |" % len(g),
+         "| H · `*N` (dano) fora do alcance da fórmula | %d |" % len(h),
+         "| H · `*N` **não verificável** (dano vem de status — escopo aberto) | %d |" % len(h_nv),
          "\n> Nem todo achado é defeito: D costuma ser skill que **não deve ser explicada**\n"
-         "> (flavor). A auditoria levanta, a revisão decide.\n"]
+         "> (flavor) e H-não-verificável é lacuna do CENSO, não do jogo. A auditoria\n"
+         "> levanta, a revisão decide.\n"]
 
     for titulo, rows, cab in (
         ("A · Sem tipo de dano", a, ["arvore", "skill", "dano", "descricao"]),
@@ -170,6 +211,10 @@ def main():
         ("D · Descricao curta/vazia", d, ["arvore", "skill", "descricao"]),
         ("G · Placeholder [N] fora do alcance das expressões", g,
          ["arvore", "skill", "placeholder", "expressoes", "descricao"]),
+        ("H · Placeholder *N fora do alcance da fórmula de dano", h,
+         ["arvore", "skill", "usado", "a_formula_tem", "descricao"]),
+        ("H · *N não verificável (dano vem de status)", h_nv,
+         ["arvore", "skill", "usado"]),
     ):
         L.append("\n## %s (%d)\n" % (titulo, len(rows)))
         if rows:
@@ -205,6 +250,8 @@ def main():
     print("  E2 familias por nome divergentes: %d" % len(familias_nome))
     print("  E  familias por fecho (candidatas): %d" % len(variantes))
     print("  G  placeholder [N] fora do alcance: %d" % len(g))
+    print("  H  *N fora do alcance da formula: %d" % len(h))
+    print("  H  *N nao verificavel (via status): %d" % len(h_nv))
     print("relatorio: %s" % SAIDA)
     return 0
 
