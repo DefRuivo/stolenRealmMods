@@ -44,7 +44,7 @@ Bristles,Nature,3,None,,sim,"Bristles:Set:1,",Summons gain 50% of your return da
 Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",nao,,Ignite an area in flames. Enemies take *0 fire damage each turn they remain on burning ground.,pendente
 Burning Reach,Fire,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all non-melee abilites by 1 hex. ,corrigido
 Calculated Risk,Thief,4,None,,sim,,When you are hit you have a 100% chance to cast @evasion@. 1 turn cooldown.,pendente
-Call of the Grave,Shadow,1,None,,sim,"CallOfTheGrave:Set:1,",Deal 20% additional damage to enemies below 50% health.,pendente
+Call of the Grave,Shadow,1,None,,sim,"CallOfTheGrave:Set:1,",Deal 20% additional damage to enemies below 50% health.,revisado
 Call of the Wild,Nature,4,None,,sim,"CooldownModSummon:Base:-1,",Summoning skill cooldowns reduced by 1.,revisado
 Called Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.,corrigido
 Cauterize,Fire,2,None,"Beneficial,Ranged",nao,,Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.,pendente
@@ -69,7 +69,7 @@ Cold Heart,Cold,3,None,,sim,"DamageModCold:Base:Source.GetNumStatusesCaused(""GL
 Colossus,Warrior,5,None,,sim,"Colossus:Set:1,",Damage you deal splashes to enemies within 1 hex for 50% of the damage dealt.,pendente
 Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,pendente
 Conduit,Lightning,5,None,,sim,"ExtraTurnActionPoints:Base:1,",Gain an additional action each turn.,pendente
-Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",nao,,Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,pendente
+Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",nao,,Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,revisado
 Contagion,Nature,3,None,,sim,"ContagionSource:Set:1,",Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,revisado
 Contaminated Wound,Thief,4,None,,sim,"ContaminatedWound:Set:1,",Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,pendente
 Contemplation I,Monk,1,None,,sim,"MaxMana:Percentage:10,",Max Mana increased by 10%.,pendente
@@ -88,7 +88,7 @@ Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon dam
 Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,pendente
 Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
-Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,pendente
+Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
 Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,pendente
 Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,pendente
 Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
@@ -126,7 +126,7 @@ Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",nao,,Enchants the target'
 Enchant Fire,Fire,2,None,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 fire damage to attacks. ,pendente
 Enchant Lightning,Lightning,2,Lightning,"Beneficial,Ranged",nao,,Enchants the target's weapon to add *0 lightning damage to attacks. ,pendente
 Encore,Bard,5,None,Beneficial,sim,"BardEncoreChance:Set:50,",Whenever you make an action or free action it has a 50% chance to cast again.,intocavel
-Endless Night,Shadow,5,None,Beneficial,sim,"DamageFlatShadow:Base:Source[""MaxHealth""] * .02f,",Gain 2% of your maximum health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0].,pendente
+Endless Night,Shadow,5,None,Beneficial,sim,"DamageFlatShadow:Base:Source[""MaxHealth""] * .02f,",Gain 2% of your maximum health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0].,corrigido
 Endless Quiver,Ranger,4,None,,sim,"CooldownModRanger:Base:-1,",Reduces all Ranger cooldowns by 1.,revisado
 Endurance I,Monk,1,None,,sim,"MaxHealth:Percentage:10,",Max Health increased by 10%.,pendente
 Endurance II,Monk,2,None,,sim,"MaxHealth:Percentage:15,",Max Health increased by an additional 15%.,pendente
@@ -243,7 +243,7 @@ Magic Hat II,Chaos,3,None,"Beneficial,Ranged",nao,,Produce a random Shrine on th
 Magic Hat III,Chaos,4,None,"Beneficial,Ranged",nao,,Produce a random Globule on the target hex.,pendente
 Maim,Thief,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Applies {STA=Disabled} for 1 turn.,corrigido
 Malevolence,Chaos,4,None,Beneficial,nao,,Applies @Hurting@ to all enemies.,sem-explicacao
-Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",nao,,Removes 20% of the target's max mana and restores 20% of the caster's max mana.,pendente
+Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",nao,,Removes 20% of the target's max mana and restores 20% of the caster's max mana.,revisado
 Mana Shield,Lightning,3,None,,sim,"ManaShield:Base:90,",90% of the damage taken is lost in mana instead of health.,pendente
 Many Sided Strike,Monk,5,Weapon,"Harmful,DealsDamage",nao,,Hit enemies in the target area 5x randomly.  Deals *0 weapon damage per hit. ,corrigido
 Marked Prey,Ranger,5,None,,sim,,Attacks now apply {STA=Marked Prey}.  All stacks are removed at the end of your turn.,corrigido
@@ -326,7 +326,7 @@ Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,"Deals *0 weapo
 Ranger's Gift I,Ranger,3,None,,sim,"PerHexRangeDamageBonus:Base:2,",Every hex between you and your target increases damage dealt by 2%.,revisado
 Ranger's Gift II,Ranger,4,None,,sim,"PerHexRangeDamageBonus:Base:3,",Every hex between you and your target increases damage dealt by an additional 3%.,revisado
 Reaper's Scythe,Shadow,5,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage for every 10% health missing from the target.,pendente
-Reaper's Toll,Shadow,3,None,,sim,,Every enemy that dies heals you for 10% of your maximum health.,pendente
+Reaper's Toll,Shadow,3,None,,sim,,Every enemy that dies heals you for 10% of your maximum health.,revisado
 Recharge,Lightning,4,None,,sim,"Recharge:Set:1,","You have a 33% chance to completely refund the mana cost spent while using abilities. When mana is refunded this way, a random ability will have its cooldown lowered by 1.",pendente
 Redemption,Light,5,None,Beneficial,sim,,Redeem the soul of the first character to die in your party.  The target's health and mana are fully restored.  Does not affect summoned creatures.,corrigido
 Regenerate,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Target restores *0 health per turn. ,pendente
