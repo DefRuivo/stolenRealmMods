@@ -28,6 +28,9 @@ namespace BetterTooltips.Patches
         // Logo: +X% Treasure Find = +X% de chance de drop, acumulando com a party.
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
+            // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
+            // diz no próprio comentário qual atributo/método confirma a mecânica.
             { "+ 20% increased Treasure Find", "\nIncreases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party." },
             { "+ 40% increased Treasure Find", "\nIncreases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party." },
             { "+ 60% increased Treasure Find", "\nIncreases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party." },
@@ -119,6 +122,9 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // ---- Textos de UI e dicas de loading (fontes: o log do boot do jogo) ----
+            // Não estão no censo de tooltips (que cobre skills/status/itens/afixos/
+            // powerups). O defeito era o espaço duplo deixado depois do ponto.
             {
                 "Shops are refreshed every time your party completes a quest.  Check back often for new loot!",
                 "Shops are refreshed every time your party completes a quest. Check back often for new loot!"
