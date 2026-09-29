@@ -64,9 +64,12 @@ def le_tabela(txt, nome):
             literais = []
         for m in LITERAL.finditer(s):
             literais.append(desescapa(m.group(1)))
-        # Fecha a entrada: linha que abre com '}' (formato multi-linha) ou que fecha na
-        # mesma linha (formato { "chave", "valor" },).
-        if s.startswith("}") or (s.startswith("{") and "}" in s[1:]):
+        # Fecha a entrada quando o FIM da linha e '}' ou '},'. Nao basta "contem '}'":
+        # os textos tem tokens como {STA=Bleeding}, que fechariam a entrada no meio. E
+        # nao basta "comeca com '}'": a entrada pode ter o valor e o fechamento na mesma
+        # linha ('"valor" },'), que foi como 4 entradas minhas sumiram do livro.
+        fim = s.rstrip()
+        if fim.endswith("}") or fim.endswith("},"):
             if len(literais) >= 2:
                 entradas.append((secao, " ".join(comentarios), literais[0], literais[1]))
             comentarios, literais = [], []

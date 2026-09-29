@@ -120,10 +120,64 @@ namespace RoguelikeDebugger.Patches
                     $"efeitos={dono} | refAcao={(refAcao != null ? Limpa(refAcao.name) : "")} | " +
                     $"efeitosRef={refe} | " +
                     $"nEfeitos={nDono} | nEfeitosRef={nRef} | " +
+                    $"nSummons={(ac.Summons == null ? -1 : ac.Summons.Count)} | " +
                     $"refStatus={(refStatus != null ? Limpa(refStatus.Name) : "")} | " +
                     $"danoExpr={Junta(ac.DamageExpressionOverrides)} | " +
                     $"expr={Junta(ac.DescriptionExpressions)} | " +
                     $"desc=\"{Limpa(ac.Description)}\"");
+
+                // RV-8b-2h: INVOCAÇÕES. A tooltip de "Nature Summoning I" diz apenas
+                // "Summons a Raven, Coyote, or Raccoon to fight for you." - não diz o que
+                // cada bicho faz. Os dados existem no asset: ActionInfo.Summons é a lista
+                // de CharacterInfo e cada CharacterInfo tem a List<SkillInfo> Skills com
+                // as habilidades dele. As flags (sorteio/herda stats/morre com o caster)
+                // explicam a mecânica que a tooltip também omite.
+                if (ac.Summons != null && ac.Summons.Count > 0)
+                {
+                    var criaturas = new System.Text.StringBuilder();
+                    foreach (var c in ac.Summons)
+                    {
+                        if (c == null)
+                        {
+                            continue;
+                        }
+                        criaturas.Append(Limpa(c.name)).Append('[');
+                        // As habilidades do bicho invocado vêm em SkillsAndAI[].Skill; a
+                        // List<SkillInfo> Skills costuma vir VAZIA nos summons (por isso as
+                        // duas são tentadas, com a segunda só como reserva).
+                        int nHab = 0;
+                        if (c.SkillsAndAI != null)
+                        {
+                            foreach (var sa in c.SkillsAndAI)
+                            {
+                                if (sa != null && sa.Skill != null &&
+                                    !string.IsNullOrEmpty(sa.Skill.SkillName))
+                                {
+                                    criaturas.Append(Limpa(sa.Skill.SkillName)).Append(',');
+                                    nHab++;
+                                }
+                            }
+                        }
+                        if (nHab == 0 && c.Skills != null)
+                        {
+                            foreach (var sk in c.Skills)
+                            {
+                                if (sk != null && !string.IsNullOrEmpty(sk.SkillName))
+                                {
+                                    criaturas.Append(Limpa(sk.SkillName)).Append(',');
+                                }
+                            }
+                        }
+                        criaturas.Append("]; ");
+                    }
+                    Plugin.Log.LogInfo(
+                        $"[Summon] '{nome}' | sorteio={(ac.RandomSummonFromList ? "sim" : "nao")} | " +
+                        $"herdaStats={(ac.BenefitFromCasterStats ? "sim" : "nao")} | " +
+                        $"morreComCaster={(ac.DieWhenCasterDies ? "sim" : "nao")} | " +
+                        $"persistente={(ac.IsPersistantSummon ? "sim" : "nao")} | " +
+                        $"doencaDeInvocacao={(ac.HasSummoningSickness ? "sim" : "nao")} | " +
+                        $"criaturas={criaturas}");
+                }
             }
         }
 
