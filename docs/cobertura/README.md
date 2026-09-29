@@ -83,10 +83,10 @@ Ferramentas de apoio:
 - `python tools/audit_tooltips.py [arvore]` — auditoria de conteúdo das skills (RV-8b):
   tipo de dano declarado, valor dinâmico presente, área mencionada, descrições curtas,
   **famílias de redação divergentes** e **placeholder `[N]` apontando para expressão
-  inexistente**. Escreve `docs/cobertura/auditoria-tooltips.md`.
+  inexistente**. Escreve `docs/cobertura/auditoria-tooltips.md` (arquivo local, fora do git).
 
 - `python tools/scan_tokens.py` — a varredura da gramática de texto (RV-8a).
-- Relatório de cada lote fica em `docs/cobertura/revisao/`.
+- Relatório de cada lote fica em `docs/cobertura/revisao/` (pasta local, fora do git).
 
 ## Detalhe mecânico das skills (`skills-detalhe.csv`)
 
@@ -142,7 +142,7 @@ dígito faz o jogo devolver `Parsing Error with: X` **no lugar do tooltip inteir
 índice de 2+ dígitos (`[10]`) é lido só pelo primeiro dígito — o jogo remove 3 caracteres
 e usa a **expressão errada**. Em itens/afixos, o mesmo padrão é normal.
 
-A varredura `python tools/scan_tokens.py` → `alerta-tokens.md` aplica essa regra:
+A varredura `python tools/scan_tokens.py` → `alerta-tokens.md` (local, fora do git) aplica essa regra:
 em 29/09 deu **0 alertas** nas categorias de expressão e **102 ocorrências esperadas**
 de template em itens/afixos. Ou seja: **não há placeholder vazando** no jogo hoje —
 o que sobra para o `RV-8` é revisão de **conteúdo** (mecânica × texto), não de sintaxe.

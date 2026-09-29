@@ -9,7 +9,7 @@ Mod para **Stolen Realm** que melhora textos, descrições e tooltips — sem al
 ## Compilar
 
 ```powershell
-cd C:\dev\stolen-realm\BetterTooltips
+cd <pasta-do-repo>\BetterTooltips
 dotnet build
 ```
 
@@ -20,7 +20,7 @@ Saída: `bin\Debug\netstandard2.1\BetterTooltips.dll`
 Copiar a DLL para:
 
 ```text
-C:\Users\<usuario>\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\BetterTooltips\
+%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\BetterTooltips\
 ```
 
 ## Testar

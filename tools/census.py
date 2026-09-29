@@ -22,10 +22,14 @@ import os
 import re
 import sys
 
-DEFAULT_LOG = (
-    r"%USERPROFILE%\AppData\Roaming\r2modmanPlus-local\StolenRealm"
-    r"\profiles\Default\BepInEx\LogOutput.log"
-)
+def _appdata():
+    """APPDATA do Windows, com fallback para ~/AppData/Roaming."""
+    return os.environ.get("APPDATA") or os.path.join(
+        os.path.expanduser("~"), "AppData", "Roaming")
+
+DEFAULT_LOG = os.path.join(
+    _appdata(), "r2modmanPlus-local", "StolenRealm", "profiles", "Default",
+    "BepInEx", "LogOutput.log")
 OUT_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
                        "docs", "cobertura")
 
