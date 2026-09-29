@@ -335,8 +335,15 @@ namespace RoguelikeQoL
                     }
                     float baseVal = GetBaseValue(character, baseAttrs[i]);
                     float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
-                    int smallSize = (component.fontSize > 0f) ? Mathf.Max(6, Mathf.RoundToInt(component.fontSize * 0.7f)) : 0;
-                    component.text = FormatBaseCombined(baseVal, combinedVal, smallSize);
+                    component.enableWordWrapping = false;
+                    component.text = BuildInventoryValue(component, baseVal, combinedVal);
+                    if (!_loggedBox)
+                    {
+                        _loggedBox = true;
+                        float bw = component.GetPreferredValues(baseVal.ToString("F0")).x;
+                        float pw = component.GetPreferredValues("(" + combinedVal.ToString("F0") + ")").x;
+                        Plugin.Log.LogInfo($"QoL-3 box: largura={component.rectTransform.rect.width:0.#} fontSize={component.fontSize:0.#} baseW={bw:0.#} parenW={pw:0.#}");
+                    }
                 }
 
                 InventoryStatBaseCombined.LogDiagnostic(character);
@@ -346,6 +353,8 @@ namespace RoguelikeQoL
                 Plugin.Log.LogWarning($"QoL-3 stats (personagem) erro: {e.Message}");
             }
         }
+
+        private static bool _loggedBox;
 
         internal static string FormatBaseCombined(float baseVal, float combinedVal, int smallSize)
         {
@@ -361,6 +370,37 @@ namespace RoguelikeQoL
                 return baseVal.ToString("F0") + " <size=" + smallSize + ">" + parens + "</size>";
             }
             return baseVal.ToString("F0") + " " + parens;
+        }
+
+        /// <summary>
+        /// QoL-3 (inventário): o quadrado do valor é estreito. Mede a largura disponível e encolhe
+        /// SÓ o parêntese o suficiente pra caber, sem quebrar linha.
+        /// </summary>
+        internal static string BuildInventoryValue(TextMeshProUGUI comp, float baseVal, float combinedVal)
+        {
+            string baseText = baseVal.ToString("F0");
+            if (combinedVal == baseVal)
+            {
+                return baseText;
+            }
+            string parenText = "(" + combinedVal.ToString("F0") + ")";
+            float origSize = comp.fontSize;
+            if (origSize <= 0f)
+            {
+                return baseText + " " + parenText;
+            }
+            float boxW = comp.rectTransform.rect.width;
+            float baseW = comp.GetPreferredValues(baseText).x;
+            float spaceW = comp.GetPreferredValues(" ").x;
+            float parenW = comp.GetPreferredValues(parenText).x;
+            if (boxW <= 1f || parenW <= 0.01f)
+            {
+                return FormatBaseCombined(baseVal, combinedVal, Mathf.Max(6, Mathf.RoundToInt(origSize * 0.7f)));
+            }
+            float avail = boxW - baseW - spaceW;
+            float ratio = Mathf.Clamp(avail / parenW, 0.35f, 1f);
+            int parenSize = Mathf.Max(6, Mathf.RoundToInt(origSize * ratio));
+            return baseText + " <size=" + parenSize + ">" + parenText + "</size>";
         }
     }
 
