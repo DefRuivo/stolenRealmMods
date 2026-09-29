@@ -4,8 +4,8 @@
     <!-- netstandard2.1 = mesmo alvo dos assemblies do Unity 2022.3 (Stolen Realm) -->
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>10</LangVersion>
-    <AssemblyName>BetterTexts</AssemblyName>
-    <RootNamespace>BetterTexts</RootNamespace>
+    <AssemblyName>BetterTooltips</AssemblyName>
+    <RootNamespace>BetterTooltips</RootNamespace>
     <Version>0.1.0</Version>
     <Description>Melhora textos, tooltips e descrições do Stolen Realm.</Description>
     <!-- Não copiar as DLLs referenciadas para a saída: elas já existem no jogo/BepInEx -->

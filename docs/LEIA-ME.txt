@@ -7,7 +7,7 @@ O QUE VEM AQUI
 3 mods que melhoram textos, tooltips e a exibicao dos atributos.
 Nenhum deles muda o balanceamento, o conteudo ou os arquivos do jogo.
 
-  BetterTexts   -> textos e tooltips mais claros e corretos
+  BetterTooltips   -> textos e tooltips mais claros e corretos
   BetterStats   -> mostra os atributos como "base (total)"
   BetterFont    -> troca a fonte do jogo por uma serifada (Times New Roman)
 
@@ -45,10 +45,10 @@ O QUE VOCE PRECISA
 7) Na janela que abrir, entre na pasta:  BepInEx  e depois  plugins
 
 8) Copie para DENTRO da pasta "plugins" as pastas que vieram neste pacote
-   (BetterTexts, BetterStats, BetterFont).
+   (BetterTooltips, BetterStats, BetterFont).
 
    ATENCAO: o resultado tem que ficar exatamente assim -
-      ...\BepInEx\plugins\BetterTexts\BetterTexts.dll
+      ...\BepInEx\plugins\BetterTooltips\BetterTooltips.dll
       ...\BepInEx\plugins\BetterStats\BetterStats.dll
       ...\BepInEx\plugins\BetterFont\BetterFont.dll
 
@@ -88,7 +88,7 @@ Funcionou se: no menu a fonte estiver serifada e os tooltips mais claros.
 Para conferir com certeza, abra o arquivo de log:
    ...\BepInEx\LogOutput.log
 e procure por "carregado." - deve ter uma linha para cada mod
-(ex.: "Better Texts carregado.").
+(ex.: "Better Tooltips carregado.").
 
 Desinstalar: apague as pastas dos mods dentro de "BepInEx\plugins".
 Tirar um mod nao afeta os outros. Nada no jogo original e alterado.

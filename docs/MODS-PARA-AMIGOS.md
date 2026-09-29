@@ -26,14 +26,14 @@ O script, em ordem:
 Para mandar só alguns mods:
 
 ```bash
-bash tools/pack-for-friends.sh BetterTexts BetterFont
+bash tools/pack-for-friends.sh BetterTooltips BetterFont
 ```
 
 ### O que entra no pacote
 
 | Mod | Entra? | Por quê |
 |---|---|---|
-| `BetterTexts` | ✅ | textos e tooltips mais claros |
+| `BetterTooltips` | ✅ | textos e tooltips mais claros |
 | `BetterStats` | ✅ | atributos como `base (total)` |
 | `BetterFont` | ✅ | fonte serifada (Times New Roman) |
 | `RoguelikeDebugger` | ❌ | é ferramenta de desenvolvimento — despeja **milhares** de linhas no log; só serve pra nós |
@@ -51,7 +51,7 @@ StolenRealm-Mods/
 ├── LEIA-ME.txt                     <- instruções para o amigo
 └── BepInEx/
     └── plugins/
-        ├── BetterTexts/BetterTexts.dll
+        ├── BetterTooltips/BetterTooltips.dll
         ├── BetterStats/BetterStats.dll
         └── BetterFont/BetterFont.dll
 ```
@@ -79,7 +79,7 @@ Abra `...\BepInEx\LogOutput.log` e procure por `carregado.` — deve ter uma lin
 por mod:
 
 ```
-[Info   :Better Texts] Better Texts carregado.
+[Info   :Better Tooltips] Better Tooltips carregado.
 [Info   :Better Stats] Better Stats carregado.
 [Info   :Better Font] Better Font carregado.
 ```

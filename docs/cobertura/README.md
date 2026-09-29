@@ -37,7 +37,7 @@ Cada CSV tem uma coluna **`status`** — é o checklist:
 |---|---|
 | `pendente` | ainda não revisado (estado inicial de tudo) |
 | `revisado` | conferido contra o código + fontes externas, e o texto atual está correto |
-| `corrigido` | revisado **e** o texto foi alterado no `BetterTexts` |
+| `corrigido` | revisado **e** o texto foi alterado no `BetterTooltips` |
 | `intocavel` | fora de escopo conscientemente (hoje: árvore Bard) |
 
 Abre bem no Excel / Google Sheets / LibreOffice — dá pra filtrar por `arvore`,
