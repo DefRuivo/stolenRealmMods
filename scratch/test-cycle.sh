@@ -14,7 +14,7 @@ WAIT_AFTER="${1:-20}"
 PATTERN="${2:-QoL fonte|Roguelike QoL}"
 
 echo "[1/5] encerrando instância anterior (se houver)..."
-if taskkill //F //IM "Stolen Realm.exe" >/dev/null 2>&1; then
+if taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1; then
   echo "  instância anterior encerrada"
 else
   echo "  nenhuma instância rodando"
@@ -44,11 +44,14 @@ fi
 echo "  aguardando +${WAIT_AFTER}s para o font sweep rodar..."
 sleep "$WAIT_AFTER"
 
-echo "[5/5] linhas relevantes do log:"
+echo "[5/6] capturando screenshot da tela..."
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "C:/dev/stolen-realm/scratch/shot.ps1" -Path "C:/dev/stolen-realm/scratch/shot.png" 2>&1 | tail -1
+
+echo "[6/6] linhas relevantes do log:"
 grep -aE "$PATTERN" "$LOG" 2>/dev/null | sort | uniq -c | sort -rn | head -40 || echo "  (nenhuma linha casou)"
 
 echo "--- encerrando o jogo ---"
-if taskkill //F //IM "Stolen Realm.exe" >/dev/null 2>&1; then
+if taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1; then
   echo "  jogo encerrado."
 else
   echo "  jogo já não estava rodando."
