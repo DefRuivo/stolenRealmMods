@@ -55,12 +55,22 @@ def carrega(nome):
 
 
 def citado(texto, nome):
-    """O texto cita o status? Aceita o nome inteiro ou a palavra mais longa dele."""
+    """
+    O texto cita o status? Aceita o nome inteiro, a palavra, ou o RADICAL de 5 letras.
+
+    O radical existe por causa de dois casos reais que a comparacao por palavra inteira
+    errava: "Stunned" x "Stunning Kick" (mesmo radical, palavra diferente) e "Slow" (4
+    letras - exigir 5 fazia TODA skill que aplica Slow virar suspeita).
+    """
     t = texto.lower()
     if nome.lower() in t:
         return True
-    palavras = [p for p in re.findall(r"[A-Za-z]{5,}", nome) if p.lower() not in GENERICOS]
-    return any(p.lower() in t for p in palavras)
+    for p in re.findall(r"[A-Za-z]{4,}", nome):
+        if p.lower() in GENERICOS:
+            continue
+        if p.lower() in t or p.lower()[:4] in t:
+            return True
+    return False
 
 
 def chaves_do_mod():
