@@ -1,4 +1,5 @@
 using BepInEx;
+using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
 using UnityEngine;
@@ -23,10 +24,30 @@ namespace RoguelikeQoL
     {
         internal static ManualLogSource Log { get; private set; }
 
+        /// <summary>
+        /// HUD desabilitado por padrão (decisão de projeto, 29/09). Para ligar sem recompilar
+        /// nada, edite <c>BepInEx/config/com.gumatos.roguelikeqol.cfg</c> e mude
+        /// <c>AtivarHUD = false</c> para <c>true</c>.
+        /// </summary>
+        internal static ConfigEntry<bool> AtivarHud { get; private set; }
+
         private void Awake()
         {
             Log = Logger;
-            Logger.LogInfo("Roguelike QoL carregado.");
+
+            AtivarHud = Config.Bind(
+                "Geral",
+                "AtivarHUD",
+                false,
+                "Mostra o HUD de modificadores da run no canto superior esquerdo (Treasure Find / Gold Find / Exp Mod). Padrão: false (desligado).");
+
+            if (!AtivarHud.Value)
+            {
+                Logger.LogInfo("Roguelike QoL carregado — HUD DESABILITADO (AtivarHUD=false no config).");
+                return;
+            }
+
+            Logger.LogInfo("Roguelike QoL carregado — HUD habilitado.");
 
             // NÃO criar o updater aqui! Este Awake roda durante o chainloader do BepInEx, ANTES de
             // existir cena — e a Unity DESTRÓI o GameObject na primeira carga de cena (confirmado
