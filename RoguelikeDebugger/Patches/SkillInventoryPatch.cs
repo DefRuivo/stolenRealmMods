@@ -215,6 +215,20 @@ namespace RoguelikeDebugger.Patches
                     $"colisao={(ac.KnockbackCollideAction != null ? ac.KnockbackCollideAction.name : "-")} | " +
                     $"hexesAtiv={(string.IsNullOrEmpty(ac.ActivationIndicatorHexes) ? "-" : ac.ActivationIndicatorHexes.Replace('\n', ','))} | " +
                     $"numHitsEq={(ac.UseNumHitsEquation ? "Sim" : "-")} | " +
+                    // Os DOIS campos que fecham casos concretos que ficaram abertos:
+                    // (a) `DashChainTarget` - a string que escolhe os alvos da corrente. E o
+                    //     candidato ao raio do PUXAO do `Cyclone Kick` ("pulls enemies within
+                    //     4 hexes"), que nao esta em `alcanceHits` (la vem "1") nem no
+                    //     `knockback` (vem "-"): o puxao usa a maquinaria da corrente de dash.
+                    // (b) `StatusRemovals[].ActionOnRemoval` - a acao disparada POR status
+                    //     removido, onde mora o "10% da vida maxima" do `Soul Cleanse`. Uso o
+                    //     `EfeitosDe` que ja existe para ler as expressoes dela.
+                    $"chainAlvo={Limpa(ac.DashChainTarget)} | " +
+                    $"chainMesmoAlvo={(ac.DashChainSameTarget ? "Sim" : "Nao")} | " +
+                    $"remocoes={(ac.StatusRemovals == null ? 0 : ac.StatusRemovals.Length)} | " +
+                    $"remocoesP={(ac.PostActionStatusRemovals == null ? 0 : ac.PostActionStatusRemovals.Length)} | " +
+                    $"remocao={(ac.StatusRemovals != null && ac.StatusRemovals.Length > 0 && ac.StatusRemovals[0].ActionOnRemoval != null ? Limpa(ac.StatusRemovals[0].ActionOnRemoval.name) + "=>" + EfeitosDe(ac.StatusRemovals[0].ActionOnRemoval) : "-")} | " +
+                    $"remocaoTipo={(ac.StatusRemovals != null && ac.StatusRemovals.Length > 0 ? ac.StatusRemovals[0].BenefitType.ToString() + "/" + Limpa(ac.StatusRemovals[0].NumStatusesToRemove) : "-")} | " +
                     $"exprHits={Limpa(ac.NumHitsEquation)} | alcanceHits={Limpa(ac.MultipleHitRange)} | " +
                     $"cooldown={Limpa(ac.Cooldown)} | cargas={Limpa(ac.MaxCharges)}/{Limpa(ac.InitialCharges)} | " +
                     $"precisa={Limpa(ac.UseCondition)} | condFalha={Limpa(ac.UseConditionFailText)} | " +
