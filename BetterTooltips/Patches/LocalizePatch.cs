@@ -33,19 +33,19 @@ namespace BetterTooltips.Patches
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.",
-              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.</color></b>" },
+              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color></b>" },
             // "Power of Mana" (`ManaPowerMod`) nao tinha explicacao em lugar nenhum.
             // Fonte: `num36 = properties.CostsMana ? source["ManaPowerMod"] : 0f` somado em
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.",
-              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.</color></b>" },
+              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color></b>" },
             // "Power of Mana" (`ManaPowerMod`) nao tinha explicacao em lugar nenhum.
             // Fonte: `num36 = properties.CostsMana ? source["ManaPowerMod"] : 0f` somado em
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.",
-              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.</color></b>" },
+              "\n<b><color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color></b>" },
             // OMISSAO (nao mentir por omissao): o efeito real e
             // `Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)`. Os 10% do texto
             // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
@@ -343,7 +343,7 @@ namespace BetterTooltips.Patches
                 // ProcessSummonMasterStats incondicionalmente); o que muda entre eles e o
                 // que o bicho FAZ, nao se ele escala. Ver o bloco do Brambles abaixo.
                 "Raise a Undead Wizard to fight by your side.",
-                "Raise an Undead Wizard to fight by your side.\nUndead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Raise an Undead Wizard to fight by your side.\n<b><color=#8FC1E3>Undead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
             {
                 // espaco duplo no meio + espaco sobrando no fim
@@ -363,20 +363,20 @@ namespace BetterTooltips.Patches
             // Nomes: "Raise Skeletal Archer/Mage/Warrior" -> descricoes diziam "Summon".
             {
                 "Summon a skeletal archer to fight by your side.",
-                "Raise a skeletal archer to fight by your side.\nSkeletal Archer: Ranged Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Raise a skeletal archer to fight by your side.\n<b><color=#8FC1E3>Skeletal Archer: Ranged Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
             {
                 "Summon a skeletal mage to fight by your side.",
-                "Raise a skeletal mage to fight by your side.\nSkeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Raise a skeletal mage to fight by your side.\n<b><color=#8FC1E3>Skeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
             {
                 "Summon a skeletal warrior to fight by your side.",
-                "Raise a skeletal warrior to fight by your side.\nSkeletal Warrior: Melee Attack, Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Raise a skeletal warrior to fight by your side.\n<b><color=#8FC1E3>Skeletal Warrior: Melee Attack, Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
             {
                 // Unico invocador com fecho diferente: 6 usam "by your side", 1 usava "for you".
                 "Raise a Mighty Iron Golem to fight for you.",
-                "Raise a Mighty Iron Golem to fight by your side.\nIron Golem: Ground Slam\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Raise a Mighty Iron Golem to fight by your side.\n<b><color=#8FC1E3>Iron Golem: Ground Slam\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
             {
                 // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
@@ -385,7 +385,7 @@ namespace BetterTooltips.Patches
                 // `10 * Source.Level`, e quem esta nas duas tabelas so executa a CORRECAO
                 // - uma explicacao no TextAppends para este texto nunca rodaria.
                 "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
-                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\nScales with your character level."
+                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\n<b><color=#8FC1E3>Scales with your character level.</color></b>"
             },
 
             // ---- RV-8b-2, grafia/gramatica (29/09) ----
@@ -459,7 +459,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
+                "Summons a Timber Wolf to fight for you.\n<b><color=#8FC1E3>Timber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color></b>"
             },
         };
 
