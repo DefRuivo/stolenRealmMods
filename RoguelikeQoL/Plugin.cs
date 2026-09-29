@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Burst2Flame;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
@@ -66,6 +67,126 @@ namespace RoguelikeQoL
             catch
             {
                 // nunca quebrar a localização por causa da fonte
+            }
+        }
+    }
+
+    /// <summary>
+    /// QoL-3: stats no formato "BASE (COMBINADO)". O jogo guarda os pontos investidos em
+    /// atributos "XBase" (Game.Instance.LevelableCharacterAttributes) e o valor final/combinado
+    /// em "X" (Game.Instance.LevelableCharacterAttributesFinal). A tela de personagem
+    /// (InventoryManager) mostrava só o combinado; a de level up (RoguelikeManager) só a base.
+    /// Agora ambas mostram "base (combinado)" quando diferem.
+    /// </summary>
+    [HarmonyPatch(typeof(InventoryManager), nameof(InventoryManager.UpdateStats))]
+    public static class InventoryStatBaseCombined
+    {
+        private static bool _loggedSample;
+
+        private static void Postfix(InventoryManager __instance, Character character)
+        {
+            try
+            {
+                if (character == null || __instance == null || __instance.AttributesValuesMainHolder == null)
+                {
+                    return;
+                }
+                CharacterAttribute[] baseAttrs = Game.Instance.LevelableCharacterAttributes;
+                CharacterAttribute[] finalAttrs = Game.Instance.LevelableCharacterAttributesFinal;
+                if (baseAttrs == null || finalAttrs == null)
+                {
+                    return;
+                }
+                int count = System.Math.Min(baseAttrs.Length, finalAttrs.Length);
+                for (int i = 0; i < count; i++)
+                {
+                    if (i >= __instance.AttributesValuesMainHolder.childCount || baseAttrs[i] == null || finalAttrs[i] == null)
+                    {
+                        continue;
+                    }
+                    Transform child = __instance.AttributesValuesMainHolder.GetChild(i);
+                    TextMeshProUGUI component = ((child != null) ? child.GetComponent<TextMeshProUGUI>() : null);
+                    if (component == null)
+                    {
+                        continue;
+                    }
+                    float baseVal = Mathf.Ceil(character[baseAttrs[i].name]);
+                    float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
+                    component.text = FormatBaseCombined(baseVal, combinedVal);
+                }
+
+                // Diagnóstico único: registra os pares base/final e seus valores (1x por sessão).
+                if (!_loggedSample)
+                {
+                    _loggedSample = true;
+                    var sb = new System.Text.StringBuilder();
+                    for (int i = 0; i < count; i++)
+                    {
+                        if (baseAttrs[i] != null && finalAttrs[i] != null)
+                        {
+                            sb.Append(baseAttrs[i].name).Append('=').Append(Mathf.Ceil(character[baseAttrs[i].name]))
+                              .Append('/').Append(finalAttrs[i].name).Append('=').Append(Mathf.Ceil(character[finalAttrs[i].name]))
+                              .Append("; ");
+                        }
+                    }
+                    Plugin.Log.LogInfo("QoL-3 stats (personagem): " + sb);
+                }
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Log.LogWarning($"QoL-3 stats (personagem) erro: {e.Message}");
+            }
+        }
+
+        internal static string FormatBaseCombined(float baseVal, float combinedVal)
+        {
+            if (combinedVal != baseVal)
+            {
+                return baseVal.ToString("F0") + " (" + combinedVal.ToString("F0") + ")";
+            }
+            return baseVal.ToString("F0");
+        }
+    }
+
+    [HarmonyPatch(typeof(RoguelikeManager), nameof(RoguelikeManager.UpdateAttributes))]
+    public static class RoguelikeStatBaseCombined
+    {
+        private static void Postfix(RoguelikeManager __instance)
+        {
+            try
+            {
+                if (__instance == null || __instance.StatValues == null)
+                {
+                    return;
+                }
+                Character character = __instance.CurrentRoguelikeSkillSelectingCharacter;
+                if (character == null)
+                {
+                    return;
+                }
+                CharacterAttribute[] baseAttrs = Game.Instance.LevelableCharacterAttributes;
+                CharacterAttribute[] finalAttrs = Game.Instance.LevelableCharacterAttributesFinal;
+                if (baseAttrs == null || finalAttrs == null)
+                {
+                    return;
+                }
+                int count = System.Math.Min(baseAttrs.Length, finalAttrs.Length);
+                var sb = new System.Text.StringBuilder();
+                for (int i = 0; i < count; i++)
+                {
+                    if (baseAttrs[i] == null || finalAttrs[i] == null)
+                    {
+                        continue;
+                    }
+                    float baseVal = Mathf.Ceil(character[baseAttrs[i].name]);
+                    float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
+                    sb.Append(InventoryStatBaseCombined.FormatBaseCombined(baseVal, combinedVal)).Append('\n');
+                }
+                __instance.StatValues.text = sb.ToString();
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Log.LogWarning($"QoL-3 stats (level up) erro: {e.Message}");
             }
         }
     }
