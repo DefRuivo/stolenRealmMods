@@ -99,7 +99,10 @@ namespace RoguelikeQoL
                 int n = System.Math.Min(baseAttrs.Length, finalAttrs.Length);
                 for (int i = 0; i < n; i++)
                 {
-                    sb.Append("; ").Append(baseAttrs[i].name).Append('=').Append(Mathf.Ceil(character[baseAttrs[i].name]))
+                    float savedVal = (character.SavedMap != null && character.SavedMap.ContainsKey(baseAttrs[i].Guid))
+                        ? Mathf.Ceil(character.SavedMap[baseAttrs[i].Guid]) : -1f;
+                    sb.Append("; ").Append(baseAttrs[i].name).Append(":saved=").Append(savedVal)
+                      .Append(",val=").Append(Mathf.Ceil(character[baseAttrs[i].name]))
                       .Append('/').Append(finalAttrs[i].name).Append('=').Append(Mathf.Ceil(character[finalAttrs[i].name]));
                 }
                 sb.Append(" | AbilityPower=").Append(Mathf.Ceil(character["AbilityPower"]));
@@ -291,6 +294,18 @@ namespace RoguelikeQoL
             }
         }
 
+        internal static float GetBaseValue(Character character, CharacterAttribute baseAttr)
+        {
+            // "Base" = valor PURO do atributo (criação + pontos de level up), sem powerups/gear/skills.
+            // O SavedMap guarda exatamente isso; o character[nome] já vem com TODOS os modificadores
+            // (inclusive o +20% da Light's Brilliance), por isso não serve como "base".
+            if (character.SavedMap != null && character.SavedMap.ContainsKey(baseAttr.Guid))
+            {
+                return Mathf.Ceil(character.SavedMap[baseAttr.Guid]);
+            }
+            return Mathf.Ceil(character[baseAttr.name]);
+        }
+
         private static void Postfix(InventoryManager __instance, Character character)
         {
             try
@@ -318,7 +333,7 @@ namespace RoguelikeQoL
                     {
                         continue;
                     }
-                    float baseVal = Mathf.Ceil(character[baseAttrs[i].name]);
+                    float baseVal = GetBaseValue(character, baseAttrs[i]);
                     float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
                     component.text = FormatBaseCombined(baseVal, combinedVal);
                 }
@@ -371,7 +386,7 @@ namespace RoguelikeQoL
                     {
                         continue;
                     }
-                    float baseVal = Mathf.Ceil(character[baseAttrs[i].name]);
+                    float baseVal = InventoryStatBaseCombined.GetBaseValue(character, baseAttrs[i]);
                     float combinedVal = Mathf.Ceil(character[finalAttrs[i].name]);
                     sb.Append(InventoryStatBaseCombined.FormatBaseCombined(baseVal, combinedVal)).Append('\n');
                 }
