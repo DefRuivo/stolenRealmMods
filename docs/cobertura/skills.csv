@@ -1,5 +1,5 @@
 nome,arvore,tier,dano,tags,passivo,attr,descricao,status
-Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",nao,,Hurls an orb of dark energy dealing *0 shadow damage to all targets in range.,pendente
+Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",nao,,Hurls an orb of dark energy dealing *0 shadow damage to all targets in range.,revisado
 Adaptation I,Nature,1,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 6 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 6 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 6 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 6 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain a 6% resistance to the last type of damage taken.,revisado
 Adaptation II,Nature,2,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain an additional 9% resistance to the last type of damage taken.,revisado
 Affinity,Chaos,3,None,,sim,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
@@ -60,7 +60,7 @@ Chaos Cut,Chaos,2,Weapon,"DealsDamage,Harmful,Elemental",nao,,Summons a whirling
 Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",nao,,Enchant an ally with a random chaos modifier.,sem-explicacao
 Charge,Warrior,2,Weapon,"Harmful,DealsDamage",nao,,Charges to the target and deals *0 weapon damage to all enemies in your path.,pendente
 Chi Strike,Monk,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Strike an enemy dealing *0 weapon damage.  Reduces the targets damage dealt by 20% for 1 turn.,corrigido
-Child of the Abyss,Shadow,5,None,Beneficial,sim,"MaxHealth:Percentage:100, ChildOfTheAbyss:Set:1,",Increases @Max Health@ by 100%. Can no longer be healed by any means other than life steal.,pendente
+Child of the Abyss,Shadow,5,None,Beneficial,sim,"MaxHealth:Percentage:100, ChildOfTheAbyss:Set:1,",Increases @Max Health@ by 100%. Can no longer be healed by any means other than life steal.,revisado
 Chilling Strike,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Melee",nao,,The caster's hand becomes imbued with frost thrusting it at the target dealing *0 cold damage.,pendente
 Circle of Life,Nature,4,None,,sim,,"When an enemy dies, you have a 50% chance to spawn a Good Bloom or Bad Bloom.",revisado
 Cleave,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.,pendente
@@ -83,13 +83,13 @@ Crystalize I,Cold,1,None,,sim,"ResistPhysical:Base:5,",Increases @Physical Resis
 Crystalize II,Cold,2,None,,sim,"ResistPhysical:Base:10,",Increases @Physical Resistance@ by an additional 10%.,pendente
 Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",nao,,Charm the enemy target for 1 turn.  Cannot target bosses.,corrigido
 Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,pendente
-Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,pendente
+Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,revisado
 Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
 Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,pendente
 Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,pendente
 Dark Pact,Shadow,2,None,,sim,"DamageMod:Base:30, MaxHealth:Percentage:-20,",Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,corrigido
-Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,pendente
+Dark Ritual,Shadow,4,None,"Beneficial,Ranged",nao,,Target cannot drop below 1 hp while active.,revisado
 Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,pendente
 Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
 Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a dagger dealing *0 weapon damage.  Deals 50% additional @critical hit damage@.,corrigido
@@ -221,10 +221,10 @@ Kindling,Fire,3,None,,sim,"StartAPMod:Base:1,",Gain an additional action the fir
 Kindred Spirit,Light,2,None,Beneficial,sim,"HealingReturned:Base:20,",All healing you do to others also heals you for 20% of the amount healed.,pendente
 Lasting Flame,Fire,3,None,,sim,"HeatDurationMod:Base:2,",@Heat@ lasts 2 addtional turns.,pendente
 Laxing Lullaby,Bard,4,None,Harmful,nao,,(Global) Put all enemies to sleep for 2 turns. 5 turn cooldown. Action.,intocavel
-Leech Dexterity,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.,pendente
-Leech Intelligence,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.,pendente
-Leech Might,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.,pendente
-Lich Lord,Shadow,5,None,Beneficial,sim,"LichLord:Set:1,",Removes the AP cost from all summoning skills.,pendente
+Leech Dexterity,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.,revisado
+Leech Intelligence,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.,revisado
+Leech Might,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.,revisado
+Lich Lord,Shadow,5,None,Beneficial,sim,"LichLord:Set:1,",Removes the AP cost from all summoning skills.,revisado
 Life Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.  Lifesteals for 10% per target hit.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Light's Beckon,Light,3,None,,nao,,Teleport any target on the battlefield within 3 hexes of your character.,pendente
 Light's Brilliance,Light,3,None,Beneficial,sim,"IntelligenceBase:Percentage:20,",Increase @intelligence@ by 20%.,pendente
@@ -275,8 +275,8 @@ Natural Selection,Nature,4,None,,sim,,When an Ally or an Enemy dies gain 5% of y
 Nature Summoning I,Nature,1,None,Ranged,nao,,"Summons a Raven, Coyote, or Raccoon to fight for you.",revisado
 Nature Summoning II,Nature,3,None,Ranged,nao,,"Summons a Stag, Wolf, or Boar to fight for you.",revisado
 Nature Summoning III,Nature,5,None,Ranged,nao,,"Summons a Bear, Moose, or Panther to fight for you.",revisado
-Necromancer I,Shadow,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health.,pendente
-Necromancer II,Shadow,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health.,pendente
+Necromancer I,Shadow,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health.,revisado
+Necromancer II,Shadow,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health.,revisado
 Omnism I,Chaos,1,None,,sim,"ShrineEffectBonus:Base:8,",Increases the effectiveness of shrines by 8%.,pendente
 Omnism II,Chaos,2,None,,sim,"ShrineEffectBonus:Base:20,",Increases the effectiveness of shrines by an additional 12%.,pendente
 One Punch Monk,Monk,5,None,,sim,,"The first damaging or healing ability you use on your turn has its effectiveness tripled, after which you are unable to use any more damaging or healing abilities that turn.",pendente
@@ -317,7 +317,7 @@ Raise Iron Golem,Shadow,5,None,Ranged,nao,,Raise a Mighty Iron Golem to fight fo
 Raise Skeletal Archer,Shadow,1,None,Ranged,nao,,Summon a skeletal archer to fight by your side.,corrigido
 Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",nao,,Summon a skeletal mage to fight by your side.,corrigido
 Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",nao,,Summon a skeletal warrior to fight by your side.,corrigido
-Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",nao,,Raise an Undead Berserker to fight by your side.,pendente
+Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",nao,,Raise an Undead Berserker to fight by your side.,revisado
 Raise Undead Ranger,Shadow,1,None,Ranged,nao,,Raise an Undead Ranger to fight by your side.,revisado
 Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",nao,,Raise a Undead Wizard to fight by your side.,corrigido
 Rally,Ranger,1,None,"Beneficial,AreaEffect",nao,,Increases movement of all allies within 4 hexes by 3.,revisado
@@ -325,7 +325,7 @@ Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon
 Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,"Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",pendente
 Ranger's Gift I,Ranger,3,None,,sim,"PerHexRangeDamageBonus:Base:2,",Every hex between you and your target increases damage dealt by 2%.,revisado
 Ranger's Gift II,Ranger,4,None,,sim,"PerHexRangeDamageBonus:Base:3,",Every hex between you and your target increases damage dealt by an additional 3%.,revisado
-Reaper's Scythe,Shadow,5,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage for every 10% health missing from the target.,pendente
+Reaper's Scythe,Shadow,5,Shadow,"Harmful,DealsDamage,Ranged",nao,,Deals *0 shadow damage for every 10% health missing from the target.,revisado
 Reaper's Toll,Shadow,3,None,,sim,,Every enemy that dies heals you for 10% of your maximum health.,revisado
 Recharge,Lightning,4,None,,sim,"Recharge:Set:1,","You have a 33% chance to completely refund the mana cost spent while using abilities. When mana is refunded this way, a random ability will have its cooldown lowered by 1.",pendente
 Redemption,Light,5,None,Beneficial,sim,,Redeem the soul of the first character to die in your party.  The target's health and mana are fully restored.  Does not affect summoned creatures.,corrigido
@@ -342,7 +342,7 @@ Savage Scorn,Bard,1,None,Harmful,nao,,Increases the damage the target takes by 2
 Seal of Might,Light,3,None,Beneficial,nao,,Increase damage of all allies within 3 hexes by 30%.,pendente
 Seal of Protection,Light,2,None,Beneficial,nao,,Decreases damage taken by 10% for you and allies within 3 hexes.,pendente
 Seal of Salvation,Light,5,None,Beneficial,nao,,All allies within 3 hexes of you heal for *0 per turn. ,pendente
-Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",nao,,Breathe out a stream of shadow energy dealing *0 shadow damage to all enemies in range.,pendente
+Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",nao,,Breathe out a stream of shadow energy dealing *0 shadow damage to all enemies in range.,revisado
 Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Slash nearby targets dealing *0 shadow damage to all enemies in range.,pendente
 Shadow Walk,Thief,4,None,,nao,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,corrigido
 Shapeshift Dire Werewolf,Nature,5,None,,nao,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,pendente
@@ -370,8 +370,8 @@ Song of Swiftness,Bard,3,None,Beneficial,nao,,(Song) Allies within 4 hexes of yo
 Soul Cleanse,Monk,4,Healing,Beneficial,nao,,Removes all negative status effects from target ally. Each status effect removed heals the target for 10% of their max health.   Can be used when Disabled.,pendente
 Soul Crush,Shadow,3,Shadow,"Harmful,DealsDamage,Ranged",nao,,Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ,corrigido
 Soul Exchange,Shadow,5,None,"Harmful,DealsDamage,Ranged",nao,,"Swaps the life force of both you and a target, dealing *0 @Shadow Damage@ based on your missing Health. @Lifesteals@ 100%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect abilities.",corrigido
-Soul Link,Shadow,4,Shadow,Ranged,nao,,All damage and healing dealt to one target is also dealt to the linked target.,pendente
-Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,pendente
+Soul Link,Shadow,4,Shadow,Ranged,nao,,All damage and healing dealt to one target is also dealt to the linked target.,revisado
+Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,revisado
 Speed,Monk,4,None,,sim,"DexterityBase:Percentage:15, ReflexBase:Percentage:15,",Increases @Dexterity@ and @Reflex@ by 15%.,pendente
 Staff Attack,Basic,0,None,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Staff Attack,Basic,0,Healing,"Beneficial,Ranged",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
@@ -438,7 +438,7 @@ Unyielding Contender,Warrior,5,None,Beneficial,nao,,"Grants 50% increased Armor,
 Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
 Variety II,Chaos,4,None,,sim,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,pendente
-Vengeful Shadows,Shadow,2,None,,sim,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Grants [0] Return Shadow Damage.,pendente
+Vengeful Shadows,Shadow,2,None,,sim,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Grants [0] Return Shadow Damage.,revisado
 Venomous Skin,Nature,2,None,"Beneficial,Ranged",nao,,Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.,revisado
 Verse of Valor,Bard,1,None,Beneficial,nao,,"(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",intocavel
 Vitality Break,Warrior,4,None,"Harmful,DealsDamage",nao,,Consumes 50% of your @current health@ to deal *0 weapon damage. Damage is increased by how much health is consumed. ,pendente
