@@ -8,9 +8,12 @@ Responde, skill por skill, as perguntas que o olho humano esquece de fazer:
   B. a skill causa dano e o texto NAO tem valor dinamico (numero fixo/ausente)?
   C. a skill tem efeito em AREA e o texto NAO fala de area?
   D. a descricao e curta/vazia? (candidata a "nao deve ser explicada" - flavor)
-  E. familias de redacao: descricoes com o mesmo fecho divergem na abertura?
-     (e o que pega "Summona skeletal..." vs "Raise an Undead..." - o padrao
-      deve seguir a MAIORIA, e a maioria costuma estar no proprio nome da skill)
+  E. familias por FECHO de frase com abertura divergente  (candidata, frouxa)
+  E2. familias por NOME com abertura divergente           (precisa - regra da maioria)
+  G. placeholder [N] que aponta para uma expressao que NAO EXISTE (RV-8b-0)
+     -> so foi possivel depois do dump passar a trazer DescriptionExpressions.
+        A gramatica do jogo le UM digito e usa expr[N] (RV-8a); se N passa do
+        tamanho do array, o valor sai errado/vazio e o TEXTO PARECE CERTO.
 
 Uso:   python tools/audit_tooltips.py [arvore]      (sem arvore = todas)
 Saida: docs/cobertura/auditoria-tooltips.md
@@ -23,9 +26,13 @@ from collections import Counter, defaultdict
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CSV_SKILLS = os.path.join(RAIZ, "docs", "cobertura", "skills.csv")
+# Detalhe mecanico das skills (RV-8b-0): o que o jogo CALCULA. Sem ele nao da para
+# conferir se o texto aponta para a expressao certa - so da para ler a prosa.
+CSV_DETALHE = os.path.join(RAIZ, "docs", "cobertura", "skills-detalhe.csv")
 SAIDA = os.path.join(RAIZ, "docs", "cobertura", "auditoria-tooltips.md")
 
 PLACEHOLDER = re.compile(r"(\*\d+|\[\d+\]|\{[^}]*\}|@[^@]+@)")
+PLACEHOLDER_N = re.compile(r"\[(\d+)\]")
 CURTO = 25
 AREA = re.compile(r"hex|area|all enemies|within|radius|nearby|around", re.I)
 DINAMICO = re.compile(r"\*\d|\[\d")
@@ -41,8 +48,25 @@ def palavras(desc):
     return re.findall(r"[a-z']+", mascara(desc))
 
 
+def carrega_detalhe():
+    """nome -> linha do skills-detalhe.csv (o detalhe mecanico do RV-8b-0)."""
+    det = {}
+    if not os.path.isfile(CSV_DETALHE):
+        return det
+    with open(CSV_DETALHE, encoding="utf-8") as fh:
+        for r in csv.DictReader(fh):
+            det[r["nome"]] = r
+    return det
+
+
+def n_expressoes(txt):
+    """Quantas expressoes o jogo tem para esta skill (o dump junta com '; ')."""
+    return len([x for x in (txt or "").split("; ") if x.strip()])
+
+
 def main():
     filtro = sys.argv[1].lower() if len(sys.argv) > 1 else None
+    detalhe = carrega_detalhe()
     linhas = []
     with open(CSV_SKILLS, encoding="utf-8") as fh:
         for r in csv.DictReader(fh):
@@ -52,7 +76,7 @@ def main():
                 continue
             linhas.append(r)
 
-    a, b, c, d = [], [], [], []
+    a, b, c, d, g = [], [], [], [], []
     por_arvore = defaultdict(list)
     for r in linhas:
         nome, arvore, tags = r["nome"], r["arvore"], r["tags"]
@@ -75,6 +99,14 @@ def main():
 
         if len(desc) < CURTO:
             d.append((arvore, nome, desc))
+
+        # G: o texto manda o jogador olhar para expr[N] - esse indice existe?
+        det = detalhe.get(nome)
+        if det is not None:
+            total_expr = n_expressoes(det.get("expr", ""))
+            for idx in PLACEHOLDER_N.findall(desc):
+                if int(idx) >= total_expr:
+                    g.append((arvore, nome, "[" + idx + "]", total_expr, desc))
 
     # E2 (precisa): familias pelo NOME - skills que compartilham a primeira palavra do
     # nome (Raise *, Leech *, Thirst *) devem abrir a descricao do mesmo jeito.
@@ -111,7 +143,7 @@ def main():
         if len(aberturas) > 1:
             variantes.append((fecho, aberturas, membros))
 
-    def tabela(rows, cols, cabecalho):
+    def tabela(rows, cabecalho):
         out = ["| %s |" % " | ".join(cabecalho), "|" + "---|" * len(cabecalho)]
         for r in rows:
             out.append("| " + " | ".join(str(x).replace("|", "\\|")[:110] for x in r) + " |")
@@ -127,19 +159,21 @@ def main():
          "| D · descrição **curta/vazia** (candidata a flavor) | %d |" % len(d),
          "| E2 · famílias por **nome** com abertura divergente (precisa) | %d |" % len(familias_nome),
          "| E · famílias por **fecho** com abertura divergente (candidatas) | %d |" % len(variantes),
+         "| G · placeholder `[N]` apontando para **expressão inexistente** | %d |" % len(g),
          "\n> Nem todo achado é defeito: D costuma ser skill que **não deve ser explicada**\n"
-         "> (flavor) e A/B podem ser texto gerado por expressão. A auditoria levanta, a\n"
-         "> revisão decide.\n"]
+         "> (flavor). A auditoria levanta, a revisão decide.\n"]
 
-    for titulo, rows, cols, cab in (
-        ("A · Sem tipo de dano", a, None, ["arvore", "skill", "dano", "descricao"]),
-        ("B · Sem valor dinâmico", b, None, ["arvore", "skill", "descricao"]),
-        ("C · Area sem texto de area", c, None, ["arvore", "skill", "descricao"]),
-        ("D · Descricao curta/vazia", d, None, ["arvore", "skill", "descricao"]),
+    for titulo, rows, cab in (
+        ("A · Sem tipo de dano", a, ["arvore", "skill", "dano", "descricao"]),
+        ("B · Sem valor dinâmico", b, ["arvore", "skill", "descricao"]),
+        ("C · Area sem texto de area", c, ["arvore", "skill", "descricao"]),
+        ("D · Descricao curta/vazia", d, ["arvore", "skill", "descricao"]),
+        ("G · Placeholder [N] fora do alcance das expressões", g,
+         ["arvore", "skill", "placeholder", "expressoes", "descricao"]),
     ):
         L.append("\n## %s (%d)\n" % (titulo, len(rows)))
         if rows:
-            L += tabela(rows, cols, cab)
+            L += tabela(rows, cab)
         else:
             L.append("Nenhum.\n")
 
@@ -149,27 +183,28 @@ def main():
              "costuma estar no próprio nome:\n")
     for prefixo, aberturas, membros in familias_nome:
         L.append("\n**%s \\*** — aberturas: %s\n" % (prefixo, dict(aberturas)))
-        L += tabela([(m["nome"], m["arvore"], m["descricao"]) for m in membros], None,
+        L += tabela([(m["nome"], m["arvore"], m["descricao"]) for m in membros],
                     ["skill", "arvore", "descricao"])
 
     L.append("\n## E · Famílias por FECHO divergentes — candidatas (%d)\n" % len(variantes))
-    L.append("Mesmo fecho de frase, abertura diferente — é aqui que se aplica a regra "
-             "do **padrão da maioria** (a maioria costuma estar no próprio nome da skill):\n")
+    L.append("Mesmo fecho de frase, abertura diferente. Lista frouxa de propósito: quase "
+             "tudo aqui são templates diferentes que por acaso terminam igual.\n")
     for fecho, aberturas, membros in variantes:
         L.append("\n**…%s** — aberturas: %s\n" % (" ".join(fecho), dict(aberturas)))
-        L += tabela([(m["nome"], m["arvore"], m["descricao"]) for m in membros], None,
+        L += tabela([(m["nome"], m["arvore"], m["descricao"]) for m in membros],
                     ["skill", "arvore", "descricao"])
 
     with open(SAIDA, "w", encoding="utf-8") as fh:
         fh.write("\n".join(L) + "\n")
 
     print("skills auditadas: %d" % len(linhas))
-    print("  A sem tipo de dano : %d" % len(a))
-    print("  B sem valor dinamico: %d" % len(b))
-    print("  C area sem texto   : %d" % len(c))
-    print("  D curta/vazia      : %d" % len(d))
+    print("  A  sem tipo de dano : %d" % len(a))
+    print("  B  sem valor dinamico: %d" % len(b))
+    print("  C  area sem texto   : %d" % len(c))
+    print("  D  curta/vazia      : %d" % len(d))
     print("  E2 familias por nome divergentes: %d" % len(familias_nome))
     print("  E  familias por fecho (candidatas): %d" % len(variantes))
+    print("  G  placeholder [N] fora do alcance: %d" % len(g))
     print("relatorio: %s" % SAIDA)
     return 0
 

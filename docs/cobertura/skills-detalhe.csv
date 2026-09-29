@@ -1,0 +1,454 @@
+nome,skid,passivo,acts,pstat,attr,expr,danoExpr,upg
+Abyssal Night,d1041350-7f20-4596-b243-f3831e8fa8d1,nao,Dragonkin Shadow Orb;,,,Source.SpellPower('Shadow') * 2.3f * Source.DamageModShadow,,
+Adaptation I,267937da-0635-4d70-af98-21e3cbd27499,sim,,,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 6 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 6 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 6 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 6 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",,,I
+Adaptation II,842ef055-44d4-4138-9b0b-48b8c1533b7d,sim,,,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",,,II
+Affinity,ec7bba0a-75d9-4646-ad4c-0267685eada1,sim,,,,,,
+Aid,9030db1e-ca83-43a1-87f3-5d8dd75c712a,sim,,,,,,
+Ambush I,0fb33435-02b7-411d-90c4-e073308bf0b5,sim,,,"Ambush:Base:16,",,,I
+Ambush II,45cb6d85-689c-4415-97f6-12e7d9882e35,sim,,,"Ambush:Base:24,",,,II
+Animal Companion Grizzly,4ce83329-4e68-4ef5-ac60-aeb372e25794,nao,Animal Companion Grizzly;,,,,,
+Ascendancy,75ed1c62-f8d7-426d-b063-494aeebbeed5,nao,Ascendancy;,,,,,
+Aura of Flame,8fae3562-a68f-4d52-bfbe-395f1a0c01c5,nao,Aura Of Flame;,,,Source.SpellPower() * .4f * Source.DamageModFire,,
+Aura Of Frost,4a94cc56-f32a-4773-ba12-0827b5808c70,nao,Aura Of Frost;,,,Source.SpellPower() * .4f * Source.DamageModCold,,
+Aura of Lightning,df7e0633-bc4d-48e6-ae0b-2e125f1625a7,nao,Aura of Lightning;,,,Source.SpellPower() * .4f * Source.DamageModLightning,,
+Avatar of Flame,ac488fd4-a38f-4644-bb03-25c79513ae36,sim,,,"AvatarOfFlame:Set:1,","Source.GetCustomActionDamage('GL-HeatStatus', 'TargetStored[\'FireDamage\'] = Source.SpellPower(\'Fire\') * .2f')",,
+Bash,c3f229d9-174a-4988-ab36-67001bbecc28,nao,Bash;,,,Source.AttackPower * 1.2f * Source.DamageModPhysical,,
+Battle Ready,7b710cc6-2b07-41a7-9096-bde41e3c5dee,sim,,,"AdditionalWeaponDamage:Base:Source[""Armor""] * .01f,",Source['Armor'] * .01f,,
+Beast Master I,6c4546b0-f8a6-406a-9475-179ac57153e5,sim,,,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",,,I
+Beast Master I,f22f6abc-b3e8-47bc-9bc9-10a9901b0dd3,sim,,,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",,,I
+Beast Master II,e7bbab62-2417-45c7-8092-f8c66224c48b,sim,,,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",,,II
+Beast Master II,6669e65c-dd80-4374-8c7c-7eaa0ada8220,sim,,,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",,,II
+Benevolence,56f9fd71-921b-4667-95d9-84f48848c39e,nao,Benevolence;,,,,,
+Berserker's Rage,daf77151-9d46-49ca-9438-8abaaebb392e,nao,Berserker's Rage;,,,,,II
+Beserker's Blood,8f751cb7-2e2a-46c2-a02b-1d9d319203a2,sim,,,"DamageMod:Base:Source.HealthRatioInverse * 100,",,,
+Blasting Shot,d080974f-ceb6-4fde-ab75-c41ba8d3b8e5,nao,Blasting Shot;,,,Source.AttackPower * 1f * Source.DamageModPhysical,,
+Bleeding Cleave,03628d3c-9d0b-4804-8f75-79cce1222ca0,nao,Bleeding Cleave;,,,Source.AttackPower * 1f * Source.DamageModPhysical,,II
+Bleeding Shot,0b3345ec-9efb-4097-b674-73b0ae381105,nao,Bleeding Shot;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Bless,2582ea06-e53a-49f0-95e5-81b8d48ec8d1,nao,Bless;,,,,,
+Blessed By Light I,f3d22122-6b74-4eb0-8df4-4b6354dcd69e,sim,,,"ManaCostMod:Base:-10,",,,I
+Blessed By Light II,4318fd54-4e40-4bda-a310-3f6d2d664422,sim,,,"ManaCostMod:Base:-15,",,,II
+Blind,0ed4a298-677b-4b0c-86d5-70228e8fff64,nao,Blind;,,,Source.SpellPower() * 1.1f * Source.DamageModShadow,,
+Blinding Light,bed3679a-0022-447f-9a02-91335a600adc,nao,Blinding Light;,,,Source.SpellPower() * .8f * Source.DamageModHealing,,
+Blood Drinker,336ba30d-cb5f-458a-b50a-e4fabf19612a,sim,,,"DamageModBasic:Base:50, LifeOnHitBasic:Base:5,",,,
+Blood Howl,db0bd7ac-9b20-435a-88f3-d91199eb16eb,nao,Blood Howl;,,,Source.AttackPower * .8f * Source.DamageModPhysical; 4,,
+Bloodlet,7076c2cd-d3e5-483d-8164-8984dc5fb701,nao,Bloodlet;,,,,,
+Body and Soul,184c8456-b735-4b54-99d7-783ce74bec61,sim,,,"Armor:Base:Source[""Vitality""] * 5, MagicArmor:Base:Source[""Intelligence""] * 5,",,,
+Bolstering Ballad,92bdd61b-76d0-41f0-9427-4c9fdd6ea6ad,nao,Bolstering Ballad;,,,,,
+Bone Collector,c9d81dd2-97e9-48e3-b15d-ced7ac32c16c,sim,,,,,,
+Bounty Hunter's Mark,b05f44e2-e9aa-435a-b29d-b1012a42b466,nao,Bounty Hunter's Mark;,,,,,II
+Brain Freeze,c311cbb4-a500-4e09-92f8-94bd89077ef8,nao,Brain Freeze;,,,,,
+Brambles,5e4dbe13-58ca-4ee5-bba5-78041c8fe660,nao,Brambles;,,,,,
+Branching Shot,5c78ba1d-0174-42eb-a2f2-b8b5cf4a8060,nao,Branching Shot;,,,Source.AttackPower * 2f * Source.DamageModPhysical; Source.AttackPower * .5f * Source.DamageModPhysical,,II
+Break The Ice,27017ff7-2c25-4374-97fd-dd8ce0c98d9a,sim,,,,,,
+Breath of Life,60354f76-0a7c-4438-9008-85df8037405a,nao,Dragonkin Holy Breath;,,,Source.SpellPower('Light') * 1.6f * Source.DamageModLight,,
+Breath of Winter,e5467ec0-99ad-45b4-85d2-463450c3cb5e,nao,Breath of Winter;,,,Source.SpellPower() * 1.6f * Source.DamageModCold,,
+Bristles,224c1d93-c089-45b8-94f8-6d5e5b5fa11e,sim,,,"Bristles:Set:1,",,,
+Burning Ground,6f8d77e8-aec2-49ee-8656-864e4ed013ea,nao,Burning Ground;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Burning Reach,5cbfa82e-8475-4390-aad9-f68e6c47ffb8,sim,,,"RangeTypeAdderRanged:Base:1,",,,
+Calculated Risk,24555c5e-d863-48dc-ac71-28878e514777,sim,,,,,,
+Call of the Grave,95912c7c-d6e9-4811-b884-b11644171b81,sim,,,"CallOfTheGrave:Set:1,",,,
+Call of the Wild,6161d951-49a1-485f-9e07-6fb3ea723f00,sim,,,"CooldownModSummon:Base:-1,",,,
+Called Shot,931e74d0-1ddf-4d93-9f29-7d87830d47ba,nao,Called Shot;,,,Source.AttackPower * 1.2f * Source.DamageModPhysical; Source.AttackPower * .075f * Source.DamageModPhysical,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1.2f),II
+Cauterize,7f89aae2-820b-4ef5-9280-992d75eba7c6,nao,Cauterize;,,,,,
+Celestial Light,01a2099f-60d5-4768-b729-7e259bd8cdd1,nao,Dragonkin Holy Blast;,,,,TargetStored['HolyDamage'] = Source.SpellPower('Light') * 2f; TargetStored['Healing'] = Source.SpellPower('Light') * 2.3f,
+Chain Frost,b23ba4f5-c901-432c-b0b7-8462836f5a98,nao,Chain Frost;,,,Source.SpellPower() * .5f * Source.DamageModCold,,
+Chain Lightning,eb59a98e-0811-40fd-ad20-482c66ea821a,nao,Chain Lightning;,,,Source.SpellPower() * .8f * Source.DamageModLightning,,
+Challenger,9429fa9e-9992-426e-8a89-74864b000064,sim,,,"Armor:Percentage:5 * Source.NumEnemiesWithin(1), MagicArmor:Percentage:5 * Source.NumEnemiesWithin(1),",,,
+Chaos Cloud,b7623568-8a0e-421a-a9fa-a2e16a695f82,nao,Chaos Cloud;,,,,TargetStored['PhysicalDamage'] = Source.SpellPower() * 0.18f,
+Chaos Crash,c3994cc8-2434-47c2-9edf-505a18032c08,nao,Chaos Crash;,,,,TargetStored['PhysicalDamage'] = Source.SpellPower() * 0.5f,
+Chaos Crush,fb51cb55-667c-4fc2-8133-fe6ed849641e,nao,Chaos Crush;,,,Source.SpellPower() * 1.6f * Source.DamageModFire; Source.SpellPower() * .25f * Source.DamageModFire,TargetStored['PhysicalDamage'] = Source.SpellPower() * 1.2f; TargetStored['PhysicalDamage'] = Source.SpellPower() * 6f,
+Chaos Curse,a4f7b6ad-c1ce-45b0-9bf1-0110e5ede677,nao,Chaos Curse;,,,,TargetStored['PhysicalDamage'] = Source.SpellPower() * 0.13f,
+Chaos Cut,1b34defd-48ab-4374-a61f-d42c26edc240,nao,Chaos Cut;,,,,TargetStored['PhysicalDamage'] = Source.SpellPower() * 0.4f,
+Chaos Touch,cbab3dc9-5461-4441-933b-63e139ed3b7c,nao,Chaos Touch;,,,,,
+Charge,935b1f2d-5f45-49ca-87c4-479676965ba0,nao,Charge;,,,Source.AttackPower * .7f * Source.DamageModPhysical,,
+Chi Strike,1b530dbe-2bf5-4b6c-bd54-f70b895eeb28,nao,Chi Strike;,,,Source.AttackPower * 1.2f * Source.DamageModPhysical,,
+Child of the Abyss,5404aae7-0e99-4ab4-9468-1ab5c2a379ae,sim,,,"MaxHealth:Percentage:100, ChildOfTheAbyss:Set:1,",,,
+Chilling Strike,77fe40a7-9103-4178-8abc-8853d5ad3030,nao,Chilling Strike;,,,Source.SpellPower() * 1.5f * Source.DamageModCold,,
+Circle of Life,d2b61bb2-f017-4234-bf38-b67d20e7bbbc,sim,,,,,,
+Cleave,5a0220e8-a376-4f5c-ac72-613a061ef347,nao,Cleave;,,,Source.AttackPower * 1.5f * Source.DamageModPhysical,,I
+Coin of Chaos,b9dc8396-c41d-436a-afb8-2e9b952e4cae,nao,Coin Flip;,,,,,
+Cold Heart,9dd4c4d5-ee58-4024-9315-000ce9f1e999,sim,,,"DamageModCold:Base:Source.GetNumStatusesCaused(""GL-ChilledStatus"") * 5,",,,
+Colossus,dbcf1df9-23ee-45d7-8dfd-ba057373dad9,sim,,,"Colossus:Set:1,",,,
+Combo Breaker,9f5758b4-7511-4326-a426-0b531cceadc4,sim,,,,,,
+Conduit,d878dd1f-6337-4de2-aa82-5c851ef2ac22,sim,,,"ExtraTurnActionPoints:Base:1,",,,
+Consumption,7ee3a229-5375-4466-baa0-d9ee630756b9,nao,Consumption;,,,,,
+Contagion,f1f19d21-64b5-4e2a-80f9-3e7a29525945,sim,,,"ContagionSource:Set:1,",,,
+Contaminated Wound,2577c321-48a4-47c3-8fc9-a6716523e670,sim,,,"ContaminatedWound:Set:1,",,,
+Contemplation I,82c200b1-d500-46f0-8a6f-2f5ae93928e6,sim,,,"MaxMana:Percentage:10,",,,I
+Contemplation II,3c48cbdf-dc3e-4bd8-a9ee-d72ca3ffaeab,sim,,,"MaxMana:Percentage:15,",,,II
+Counter Melody,e9fd7d6c-367e-4c64-a7a4-6754707d1346,nao,Counter Melody;,,,,,
+Crash and Flow,4a59faf8-462f-4fc1-a42e-e66fcc79739c,sim,,,,,,
+Cripple,1d00df50-a197-462e-9595-040d6448815e,nao,Cripple;,,,Source.AttackPower * .7f,,I
+Crippling Shot,d307e047-44c0-4d0c-bc76-7662355eb4b3,nao,Crippling Shot;,,,Source.AttackPower * .7f * Source.DamageModPhysical,,I
+Crushing Slam,9d93b0f9-89ec-4a92-a35e-42347d72c570,nao,Crushing Slam;,,,Source.AttackPower * 2.4f * Source.DamageModPhysical,,II
+Crystalize I,73f8d326-da19-4833-9d8e-37bef6108719,sim,,,"ResistPhysical:Base:5,",,,I
+Crystalize II,3191db14-dd9e-41ad-a57d-582edb939bc4,sim,,,"ResistPhysical:Base:10,",,,II
+Cupid Shot,64d689e6-1a9a-485c-8fa5-02dff422fa01,nao,Cupid Shot;,,,,,
+Cure,8d1859c3-fc41-45e1-8a2d-9f083b436f01,nao,Cure;,,,Source.SpellPower() * 1.5f * Source.DamageModHealing,,
+Curse,e5467c06-1282-4960-9c3a-c0463d642d4c,nao,Curse;,,,,,
+Cursed Bite,715faabf-3550-47ff-8fdc-33b3954913e8,nao,Cursed Bite;,,,Source.AttackPower * 1.7f * Source.DamageModPhysical,,II
+Cyclone Kick,05899704-90a5-4b06-b141-5fb7b10c02b6,nao,Cyclone Kick;,,,Source.AttackPower * 1.6f * Source.DamageModPhysical,,
+Daft Diversion,95eeabd7-9863-42e8-91bf-0bff570184ec,nao,Daft Diversion;,,,,,
+Dagger Throw,e79eec19-5056-4556-80ba-264da9e47c4b,nao,Dagger Throw;,,,Source.AttackPower * .7f * Source.DamageModPhysical,,I
+Dark Pact,d1318d21-a417-4d78-b0ab-ef9815cdb239,sim,,,"DamageMod:Base:30, MaxHealth:Percentage:-20,",,,
+Dark Ritual,1fae4aa9-d90e-48df-af51-4e1722e188e5,nao,Dark Ritual;,,,,,
+Dashing Strikes,1bad1d3d-5f99-498c-a838-6b1a4ac75719,nao,Dashing Strikes;,,,Source.AttackPower * 1.5f * Source.DamageModPhysical,,
+Dazzling Darts,165880b6-4e75-493b-94d7-31cf5936d79b,nao,Dazzling Darts;,,,Source.SpellPower() * .4f * Source.DamageModLightning,,
+Deadly Dagger,f117b232-1ceb-45ab-a95b-dbb2c60c6ee1,nao,Deadly Dagger Throw;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Death Dealer I,7f9b4fbe-9799-40e1-a040-89f23a78d223,sim,,,"CritDamage:Base:16,",,,I
+Death Dealer II,6fb73337-4712-4c98-afd3-5b9e6c47bb54,sim,,,"CritDamage:Base:24,",,,II
+Deathblow,3ca348f8-eb92-49d1-911a-b8bf55f025e0,nao,Deathblow;,,,Source.AttackPower * 2f * Source.DamageModPhysical,,
+Deep Freeze,89b80d70-2371-4ba1-a442-0874f08501c7,nao,Frozen Chains;,,,,,
+Detonate,cfd7e41e-9bc9-4fd3-81ff-b7855d26b561,nao,Detonate;,,,Source.SpellPower() * 1.6f * Source.DamageModFire,,
+Diamond Ice,3f4a5063-576b-4f12-8e8f-10ba9ddbb4df,sim,,,"DamageFlatCold:Base:Source[""Armor""] * .01f,",Source['Armor'] * .01f,,
+Dire Bite,926fd895-82e9-43f1-ad6e-716f6d4abebd,nao,Greater Cursed Bite;,,,Source.AttackPower * 1.7f * Source.DamageModPhysical,,II
+Dire Howl,1e969896-820d-4da8-acb4-4ed77f287908,nao,Greater Blood Howl;,,,Source.AttackPower * 1.2f * Source.DamageModPhysical; 6,,
+Discharge,387f28b4-84e5-4621-90a8-0f944eb7840c,nao,Discharge;,,,Source.SpellPower() * .9f * Source.DamageModLightning,,
+Disengage,df437fe6-f5be-45db-90d0-13b0dcc50f65,sim,,,"TurnFreeMovementPoints:Base:1, OpportunityAttackImmunity:Set:1,",,,
+Dismiss Shapeshift,b682b407-2da2-4586-af4e-05b2bd5318cd,nao,Dismiss Shapeshift;,,,,,
+Dispelling Fracture,123229e9-9c60-4676-aee6-70df4ea0a897,nao,Threatening Fracture;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Dispelling Shot,06051196-664e-4724-97e9-4f11b57f3757,nao,Dispelling Shot;,,,Source.AttackPower * 1f * Source.DamageModPhysical,,
+Disperse,cdbc5288-d379-4256-8d2f-20c2e71bb77c,nao,Disperse;,,,Source.SpellPower() * 1.2f * Source.DamageModLightning,,
+Displacement,21da733a-81df-43d4-ba18-2ee0d7a7148d,sim,,,,,,
+Disruption I,8431592e-f14e-4e4e-99f9-7d701d160a37,sim,,,"IgnoreDamageChance:Base:4,",,,I
+Disruption II,2ad638af-ade9-4047-9bfb-0bdea0b2e4ba,sim,,,"IgnoreDamageChance:Base:6,",,,II
+Divine Intervention,a449e351-7941-451a-9278-c4aec2cfe660,nao,Divine Intervention;,,,,,
+Dodging Strikes,df3b62f7-9e84-44e1-bc3f-10e9763bdcda,nao,Dodging Strikes;,,,Source.AttackPower * 1.8f * Source.DamageModPhysical,,
+Double Edge,91a3087b-b0c6-4766-80a6-668efaa2e844,nao,Double Edge;,,,Source.AttackPower * 1.8f * Source.DamageModPhysical,,
+Dreadful Dissonance,ed459c7d-3038-47fa-af95-fc5d656575c9,nao,Dreadful Dissonance;,,,,,
+Dual-Wield Mastery,ce52db13-1b5b-4e54-a5c5-4983a3a377b8,sim,,,"DodgeChance:Base:Source.IsDualWielding ? 5 : 0, CritChance:Base:Source.IsDualWielding ? 5 : 0, CritDamage:Base:Source.IsDualWielding ? 20 : 0,",,,
+Eagle Eye,26e3de52-772d-4e8f-ab74-818942861795,sim,,,"RangeTypeAdderRanged:Base:1,",,,
+Echo,aca8bb83-21f3-4461-b03e-2214e25faf58,sim,,,,,,
+Ecosystem,729b89f8-f570-4da4-8623-896bd677f02d,sim,,,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:Percentage:Source.SummonCount * 5f, SummonDamageMod:Base:Source.SummonCount * 5f, SummonHealthMod:Base:Source.SummonCount * 5f,",,,
+Elemental Protection,9f51dcd4-f90f-4c4c-b9f7-414e7fcd8ea7,nao,Elemental Protection;,,,,,
+Empowered Light I,6734cfa8-5699-4014-a4d7-7ae2b359d1e8,sim,,,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",,,I
+Empowered Light II,83ce3706-dea3-404f-9648-3b43b4ff4737,sim,,,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",,,II
+En Garde,0119aa5f-3e0c-4730-bdd6-80b40b89e914,sim,,,"CounterAttacksPerTurn:Base:2,",,,
+Enchant Cold,ec47077f-c7e0-46a8-919e-355574736558,nao,Enchant Cold;,,,Source.SpellPower() * .15f * Source.DamageModCold,TargetStored['ColdDamage'] = Source.SpellPower('Cold') * .15f,
+Enchant Fire,3db67bff-d0ea-4430-ba72-ba1388f3b6c2,nao,Enchant Fire;,,,Source.SpellPower() * .15f * Source.DamageModFire,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .15f,
+Enchant Lightning,b7c19599-bcef-47c9-b32e-4b558778fe31,nao,Enchant Lightning;,,,Source.SpellPower() * .15f * Source.DamageModLightning,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .15f,
+Encore,2e11481a-83b9-4524-8be0-6e6ddb89f136,sim,,,"BardEncoreChance:Set:50,",,,
+Endless Night,39380e38-ea1c-4916-8d0f-b8836076a6fd,sim,,,"DamageFlatShadow:Base:Source[""MaxHealth""] * .02f,",Source['MaxHealth'] * .02f,,
+Endless Quiver,2493d8ec-0837-4436-bc9a-f48ebb619fa6,sim,,,"CooldownModRanger:Base:-1,",,,
+Endurance I,b4721d01-d578-47fe-bea9-39b75c11c322,sim,,,"MaxHealth:Percentage:10,",,,I
+Endurance II,7d586ac4-62ee-4e66-9509-9db6bbbb67fc,sim,,,"MaxHealth:Percentage:15,",,,II
+Enduring Evasion,d9cf47d7-8fdf-48d2-99d7-19e48518c9e0,nao,Enduring Evasion;,,,,,II
+Energy Cannon,2c65aec7-7a9b-429d-8545-f1d8e4a5823f,nao,Energy Cannon;,,,Source.SpellPower() * .2f * Source.DamageModLightning,,
+Entangle,5a4f990a-3e8d-43cd-8186-b04b10d2154a,nao,Entangle;,,,,,
+Escape,6cffd6ac-5c79-4053-b009-78e7b8cd1b97,nao,Escape;,,,,,
+Evasion,59f77476-7898-4918-832a-fb53e6e767be,nao,Evasion;,,,,,I
+Evolution,8554865a-c039-43b9-8cc4-877d4cb1a4b2,sim,,,,,,
+Executioner,7c3bb977-be87-43f3-8257-a2c8f6059852,sim,,,,,,
+Exorcism,2d3162db-e96a-402b-9bd2-5083b6c9d753,nao,Exorcism;,,,Source.SpellPower('Shadow') * 1f * Source.DamageModShadow,,
+Fabricate,395e049f-cb56-4cc4-93ac-ac5a539de9fd,sim,,,,,,
+Fade,5222580b-488c-4458-b20c-d25eacc38489,sim,,,,,,
+Faerie Swarm,218b2d73-387b-41f1-b791-4079d4316fea,nao,Faerie Swarm;,,,Source.SpellPower('Physical') * .4f * Source.DamageModPhysical,,
+Falcon Dash,45907c14-9772-4d47-b019-d50bb9e6425d,nao,Falcon Dash;,,,Source.AttackPower * 1.0f * Source.DamageModPhysical,,
+Fencer's Finesse I,ca8860d5-05f1-4e9b-af60-6d9ccbcf3668,sim,,,"DodgeChance:Base:5,",,,I
+Fencer's Finesse II,b86e6206-9318-41e4-9031-25032fe25acc,sim,,,"DodgeChance:Base:8,",,,II
+Fever,143a153b-af2f-4105-9936-f224dd9498d5,sim,,,"HealthAsManaCost:Set:100,",,,
+Fickle Flame,3f0045d0-033b-4f98-ab04-819eda13e7d1,sim,,,"FickleFlame:Set:1,",,,
+Fight Dirty,3954ff4b-0a05-4c10-a5d8-e39650662535,sim,,,,,,
+Finale,32a59835-3e2d-4e10-a30b-3f5a77530a80,nao,Finale;,,,,,
+Fire Borne,640b54a5-36af-417b-82b4-a221afab159f,sim,,,"ResistFire:Base:10,",,,
+Fire Breath,8b01a130-c81b-455a-9437-cc59e2f3326d,nao,Fire Breath;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Fire Shield,5b6ec9f3-e40d-48f9-84a5-f0b86982d366,nao,Fire Shield;,,,Source.SpellPower() * .15f * Source.DamageModFire,,
+Fire Starter,6119e522-4697-4314-94dc-83253a2c9d87,sim,,,,,,
+Fire Storm,a59edd2b-ccde-4cf6-9603-3268cd137609,nao,Fire Storm;,,,Source.SpellPower() * 1.1f * Source.DamageModFire,,
+Fireball,bc0660c5-3a8c-48be-a437-880b2541871c,nao,Fireball;,,,Source.SpellPower() * 1.1f * Source.DamageModFire,,
+Fireblast,eb51277a-7757-4487-9840-c9f9a9a99f72,nao,Fireblast;,,,Source.SpellPower() * 1.5f * Source.DamageModFire,,
+Fissure,e9bd516a-3bf1-468a-ae2d-17d960b0daab,nao,Fissure;,,,Source.SpellPower() * 2f * Source.DamageModFire,,
+Flame Lash,51751d00-c652-4a6a-8792-8b6baa755447,sim,,,"IncreasedFireDamagePerTargetHeatStack:Base:10,",,,
+Flame Slash,3e463301-f301-49b5-93fa-ccb5889387c1,nao,Flame Slash;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Flash Fire,971efc39-f001-4564-b159-2584e105f04b,sim,,,"CooldownModFire:Base:-1,",,,
+Focused Strike,eedc261a-8bc6-48f8-91b2-e1e0587b022e,nao,Focused Strike;,,,Source.AttackPower * 1.4f * Source.DamageModPhysical,,
+Force Kick,26b56150-2f67-4359-a6d2-3fe0a6cd2a5b,nao,Force Kick;,,,Source.AttackPower * 1.7f * Source.DamageModPhysical,,
+Force Shot,f92b6841-86a9-4f0f-858f-9be1bf273143,nao,Impaling Shot;,,,Source.AttackPower * 3f * Source.DamageModPhysical; Source.AttackPower * 3f * Source.DamageModPhysical,,II
+Fracture,92a38634-4cbd-4d73-a673-99fd64d4d618,nao,Fracture;,,,Source.AttackPower * .7f * Source.DamageModPhysical,,I
+Freeze Earth,9dc01e66-033f-4253-b592-600ccd1ee086,nao,Freeze Earth;,,,,,
+Front Kick,6b4b2cdf-dcc2-48f9-bcb9-5c8ce58acb2b,nao,Front Kick;,,,Source.AttackPower * 1.5f * Source.DamageModPhysical,,
+Frost Armor,2208fbbd-9850-4ab8-b79f-4890df3df20c,nao,Frost Armor;,,,Source.SpellPower() * .15f * Source.DamageModCold,,
+Frost Borne,72cb11ac-9b05-498e-b70f-277483276962,sim,,,"ResistCold:Base:10,",,,
+Frost Breath,f9d85c5a-7576-4d37-843b-723e159d5206,nao,Frost Breath;,,,Source.SpellPower() * .5f * Source.DamageModCold,,
+Frost Nova,58e5745d-97e6-435d-9cc3-32ba40624c70,nao,Frost Nova;,,,Source.SpellPower() * 1f * Source.DamageModCold,,
+Frost Shard,d5ad8e29-3044-4448-9437-0caf985ea0a8,nao,Frost Shard;,,,Source.SpellPower() * .9f * Source.DamageModCold,,
+Frostbite I,d8150318-0785-4e4b-a498-3309785b4818,sim,,,"ChilledDamageReduction:Base:2,",,,I
+Frostbite II,e0c03c2e-91d4-43f4-a9eb-bca37a15531f,sim,,,"ChilledDamageReduction:Base:3,",,,II
+Frozen Core,4e5e30b7-845b-4631-86ea-7ec768fa17ef,sim,,,"Frostbite:Set:1,",,,
+Frozen Orb,8df74ec0-7fae-4e00-a6f3-85a0274df4c1,nao,Dragonkin Frozen Orb;,,,Source.SpellPower() * 1.1f * Source.DamageModFire,,
+Frozen Spikes,76acf606-9f9a-4a69-b535-53181edb48f4,nao,Frozen Spikes;,,,Source.SpellPower() * .2f * Source.DamageModCold,,
+Fuel for the Flames I,4b4eb5be-2281-4942-a191-22f777e2042b,sim,,,"ManaCostMod:Base:20, ManaPowerMod:Base:40,",,,I
+Fuel for the Flames II,4ded356a-facc-4408-87b0-99b00cb2fcc5,sim,,,"ManaCostMod:Base:30, ManaPowerMod:Base:60,",,,II
+Garrote,50c2abc3-aeef-4277-b034-ec3c37a9e932,nao,Garrote;,,,Source.AttackPower * 1f * Source.DamageModPhysical,,I
+Gathering Storm,74b9fdfb-985b-4df8-a179-f759c2750baa,sim,,,"MaxMana:Percentage:20,",,,
+Ghost Armor,541c78ca-b718-457b-bccf-efbd0d07372d,nao,Ghost Armor;,,,,,
+Glory,c3258fdc-4979-49ba-9209-660144b2425d,sim,,,,,,
+Gore,c629b035-ae09-4fbe-b0a1-8a43469da2f9,nao,Gore;,,,Source.AttackPower * 1.6f * Source.DamageModPhysical,,II
+Gouge,46e49ab7-ae0b-4a55-a31a-89f3ccaf3069,nao,Gouge;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Guardian I,3c530dca-b065-4cf5-a20c-a407bf15665a,sim,,,"ResistPhysical:Base:5,",,,I
+Guardian II,ee39daa7-a24e-4654-95b6-9a445f67fce3,sim,,,"ResistPhysical:Base:10,",,,II
+Harm,adca2a3d-dfb9-496a-9937-345c8fd286e7,sim,,,,,,
+Harmonize I,4049301d-5518-4861-944c-8446de546ecb,sim,,,,,,
+Harmonize II,6e73432d-76e2-4d68-ade4-a000b425351a,sim,,,,,,
+Haste,48793549-36dc-4718-a714-6a49bd8ccba4,nao,Haste;,,,,,
+Haunt,7e0a68aa-f9bf-4e09-9f1c-26b0be272d6b,nao,Haunt;,,,Source.SpellPower() * .5f * Source.DamageModShadow,,
+Healing Hand,2bc13cdd-81db-4c5a-a715-ac68877895e5,nao,Healing Hand;,,,,,
+Heavy Rains,3325d5e1-03e6-4e84-b763-fd843d694b87,sim,,,"CritDamage:Base:Source[""Intelligence""] * 1, CritChance:Base:Source[""Intelligence""] * .1f,",,,
+Helping,afca6d5f-1259-46f0-b6b2-ff886b117036,nao,Helping;,,,Source.SpellPower() * .15f * Source.DamageModFire,,
+Hidden Blade,680f1728-7582-4aff-89d0-e19b56a5f973,sim,,,"CritDamageTreeBasic:Base:75,",,,
+Hide In Shadows,82855001-25f5-4677-8127-6d2d63cd12f0,nao,Hide In Shadows;,,,,,
+Holy Ground,cc22f3c2-435d-41ce-8deb-882fdcf513f0,nao,Holy Ground;,,,Source.SpellPower() * .75f * Source.DamageModHealing,,
+Holy Slash,5925ed0a-e01f-4063-97c1-57ff584f2c59,nao,Dragonkin Holy Slash;,,,,TargetStored['HolyDamage'] = Source.AttackPower * 1.2f; TargetStored['Healing'] = Source.AttackPower * 1.5f,
+Hot Head I,126bb043-6548-4075-bca8-77e5f90fe992,sim,,,"DamageMod:Base:8,",,,I
+Hot Head II,72a6afb2-c7e6-4918-a1d3-4f08680e2b73,sim,,,"DamageMod:Base:12,",,,II
+Howl,13e43f4b-54bc-4069-bf10-2fbe0bf6ddd4,nao,Howl;,,,Source.AttackPower * .7f * Source.DamageModPhysical,,
+Hunger,8f250087-a399-4709-ad42-83435bb3f7fa,sim,,,,,,
+Huntsman I,79634379-8bcb-43b0-b3f6-b385e11ed93b,sim,,,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Source.GetFlatDamageValue * 1.2f,,I
+Huntsman II,6cc0036b-d5fc-45b1-b541-e044ff756c47,sim,,,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Source.GetFlatDamageValue * 1.8f,,II
+Hurting,fc596611-c9a0-4066-a5dd-2041ff116839,nao,Hurting;,,,,,
+Ice Lance,a01976e1-79bd-4b7c-b5ad-5d00d831dbaf,nao,Ice Lance;,,,Source.SpellPower() * 1.2f * Source.DamageModCold,,
+Ice Slash,bad87a3a-9f8c-410f-a6a9-f488a8d1ba7b,nao,Frost Slash;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Ice Storm,48f86c3e-1b84-4137-bbb5-fde153b9c1b8,nao,Ice Storm;,,,Source.SpellPower('Cold') * .9f * Source.DamageModCold,,
+Ice Wall,7e6703df-535d-48d9-9fa4-f8f110f3ce66,nao,Ice Wall New;,,,,,
+Icefall,dae8969a-3ea5-4361-a0aa-8d87021a0b9a,sim,,,"Icefall:Set:1,",,,
+Immolate,d17f236d-ce6e-4b1e-95a4-20bdc97e6b5f,nao,Immolate;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Improvise,4d1533a4-444a-4798-979b-59909f2bb724,sim,,,"BardImprovise:Set:1,",,,
+Incapacitate,6f3e373d-b514-49cb-b4b2-ba600b14b16e,nao,Incapacitate;,,,,,
+Indestructible,0f48639a-357b-4f90-88aa-92443f986817,sim,,,,,,
+Inspiration I,eee0ad83-1409-4bc3-b5c1-6e4c809d9f93,sim,,,,,,
+Inspiration II,dd9d0633-1e6f-460e-a264-fa18c95ae674,sim,,,,,,
+Into the Fray,ee127ace-ef16-4095-94f6-858bf096dd6c,sim,,,"DamageMod:Base:3 * Source.NumEnemiesWithin(3), MaxHealth:Percentage:3 * Source.NumEnemiesWithin(3),",,,
+Invulnerable Winter,c4ba0e93-b273-496f-adb0-e22d9b360c41,sim,,,"Armor:Base:Source[""Intelligence""] * (1 + (.14f * Source.Level)), MagicArmor:Base:Source[""Intelligence""] * (1 + (.14f * Source.Level)),",1 + (.14f *Source.Level); Source['Intelligence'] * (1 + (.14f * Source.Level)),,
+Kindling,a7ed774f-59e7-4770-8c44-dd255f493e0b,sim,,,"StartAPMod:Base:1,",,,
+Kindred Spirit,3fc3a3ec-1bf0-41dc-a85f-d470c64edb69,sim,,,"HealingReturned:Base:20,",,,
+Lasting Flame,659c3e1a-fe63-40cb-a26e-f81931d31e95,sim,,,"HeatDurationMod:Base:2,",,,
+Laxing Lullaby,dffd5ca6-5191-4013-9bf5-6d09d9efb6a3,nao,Laxing Lullaby;,,,,,
+Leech Dexterity,b241ac3a-bc8b-4b21-8ccc-218d23e620ea,sim,,,,2 * (.1f * Source.Level),,
+Leech Intelligence,f6c12f10-f0c1-473f-877a-b36839ff77a6,sim,,,,2 * (.1f * Source.Level),,
+Leech Might,63c2d3db-a0bb-41e1-98cd-c840f3bbb764,sim,,,,2 * (.1f * Source.Level),,
+Lich Lord,dba5dacc-f29a-4f8c-a39b-8e1024b8c003,sim,,,"LichLord:Set:1,",,,
+Life Cleave,7a5e0dae-95db-4145-90b1-4ebe85d1d12e,nao,Life Cleave;,,,Source.AttackPower * 1.5f * Source.DamageModPhysical,,II
+Light's Beckon,ac37ac7a-4f2d-4eb5-9586-7639777c8359,nao,Light's Beckon;,,,,,
+Light's Brilliance,6794f244-500f-48b8-8cad-ea53e9a69c9f,sim,,,"IntelligenceBase:Percentage:20,",,,
+Light's Celerity,646f7772-2741-4b68-ba82-96b32490b640,sim,,,"DexterityBase:Percentage:20,",,,
+Light's Endurance,2bd96744-e934-4891-a4e0-cffb1f08f359,sim,,,"VitalityBase:Percentage:20,",,,
+Light's Intuition,3a2db55c-1c97-40ea-bc24-8537cd1fbd6d,sim,,,"ReflexBase:Percentage:20,",,,
+Light's Strength,b22fceef-4110-46ee-a9d2-12e9dd9f8d82,sim,,,"MightBase:Percentage:20,",,,
+Lightning Breath,6a9ed2a9-ecad-4ca2-afc6-ef866c37d106,nao,Lightning Breath;,,,Source.SpellPower() * .5f * Source.DamageModLightning,,
+Lightning Shield,a13c0d5e-20de-47e7-b52d-4432ff174efe,nao,Lightning Shield;,,,Source.SpellPower() * .15f * Source.DamageModLightning,,
+Lingering Light,578d3c0a-5eda-4b9f-9931-043decd33a17,sim,,,,Source.SpellPower() * .4f * Source.DamageModHealing,,
+Living Armor,1d723539-3738-422b-b5cf-7193a0878418,nao,Living Armor;,,,3.5f * Source.Level,,
+Long Shot,ed48796f-b3ca-4eaa-a860-d5adc5c0e911,nao,Long Shot;,,,Source.AttackPower * 1f * Source.DamageModPhysical,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1f),I
+Ludicrous Display,421bc49f-7632-467c-bbcc-d0d94ae7f815,sim,,,,,,
+Magic Hat I,39da7bfe-62a9-42c9-b6c6-440803a481c5,nao,Magic Hat I;,,,Source.SpellPower() * .15f * Source.DamageModFire,,I
+Magic Hat II,490820d0-5c0d-4cb6-b6a9-861be353c1e7,nao,Magic Hat II;,,,Source.SpellPower() * .15f * Source.DamageModFire,,II
+Magic Hat III,61fb3f6f-619b-4c40-9bb7-959602ceedcc,nao,Magic Hat III;,,,Source.SpellPower() * .15f * Source.DamageModFire,,III
+Maim,62d2aaeb-d0f8-4562-8fc1-d9caa5576b4c,nao,Maim;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Malevolence,910725e7-09f1-4c8d-88f5-c7771cc8f748,nao,Malevolence;,,,,,
+Mana Drain,bb060d0c-2f85-49af-9c74-a6131fd459e5,nao,Purge;,,,,,
+Mana Shield,f61e81b2-a830-4eb3-8ab9-2fe1fd39ab7c,sim,,,"ManaShield:Base:90,",,,
+Many Sided Strike,e34d2162-c2e9-4485-8b76-527674a43ef6,nao,Many Sided Strike;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,
+Marked Prey,d1fa6eae-2970-4400-a93f-8461295973d5,sim,,,,,,
+Masochism I,55172890-cfb6-41ea-b69b-4f8c4e72ca41,sim,,,,,,I
+Masochism II,851b4849-5624-4847-b9f3-0a6e014b5513,sim,,,,,,II
+Mass Cure,9cb9aac5-3cc5-4765-a967-11f5720e549f,nao,Mass Cure;,,,Source.SpellPower() * 1.8f * Source.DamageModHealing,,
+Mass Entangle,2112128e-960f-4661-aebb-a50dc4d7760c,nao,Mass Entangle;,,,,,
+Mass Freeze,0b79d5cc-d5a6-443f-9d82-f6af10ef03c5,nao,Mass Freeze;,,,,,
+Mass Haste,2299b989-53f4-4ae3-add5-3f90e694ed7e,nao,Mass Haste;,,,,,
+Master Assassin,995f8fce-5483-40ce-9b06-e04066e5a3ea,sim,,,"MasterAssassin:Set:1,",,,
+Master Of Ice,559550e0-885c-4b8a-b34d-a6a1107e9fc7,sim,,,"MasterOfIce:Set:1,",,,
+Meditation,5e3fd063-311f-4e7b-9723-2fcc0c43d1e3,nao,Meditation;,,,,,
+Melee Attack,008d709a-5047-4863-a9cd-3749d16cbe4c,nao,Melee Attack;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Melee Attack,9f44934a-d79b-46be-9fc2-8debd9bf4cd0,nao,Melee Attack Werewolf;,,,Source.AttackPower * .6f * Source.DamageModBasic,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower *.6f,
+Melee Attack,aeda6f75-cf19-4897-8f6b-e146bffcfb0f,nao,Melee Attack Werewolf;,,,Source.AttackPower * .6f * Source.DamageModBasic,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower *.6f,
+Melee Attack,862e939c-d475-4337-8b49-2fb5739ab7da,nao,Melee Attack Healing;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Meteor,ec49bce6-5bcd-478d-acd3-d4fc2f3aae7b,nao,Meteor;,,,Source.SpellPower() * 1.6f * Source.DamageModFire; Source.SpellPower() * .25f * Source.DamageModFire,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 1f; TargetStored['FireDamage'] = Source.SpellPower('Fire') * .6f,
+Meteor Shower,b601e400-41c1-4c59-a801-9d9a6bb61ec8,nao,Meteor Shower;,,,Source.SpellPower('Fire') * .7f * Source.DamageModFire,,
+Mind Blossom,45041cfc-d8ba-4c87-8b9b-7ee36daab732,nao,Mind Blossom;,,,,,
+Momentum I,20f54fae-a773-4a20-8854-02deaa605f0c,sim,,,,,,I
+Momentum II,e4b667c5-247f-437c-8dc0-a0cb6947d0ee,sim,,,,,,II
+Momentum III,052f0412-6bfa-4e2e-b531-c2b1445d86e0,sim,,,,,,II
+Mortal Fracture,b7be71d3-c0a5-4aec-9075-1ef679f9eb6e,nao,Mortal Fracture;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Move Object,8549bc76-2b0e-4f55-9779-e17defc5e559,nao,Move Object;,,,,,
+Muse I,2ee7c995-5108-497b-af29-772667f398ad,sim,,,,,,
+Muse II,964de929-4105-4bb1-8601-b4a1a492315b,sim,,,,,,
+Mythic Reach,bec81cb3-64b7-4a7e-b460-1193f1e63a0c,sim,,,"RangeTypeAdderRanged:Base:5,",,,
+Natural Selection,b6624501-e38b-461c-8180-5522f2e49f30,sim,,,,,,
+Nature Summoning I,7bf06d05-ce54-4bf5-bf4d-35da956d3bba,nao,Nature Summoning I;,,,,,
+Nature Summoning II,116424f8-8a0e-409e-aeac-9a8312023a40,nao,Nature Summoning II;,,,,,
+Nature Summoning III,3096d08b-a4d2-4954-8930-c202fa3b0699,nao,Nature Summoning III;,,,,,
+Necromancer I,6868aca0-18f6-4b66-a509-81977f40a52d,sim,,,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",,,I
+Necromancer II,005bdc59-d102-40d9-87f3-5d6e508f719c,sim,,,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",,,II
+Omnism I,922a71d3-2ba7-4ad1-be99-d4a05ee2d4d7,sim,,,"ShrineEffectBonus:Base:8,",,,I
+Omnism II,83da8365-956a-4d96-a7d2-4b91dea1c27c,sim,,,"ShrineEffectBonus:Base:20,",,,II
+One Punch Monk,1e089acc-84fc-4d8f-8432-915e5daa7d9d,sim,,,,,,
+Opening Act,3df213e1-1f96-4b0e-b50b-e97664220389,sim,,,,,,
+Opportunist,bf1bdce3-e52a-47e7-b44a-ffc1ea102ae7,sim,,,"OpportunityAttackDamageMod:Base:25, CounterAttackDamageMod:Base:25,",,,
+Overload,6ec59444-b577-4b9c-95d3-f559ede7d97b,nao,Overload;,,,,,
+Overwhelming Power,e5e772c3-0f7f-4f5b-8e75-02249e7c182b,nao,Overwhelming Power;,,,,,
+Pack Hunter I,da33e5e2-4c72-4806-b2c4-ffe57755933d,sim,,,"DamageMod:Base:8 * Source.NumAlliesWithin(1),",,,I
+Pack Hunter I,ab4cf5ab-6924-4cda-ab47-93735e785c77,sim,,,"DamageMod:Base:12 * Source.NumAlliesWithin(1),",,,II
+Pack Summoning I,307e3f9b-cd71-4ec1-88da-c0f84c759074,nao,Nature Summoning I  [Pack Summoning];,,,,,
+Pack Summoning II,fa759183-6200-4e4d-b8c0-943ff4653f69,nao,Nature Summoning II  [Pack Summoning];,,,,,
+Pack Summoning III,ab8d11da-31e3-4cc9-a4d1-ce5f5e695afa,nao,Nature Summoning III  [Pack Summoning];,,,,,
+Pain Suppression,375f6111-c59d-4c26-8459-1b4b36cbb062,nao,Pain Suppression;,,,,,
+Paralyzing Strike,cddc924f-d7e9-496e-b251-6b1f287b73e6,nao,Paralyzing Strike;,,,Source.AttackPower * 1.4f * Source.DamageModPhysical,,
+Patient Hunter,06d9233a-e381-4819-9b53-f37a39026e86,sim,,,,,,
+Perfected Soul,b6cb4d22-fa91-4b17-8c69-fdd47bed405f,sim,,,"Might:Base:Source.HighestStatName != ""MightBase"" ? Source[Source.HighestStatName] * .1f : 0, Dexterity:Base:Source.HighestStatName != ""DexterityBase"" ? Source[Source.HighestStatName] * .1f : 0, Vitality:Base:Source.HighestStatName != ""VitalityBase"" ? Source[Source.HighestStatName] * .1f : 0, Intelligence:Base:Source.HighestStatName != ""IntelligenceBase"" ? Source[Source.HighestStatName] * .1f : 0, Reflex:Base:Source.HighestStatName != ""ReflexBase"" ? Source[Source.HighestStatName] * .1f : 0, Might:Base:Source.Level, Dexterity:Base:Source.Level, Intelligence:Base:Source.Level, Vitality:Base:Source.Level, Reflex:Base:Source.Level,",Target.Level; Source.HighestStatValue * 0.1f,,
+Perturb,d9fdbc0b-b2a4-4421-b9d2-5fc851a2d5fa,sim,,,"FickleFlame:Set:1,",,,
+Piercing Shot,ac13e801-6192-4208-86bf-b247b37601d4,nao,Piercing Shot;,,,Source.AttackPower * 2f * Source.DamageModPhysical,,I
+Pinning Shot,ff0060f6-075a-4a9e-a6dd-70d98563f14a,nao,Pinning Shot;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Plot Armor I,fe228e8f-dbc9-40e5-bf50-4306e751bff4,sim,,,"MaxDamagePercentPerHit:Set:50,",,,
+Plot Armor II,78e77a4d-e262-4e39-bc47-4a8b310839b1,sim,,,"MaxDamagePercentPerHit:Set:25,",,,
+Poison Cloud,51c5c7ac-97f4-43b5-a811-6b98f7c17f89,nao,Poison Cloud - Player;,,,Source.SpellPower() * .5f * Source.DamageModShadow,,
+Poison Weapon,f2f2e0f5-7d80-4c54-8df0-f7a021a39978,nao,Poison Weapon;,,,,,
+Poisoned Dagger,81348308-838f-4ce5-a67c-d68c1426bfb1,nao,Poisoned Dagger Throw;,,,Source.AttackPower * .8f * Source.DamageModPhysical,,II
+Power Strikes,4409fec4-696a-48f2-ba64-5305247c2f6c,nao,Power Strikes;,,,Source.AttackPower * 1.8f * Source.DamageModPhysical,,
+Precision I,4f60a338-6cc9-462d-a5c5-9331541b189b,sim,,,"CritChance:Base:4, CritDamage:Base:16,",,,I
+Precision II,c1669e65-8249-4494-9b7d-975327d82550,sim,,,"CritChance:Base:6, CritDamage:Base:24,",,,II
+Provoke,5e5dfbb7-ac09-427c-91e4-7bb3c277c4a6,nao,Provoke;,,,,,
+Purify,cc749d60-f5c3-4ea3-9a3a-bbfa95625fde,nao,Purify;,,,,,
+Quaking Fist,37dc1b4a-82d1-41d0-91b5-b8768ec8c308,nao,Quaking Fist;,,,Source.AttackPower * 2.5f * Source.DamageModPhysical,,
+Quick Draw,7b3baeae-8542-4f70-bd65-94340c890406,nao,Quick Draw;,,,,,
+Quick Hands,85a9b32a-7c27-45fa-b38f-5da5e5c9a7b8,sim,,,,,,
+Quickening,9732b23a-50aa-471c-8495-729c6a9667be,sim,,,,,,
+Rage,79881504-d87f-4399-abc4-5f2869c1edda,nao,Rage;,,,,,I
+Rage Spores,b61ec73e-7b98-4e01-813b-a2367bb97857,nao,Rage Spores;,,,Source.SpellPower() * .5f * Source.DamageModShadow,,
+Rainstorm,b34e04df-711b-4303-8add-54f513cc1b72,nao,Rainstorm;,,,,,
+Raise Iron Golem,ee512cf8-e555-480b-ba29-10f5d837ce31,nao,Raise Iron Golem;,,,,,
+Raise Skeletal Archer,c002a223-c6e8-4b73-82f8-7926f4e9a883,nao,Raise Skeletal Archer;,,,,,
+Raise Skeletal Mage,98efcfca-62ba-45a6-a46b-085e6711df4a,nao,Raise Skeletal Mage;,,,,,
+Raise Skeletal Warrior,e47c4b4a-bf36-465f-9f2f-3496da8adb02,nao,Raise Skeletal Warrior;,,,,,
+Raise Undead Berserker,dc5f1d13-8b5c-4d69-869b-7bebd2988ff6,nao,[Necronomicon] Raise Undead Berserker;,,,,,
+Raise Undead Ranger,f33f244b-ce05-47c7-8b6b-e0ca15fad5ff,nao,[Necronomicon] Raise Undead Ranger;,,,,,
+Raise Undead Wizard,22c0bbad-8888-499a-8057-73feea467c3e,nao,[Necronomicon] Raise Undead Wizard;,,,,,
+Rally,48ff5e95-e3c3-486f-9fc6-4994863a4316,nao,Rally;,,,,,
+Ranged Attack,2d867f05-d299-418f-9924-b88b3112d243,nao,Ranged Attack;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Ranged Attack,cf4fdfdc-da16-44d7-9419-05059b6c22e1,nao,Ranged Attack Healing;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Ranger's Gift I,c122eadb-7328-495b-a8c8-bec507469119,sim,,,"PerHexRangeDamageBonus:Base:2,",,,I
+Ranger's Gift II,bb27b619-9ede-4143-877a-7d5436526dfe,sim,,,"PerHexRangeDamageBonus:Base:3,",,,II
+Reaper's Scythe,78f453be-ea88-466e-bc8e-da45f4f491fc,nao,Reaper's Scythe;,,,Source.SpellPower('Shadow') * 1f * Source.DamageModShadow,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,
+Reaper's Toll,5b542276-1cc4-40a1-a2ea-8ff12ea2c9b4,sim,,,,,,
+Recharge,9ea6ac03-3597-4b5c-aa0d-a461c4c33bf8,sim,,,"Recharge:Set:1,",,,
+Redemption,c7d0e84a-86a7-44e6-bb4f-89352e602393,sim,,,,,,
+Regenerate,f7786340-63ea-4097-8a48-8823ce02cba9,nao,Regenerate;,,,Source.SpellPower() * .5f * Source.DamageModHealing,,
+Relocate,b1774775-9065-45eb-a5ff-056af7908100,nao,Relocate;,,,,,
+Replicate,aba3d603-6b30-464a-b07f-9ae52a59d914,nao,Replicate;,,,,TargetStored['PhysicalDamage'] = Source.SpellPower() * 0.5f,
+Resonating Refrain,3653db48-9894-4496-8475-67412935c847,nao,Resonating Refrain;,,,,,
+Reverberate,9c4a6fc9-b7c4-4f59-ae41-111b0c2cbcac,sim,,,,,,
+Rhythm of Recovery,2b771177-ca08-487b-9acc-da9c90f1928a,nao,Rhythm of Recovery;,,,,,
+Rune of Exploding,85bac245-40e8-4a4b-a193-06874ef0ba72,nao,Rune of Exploding;,,,,,
+Rupture,60320877-3c07-4f50-94e1-6bebb13a6f5c,nao,Rupture;,,,Source.AttackPower * 1f * Source.DamageModPhysical,,II
+Salvation,19a44fd6-8b15-43b4-8000-399e10653e3e,sim,,,,,,
+Savage Scorn,882675a6-5c06-46ab-b4f0-b1af7b0da8d1,nao,Savage Scorn;,,,,,
+Seal of Might,a34a88a4-d845-4c9c-b739-6e2be540458b,nao,Seal of Might;,,,,,
+Seal of Protection,8613b019-bdc8-49ce-9ea3-3fb373bda1de,nao,Seal of Protection;,,,,,
+Seal of Salvation,cb513d38-5c32-4055-9ebd-e141ebb8dce4,nao,Seal of Salvation;,,,Source.SpellPower() * 1f * Source.DamageModHealing,,
+Shadow Breath,f2f1bee4-2ea0-4247-9da2-be43133dd643,nao,Shadow Breath;,,,Source.SpellPower('Shadow') * 1.6f * Source.DamageModShadow,,
+Shadow Claw,b2cc57fd-19e2-4669-9f4d-faf24f65ff19,nao,Shadow Slash;,,,Source.SpellPower('Shadow') * 1.6f * Source.DamageModShadow,,
+Shadow Walk,3a241124-a6eb-4ced-a635-cb5d8792c8db,nao,Shadow Walk;,,,,,
+Shapeshift Dire Werewolf,b2d332e5-4980-4a00-af0c-3958e4e22ca3,nao,Shapeshift Greater Werewolf;,,,,,
+Shapeshift Dragonkin,2446d269-e869-4479-b35e-c93d58a09386,nao,Shapeshift Red Dragonkin; Shapeshift Blue Dragonkin; Shapeshift Green Dragonkin;,,,10 * Source.Level,,
+Shapeshift Vampire Bat,eac095f4-d0cb-4df1-b697-6a4adfb1f29e,nao,Shapeshift Box;,,,,,
+Shapeshift Werewolf,2f245847-7abb-48d2-b66f-d6767ea45c45,nao,Shapeshift Werewolf;,,,,,
+Shatter,2fdc07c4-f235-47a0-8675-70bc7da2d682,nao,Shatter;,,,Source.SpellPower('Cold') * .7f * Source.DamageModCold,TargetStored['ColdDamage'] =  (Source.SpellPower('Cold') * .7f),
+Shattering Cord,d54a9e70-14b8-47c3-b225-54336f1dd3ab,nao,Shattering Cord;,,,,,
+Shield Mastery,68fa8925-3149-48ed-8445-373c316ea5b8,sim,,,"ShieldMastery:Set:1,",,,
+Shield of Light,0a32ea87-3aa6-4bfa-86f8-da39a5b3aafd,nao,Shield Of Light;,,,Source.SpellPower() * 1.6f * Source.DamageModHealing,TargetStored['Healing'] = Source.SpellPower('Light') * 1.6f,
+Shield of Retribution,4edbe07a-c899-4f5f-aed8-0417926f03bf,nao,Shield Of Retribution;,,,Source.SpellPower() * 3f * Source.DamageModHealing,TargetStored['Healing'] = Source.SpellPower('Healing') * 3f,
+Shock,122d020e-36ff-459e-a059-09079496fc22,nao,Shock;,,,Source.SpellPower() * .6f * Source.DamageModLightning,,
+Shocking Shackles,db92c83a-5dc8-4b43-af4f-c5ba78a97228,nao,Shocking Shackles;,,,Source.SpellPower('Lightning') * 1f * Source.DamageModLightning,,
+Show Stopper,6493fe65-a477-412b-adac-e8243d90a90c,sim,,,,,,
+Shroud,44ee443d-808b-4342-89aa-78f00b1ba5fb,sim,,,,,,
+Skin Walker,fd4cfa68-ad42-4f5b-9231-73f7ae16a806,sim,,,"CooldownModShapeshifting:Base:-2,",,,
+Slam,141f4d12-1b62-499a-af38-9e22128fcb8f,nao,Slam;,,,Source.AttackPower * 1.6f * Source.DamageModPhysical,,I
+Slaying Shot,0cabdbe9-bb23-4dff-adea-e5e49c8252ad,nao,Slaying Shot;,,,Source.AttackPower * 3.5f * Source.DamageModPhysical,,
+Sleep Spores,0e87e9e4-69a1-4ef4-84d8-e42a2af3017b,nao,Sleep Spores;,,,Source.SpellPower() * .5f * Source.DamageModShadow,,
+Sleight of Hand,c3a9ab8e-b920-4bde-a541-3ca08161264a,nao,Sleight of Hand;,,,,,
+Smoke Bomb,bcf62817-74e0-4254-a90b-6a62bf991199,nao,Smoke Bomb;,,,,,
+Sniper Shot,cd771d71-a7f0-4728-8c86-f105be62ea90,nao,Sniper Shot;,,,Source.AttackPower * 1f * Source.DamageModPhysical; Source.AttackPower * .15f * Source.DamageModPhysical,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1f),II
+Soft Step,17db71c5-fd9a-45d2-827f-05b7e3f22f90,sim,,,"OpportunityAttackImmunity:Set:1,",,,
+Song of Swiftness,844890db-b807-472c-b267-dd109242ba32,nao,Song of Swiftness;,,,,,
+Soul Cleanse,753ecaa8-bcba-40de-a44c-df7ca092b772,nao,Soul Cleanse;,,,,,
+Soul Crush,de92aa54-dfad-4edc-a1d5-00548a7da627,nao,Soul Fracture;,,,Source.SpellPower('Shadow') + (Source['MaxHealth'] *.05f),,
+Soul Exchange,6a064097-7504-477f-8675-6adbba0860bc,nao,Soul Exchange;,,,(Source.SpellPower('Shadow') * (Source.HealthRatioInverse *.008f)),,
+Soul Link,455db553-430b-47c6-8f6f-a5576c034b0a,nao,Soul Link;,,,,,
+Spectral Chains,d8cf9361-eaac-4ecd-8cf9-e2f4f55b469d,nao,Spectral Chains;,,,Source.SpellPower() * .7f * Source.DamageModShadow,,
+Speed,3466e4e5-7649-496f-a795-850aecb1a284,sim,,,"DexterityBase:Percentage:15, ReflexBase:Percentage:15,",,,
+Staff Attack,c0acb8bd-71ad-4ca5-a5df-51bccdb8d4c5,nao,Staff Attack;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Staff Attack,1d38f72e-162f-4ff6-97a0-66b719709972,nao,Staff Attack Healing;,,,Source.AttackPower * 1f * Source.DamageModBasic,,
+Stage Presence I,080a4a00-dab0-4af2-b597-901da587791b,sim,,,"DamageMod:Base:3 * Source.NumAlliesWithin(4), DamageModHealing:Base:3 * Source.NumAlliesWithin(4),",,,
+Stage Presence II,e0bd6e01-03f3-4814-812c-a4e9680fe4a1,sim,,,"DamageMod:Base:5 * Source.NumAlliesWithin(4), DamageModHealing:Base:5 * Source.NumAlliesWithin(4),",,,
+Stalker's Mark,043b48ce-e6b3-4ba0-9258-e4d06f46b82b,nao,Stalker's Mark;,,,,,II
+Stasis,778a1e3a-907d-4926-aad3-921a9cdb2f3d,nao,Stasis;,,,15 * Source.Level,,
+Static Field,52654feb-9133-4228-a511-562bf4722ee8,nao,Static Field;,,,,,
+Steal Action,59f3b228-8016-43fd-a9e2-e34f19339fe6,nao,Steal Action;,,,,,
+Steal Status,4c624ea4-67c6-432b-9c06-f9b4726b45e8,nao,Steal Status;,,,,,
+Storm Borne,923e5c13-7549-48c5-a3bf-dfb5bf59b4b3,sim,,,"ResistLightning:Base:10,",,,
+Storm Brewing,390fc09a-5649-4ab9-9a0d-1b6ac1390c69,sim,,,"CritChance:Base:Source.GetNumStatusesCaused(""GL-Shocked"") * 1,",,,
+Storm Weathered I,af8a7171-de29-4cd5-bbed-6e0ce14f9c39,sim,,,"ResistCold:Base:5, ResistFire:Base:5, ResistLightning:Base:5,",,,I
+Storm Weathered II,3e72ffd3-ed92-4010-bffb-cb09601b724f,sim,,,"ResistCold:Base:8, ResistFire:Base:8, ResistLightning:Base:8,",,,II
+Stormbringer I,e70f397a-e1b1-432b-89ed-7598800886b5,sim,,,"CritChance:Base:5,",,,I
+Stormbringer II,dbf885d4-cf92-4eee-bfa2-62612db6ea24,sim,,,"CritChance:Base:8,",,,II
+Strength,72730fff-2170-46e2-9a5a-3c26c1baee98,sim,,,"MightBase:Percentage:15, VitalityBase:Percentage:15,",,,
+Stun Spores,e1f5f37a-b0ef-4927-8de9-75fbc6bf3ff3,nao,Stun Spores;,,,Source.SpellPower() * .5f * Source.DamageModShadow,,
+Stunning Kick,57362923-3f2b-474e-a693-32bb4394c9c9,nao,Stunning Kick;,,,Source.AttackPower * 1.5f * Source.DamageModPhysical,,
+Stunning Slam,d288312b-c7c2-4c44-836c-c77aaa0d33f3,nao,Stunning Slam;,,,Source.AttackPower * 1.8f * Source.DamageModPhysical,,II
+Summon Raven,9548b4e1-395d-4f23-aff7-1ec02baedc2b,nao,Animal Companion Raven;,,,,,
+Summon Wolf,cc69f834-8fb6-41bb-a009-540567d1954f,nao,Animal Companion Wolf;,,,,,
+Sun Fire,922c35f7-9449-40d5-90f3-d93a4c0a26d3,nao,Dragonkin Sun Fire;,,,Source.SpellPower() * 1.1f * Source.DamageModFire,,
+Sunder,ef35149c-3095-4e36-8a82-98877f69a627,nao,Sunder;,,,Source.AttackPower * 2f * Source.DamageModPhysical,,
+Survivalist I,e1b88501-223b-477a-9976-fc93ed843da5,sim,,,"ResistPhysical:Base:3, ResistCold:Base:3, ResistFire:Base:3, ResistLightning:Base:3, DodgeChance:Base:3,",,,I
+Survivalist II,f92fd989-34d3-45cd-8adc-93b79969db03,sim,,,"ResistPhysical:Base:5, ResistCold:Base:5, ResistFire:Base:5, ResistLightning:Base:5, DodgeChance:Base:5,",,,II
+Sustenance I,b0c4e385-309e-4e1c-9629-cb74003ff290,sim,,,,,,I
+Sustenance II,ad41f5ac-7da8-4b40-b245-858d3c233159,sim,,,,,,II
+Swan Song,e7cc46eb-14cc-4d9f-9d91-484a3f1c79e4,nao,Swan Song;,,,,,
+Sweeping Kick,be4f4d5a-599b-464c-b37b-d70907820b52,nao,Sweeping Kick;,,,Source.AttackPower * 1.6f * Source.DamageModPhysical,,
+Swiftness,40786dd5-f36e-4d22-bd4a-aaf6913f94d2,sim,,,"TurnFreeMovementPoints:Base:1,",,,
+Switcheroo,14ac1be9-5d84-43ef-8916-684ffc382d6e,nao,Switcheroo;,,,,,
+Tainted Touch,0545349b-cb52-4a5f-92f7-7e4fcd291229,nao,Tainted Touch;,,,Source.SpellPower() * 1.2f * Source.DamageModShadow,,
+Take Cover,b3453a67-1836-4578-aebe-fd0b7dd4c1e2,sim,,,"TakeCover:Set:1,",,,
+Taunt,2e4bba78-af3a-457f-a1c9-0ede5bf79849,nao,Taunt;,,,,,
+Telekinesis,f8acf9b3-65b9-48d5-a2e7-555019143e4d,nao,Telekinesis;,,,,,
+Teleport Other,e8d3e3c9-e79a-4c09-9fce-c86dc1da3e21,nao,Teleport Other;,,,,,
+Teleport Self,383537a6-d8c2-43b5-bce1-21ceb372f558,nao,Teleport Self;,,,,,
+Tempered Rage,426609c7-7b07-44e2-8240-8d4a0a71cb23,nao,Tempered Rage;,,,,,II
+The Bad Bloom,908596ba-d2f0-486c-8974-bb648d9d7f2e,nao,The Bad Bloom;,,,,,
+The Good Bloom,27ad00f4-b115-4779-83e0-85781933df47,nao,The Good Bloom;,,,,,
+The Good Doctor,803ae361-6d63-423f-bb21-42b833363960,sim,,,"CooldownModLight:Base:-1,",,,
+Thirst I,84c968c4-d3cb-418e-9f28-e19014bc6473,sim,,,"LifeOnHit:Base:4,",,,I
+Thirst II,5f619ae2-0b07-4456-9d6b-b1009bd3ce8e,sim,,,"LifeOnHit:Base:6,",,,II
+Thorns I,a9ecc771-d9ee-4dad-9cf9-310d8eccb1b9,sim,,,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Source.GetFlatDamageValue * 1.2f,,I
+Thorns II,9beb543c-26f0-4d7b-b460-446e6b313fad,sim,,,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Source.GetFlatDamageValue * 1.8f,,II
+Thunder Blast,3fec6b86-5b4a-44eb-a690-4ad13c6c54ba,nao,Dragonkin Thunder Blast;,,,Source.SpellPower() * 1.1f * Source.DamageModFire,,
+Thunder Bolt,c051afe8-be0a-4885-a517-b99544629123,nao,Thunder Bolt;,,,Source.SpellPower() * 1.1f * Source.DamageModLightning,,
+Thunder Slash,089159a7-b192-41e8-880a-ecbd4488a7f8,nao,Thunder Slash;,,,Source.SpellPower() * .5f * Source.DamageModFire,,
+Thunder Storm,57c6b493-41d3-4b00-95fb-62f7216fee80,nao,Thunder Storm;,,,Source.SpellPower('Lightning') * .9f * Source.DamageModLightning,,
+Thunder Struck,f802b4ff-21ab-4673-a60d-32df4f8f3579,sim,,,,Source.SpellPower('Lightning') * 1.1f * Source.DamageModLightning,,
+Thunder Wrath,89425965-a9af-443d-b1d0-d91580123be4,nao,Thunder Wrath;,,,Source.SpellPower('Lightning') * 1.0f * Source.DamageModLightning,,
+Titan Bloom,ea930abb-1071-4f58-b667-1bde3627c5d0,nao,Titan Bloom;,,,15,,
+Touch of Chaos,c5fd69aa-49f2-4c3d-ba28-7db2cb1638fa,nao,Touch of Chaos;,,,,,
+Tracker's Mark,e58297e3-95fa-4468-bf0a-e89f3df7bb80,nao,Tracker's Mark;,,,,,I
+Tranquilizing Shot,1222b5d5-eec6-4f95-813a-378eac88409d,nao,Tranquilizing Shot;,,,,,
+Tricks of the Trade,1370efe2-5b3f-4d68-b696-82f6e70a7418,sim,,,"CooldownMod:Base:-1,",,,
+Twister,8ef72136-d60a-404f-bfdc-2f395c35c813,nao,Twister;,,,Source.SpellPower() * 1.2f * Source.DamageModLightning,,
+Two-Handed Mastery,8a406c9f-4f2e-4e75-b43f-92177446a47a,sim,,,"DamageMod:Base:Source.WieldingTwoHanded ? 20 : 0,",,,
+Unarmed Attack,9d48e6f2-b1e2-43cd-a6e4-448ae0f77a8f,nao,Unarmed Attack;,,,Source.AttackPower * .5f * Source.DamageModBasic,,
+Unarmed Attack,f1a8402b-e82d-453e-8d0f-50d347122172,nao,Unarmed Attack Healing;,,,Source.AttackPower * .5f * Source.DamageModBasic,,
+Uncanny Evasion,fbfc4b3e-884a-4708-bd55-37d703726316,nao,Uncanny Evasion;,,,,,II
+Unyielding Contender,72591595-7e6d-4694-8067-de1e99ea9b84,nao,Unyielding Contender;,,,,,
+Vampiric Aura,d6cddb50-656d-4e68-8833-f0213ed76fe3,nao,Vampiric Aura;,,,,,
+Variety I,d0081046-c138-449a-a9a8-1af95742348e,sim,,,,,,I
+Variety II,84efd1f5-d6d5-436e-ae82-c5da0515c1cb,sim,,,,,,II
+Vengeful Shadows,8812a8fd-f3ef-4557-819b-e2fd553cab52,sim,,,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Source.GetFlatDamageValue * 3,,
+Venomous Skin,1e0cfa0e-bad0-4f36-bf17-0768c76478e3,nao,Venomous Skin;,,,Source.SpellPower() * .15f * Source.DamageModFire,,
+Verse of Valor,8eba8cf5-1543-44f2-a978-7a6b5ba34397,nao,Verse of Valor;,,,,,
+Vitality Break,374fa2df-76b9-4e8a-b08b-63905b404c71,nao,Vitality Break;,,,,,
+Volley,d23c2fb6-5630-4e11-bbb7-8f03ea859596,nao,Volley;,,,Source.AttackPower * 1.6f * Source.DamageModPhysical,,
+Wanderer,76429216-af1f-4f49-b05d-a80567a7958f,sim,,,"TurnFreeMovementPoints:Base:1,",,,
+Warmonger I,a151ffba-bc8a-4e8c-95c2-a209e2e3ac98,sim,,,"DamageMod:Base:8,",,,I
+Warmonger II,7f5cbda1-f1fd-4f71-9347-e00ffbf5e96b,sim,,,"DamageMod:Base:12,",,,II
+Warrior's Boon,33b081df-7aee-4f3f-ad9d-32530985008c,nao,Warrior's Boon;,,,,,
+Weapon of Choice,b535409e-d753-41a2-9743-2a427c07f376,sim,,,"AdditionalWeaponDamage:Base:Source.SumOfAllAttributes * .03f,",(Source['Might'] + Source['Dexterity'] + Source['Intelligence'] + Source['Vitality'] + Source['Reflex']) * .03f,,
+Willpower,783f7e26-6d2d-4597-af72-c5f41ce6f0df,sim,,,"DamageReduction:Base:Math.Round(Source.HealthRatioInverse, 1) * 40,",,,
+Wrath of the  Righteous,3c3533f9-21cf-46c9-957d-c6b957b7716e,sim,,,,,,
