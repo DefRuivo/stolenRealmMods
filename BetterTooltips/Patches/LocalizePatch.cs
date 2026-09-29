@@ -132,6 +132,9 @@ namespace BetterTooltips.Patches
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
         private static readonly HashSet<string> _appliedAppends = new HashSet<string>();
 
+        /// <summary>Marcador de vida: o postfix já recebeu texto em inglês nesta sessão.</summary>
+        private static bool _loggedAlive;
+
         // Powerups de atributo: "+ N to Might/Dexterity/Intelligence/Vitality/Reflex".
         // Os efeitos por ponto são os MESMOS que o tooltip de stats do jogo mostra
         // (Tooltip.ShowMainStatTooltip), com os valores lidos do GlobalSettings em runtime.
@@ -371,6 +374,16 @@ namespace BetterTooltips.Patches
             if (__result != original)
             {
                 return;
+            }
+
+            // Marcador de vida: prova no log que o postfix está recebendo texto em inglês.
+            // O patch só loga quando MUDA algo; sem esta linha, um boot em que nenhuma
+            // string conhecida apareceu parece "mod morto" no log.
+            if (!_loggedAlive)
+            {
+                _loggedAlive = true;
+                string amostra = original.Length > 60 ? original.Substring(0, 60) + "..." : original;
+                Plugin.Log.LogInfo($"BetterTooltips: postfix ativo (1a localizacao em ingles: '{amostra}')");
             }
 
             if (TextFixes.TryGetValue(original, out string fixedText))
