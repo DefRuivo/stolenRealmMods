@@ -28,6 +28,12 @@ namespace BetterTooltips.Patches
         // Logo: +X% Treasure Find = +X% de chance de drop, acumulando com a party.
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // OMISSAO (nao mentir por omissao): o efeito real e
+            // `Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)`. Os 10% do texto
+            // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
+            // nao dizia. Muda a decisao de quem hesita em usar num aliado quase morto.
+            { "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.",
+              "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.\nThis cannot reduce the target below 1 health." },
             // ---- Escala por NÍVEL (RV-8b-2g) ----
             // Fonte: código do jogo. `GetFlatDamageValue(level, rarity) =
             // Mathf.Ceil(FlatDamageNodes.GetMultipler((int)level) * GetStatRarityMod(rarity))`
