@@ -76,34 +76,39 @@ namespace BetterTooltips.Patches
             // texto fica ilegível no tooltip. O \n é o mesmo separador que o jogo usa nos
             // textos dele; e só ASCII, para não depender de glifo na fonte do jogo.
             { "Summons a Raven, Coyote, or Raccoon to fight for you.",
-              "\nOne is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not inherit your stats." },
+              "\nOne is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summons a Stag, Wolf, or Boar to fight for you.",
-              "\nOne is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not inherit your stats." },
+              "\nOne is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summons a Bear, Moose, or Panther to fight for you.",
-              "\nOne is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not inherit your stats." },
+              "\nOne is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summons a Tundra Wolf to fight for you.",
-              "\nTundra Wolf: Melee Attack, Howl\nDoes not inherit your stats." },
+              "\nTundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summons a Dire Wolf to fight for you.",
-              "\nDire Wolf: Melee Attack, Blood Howl\nDoes not inherit your stats." },
+              "\nDire Wolf: Melee Attack, Blood Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summon a grizzly to fight your enemies.",
-              "\nGrizzly: Stunning Slam, Wild Cleave\nDoes not inherit your stats." },
+              "\nGrizzly: Stunning Slam, Wild Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summon a wolf to fight your enemies.",
-              "\nWolf: Melee Attack, Howl\nDoes not inherit your stats." },
+              "\nWolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Summon a Raven to fight your enemies. ",
-              "\nRaven: Melee Attack, Evasion\nDoes not inherit your stats." },
+              "\nRaven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
             { "Raise an Undead Ranger to fight by your side.",
-              "\nUndead Ranger: Ranged Attack, Hide In Shadows\nDoes not inherit your stats." },
+              "\nUndead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health." },
 
-            // Brambles e Ice Wall NAO invocam bicho: invocam o MESMO objeto (a criatura
-            // `Brambles`) para bloquear hexes. Sao os UNICOS de 18 invocadores com
-            // `herdaStats=sim` - o objeto herda os seus atributos, ao contrario dos
-            // Raise/Summon/Animal Companion (16 com `herdaStats=nao`). Eu tinha
-            // generalizado "herdaStats=nao em todas"; o dump dos 18 mostrou 16 nao / 2 sim,
-            // e os 2 sao justamente estes. Por isso a frase aqui e o INVERSO da dos bichos.
+            // Brambles e Ice Wall NAO invocam bicho: sao objetos destrutiveis que bloqueiam
+            // hexes. Passam pelo MESMO caminho de beneficio dos bichos (CreateDestructible
+            // -> ProcessSummonMasterStats, com `casterStatsToBenefitFrom` setado), entao
+            // tambem ganham Might/Int. A diferenca que importa e outra: entram com
+            // `addToSummonList: false` - NAO contam como summon, e efeitos que contam
+            // invocacoes (Ecosystem) nao os veem. Por isso a frase deles fala de "nao conta
+            // como summon" em vez de repetir a dos bichos.
+            // A flag `BenefitFromCasterStats` e lida SO neste caminho de destrutivel (l.41998
+            // -> CreateDestructible): NAO governa os bichos, que recebem os efeitos do dono
+            // incondicionalmente no CreateSummon. Chama-la de "herdaStats" foi rotulo meu e
+            // induzia a conclusao errada ("nao herda = nao escala").
             { "Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.",
-              "\nCounts as a summon and inherits your stats." },
+              "\nBenefits from your Might and Intelligence, but does not count as a summon." },
             { "Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.",
-              "\nCounts as a summon and inherits your stats." },
+              "\nBenefits from your Might and Intelligence, but does not count as a summon." },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
@@ -225,9 +230,11 @@ namespace BetterTooltips.Patches
                 // valor, e nao no TextAppends - quem esta nas duas tabelas so executa a
                 // correcao, e uma explicacao no appends nunca rodaria. Fonte das
                 // habilidades e o dump `[Summon]` (CharacterInfo.SkillsAndAI[].Skill);
-                // `herdaStats=nao` em todos os Raise/Summon desta arvore.
+                // O beneficio de Might/Int vale para TODO summon (o CreateSummon aplica
+                // ProcessSummonMasterStats incondicionalmente); o que muda entre eles e o
+                // que o bicho FAZ, nao se ele escala. Ver o bloco do Brambles abaixo.
                 "Raise a Undead Wizard to fight by your side.",
-                "Raise an Undead Wizard to fight by your side.\nUndead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not inherit your stats."
+                "Raise an Undead Wizard to fight by your side.\nUndead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
             {
                 // espaco duplo no meio + espaco sobrando no fim
@@ -247,20 +254,20 @@ namespace BetterTooltips.Patches
             // Nomes: "Raise Skeletal Archer/Mage/Warrior" -> descricoes diziam "Summon".
             {
                 "Summon a skeletal archer to fight by your side.",
-                "Raise a skeletal archer to fight by your side.\nSkeletal Archer: Ranged Attack\nDoes not inherit your stats."
+                "Raise a skeletal archer to fight by your side.\nSkeletal Archer: Ranged Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
             {
                 "Summon a skeletal mage to fight by your side.",
-                "Raise a skeletal mage to fight by your side.\nSkeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not inherit your stats."
+                "Raise a skeletal mage to fight by your side.\nSkeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
             {
                 "Summon a skeletal warrior to fight by your side.",
-                "Raise a skeletal warrior to fight by your side.\nSkeletal Warrior: Melee Attack, Cleave\nDoes not inherit your stats."
+                "Raise a skeletal warrior to fight by your side.\nSkeletal Warrior: Melee Attack, Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
             {
                 // Unico invocador com fecho diferente: 6 usam "by your side", 1 usava "for you".
                 "Raise a Mighty Iron Golem to fight for you.",
-                "Raise a Mighty Iron Golem to fight by your side.\nIron Golem: Ground Slam\nDoes not inherit your stats."
+                "Raise a Mighty Iron Golem to fight by your side.\nIron Golem: Ground Slam\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
             {
                 // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
@@ -343,7 +350,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack\nDoes not inherit your stats."
+                "Summons a Timber Wolf to fight for you.\nTimber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health."
             },
         };
 
