@@ -1,5 +1,6 @@
 using BepInEx;
 using BepInEx.Logging;
+using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -7,16 +8,15 @@ namespace RoguelikeQoL
 {
     /// <summary>
     /// RoguelikeQoL — mod de qualidade de vida, SEM alterações de gameplay.
-    /// QoL-1: HUD de modificadores da run — mostra em tempo real os agregados da party
-    /// (Treasure Find, Gold Find) e o modificador de experiência da batalha atual. Valores
-    /// lidos das MESMAS fontes que o jogo usa:
+    /// QoL-1: HUD de modificadores da run — painel sobreposto no canto superior esquerdo com
+    /// os agregados da party (Treasure Find, Gold Find) e o modificador de experiência da
+    /// batalha atual. Valores lidos das MESMAS fontes que o jogo usa:
     ///   Treasure = Σ character["DropQuantityMod"]   (GetCharacterLootDropModifier)
     ///   Gold     = Σ character["GoldMod"]           (ApplyGoldModifiers)
     ///   Exp      = CurrentBattle.expModifier
     ///
     /// Este mod agora é SÓ o HUD: a troca de fonte (QoL-2) virou o mod **BetterFont** e o
-    /// display de stats "base (combinado)" (QoL-3) virou o mod **BetterStats** — cada um
-    /// independente, podendo ser ligado/desligado sozinho no r2modman.
+    /// display de stats "base (combinado)" (QoL-3) virou o mod **BetterStats**.
     /// </summary>
     [BepInPlugin("com.gumatos.roguelikeqol", "Roguelike QoL", "0.1.0")]
     public class Plugin : BaseUnityPlugin
@@ -28,32 +28,162 @@ namespace RoguelikeQoL
             Log = Logger;
             Logger.LogInfo("Roguelike QoL carregado.");
 
-            // O GameObject do próprio plugin BepInEx NÃO recebe Update neste jogo — criamos
-            // nosso próprio objeto persistente com um MonoBehaviour dedicado.
-            var updaterGo = new GameObject("RoguelikeQoL_Updater");
-            DontDestroyOnLoad(updaterGo);
-            updaterGo.AddComponent<QoLUpdater>();
-            Logger.LogInfo("QoL: updater próprio criado (recebe Update de forma garantida).");
+            // NÃO criar o updater aqui! Este Awake roda durante o chainloader do BepInEx, ANTES de
+            // existir cena — e a Unity DESTRÓI o GameObject na primeira carga de cena (confirmado
+            // 29/09 no log: "QoL: updater DESTRUÍDO pela Unity"), então ele nunca chegava a
+            // receber Update() e o HUD não aparecia. A criação é PREGUIÇOSA: acontece no primeiro
+            // Localize da UI (ver LocalizeHudTrigger), quando já existe cena viva.
+            new Harmony("com.gumatos.roguelikeqol").PatchAll();
+            Logger.LogInfo("QoL: patch de gatilho (OptionsManager.Localize) aplicado; updater será criado na primeira UI.");
         }
     }
 
     /// <summary>
-    /// MonoBehaviour dedicado que roda o HUD (QoL-1) em Update com TEMPO REAL — imune a
-    /// timeScale=0 e ao ciclo de vida do plugin.
+    /// Gatilho do HUD. A cada localização de texto da UI: garante que o updater exista (recria
+    /// se a Unity tiver destruído) e pede um refresh do HUD (com throttle interno).
+    /// </summary>
+    [HarmonyPatch(typeof(OptionsManager), nameof(OptionsManager.Localize))]
+    public static class LocalizeHudTrigger
+    {
+        private static void Postfix()
+        {
+            try
+            {
+                QoLUpdater.Ensure();
+            }
+            catch
+            {
+                // nunca quebrar a localização do jogo por causa do HUD
+            }
+        }
+    }
+
+    /// <summary>
+    /// MonoBehaviour do HUD. Normalmente atualiza em Update() a cada 0,5s, mas como o Update
+    /// deste objeto nem sempre é entregue neste jogo, o mesmo refresh também é disparado pelo
+    /// gatilho de Localize — os dois caminhos usam o MESMO RefreshIfDue (idempotente).
     /// </summary>
     public class QoLUpdater : MonoBehaviour
     {
+        private const float RefreshInterval = 0.5f;
+
         private Text _hudText;
         private float _lastUpdate = -99f;
         private bool _loggedFirstTick;
+        private bool _loggedFirstLocalize;
+        private bool _loggedFirstText;
+
+        public static QoLUpdater Instance { get; private set; }
+
+        private static bool _everDestroyed;
+
+        /// <summary>Cria o GameObject persistente do HUD (idempotente).</summary>
+        public static void Create()
+        {
+            if (Instance != null)
+            {
+                return;
+            }
+            var go = new GameObject("RoguelikeQoL_Updater");
+            DontDestroyOnLoad(go);
+            go.AddComponent<QoLUpdater>();
+        }
+
+        /// <summary>Garante que o updater exista e força um refresh (respeitando o throttle).</summary>
+        public static void Ensure()
+        {
+            if (Instance == null)
+            {
+                if (_everDestroyed)
+                {
+                    Plugin.Log.LogWarning("QoL: updater ausente — recriando (a Unity destruiu o anterior).");
+                }
+                Create();
+            }
+            if (Instance == null)
+            {
+                return;
+            }
+            Instance.MarkLocalizeSeen();
+            Instance.RefreshIfDue();
+        }
 
         private void Awake()
         {
             Instance = this;
+            Plugin.Log.LogInfo("QoL: updater criado.");
             CreateHud();
         }
 
-        public static QoLUpdater Instance { get; private set; }
+        private void Start()
+        {
+            Plugin.Log.LogInfo("QoL: Start() do updater chamado (objeto vivo na cena).");
+        }
+
+        private void OnDestroy()
+        {
+            Plugin.Log.LogWarning("QoL: updater DESTRUÍDO pela Unity.");
+            _everDestroyed = true;
+            if (Instance == this)
+            {
+                Instance = null;
+            }
+        }
+
+        internal void MarkLocalizeSeen()
+        {
+            if (_loggedFirstLocalize)
+            {
+                return;
+            }
+            _loggedFirstLocalize = true;
+            Plugin.Log.LogInfo("QoL: primeiro Localize recebido (a UI do jogo está rodando).");
+        }
+
+        internal void RefreshIfDue()
+        {
+            if (Time.realtimeSinceStartup - _lastUpdate < RefreshInterval)
+            {
+                return;
+            }
+            _lastUpdate = Time.realtimeSinceStartup;
+            Refresh();
+        }
+
+        private void Update()
+        {
+            if (!_loggedFirstTick)
+            {
+                _loggedFirstTick = true;
+                Plugin.Log.LogInfo("QoL: primeiro Update do updater OK (ciclo de vida funcionando).");
+            }
+            RefreshIfDue();
+        }
+
+        private void Refresh()
+        {
+            if (_hudText == null)
+            {
+                return;
+            }
+            try
+            {
+                string text = BuildHudText();
+                if (!_loggedFirstText && !string.IsNullOrEmpty(text))
+                {
+                    // Prova, pelo log, que o HUD tem conteúdo (só acontece dentro de uma run,
+                    // quando a party existe) — dá pra validar sem depender de screenshot.
+                    _loggedFirstText = true;
+                    Plugin.Log.LogInfo($"QoL HUD texto: {text.Replace("\n", " | ")}");
+                }
+                _hudText.text = text;
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Log.LogWarning($"QoL HUD erro: {e.Message}");
+                _hudText.text = "";
+            }
+        }
 
         private void CreateHud()
         {
@@ -90,30 +220,6 @@ namespace RoguelikeQoL
             rt.anchoredPosition = new Vector2(12f, -12f);
             _hudText = text;
             _hudText.text = "";
-        }
-
-        private void Update()
-        {
-            if (!_loggedFirstTick)
-            {
-                _loggedFirstTick = true;
-                Plugin.Log.LogInfo("QoL: primeiro Update do updater OK (ciclo de vida funcionando).");
-            }
-
-            // HUD: 2x por segundo.
-            if (Time.realtimeSinceStartup - _lastUpdate >= 0.5f)
-            {
-                _lastUpdate = Time.realtimeSinceStartup;
-                try
-                {
-                    _hudText.text = BuildHudText();
-                }
-                catch (System.Exception e)
-                {
-                    Plugin.Log.LogWarning($"QoL HUD erro: {e.Message}");
-                    _hudText.text = "";
-                }
-            }
         }
 
         private static string BuildHudText()

@@ -24,19 +24,19 @@ namespace BetterFont
             Log = Logger;
             Logger.LogInfo("Better Font carregado.");
 
-            // O GameObject do próprio plugin BepInEx NÃO recebe Update neste jogo — criamos
-            // nosso próprio objeto persistente com um MonoBehaviour dedicado.
-            var go = new GameObject("BetterFont_Updater");
-            DontDestroyOnLoad(go);
-            go.AddComponent<FontUpdater>();
-            Logger.LogInfo("Better Font: updater próprio criado (recebe Update de forma garantida).");
+            // NÃO criar o updater aqui! Este Awake roda durante o chainloader do BepInEx, ANTES
+            // de existir cena — a Unity DESTRÓI na primeira carga de cena qualquer GameObject
+            // criado ali (mesma causa raiz do HUD do RoguelikeQoL, confirmada 29/09), e o updater
+            // nunca chegava a receber Update. A criação é PREGUIÇOSA: no primeiro Localize da UI.
+            new Harmony("com.gumatos.betterfont").PatchAll();
+            Logger.LogInfo("Better Font: patch de gatilho (OptionsManager.Localize) aplicado; updater será criado na primeira UI.");
         }
     }
 
     /// <summary>
     /// Gatilho da fonte: a cada localização de texto (o funil Localize roda em TODA renderização
-    /// de UI), pede uma varredura de fonte com throttle. Assim a fonte aplica assim que qualquer
-    /// tela renderiza — sem depender de Update/foco/timeScale.
+    /// de UI), garante que o updater exista e pede uma varredura de fonte com throttle. Assim a
+    /// fonte aplica assim que qualquer tela renderiza — sem depender de Update/foco/timeScale.
     /// </summary>
     [HarmonyPatch(typeof(OptionsManager), nameof(OptionsManager.Localize))]
     public static class LocalizeFontTrigger
@@ -45,7 +45,7 @@ namespace BetterFont
         {
             try
             {
-                FontUpdater.Instance?.MaybeSweep();
+                FontUpdater.Ensure();
             }
             catch
             {
@@ -55,21 +55,67 @@ namespace BetterFont
     }
 
     /// <summary>
-    /// MonoBehaviour dedicado: roda a varredura de fonte em Update com TEMPO REAL — imune a
-    /// timeScale=0 e ao ciclo de vida do plugin.
+    /// MonoBehaviour dedicado: roda a varredura de fonte com TEMPO REAL — imune a timeScale=0 e
+    /// ao ciclo de vida do plugin. É criado já com a cena viva (ver LocalizeFontTrigger), senão
+    /// a Unity o destruiria na primeira carga de cena e o Update nunca rodaria.
     /// </summary>
     public class FontUpdater : MonoBehaviour
     {
         public static FontUpdater Instance { get; private set; }
 
+        private static bool _everDestroyed;
+
         private float _lastSweep = -99f;
         private TMP_FontAsset _serifFont;
         private readonly HashSet<TMP_Text> _seenTexts = new HashSet<TMP_Text>();
+        private bool _loggedFirstSweep;
+
+        /// <summary>Cria o GameObject persistente do updater (idempotente).</summary>
+        public static void Create()
+        {
+            if (Instance != null)
+            {
+                return;
+            }
+            var go = new GameObject("BetterFont_Updater");
+            DontDestroyOnLoad(go);
+            go.AddComponent<FontUpdater>();
+        }
+
+        /// <summary>Garante que o updater exista e pede uma varredura (respeitando o throttle).</summary>
+        public static void Ensure()
+        {
+            if (Instance == null)
+            {
+                if (_everDestroyed)
+                {
+                    Plugin.Log.LogWarning("Better Font: updater ausente — recriando (a Unity destruiu o anterior).");
+                }
+                Create();
+            }
+            Instance?.MaybeSweep();
+        }
 
         private void Awake()
         {
             Instance = this;
-            FontSweep(); // primeira passada imediata (textos já existentes no boot)
+            Plugin.Log.LogInfo("Better Font: updater criado.");
+            FontSweep(); // primeira passada imediata
+        }
+
+        private void Start()
+        {
+            Plugin.Log.LogInfo("Better Font: Start() do updater chamado (objeto vivo na cena).");
+        }
+
+        private void OnDestroy()
+        {
+            Plugin.Log.LogWarning("Better Font: updater DESTRUÍDO pela Unity.");
+            _everDestroyed = true;
+            if (Instance == this)
+            {
+                Instance = null;
+            }
         }
 
         public void MaybeSweep()
@@ -140,6 +186,11 @@ namespace BetterFont
                     {
                         t.font = _serifFont;
                     }
+                }
+                if (!_loggedFirstSweep)
+                {
+                    _loggedFirstSweep = true;
+                    Plugin.Log.LogInfo($"Better Font: varredura aplicada ({_seenTexts.Count} textos vistos).");
                 }
             }
             catch (System.Exception e)
