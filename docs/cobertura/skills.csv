@@ -179,7 +179,7 @@ Fuel for the Flames I,Fire,3,None,,Increase the mana cost of all skills by 20% a
 Fuel for the Flames II,Fire,4,None,,Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.,pendente
 Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,pendente
 Gathering Storm,Lightning,2,None,,Increases @maximum mana@ by 20%.,pendente
-Ghost Armor,Shadow,1,None,"Beneficial,Ranged",Completely negates the next attack.  Lasts until hit. ,pendente
+Ghost Armor,Shadow,1,None,"Beneficial,Ranged",Completely negates the next attack.  Lasts until hit. ,corrigido
 Glory,Light,2,None,Beneficial,The first time you receive fatal damage in battle you are revived with 1 health and become immune to all damage for 1 turn.,pendente
 Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn. ,pendente
 Gouge,Thief,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,pendente
@@ -298,7 +298,7 @@ Piercing Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damag
 Pinning Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Applies {STA=Immobilized}.,pendente
 Plot Armor I,Bard,4,None,Beneficial,The max damage you can take in 1 hit is 50% of your max health.,intocavel
 Plot Armor II,Bard,5,None,Beneficial,The max damage you can take in 1 hit is 25% of your max health.,intocavel
-Poison Cloud,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.,pendente
+Poison Cloud,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.,corrigido
 Poison Weapon,Thief,1,None,Beneficial,Attacks now apply 1 stack of {STA=Poisoned}.,pendente
 Poisoned Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",Throw a poisoned dagger dealing *0 weapon damage.  Applies 2 stacks of {STA=Poisoned}.,pendente
 Power Strikes,Monk,4,Weapon,"Harmful,DealsDamage",Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you hit increases the damage of Power Strikes by 50%.,pendente
@@ -319,7 +319,7 @@ Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",Summon a skeletal mage to 
 Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",Summon a skeletal warrior to fight by your side.,pendente
 Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",Raise an Undead Berserker to fight by your side.,pendente
 Raise Undead Ranger,Shadow,1,None,Ranged,Raise an Undead Ranger to fight by your side.,pendente
-Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",Raise a Undead Wizard to fight by your side.,pendente
+Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",Raise a Undead Wizard to fight by your side.,corrigido
 Rally,Ranger,1,None,"Beneficial,AreaEffect",Increases movement of all allies within 4 hexes by 3.,pendente
 Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",Deals *0 weapon damage to target. ,pendente
 Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage","Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",pendente
@@ -368,7 +368,7 @@ Sniper Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.
 Soft Step,Thief,5,None,,Moving 5 hexes in a row grants {STA=Stealth} for your current turn.  Your character no longer takes attacks of opportunity.  ,pendente
 Song of Swiftness,Bard,3,None,Beneficial,(Song) Allies within 4 hexes of you gain 5 Dexterity and Reflex. Every time Song of Swiftness is cast consecutively gain Crescendo of Swiftness: increases the amount given by 5. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
 Soul Cleanse,Monk,4,Healing,Beneficial,Removes all negative status effects from target ally. Each status effect removed heals the target for 10% of their max health.   Can be used when Disabled.,pendente
-Soul Crush,Shadow,3,Shadow,"Harmful,DealsDamage,Ranged",Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ,pendente
+Soul Crush,Shadow,3,Shadow,"Harmful,DealsDamage,Ranged",Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ,corrigido
 Soul Exchange,Shadow,5,None,"Harmful,DealsDamage,Ranged","Swaps the life force of both you and a target, dealing *0 @Shadow Damage@ based on your missing Health. @Lifesteals@ 100%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect abilities.",pendente
 Soul Link,Shadow,4,Shadow,Ranged,All damage and healing dealt to one target is also dealt to the linked target.,pendente
 Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,pendente

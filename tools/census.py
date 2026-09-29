@@ -96,6 +96,16 @@ def parse(path):
             unicos.append((nome, fields, desc))
 
         out = os.path.join(OUT_DIR, fname)
+
+        # O CSV e GERADO, mas a coluna `status` e preenchida a mao (RV-8..RV-12).
+        # Regenerar sem carregar o anterior apagaria todo o trabalho de revisao.
+        anterior = {}
+        if os.path.isfile(out):
+            with open(out, encoding="utf-8") as fh:
+                for r in csv.DictReader(fh):
+                    if r.get("status"):
+                        anterior[(r.get("nome", ""), r.get("nivel", ""))] = r["status"]
+
         with open(out, "w", encoding="utf-8", newline="") as fh:
             w = csv.writer(fh)
             w.writerow(header)
@@ -103,22 +113,26 @@ def parse(path):
                     unicos,
                     key=lambda r: (r[0].lower(),
                                    int(r[1]["nivel"]) if r[1].get("nivel", "").isdigit() else 0)):
+                st = anterior.get((nome, f.get("nivel", "")))
                 if cat == "Skill":
-                    status = "intocavel" if f.get("tipo", "").lower() == "bard" else "pendente"
+                    padrao = "intocavel" if f.get("tipo", "").lower() == "bard" else "pendente"
                     w.writerow([nome, f.get("tipo", ""), f.get("tier", ""), f.get("dano", ""),
-                                f.get("tags", ""), desc, status])
+                                f.get("tags", ""), desc, st or padrao])
                 elif cat == "Status":
                     w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""),
                                 f.get("efeitos", "").strip().rstrip(","),
-                                classe_status(f.get("efeitos", ""), desc), desc, "pendente"])
+                                classe_status(f.get("efeitos", ""), desc), desc,
+                                st or "pendente"])
                 elif cat == "Item":
                     w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""),
-                                f.get("lvlMin", ""), desc, "pendente"])
+                                f.get("lvlMin", ""), desc, st or "pendente"])
                 elif cat == "ItemMod":
-                    w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""), desc, "pendente"])
+                    w.writerow([nome, f.get("tipo", ""), f.get("raridade", ""), desc,
+                                st or "pendente"])
                 else:  # Powerup: uma linha por nivel, porque o tooltip e por nivel
                     w.writerow([nome, f.get("guid", ""), f.get("nivel", ""), f.get("custo", ""),
-                                f.get("efeitos", "").strip().rstrip(","), desc, "pendente"])
+                                f.get("efeitos", "").strip().rstrip(","), desc,
+                                st or "pendente"])
         resumo.append((cat, len(items), len(unicos), fname))
     return resumo, truncadas
 
