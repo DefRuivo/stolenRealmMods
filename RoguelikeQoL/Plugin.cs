@@ -161,11 +161,133 @@ namespace RoguelikeQoL
                 {
                     sb.Append(" | powerups ERRO: ").Append(ex.Message);
                 }
+                // Skills com efeitos de atributo (ex.: "Light's Brilliance").
+                try
+                {
+                    sb.Append(" | skillsFromPoints: ");
+                    DumpSkills(sb, character.SkillsFromPoints);
+                    sb.Append(" | skillsAll: ");
+                    DumpSkills(sb, character.Skills);
+                }
+                catch (System.Exception ex)
+                {
+                    sb.Append(" | skills ERRO: ").Append(ex.Message);
+                }
+                // Status effects com efeitos de atributo.
+                try
+                {
+                    sb.Append(" | statuses: ");
+                    if (character.ActionStatuses != null)
+                    {
+                        foreach (var st in character.ActionStatuses)
+                        {
+                            if (st == null || st.ActionStatusInfo == null)
+                            {
+                                continue;
+                            }
+                            var effs2 = st.ActionStatusInfo.AttributeEffects;
+                            if (effs2 == null || effs2.Length == 0)
+                            {
+                                continue;
+                            }
+                            sb.Append(st.ActionStatusInfo.name).Append(": ");
+                            foreach (var ei in effs2)
+                            {
+                                if (ei != null && ei.CharacterAttribute != null)
+                                {
+                                    sb.Append(ei.CharacterAttribute.name).Append(':').Append(ei.CharacterEffectMethod).Append(':').Append(ei.Amount).Append(", ");
+                                }
+                            }
+                            sb.Append("; ");
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    sb.Append(" | statuses ERRO: ").Append(ex.Message);
+                }
+                // Contexto + equipamento (ItemCharacterEffects) + debug de contribuições de Inteligência.
+                try
+                {
+                    var nm2 = NetworkingManager.Instance;
+                    if (nm2 != null && nm2.NetworkManager != null && nm2.NetworkManager.Root != null)
+                    {
+                        sb.Append(" | PlayingRoguelike=").Append(nm2.NetworkManager.Root.PlayingRoguelike);
+                    }
+                }
+                catch { }
+                try
+                {
+                    sb.Append(" | equipped: ");
+                    if (character.EquippedItems != null)
+                    {
+                        foreach (var it in character.EquippedItems)
+                        {
+                            if (it == null || it.ItemCharacterEffects == null)
+                            {
+                                continue;
+                            }
+                            sb.Append(it.ItemName).Append(": ");
+                            foreach (var ic in it.ItemCharacterEffects)
+                            {
+                                if (ic != null && ic.CharacterAttribute != null)
+                                {
+                                    sb.Append(ic.CharacterAttribute.name).Append(':').Append(ic.Method).Append(':').Append(ic.Amount).Append(", ");
+                                }
+                            }
+                            sb.Append("; ");
+                        }
+                    }
+                }
+                catch (System.Exception ex)
+                {
+                    sb.Append(" | equipped ERRO: ").Append(ex.Message);
+                }
                 Plugin.Log.LogInfo(sb.ToString());
+                // Debug nativo do jogo: lista TODAS as contribuições (com origem) para Intelligence.
+                try
+                {
+                    var intelAttr = Game.Instance.GetAttribute("Intelligence");
+                    if (intelAttr != null)
+                    {
+                        character.DebugCharacterAttribute(intelAttr);
+                    }
+                    var intelBaseAttr = Game.Instance.GetAttribute("IntelligenceBase");
+                    if (intelBaseAttr != null)
+                    {
+                        character.DebugCharacterAttribute(intelBaseAttr);
+                    }
+                }
+                catch { }
             }
             catch (System.Exception ex)
             {
                 Plugin.Log.LogWarning("QoL-3 diag erro: " + ex.Message);
+            }
+        }
+
+        private static void DumpSkills(System.Text.StringBuilder sb, System.Collections.Generic.List<SkillInfo> skills)
+        {
+            if (skills == null)
+            {
+                sb.Append("(null)");
+                return;
+            }
+            foreach (var sk in skills)
+            {
+                if (sk == null || sk.AttributeEffects == null || sk.AttributeEffects.Length == 0)
+                {
+                    continue;
+                }
+                sb.Append(sk.SkillName).Append(": ");
+                foreach (var ei in sk.AttributeEffects)
+                {
+                    if (ei != null && ei.CharacterAttribute != null)
+                    {
+                        sb.Append(ei.CharacterAttribute.name).Append(':').Append(ei.CharacterEffectMethod).Append(':').Append(ei.Amount).Append(", ");
+                    }
+                }
+                sb.Append("; ");
             }
         }
 
