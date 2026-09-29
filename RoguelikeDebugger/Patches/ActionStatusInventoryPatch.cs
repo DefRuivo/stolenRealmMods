@@ -51,14 +51,28 @@ namespace RoguelikeDebugger.Patches
                     {
                         continue;
                     }
+                    // Censo (RV-7): descricao COMPLETA (o corte em 90 chars cortava a mecanica).
                     var desc = s.Description ?? "";
-                    if (desc.Length > 90)
+
+                    // Efeitos de atributo: e o que permite separar DEBUFF de BUFF pelo sinal
+                    // do valor (RV-9 revisa debuffs primeiro, por pedido do projeto).
+                    var ef = new System.Text.StringBuilder();
+                    if (s.AttributeEffects != null)
                     {
-                        desc = desc.Substring(0, 90) + "...";
+                        foreach (var e in s.AttributeEffects)
+                        {
+                            if (e == null || e.CharacterAttribute == null)
+                            {
+                                continue;
+                            }
+                            ef.Append(e.CharacterAttribute.name).Append(':')
+                              .Append(e.CharacterEffectMethod).Append(':')
+                              .Append(e.Amount).Append(", ");
+                        }
                     }
                     Plugin.Log.LogInfo(
                         $"[Status] '{s.Name}' | tipo={s.StatusType} | raridade={s.Rarity} | " +
-                        $"desc=\"{desc.Replace("\n", " ")}\"");
+                        $"efeitos={ef} | desc=\"{desc.Replace("\n", " ")}\"");
                 }
             }
             catch (Exception e)

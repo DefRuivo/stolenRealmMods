@@ -1,0 +1,80 @@
+nome,guid,nivel,custo,efeitos,descricao,status
+Attribute Points,87331c0d-cf17-4065-a78a-a61a95c9a54d,1,1000,AdditionalRoguelikeAttributesPointsPerLevel:Base:1,Attribute Points Per Level +1,pendente
+Attribute Points,87331c0d-cf17-4065-a78a-a61a95c9a54d,2,2000,AdditionalRoguelikeAttributesPointsPerLevel:Base:2,Attribute Points Per Level +2,pendente
+Attribute Points,87331c0d-cf17-4065-a78a-a61a95c9a54d,3,3000,AdditionalRoguelikeAttributesPointsPerLevel:Base:3,Attribute Points Per Level +3,pendente
+Damage and Healing,ea7b8713-5214-4640-986a-57cc732e030e,1,500,DamageMod:Base:5,+ 5% to Damage and Healing,pendente
+Damage and Healing,ea7b8713-5214-4640-986a-57cc732e030e,2,1000,DamageMod:Base:10,+ 10% to Damage and Healing,pendente
+Damage and Healing,ea7b8713-5214-4640-986a-57cc732e030e,3,1500,DamageMod:Base:15,+ 15% to Damage and Healing,pendente
+Damage and Healing,ea7b8713-5214-4640-986a-57cc732e030e,4,2000,DamageMod:Base:20,+ 20% to Damage and Healing,pendente
+Damage and Healing,ea7b8713-5214-4640-986a-57cc732e030e,5,2500,DamageMod:Base:25,+ 25% to Damage and Healing,pendente
+Damage Reduction,8418d52f-c828-49e4-8921-a8cbe17e7708,1,500,DamageReduction:Base:4,+ 4% Damage Reduction,pendente
+Damage Reduction,8418d52f-c828-49e4-8921-a8cbe17e7708,2,1000,DamageReduction:Base:8,+ 8% Damage Reduction,pendente
+Damage Reduction,8418d52f-c828-49e4-8921-a8cbe17e7708,3,1500,DamageReduction:Base:12,+ 12% Damage Reduction,pendente
+Damage Reduction,8418d52f-c828-49e4-8921-a8cbe17e7708,4,2000,DamageReduction:Base:16,+ 16% Damage Reduction,pendente
+Damage Reduction,8418d52f-c828-49e4-8921-a8cbe17e7708,5,2500,DamageReduction:Base:20,+ 20% Damage Reduction,pendente
+Dexterity,17fa2234-458a-408e-acfc-69c2686ec97f,1,250,DexterityBase:Base:3,+ 3 to Dexterity,pendente
+Dexterity,17fa2234-458a-408e-acfc-69c2686ec97f,2,500,DexterityBase:Base:6,+ 6 to Dexterity,pendente
+Dexterity,17fa2234-458a-408e-acfc-69c2686ec97f,3,750,DexterityBase:Base:9,+ 9 to Dexterity,pendente
+Dexterity,17fa2234-458a-408e-acfc-69c2686ec97f,4,1000,DexterityBase:Base:12,+ 12 to Dexterity,pendente
+Dexterity,17fa2234-458a-408e-acfc-69c2686ec97f,5,1250,DexterityBase:Base:15,+ 15 to Dexterity,pendente
+Increased Gold Find,b93b38ac-4f8d-4ace-b7c8-b85ec2992e3c,1,500,GoldMod:Base:10,+ 10% increased Gold Find,pendente
+Increased Gold Find,b93b38ac-4f8d-4ace-b7c8-b85ec2992e3c,2,1000,GoldMod:Base:20,+ 20% increased Gold Find,pendente
+Increased Gold Find,b93b38ac-4f8d-4ace-b7c8-b85ec2992e3c,3,1500,GoldMod:Base:30,+ 30% increased Gold Find,pendente
+Increased Gold Find,b93b38ac-4f8d-4ace-b7c8-b85ec2992e3c,4,2000,GoldMod:Base:40,+ 40% increased Gold Find,pendente
+Increased Gold Find,b93b38ac-4f8d-4ace-b7c8-b85ec2992e3c,5,2500,GoldMod:Base:50,+ 50% increased Gold Find,pendente
+Intelligence,3c771502-99ec-4d7d-b3bc-a741437af6e4,1,250,IntelligenceBase:Base:3,+ 3 to Intelligence,pendente
+Intelligence,3c771502-99ec-4d7d-b3bc-a741437af6e4,2,500,IntelligenceBase:Base:6,+ 6 to Intelligence,pendente
+Intelligence,3c771502-99ec-4d7d-b3bc-a741437af6e4,3,750,IntelligenceBase:Base:9,+ 9 to Intelligence,pendente
+Intelligence,3c771502-99ec-4d7d-b3bc-a741437af6e4,4,1000,IntelligenceBase:Base:12,+ 12 to Intelligence,pendente
+Intelligence,3c771502-99ec-4d7d-b3bc-a741437af6e4,5,1250,IntelligenceBase:Base:15,+ 15 to Intelligence,pendente
+Might,e70cb592-cb9a-4e7f-a2a9-b65e3679efb7,1,250,MightBase:Base:3,+ 3 to Might,pendente
+Might,e70cb592-cb9a-4e7f-a2a9-b65e3679efb7,2,500,MightBase:Base:6,+ 6 to Might,pendente
+Might,e70cb592-cb9a-4e7f-a2a9-b65e3679efb7,3,750,MightBase:Base:9,+ 9 to Might,pendente
+Might,e70cb592-cb9a-4e7f-a2a9-b65e3679efb7,4,1000,MightBase:Base:12,+ 12 to Might,pendente
+Might,e70cb592-cb9a-4e7f-a2a9-b65e3679efb7,5,1250,MightBase:Base:15,+ 15 to Might,pendente
+Movement,7959de69-313d-438f-8a4c-4a9ddc0ce056,1,1000,TurnFreeMovementPoints:Base:1,Gain 1 additional movement,pendente
+Movement,7959de69-313d-438f-8a4c-4a9ddc0ce056,2,3000,TurnFreeMovementPoints:Base:2,Gain 2 additional movement,pendente
+Range,6371707d-44d0-4e8e-9c63-3af3d47f29b3,1,1000,RangeTypeAdderRanged:Base:1,Gain 1 additional range,pendente
+Range,6371707d-44d0-4e8e-9c63-3af3d47f29b3,2,3000,RangeTypeAdderRanged:Base:2,Gain 2 additional range,pendente
+Reflex,b17c5efe-e1c4-4319-a437-f20d886c3607,1,250,ReflexBase:Base:3,+ 3 to Reflex,pendente
+Reflex,b17c5efe-e1c4-4319-a437-f20d886c3607,2,500,ReflexBase:Base:6,+ 6 to Reflex,pendente
+Reflex,b17c5efe-e1c4-4319-a437-f20d886c3607,3,750,ReflexBase:Base:9,+ 9 to Reflex,pendente
+Reflex,b17c5efe-e1c4-4319-a437-f20d886c3607,4,1000,ReflexBase:Base:12,+ 12 to Reflex,pendente
+Reflex,b17c5efe-e1c4-4319-a437-f20d886c3607,5,1250,ReflexBase:Base:15,+ 15 to Reflex,pendente
+Resist Cold,e99a5d07-76c3-4d80-8d15-08d7323bbdee,1,500,ResistCold:Base:10,[[ResistCold]] +10%,pendente
+Resist Cold,e99a5d07-76c3-4d80-8d15-08d7323bbdee,2,1000,ResistCold:Base:15,[[ResistCold]] +15%,pendente
+Resist Cold,e99a5d07-76c3-4d80-8d15-08d7323bbdee,3,1500,ResistCold:Base:20,[[ResistCold]] +20%,pendente
+Resist Fire,5acb3650-48f3-4eac-89eb-54e4b19b0fca,1,500,ResistFire:Base:10,[[ResistFire]] +10%,pendente
+Resist Fire,5acb3650-48f3-4eac-89eb-54e4b19b0fca,2,1000,ResistFire:Base:15,[[ResistFire]] +15%,pendente
+Resist Fire,5acb3650-48f3-4eac-89eb-54e4b19b0fca,3,1500,ResistFire:Base:20,[[ResistFire]] +20%,pendente
+Resist Lightning,6e122ae1-16a3-4726-8d16-8102c533c904,1,500,ResistLightning:Base:10,[[ResistLightning]] +10%,pendente
+Resist Lightning,6e122ae1-16a3-4726-8d16-8102c533c904,2,1000,ResistLightning:Base:15,[[ResistLightning]] +15%,pendente
+Resist Lightning,6e122ae1-16a3-4726-8d16-8102c533c904,3,1500,ResistLightning:Base:20,[[ResistLightning]] +20%,pendente
+Resist Physical,e7428db0-0907-4a2e-86ad-e26c0da6efef,1,500,ResistPhysical:Base:10,[[ResistPhysical]] +10%,pendente
+Resist Physical,e7428db0-0907-4a2e-86ad-e26c0da6efef,2,1000,ResistPhysical:Base:15,[[ResistPhysical]] +15%,pendente
+Resist Physical,e7428db0-0907-4a2e-86ad-e26c0da6efef,3,1500,ResistPhysical:Base:20,[[ResistPhysical]] +20%,pendente
+Skill Options,d78d1d6c-4f6d-4c7c-bc80-0dc82a93438b,1,1000,AdditionalRoguelikeSkillOptions:Base:1,Skill Options +1,pendente
+Skill Options,d78d1d6c-4f6d-4c7c-bc80-0dc82a93438b,2,5000,AdditionalRoguelikeSkillOptions:Base:2,Skill Options +2,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,1,1500,,Skill Tree Removals +1,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,2,3000,,Skill Tree Removals +2,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,3,6000,,Skill Tree Removals +3,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,4,10000,,Skill Tree Removals +4,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,5,15000,,Skill Tree Removals +5,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,6,22000,,Skill Tree Removals +6,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,7,30000,,Skill Tree Removals +7,pendente
+Skill Tree Removal,afcbfd64-3f66-497a-947c-5feb1535125e,8,40000,,Skill Tree Removals +8,pendente
+Summon Damage & Health,c2c5dde4-db36-4532-aca6-f6502dce31fc,1,250,"SummonDamageMod:Base:5, SummonHealthMod:Base:5",+ 5% to Summon Damage and Health,pendente
+Summon Damage & Health,c2c5dde4-db36-4532-aca6-f6502dce31fc,2,500,"SummonDamageMod:Base:10, SummonHealthMod:Base:10",+ 10% to Summon Damage and Health,pendente
+Summon Damage & Health,c2c5dde4-db36-4532-aca6-f6502dce31fc,3,750,"SummonDamageMod:Base:15, SummonHealthMod:Base:15",+ 15% to Summon Damage and Health,pendente
+Summon Damage & Health,c2c5dde4-db36-4532-aca6-f6502dce31fc,4,1000,"SummonDamageMod:Base:20, SummonHealthMod:Base:20",+ 20% to Summon Damage and Health,pendente
+Summon Damage & Health,c2c5dde4-db36-4532-aca6-f6502dce31fc,5,1250,"SummonDamageMod:Base:25, SummonHealthMod:Base:25",+ 25% to Summon Damage and Health,pendente
+Treasure Find,a8d68513-4f66-4d51-b8e2-45d16d036a59,1,500,DropQuantityMod:Base:20,+ 20% increased Treasure Find,pendente
+Treasure Find,a8d68513-4f66-4d51-b8e2-45d16d036a59,2,1000,DropQuantityMod:Base:40,+ 40% increased Treasure Find,pendente
+Treasure Find,a8d68513-4f66-4d51-b8e2-45d16d036a59,3,1500,DropQuantityMod:Base:60,+ 60% increased Treasure Find,pendente
+Treasure Find,a8d68513-4f66-4d51-b8e2-45d16d036a59,4,2000,DropQuantityMod:Base:80,+ 80% increased Treasure Find,pendente
+Treasure Find,a8d68513-4f66-4d51-b8e2-45d16d036a59,5,2500,DropQuantityMod:Base:100,+ 100% increased Treasure Find,pendente
+Vitality,d62b53f5-e952-42a4-b3d6-440e2786bc74,1,250,VitalityBase:Base:3,+ 3 to Vitality,pendente
+Vitality,d62b53f5-e952-42a4-b3d6-440e2786bc74,2,500,VitalityBase:Base:6,+ 6 to Vitality,pendente
+Vitality,d62b53f5-e952-42a4-b3d6-440e2786bc74,3,750,VitalityBase:Base:9,+ 9 to Vitality,pendente
+Vitality,d62b53f5-e952-42a4-b3d6-440e2786bc74,4,1000,VitalityBase:Base:12,+ 12 to Vitality,pendente
+Vitality,d62b53f5-e952-42a4-b3d6-440e2786bc74,5,1250,VitalityBase:Base:15,+ 15 to Vitality,pendente

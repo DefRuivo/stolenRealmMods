@@ -49,11 +49,9 @@ namespace RoguelikeDebugger.Patches
                     {
                         continue;
                     }
+                    // Censo (RV-7): descricao COMPLETA. O corte em 110 chars existia para nao
+                    // poluir o log, mas sem o texto inteiro o checklist de revisao nao serve.
                     var desc = sk.Description ?? "";
-                    if (desc.Length > 110)
-                    {
-                        desc = desc.Substring(0, 110) + "...";
-                    }
                     string tags = sk.SkillTags != null ? string.Join(",", sk.SkillTags) : "";
                     Plugin.Log.LogInfo(
                         $"[Skill] '{sk.SkillName}' | tipo={sk.SkillType} | dano={sk.DamageType} | " +

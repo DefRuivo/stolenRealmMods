@@ -1,0 +1,286 @@
+nome,tipo,raridade,descricao,status
+Abyss,Suffix,Mythic,Shadow skill damage increased by [15]%,pendente
+Agile,Prefix,Common,Dexterity increased,pendente
+Agile,Prefix,Rare,Dexterity increased by [9],pendente
+Amber,Suffix,Legendary,Lightning Resistance increased by 10%,pendente
+Angel,Suffix,Legendary,Divine Resistance increased by 10%,pendente
+Apprentice,Suffix,Common,Armor increased by 5%,pendente
+Apprentice,Suffix,Common,Weapon damage increased by [12]%,pendente
+Aquamarine,Suffix,Rare,Cold Resistance increased by 5%,pendente
+Artificer,Suffix,Legendary,Armor increased by 35%,pendente
+Artificer,Suffix,Legendary,Weapon damage increased by [24]%,pendente
+Artisan,Suffix,Uncommon,Armor increased by 15%,pendente
+Artisan,Suffix,Uncommon,Weapon damage increased by [16]%,pendente
+Avalanche,Suffix,Mythic,Cold skill damage increased by [15]%,pendente
+Barbed,Prefix,Common,Physical Damage Return +8.,pendente
+Barbs,Suffix,Legendary, +[16] Physical Damage Return.,pendente
+Befouled,Prefix,Common,+[2] Damage to Shadow,pendente
+Behemoth,Suffix,Rare,Weapon damage increased by [25]% Movement points lowered by 1,pendente
+Bestowing,Prefix,Common,Summon resistance increased,pendente
+Bestowing,Prefix,Rare,Summon resistance increased by 5%.,pendente
+Blessed,Prefix,Common,Item attributes increased by 10%,pendente
+Blessed,Prefix,Uncommon,+[4] added Healing.,pendente
+Blighted,Prefix,Common,Shadow skill damage increased,pendente
+Blighted,Prefix,Rare,+[6] Damage to Shadow,pendente
+Bolstered,Prefix,Common,+20 added Physical Armor,pendente
+Brawny,Prefix,Common,Might increased by [3],pendente
+Bright,Prefix,Common,Intelligence increased,pendente
+Bright,Prefix,Uncommon,Intelligence increased by [6],pendente
+Brilliant,Prefix,Common,Intelligence increased,pendente
+Brilliant,Prefix,Legendary,Intelligence increased by [12],pendente
+Bristles,Suffix,Common, +[4] Physical Damage Return.,pendente
+Burning,Prefix,Common,Fire skill damage increased,pendente
+Burning,Prefix,Rare,+[6] Damage to Fire,pendente
+Butchery,Suffix,Legendary,Critical Hit Damage and Healing increased by [45]%,pendente
+Caretaker's,Prefix,Legendary,Summon Health increased by [10]%,pendente
+Carnage,Suffix,Rare,Critical Hit Damage and Healing increased by [35]%,pendente
+Carnelian,Suffix,Rare,Fire Resistance increased by 5%,pendente
+Charged,Prefix,Common,Lightning skill damage increased,pendente
+Charged,Prefix,Uncommon,+[4] Damage to Lightning,pendente
+Chilled,Prefix,Common,+[2] Damage to Cold,pendente
+Chromatic,Prefix,Common,Resistances increased,pendente
+Citrine,Suffix,Rare,Lightning Resistance increased by 5%,pendente
+Clever,Prefix,Common,Intelligence increased,pendente
+Clever,Prefix,Common,Intelligence increased by [3],pendente
+Cold,Prefix,Common,Cold skill damage increased,pendente
+Cold,Prefix,Uncommon,+[4] Damage to Cold,pendente
+Colossal,Prefix,Common,Weapon damage increased by 40% Movement points lowered,pendente
+Colossus,Suffix,Legendary,Weapon damage increased by [30]% Movement points lowered,pendente
+Commanding,Prefix,Mythic,Increases Summon Limit by 1.,pendente
+Conflagration,Suffix,Legendary,Fire skill damage increased by [12]%,pendente
+Conjurer,Suffix,Common,Summon Damage increased by [4]%,pendente
+Crusher,Suffix,Rare,Physical damage increased by [9]%,pendente
+Crushing,Prefix,Common,Physical damage increased,pendente
+Cursed,Prefix,Legendary,+[8] Damage to Shadow,pendente
+Darkened,Prefix,Common,Shadow skill damage increased,pendente
+Darkness,Suffix,Uncommon,Shadow skill damage increased by [6]%,pendente
+Deadly,Prefix,Common,Crit damage increased,pendente
+Death Hunter,Suffix,Mythic,Summon Health increased by [12]%,pendente
+Defending,Prefix,Common,Physical resistance increased,pendente
+Dexterous,Prefix,Mythic,Dexterity increased by [15],pendente
+Diffusing,Prefix,Common,Lightning resistance increased,pendente
+Distancing,Prefix,Common,Skill range increased,pendente
+Distancing,Prefix,Uncommon,Skill range increased by 1.,pendente
+Doctor,Suffix,Legendary,Holy power increased by [12]%,pendente
+Dusk,Suffix,Rare,Shadow skill damage increased by [9]%,pendente
+Electrified,Prefix,Common,Lightning skill damage increased,pendente
+Electrified,Prefix,Legendary,+[8] Damage to Lightning,pendente
+Elusive,Prefix,Common,Reflex increased,pendente
+Elusive,Prefix,Common,Reflex increased by [3],pendente
+Embalmer,Suffix,Rare,Summon Health increased by [8]%,pendente
+Embalmer's,Prefix,Common,Summon health increased.,pendente
+Enchanter,Suffix,Uncommon,Elemental skill damage increased by [6]%,pendente
+Enduring,Prefix,Legendary,Vitality increased by [12],pendente
+Energized,Prefix,Rare,+[6] Damage to Lightning,pendente
+Energizing,Prefix,Common,Mana costs lowered,pendente
+Energizing,Prefix,Uncommon,Mana costs lowered by 5%.,pendente
+Evasive,Prefix,Common,Reflex increased,pendente
+Evasive,Prefix,Uncommon,Reflex increased by [6],pendente
+Evisceration,Suffix,Mythic,Critical Hit Damage and Healing increased by [55]%,pendente
+Exalted,Prefix,Common,Item attributes increased by 30%,pendente
+Exalted,Prefix,Legendary,+[8] added Healing.,pendente
+Exceptional,Prefix,Common,Weapon damage increased by 10%,pendente
+Exceptional,Prefix,Uncommon,+20 added Armor and Magic Armor,pendente
+Exceptional,Prefix,Uncommon,+[10] to Weapon Damage,pendente
+Exquisite,Prefix,Common,Weapon damage increased by 15%,pendente
+Exquisite,Prefix,Rare,+30 added Armor and Magic Armor,pendente
+Exquisite,Prefix,Rare,+[20] to Weapon Damage,pendente
+Fatal,Prefix,Common,Crit damage increased,pendente
+Feral,Prefix,Legendary,Summon Damage increased by [10]%,pendente
+Fiery,Prefix,Legendary,+[8] Damage to Fire,pendente
+Fine,Prefix,Common,Weapon damage increased by 5%,pendente
+Fine,Prefix,Common,+10 added Armor and Magic Armor,pendente
+Fine,Prefix,Common,+[5] to Weapon Damage,pendente
+Fire,Suffix,Rare,Fire skill damage increased by [9]%,pendente
+Fireproof,Prefix,Common,Fire resistance increased,pendente
+Fit,Prefix,Common,Vitality increased,pendente
+Fit,Prefix,Common,Vitality increased by [3],pendente
+Flame,Suffix,Uncommon,Fire skill damage increased by [6]%,pendente
+Fortified,Prefix,Common,Armor increased by 15%,pendente
+Fortified,Prefix,Rare,+60 added Physical Armor,pendente
+Frigid,Prefix,Common,Cold skill damage increased,pendente
+Frigid,Prefix,Legendary,+[8] Damage to Cold,pendente
+Frost,Suffix,Common,Cold skill damage increased by [3]%,pendente
+Gargantuan,Suffix,Legendary,Armor increased by [50]% Movement points lowered 1,pendente
+Garnet,Suffix,Legendary,Fire Resistance increased by 10%,pendente
+Ghostly,Prefix,Common,Reflex increased,pendente
+Ghostly,Prefix,Mythic,Reflex increased by [15],pendente
+Giant,Suffix,Common,Weapon damage increased by [15]% Movement points lowered,pendente
+Gifted,Prefix,Common,Intelligence increased,pendente
+Gifted,Prefix,Rare,Intelligence increased by [9],pendente
+Glacial,Prefix,Common,Cold skill damage increased,pendente
+Glacial,Prefix,Mythic,+[10] Damage to Cold,pendente
+Glacier,Suffix,Legendary,Cold skill damage increased by [12]%,pendente
+Gloom,Suffix,Common,Shadow skill damage increased by [3]%,pendente
+Gloomy,Prefix,Common,Shadow skill damage increased,pendente
+God,Suffix,Mythic,Divine Resistance increased by 15%,pendente
+Goliath,Suffix,Uncommon,Weapon damage increased by [20]% Movement points lowered,pendente
+Gore,Suffix,Common,Critical Hit Damage and Healing increased by [15]%,pendente
+Gravekeeper,Suffix,Uncommon,Summon Health increased by [6]%,pendente
+Gravekeeper's,Prefix,Common,Summon health increased.,pendente
+Grounding,Prefix,Common,Lightning resistance increased,pendente
+Guarding,Prefix,Common,+20 added Magic Armor,pendente
+Hallowed,Prefix,Mythic,+[10] added Healing.,pendente
+Handler's,Prefix,Rare,Summon Health increased by [8]%,pendente
+Healer,Suffix,Rare,Holy power increased by [9]%,pendente
+Healthy,Prefix,Common,Vitality increased,pendente
+Healthy,Prefix,Uncommon,Vitality increased by [6],pendente
+Hearty,Prefix,Common,Vitality increased,pendente
+Hearty,Prefix,Rare,Vitality increased by [9],pendente
+Heavy,Prefix,Common,Weapon damage increased by 20% Movement points lowered,pendente
+Hefty,Prefix,Common,Armor increased by 25% Movement points lowered,pendente
+Herculean,Prefix,Common,Might increased,pendente
+Herculean,Prefix,Mythic,Might increased by [15],pendente
+Holy,Prefix,Common,Healing skill power increased,pendente
+Hulk,Suffix,Uncommon,Armor increased by [30]% Movement points lowered 1,pendente
+Hulking,Prefix,Common,Armor increased by 45% Movement points lowered,pendente
+Icicle,Suffix,Uncommon,Cold skill damage increased by [6]%,pendente
+Icy,Prefix,Common,Cold skill damage increased,pendente
+Icy,Prefix,Rare,+[6] Damage to Cold,pendente
+Imbued,Prefix,Common,Healing skill power increased,pendente
+Immaterial,Prefix,Common,Reflex increased,pendente
+Immaterial,Prefix,Rare,Reflex increased by [9],pendente
+Immortal,Prefix,Common,Vitality increased,pendente
+Immortal,Prefix,Mythic,Vitality increased by [15],pendente
+Impenetrable,Prefix,Common,Armor increased by 20%,pendente
+Impenetrable,Prefix,Legendary,+80 added Physical Armor,pendente
+Incorporeal,Prefix,Legendary,Reflex increased by [12],pendente
+Indestructible,Prefix,Common,Armor increased by 25%,pendente
+Indestructible,Prefix,Mythic,+100 added Physical Armor,pendente
+Inferno,Suffix,Mythic,Fire skill damage increased by [15]%,pendente
+Ingenious,Prefix,Mythic,Intelligence increased by [15],pendente
+Instinctual,Prefix,Uncommon,Summon Damage increased by [6]%,pendente
+Insulated,Prefix,Common,Cold resistance increased,pendente
+Insulating,Prefix,Common,Cold resistance increased,pendente
+Iron,Suffix,Legendary,Physical Resistance increased by 10%,pendente
+Jagged,Prefix,Rare,+[6] Damage to Physical,pendente
+Journeyman,Suffix,Rare,Armor increased by 25%,pendente
+Journeyman,Suffix,Rare,Weapon damage increased by [20]%,pendente
+Keen,Prefix,Common,+[2] Damage to Physical,pendente
+Keeper's,Prefix,Mythic,Summon Health increased by [12]%,pendente
+Lapis,Suffix,Legendary,Cold Resistance increased by 10%,pendente
+Lethal,Prefix,Common,Crit damage increased,pendente
+Leviathan,Suffix,Mythic,Armor increased by [60]% Movement points lowered 1,pendente
+Lich,Suffix,Mythic,Summon Damage increased by [12]%,pendente
+Lich's,Prefix,Common,Summon damage increased,pendente
+Lightning,Suffix,Rare,Lightning skill damage increased by [9]%,pendente
+Magician,Suffix,Common,Elemental skill damage increased by [3]%,pendente
+Magician's,Prefix,Common,Elemental skill damage increased,pendente
+Magus,Suffix,Rare,Elemental skill damage increased by [9]%,pendente
+Magus',Prefix,Common,Elemental skill damage increased,pendente
+Mammoth,Suffix,Common,Armor increased by [20]% Movement points lowered 1,pendente
+Mangler,Suffix,Legendary,Physical damage increased by [12]%,pendente
+Mangling,Prefix,Common,Physical damage increased,pendente
+Marking,Prefix,Mythic,Gain 1% Damage for every hex between you and your target.,pendente
+Masher,Suffix,Common,Physical damage increased by [3]%,pendente
+Massive,Prefix,Common,Armor increased by 35% Movement points lowered,pendente
+Master,Suffix,Mythic,Armor increased by 45%,pendente
+Master,Suffix,Mythic,Weapon damage increased by [28]%,pendente
+Master's,Prefix,Common,Summon damage increased,pendente
+Masterwork,Prefix,Common,Weapon damage increased by 20%,pendente
+Masterwork,Prefix,Legendary,+40 added Armor and Magic Armor,pendente
+Masterwork,Prefix,Legendary,+[30] to Weapon Damage,pendente
+Mender,Suffix,Common,Holy power increased by [3]%,pendente
+Mighty,Prefix,Common,Might increased,pendente
+Mighty,Prefix,Legendary,Might increased by [12],pendente
+Monstrosity,Suffix,Rare,Armor increased by [40]% Movement points lowered 1,pendente
+Monstrous,Prefix,Common,Weapon damage increased by 30% Movement points lowered,pendente
+Mortician,Suffix,Common,Summon Health increased by [4]%,pendente
+Mortician's,Prefix,Common,Summon health increased.,pendente
+Necromancer,Suffix,Legendary,Summon Damage increased by [10]%,pendente
+Necromancer's,Prefix,Common,Summon health increased.,pendente
+Negating,Prefix,Rare,+60 added Magic Armor,pendente
+Nimble,Prefix,Common,Dexterity increased,pendente
+Nimble,Prefix,Uncommon,Dexterity increased [6],pendente
+Nullifying,Prefix,Legendary,+80 added Magic Armor,pendente
+Occultist,Suffix,Rare,Summon Damage increased by [8]%,pendente
+Perfected,Prefix,Common,Weapon damage increased by 25%,pendente
+Perfected,Prefix,Mythic,+50 added Armor and Magic Armor,pendente
+Perfected,Prefix,Mythic,+[40] to Weapon Damage,pendente
+Physician,Suffix,Uncommon,Holy power increased by [6]%,pendente
+Poisoning,Prefix,Legendary,Attacks apply 1 stack of {STA=Poisoned}.,pendente
+Powerful,Prefix,Common,Might increased,pendente
+Powerful,Prefix,Rare,Might increased by [9],pendente
+Prickly,Prefix,Common,Physical Damage Return +2.,pendente
+Primal,Prefix,Mythic,Summon Damage increased by [12]%,pendente
+Protecting,Prefix,Common,Physical resistance increased,pendente
+Protecting,Prefix,Uncommon,+40 added Magic Armor,pendente
+Protecting,Prefix,Legendary,All resistance increased by 5%.,pendente
+Pulverizer,Suffix,Mythic,Physical damage increased by [15]%,pendente
+Pulverizing,Prefix,Common,Physical damage increased,pendente
+Quick,Prefix,Common,Dexterity increased,pendente
+Quick,Prefix,Common,Dexterity increased [3],pendente
+Radiant,Prefix,Common,Healing skill power increased,pendente
+Regenerating,Prefix,Legendary,5% of your max life regenerated per turn.,pendente
+Reinforced,Prefix,Common,Armor increased by 10%,pendente
+Reinforced,Prefix,Uncommon,+40 added Physical Armor,pendente
+Retardant,Prefix,Common,Fire resistance increased,pendente
+Revered,Prefix,Common,+[2] added Healing.,pendente
+Rime,Suffix,Rare,Cold skill damage increased by [9]%,pendente
+Ruby,Suffix,Mythic,Fire Resistance increased by 15%,pendente
+Sacrificing,Prefix,Mythic,Power increased by 20%. Max Health decreased by 10%.,pendente
+Saint,Suffix,Rare,Divine Resistance increased by 5%,pendente
+Sanctified,Prefix,Common,Item attributes increased by 20%,pendente
+Sanctified,Prefix,Rare,+[6] added Healing.,pendente
+Sapphire,Suffix,Mythic,Cold Resistance increased by 15%,pendente
+Savior,Suffix,Mythic,Holy power increased by [15]%,pendente
+Savior's,Prefix,Common,Healing skill power increased,pendente
+Sawtooth,Prefix,Legendary,+[8] Damage to Physical,pendente
+Scorching,Prefix,Common,Fire skill damage increased,pendente
+Scorching,Prefix,Mythic,+[10] Damage to Fire,pendente
+Searing,Prefix,Common,Fire skill damage increased,pendente
+Searing,Prefix,Uncommon,+[4] Damage to Fire,pendente
+Serrated,Prefix,Mythic,+[10] Damage to Physical,pendente
+Shadows,Suffix,Legendary,Shadow skill damage increased by [12]%,pendente
+Sharp,Prefix,Uncommon,+[4] Damage to Physical,pendente
+Shielding,Prefix,Mythic,Damage Reduction increased by 5%.,pendente
+Shock,Suffix,Uncommon,Lightning skill damage increased by [6]%,pendente
+Shocking,Prefix,Common,Lightning skill damage increased,pendente
+Shocking,Prefix,Common,+[2] Damage to Lightning,pendente
+Slaughter,Suffix,Uncommon,Critical Hit Damage and Healing increased by [25]%,pendente
+Smasher,Suffix,Uncommon,Physical damage increased by [6]%,pendente
+Smashing,Prefix,Common,Physical damage increased,pendente
+Smouldering,Prefix,Common,Fire skill damage increased,pendente
+Smouldering,Prefix,Common,+[2] Damage to Fire,pendente
+Sorcerer,Suffix,Legendary,Elemental skill damage increased by [12]%,pendente
+Sorcerer's,Prefix,Common,Elemental skill damage increased,pendente
+Spark,Suffix,Common,Fire skill damage increased by [3]%,pendente
+Spiked,Prefix,Common,Physical Damage Return +6.,pendente
+Spikes,Suffix,Rare, +[12] Physical Damage Return.,pendente
+Spines,Suffix,Uncommon, +[8] Physical Damage Return.,pendente
+Static,Prefix,Common,Lightning skill damage increased,pendente
+Static,Suffix,Common,Lightning skill damage increased by [3]%,pendente
+Steel,Suffix,Mythic,Physical Resistance increased by 15%,pendente
+Stone,Suffix,Rare,Physical Resistance increased by 5%,pendente
+Storms,Suffix,Mythic,Lightning skill damage increased by [15]%,pendente
+Strong,Prefix,Common,Might increased,pendente
+Strong,Prefix,Uncommon,Might increased by [6],pendente
+Summoner,Suffix,Uncommon,Summon Damage increased by [6]%,pendente
+Summoner's,Prefix,Common,Summon damage increased,pendente
+Swift,Prefix,Common,Dexterity increased,pendente
+Swift,Prefix,Legendary,Dexterity increased [12],pendente
+Tainted,Prefix,Uncommon,+[4] Damage to Shadow,pendente
+Tamer's,Prefix,Uncommon,Summon Health increased by [6]%,pendente
+Thorns,Suffix,Mythic, +[20] Physical Damage Return.,pendente
+Thorny,Prefix,Common,Physical Damage Return +4.,pendente
+Thunder,Suffix,Legendary,Lightning skill damage increased by [12]%,pendente
+Thunderstruck,Prefix,Mythic,+[10] Damage to Lightning,pendente
+Tier I,EndGame,Common,All stats increased by 50%,pendente
+Tier II,EndGame,Common,All stats increased by 100%,pendente
+Tier III,EndGame,Common,All stats increased by 150%,pendente
+Titan,Suffix,Mythic,Weapon damage increased by [35]% Movement points lowered,pendente
+Topaz,Suffix,Mythic,Lightning Resistance increased by 15%,pendente
+Trainer's,Prefix,Common,Summon damage increased,pendente
+Trainer's,Prefix,Common,Summon Health increased by [4]%,pendente
+Umbra,Prefix,Common,Shadow skill damage increased,pendente
+Umbral,Prefix,Mythic,+[10] Damage to Shadow,pendente
+Undertaker,Suffix,Legendary,Summon Health increased by [10]%,pendente
+Untamed,Prefix,Common,Summon Damage increased by [4]%,pendente
+Vampiric,Prefix,Rare,Lifesteal increased by 2%.,pendente
+Violent,Prefix,Legendary,Critical Hit chance increased by 5%.,pendente
+Wandering,Prefix,Common,Movement points increased,pendente
+Wandering,Prefix,Uncommon,Movement points increased by 1.,pendente
+Warding,Prefix,Mythic,+100 added Magic Armor,pendente
+Wild,Prefix,Rare,Summon Damage increased by [8]%,pendente
+Wizard,Suffix,Mythic,Elemental skill damage increased by [15]%,pendente
+Wizard's,Prefix,Common,Elemental skill damage increased,pendente

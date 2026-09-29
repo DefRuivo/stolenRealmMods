@@ -1,0 +1,452 @@
+nome,arvore,tier,dano,tags,descricao,status
+Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",Hurls an orb of dark energy dealing *0 shadow damage to all targets in range.,pendente
+Adaptation I,Nature,1,None,,Gain a 6% resistance to the last type of damage taken.,pendente
+Adaptation II,Nature,2,None,,Gain an additional 9% resistance to the last type of damage taken.,pendente
+Affinity,Chaos,3,None,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
+Aid,Chaos,3,None,,Healing an ally has a 10% chance to apply Helping.,pendente
+Ambush I,Thief,1,None,,Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
+Ambush II,Thief,2,None,,Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,pendente
+Animal Companion Grizzly,Ranger,5,Physical,Ranged,Summon a grizzly to fight your enemies.,pendente
+Ascendancy,Light,5,None,"Beneficial,Ranged",Increases the target allies' stats by 20%.,pendente
+Aura of Flame,Fire,3,Fire,Beneficial,Continually deals *0 fire damage to enemies within 3 hexes of your character.,pendente
+Aura Of Frost,Cold,3,None,Beneficial,Deals *0 cold damage to enemies that start their turns within 3 hexes of your character.,pendente
+Aura of Lightning,Lightning,3,Lightning,Beneficial,Each time an action is made by an enemy within the aura they suffer *0 lightning damage. ,pendente
+Avatar of Flame,Fire,5,None,,Each stack of @heat@ now applies [0] fire damage to the target per turn.,pendente
+Bash,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Knocks the target back up to 3 hexes.,pendente
+Battle Ready,Warrior,3,None,,1% of your @Armor@ value is added to your character as @Additional Weapon Damage@.  Current Bonus: [0],pendente
+Beast Master I,Nature,1,None,,Summons deal 10% more damage and have 10% more health. ,pendente
+Beast Master II,Nature,2,None,,Summons deal an additional 15% more damage and have an additional 15% more health. ,pendente
+Benevolence,Chaos,4,None,Beneficial,Applies @Helping@ to all allies.,pendente
+Berserker's Rage,Warrior,2,None,Beneficial,Increases @Damage dealt@ and @damage received@ by 25%. Increases @Max Life@ by 15%.,pendente
+Beserker's Blood,Warrior,3,None,," For every 1% of health missing, gain 1% increased damage.",pendente
+Blasting Shot,Ranger,3,Physical,"Ranged,Harmful",Deals *0 weapon damage to all targets in area.  Targets are knocked back 3 hexes. ,pendente
+Bleeding Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",Swing in a 180 degree arc striking all foes for *0 weapon damage.  Applies 2 stacks of {STA=Bleeding} on all targets hit. ,pendente
+Bleeding Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,pendente
+Bless,Light,2,None,"Beneficial,AreaEffect","Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",pendente
+Blessed By Light I,Light,1,None,Beneficial,Mana costs reduced by 10%.,pendente
+Blessed By Light II,Light,2,None,Beneficial,Mana costs reduced by an additional 15%.,pendente
+Blind,Shadow,1,Shadow,"Harmful,Ranged",Deals *0 shadow damage.  Applies {STA=Blind} for 1 turn.,pendente
+Blinding Light,Light,2,None,"Harmful,Ranged",Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.,pendente
+Blood Drinker,Warrior,4,None,,Increases basic attack damage by 50%. Basic attacks now @Life steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Blood Howl,Innate,1,Physical,"Harmful,DealsDamage,AreaEffect",Howl causing *0 physical damage to all enemies within 2 hexes.  Applies a debuff that causes all attackers to lifesteal for [1]% against this target for 2 turns.,pendente
+Bloodlet,Warrior,2,None,Beneficial,Sacrifice 15% of your maximum health in exchange for an additonal action this turn.  Applies {STA=Exhaustion}.,pendente
+Body and Soul,Monk,4,None,,Intelligence now gives 5 Magic Armor per point and Vitality now gives 5 Armor per point.,pendente
+Bolstering Ballad,Bard,2,None,Beneficial,"(Song) Allies within 4 hexes of you gain 5 Vitality, Armor and Magic Armor. Every time Bolstering Ballad is cast consecutively gain Crescendo of Bolstering: increases the amount given. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.",intocavel
+Bone Collector,Warrior,4,None,,Every enemy slain grants 6% @maximum health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times.,pendente
+Bounty Hunter's Mark,Ranger,2,None,"Harmful,Ranged","Gain 15% @increased damage@ and 8% @critical hit chance@ against the target.  If the target dies while Bounty Hunter's Mark is active, all cooldowns are reduced by 1.",pendente
+Brain Freeze,Cold,4,None,"Harmful,DealsDamage,Ranged",Deals *0 cold damage each time the target performs an action.,pendente
+Brambles,Nature,1,None,"CrowdControl,Ranged",Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.,pendente
+Branching Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage. Bounces to enemies within 3 hexes. Each bounce increases its damage by 50%.,pendente
+Break The Ice,Cold,2,None,Beneficial,"The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",pendente
+Breath of Life,Light,1,Holy,"Harmful,Ranged,DealsDamage,Elemental",Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.,pendente
+Breath of Winter,Cold,3,None,"Harmful,DealsDamage,Elemental,AreaEffect",Conjures the breath of a frost dragon dealing *0 cold damage to all enemies in a cone. ,pendente
+Bristles,Nature,3,None,,Summons gain 50% of your return damage.,pendente
+Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",Ignite an area in flames. Enemies take *0 fire damage each turn they remain on burning ground.,pendente
+Burning Reach,Fire,1,None,,Increase the range of all non-melee abilites by 1 hex. ,pendente
+Calculated Risk,Thief,4,None,,When you are hit you have a 100% chance to cast @evasion@. 1 turn cooldown.,pendente
+Call of the Grave,Shadow,1,None,,Deal 20% additional damage to enemies below 50% health.,pendente
+Call of the Wild,Nature,4,None,,Summoning skill cooldowns reduced by 1.,pendente
+Called Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage. Every hex between you and your target increases the damage of by 10%.  Called Shot cannot be dodged or blocked.,pendente
+Cauterize,Fire,2,None,"Beneficial,Ranged",Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.,pendente
+Celestial Light,Light,2,Holy,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
+Chain Frost,Cold,5,None,"Harmful,DealsDamage,Elemental,Ranged",Deals *0 cold damage.  Bounces between enemies within 4 hexes up to 10 times.,pendente
+Chain Lightning,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,Ranged",Conjures a lightning bolt that chains up to 5 enemies near the target dealing *0 lightning damage to each target.  ,pendente
+Challenger,Warrior,1,None,,For every enemy within 1 hex of your character gain 5% to @Armor@ and @magic armor@.,pendente
+Chaos Cloud,Chaos,3,Weapon,"Harmful,Ranged,DealsDamage",Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal *0 damage.,pendente
+Chaos Crash,Chaos,1,Weapon,"Harmful,Ranged,DealsDamage,Elemental",Hurls a bolt of chaos dealing damage to a single target. Every damage type has a 50% chance to deal *0 damage.,pendente
+Chaos Crush,Chaos,5,Weapon,"Harmful,Ranged,DealsDamage",Call down chaos to crush your enemies. Deals between *0 and *1 damage within 2 hexes. Always hits with all damage types.,pendente
+Chaos Curse,Chaos,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",Curses the target to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,pendente
+Chaos Cut,Chaos,2,Weapon,"DealsDamage,Harmful,Elemental",Summons a whirling blade of chaos in a line. Every damage type has a 50% chance to deal *0 damage.,pendente
+Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",Enchant an ally with a random chaos modifier.,pendente
+Charge,Warrior,2,Weapon,"Harmful,DealsDamage",Charges to the target and deals *0 weapon damage to all enemies in your path.,pendente
+Chi Strike,Monk,1,Weapon,"Harmful,DealsDamage,Melee",Strike an enemy dealing *0 weapon damage.  Reduces the targets damage dealt by 20% for 1 turn.,pendente
+Child of the Abyss,Shadow,5,None,Beneficial,Increases @Max Health@ by 100%. Can no longer be healed by any means other than life steal.,pendente
+Chilling Strike,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Melee",The caster's hand becomes imbued with frost thrusting it at the target dealing *0 cold damage.,pendente
+Circle of Life,Nature,4,None,,"When an enemy dies, you have a 50% chance to spawn a Good Bloom or Bad Bloom.",pendente
+Cleave,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",Swing in a 180 degree arc striking all foes for *0 weapon damage.,pendente
+Coin of Chaos,Shadow,5,None,Ranged,Flip the Coin of Chaos!,pendente
+Cold Heart,Cold,3,None,,Each stack of chilled you've applied increases your cold damage by 5%.,pendente
+Colossus,Warrior,5,None,,Damage you deal splashes to enemies within 1 hex for 50% of the damage dealt.,pendente
+Combo Breaker,Monk,3,None,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,pendente
+Conduit,Lightning,5,None,,Gain an additional action each turn.,pendente
+Consumption,Shadow,3,Shadow,"Harmful,AreaEffect,Ranged",Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.,pendente
+Contagion,Nature,3,None,,Your poison damage spreads to enemy targets within 1 hex of the poisoned enemy.,pendente
+Contaminated Wound,Thief,4,None,,Increases the duration of {STA=Poisoned} and {STA=Bleeding} effects you've applied by 2 turns.,pendente
+Contemplation I,Monk,1,None,,Max Mana increased by 10%.,pendente
+Contemplation II,Monk,2,None,,Max Mana increased by an additional 15%.,pendente
+Counter Melody,Bard,1,None,Beneficial,Grant an ally immunity to Crowd Control effects for 1 turn.,intocavel
+Crash and Flow,Monk,4,None,,Dodging an attack increases your damage dealt by 10%. Stacks 5. Lasts 1 turn.,pendente
+Cripple,Thief,1,Weapon,"Harmful,DealsDamage,Melee",Deals *0 weapon damage.  Applies {STA=Slow} for 1 turn.,pendente
+Crippling Shot,Ranger,1,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Applies {STA=Slow}.,pendente
+Crushing Slam,Warrior,4,Weapon,"Harmful,DealsDamage",Deals *0 weapon damage to all enemies within a line.,pendente
+Crystalize I,Cold,1,None,,Increases @Physical Resistance@ by 5%.,pendente
+Crystalize II,Cold,2,None,,Increases @Physical Resistance@ by an additional 10%.,pendente
+Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",Charm the enemy target for 1 turn.  Cannot target bosses.,pendente
+Cure,Light,1,Healing,"Beneficial,Ranged,Healing",Restores target's health by *0.,pendente
+Curse,Shadow,2,None,"Harmful,Ranged",Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,pendente
+Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
+Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,pendente
+Daft Diversion,Bard,3,None,Beneficial,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
+Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",Throw a dagger dealing *0 weapon damage.,pendente
+Dark Pact,Shadow,2,None,,Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.,pendente
+Dark Ritual,Shadow,4,None,"Beneficial,Ranged",Target cannot drop below 1 hp while active.,pendente
+Dashing Strikes,Monk,3,Weapon,"Harmful,Ranged,DealsDamage",Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.,pendente
+Dazzling Darts,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",Shoots 3 darts of electricity each dealing *0 lightning damage.,pendente
+Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",Throw a dagger dealing *0 weapon damage.  Deals 50% additional @critical hit damage@.,pendente
+Death Dealer I,Thief,1,None,,Increase @Critical Hit Damage and Healing@ by 16%.,pendente
+Death Dealer II,Thief,2,None,,Increase @Critical Hit Damage and Healing@ by an additional 24%.,pendente
+Deathblow,Thief,5,Weapon,"Harmful,DealsDamage,Melee",Deals *1 weapon damage. Critical hits deal an additional 200% @Critical Hit Damage@.,pendente
+Deep Freeze,Cold,2,None,"Harmful,MovementImpairing,Ranged",Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.,pendente
+Detonate,Fire,3,Fire,"Harmful,DealsDamage,AreaEffect",Deals *0 fire damage to all foes within 2 hexes of your character.,pendente
+Diamond Ice,Cold,3,None,,1% of your @Armor@ value is added to your character as @Additional Cold Damage@.  Current Bonus: [0],pendente
+Dire Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
+Dire Howl,Innate,1,Physical,"Harmful,DealsDamage,AreaEffect",Howl causing *0 physical damage to all enemies within 2 hexes.  Applies a debuff that causes all attackers to lifesteal for [1]% against this target for 2 turns.,pendente
+Discharge,Lightning,2,Lightning,"DealsDamage,Harmful,AreaEffect,Elemental",Deals *0 lightning damage within 3 hexes of the caster. ,pendente
+Disengage,Ranger,2,None,,You can move 1 additional hex each turn and no longer take opportunity attacks. ,pendente
+Dismiss Shapeshift,Innate,1,None,,Dismiss your active shapeshift.,pendente
+Dispelling Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage","Deals *0 weapon damage, removes 1 random benefical status from the target and lowers the target's @Resistance@ by 20% for 2 turns.",pendente
+Dispelling Shot,Ranger,4,Weapon,"Harmful,Ranged",Deals *0 weapon damage. Removes 1 random benefical status from the target.,pendente
+Disperse,Chaos,3,Weapon,"DealsDamage,Harmful,Elemental",Teleports all enemies within 3 hexes of you to any random hex 4 to 8 hexes from you. Applies a 1 turn slow.,pendente
+Displacement,Chaos,2,None,,Teleport randomly when taking damage.,pendente
+Disruption I,Chaos,1,None,,4% chance to negate all damage when taking damage.,pendente
+Disruption II,Chaos,2,None,,6% chance to negate all damage when taking damage.,pendente
+Divine Intervention,Light,4,Healing,"Beneficial,Ranged,Healing",Restores the target to full health.,pendente
+Dodging Strikes,Monk,4,Weapon,"Harmful,DealsDamage",Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. ,pendente
+Double Edge,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage to the target and 15% of the damage back to you. ,pendente
+Dreadful Dissonance,Bard,2,None,Harmful,Enemies within 1 hex of you are feared for 1 turn. 3 turn cooldown. Action.,intocavel
+Dual-Wield Mastery,Warrior,3,None,,"While dual-wielding, @dodge chance@ increased by 5%, @critical hit chance@ increased by 5%, and @critical hit damage@ is increased by 20%.",pendente
+Eagle Eye,Ranger,1,None,,Increase the range of all ranged skills by 1 hex.,pendente
+Echo,Bard,3,None,Beneficial,50% chance when you deal damage or healing to deal 50% of the amount again.,intocavel
+Ecosystem,Nature,5,None,,"Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",pendente
+Elemental Protection,Light,1,None,"Beneficial,Ranged",Increases target's @elemental resistance@ by 15%. ,pendente
+Empowered Light I,Light,1,None,Beneficial,Increases Holy Power and Healing Received by 10%.,pendente
+Empowered Light II,Light,2,None,Beneficial,Increases Holy Power and Healing Received by an additional 15%.,pendente
+En Garde,Thief,3,None,,Increases your maximum amount of Counter Attacks per turn by 2.,pendente
+Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",Enchants the target's weapon to add *0 cold damage to attacks. ,pendente
+Enchant Fire,Fire,2,None,"Beneficial,Elemental,Ranged",Enchants the target's weapon to add *0 fire damage to attacks. ,pendente
+Enchant Lightning,Lightning,2,Lightning,"Beneficial,Ranged",Enchants the target's weapon to add *0 lightning damage to attacks. ,pendente
+Encore,Bard,5,None,Beneficial,Whenever you make an action or free action it has a 50% chance to cast again.,intocavel
+Endless Night,Shadow,5,None,Beneficial,Gain 2% of your maximum health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0].,pendente
+Endless Quiver,Ranger,4,None,,Reduces all Ranger cooldowns by 1.,pendente
+Endurance I,Monk,1,None,,Max Health increased by 10%.,pendente
+Endurance II,Monk,2,None,,Max Health increased by an additional 15%.,pendente
+Enduring Evasion,Thief,3,None,Beneficial,Gain 100% @dodge chance@ for the next 2 attacks.,pendente
+Energy Cannon,Lightning,5,Lightning,"DealsDamage,Harmful",Deals *0 lightning damage in a 6 hex line 10 times.,pendente
+Entangle,Nature,1,None,"MovementImpairing,Harmful,Ranged",Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @2@ stacks of {STA=Poisoned}.,pendente
+Escape,Thief,1,None,,Teleport to the target area.  Unaffected by increased range modifiers.,pendente
+Evasion,Thief,2,None,Beneficial,Gain 100% @dodge chance@ for the next attack.,pendente
+Evolution,Nature,5,None,,Getting hit increases max health by 5% stacking 10x. Hitting increases damage by 5% stacking 10x. Only one of the buffs can be active at a time.,pendente
+Executioner,Warrior,4,None,,Every enemy slain on your turn grants 1 additonal AP.  Can only grant up to 1 additional AP per turn.,pendente
+Exorcism,Shadow,4,Shadow,"Harmful,Ranged","Deals *0 shadow damage and removes a random benefical status from the target. If a status is removed, the target suffers an additional *0 shadow damage.",pendente
+Fabricate,Chaos,4,None,,When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area of you.,pendente
+Fade,Thief,3,None,,"Whenever an enemy dies, you have a 50% chance to gain {STA=Stealth} for 1 turn. ",pendente
+Faerie Swarm,Nature,1,Physical,"Harmful,Ranged,DealsDamage",Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.,pendente
+Falcon Dash,Monk,3,Weapon,"Harmful,DealsDamage",Dash to the target area and dealing *0 weapon damage to affected area.,pendente
+Fencer's Finesse I,Thief,1,None,,Increases @dodge chance@ by 5%.,pendente
+Fencer's Finesse II,Thief,2,None,,Increases @dodge chance@ by an additional 8%.,pendente
+Fever,Fire,4,None,Beneficial,Mana costs are now paid in Health instead.,pendente
+Fickle Flame,Fire,5,None,,"Each time a damage or healing skill is cast, it receives a random effectiveness modifier from 50% up to 250%. ",pendente
+Fight Dirty,Thief,3,None,,Your attacks apply 2 stacks of {STA=Poisoned}.,pendente
+Finale,Bard,5,None,Harmful,"Unleash a blast of physical damage in a 4 hex AOE around you for every action made by you or an ally this turn, including this one. Action. 2 turn cooldown.",intocavel
+Fire Borne,Fire,1,None,,Increases @fire resistance@ by 10%.,pendente
+Fire Breath,Innate,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",Breath fire dealing *0 fire damage to all enemies in a cone. ,pendente
+Fire Shield,Fire,1,None,"Beneficial,Ranged",Wreaths the target in flame granting 10% @fire resistance@.  Attackers take *0 fire damage.,pendente
+Fire Starter,Fire,2,None,,All enemies now start the battle with 4 stacks of @Heat@. ,pendente
+Fire Storm,Fire,5,Fire,"Harmful,Ranged,DealsDamage",Hurls fire balls at 3 different targets dealing *0 fire damage within 2 hexes of each target.,pendente
+Fireball,Fire,2,Fire,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",Hurls a ball of flame dealing *0 fire damage to all targets in range.,pendente
+Fireblast,Fire,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",Hurls a bolt of fire dealing *0 fire damage to a single target. ,pendente
+Fissure,Fire,4,Fire,"Harmful,DealsDamage",Open the earth in a line spawning deadly fissures that deal *0 fire damage.,pendente
+Flame Lash,Fire,5,None,,Your fire spells deal 10% more damage per stack of heat on targets.,pendente
+Flame Slash,Basic,1,Fire,"Harmful,Melee,DealsDamage,Elemental",Slash nearby targets dealing *0 fire damage to all enemies.,pendente
+Flash Fire,Fire,4,None,,Reduces the cooldown of all fire spells by 1. ,pendente
+Focused Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",Strike an enemy dealing *0 weapon damage. Applies a debuff that increases the damage this target takes from all sources for 2 turns by 20%.,pendente
+Force Kick,Monk,2,Physical,"Harmful,Melee,DealsDamage",Kicks the target dealing *0 physical damage and knocking the target back up to 5 hexes.   Any enemy hit by the target also receives *0 physical damage.,pendente
+Force Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage in a line and knocks targets back up to 4 hexes.  Any enemy hit by the target also receives [1] damage.,pendente
+Fracture,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Lowers targets @Resistance@ by 20% for 2 turns.,pendente
+Freeze Earth,Cold,1,None,"MovementImpairing,CrowdControl,Ranged,Harmful",Freezes the ground in the target area applying 1 stack of Chilled to enemies that enter.,pendente
+Front Kick,Monk,1,Physical,"Harmful,DealsDamage,Melee",Kicks the target dealing *0 physical damage and knocking the target back up to 3 hexes.   Any enemy hit by the target also receives *0 damage.,pendente
+Frost Armor,Cold,1,Cold,"Beneficial,Ranged",Envelopes the caster in frost granting 10% @Cold Resistance@.   Attackers take *0 cold damage.,pendente
+Frost Borne,Cold,1,None,,Increases @cold resistance@ by 10%,pendente
+Frost Breath,Innate,1,Cold,"Harmful,Ranged,DealsDamage,Elemental",Deals *0 cold damage each turn.,pendente
+Frost Nova,Cold,2,Cold,"Harmful,DealsDamage,AreaEffect,Elemental,Ranged",The caster creates a wave of frozen energy dealing *0 cold damage within 2 hexes of the selected target.,pendente
+Frost Shard,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Ranged",Impale your target on a shard of ice dealing *0 cold damage.,pendente
+Frostbite I,Cold,1,None,,Your stacks of @chilled@ now reduce the targets damage by 2%.,pendente
+Frostbite II,Cold,2,None,,Your stacks of @Chilled@ now reduce the targets damage by an additional 3%.,pendente
+Frozen Core,Cold,4,None,,Each stack of @chilled@ now reduces the target's maxium health by 5%.,pendente
+Frozen Orb,Cold,2,Cold,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled},pendente
+Frozen Spikes,Cold,3,Cold,"Harmful,DealsDamage,Elemental,Ranged",Hurl 5 shards of ice dealing *0 cold damage to each target.,pendente
+Fuel for the Flames I,Fire,3,None,,Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.,pendente
+Fuel for the Flames II,Fire,4,None,,Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.,pendente
+Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,pendente
+Gathering Storm,Lightning,2,None,,Increases @maximum mana@ by 20%.,pendente
+Ghost Armor,Shadow,1,None,"Beneficial,Ranged",Completely negates the next attack.  Lasts until hit. ,pendente
+Glory,Light,2,None,Beneficial,The first time you receive fatal damage in battle you are revived with 1 health and become immune to all damage for 1 turn.,pendente
+Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn. ,pendente
+Gouge,Thief,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,pendente
+Guardian I,Warrior,1,None,,Increase @Physical Resistance@ by 5%.,pendente
+Guardian II,Warrior,2,None,,Increase @Physical Resistance@ by an additional 10%.,pendente
+Harm,Chaos,3,None,,Damaging an Enemy has a 10% chance to apply Hurting.,pendente
+Harmonize I,Bard,1,None,Beneficial,"Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
+Harmonize II,Bard,2,None,Beneficial,"Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",intocavel
+Haste,Fire,3,None,"Beneficial,Ranged",Target gains an additional action this turn. Applies {STA=Exhaustion}.,pendente
+Haunt,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",Deals *0 shadow damage to the target every turn for 3 turns. @Life Steals@ for 6%.   @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Healing Hand,Light,1,Healing,"Beneficial,Melee,Healing",The caster reaches out in aid healing 30% of target's maximum health.,pendente
+Heavy Rains,Lightning,4,None,,Each point of @intelligence@ now grants .1% @critical hit chance@ and 1% @critical hit damage@.,pendente
+Helping,Chaos,2,None,"Beneficial,Ranged",Offer your chaotic assistance to the target ally. Results may vary greatly...,pendente
+Hidden Blade,Thief,3,None,,Increases @Critical Hit Damage@ for your basic attack by 75%. ,pendente
+Hide In Shadows,Thief,2,None,Beneficial,Grants {STA=Stealth} for 2 turns. ,pendente
+Holy Ground,Light,4,Healing,"Beneficial,Ranged",Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ,pendente
+Holy Slash,Basic,1,Holy,"Harmful,Melee,DealsDamage,Elemental",Slash nearby targets dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
+Hot Head I,Fire,1,None,,Increase all Damage and Healing by 8%. ,pendente
+Hot Head II,Fire,2,None,,Increases Damage and Healing by an additional 12%. ,pendente
+Howl,Warrior,3,None,"Harmful,DealsDamage",Deals *0 physical damage.  Enemies within 2 hexes deal 20% less damage.,pendente
+Hunger,Shadow,3,None,,Grants 10% @mana steal@.  Sacrifices 10% maximum health per turn.,pendente
+Huntsman I,Ranger,1,None,,Physical damage increased by [0].,pendente
+Huntsman II,Ranger,2,None,,Physical damage increased by [0].,pendente
+Hurting,Chaos,2,None,"Beneficial,Ranged",Chaotically harm the target enemy. Results may vary greatly...,pendente
+Ice Lance,Cold,2,Cold,"Harmful,DealsDamage,Elemental,Ranged",The caster hurls a razor-like shard of ice piercing foes in a line dealing *0 cold damage. ,pendente
+Ice Slash,Basic,1,Cold,"Harmful,Melee,DealsDamage,Elemental",Slash nearby targets dealing *0 cold damage to all enemies.,pendente
+Ice Storm,Cold,4,None,"Harmful,DealsDamage,Ranged",Conjure a massive ice storm dealing *0 cold damage to affected enemies each turn.,pendente
+Ice Wall,Cold,3,None,"CrowdControl,Ranged",Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.,pendente
+Icefall,Cold,5,None,,When enemies are frozen by you they release a @frost nova@. ,pendente
+Immolate,Fire,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",Burns the target for *0 fire damage each turn.,pendente
+Improvise,Bard,5,None,Beneficial,No longer lose Crescendo stacks when playing another song.,intocavel
+Incapacitate,Monk,1,Physical,Harmful,Incapacitates the target applying {STA=Sleep} for 2 turns.,pendente
+Indestructible,Warrior,5,None,,"Getting hit increases @armor@, @magic armor@, and @return damage@ by 10% per stack. Stacks 10 times.",pendente
+Inspiration I,Bard,1,None,Beneficial,"Whenever you heal or apply a beneficial status to an ally, give them Inspiration: Gives 1% to all Resistance. Duration 2 turns. Stacks refresh duration.",intocavel
+Inspiration II,Bard,3,None,Beneficial,"Whenever you heal or apply a beneficial status to an ally, give them Inspiration: Gives 2% to all Resistance. Duration 2 turns. Stacks refresh duration.",intocavel
+Into the Fray,Warrior,2,None,,For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Maximum Health@.,pendente
+Invulnerable Winter,Cold,4,None,,@Intelligence@ grants [0] @Armor@ and @Magic Armor@ per point.  Current Bonus: [1],pendente
+Kindling,Fire,3,None,,Gain an additional action the first turn of battle. Applies {STA=Exhaustion}.,pendente
+Kindred Spirit,Light,2,None,Beneficial,All healing you do to others also heals you for 20% of the amount healed.,pendente
+Lasting Flame,Fire,3,None,,@Heat@ lasts 2 addtional turns.,pendente
+Laxing Lullaby,Bard,4,None,Harmful,(Global) Put all enemies to sleep for 2 turns. 5 turn cooldown. Action.,intocavel
+Leech Dexterity,Shadow,4,None,Beneficial,Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.,pendente
+Leech Intelligence,Shadow,4,None,Beneficial,Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.,pendente
+Leech Might,Shadow,4,None,Beneficial,Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.,pendente
+Lich Lord,Shadow,5,None,Beneficial,Removes the AP cost from all summoning skills.,pendente
+Life Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",Swing in a 180 degree arc striking all foes for *0 weapon damage.  Lifesteals for 10% per target hit.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Light's Beckon,Light,3,None,,Teleport any target on the battlefield within 3 hexes of your character.,pendente
+Light's Brilliance,Light,3,None,Beneficial,Increase @intelligence@ by 20%.,pendente
+Light's Celerity,Light,3,None,Beneficial,Increase @dexterity@ by 20%.,pendente
+Light's Endurance,Light,3,None,Beneficial,Increase @vitality@ by 20%.,pendente
+Light's Intuition,Light,3,None,Beneficial,Increase @reflex@ by 20%.,pendente
+Light's Strength,Light,3,None,Beneficial,Increase @might@ by 20%.,pendente
+Lightning Breath,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",Breath lightning dealing *0 lightning damage to all enemies in a cone. ,pendente
+Lightning Shield,Lightning,1,Lightning,"Beneficial,Ranged",Increases @Lightning Resistance@ by 10%. Attackers take *0 lightning damage.,pendente
+Lingering Light,Light,4,None,Beneficial,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",pendente
+Living Armor,Nature,2,None,"Beneficial,Ranged",Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.,pendente
+Long Shot,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 10%. ,pendente
+Ludicrous Display,Bard,3,None,Beneficial,On the enemies' first turn they are all taunted towards you.,intocavel
+Magic Hat I,Chaos,2,None,"Beneficial,Ranged",Produce a random barrel on the target hex.,pendente
+Magic Hat II,Chaos,3,None,"Beneficial,Ranged",Produce a random Shrine on the target hex. The shrine is destructable and moveable.,pendente
+Magic Hat III,Chaos,4,None,"Beneficial,Ranged",Produce a random Globule on the target hex.,pendente
+Maim,Thief,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage.  Applies {STA=Disabled} for 1 turn.,pendente
+Malevolence,Chaos,4,None,Beneficial,Applies @Hurting@ to all enemies.,pendente
+Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",Removes 20% of the target's max mana and restores 20% of the caster's max mana.,pendente
+Mana Shield,Lightning,3,None,,90% of the damage taken is lost in mana instead of health.,pendente
+Many Sided Strike,Monk,5,Weapon,"Harmful,DealsDamage",Hit enemies in the target area 5x randomly.  Deals *0 weapon damage per hit. ,pendente
+Marked Prey,Ranger,5,None,,Attacks now apply {STA=Marked Prey}.  All stacks are removed at the end of your turn.,pendente
+Masochism I,Monk,1,Physical,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ,pendente
+Masochism II,Monk,2,Physical,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,pendente
+Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",Restores *0 health to all allies within 2 hexes of target.,pendente
+Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,pendente
+Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",Applies {STA=Frozen} to all enemies.,pendente
+Mass Haste,Fire,5,None,Beneficial,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,pendente
+Master Assassin,Thief,4,None,,Always deal the maximum damage within a damage range. ,pendente
+Master Of Ice,Cold,5,None,,"Each turn you freeze an enemy, you gain an additional action.",pendente
+Meditation,Monk,3,Healing,"Beneficial,Ranged",Put the target ally into a meditative state restoring 20% of max health and mana. ,pendente
+Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",Deals *0 weapon damage to target. ,pendente
+Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",Deals *0 weapon damage to target 3 times.  Applies {STA=Bleeding} on hit.,pendente
+Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",Deals *0 weapon damage to target 2 times.  Applies {STA=Bleeding} on hit.,pendente
+Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage","Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",pendente
+Meteor,Fire,4,Fire,"Harmful,Ranged,DealsDamage",Call down a ball of fire to smash your enemies. Deals *0 fire damage within 2 hexes. Fire remains on the impacted area dealing *1 fire damage per turn.,pendente
+Meteor Shower,Fire,5,Fire,"Harmful,Ranged,DealsDamage",Summon a rain of meteors to bombard enemies within 4 hexes of the target location. Deals *0 fire damage 3 times.,pendente
+Mind Blossom,Nature,5,None,"Ranged,Harmful,TriggersEnrage",Charm the enemy target for 1 turn.  Cannot target bosses.,pendente
+Momentum I,Monk,1,Physical,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.,pendente
+Momentum II,Monk,2,Physical,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ,pendente
+Momentum III,Monk,3,Physical,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ,pendente
+Mortal Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage and lowers target's @Resistance@ by 20% and @Healing@ received by 50% for 2 turns.,pendente
+Move Object,Innate,1,None,,Transport a movable object in the battlefield.,pendente
+Muse I,Bard,1,None,Beneficial,Allies within 4 hexes gain 10% reduced Mana Costs.,intocavel
+Muse II,Bard,2,None,Beneficial,Allies within 4 hexes gain an additional 15% reduced Mana Costs (25% total with Muse I).,intocavel
+Mythic Reach,Ranger,5,None,,All ranged abilities get an additional 5 hex range.,pendente
+Natural Selection,Nature,4,None,,When an Ally or an Enemy dies gain 5% of your max Health and Mana.,pendente
+Nature Summoning I,Nature,1,None,Ranged,"Summons a Raven, Coyote, or Raccoon to fight for you.",pendente
+Nature Summoning II,Nature,3,None,Ranged,"Summons a Stag, Wolf, or Boar to fight for you.",pendente
+Nature Summoning III,Nature,5,None,Ranged,"Summons a Bear, Moose, or Panther to fight for you.",pendente
+Necromancer I,Shadow,1,None,,Summons deal 10% more damage and have 10% more health.,pendente
+Necromancer II,Shadow,2,None,,Summons deal an additional 15% more damage and have an additional 15% more health.,pendente
+Omnism I,Chaos,1,None,,Increases the effectiveness of shrines by 8%.,pendente
+Omnism II,Chaos,2,None,,Increases the effectiveness of shrines by an additional 12%.,pendente
+One Punch Monk,Monk,5,None,,"The first damaging or healing ability you use on your turn has its effectiveness tripled, after which you are unable to use any more damaging or healing abilities that turn.",pendente
+Opening Act,Bard,4,None,Beneficial,Your songs start with 5 stacks of Crescendo.,intocavel
+Opportunist,Warrior,2,None,,Increases damage of @opportunity attacks@ and @counter attacks@ by 25%.,pendente
+Overload,Lightning,4,None,Beneficial,Gives the target 100% Critical Hit Chance for 1 turn. ,pendente
+Overwhelming Power,Fire,4,None,Beneficial,Increases the damage of your next damaging action by 100%.,pendente
+Pack Hunter I,Nature,1,None,,For every ally within 1 hex of you gain 8% @increased Damage@.,pendente
+Pack Hunter I,Nature,2,None,,For every ally within 1 hex of you gain an additional 12% @increased Damage@.,pendente
+Pack Summoning I,Nature,1,None,Ranged,Summons a Timber Wolf to fight for you,pendente
+Pack Summoning II,Nature,3,None,Ranged,Summons a Tundra Wolf to fight for you.,pendente
+Pack Summoning III,Nature,5,None,Ranged,Summons a Dire Wolf to fight for you.,pendente
+Pain Suppression,Monk,2,Physical,Beneficial,The target's Damage Reduction is increased by 50% for 1 turn.,pendente
+Paralyzing Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",Strike an enemy dealing *0 weapon damage.  Stuns the target for 1 turn.,pendente
+Patient Hunter,Ranger,3,None,Beneficial,Patient Hunter gives 10% @increased damage@ and 1 @skill range@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.,pendente
+Perfected Soul,Monk,5,None,,"Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",pendente
+Perturb,Chaos,5,None,,"Each time a damage or healing skill is cast, it receives a random effectiveness modifier from 50% up to 250%. ",pendente
+Piercing Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage in a line.,pendente
+Pinning Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Applies {STA=Immobilized}.,pendente
+Plot Armor I,Bard,4,None,Beneficial,The max damage you can take in 1 hit is 50% of your max health.,intocavel
+Plot Armor II,Bard,5,None,Beneficial,The max damage you can take in 1 hit is 25% of your max health.,intocavel
+Poison Cloud,Shadow,2,Shadow,"Harmful,DealsDamage,Ranged",The caster creates an poison gas cloud applies @4@ stacks of {STA=Poisoned} within 2 hexes of the selected target.,pendente
+Poison Weapon,Thief,1,None,Beneficial,Attacks now apply 1 stack of {STA=Poisoned}.,pendente
+Poisoned Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",Throw a poisoned dagger dealing *0 weapon damage.  Applies 2 stacks of {STA=Poisoned}.,pendente
+Power Strikes,Monk,4,Weapon,"Harmful,DealsDamage",Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you hit increases the damage of Power Strikes by 50%.,pendente
+Precision I,Ranger,2,None,,Increase @critical hit chance@ by 4%. Increase @critical hit damage@ by 16%.,pendente
+Precision II,Ranger,3,None,,Increase @critical hit chance@ by an additional 6%. Increase @critical hit damage@ by an additional 24%.,pendente
+Provoke,Bard,3,None,Harmful,"Taunts enemies within 3 hexes, reducing their damage by 20% and forcing them to attack you.",intocavel
+Purify,Light,3,None,"Beneficial,Ranged",Removes all negative statuses from the target. Can be used when Disabled.,pendente
+Quaking Fist,Monk,5,Physical,"Harmful,DealsDamage",Deals *0 physical damage to all foes within 3 hexes. ,pendente
+Quick Draw,Ranger,4,Physical,Beneficial,Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.,pendente
+Quick Hands,Ranger,3,None,,Your basic attack has a 50% chance to strike twice.  Can only trigger once per turn.,pendente
+Quickening,Light,4,None,Beneficial,"Every time one of your Light skills is cast on an ally, one of the ally's spells has it's cooldown lowered by 1 turn.  This effect can only happen once per turn.",pendente
+Rage,Warrior,1,None,Beneficial,Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.,pendente
+Rage Spores,Nature,4,None,"Harmful,Ranged",Infects enemies and allies with Rage Spores that increase @damage dealt@ and reduce @damage reduction@ by 25% for 2 turns.,pendente
+Rainstorm,Nature,4,None,"Beneficial,Ranged",Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.,pendente
+Raise Iron Golem,Shadow,5,None,Ranged,Raise a Mighty Iron Golem to fight for you.,pendente
+Raise Skeletal Archer,Shadow,1,None,Ranged,Summon a skeletal archer to fight by your side.,pendente
+Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",Summon a skeletal mage to fight by your side.,pendente
+Raise Skeletal Warrior,Shadow,3,None,"Beneficial,Ranged",Summon a skeletal warrior to fight by your side.,pendente
+Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",Raise an Undead Berserker to fight by your side.,pendente
+Raise Undead Ranger,Shadow,1,None,Ranged,Raise an Undead Ranger to fight by your side.,pendente
+Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",Raise a Undead Wizard to fight by your side.,pendente
+Rally,Ranger,1,None,"Beneficial,AreaEffect",Increases movement of all allies within 4 hexes by 3.,pendente
+Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",Deals *0 weapon damage to target. ,pendente
+Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage","Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",pendente
+Ranger's Gift I,Ranger,3,None,,Every hex between you and your target increases damage dealt by 2%.,pendente
+Ranger's Gift II,Ranger,4,None,,Every hex between you and your target increases damage dealt by an additional 3%.,pendente
+Reaper's Scythe,Shadow,5,Shadow,"Harmful,DealsDamage,Ranged",Deals *0 shadow damage for every 10% health missing from the target.,pendente
+Reaper's Toll,Shadow,3,None,,Every enemy that dies heals you for 10% of your maximum health.,pendente
+Recharge,Lightning,4,None,,"You have a 33% chance to completely refund the mana cost spent while using abilities. When mana is refunded this way, a random ability will have its cooldown lowered by 1.",pendente
+Redemption,Light,5,None,Beneficial,Redeem the soul of the first character to die in your party.  The target's health and mana are fully restored.  Does not affect summoned creatures.,pendente
+Regenerate,Light,1,Healing,"Beneficial,Ranged,Healing",Target restores *0 health per turn. ,pendente
+Relocate,Ranger,2,None,,Jump to the target area.  Unaffected by increased range modifiers.,pendente
+Replicate,Chaos,5,None,"Harmful,Ranged,DealsDamage","Creates a clone of yourself that can cast your abilities. The Replicate Clone explodes for damage on death, each element has a @50%@ chance to deal *0 damage.",pendente
+Resonating Refrain,Bard,4,None,Beneficial,(Song) (Aura) Deal physical damage in a 4 hex area every time you use an action or a free action. Every time Resonating Refrain is cast gain Resonating Crescendo: increases the damage. Stacks. Lose Crescendo stacks when you switch songs. Cooldown 1 turn. Free Action.,intocavel
+Reverberate,Chaos,5,None,,When you take a @Free Action@ or @Action@ you have a 33% chance explode in chaos dealing all types of damage and healing.,pendente
+Rhythm of Recovery,Bard,2,None,Beneficial,(Song) Allies within 4 hexes of you regain 5% Max Life and Mana. Every time Rhythm of Recovery is cast consecutively gain Crescendo of Recovery: increases the amount regained by 5%. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
+Rune of Exploding,Fire,3,Fire,"Harmful,Ranged,Elemental,AreaEffect,DealsDamage","Place a rune on the selected hex. After 1 turn, it detonates dealing *0 fire damage to all enemies within 1 hex.",pendente
+Rupture,Thief,4,Weapon,"Melee,Harmful,DealsDamage",Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.,pendente
+Salvation,Light,5,None,Beneficial,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives {STA=Salvation}.  Lasts 3 turns.",pendente
+Savage Scorn,Bard,1,None,Harmful,Increases the damage the target takes by 20% for 2 turns.,intocavel
+Seal of Might,Light,3,None,Beneficial,Increase damage of all allies within 3 hexes by 30%.,pendente
+Seal of Protection,Light,2,None,Beneficial,Decreases damage taken by 10% for you and allies within 3 hexes.,pendente
+Seal of Salvation,Light,5,None,Beneficial,All allies within 3 hexes of you heal for *0 per turn. ,pendente
+Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",Breathe out a stream of shadow energy dealing *0 shadow damage to all enemies in range.,pendente
+Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",Slash nearby targets dealing *0 shadow damage to all enemies in range.,pendente
+Shadow Walk,Thief,4,None,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,pendente
+Shapeshift Dire Werewolf,Nature,5,None,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,pendente
+Shapeshift Dragonkin,Nature,5,None,Beneficial,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",pendente
+Shapeshift Vampire Bat,Innate,3,None,12,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
+Shapeshift Werewolf,Nature,3,None,Beneficial,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,pendente
+Shatter,Cold,5,None,"Harmful,Ranged",Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,pendente
+Shattering Cord,Bard,3,None,Beneficial,Dispels all negative effects off of allies and all positive effects off of enemies in a 4 hex radius. 3 turn cooldown. Free Action.,intocavel
+Shield Mastery,Warrior,3,None,,Increases @All Stats@ from shields by 50%,pendente
+Shield of Light,Light,2,None,"Beneficial,Ranged",Calls down a shield that protects the target absorbing *0 damage. ,pendente
+Shield of Retribution,Light,4,Holy,"Beneficial,Ranged","Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",pendente
+Shock,Lightning,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",Reaches out and shocks the target dealing *0 lightning damage. Applies {STA=Disabled} to the target.,pendente
+Shocking Shackles,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",Deals *0 lightning damage.  Applies {STA=Stunned}.,pendente
+Show Stopper,Bard,3,None,Beneficial,Enemies who hit you have a 25% chance to stun themselves for 1 turn.,intocavel
+Shroud,Thief,2,None,,Applies {STA=Stealth} at the start of each battle.,pendente
+Skin Walker,Nature,3,None,,Reduces the cooldown of Shapeshifting skills by 2.,pendente
+Slam,Warrior,3,Weapon,"Harmful,DealsDamage,AreaEffect",Deals *0 weapon damage to all enemies within a line.,pendente
+Slaying Shot,Ranger,5,Weapon,"Beneficial,Ranged",Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged.,pendente
+Sleep Spores,Nature,4,None,"Harmful,Ranged",Infects enemies with Sleep Spores applying {STA=Sleep} for 2 turns.,pendente
+Sleight of Hand,Thief,5,None,"Harmful,Melee",Steal all of the target's beneficial statuses while giving the target all your negative statuses. ,pendente
+Smoke Bomb,Thief,4,None,"CrowdControl,Beneficial,Ranged",Increases @dodge chance@ by 50% for friendly characters in smoke.,pendente
+Sniper Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 15%. ,pendente
+Soft Step,Thief,5,None,,Moving 5 hexes in a row grants {STA=Stealth} for your current turn.  Your character no longer takes attacks of opportunity.  ,pendente
+Song of Swiftness,Bard,3,None,Beneficial,(Song) Allies within 4 hexes of you gain 5 Dexterity and Reflex. Every time Song of Swiftness is cast consecutively gain Crescendo of Swiftness: increases the amount given by 5. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
+Soul Cleanse,Monk,4,Healing,Beneficial,Removes all negative status effects from target ally. Each status effect removed heals the target for 10% of their max health.   Can be used when Disabled.,pendente
+Soul Crush,Shadow,3,Shadow,"Harmful,DealsDamage,Ranged",Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. ,pendente
+Soul Exchange,Shadow,5,None,"Harmful,DealsDamage,Ranged","Swaps the life force of both you and a target, dealing *0 @Shadow Damage@ based on your missing Health. @Lifesteals@ 100%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect abilities.",pendente
+Soul Link,Shadow,4,Shadow,Ranged,All damage and healing dealt to one target is also dealt to the linked target.,pendente
+Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,pendente
+Speed,Monk,4,None,,Increases @Dexterity@ and @Reflex@ by 15%.,pendente
+Staff Attack,Basic,0,None,"Harmful,Ranged,DealsDamage",Deals *0 weapon damage to target. ,pendente
+Staff Attack,Basic,0,Healing,"Beneficial,Ranged","Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
+Stage Presence I,Bard,1,None,Beneficial,Gain 3% increased damage and healing for each ally within 4 hexes.,intocavel
+Stage Presence II,Bard,2,None,Beneficial,Gain an additional 5% increased damage and healing for each ally within 4 hexes.,intocavel
+Stalker's Mark,Ranger,2,None,"Harmful,Ranged","Gain 25% @increased damage@ and 12% @critical hit chance@ against the target.  If the target dies while Stalker's Mark is active, the cooldown is reset.",pendente
+Stasis,Cold,4,None,"Beneficial,Ranged",Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.,pendente
+Static Field,Lightning,4,Lightning,"Harmful,Ranged",Averages all the current health percentages of targets within 3 hexes and redistributes them to be even. ,pendente
+Steal Action,Thief,3,None,"Harmful,Melee",Steals the target's action granting 1 additional action this turn. Applies {STA=Disabled} to the target for 1 turn.  Applies {STA=Exhaustion}.,pendente
+Steal Status,Thief,3,None,"Harmful,Ranged",Steals a random positive status from the target.,pendente
+Storm Borne,Lightning,1,None,,Increases @lightning resistance@ by 10%.,pendente
+Storm Brewing,Lightning,3,None,,Each stack of @shocked@ you've applied increases your @critical hit chance@ by 1%.,pendente
+Storm Weathered I,Lightning,1,None,,Increase all @elemental resistances@ by 5%.,pendente
+Storm Weathered II,Lightning,2,None,,Increase all @elemental resistances@ by an additional 8%.,pendente
+Stormbringer I,Lightning,1,None,,Increases @critical hit chance@ by 5%.,pendente
+Stormbringer II,Lightning,2,None,,Increases @critical hit chance@ by an additional 8%.,pendente
+Strength,Monk,4,None,,Increases @Might@ and @Vitality@ by 15%.,pendente
+Stun Spores,Nature,3,None,"Harmful,Ranged",Infects enemies with Stunning Spores applying {STA=Stun} for 1 turns.,pendente
+Stunning Kick,Monk,2,Physical,"Harmful,DealsDamage,Melee",Kicks the target dealing *0 physical damage and stunning them for 1 turn.,pendente
+Stunning Slam,Warrior,4,Weapon,"Harmful,DealsDamage",Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.,pendente
+Summon Raven,Ranger,1,None,Ranged,Summon a Raven to fight your enemies. ,pendente
+Summon Wolf,Ranger,3,Physical,Ranged,Summon a wolf to fight your enemies.,pendente
+Sun Fire,Fire,2,Fire,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat},pendente
+Sunder,Warrior,5,Weapon,"Harmful,DealsDamage",Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged. @Life Steals@ for 25%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Survivalist I,Ranger,1,None,,Increases @all resistance@ and @dodge chance@ by 3%.,pendente
+Survivalist II,Ranger,2,None,,Increases @all resistance@ and @dodge chance@ by an additional 5%.,pendente
+Sustenance I,Chaos,1,None,,Consuming any Globule heals you for 8% of max life and mana.,pendente
+Sustenance II,Chaos,2,None,,Consuming any Globule heals you for 20% of max life and mana.,pendente
+Swan Song,Bard,5,None,Beneficial,Allies within 4 hexes gain Invincible for 1 turn. Cooldown 5. Action.,intocavel
+Sweeping Kick,Monk,3,Physical,"Harmful,DealsDamage",Deal *0 physical damage to all enemies within 1 hex. Knocks back all enemies up to 3 hexes. Targets are crippled for 1 turn. ,pendente
+Swiftness,Thief,1,None,,Increases your @movement points@ by 1.,pendente
+Switcheroo,Chaos,1,None,Ranged,"Swap places with an @Enemy@, @Ally@, or @Object@.",pendente
+Tainted Touch,Shadow,1,Shadow,"Harmful,Melee,DealsDamage",Reaches out to the target with dark energy dealing *0 shadow damage. @Life Steals@ for 12%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Take Cover,Ranger,4,None,,Damage you take from enemies further than 2 hexes from you is reduced by 35%.,pendente
+Taunt,Bard,1,None,Harmful,Forces the target to attack you for 1 turn. Reduces the damage the target deals by 20%.,intocavel
+Telekinesis,Chaos,1,None,"Harmful,Ranged,DealsDamage,Elemental",Moves any @Object@ within 8 hexes.,pendente
+Teleport Other,Lightning,3,None,,Teleports the target to the location of your choosing in a flash of lightning.  Unaffected by increased range modifiers.,pendente
+Teleport Self,Lightning,2,None,,Teleports the caster to the target location in a flash of lightning.  Unaffected by increased range modifiers.,pendente
+Tempered Rage,Warrior,2,None,Beneficial,"Increases @Damage@, @Armor@, and @Magic Armor@ by 15%.",pendente
+The Bad Bloom,Nature,2,None,"Harmful,Ranged",Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.,pendente
+The Good Bloom,Nature,3,Healing,"Beneficial,Ranged",Creates a magic blossom that regenerates *0 of @health@ and @mana@ per turn. This effect stacks. ,pendente
+The Good Doctor,Light,4,None,Beneficial,Reduces the cooldown of all Light spells by 1.,pendente
+Thirst I,Shadow,2,None,,Increases @Life Steal@ by 4%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Thirst II,Shadow,3,None,,Increases @Life Steal@ by 6%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Thorns I,Nature,1,None,,Grants [0] Return Physical Damage.,pendente
+Thorns II,Nature,2,None,,Grants an additional [0] Return Physical Damage.,pendente
+Thunder Blast,Innate,2,Lightning,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.,pendente
+Thunder Bolt,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,AreaEffect,Ranged",Summon lightning from the sky to strike an area dealing *0 lightning damage. ,pendente
+Thunder Slash,Basic,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",Slash nearby targets dealing *0 lightning damage to all enemies.,pendente
+Thunder Storm,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",Summon a thunderstorm over a large area that deals *0 lightning damage every turn to enemies within it's range.,pendente
+Thunder Struck,Lightning,5,None,,Your lightning damage has a 10% chance to conjure a thunderbolt on a random enemy dealing *0 lightning damage within 2 hexes of its blast.,pendente
+Thunder Wrath,Lightning,5,Lightning,"DealsDamage,Harmful,Elemental,Ranged",Summons 4 thunder bolts targeting enemies at random within a 10 hex radius.  Each bolt deals *0 lightning damage to foes within 3 hexes of its blast.,pendente
+Titan Bloom,Nature,5,None,"Beneficial,Ranged",Creates a magic mushroom that increases the @Max Health@ and @Damage@ of allies within its aura by [0]%. Stacks up to 5 times.,pendente
+Touch of Chaos,Chaos,4,None,"Beneficial,Ranged",Enchant an ally with a random Chaos Modifier.,pendente
+Tracker's Mark,Ranger,1,None,"Harmful,Ranged","Gain 15% @increased damage@ and 8% @critical hit chance@ on the target.  If the target dies while Tracker's Mark is active, the cooldown is reset.",pendente
+Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",Tranquilizes the target applying {STA=Sleep} for 2 turns.,pendente
+Tricks of the Trade,Thief,5,None,,Reduces the cooldown of all abilities by 1.,pendente
+Twister,Lightning,2,Lightning,"DealsDamage,Harmful,Elemental",Summons a raging tempest that deals *0 lightning damage in a line.  Targets hit are {STA=Crippled} for 2 turns.,pendente
+Two-Handed Mastery,Warrior,3,None,,While a two handed weapon is equipped all damage is increased by 20%. ,pendente
+Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",Deals *0 weapon damage to target. ,pendente
+Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage","Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",pendente
+Uncanny Evasion,Thief,3,None,Beneficial,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,pendente
+Unyielding Contender,Warrior,5,None,Beneficial,"Grants 50% increased Armor, Magic Armor, and Max Health for 2 turns. Grants Enrage. Usable while stunned.",pendente
+Vampiric Aura,Shadow,4,None,Beneficial,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,pendente
+Variety I,Chaos,3,None,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
+Variety II,Chaos,4,None,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,pendente
+Vengeful Shadows,Shadow,2,None,,Grants [0] Return Shadow Damage.,pendente
+Venomous Skin,Nature,2,None,"Beneficial,Ranged",Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.,pendente
+Verse of Valor,Bard,1,None,Beneficial,"(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",intocavel
+Vitality Break,Warrior,4,None,"Harmful,DealsDamage",Consumes 50% of your @current health@ to deal *0 weapon damage. Damage is increased by how much health is consumed. ,pendente
+Volley,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",Shoot up to 5 enemies near the target area dealing *0 weapon damage per target.  The arrow can chain to targets within 3 hexes of the last target hit.,pendente
+Wanderer,Warrior,1,None,,Increase @movement points@ by 1.,pendente
+Warmonger I,Warrior,1,None,,Increase all Damage and Healing by 8%. ,pendente
+Warmonger II,Warrior,2,None,,Increase all Damage and Healing by 12%. ,pendente
+Warrior's Boon,Warrior,3,Healing,Beneficial,Heals 25% of your maximum health and removes all negative statuses. Can be used when Disabled.,pendente
+Weapon of Choice,Monk,3,None,,3% of your total attribute value is added to your character as @Additional Weapon Damage@.   Current Bonus: [0],pendente
+Willpower,Monk,3,None,,Every 10% of your max health you are missing increases damage reduction by 4%.,pendente
+Wrath of the  Righteous,Light,5,None,Beneficial,Healing skills in the Light tree can now deal damage to enemies as well as heal allies.,pendente
