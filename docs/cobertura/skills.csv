@@ -119,8 +119,8 @@ Eagle Eye,Ranger,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range o
 Echo,Bard,3,None,Beneficial,sim,,50% chance when you deal damage or healing to deal 50% of the amount again.,intocavel
 Ecosystem,Nature,5,None,,sim,"DamageMod:Base:Source.SummonCount * 5f, MaxHealth:Percentage:Source.SummonCount * 5f, SummonDamageMod:Base:Source.SummonCount * 5f, SummonHealthMod:Base:Source.SummonCount * 5f,","Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",revisado
 Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @elemental resistance@ by 15%. ,revisado
-Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,pendente
-Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,pendente
+Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,revisado
+Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,revisado
 En Garde,Thief,3,None,,sim,"CounterAttacksPerTurn:Base:2,",Increases your maximum amount of Counter Attacks per turn by 2.,pendente
 Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 cold damage to attacks. ,pendente
 Enchant Fire,Fire,2,None,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 fire damage to attacks. ,pendente
@@ -180,7 +180,7 @@ Fuel for the Flames II,Fire,4,None,,sim,"ManaCostMod:Base:30, ManaPowerMod:Base:
 Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,pendente
 Gathering Storm,Lightning,2,None,,sim,"MaxMana:Percentage:20,",Increases @maximum mana@ by 20%.,pendente
 Ghost Armor,Shadow,1,None,"Beneficial,Ranged",nao,,Completely negates the next attack.  Lasts until hit. ,corrigido
-Glory,Light,2,None,Beneficial,sim,,The first time you receive fatal damage in battle you are revived with 1 health and become immune to all damage for 1 turn.,pendente
+Glory,Light,2,None,Beneficial,sim,,The first time you receive fatal damage in battle you are revived with 1 health and become immune to all damage for 1 turn.,revisado
 Gore,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn. ,pendente
 Gouge,Thief,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.,corrigido
 Guardian I,Warrior,1,None,,sim,"ResistPhysical:Base:5,",Increase @Physical Resistance@ by 5%.,pendente
@@ -195,7 +195,7 @@ Heavy Rains,Lightning,4,None,,sim,"CritDamage:Base:Source[""Intelligence""] * 1,
 Helping,Chaos,2,None,"Beneficial,Ranged",nao,,Offer your chaotic assistance to the target ally. Results may vary greatly...,sem-explicacao
 Hidden Blade,Thief,3,None,,sim,"CritDamageTreeBasic:Base:75,",Increases @Critical Hit Damage@ for your basic attack by 75%. ,pendente
 Hide In Shadows,Thief,2,None,Beneficial,nao,,Grants {STA=Stealth} for 2 turns. ,pendente
-Holy Ground,Light,4,Healing,"Beneficial,Ranged",nao,,Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ,pendente
+Holy Ground,Light,4,Healing,"Beneficial,Ranged",nao,,Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ,revisado
 Holy Slash,Basic,1,Holy,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 holy damage to all enemies and healing *1 to all allies in range.,pendente
 Hot Head I,Fire,1,None,,sim,"DamageMod:Base:8,",Increase all Damage and Healing by 8%. ,pendente
 Hot Head II,Fire,2,None,,sim,"DamageMod:Base:12,",Increases Damage and Healing by an additional 12%. ,pendente
@@ -218,7 +218,7 @@ Inspiration II,Bard,3,None,Beneficial,sim,,"Whenever you heal or apply a benefic
 Into the Fray,Warrior,2,None,,sim,"DamageMod:Base:3 * Source.NumEnemiesWithin(3), MaxHealth:Percentage:3 * Source.NumEnemiesWithin(3),",For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Maximum Health@.,pendente
 Invulnerable Winter,Cold,4,None,,sim,"Armor:Base:Source[""Intelligence""] * (1 + (.14f * Source.Level)), MagicArmor:Base:Source[""Intelligence""] * (1 + (.14f * Source.Level)),",@Intelligence@ grants [0] @Armor@ and @Magic Armor@ per point.  Current Bonus: [1],corrigido
 Kindling,Fire,3,None,,sim,"StartAPMod:Base:1,",Gain an additional action the first turn of battle. Applies {STA=Exhaustion}.,pendente
-Kindred Spirit,Light,2,None,Beneficial,sim,"HealingReturned:Base:20,",All healing you do to others also heals you for 20% of the amount healed.,pendente
+Kindred Spirit,Light,2,None,Beneficial,sim,"HealingReturned:Base:20,",All healing you do to others also heals you for 20% of the amount healed.,revisado
 Lasting Flame,Fire,3,None,,sim,"HeatDurationMod:Base:2,",@Heat@ lasts 2 addtional turns.,pendente
 Laxing Lullaby,Bard,4,None,Harmful,nao,,(Global) Put all enemies to sleep for 2 turns. 5 turn cooldown. Action.,intocavel
 Leech Dexterity,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.,revisado
@@ -227,14 +227,14 @@ Leech Might,Shadow,4,None,Beneficial,sim,,Damage caused steals [0] points of @Mi
 Lich Lord,Shadow,5,None,Beneficial,sim,"LichLord:Set:1,",Removes the AP cost from all summoning skills.,revisado
 Life Cleave,Warrior,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.  Lifesteals for 10% per target hit.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Light's Beckon,Light,3,None,,nao,,Teleport any target on the battlefield within 3 hexes of your character.,revisado
-Light's Brilliance,Light,3,None,Beneficial,sim,"IntelligenceBase:Percentage:20,",Increase @intelligence@ by 20%.,pendente
-Light's Celerity,Light,3,None,Beneficial,sim,"DexterityBase:Percentage:20,",Increase @dexterity@ by 20%.,pendente
-Light's Endurance,Light,3,None,Beneficial,sim,"VitalityBase:Percentage:20,",Increase @vitality@ by 20%.,pendente
-Light's Intuition,Light,3,None,Beneficial,sim,"ReflexBase:Percentage:20,",Increase @reflex@ by 20%.,pendente
-Light's Strength,Light,3,None,Beneficial,sim,"MightBase:Percentage:20,",Increase @might@ by 20%.,pendente
+Light's Brilliance,Light,3,None,Beneficial,sim,"IntelligenceBase:Percentage:20,",Increase @intelligence@ by 20%.,revisado
+Light's Celerity,Light,3,None,Beneficial,sim,"DexterityBase:Percentage:20,",Increase @dexterity@ by 20%.,revisado
+Light's Endurance,Light,3,None,Beneficial,sim,"VitalityBase:Percentage:20,",Increase @vitality@ by 20%.,revisado
+Light's Intuition,Light,3,None,Beneficial,sim,"ReflexBase:Percentage:20,",Increase @reflex@ by 20%.,revisado
+Light's Strength,Light,3,None,Beneficial,sim,"MightBase:Percentage:20,",Increase @might@ by 20%.,revisado
 Lightning Breath,Lightning,1,Lightning,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breath lightning dealing *0 lightning damage to all enemies in a cone. ,pendente
 Lightning Shield,Lightning,1,Lightning,"Beneficial,Ranged",nao,,Increases @Lightning Resistance@ by 10%. Attackers take *0 lightning damage.,pendente
-Lingering Light,Light,4,None,Beneficial,sim,,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",pendente
+Lingering Light,Light,4,None,Beneficial,sim,,"Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",revisado
 Living Armor,Nature,2,None,"Beneficial,Ranged",nao,,Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.,revisado
 Long Shot,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 10%. ,corrigido
 Ludicrous Display,Bard,3,None,Beneficial,sim,,On the enemies' first turn they are all taunted towards you.,intocavel
@@ -305,7 +305,7 @@ Power Strikes,Monk,4,Weapon,"Harmful,DealsDamage",nao,,Dash to an enemy dealing 
 Precision I,Ranger,2,None,,sim,"CritChance:Base:4, CritDamage:Base:16,",Increase @critical hit chance@ by 4%. Increase @critical hit damage@ by 16%.,revisado
 Precision II,Ranger,3,None,,sim,"CritChance:Base:6, CritDamage:Base:24,",Increase @critical hit chance@ by an additional 6%. Increase @critical hit damage@ by an additional 24%.,revisado
 Provoke,Bard,3,None,Harmful,nao,,"Taunts enemies within 3 hexes, reducing their damage by 20% and forcing them to attack you.",intocavel
-Purify,Light,3,None,"Beneficial,Ranged",nao,,Removes all negative statuses from the target. Can be used when Disabled.,pendente
+Purify,Light,3,None,"Beneficial,Ranged",nao,,Removes all negative statuses from the target. Can be used when Disabled.,revisado
 Quaking Fist,Monk,5,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage to all foes within 3 hexes. ,pendente
 Quick Draw,Ranger,4,Physical,Beneficial,nao,,Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.,revisado
 Quick Hands,Ranger,3,None,,sim,,Your basic attack has a 50% chance to strike twice.  Can only trigger once per turn.,corrigido
@@ -352,8 +352,8 @@ Shapeshift Werewolf,Nature,3,None,Beneficial,nao,,Shapeshift into a @Werewolf@. 
 Shatter,Cold,5,None,"Harmful,Ranged",nao,,Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,pendente
 Shattering Cord,Bard,3,None,Beneficial,nao,,Dispels all negative effects off of allies and all positive effects off of enemies in a 4 hex radius. 3 turn cooldown. Free Action.,intocavel
 Shield Mastery,Warrior,3,None,,sim,"ShieldMastery:Set:1,",Increases @All Stats@ from shields by 50%,pendente
-Shield of Light,Light,2,None,"Beneficial,Ranged",nao,,Calls down a shield that protects the target absorbing *0 damage. ,pendente
-Shield of Retribution,Light,4,Holy,"Beneficial,Ranged",nao,,"Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",pendente
+Shield of Light,Light,2,None,"Beneficial,Ranged",nao,,Calls down a shield that protects the target absorbing *0 damage. ,revisado
+Shield of Retribution,Light,4,Holy,"Beneficial,Ranged",nao,,"Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",revisado
 Shock,Lightning,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",nao,,Reaches out and shocks the target dealing *0 lightning damage. Applies {STA=Disabled} to the target.,pendente
 Shocking Shackles,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Deals *0 lightning damage.  Applies {STA=Stunned}.,corrigido
 Show Stopper,Bard,3,None,Beneficial,sim,,Enemies who hit you have a 25% chance to stun themselves for 1 turn.,intocavel
@@ -413,7 +413,7 @@ Teleport Self,Lightning,2,None,,nao,,Teleports the caster to the target location
 Tempered Rage,Warrior,2,None,Beneficial,nao,,"Increases @Damage@, @Armor@, and @Magic Armor@ by 15%.",pendente
 The Bad Bloom,Nature,2,None,"Harmful,Ranged",nao,,Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.,revisado
 The Good Bloom,Nature,3,Healing,"Beneficial,Ranged",nao,,Creates a magic blossom that regenerates *0 of @health@ and @mana@ per turn. This effect stacks. ,revisado
-The Good Doctor,Light,4,None,Beneficial,sim,"CooldownModLight:Base:-1,",Reduces the cooldown of all Light spells by 1.,pendente
+The Good Doctor,Light,4,None,Beneficial,sim,"CooldownModLight:Base:-1,",Reduces the cooldown of all Light spells by 1.,revisado
 Thirst I,Shadow,2,None,,sim,"LifeOnHit:Base:4,",Increases @Life Steal@ by 4%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Thirst II,Shadow,3,None,,sim,"LifeOnHit:Base:6,",Increases @Life Steal@ by 6%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Thorns I,Nature,1,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Grants [0] Return Physical Damage.,revisado
@@ -449,4 +449,4 @@ Warmonger II,Warrior,2,None,,sim,"DamageMod:Base:12,",Increase all Damage and He
 Warrior's Boon,Warrior,3,Healing,Beneficial,nao,,Heals 25% of your maximum health and removes all negative statuses. Can be used when Disabled.,pendente
 Weapon of Choice,Monk,3,None,,sim,"AdditionalWeaponDamage:Base:Source.SumOfAllAttributes * .03f,",3% of your total attribute value is added to your character as @Additional Weapon Damage@.   Current Bonus: [0],pendente
 Willpower,Monk,3,None,,sim,"DamageReduction:Base:Math.Round(Source.HealthRatioInverse, 1) * 40,",Every 10% of your max health you are missing increases damage reduction by 4%.,pendente
-Wrath of the  Righteous,Light,5,None,Beneficial,sim,,Healing skills in the Light tree can now deal damage to enemies as well as heal allies.,pendente
+Wrath of the  Righteous,Light,5,None,Beneficial,sim,,Healing skills in the Light tree can now deal damage to enemies as well as heal allies.,revisado
