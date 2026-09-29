@@ -27,6 +27,68 @@ namespace BetterTooltips.Patches
         //   - o roll de loot multiplica a chance de cada item por esse modificador
         // Logo: +X% Treasure Find = +X% de chance de drop, acumulando com a party.
 
+
+        /// <summary>
+        /// Duas correcoes de acabamento pedidas em teste:
+        ///
+        /// (a) A COR. O postfix principal aplica as tabelas; este roda DEPOIS dele
+        ///     (HarmonyPriority.Low = por ultimo nos postfixes) e troca o marcador #8FC1E3
+        ///     pela cor de "texto especial" do proprio tooltip.
+        ///
+        /// (b) A POSICAO. O jogo monta o tooltip como [descricao], uma quebra de linha e depois
+        ///     [custos e alcance]
+        ///     (ShowSkillTooltip, l.214400-214455 do decompilado), e a explicacao entra na
+        ///     descricao - ou seja, ficava ANTES dos custos. Em vez de mudar a tabela (que e
+        ///     chaveada pelo texto da descricao), este prefix pega o bloco ja colorido e o
+        ///     move para o fim do corpo, que e o texto entregue a `ShowTooltip`.
+        /// </summary>
+        [HarmonyPatch]
+        internal static class CorEOrdemDoTooltip
+        {
+            /// <summary>Aplica a cor do jogo DEPOIS das tabelas.</summary>
+            [HarmonyPostfix, HarmonyPriority(Priority.Low)]
+            private static void CorPostfix(ref string __result)
+            {
+                __result = ComACorDoJogo(__result);
+            }
+
+            /// <summary>Mira o overload de ShowTooltip que recebe o corpo do tooltip.</summary>
+            private static System.Reflection.MethodBase TargetMethod()
+            {
+                foreach (System.Reflection.MethodInfo m in AccessTools.GetDeclaredMethods(typeof(Tooltip)))
+                {
+                    if (m.Name == "ShowTooltip" && m.GetParameters().Length > 4)
+                    {
+                        return m;
+                    }
+                }
+                return null;
+            }
+
+            /// <summary>Move a explicacao para o fim (depois de custos e alcance).</summary>
+            private static void Prefix(ref string __3)
+            {
+                if (string.IsNullOrEmpty(__3))
+                {
+                    return;
+                }
+                string cor = string.IsNullOrEmpty(_corEspecialDoJogo) ? "8FC1E3" : _corEspecialDoJogo;
+                string abre = "<color=#" + cor + ">";
+                int i = __3.IndexOf(abre, StringComparison.Ordinal);
+                if (i < 0)
+                {
+                    return;
+                }
+                int f = __3.IndexOf("</color>", i, StringComparison.Ordinal);
+                if (f < 0)
+                {
+                    return;
+                }
+                int ini = ((i > 0 && __3[i - 1] == '\n') ? i - 1 : i);
+                string nota = __3.Substring(ini, f + "</color>".Length - ini);
+                __3 = __3.Remove(ini, f + "</color>".Length - ini).TrimEnd() + "\n" + nota.TrimStart('\n').TrimEnd();
+            }
+        }
         /// <summary>
         /// A cor das explicacoes do mod NAO e escolhida por nos: e a cor de "texto especial" do
         /// PROPRIO tooltip do jogo (`specialTextColor`, campo do Tooltip em GUIManager), a mesma
@@ -37,9 +99,9 @@ namespace BetterTooltips.Patches
         /// Nas tabelas o marcador fica como #8FC1E3 (um azul qualquer, so para o texto continuar
         /// legivel se a leitura falhar); aqui ele e trocado pela cor real do jogo.
         /// </summary>
-        private static string _corEspecialDoJogo;
+        internal static string _corEspecialDoJogo;
 
-        private static string ComACorDoJogo(string texto)
+        internal static string ComACorDoJogo(string texto)
         {
             if (string.IsNullOrEmpty(texto) || texto.IndexOf("#8FC1E3", StringComparison.Ordinal) < 0)
             {
@@ -759,10 +821,6 @@ namespace BetterTooltips.Patches
                 string amostra = original.Length > 60 ? original.Substring(0, 60) + "..." : original;
                 Plugin.Log.LogInfo($"BetterTooltips: postfix ativo (1a localizacao em ingles: '{amostra}')");
             }
-
-            // Ponto UNICO de aplicacao da cor: vale para as duas tabelas e para os dois
-            // formatos de entrada (chave na mesma linha ou em linha propria).
-            __result = ComACorDoJogo(__result);
 
             if (TextFixes.TryGetValue(original, out string fixedText))
             {
