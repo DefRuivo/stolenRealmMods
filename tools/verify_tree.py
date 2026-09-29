@@ -56,6 +56,9 @@ def main():
         print("arvore '%s' nao encontrada" % arvore)
         return 1
     skills.sort(key=lambda r: (int(r["tier"] or 0), r["nome"]))
+    nomes_repetidos = {}
+    for r in skills:
+        nomes_repetidos[r["nome"]] = nomes_repetidos.get(r["nome"], 0) + 1
 
     L = ["# Ficha de revisao — arvore **%s** (%d skills)\n" % (arvore.capitalize(), len(skills)),
          "> Gerado por `tools/verify_tree.py`. Junta o TEXTO da tooltip com o que o jogo\n"
@@ -65,7 +68,14 @@ def main():
     for r in skills:
         d = det.get(r["nome"], {})
         passiva = " · **PASSIVA**" if d.get("passivo") == "sim" else ""
-        L.append("\n## T%s %s%s\n" % (r["tier"], r["nome"], passiva))
+        # Nome repetido = variantes da MESMA skill (ex.: Pack Hunter I em T1 e T2, ou os
+        # ataques basicos por tipo de arma). Como o join com skills-detalhe e por NOME,
+        # o codigo mostrado abaixo pode ser de outra variante - e isso ja gerou falso
+        # alarme uma vez. O skid separa as duas.
+        repetido = nomes_repetidos.get(r["nome"], 0)
+        aviso = (" · ⚠ **nome repetido** (%d variantes — confira o `attr` pelo `skid` em "
+                 "`skills-detalhe.csv`)" % repetido) if repetido > 1 else ""
+        L.append("\n## T%s %s%s%s\n" % (r["tier"], r["nome"], passiva, aviso))
         L.append("`%s`\n" % r["status"])
         L.append("\n**Texto:** %s\n" % r["descricao"])
         if d.get("attr"):
@@ -76,6 +86,10 @@ def main():
             L.append("\n**danoExpr:** `%s`\n" % d["danoExpr"])
         # Acoes concedidas + a formula de dano de cada uma.
         corpo = " ".join([d.get("attr", ""), d.get("expr", ""), d.get("danoExpr", "")])
+        # Tira o sufixo 'f' dos literais float do C# (`SummonCount * 5f`): sem isso o
+        # `\b` do casamento falha em "5f" e o numero que ESTA no codigo aparece como
+        # "sem par" - foi o que acusou Ecosystem (5%) por engano.
+        corpo = re.sub(r"\b(\d+(?:\.\d+)?)f\b", r"\1", corpo)
         for nome_ac in lista(d.get("acts")):
             a = acs.get(nome_ac)
             if not a:
@@ -89,11 +103,13 @@ def main():
         # marcas dizem "while Tracker's Mark is active" sem token, e so por token elas
         # escapavam do cruzamento (viravam falso alarme de "sem par").
         citados = set(STA.findall(r["descricao"]))
-        baixo = r["descricao"].lower()
         for nome_st in sorted(sts, key=len, reverse=True):
             if nome_st in citados or len(nome_st) < 4:
                 continue
-            if re.search(r"\b%s\b" % re.escape(nome_st.lower()), baixo):
+            # Nome PROPRIO, fora dos tokens @...@ : o texto tem a palavra "damage" solta
+            # e o censo tem um status chamado "Damage", entao casar sem esse cuidado
+            # ligava o status errado (e poluia a ficha com um efeito vazio).
+            if re.search(r"(?<![@\w])%s(?![@\w])" % re.escape(nome_st), r["descricao"]):
                 citados.add(nome_st)
         # Descarta nome que e pedaco de outro ja casado ("Mark" dentro de "Tracker's Mark").
         citados = {n for n in citados if not any(n != o and n in o for o in citados)}
@@ -109,6 +125,9 @@ def main():
             corpo += " " + s["efeitos"] + " " + s["descricao"]
 
         # O que o texto afirma e o codigo nao confirma.
+        # O strip do sufixo 'f' vale de novo aqui: as formulas das acoes e os efeitos
+        # dos status entram no corpo DEPOIS do primeiro strip.
+        corpo = re.sub(r"\b(\d+(?:\.\d+)?)f\b", r"\1", corpo)
         sem_par = []
         for p in PCT.findall(r["descricao"]):
             if not re.search(r"[:\s(]%s\b" % re.escape(p), corpo):
