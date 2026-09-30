@@ -120,11 +120,11 @@ namespace BetterCombatText
 
     // -------------------------------------------------------------------------------------
     //  4) TEXTO DO DADO NOS EVENTOS — o NUMERO na face do dado
-    //     Decompilado l.95521 DiceRollingManager.RollDice (l.95629):
+    //     Decompilado l.95521 DiceRollingManager / l.95635 RollDice:
     //         public TextMeshPro RollDice(int index, int rollValue) { ... obj.ResetDiceText();
     //         obj.PlayDiceAnimation(num, ...); return obj.GetResultText(num); }
     //     Devolve o TextMeshPro da face com o numero sorteado (l.95702 GetResultText filtra
-    //     DiceNumbers por texto == resultado). DiceVisualSetup.DiceNumbers (l.95686) e TextMeshPro[]
+    //     DiceNumbers por texto == resultado). DiceVisualSetup.DiceNumbers (l.95687) e TextMeshPro[]
     //     -> texto 3D renderizado para a RenderTexture mostrada na janela de evento. E TMP: a mesma
     //     tecnica do combate se aplica.
     // -------------------------------------------------------------------------------------

@@ -19,6 +19,16 @@ namespace BetterCombatText
     /// depois para. Um gate por tempo ali perdeu a janela (medido: duas execucoes do jogo sem NENHUMA
     /// linha do diagnostico). O gatilho confiavel e <c>GUIManager.Update</c>, que roda a cada frame;
     /// os dois chamam a MESMA rotina, que executa uma vez so.</para>
+    ///
+    /// <para><b>Custo (por que este arquivo e tao contido):</b> a varredura de cena
+    /// (<c>Resources.FindObjectsOfTypeAll</c>) e cara e roda na thread principal. Ela acontece no
+    /// maximo UMA vez por <c>IntervaloChecagem</c> (= 5s) e PARA no primeiro dos dois eventos:
+    /// (a) <b>primeiro sucesso</b> — algum dos componentes alvo ja existe em cena, e ai o
+    /// diagnostico roda e a varredura encerra de vez; (b) <c>DesistirEm</c> (240s), quando nada
+    /// apareceu. Antes eram ~110 varreduras por arranque (a cada 2s, de 20s a 240s); agora sao no
+    /// maximo ~44 no pior caso (cena em que nenhum alvo aparece) e normalmente 1 ou 2 (assim que o
+    /// primeiro alvo entra em cena o diagnostico roda e a varredura encerra).
+    /// Com <c>DiagnosticoNoArranque = false</c> no <c>.cfg</c> nao ha varredura NENHUMA.</para>
     /// </summary>
     internal static class DiagnosticoRotina
     {
@@ -27,6 +37,7 @@ namespace BetterCombatText
         private static bool _vidaLogada;
         private static float _proximaChecagem;
         private const float EsperaMinima = 20f;
+        private const float IntervaloChecagem = 5f;
         private const float DesistirEm = 240f;
 
         /// <summary>Ponto unico de entrada: idempotente e a prova de excecao.</summary>
@@ -43,19 +54,35 @@ namespace BetterCombatText
                     _vidaLogada = true;
                     Plugin.Log.LogInfo($"Better Combat Text: gatilho '{origem}' vivo (primeira chamada) — o patch esta rodando.");
                 }
+
+                if (!Plugin.Cfg.DiagnosticoArranque.Value)
+                {
+                    // Desligado no config: encerra de vez (nenhuma varredura de cena nesta sessao).
+                    _feito = true;
+                    Plugin.Log.LogInfo("Better Combat Text: diagnostico de arranque DESLIGADO no config " +
+                        "('1. Geral' > DiagnosticoNoArranque = false) — nenhuma varredura de cena sera feita.");
+                    return;
+                }
+
                 float agora = Time.realtimeSinceStartup;
                 if (agora < EsperaMinima || agora < _proximaChecagem)
                 {
-                    return; // cedo demais, ou ainda dentro do throttle de 2s
+                    return; // cedo demais, ou ainda dentro do intervalo entre varreduras
                 }
-                _proximaChecagem = agora + 2f;
+                _proximaChecagem = agora + IntervaloChecagem;
 
-                // So roda quando algum alvo ja existe em cena (ou quando ja esperamos o suficiente).
-                if (!TemAlvoEmCena() && agora < DesistirEm)
+                // A varredura so roda quando algum alvo ja existe em cena (ou quando ja esperamos o
+                // suficiente). PRIMEIRO SUCESSO (alvo em cena) = roda e encerra a varredura de vez.
+                bool temAlvo = TemAlvoEmCena();
+                if (!temAlvo && agora < DesistirEm)
                 {
                     return;
                 }
                 _feito = true;
+                Plugin.Log.LogInfo(temAlvo
+                    ? "Better Combat Text: alvo encontrado em cena — diagnostico encerrado (nada mais e varrido)."
+                    : $"Better Combat Text: nenhum componente alvo apareceu em cena ate {DesistirEm:0}s — " +
+                      "rodando o diagnostico uma unica vez (o inventario de cena ainda informa) e parando.");
                 Rodar();
             }
             catch (Exception e)

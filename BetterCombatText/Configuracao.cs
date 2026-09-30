@@ -16,6 +16,7 @@ namespace BetterCombatText
         // ---------------- 1. Geral ----------------
         public readonly ConfigEntry<bool> Ativar;
         public readonly ConfigEntry<bool> LogDetalhado;
+        public readonly ConfigEntry<bool> DiagnosticoArranque;
 
         // ---------------- 2. Nomes de inimigos em combate (TMP) ----------------
         public readonly EstiloTmpCfg Nomes;
@@ -43,6 +44,13 @@ namespace BetterCombatText
             LogDetalhado = cfg.Bind("1. Geral", "LogDetalhado", false,
                 "true = escreve uma linha no LogOutput.log a cada superficie tratada (util para diagnostico). " +
                 "false = so o resumo de arranque e os avisos.");
+            DiagnosticoArranque = cfg.Bind("1. Geral", "DiagnosticoNoArranque", true,
+                "true (padrao) = UMA vez no arranque o mod procura os componentes alvo em cena e escreve no " +
+                "log a fonte, o material compartilhado e o shader de cada um — 100% leitura, nada e alterado. " +
+                "E por esse bloco que se sabe o que o jogo usa de verdade. Custo: uma varredura de cena por " +
+                "passo (5s) ate achar um alvo ou ate 240s. false = nenhuma varredura de cena acontece " +
+                "(custo zero) e o log so registra que o diagnostico esta desligado. Ligue para testar, " +
+                "desligue para jogar sem ele.");
 
             var secNomes = "2. Nomes de inimigos (combate)";
             Nomes = new EstiloTmpCfg(cfg, secNomes,
