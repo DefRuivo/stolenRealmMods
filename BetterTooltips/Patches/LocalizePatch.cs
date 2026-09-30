@@ -45,8 +45,15 @@ namespace BetterTooltips.Patches
         [HarmonyPatch]
         internal static class CorEOrdemDoTooltip
         {
+            /// <summary>Diagnostico 1x: diz no log se o prefix achou o bloco (ou nao).</summary>
+            private static bool _diagnosticadoCor;
             /// <summary>Aplica a cor do jogo DEPOIS das tabelas.</summary>
-            [HarmonyPostfix, HarmonyPriority(Priority.Low)]
+            // ORDEM DO HARMONY (o meu erro anterior): em PREFIX a prioridade e decrescente e
+            // em POSTFIX e CRESCENTE - Priority.Low roda PRIMEIRO. Com Low, este postfix rodava
+            // antes da tabela, sobre o texto cru, e morria no return antecipado de
+            // ComACorDoJogo. Prova: nenhuma linha "cor do jogo" no log mesmo com a DLL nova
+            // carregada (log 20:59 > DLL 20:57) e as notas ainda no azul de fallback.
+            [HarmonyPostfix, HarmonyPriority(Priority.High)]
             private static void CorPostfix(ref string __result)
             {
                 __result = ComACorDoJogo(__result);
@@ -77,7 +84,17 @@ namespace BetterTooltips.Patches
                 int i = __3.IndexOf(abre, StringComparison.Ordinal);
                 if (i < 0)
                 {
+                    if (!_diagnosticadoCor)
+                    {
+                        _diagnosticadoCor = true;
+                        Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado SEM o bloco (procurando " + abre + ")");
+                    }
                     return;
+                }
+                if (!_diagnosticadoCor)
+                {
+                    _diagnosticadoCor = true;
+                    Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, bloco da explicacao movido para o fim (cor #" + cor + ")");
                 }
                 int f = __3.IndexOf("</color>", i, StringComparison.Ordinal);
                 if (f < 0)
