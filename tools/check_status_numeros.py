@@ -37,7 +37,15 @@ DURACAO = re.compile(r'\b(turn|turns|second|seconds|round|rounds|stack|stacks|he
 
 
 def numeros(txt):
-    return set(re.findall(r'\d+(?:[.,]\d+)?', txt or ''))
+    """Numeros REAIS da descricao. Duas exclusoes aprendidas na primeira rodada:
+    (a) `[0]`/`[10]` sao TOKENS de template do jogo - o valor real vem do efeito (`[0]` casou
+        com `DamageModCold:Base:2` e marcou os 6 `Affinity` como suspeitos, todos corretos);
+    (b) numero colado em unidade estrutural (turn/stack/hex) e DURACAO ou CONTAGEM, que mora
+        em campo proprio, nao nos efeitos ("Lasts 5 turns" marcou o `Ascendancy`).
+    """
+    limpo = re.sub(r'\[[^\]]*\]', ' ', txt or '')
+    limpo = re.sub(r'\d+\s*(?:turn|turns|stack|stacks|hex|hexes|round|rounds)', ' ', limpo, flags=re.I)
+    return set(re.findall(r'\d+(?:[.,]\d+)?', limpo))
 
 
 def valores_dos_efeitos(efeitos):
