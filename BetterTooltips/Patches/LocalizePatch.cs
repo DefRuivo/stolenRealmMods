@@ -383,9 +383,6 @@ namespace BetterTooltips.Patches
             // RV-9 buffs: Seal of Protection - It reaches allies within 3 hexes of the seal's bearer.
             { "Decreases damage taken by 10%.",
               "\n<color=#C8B090>It reaches allies within 3 hexes of the seal's bearer.</color>" },
-            // RV-9 buffs: Rage - Current health is increased by the same percentage and goes back
-            { "Increases damage dealt and max life by 15%. Increases damage received by 15%.",
-              "\n<color=#C8B090>Current health is increased by the same percentage and goes back down when the status ends.\nAlso increases the healing this character does by the same percentage.</color>" },
             // RV-9 buffs: Perfect Rage - Also increases the healing this character does by the same perce
             { "Cannot control your character. Increases damage by [0]%. Grants enrage.",
               "\n<color=#C8B090>Also increases the healing this character does by the same percentage.</color>" },
@@ -487,27 +484,15 @@ namespace BetterTooltips.Patches
             // RV-9 buffs: Bottled Anger - Also increases the healing you do by the same percentage.
             { "Damage increased by 20%. Damage taken increased by 10%.",
               "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
-            // RV-9 buffs: Bone Collector - Stacks up to 5 times. Also increases the healing you do by the s
-            { "@Maximum health@ and @Damage Dealt@ increased by 6% per stack.",
-              "\n<color=#C8B090>Stacks up to 5 times.\nAlso increases the healing you do by the same percentage.</color>" },
             // RV-9 buffs: Blood Frenzy - Lasts 2 turns. Also increases the healing you do by the same per
             { "Increases damage dealt and life steal by 25%.",
               "\n<color=#C8B090>Lasts 2 turns.\nAlso increases the healing you do by the same percentage.</color>" },
-            // RV-9 buffs: Bless - Also increases the healing you do by the same percentage.
-            { "@Maximum health@ and @maximum mana@ increased by 10%.  @Damage dealt@ increased by 10%.",
-              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
-            // RV-9 buffs: Berserking - Lasts 3 turns. The bonus is your missing health as a percentage:
-            { "Maximum health increased by 25% Deals more damage at lower health",
-              "\n<color=#C8B090>Lasts 3 turns.\nThe bonus is your missing health as a percentage: up to +100% damage at 1 health.</color>" },
             // RV-9 buffs: Battle Fury - Lasts 3 turns. Also increases the healing you do by the same per
             { "Increases damage dealt by 30%.",
               "\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
             // RV-9 buffs: Antidote - Lasts 2 turns.
             { "Immune to poisoned.",
               "\n<color=#C8B090>Lasts 2 turns.</color>" },
-            // RV-9 buffs: Angered - Lasts 3 turns. Also increases the healing you do by the same per
-            { "Increases damage dealt by 25%. Increases max life and damage taken by 15%.",
-              "\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
             // RV-9 debuffs: Visually Impaired - Only ranged attacks and skills lose range; melee range is un
             { "Reduces @Range@ by @3@ per stack.",
               "\n<color=#C8B090>Only ranged attacks and skills lose range; melee range is unchanged.</color>" },
@@ -550,12 +535,6 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Restricted Range I - Only ranged abilities are affected.
             { "Range is reduced by 2 Hexes.",
               "\n<color=#C8B090>Only ranged abilities are affected.</color>" },
-            // RV-9 debuffs: Frozen - REMOVIDA em 30/09 (BUG-32): "Cannot move or perform actions." tambem e o
-            // texto do status Stunned, que NAO ignora Chilled - a nota mentia para ele. Sem texto exclusivo
-            // do Frozen para recebe-la.
-            // RV-9 debuffs: Diseased - Current health is reduced by the same percentage and comes b
-            { "Maximum health reduced by 15%.",
-              "\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
             // RV-9 debuffs: Decaying - Current health is reduced by the same percentage and comes b
             { "Max Health reduced by 25%.",
               "\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
@@ -577,15 +556,6 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Curse of Frailty - Resistances reduce their damage type by the listed %. If a r
             { "Reduces Physical resistance by 25%.",
               "\n<color=#C8B090>Resistances reduce their damage type by the listed %. If a resistance goes negative, that damage type is amplified instead.</color>" },
-            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
-            { "@Maximum health@ reduced by 10%.",
-              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
-            // RV-9 debuffs: Consumption - a nota de stack saiu DESTA chave em 30/09 (BUG-32/BUG-31): o texto
-            // "Max Health increased by 10%." e compartilhado com a skill Endurance I (bonus FIXO, sem stack).
-            // A nota mora agora na chave exclusiva da SKILL Consumption (entrada "Devour the life force...").
-            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
-            { "@Maximum health@ reduced by 20%.",
-              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
             // RV-9 debuffs: Consumption (SKILL - chave exclusiva). A nota de stack morava AQUI desde
             // 30/09 (BUG-32/BUG-31) e foi FUNDIDA na entrada de `TextFixes` em 30/09 (RV-25): a chave
             // estava nas DUAS tabelas e o if/else if fazia a de `TextAppends` nunca rodar. Uma entrada
@@ -690,12 +660,6 @@ namespace BetterTooltips.Patches
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.",
               "\n<color=#C8B090>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
-            // OMISSAO (nao mentir por omissao): o efeito real e
-            // `Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)`. Os 10% do texto
-            // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
-            // nao dizia. Muda a decisao de quem hesita em usar num aliado quase morto.
-            { "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.",
-              "\n<color=#C8B090>This cannot reduce the target below 1 health.</color>" },
             // ---- Escala por NÍVEL (RV-8b-2g) ----
             // Fonte: código do jogo. `GetFlatDamageValue(level, rarity) =
             // Mathf.Ceil(FlatDamageNodes.GetMultipler((int)level) * GetStatRarityMod(rarity))`
@@ -814,8 +778,6 @@ namespace BetterTooltips.Patches
               "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "All allies within 3 hexes of you heal for *0 per turn. ",
               "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
-            { "The caster reaches out in aid healing 30% of target's maximum health.",
-              "\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "Restores the target to full health.",
               "\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.",
@@ -960,14 +922,14 @@ namespace BetterTooltips.Patches
             // o valor e ANTES DAS REDUCOES DE DANO — pedido explicito do dono do jogo (sem isso o numero
             // parece prometer o dano que aparece na tela e nao bate).
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: the percentage and the Shrine Effect Bonus of the attacker that triggers the aura - the character that attacks someone standing inside it - multiply that attacker's Max Health, never the Max Health of the character standing in the aura, and no armour, resistances or other mitigation is applied. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: the percentage and the Shrine Effect Bonus of the attacker that triggers the aura - the character that attacks someone standing inside it - multiply that attacker's Max Health, never the Max Health of the character standing in the aura, and no armor, resistances or other mitigation is applied. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
             // RV-33/RV-34 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target
             // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE) VEZES o ShrineEffectBonus
             // DELE (RV-34: medido em jogo, com Worship dobra). O numero literal sai na linha
             // (LinhaDecayComValor); aqui ficam a escala, a origem do bonus, o fato de nao existir minimo e
             // a marca de que o valor e ANTES DAS REDUCOES DE DANO.
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armour, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armor, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
             { "Damage increased by [0]%. ",
               "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Reduces Damage taken by [0]%. ",
@@ -1064,7 +1026,7 @@ namespace BetterTooltips.Patches
               "Every summon active increases the @Max Health@, @Damage@ and @Healing@ of you and your summons by 5%." },
             // RV-14 terminologia: Soul Fracture | maximum health -> max health
             { "@Maximum health@ and @maximum mana@ lowered by 25%.",
-              "@Max health@ and @maximum mana@ lowered by 25%." },
+              "@Max health@ and @max mana@ lowered by 25%." },
             // RV-14 terminologia: Seraph Aura | maximum health -> max health
             { "Recover [0]% of maximum health each turn. ",
               "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
@@ -1073,7 +1035,7 @@ namespace BetterTooltips.Patches
               "@Max health@ increased by 10% per stack." },
             // RV-14 terminologia: Immortal Night | maximum health -> max health
             { "@Maximum health@ and @maximum mana@ lowered by 25% per stack.",
-              "@Max health@ and @maximum mana@ lowered by 25% per stack." },
+              "@Max health@ and @max mana@ lowered by 25% per stack." },
             // RV-14 terminologia: Focused Strike | damage received -> damage taken
             { "Increases damage received by 20%.",
               "Increases damage taken by 20%." },
@@ -1085,7 +1047,7 @@ namespace BetterTooltips.Patches
               "Every enemy that dies heals you for 10% of your max health." },
             // RV-14 terminologia: Rage | damage received -> damage taken
             { "Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.",
-              "Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage taken@ by 15%." },
+              "Increases @Damage dealt@ and @Max Health@ by 15%.  Increases @damage taken@ by 15%." },
             // RV-14 terminologia: Into the Fray | maximum health -> max health
             { "For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Maximum Health@.",
               "For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Max Health@." },
@@ -1111,10 +1073,10 @@ namespace BetterTooltips.Patches
               "Every enemy slain grants 6% @max health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times." },
             // RV-14 terminologia: Bless | maximum health -> max health
             { "Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",
-              "Bless all allies within 5 hexes.  Increases @damage@, @max health@, and @maximum Mana@ by 10%." },
+              "Bless all allies within 5 hexes.  Increases @damage@, @max health@, and @max mana@ by 10%." },
             // RV-14 terminologia: Berserker's Rage | damage received -> damage taken
             { "Increases @Damage dealt@ and @damage received@ by 25%. Increases @Max Life@ by 15%.",
-              "Increases @Damage dealt@ and @damage taken@ by 25%. Increases @Max Life@ by 15%." },
+              "Increases @Damage dealt@ and @damage taken@ by 25%. Increases @Max Health@ by 15%." },
             // RV-14 terminologia: Saint | Divine Resistance -> Holy Resistance
             { "Divine Resistance increased by 5%",
               "Holy Resistance increased by 5%" },
@@ -1297,7 +1259,7 @@ namespace BetterTooltips.Patches
             {
                 // "additonal" -> "additional"
                 "Sacrifice 15% of your maximum health in exchange for an additonal action this turn.  Applies {STA=Exhaustion}.",
-                "Sacrifice 15% of your maximum health in exchange for an additional action this turn.  Applies {STA=Exhaustion}."
+                "Sacrifice 15% of your max health in exchange for an additional action this turn.  Applies {STA=Exhaustion}."
             },
             {
                 // "abilites" -> "abilities"
@@ -1362,6 +1324,66 @@ namespace BetterTooltips.Patches
                 "Summons a Timber Wolf to fight for you",
                 "Summons a Timber Wolf to fight for you.\n<color=#C8B090>Timber Wolf: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
+            // ---- RV-17 (varredura FINAL de terminologia): sobras do RV-14 ----
+            // Regras JA DECIDIDAS e aceitas (maioria do censo + vocabulario do MOTOR):
+            //   `maximum health` / `max life` -> `max health`   (motor: Max Health 147 x Maximum Health 45 x Max Life 22)
+            //   `maximum mana`                -> `max mana`     (motor: Max Mana 30 x Maximum Mana 22)
+            //   `damage received`             -> `damage taken` (censo: 40 x 4)
+            // As 10 entradas abaixo ficaram FORA da rodada do RV-14 (29/09) por um motivo
+            // mecanico: o texto do jogo ja tinha nota em `TextAppends` e, como o lookup e
+            // if/else if na MESMA chave, corrigir o texto exigia MOVER a entrada - e uma
+            // chave nas duas tabelas quebra o mod inteiro (INC-1). A nota foi FUNDIDA no
+            // valor, no formato do `AnexarNota` (uma linha em branco + bloco na cor do
+            // jogo), e a entrada de `TextAppends` foi APAGADA: uma entrada por texto.
+            // RV-9 buffs: Rage - Current health is increased by the same percentage and goes back
+            // RV-17: Rage (status) - max life + damage received -> padrao do jogo; nota movida de TextAppends.
+            { "Increases damage dealt and max life by 15%. Increases damage received by 15%.",
+              "Increases damage dealt and max health by 15%. Increases damage taken by 15%.\n\n<color=#C8B090>Current health is increased by the same percentage and goes back down when the status ends.\nAlso increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Bone Collector - Stacks up to 5 times. Also increases the healing you do by the s
+            // RV-17: Bone Collector - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "@Maximum health@ and @Damage Dealt@ increased by 6% per stack.",
+              "@Max health@ and @Damage Dealt@ increased by 6% per stack.\n\n<color=#C8B090>Stacks up to 5 times.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bless - Also increases the healing you do by the same percentage.
+            // RV-17: Bless (status) - maximum health + maximum mana -> padrao do jogo; nota movida de TextAppends.
+            { "@Maximum health@ and @maximum mana@ increased by 10%.  @Damage dealt@ increased by 10%.",
+              "@Max health@ and @max mana@ increased by 10%.  @Damage dealt@ increased by 10%.\n\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Berserking - Lasts 3 turns. The bonus is your missing health as a percentage:
+            // RV-17: Berserking - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "Maximum health increased by 25% Deals more damage at lower health",
+              "Max health increased by 25% Deals more damage at lower health\n\n<color=#C8B090>Lasts 3 turns.\nThe bonus is your missing health as a percentage: up to +100% damage at 1 health.</color>" },
+            // RV-9 buffs: Angered - Lasts 3 turns. Also increases the healing you do by the same per
+            // RV-17: Angered - max life -> padrao do jogo; nota movida de TextAppends.
+            { "Increases damage dealt by 25%. Increases max life and damage taken by 15%.",
+              "Increases damage dealt by 25%. Increases max health and damage taken by 15%.\n\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 debuffs: Frozen - REMOVIDA em 30/09 (BUG-32): "Cannot move or perform actions." tambem e o
+            // texto do status Stunned, que NAO ignora Chilled - a nota mentia para ele. Sem texto exclusivo
+            // do Frozen para recebe-la.
+            // RV-9 debuffs: Diseased - Current health is reduced by the same percentage and comes b
+            // RV-17: Diseased - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "Maximum health reduced by 15%.",
+              "Max health reduced by 15%.\n\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
+            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
+            // RV-17: Consumption (status 10%) - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "@Maximum health@ reduced by 10%.",
+              "@Max health@ reduced by 10%.\n\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption - a nota de stack saiu DESTA chave em 30/09 (BUG-32/BUG-31): o texto
+            // "Max Health increased by 10%." e compartilhado com a skill Endurance I (bonus FIXO, sem stack).
+            // A nota mora agora na chave exclusiva da SKILL Consumption (entrada "Devour the life force...").
+            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
+            // RV-17: Consumption (status 20%) - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "@Maximum health@ reduced by 20%.",
+              "@Max health@ reduced by 20%.\n\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // OMISSAO (nao mentir por omissao): o efeito real e
+            // `Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)`. Os 10% do texto
+            // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
+            // nao dizia. Muda a decisao de quem hesita em usar num aliado quase morto.
+            // RV-17: Cauterize - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.",
+              "Removes all negative statuses from friendly target but inflicts 10% of target's max health as fire damage. Can be used when Disabled.\n\n<color=#C8B090>This cannot reduce the target below 1 health.</color>" },
+            // RV-17: Healing Hand - maximum health -> padrao do jogo; nota movida de TextAppends.
+            { "The caster reaches out in aid healing 30% of target's maximum health.",
+              "The caster reaches out in aid healing 30% of target's max health.\n\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();

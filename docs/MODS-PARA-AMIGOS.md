@@ -38,6 +38,7 @@ bash tools/pack-for-friends.sh BetterTooltips BetterFont
 | `BetterFont` | ✅ | fonte serifada (Times New Roman) |
 | `RoguelikeDebugger` | ❌ | é ferramenta de desenvolvimento — despeja **milhares** de linhas no log; só serve pra nós |
 | `RoguelikeQoL` | ❌ | o HUD foi desabilitado por decisão de projeto (`AtivarHUD=false`) |
+| `RoguelikeSkillTreeVisualizer` | ❌ | **não está** na lista padrão do `tools/pack-for-friends.sh` — o script empacota `BetterTooltips`, `BetterStats` e `BetterFont` (é a lista do próprio script, linha 24) |
 | `ReloadProbe` | ❌ | harness de teste, não é mod |
 
 Dentro do zip **só vão as DLLs compiladas**. As `lib/` (referências do jogo/BepInEx)
@@ -105,8 +106,10 @@ cima. Nada mais precisa ser feito do lado dele.
   (copia a DLL para o perfil local depois do build).
 - Depois de compilar, a DLL de cada mod fica em
   `<Mod>\bin\Release\netstandard2.1\<Mod>.dll` — é essa que o script empacota
-  (**Release** é a configuração padrão do empacotador; `--config Debug` empacota a
-  build de Debug, mas o pacote normal sai de Release). Compile com
+  (**Release** é a configuração padrão). O knob é a variável `CONFIG`:
+  `CONFIG=Debug bash tools/pack-for-friends.sh` empacota a build de Debug (o
+  `--config Debug` é do outro empacotador, o `tools/pack-thunderstore.py`), mas o
+  pacote normal sai de Release. Compile com
   `dotnet build <Mod>\<Mod>.csproj -c Release -p:DeployToBepInEx=false`: a flag
   `DeployToBepInEx=false` é obrigatória aqui, senão o build sobrescreve a DLL
   instalada no perfil do r2modman antes mesmo de empacotar.

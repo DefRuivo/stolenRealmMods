@@ -17,6 +17,8 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | Arquivo | Para quem | O que é |
 |---|---|---|
 | `README.md` | mantenedor | **Este índice** + o ritual de build. |
+| `CI.md` | mantenedor | Os **dois workflows** de GitHub Actions: `validate.yml` (só **valida**, a cada `push`/PR na `main`) e `publish.yml` (**manual**, com gate humano), os 7 passos do CI na ordem, como rodar tudo na mão e as armadilhas. |
+| `PUBLICACAO.md` | mantenedor | Publicação na Thunderstore: as regras da plataforma, o gate versionado `release/mods.json`, o Environment `thunderstore`, o passo a passo de um release e as armadilhas. |
 | `AMBIENTE.md` | mantenedor | Ambiente reproduzível: versões validadas (BepInEx, Unity, .NET, Python), caminhos do jogo e do perfil do r2modman, a decisão sobre a `StolenRealmModAPI` e a regra de backup de DLL. |
 | `MODS-PARA-AMIGOS.md` | mantenedor | Os dois lados da distribuição: como gerar o pacote (`tools/pack-for-friends.sh` → `dist/StolenRealm-Mods-<data>.zip`) e o que o amigo faz com ele. Diz o que **entra** e o que **não entra** no zip. |
 | `LEIA-ME.txt` | usuário final | Instruções de instalação em 5 minutos (r2modman ou BepInEx na mão) + os 3 problemas mais comuns. É este arquivo que vai **dentro** do zip distribuído. |
@@ -62,7 +64,7 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 42 relatórios de revisão
+### `cobertura/revisao/` — 43 relatórios de revisão
 
 O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
 confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
@@ -75,7 +77,7 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
 | **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
-| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 10 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 11 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
@@ -113,7 +115,7 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:Er
 
 Troque pelo mod que você mexeu (`BetterStats/BetterStats.csproj`,
 `BetterFont/BetterFont.csproj`, `RoguelikeQoL/RoguelikeQoL.csproj`,
-`RoguelikeDebugger/RoguelikeDebugger.csproj`). Saída esperada: **nada** (o
+`RoguelikeDebugger/RoguelikeDebugger.csproj`, `RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj`). Saída esperada: **nada** (o
 `-clp:ErrorsOnly` só imprime erro). Qualquer linha vermelha = **pare aqui**.
 
 ### Passo 2 — `check_fix_keys`: as chaves existem no censo?
@@ -124,8 +126,8 @@ python tools/check_fix_keys.py
 
 As tabelas `TextFixes`/`TextAppends` do `BetterTooltips` casam por texto **exato**.
 Uma chave com um espaço a mais — ou escrita de memória em vez de copiada do asset —
-**nunca dispara**: a falha é silenciosa. Saída esperada hoje: **264 chaves, 260 no
-censo, 4 fora** — as 4 de fora são textos de UI/dica de loading, que o censo do RV-7
+**nunca dispara**: a falha é silenciosa. Saída medida em 30/09/2026 (17:21): **291 chaves,
+287 no censo, 4 fora** — as 4 de fora são textos de UI/dica de loading, que o censo do RV-7
 não cobre. Fora do censo **não é erro por si**; o que não pode é uma chave de
 skill/status/item/afixo que você *achou* que existia.
 
@@ -141,10 +143,15 @@ aceita chave repetida — o `Add` estoura `ArgumentException`, e como as tabelas
 carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `Slam` e
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
-"certa"); por isso o `check_dupes` existe. Saída esperada hoje:
-`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 205 entradas | duplicadas: nenhuma`
+"certa"); por isso o `check_dupes` existe. Saída medida em 30/09/2026 (17:21):
+`TextFixes 96 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
 (o `tools/audita_docs.py`, passo 7, compara estes dois números com o `LocalizePatch.cs` — é por
-ele que um `206` escrito de memória vira CI vermelho).
+ele que um `TextAppends N entradas` escrito de memória vira CI vermelho). **Limite conhecido
+deste check:** ele só confere a forma `TextFixes N entradas` / `TextAppends N entradas`; contagem
+escrita em prosa («N notas», *Passo 4*) **não** é conferida. Foi assim que a doc trazia
+`206 notas` enquanto a ferramenta dizia **205** (antes do lote de terminologia do RV-14) e o
+`audita_docs.py` saía `0` mesmo assim — número em prosa também precisa ser conferido à mão
+contra a ferramenta, e a ferramenta é que manda.
 
 ### Passo 4 — `check_notas_redundantes`: a nota **repete** o texto?
 
@@ -159,9 +166,13 @@ famílias: **nota == chave** (duplicado na tela), **nota inteiramente contida na
 em texto onde Armor é **fonte** de dano e não mitigação (casos `Battle Ready` e `Diamond
 Ice`, barrados no código por `ArmorValueSourceRegex`).
 
-Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09: **206 notas
-analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` — foram
-removidas).
+Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09/2026 (17:21):
+**195 notas analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` —
+foram removidas). O número é o que o `check_notas_redundantes.py` imprime
+(`notas analisadas ......... 195`) e o que o próprio relatório declara. Ele acompanha as tabelas do
+`LocalizePatch.cs`: um `206 notas` que estava escrito aqui era divergência contra a ferramenta —
+**quem manda é a ferramenta**, e o valor já mudou de novo (205 → 195) quando o lote de terminologia
+do RV-14 moveu entradas de `TextAppends` para `TextFixes`.
 
 ### Passo 5 — `check_chave_compartilhada --estrito`: **TRAVA OBRIGATÓRIA** (`BUG-32`)
 
@@ -237,8 +248,9 @@ O dia a dia continua em **Debug**: `dotnet build <Mod>/<Mod>.csproj` (sem `-c`) 
 do r2modman. **Nada disso mudou.**
 
 O que passou a existir é o build de **Release** para gerar o artefato que vai para o `dist/`. É o
-mesmo fonte — nenhum arquivo dos 5 mods usa `#if DEBUG` (conferido com
-`grep -rn "#if DEBUG" BetterFont/ BetterStats/ BetterTooltips/ RoguelikeQoL/ RoguelikeDebugger/`) —
+mesmo fonte — nenhum arquivo dos 6 mods usa `#if DEBUG` (conferido com
+`grep -rn "#if DEBUG" BetterFont/ BetterStats/ BetterTooltips/ RoguelikeQoL/ RoguelikeDebugger/ RoguelikeSkillTreeVisualizer/`,
+30/09/2026: **nenhuma ocorrência**) —
 então muda só otimização/pdb/nome da pasta de saída.
 
 ```bash
@@ -249,11 +261,11 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployT
 - a DLL sai em **`<Mod>/bin/Release/netstandard2.1/<Mod>.dll`** (a pasta de Debug fica intacta);
 - **`-p:DeployToBepInEx=false` desliga o deploy** — é o que impede um build de Release de
   sobrescrever a DLL que está instalada no perfil do r2modman (obrigatório quando o mod está aberto
-  em teste). O alvo `DeployToBepInEx` dos 5 `.csproj` ganhou
+  em teste). O alvo `DeployToBepInEx` dos 6 `.csproj` ganhou
   `Condition="'$(DeployToBepInEx)' != 'false'"`: **sem a flag o comportamento é o de sempre** (copia),
   e a cópia continua usando `$(TargetPath)`, ou seja, a DLL da configuração que foi buildada.
 
-Saída literal medida em 30/09/2026 (os dois mods mais simples; os outros 3 usam o mesmo `.csproj` e
+Saída literal medida em 30/09/2026 (os dois mods mais simples; os outros 4 usam o mesmo `.csproj` e
 a mesma receita):
 
 | mod | comando | resultado |
@@ -293,32 +305,38 @@ e no zip (`unzip -l dist/gumatos-BetterFont-1.0.0.zip`): `manifest.json`, `READM
 
 ---
 
-## 4. `tools/` — o que cada script faz
+## 4. `tools/` — o que cada script faz (e **quando** rodar)
 
-| Script | O que faz |
-|---|---|
-| `census.py` | Lê o dump de boot do `RoguelikeDebugger` no log e gera os CSVs de `docs/cobertura/` (preserva a coluna `status`). |
-| `censo_status.py` | Cria/mantém o censo de revisão dos **status** (RV-9). |
-| `check_fix_keys.py` | Confere as chaves de `TextFixes`/`TextAppends` contra o censo. **Passo 2 do ritual.** |
-| `check_dupes.py` | Chave duplicada nas tabelas do `LocalizePatch`. **Passo 3 do ritual (trava).** |
-| `verify_tree.py` | Bancada por árvore: junta o texto da skill com o código (`attr`, `expr`, `danoExpr`, ações, status) → `docs/cobertura/revisao/ficha-<arvore>.md`. |
-| `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. |
-| `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. |
-| `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? |
-| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 206 notas e sai com exit 1 se achar caso. |
-| `check_chave_compartilhada.py` | Varredura de **chave compartilhada** (BUG-32) contra o censo: (a) **a mesma chave nas duas tabelas** — `TextFixes` executa e `TextAppends` nunca roda, a nota não existe em jogo sem erro no log → **exit 1 com `--estrito`** (**passo 5 do ritual, trava**); (b) **suspeitas** (texto com nota usado por 2+ entidades) → aviso que **não** reprova, decisão humana. `--fonte OUTRO.cs` aponta o parser para outro fonte (teste do detector). |
-| `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. |
-| `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) |
-| `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). |
-| `analisa_conferir.py` | Desmonta os itens "conferir" de uma ficha: o que o código diz sobre aquele número. |
-| `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. |
-| `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. |
-| `pack-for-friends.sh` | Compila (**Release**, com `-p:DeployToBepInEx=false` para não tocar na DLL do perfil) e empacota os mods distribuíveis em `dist/`. Configuração: `CONFIG` (padrão `Release`). |
-| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. |
-| `check_segredos.py` | **Trava de segredo:** varre os arquivos versionados procurando credencial (token do Thunderstore, PAT do GitHub, chave privada). Exit 1 e o release para. |
-| `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. |
-| `release-check.sh` | **A trava de release:** roda os 7 passos de uma vez (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. Duas travas objetivas até aqui: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). |
-| `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/plugin), ferramentas citadas x existentes em `tools/`, links relativos, caminhos que saíram do repo e a dependência do Thunderstore. Sai `exit 1` quando alguma afirmação não bate — é o **passo 7 do CI**. Descobre a raiz do repo a partir do próprio arquivo (roda de qualquer diretório) e **marca** os falsos positivos que já conhece (referência histórica ao `BetterTexts`, tabela que diz "não instale", a linha que explica que o `KANBAN.md` não é versionado, script de bancada em `scratch/`) em vez de reprovar. |
+Cada ferramenta de `tools/` está aqui; a coluna *Quando rodar* diz o gatilho — os passos do
+ritual (§3), os passos do CI ([`CI.md`](CI.md)) ou o momento de manutenção. Trava = o passo
+reprova e a release para.
+
+| Script | O que faz | Quando rodar |
+|---|---|---|
+| `census.py` | Lê o dump de boot do `RoguelikeDebugger` no log e gera os CSVs de `docs/cobertura/` (preserva a coluna `status`). | Manutenção do censo, depois de um ciclo de jogo que produziu o dump. |
+| `censo_status.py` | Cria/mantém o censo de revisão dos **status** (RV-9). | Junto do `census.py`, ao revisar status (buff/debuff). |
+| `check_fix_keys.py` | Confere as chaves de `TextFixes`/`TextAppends` contra o censo. | **Passo 2 do ritual**; passo 2 do CI. As 4 chaves de UI/loading fora do censo são **aviso**, não erro. |
+| `check_dupes.py` | Chave **duplicada** nas tabelas do `LocalizePatch` (`INC-1`). | **Passo 3 do ritual — TRAVA**; passo 3 do CI. |
+| `check_versoes.py` | **PKG-2 (só olha o repositório, sem build):** confere se a versão de cada mod bate nos **três** lugares — `<Mod>/<Mod>.csproj` (`<Version>`, a fonte), `<Mod>/manifest.json` (`version_number`) e `<Mod>/Plugin.cs` (`[BepInPlugin(...)]`). Importa o parser do `pack-thunderstore.py`, então o gate e o empacotador nunca discordam sobre "qual é a versão". | Medido em 30/09/2026: **não** é chamado pelo `release-check.sh` nem pelos workflows (conferido com `grep`) — roda à mão quando se quer a trava de versão antes de empacotar. |
+| `verify_tree.py` | Bancada por árvore: junta o texto da skill com o código (`attr`, `expr`, `danoExpr`, ações, status) → `docs/cobertura/revisao/ficha-<arvore>.md`. | Revisão de uma árvore de skills (gera a ficha). |
+| `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. | Revisão de conteúdo das skills (RV-8b). |
+| `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. | Revisão da gramática de texto (RV-8a). |
+| `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? | Revisão de conteúdo, quando a dúvida é "falta informação". |
+| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Mede **195** notas e sai com exit 1 se achar caso. | **Passo 4 do ritual**; passo 4 do CI. **Regenera** `docs/cobertura/revisao/RV-15-notas-redundantes.md` a cada execução. |
+| `check_chave_compartilhada.py` | Varredura de **chave compartilhada** (BUG-32) contra o censo: (a) **a mesma chave nas duas tabelas** — `TextFixes` executa e `TextAppends` nunca roda, a nota não existe em jogo sem erro no log → **exit 1 com `--estrito`** (**passo 5 do ritual, trava**); (b) **suspeitas** (texto com nota usado por 2+ entidades) → aviso que **não** reprova, decisão humana. `--fonte OUTRO.cs` aponta o parser para outro fonte (teste do detector). É também o **parser único** do `LocalizePatch.cs` (o `check_dupes.py` o importa): a contagem oficial de `TextFixes`/`TextAppends` sai daqui. | **Passo 5 do ritual — TRAVA** (`BUG-32`); passo 5 do CI. Os dois chamam `--estrito`. |
+| `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. | Revisão de conteúdo, quando a dúvida é "escala sem dizer". |
+| `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) | Revisão de status (RV-9). |
+| `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). | Revisão de terminologia (RV-14). |
+| `analisa_conferir.py` | Desmonta os itens "conferir" de uma ficha: o que o código diz sobre aquele número. | Ao fechar uma ficha, para resolver cada "conferir". |
+| `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. | Ao fechar um lote de correções (o livro de correções). |
+| `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. | Ao atualizar a coluna `beneficio` do `status.csv`. |
+| `pack-for-friends.sh` | Compila (**Release**, com `-p:DeployToBepInEx=false` para não tocar na DLL do perfil) e empacota os mods distribuíveis em `dist/`. Configuração: `CONFIG` (padrão `Release`). | Distribuição para amigos (ver [`MODS-PARA-AMIGOS.md`](MODS-PARA-AMIGOS.md)). |
+| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. | Empacotar para publicação; `--sincronizar-versao <Mod>` depois de subir o `<Version>` do `.csproj`. |
+| `check_segredos.py` | **Trava de segredo:** varre os arquivos **versionados** procurando credencial (token do Thunderstore, PAT do GitHub, chave privada) e, em seguida, chama o `check_padroes_segredo.py`. Exit 1 e o release para. | **Passo 0 do `release-check.sh`** (o único que **aborta na hora**) e **passo 1 do CI**; também roda dentro do `publish-thunderstore.sh` e do job de publicação. |
+| `check_padroes_segredo.py` | O **motor genérico** de credencial: formatos conhecidos (GitHub, Thunderstore, Slack, OpenAI, AWS, Google, GitLab, npm, PEM) **+** string longa de alta entropia, para pegar o que ainda não tem nome. Não guarda valor de token — só formato e medida. | Rodado **pelo** `check_segredos.py` (por isso é parte do passo 0 do `release-check` e do passo 1 do CI). Direto, só para a varredura mais ampla à mão. |
+| `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. | Publicação local, quando o envio sai pela mão (ver [`PUBLICACAO.md`](PUBLICACAO.md)); é o caminho enquanto não se usa o `publish.yml`. |
+| `release-check.sh` | **A trava de release:** roda os passos automatizados 0–6 (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo) e imprime o **passo 7, humano** (conferência visual em jogo, não automatizável); no fim diz APROVADO/REPROVADO e lista quem falhou. **Não** para no primeiro erro — só o passo 0 (segredos) aborta na hora; os outros acumulam para o relatório. Duas travas objetivas: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). | Antes de **qualquer** release ou empacotamento (e é chamada pelo `publish-thunderstore.sh`). |
+| `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/plugin), ferramentas citadas x existentes em `tools/`, links relativos, caminhos que saíram do repo e a dependência do Thunderstore. Sai `exit 1` quando alguma afirmação não bate — é o **passo 7 do CI**. Descobre a raiz do repo a partir do próprio arquivo (roda de qualquer diretório) e **marca** os falsos positivos que já conhece (referência histórica ao `BetterTexts`, tabela que diz "não instale", a linha que explica que o `KANBAN.md` não é versionado, script de bancada em `scratch/`) em vez de reprovar. | **Passo 7 do CI**; depois de mexer em qualquer doc (é ele que confere contagem, versão, ferramenta e link). |
 
 ---
 
@@ -330,15 +348,16 @@ DENTRO da pasta do mod). Nao existe pasta `src/` nem `thunderstore/`: a estrutur
 mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do `.gitignore` e o alvo
 `DeployToBepInEx` dos csproj.
 
-**Os parametros que o Thunderstore exige, conferidos um a um nos 5 mods:**
+**Os parametros que o Thunderstore exige, conferidos um a um nos 6 mods** (contagens medidas com
+`python .github/scripts/valida_pacotes.py`, 30/09/2026: `6 pacotes validados | 0 com problema`):
 
 | parametro | regra | estado |
 |---|---|---|
 | `name` | alfanumerico/underscore, ate 128, estavel entre releases | OK |
 | `version_number` | semver MAJOR.MINOR.PATCH, ate 16 chars | OK |
-| `description` | ate 250 chars | OK (139..160) |
+| `description` | ate 250 chars | OK (139..171) |
 | `website_url` | URL valida | OK |
-| `icon.png` | PNG 256x256, ate 1 MB | OK (256x256, ~940 bytes) |
+| `icon.png` | PNG 256x256, ate 1 MB | OK (256x256; 935..100373 bytes — todos abaixo de 1 MB) |
 | `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
@@ -438,7 +457,12 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 **Testar antes de publicar (r2modman):** `Import local mod` no perfil -> conferir que a DLL caiu em
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
-**Publicar:** ainda manual no site do Thunderstore (o CI de release e a tarefa PKG-4). A versao nao pode
+**Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje os **6** mods estão com
+`publicar: false`), o envio é o workflow [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
+(**manual**, com aprovação num GitHub Environment) e o envio **local** continua sendo
+`bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só sobe com `--go`). Os dois
+workflows já estão no remoto — factual verificado em 30/09/2026, ver [`CI.md`](CI.md). A versão nao pode
 repetir uma ja publicada — a **PKG-2** resolveu isso: a versão tem uma fonte (o `<Version>` do
 `.csproj`) e o empacotamento **recusa** pacote quando `manifest.json` ou `Plugin.cs` divergem dela
 (ver § *Fonte única de versão*).

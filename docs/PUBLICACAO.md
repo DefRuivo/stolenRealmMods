@@ -6,10 +6,12 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado hoje (30/09/2026): nada foi publicado.** Os 6 mods estão com `publicar: false`,
-o `team` está vazio de propósito (decisão pendente) e o workflow inteiro vive no disco — o
-envio automático está travado até o registro e a credencial estarem prontos. Enquanto o
-`team` estiver vazio o pipeline **falha antes de tocar em qualquer coisa**, e não chuta.
+**Estado hoje (30/09/2026): nada foi publicado.** Os **6** mods estão com `publicar: false`
+(conferido no [`release/mods.json`](../release/mods.json)) e o `team` está vazio de propósito
+(decisão pendente). Os dois workflows **já estão no remoto** — conferido com
+`git ls-remote origin main` e com o `curl` do YAML publicado (mesmo MD5 do arquivo no disco), ver
+[`CI.md`](CI.md) — então o pipeline está **vivo**, não "só no disco": ele **falha antes de tocar
+em qualquer coisa** porque o `team` está vazio, e não chuta.
 
 ## 1) As regras da plataforma que mandam no desenho
 
@@ -124,8 +126,8 @@ gh release create thunderstore-1.0.0 dist/gumatos-*.zip --title "Pacotes 1.0.0"
 #    https://thunderstore.io/c/stolen-realm/  +  release/mods.json (versao_publicada/publicado_em)
 ```
 
-**Envio local (sem GitHub)** continua valendo como sempre, e é o caminho de hoje enquanto o
-workflow não subir: `bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só envia
+**Envio local (sem GitHub)** continua valendo como sempre, e é o caminho mais curto hoje:
+`bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só envia
 com `--go`). Ele roda a trava de segredo e o `tools/release-check.sh` antes de qualquer coisa
 e lê o token de `TCLI_AUTH_TOKEN` / `THUNDERSTORE_TOKEN_FILE` / `~/.thunderstore-token` —
 **nunca** de dentro do repositório (se o arquivo estiver dentro, ele recusa).
@@ -162,23 +164,35 @@ envio. Nesse cenário:
 - o `dist/` passa a ser local (dispensa o input `release_tag`);
 - o **environment com revisores continua** — automação de build não substitui aprovação humana.
 
-## 8) Como ativar (o bloqueio do escopo `workflow`)
+## 8) Estado dos workflows e o escopo `workflow` do PAT
 
-**`.github/workflows/` não sobe com o PAT atual** — falta o escopo de workflow: o GitHub
-recusa o push desse caminho. O arquivo fica pronto no disco e o envio continua saindo pelo
-`tools/publish-thunderstore.sh` local até o token permitir. Para ativar:
+Os dois YAML **já estão publicados** — conferido em 30/09/2026: o `main` do GitHub é o mesmo
+commit do HEAD local (`git ls-remote origin main`) e o arquivo publicado tem o **mesmo MD5** do
+arquivo no disco. O que continua exigindo credencial é **editar** esse caminho: um push que mexe
+em `.github/workflows/` precisa do escopo de workflow no PAT. O escopo da credencial atual **não
+foi verificado** (é segredo); se o push desse caminho for recusado, habilite:
 
 | Token | O que habilitar |
 |---|---|
 | **Fine-grained PAT** | *Repository permissions → **Workflows: Read and write*** (além de `Contents: Read and write`) |
 | **Classic PAT** | escopo **`workflow`** (além de `repo`) |
 
-Depois disso, um commit normal sobe `.github/workflows/publish.yml`. Confira o publish pela
-API pública, sem credencial: `curl -s "https://api.github.com/repos/DefRuivo/stolenRealmMods/git/trees/main?recursive=1"`
-(procure `publish.yml`; note que a leitura vem com `\r` no Windows).
+**Conferir o que está publicado, sem credencial** (foi assim que este documento foi corrigido):
 
-Este é um bloqueio **de credencial, não de código** — e vale igual para o `validate.yml`, que
-está no disco pelo mesmo motivo.
+```bash
+git ls-remote origin main        # o main do GitHub é o mesmo commit daqui?
+curl -s https://raw.githubusercontent.com/DefRuivo/stolenRealmMods/main/.github/workflows/validate.yml | md5sum
+md5sum .github/workflows/validate.yml     # mesmo hash = o arquivo do disco é o que está no ar
+```
+
+A árvore completa da API, também sem credencial:
+`curl -s "https://api.github.com/repos/DefRuivo/stolenRealmMods/git/trees/main?recursive=1"`
+(procure `publish.yml`; a leitura vem com `\r` no Windows).
+
+> **Correção (30/09/2026):** a versão anterior deste documento dizia que os workflows viviam só
+> no disco, por falta do escopo `workflow`. Isso deixou de valer: o commit `d417a81` ("CI: ativa
+> os workflows de validacao e de publicacao (escopo workflow no PAT)") subiu os dois, e o
+> `validate.yml` que está no ar roda o passo 5 **com** `--estrito`.
 
 ## 9) Armadilhas conhecidas (todas vividas ou conferidas na fonte)
 
@@ -197,9 +211,11 @@ está no disco pelo mesmo motivo.
   mostra a maior). O pre-flight recusa.
 - **Zip de outro commit**: se você editar o `manifest.json`/descrição depois de zipar, o
   pre-flight acusa "o zip não é deste commit". Rebuilde e reempacote.
-- **`RoguelikeSkillTreeVisualizer` ainda não tem `CHANGELOG.md`**: o empacotador recusa
-  pacote incompleto (e o passo 6 do CI de validação acusa o mesmo). Enquanto isso, ele não
-  pode ser liberado — crie o CHANGELOG antes de virar `publicar: true`.
+- **`RoguelikeSkillTreeVisualizer` tinha o pacote incompleto** (faltava `CHANGELOG.md`) e por isso
+  não podia ser liberado. **Corrigido em 30/09/2026:** os 6 mods têm `manifest.json`, `README.md`,
+  `CHANGELOG.md` e `icon.png`, e o `python .github/scripts/valida_pacotes.py` valida os
+  **6 pacotes com 0 problemas** — o empacotador não recusa mais nenhum por pacote incompleto.
+  O que ainda trava esse mod é só o gate (`publicar: false`).
 - **O `[skip ci]` no commit do registro** evita disparar a validação inteira de novo por um
   commit que só escreve a versão publicada.
 - **Push do registro pode falhar** (proteção de branch, permissão de escrita). Nesse caso a
@@ -219,6 +235,11 @@ está no disco pelo mesmo motivo.
 | arquivo | papel |
 |---|---|
 | [`.github/workflows/publish.yml`](../.github/workflows/publish.yml) | o workflow: gate, environment, pre-flight, envio, registro |
+| [`.github/workflows/validate.yml`](../.github/workflows/validate.yml) | o outro lado da trava: valida a cada `push`/PR (não compila, não publica) — ver [CI.md](CI.md) |
 | [`release/mods.json`](../release/mods.json) | o gate versionado: quem pode sair e o que já saiu |
+| [`tools/pack-thunderstore.py`](../tools/pack-thunderstore.py) | gera o `.zip` que o pipeline transporta (pre-flight de versão única/ícone/DLL) e dá a lista de mods (`--listar-nomes`) |
+| [`tools/publish-thunderstore.sh`](../tools/publish-thunderstore.sh) | publicação pela linha de comando (**dry-run** por padrão; `--go` envia) |
+| [`.github/scripts/valida_pacotes.py`](../.github/scripts/valida_pacotes.py) | o que o CI confere do pacote **sem** DLL: manifest, ícone 256x256, README e CHANGELOG |
+| [`.github/scripts/`](../.github/scripts) | a pasta das ferramentas que só existem para o CI |
 | este documento | o processo, os comandos e as armadilhas |
 | [docs/CI.md](CI.md) | onde a validação e a publicação se encontram |
