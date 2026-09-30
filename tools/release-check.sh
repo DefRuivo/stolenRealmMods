@@ -80,7 +80,7 @@ fi
 
 # ================================ 1. BUILD ===================================
 echo
-echo "== PASSO 1/4 — BUILD (todos os .csproj de mod na raiz) =="
+echo "== PASSO 1/5 — BUILD (todos os .csproj de mod na raiz) =="
 mapfile -t PROJETOS < <(find . -maxdepth 2 -name '*.csproj' \
                           -not -path '*/bin/*' -not -path '*/obj/*' \
                         | sed 's|^\./||' | sort)
@@ -117,7 +117,7 @@ fi
 
 # =============================== 2. CHAVES ===================================
 echo
-echo "== PASSO 2/4 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
+echo "== PASSO 2/5 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
 SAIDA_CHAVES="$($PYTHON tools/check_fix_keys.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_CHAVES" | sed 's/^/   /'
 if [ "$rc" -ne 0 ]; then
@@ -136,7 +136,7 @@ fi
 
 # ============================= 3. DUPLICADAS =================================
 echo
-echo "== PASSO 3/4 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
+echo "== PASSO 3/5 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
 SAIDA_DUP="$($PYTHON tools/check_dupes.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_DUP" | sed 's/^/   /'
 if [ "$rc" -eq 1 ]; then
@@ -153,9 +153,32 @@ else
   passo_ok "3. DUPLICADAS" "${det_dup:-nenhuma duplicada}"
 fi
 
+# ======================= 4. NOTAS REDUNDANTES ================================
+echo
+echo "== PASSO 4/5 — NOTAS REDUNDANTES (a nota repete o texto que ja estava la?) =="
+SAIDA_NOTAS="$($PYTHON tools/check_notas_redundantes.py 2>&1)"; rc=$?
+printf '%s
+' "$SAIDA_NOTAS" | sed 's/^/   /'
+if [ "$rc" -eq 1 ]; then
+  passo_fail "4. NOTAS" "nota redundante/duplicada — o jogador le a mesma frase duas vezes"
+  echo
+  echo "   >>> REVISAR ANTES DE PUBLICAR <<<"
+  echo "   Uma nota existe para dizer o que o texto NAO diz. Familias: nota == chave (a frase"
+  echo "   aparece DUPLICADA na tela), nota contida na chave, nota que ecoa o texto, e nota de"
+  echo "   Armor onde Armor e FONTE de dano e nao mitigacao. As regras que impedem o ultimo caso"
+  echo "   estao no codigo (ArmorValueSourceRegex) - se aparecer caso aqui, a regra falhou."
+  echo "   Relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md"
+elif [ "$rc" -ne 0 ]; then
+  passo_fail "4. NOTAS" "check_notas_redundantes.py NAO RODOU (exit $rc) — nao verificada"
+else
+  det_notas=$(printf '%s
+' "$SAIDA_NOTAS" | grep -aoE 'notas analisadas [.]+ [0-9]+' | head -1)
+  passo_ok "4. NOTAS" "${det_notas:-0 casos}"
+fi
+
 # ============================== 4. CICLO =====================================
 echo
-echo "== PASSO 4/4 — CICLO DO JOGO + ANALISE DO LOG =="
+echo "== PASSO 5/5 — CICLO DO JOGO + ANALISE DO LOG =="
 echo "   $ bash scratch/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
 SAIDA_CICLO="$(bash scratch/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
 printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
@@ -163,7 +186,7 @@ printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
 # --- analise do log ---------------------------------------------------------
 if [ ! -f "$LOG" ]; then
   echo "   ERRO: log nao existe: $LOG"
-  passo_fail "4. CICLO" "sem log — o jogo nao chegou a subir"
+  passo_fail "5. CICLO" "sem log — o jogo nao chegou a subir"
 else
   N_TIE=$(grep -ac 'TypeInitializationException' "$LOG" || true); N_TIE=${N_TIE:-0}
   N_ARG=$(grep -ac 'ArgumentException' "$LOG" || true);           N_ARG=${N_ARG:-0}
@@ -190,9 +213,9 @@ else
   fi
 
   if [ "$N_TIE" -eq 0 ] && [ "$N_ARG" -eq 0 ] && [ "$N_ERR" -eq 0 ] && [ "$N_CARR" -gt 0 ] && [ "$BT_OK" -eq 1 ]; then
-    passo_ok "4. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
+    passo_ok "5. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
   else
-    passo_fail "4. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
+    passo_fail "5. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
     [ "$N_TIE" -gt 0 ] && grep -a -m3 -B1 'TypeInitializationException' "$LOG" | sed 's/^/        /'
     [ "$N_ERR" -gt 0 ] && grep -a -m3 '^\[Error' "$LOG" | sed 's/^/        /'
   fi
@@ -203,7 +226,7 @@ taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1 || true
 
 # =============================== 5. HUMANO ===================================
 echo
-echo "== PASSO 5 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
+echo "== PASSO 6 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
 cat <<'HUMANO'
    Estes itens NAO podem ser checados por script — nenhum deles aparece no log.
    O release NAO esta completo enquanto um humano nao conferir, em jogo:
@@ -237,7 +260,7 @@ for c in "${CHECKS[@]}"; do
     printf '  [FALHA]  %-14s %s\n' "$nome" "$det"
   fi
 done
-printf '  [HUMANO] %-14s %s\n' "5. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
+printf '  [HUMANO] %-14s %s\n' "6. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
 echo
 if [ "${#FALHAS[@]}" -eq 0 ]; then
   echo "  CONCLUSAO: APROVADO (verificacao automatizada: build, chaves, duplicadas, ciclo)"
@@ -251,7 +274,7 @@ else
       "1. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
       "2. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
       "3. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
-      "4. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
+      "5. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
     esac
   done
   echo "             Nada deve ser distribuido/instalado enquanto o veredito for REPROVADO."
