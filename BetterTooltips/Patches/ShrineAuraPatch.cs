@@ -7,20 +7,40 @@ using UnityEngine;
 namespace BetterTooltips.Patches
 {
     /// <summary>
-    /// RV-20 — valores DINÂMICOS de shrine nas tooltips (30/09).
+    /// RV-22 (30/09) — auras de shrine com o número FINAL (com Omnism/Horn) na tooltip,
+    /// corrigindo os PARÂMETROS que alimentam a expressão do jogo — NUNCA reescrevendo texto.
     ///
-    /// Causa raiz (decodificada): Tooltip.ShowGroundEffectTooltip monta o GameFunctionParameters
-    /// com Source = WorldCharacter e SEM Target. A expressão das auras de shrine é
-    /// Mathf.Round(BASE * (1 + (Target["ShrineEffectBonus"] / 100))) — com Target vazio o
-    /// bônus vale 0 e o número exibido no hover do shrine é sempre a BASE (observado em jogo
-    /// pelo usuário: com Omnism o valor não mudava). No tooltip do STATUS o jogo passa o
-    /// personagem como Target, então lá o número já saía correto.
+    /// CAUSA RAIZ (decompilado do build atual):
+    ///   - as auras escalam por `Mathf.Round(BASE * (1 + X["ShrineEffectBonus"]/100))`, com
+    ///     X = Target (Warrior/Guardian/Conqueror/Rogue/Reaper/Seraph/Shaman/Energy/Fury/Dwarven)
+    ///     e X = Source nas duas auras de perigo (Decay/Flame);
+    ///   - o hover do shrine (Tooltip.ShowGroundEffectTooltip, l.214177/214180) monta o
+    ///     GameFunctionParameters com `Source = Root.WorldCharacter` e SEM Target;
+    ///   - o motor só faz `if (Target == null) Target = Source` (ApplyDescriptionExpressions,
+    ///     l.215241-215243) — e o WorldCharacter é um personagem VAZIO (Root.CreateWorldCharacter,
+    ///     l.143680 = `Observable.New<Character>()`), sem atributo nenhum: o bônus lido é 0 e a
+    ///     tooltip mostra SEMPRE o número base (observado em jogo: com Omnism o valor não mudava).
     ///
-    /// Fix 1 (prefix abaixo): quando alguma expressão usa "ShrineEffectBonus" e o Target está
-    /// vazio, Target = Source — o motor passa a calcular o valor REAL com o bônus do jogador.
+    /// FIX: prefix em `Tooltip.ApplyDescriptionExpressions` — o funil por onde passam TODOS os
+    /// tooltips de skill/status/powerup e o hover do ground effect (6 chamadas no motor) — que
+    /// PREENCHE apenas os parâmetros VAZIOS (Target/Source) com o RECEPTOR resolvido. O texto
+    /// continua sendo montado pelo jogo; nós só damos a ele o personagem certo para ler o
+    /// `ShrineEffectBonus`. Nunca usa "o máximo da party": é o personagem resolvido, na ordem
+    /// `Tooltip.TooltipCharacter` -> `Root.WorldCharacter` -> `Source` existente.
     ///
-    /// Fix 2 (AcumuladoShrines): linha dinâmica com as auras de shrine ativas no WorldCharacter,
-    /// somadas por atributo com o mesmo fator; o LocalizePatch anexa às chaves da família.
+    /// SEGURANÇA (aprendizado do incidente de 30/09): a assinatura real do alvo é
+    ///   ApplyDescriptionExpressions(string text, string[] expressions,
+    ///                               GameFunctionParameters gameFunctionParameters,
+    ///                               float fontSize, float rangeMod = 0f)
+    /// logo __0=text, __1=expressions, __2=GameFunctionParameters, __3=float fontSize.
+    /// Este prefix declara a assinatura EXPLÍCITA por TIPO no [HarmonyPatch] (nunca resolução por
+    /// nome) e lê `ref GameFunctionParameters __2` — o slot 2, NUNCA o __3. O prefix antigo lia
+    /// `ref GameFunctionParameters __3` (o slot do float fontSize), interpretava o lixo da memória
+    /// float como GameFunctionParameters e derrubou o jogo com 112 NullReferenceException dentro de
+    /// GUIManager.Update (a batalha travava).
+    ///
+    /// O método roda em TODA tooltip do jogo: todo o corpo é try/catch e, em qualquer falha, os
+    /// parâmetros chegam ao original exatamente como estavam.
     ///
     /// A Dwarven Aura fica FORA do acumulado: o efeito real dela não mora no AttributeEffects
     /// (vazio no dump, sem fórmula no cache compilado) — registrar, não somar.
@@ -86,24 +106,139 @@ namespace BetterTooltips.Patches
             return false;
         }
 
-        [HarmonyPatch(typeof(Tooltip), "ApplyDescriptionExpressions")]
+        // ============================================================================
+        // RV-22 — os PARÂMETROS da expressão (nunca o texto).
+        // Assinatura explícita em 5 tipos: __0=string text, __1=string[] expressions,
+        // __2=GameFunctionParameters, __3=float fontSize, __4=float rangeMod.
+        // O método roda em TODA tooltip do jogo.
+        // ============================================================================
+        [HarmonyPatch(typeof(Tooltip), nameof(Tooltip.ApplyDescriptionExpressions),
+            new Type[] { typeof(string), typeof(string[]), typeof(GameFunctionParameters), typeof(float), typeof(float) })]
         [HarmonyPrefix]
-        private static void FixShrineTarget(ref GameFunctionParameters __3, string[] expressions)
+        private static void FixShrineExpressionParams(Tooltip __instance, string[] expressions, ref GameFunctionParameters __2)
         {
-            if (!UsesShrineBonus(expressions))
+            try
             {
-                return;
+                // (3) só age quando alguma expressão usa o atributo das auras de shrine.
+                if (!UsesShrineBonus(expressions))
+                {
+                    return;
+                }
+                if (!_vivo)
+                {
+                    _vivo = true;
+                    Plugin.Log.LogInfo("[Shrine RV-22] prefix de parametros ativo em ApplyDescriptionExpressions (__2 = GameFunctionParameters)");
+                }
+
+                // Já vieram os dois personagens (ex.: tooltip de status, que passa Source e Target):
+                // não há parâmetro vazio a alimentar — não mexer.
+                bool alvoVazio = __2.Target == null;
+                bool fonteVazia = __2.Source == null;
+                if (!alvoVazio && !fonteVazia)
+                {
+                    return;
+                }
+
+                // (6) `character["ShrineEffectBonus"]` LANÇA para nome desconhecido
+                // (Character.this[string], l.32662-32675): sem o atributo no build, não tocar em nada.
+                if (Burst2Flame.Game.Instance?.GetAttribute("ShrineEffectBonus") == null)
+                {
+                    Marca("atributo ShrineEffectBonus ausente neste build — parametros intactos");
+                    return;
+                }
+
+                // (4) receptor: TooltipCharacter -> Root.WorldCharacter -> Source existente.
+                Character receptor = Receptor(__instance, __2);
+                if (receptor == null)
+                {
+                    Marca("nenhum receptor disponivel — parametros intactos ([0] fica na base)");
+                    return;
+                }
+
+                // Preenche SÓ o que está vazio: o número passa a ser calculado com o bônus REAL
+                // do receptor (Omnism I/II +8/+12 = 20; item Horn of Devotion {50,100}).
+                if (fonteVazia)
+                {
+                    __2.Source = receptor;
+                }
+                if (alvoVazio)
+                {
+                    __2.Target = receptor;
+                }
+                Marca($"params: Target{(alvoVazio ? "(vazio)->" : "(intacto)")}{receptor.CharacterName}"
+                    + $" Source{(fonteVazia ? "(vazio)->" : "(intacto)")}{(fonteVazia ? receptor.CharacterName : "(mantido)")}");
             }
-            string srcNome = __3.Source != null ? __3.Source.CharacterName : "(null)";
-            string alvoAntes = __3.Target != null ? __3.Target.CharacterName : "(null)";
-            if (__3.Target == null && __3.Source != null)
+            catch (Exception ex)
             {
-                __3.Target = __3.Source;
-                Plugin.Log.LogInfo($"[Shrine RV-20] Target vazio em expressao com ShrineEffectBonus — preenchido: Source={srcNome} -> Target={srcNome}");
+                // (5) nunca propagar: os parâmetros chegam ao original intactos.
+                Plugin.Log.LogWarning($"[Shrine RV-22] prefix falhou (parametros devolvidos intactos): {ex.GetType().Name}: {ex.Message}");
             }
-            else
+        }
+
+        /// <summary>Marcador de vida + dedupe (o prefix roda a cada frame de hover).</summary>
+        private static readonly HashSet<string> _marcas = new HashSet<string>();
+        private static bool _vivo = false;
+
+        /// <summary>
+        /// Receptor do efeito da aura — quem tem o `ShrineEffectBonus` que o jogador quer ver.
+        /// Ordem: personagem em foco na UI -> WorldCharacter -> Source existente.
+        /// NUNCA o "máximo da party" (o número é de um personagem concreto).
+        /// </summary>
+        private static Character Receptor(Tooltip tooltip, GameFunctionParameters parametros)
+        {
+            try
             {
-                Plugin.Log.LogInfo($"[Shrine RV-20] expressao com ShrineEffectBonus — nada a fazer: Source={srcNome}, Target={alvoAntes}");
+                Tooltip t = tooltip;
+                if (t == null && GUIManager.instance != null)
+                {
+                    t = GUIManager.instance.tooltip;
+                }
+                if (t != null)
+                {
+                    // Tooltip.TooltipCharacter = GameLogic.instance.CurrentlySelectedCharacter
+                    Character emFoco = t.TooltipCharacter;
+                    if (emFoco != null)
+                    {
+                        return emFoco;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-22] TooltipCharacter indisponivel: {ex.GetType().Name}: {ex.Message}");
+            }
+
+            try
+            {
+                Character mundo = NetworkingManager.Instance?.NetworkManager?.Root?.WorldCharacter;
+                if (mundo != null)
+                {
+                    return mundo;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-22] WorldCharacter indisponivel: {ex.GetType().Name}: {ex.Message}");
+            }
+
+            // Último recurso: o próprio personagem que o chamador já passou.
+            return parametros.Source != null ? parametros.Source : parametros.Target;
+        }
+
+        /// <summary>Loga cada combinação UMA vez (o prefix roda a cada frame de hover).</summary>
+        private static void Marca(string linha)
+        {
+            try
+            {
+                if (_marcas.Count >= 200 || !_marcas.Add(linha))
+                {
+                    return;
+                }
+                Plugin.Log.LogInfo($"[Shrine RV-22] {linha}");
+            }
+            catch
+            {
+                // log nunca pode derrubar nada
             }
         }
 
@@ -132,10 +267,16 @@ namespace BetterTooltips.Patches
         {
             try
             {
-                Character c = NetworkingManager.Instance?.NetworkManager?.Root?.WorldCharacter;
+                // RV-22: o receptor é o MESMO do prefix — o WorldCharacter é vazio e nunca carrega
+                // as auras ativas (elas ficam nos ActionStatuses do PERSONAGEM que está no shrine).
+                if (Burst2Flame.Game.Instance?.GetAttribute("ShrineEffectBonus") == null)
+                {
+                    return "";
+                }
+                Character c = Receptor(null, default(GameFunctionParameters));
                 if (c == null || c.ActionStatuses == null || c.ActionStatuses.Count == 0)
                 {
-                    Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: WorldCharacter indisponivel");
+                    Marca($"acumulado: receptor indisponivel (char={(c == null ? "(null)" : c.CharacterName)})");
                     return "";
                 }
                 float bonus = c["ShrineEffectBonus"];
@@ -164,7 +305,7 @@ namespace BetterTooltips.Patches
                         Add(totals, m.attr, v);
                     }
                 }
-                Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: char={c.CharacterName} bonus={bonus} auras={vistos} statuses={c.ActionStatuses.Count}");
+                Marca($"acumulado: char={c.CharacterName} bonus={bonus} auras={vistos} statuses={c.ActionStatuses.Count}");
                 if (totals.Count == 0)
                 {
                     return "";
@@ -175,12 +316,12 @@ namespace BetterTooltips.Patches
                     parts.Add(Format(kv.Key, kv.Value));
                 }
                 string linha = "\n<color=#C8B090>Your active shrine auras: " + string.Join("; ", parts) + ".</color>";
-                Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: {linha.Replace("\n", " | ")}");
+                Marca("acumulado: " + linha.Replace("\n", " | "));
                 return linha;
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"[Shrine RV-20] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
+                Plugin.Log.LogWarning($"[Shrine RV-22] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
                 return "";
             }
         }

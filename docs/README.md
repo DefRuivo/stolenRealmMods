@@ -84,8 +84,8 @@ python tools/census.py                       # regrava os CSVs de docs/cobertura
 ## 3. O RITUAL DE BUILD (obrigatório)
 
 Ordem **inegociável**. Cada passo existe por causa de um incidente real
-(`INC-1`/`INC-3`, registrados no quadro de trabalho interno do projeto). Nenhum passo pode ser pulado — inclusive o passo 3,
-que é o que trava a release.
+(`INC-1`/`INC-3`/`BUG-32`, registrados no quadro de trabalho interno do projeto). Nenhum passo pode ser pulado — inclusive os passos 3 e 5,
+que são os que **travam** a release.
 
 > **Antes de tudo:** feche o jogo. A cópia da DLL para o perfil falha se o arquivo
 > estiver em uso.
@@ -155,7 +155,32 @@ Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09
 analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` — foram
 removidas).
 
-### Passo 5 — instalar a DLL no perfil do r2modman
+### Passo 5 — `check_chave_compartilhada --estrito`: **TRAVA OBRIGATÓRIA** (`BUG-32`)
+
+```bash
+python tools/check_chave_compartilhada.py --estrito   # exit 1 = release travada
+```
+
+O mod casa tooltip por **texto exato**, e o lookup é `if/else if` na **mesma chave**: se a
+mesma chave existir em `TextFixes` **e** em `TextAppends`, a entrada de `TextAppends`
+**nunca roda** — a nota não existe em jogo, em silêncio, **sem nenhum erro no log**. É
+defeito objetivo, não opinião; por isso `--estrito` sai 1, e é esse o modo que o
+`release-check.sh` usa. Caso real (30/09): a nota de *stack* de `Consumption`
+(`TextAppends` l.431) está morta — quem executa é o fix de terminologia
+(`maximum`→`max`) da `TextFixes` l.907.
+
+A **mesma** varredura lista também as **SUSPEITAS** (texto com correção/nota usado por 2+
+entidades — 12 em 30/09) e essas seguem **aviso que não reprova**, nos dois modos: se a
+nota mente para os outros donos depende da mecânica que ela cita — decisão humana.
+
+Correção no `LocalizePatch.cs`: **uma entrada por texto** — fundir o valor da `TextAppends`
+no valor da `TextFixes` que executa (as duas coisas passam a valer) e apagar a duplicada.
+
+Sem a flag o script é relatório puro (`python tools/check_chave_compartilhada.py`, sempre
+exit 0). Relatório: `docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md`. Para testar o
+detector sem tocar no `LocalizePatch.cs`: `--estrito --fonte OUTRO.cs`.
+
+### Passo 6 — instalar a DLL no perfil do r2modman
 
 O build já traz o target `DeployToBepInEx` (INFRA-1) que copia a DLL sozinho. Se
 precisar fazer na mão (ou para conferir que a cópia aconteceu):
@@ -170,7 +195,7 @@ Destino correto, sempre: **uma pasta por mod, com a DLL dentro dela** —
 nunca vai para dentro de `plugins/`** (o BepInEx varre a pasta recursivamente e carrega
 o backup como se fosse mod — ver `AMBIENTE.md`).
 
-### Passo 6 — ciclo do jogo e leitura do log
+### Passo 7 — ciclo do jogo e leitura do log
 
 ```bash
 bash scratch/test-cycle.sh 12 "padrão1|padrão2"
@@ -212,6 +237,7 @@ Só depois disso a alteração conta como instalada e testada.
 | `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. |
 | `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? |
 | `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 206 notas e sai com exit 1 se achar caso. |
+| `check_chave_compartilhada.py` | Varredura de **chave compartilhada** (BUG-32) contra o censo: (a) **a mesma chave nas duas tabelas** — `TextFixes` executa e `TextAppends` nunca roda, a nota não existe em jogo sem erro no log → **exit 1 com `--estrito`** (**passo 5 do ritual, trava**); (b) **suspeitas** (texto com nota usado por 2+ entidades) → aviso que **não** reprova, decisão humana. `--fonte OUTRO.cs` aponta o parser para outro fonte (teste do detector). |
 | `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. |
 | `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) |
 | `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). |
@@ -222,7 +248,7 @@ Só depois disso a alteração conta como instalada e testada.
 | `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`), com pre-flight que **aborta** em vez de gerar pacote inválido. |
 | `check_segredos.py` | **Trava de segredo:** varre os arquivos versionados procurando credencial (token do Thunderstore, PAT do GitHub, chave privada). Exit 1 e o release para. |
 | `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. |
-| `release-check.sh` | **A trava de release:** roda os 6 passos de uma vez (build 0 erros → chaves → duplicadas → notas → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. |
+| `release-check.sh` | **A trava de release:** roda os 7 passos de uma vez (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. Duas travas objetivas até aqui: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). |
 
 ---
 
@@ -258,12 +284,14 @@ O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar c
 
 ### Publicação — credencial e namespace
 
-**O namespace já existe:** o token de service account pertence ao team
-**`Stolen_Realm_Mods`**, e os 6 nomes de pacote estão **livres** na comunidade (conferido na API
-pública em 30/09/2026, que naquele momento listava 5 pacotes: `BepInEx-BepInExPack`,
-`StolenRealmModding-StolenRealmModAPI`, `StolenRealmModding-Player_Limit_Mod`, `ebkr-r2modman` e
-`Kesomannen-GaleModManager`). Os pacotes publicados vão aparecer como
-`Stolen_Realm_Mods-<NomeDoMod>`.
+**O namespace — ATENÇÃO, MUDOU EM 30/09.** O primeiro token de service account pertencia ao team
+`Stolen_Realm_Mods`; o token novo pertence a um team **diferente**, `DefRuivo_StolenRealmMods`. Como o
+namespace do pacote **é o team** e nome de pacote publicado **não se renomeia**, qual dos dois publica
+é uma **decisão a tomar antes do primeiro upload** (tarefa `PUB-3`). Os 6 nomes de pacote estão
+**livres** na comunidade (conferido na API pública em 30/09/2026, que naquele momento listava 5
+pacotes: `BepInEx-BepInExPack`, `StolenRealmModding-StolenRealmModAPI`,
+`StolenRealmModding-Player_Limit_Mod`, `ebkr-r2modman` e `Kesomannen-GaleModManager`), então qualquer
+um dos dois teams pode reivindicá-los.
 
 **O token nunca entra no repositório.** Ele é lido, nesta ordem, de `TCLI_AUTH_TOKEN`, de um arquivo
 apontado por `THUNDERSTORE_TOKEN_FILE`, ou de `~/.thunderstore-token` (fora da árvore do git). Duas
