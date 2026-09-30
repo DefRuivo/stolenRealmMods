@@ -66,8 +66,13 @@ def main():
     grupo = 'Normal'
     if '--grupo' in sys.argv:
         grupo = sys.argv[sys.argv.index('--grupo') + 1]
+    # RV-9: a fila do pedido e debuff-first, entao a triagem aceita filtrar por classificacao.
+    benef = None
+    if '--beneficio' in sys.argv:
+        benef = sys.argv[sys.argv.index('--beneficio') + 1]
     with io.open(CSV, encoding='utf-8') as fh:
-        linhas = [r for r in csv.DictReader(fh) if r.get('tipo') == grupo]
+        linhas = [r for r in csv.DictReader(fh)
+                  if r.get('tipo') == grupo and (benef is None or r.get('beneficio') == benef)]
 
     limpos, triagem = [], []
     for r in linhas:
@@ -82,14 +87,14 @@ def main():
         else:
             limpos.append(r)
 
-    print('grupo `%s`: %d status' % (grupo, len(linhas)))
+    print('grupo `%s`%s: %d status' % (grupo, '' if benef is None else ' beneficio=%s' % benef, len(linhas)))
     print('  todo numero da descricao tem par nos efeitos : %d' % len(limpos))
     print('  com numero sem par (triagem manual)          : %d' % len(triagem))
     print('  por forma do texto: %s' % dict(Counter(
         'cita duracao' if DURACAO.search(r.get('descricao') or '') else 'sem duracao'
         for r in linhas).most_common()))
 
-    p = ['# RV-9 — Triagem dos números (grupo `%s`)' % grupo, '',
+    p = ['# RV-9 — Triagem dos números (grupo `%s`%s)' % (grupo, '' if benef is None else ', beneficio=%s' % benef), '',
          'Gerado por `tools/check_status_numeros.py`. **Isto é triagem, não veredito**: o script',
          'não julga se o texto está certo — separa quem cita um número que **não existe em efeito',
          'nenhum** do asset, que é onde o defeito ou a omissão costuma estar.', '',
