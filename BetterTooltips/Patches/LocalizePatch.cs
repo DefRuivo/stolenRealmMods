@@ -1653,6 +1653,7 @@ namespace BetterTooltips.Patches
                 {
                     __result = AnexarNota(__result, acumulado);
                 }
+                Plugin.Log.LogInfo($"[Shrine RV-20] chave '{original}' -> resultado final: '{(__result.Length > 140 ? __result.Substring(0, 140) + "..." : __result)}'");
             }
         }
     }
