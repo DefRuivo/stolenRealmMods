@@ -154,6 +154,34 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
+            { "Deals *0 weapon damage to all enemies within a line.",
+              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
+            // Crushing Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
+            { "Deals *0 weapon damage to all enemies within a line.",
+              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
+            // Stunning Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
+            { "Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.",
+              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
+            // Ice Lance - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): ... Distance(Source.Cell) <= 10 ... (mesma forma de linha)
+            { "The caster hurls a razor-like shard of ice piercing foes in a line dealing *0 cold damage. ",
+              "\n<color=#C8B090>The line reaches 10 hexes from you.</color>" },
+            // Breath of Winter - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): ... Distance(Source.Cell) <= 4 ... (cone de 3 hexes de largura)
+            { "Conjures the breath of a frost dragon dealing *0 cold damage to all enemies in a cone. ",
+              "\n<color=#C8B090>The cone reaches 4 hexes from you.</color>" },
+            // Lightning Breath - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): ... Distance(Source.Cell) <= 4 ... (cone de 3 hexes de largura)
+            { "Breath lightning dealing *0 lightning damage to all enemies in a cone. ",
+              "\n<color=#C8B090>The cone reaches 4 hexes from you.</color>" },
+            // Charge - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
+            // `ActionProps` (blast/rsel): rsel=Source.Cell.IsInSixLine(Cell, 7) && Source.Cell.HasDirectPath(Cell)
+            { "Charges to the target and deals *0 weapon damage to all enemies in your path.",
+              "\n<color=#C8B090>The path is a line of up to 7 hexes.</color>" },
             // Informacao que o texto nao dava e que o usuario observou em jogo: a corrente pode
             // voltar no MESMO alvo. Fonte no codigo (`ActionInfo`): `ProjectileChain` +
             // `ProjectileChainCount` + `ProjectileChainTarget` e, decisivo,
