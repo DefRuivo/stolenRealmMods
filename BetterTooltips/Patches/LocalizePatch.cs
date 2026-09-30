@@ -928,14 +928,26 @@ namespace BetterTooltips.Patches
             { "Skill Tree Removals +7",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
             { "Skill Tree Removals +8",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
             // RV-19 shrines — familia de auras de shrine: base + cadeia do Shrine Effect Bonus.
-            // A chave do Flame nao tem numero no texto: a nota carrega o dano real (acao "Flame Aura Proc").
+            // A chave do Flame nao tem numero no texto: a LINHA recebe o numero DINAMICO no postfix
+            // (RV-26) e a NOTA carrega o resto.
             // RV-30 (30/09): a lista de fontes do bonus ganhou o PERK do jogo "Worship" ("100% increased
             // effect from Shrines", valor 100 nos assets, ao lado do CharacterInfo T2_Worshiper) porque
             // era exatamente o caso do usuario em jogo: com o perk, a aura sai ×2 e a nota nao explicava
             // o dobro (parecia numero inventado pelo mod). Nenhum numero foi "ajustado" — o valor da
             // expressao do jogo e o do personagem; o que faltava era a procedencia estar completa.
+            // RV-26 (30/09): a nota do FLAME perdeu a frase "Scales with the Shrine Effect Bonus
+            // (Omnism I/II ...)". Prova (asset + decompilado): a formula do dano mora na ACAO
+            // "Flame Aura Proc" e le `(1 + Source["ShrineEffectBonus"]/100)`, e o `Source` da aura e o
+            // personagem DO SHRINE — e ele que nasce no `CreateNewGroundEffectCharacter` (TeamIndex 2,
+            // `Root.CreateNewGroundEffectCharacter`, decompilado l.110814) e vira o `Source` do
+            // GroundEffect (`ConvertToGroundEffect(..., character)`, l.110822) e do ActionStatus
+            // (`CreateActionStatus(Source, player, ...)`, l.116911-116924). O bonus que a formula le,
+            // portanto, nao e o do jogador: Omnism/Worship/Horn nao entram nesse numero. (A cadeia
+            // completa e o unico ponto que so um teste em jogo fecha: se o gatilho do status executa a
+            // acao como o Source do status ou como o portador — `trigger.TriggerSource ?? this`,
+            // decompilado l.41068. A conferencia humana esta no aceite do RV-26.)
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Minimum 1; the percentage follows the attacker's own enemy type (2.5% for bosses up to 14% for fodder). The Shrine Effect Bonus in the formula is read from the aura's own source, not from the character that carries the aura: Omnism I/II in Chaos, the Worshiper's Worship perk (+100% effect from Shrines) and the Horn of Devotion do not raise this damage.</color>" },
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
               "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Damage increased by [0]%. ",
@@ -1812,6 +1824,38 @@ namespace BetterTooltips.Patches
                     Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
                 }
             }
+            // RV-26 (30/09) — o VALOR DINÂMICO do Flame Shrine na LINHA ORIGINAL. A chave não tem `[0]`
+            // (o jogo nunca mostra número nenhum ali), então o número vem da fórmula do dano avaliada
+            // pelo interpretador do jogo, com o personagem em foco COMO ATACANTE — e a linha só é
+            // trocada quando o cálculo sai; sem número provado, o texto do jogo fica como está.
+            if (original == ShrineAuraPatch.ChaveFlame)
+            {
+                string linhaFlame = ShrineAuraPatch.LinhaFlameComValor(original);
+                if (!string.IsNullOrEmpty(linhaFlame))
+                {
+                    __result = __result.Replace(original, linhaFlame);
+                }
+            }
+
+            // RV-28 (30/09) — a cura do `Sustenance` no tooltip de todo GLOBULE, com o valor do
+            // personagem em foco (Max Health/Max Mana) e a % lida das skills ATIVAS do jogo (nunca
+            // "I"/"II" cravados: a lista já vem resolvida pelo `SkillsThatReplace` de cada uma).
+            // `AnexarNota` põe exatamente uma linha em branco antes do bloco, como todas as notas.
+            if (GlobulePatch.EhGlobule(original))
+            {
+                string sustenance = GlobulePatch.FraseSustenance(original);
+                if (!string.IsNullOrEmpty(sustenance))
+                {
+                    // A chave do Power Globule já carrega bloco colorido (nota do RV-9 em `TextFixes`):
+                    // a frase entra DENTRO do mesmo bloco — dois blocos da MESMA cor fariam o
+                    // `CorEOrdemDoTooltip` mover só o primeiro e a ordem no tooltip inverter.
+                    int fim = __result.LastIndexOf("</color>", StringComparison.Ordinal);
+                    __result = fim >= 0
+                        ? __result.Substring(0, fim) + " " + sustenance + __result.Substring(fim)
+                        : AnexarNota(__result, "\n<color=#C8B090>" + sustenance + "</color>");
+                }
+            }
+
             // RV-22/RV-23/RV-27 — acumulado de shrines (30/09): linha dinâmica com a aura do SHRINE
             // desta tooltip, calculada para o RECEPTOR (personagem em foco) com o bônus real dele
             // (ShrineAuraPatch.AcumuladoShrines). O número individual de cada shrine fica dinâmico
