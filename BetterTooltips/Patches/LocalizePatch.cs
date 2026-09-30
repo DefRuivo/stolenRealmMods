@@ -896,6 +896,18 @@ namespace BetterTooltips.Patches
             // Fonte: a string "Resist Divine" NAO existe no assembly (0 ocorrencias) - ela e uma CHAVE
             // de localizacao nos assets do jogo (resources.assets: {\"Key\":\"Resist Divine\",\"Value\":...}),
             // que e exatamente o que este patch intercepta. O campo interno `ResistDivine` NAO e tocado.
+            // PROVA (29/09, decisao do usuario + conferencia no motor):
+            //   (a) os 4 IRMAOS seguem "Resist <tipo de dano>" - `Resist Physical` (28 chaves),
+            //       `Resist Lightning` (28), `Resist Fire` (28), `Resist Cold` (28) - e so o
+            //       sagrado quebra o padrao com `Resist Divine` (26): e DEFEITO, nao escolha;
+            //   (b) o dano se chama "Holy" nas chaves do jogo (`"Holy"` 33x, `HolyDamage` 7x);
+            //   (c) o rotulo da FICHA DE PERSONAGEM passa pelo funil que este patch intercepta:
+            //       InventoryManager.UpdateStats l.125419 =
+            //       `OptionsManager.Localize(Attribute.GetStatMenuDisplayName())`, e
+            //       `GetStatMenuDisplayName()` so aparece em 2 lugares no assembly (a propria
+            //       definicao, l.319838, e essa linha). Prefabs de UI usam
+            //       `OptionsManager.LocalizeUIText` (PrefabLocalizer, l.156306/156310) - o mesmo
+            //       funil, ja comprovadamente coberto pelos textos de UI e dicas de loading.
             // Se o jogo um dia padronizar para "Holy", estas duas entradas podem sair.
             { "Resist Divine", "Resist Holy" },
             { "Resistance Divine", "Resistance Holy" },
