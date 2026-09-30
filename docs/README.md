@@ -384,7 +384,7 @@ Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 | `version_number` | semver MAJOR.MINOR.PATCH, ate 16 chars | OK |
 | `description` | ate 250 chars | OK (139..193) |
 | `website_url` | URL valida | OK |
-| `icon.png` | PNG 256x256, ate 1 MB | OK (256x256; 924..100373 bytes — todos abaixo de 1 MB) |
+| `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 935..124954 bytes — todos abaixo de 1 MB; o mínimo é o placeholder do RoguelikeQoL, que está saindo do projeto) |
 | `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
