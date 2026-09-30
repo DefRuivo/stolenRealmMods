@@ -935,17 +935,18 @@ namespace BetterTooltips.Patches
             // era exatamente o caso do usuario em jogo: com o perk, a aura sai ×2 e a nota nao explicava
             // o dobro (parecia numero inventado pelo mod). Nenhum numero foi "ajustado" — o valor da
             // expressao do jogo e o do personagem; o que faltava era a procedencia estar completa.
-            // RV-26 (30/09): a nota do FLAME perdeu a frase "Scales with the Shrine Effect Bonus
-            // (Omnism I/II ...)". Prova (asset + decompilado): a formula do dano mora na ACAO
-            // "Flame Aura Proc" e le `(1 + Source["ShrineEffectBonus"]/100)`, e o `Source` da aura e o
-            // personagem DO SHRINE — e ele que nasce no `CreateNewGroundEffectCharacter` (TeamIndex 2,
-            // `Root.CreateNewGroundEffectCharacter`, decompilado l.110814) e vira o `Source` do
-            // GroundEffect (`ConvertToGroundEffect(..., character)`, l.110822) e do ActionStatus
-            // (`CreateActionStatus(Source, player, ...)`, l.116911-116924). O bonus que a formula le,
-            // portanto, nao e o do jogador: Omnism/Worship/Horn nao entram nesse numero. (A cadeia
-            // completa e o unico ponto que so um teste em jogo fecha: se o gatilho do status executa a
-            // acao como o Source do status ou como o portador — `trigger.TriggerSource ?? this`,
-            // decompilado l.41068. A conferencia humana esta no aceite do RV-26.)
+            // RV-34 (30/09) — O FATOR DO ShrineEffectBonus ENTRA NAS DUAS AURAS DE PERIGO, e a nota do
+            // FLAME volta a falar dele. O RV-26/33 tinha concluido que o `Source` da formula era o
+            // personagem VAZIO do shrine (`Source = Root.WorldCharacter`, o que o hover entrega —
+            // l.214179/214182) e que, por isso, `(1 + Source["ShrineEffectBonus"]/100)` valia 1: o fator
+            // foi OMITIDO das duas formulas. O dono do jogo MEDIU em jogo (30/09): com o perk `Worship`
+            // (+100 em `ShrineEffectBonus`, um PERK DO PERSONAGEM) o dano por turno DOBRA. O fator vale 2
+            // e quem ele le e o PROPRIO personagem que leva o dano (a vitima no Decay; cada alvo da lista
+            // no Flame). Correcao no `ShrineAuraPatch`: as constantes passaram a ser o RHS do asset byte
+            // a byte e a avaliacao usa `Source` = `Target` = o personagem avaliado; o prefix tambem troca
+            // o Source VAZIO do shrine pelo receptor (as expressoes dos status do Decay e do Flame leem
+            // `Source[...]`: sem isso a linha diria "Take 10%" enquanto o dano real dobra). Medicao em
+            // jogo vence leitura de asset — hierarquia de fontes do projeto.
             // RV-33 (30/09) — DE QUEM E A VIDA MAXIMA: o dano do Flame e % da vida maxima DE QUEM
             // DISPARA a aura, o ATACANTE (TriggerType `OnGettingHitDamaging` no asset + Condition
             // `Source.IsEnemy(Target)` + `Targets = Cell.IsCurrentHex(Target)`; e a chamada do motor e
@@ -954,15 +955,19 @@ namespace BetterTooltips.Patches
             // na celula do atacante, NUNCA na vida do personagem que so esta parado na aura. Prova
             // completa no cabecalho do ShrineAuraPatch. Aqui fica so o texto FIXO (a regra e a escala);
             // a lista DINAMICA por alvo (`FraseAlvosDoFlame`) entra DENTRO deste mesmo bloco de cor para
-            // nao existirem dois blocos iguais. Nada de afirmar a origem do ShrineEffectBonus (o ponto
-            // nao provado byte a byte): o numero e o CRU, vida maxima x porcentagem.
+            // nao existirem dois blocos iguais. RV-34: o numero E a % saem com o MESMO fator do
+            // ShrineEffectBonus (o do proprio personagem avaliado) e o texto diz, em uma marca curta, que
+            // o valor e ANTES DAS REDUCOES DE DANO — pedido explicito do dono do jogo (sem isso o numero
+            // parece prometer o dano que aparece na tela e nao bate).
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Raw damage: the percentage multiplies the Max Health of the attacker that triggers the aura - the character that attacks someone standing inside it - never the Max Health of the character standing in the aura. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Minimum 1. No armour, resistances or other mitigation are applied.</color>" },
-            // RV-33 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target do
-            // proc = quem esta na aura; o gatilho roda no inicio do turno DELE). O numero literal sai na
-            // linha (LinhaDecayComValor); aqui fica a escala e o fato de nao existir minimo.
+              "\n<color=#C8B090>Raw damage, before damage reduction: the percentage and the Shrine Effect Bonus of the attacker that triggers the aura - the character that attacks someone standing inside it - multiply that attacker's Max Health, never the Max Health of the character standing in the aura, and no armour, resistances or other mitigation is applied. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
+            // RV-33/RV-34 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target
+            // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE) VEZES o ShrineEffectBonus
+            // DELE (RV-34: medido em jogo, com Worship dobra). O numero literal sai na linha
+            // (LinhaDecayComValor); aqui ficam a escala, a origem do bonus, o fato de nao existir minimo e
+            // a marca de que o valor e ANTES DAS REDUCOES DE DANO.
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Raw damage: your Max Health multiplied by the percentage, with no armour, resistances or other mitigation and no minimum - it can be 0. The percentage follows your own enemy type: 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier).</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armour, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
             { "Damage increased by [0]%. ",
               "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Reduces Damage taken by [0]%. ",
