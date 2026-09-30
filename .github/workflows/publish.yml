@@ -135,11 +135,16 @@ jobs:
       alvos: ${{ steps.gate.outputs.alvos }}
       team: ${{ steps.gate.outputs.team }}
     steps:
+      # PINO DE ACTION E RUNTIME: `actions/checkout@v4` roda em Node 20, runtime que o GitHub
+      # esta removendo - o run 36784860531 avisou que ele ja e FORCADO para Node 24. v5+ e
+      # Node 24 (conferido no action.yml do repo da action). Mesma regra no `setup-python`:
+      # v6 e a primeira major em Node 24 (v5 ainda e Node 20). Nao descer esses pinos sem
+      # conferir `runs: using:` da action.
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -250,10 +255,10 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
@@ -796,10 +801,10 @@ jobs:
       contents: write        # so este job escreve, e so em release/mods.json
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v6
         with:
           python-version: '3.11'
 
