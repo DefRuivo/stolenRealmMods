@@ -84,7 +84,7 @@ Crystalize II,Cold,2,None,,sim,"ResistPhysical:Base:10,",Increases @Physical Res
 Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",nao,,Charm the enemy target for 1 turn.  Cannot target bosses.,corrigido
 Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,revisado
 Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,revisado
-Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
+Cursed Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,revisado
 Cyclone Kick,Monk,4,Physical,"Harmful,DealsDamage",nao,,Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ,revisado
 Daft Diversion,Bard,3,None,Beneficial,nao,,Stealth all allies. You do not gain stealth. 4 turn cooldown. Action.,intocavel
 Dagger Throw,Thief,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Throw a dagger dealing *0 weapon damage.,revisado
@@ -99,11 +99,11 @@ Deathblow,Thief,5,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *1 weapon damage
 Deep Freeze,Cold,2,None,"Harmful,MovementImpairing,Ranged",nao,,Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.,revisado
 Detonate,Fire,3,Fire,"Harmful,DealsDamage,AreaEffect",nao,,Deals *0 fire damage to all foes within 2 hexes of your character.,revisado
 Diamond Ice,Cold,3,None,,sim,"DamageFlatCold:Base:Source[""Armor""] * .01f,",1% of your @Armor@ value is added to your character as @Additional Cold Damage@.  Current Bonus: [0],corrigido
-Dire Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
+Dire Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,revisado
 Dire Howl,Innate,1,Physical,"Harmful,DealsDamage,AreaEffect",nao,,Howl causing *0 physical damage to all enemies within 2 hexes.  Applies a debuff that causes all attackers to lifesteal for [1]% against this target for 2 turns.,corrigido
 Discharge,Lightning,2,Lightning,"DealsDamage,Harmful,AreaEffect,Elemental",nao,,Deals *0 lightning damage within 3 hexes of the caster. ,revisado
 Disengage,Ranger,2,None,,sim,"TurnFreeMovementPoints:Base:1, OpportunityAttackImmunity:Set:1,",You can move 1 additional hex each turn and no longer take opportunity attacks. ,revisado
-Dismiss Shapeshift,Innate,1,None,,nao,,Dismiss your active shapeshift.,pendente
+Dismiss Shapeshift,Innate,1,None,,nao,,Dismiss your active shapeshift.,revisado
 Dispelling Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,"Deals *0 weapon damage, removes 1 random benefical status from the target and lowers the target's @Resistance@ by 20% for 2 turns.",corrigido
 Dispelling Shot,Ranger,4,Weapon,"Harmful,Ranged",nao,,Deals *0 weapon damage. Removes 1 random benefical status from the target.,corrigido
 Disperse,Chaos,3,Weapon,"DealsDamage,Harmful,Elemental",nao,,Teleports all enemies within 3 hexes of you to any random hex 4 to 8 hexes from you. Applies a 1 turn slow.,revisado
@@ -149,7 +149,7 @@ Fickle Flame,Fire,5,None,,sim,"FickleFlame:Set:1,","Each time a damage or healin
 Fight Dirty,Thief,3,None,,sim,,Your attacks apply 2 stacks of {STA=Poisoned}.,revisado
 Finale,Bard,5,None,Harmful,nao,,"Unleash a blast of physical damage in a 4 hex AOE around you for every action made by you or an ally this turn, including this one. Action. 2 turn cooldown.",intocavel
 Fire Borne,Fire,1,None,,sim,"ResistFire:Base:10,",Increases @fire resistance@ by 10%.,revisado
-Fire Breath,Innate,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breath fire dealing *0 fire damage to all enemies in a cone. ,pendente
+Fire Breath,Innate,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breath fire dealing *0 fire damage to all enemies in a cone. ,revisado
 Fire Shield,Fire,1,None,"Beneficial,Ranged",nao,,Wreaths the target in flame granting 10% @fire resistance@.  Attackers take *0 fire damage.,corrigido
 Fire Starter,Fire,2,None,,sim,,All enemies now start the battle with 4 stacks of @Heat@. ,revisado
 Fire Storm,Fire,5,Fire,"Harmful,Ranged,DealsDamage",nao,,Hurls fire balls at 3 different targets dealing *0 fire damage within 2 hexes of each target.,revisado
@@ -167,7 +167,7 @@ Freeze Earth,Cold,1,None,"MovementImpairing,CrowdControl,Ranged,Harmful",nao,,Fr
 Front Kick,Monk,1,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 3 hexes.   Any enemy hit by the target also receives *0 damage.,corrigido
 Frost Armor,Cold,1,Cold,"Beneficial,Ranged",nao,,Envelopes the caster in frost granting 10% @Cold Resistance@.   Attackers take *0 cold damage.,corrigido
 Frost Borne,Cold,1,None,,sim,"ResistCold:Base:10,",Increases @cold resistance@ by 10%,revisado
-Frost Breath,Innate,1,Cold,"Harmful,Ranged,DealsDamage,Elemental",nao,,Deals *0 cold damage each turn.,pendente
+Frost Breath,Innate,1,Cold,"Harmful,Ranged,DealsDamage,Elemental",nao,,Deals *0 cold damage each turn.,revisado
 Frost Nova,Cold,2,Cold,"Harmful,DealsDamage,AreaEffect,Elemental,Ranged",nao,,The caster creates a wave of frozen energy dealing *0 cold damage within 2 hexes of the selected target.,revisado
 Frost Shard,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Impale your target on a shard of ice dealing *0 cold damage.,revisado
 Frostbite I,Cold,1,None,,sim,"ChilledDamageReduction:Base:2,",Your stacks of @chilled@ now reduce the targets damage by 2%.,revisado
@@ -267,7 +267,7 @@ Momentum I,Monk,1,Physical,,sim,,Each hex moved grants a stack of Momentum incre
 Momentum II,Monk,2,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ,revisado
 Momentum III,Monk,3,Physical,,sim,,Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ,revisado
 Mortal Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Resistance@ by 20% and @Healing@ received by 50% for 2 turns.,revisado
-Move Object,Innate,1,None,,nao,,Transport a movable object in the battlefield.,pendente
+Move Object,Innate,1,None,,nao,,Transport a movable object in the battlefield.,revisado
 Muse I,Bard,1,None,Beneficial,sim,,Allies within 4 hexes gain 10% reduced Mana Costs.,intocavel
 Muse II,Bard,2,None,Beneficial,sim,,Allies within 4 hexes gain an additional 15% reduced Mana Costs (25% total with Muse I).,intocavel
 Mythic Reach,Ranger,5,None,,sim,"RangeTypeAdderRanged:Base:5,",All ranged abilities get an additional 5 hex range.,revisado
@@ -347,7 +347,7 @@ Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Slash nearby targets
 Shadow Walk,Thief,4,None,,nao,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,corrigido
 Shapeshift Dire Werewolf,Nature,5,None,,nao,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,pendente
 Shapeshift Dragonkin,Nature,5,None,Beneficial,nao,,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",corrigido
-Shapeshift Vampire Bat,Innate,3,None,12,nao,,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
+Shapeshift Vampire Bat,Innate,3,None,12,nao,,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,revisado
 Shapeshift Werewolf,Nature,3,None,Beneficial,nao,,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,pendente
 Shatter,Cold,5,None,"Harmful,Ranged",nao,,Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,revisado
 Shattering Cord,Bard,3,None,Beneficial,nao,,Dispels all negative effects off of allies and all positive effects off of enemies in a 4 hex radius. 3 turn cooldown. Free Action.,intocavel
@@ -418,7 +418,7 @@ Thirst I,Shadow,2,None,,sim,"LifeOnHit:Base:4,",Increases @Life Steal@ by 4%.  @
 Thirst II,Shadow,3,None,,sim,"LifeOnHit:Base:6,",Increases @Life Steal@ by 6%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Thorns I,Nature,1,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Grants [0] Return Physical Damage.,revisado
 Thorns II,Nature,2,None,,sim,"DamageReturnedFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Grants an additional [0] Return Physical Damage.,revisado
-Thunder Blast,Innate,2,Lightning,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.,pendente
+Thunder Blast,Innate,2,Lightning,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.,revisado
 Thunder Bolt,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,AreaEffect,Ranged",nao,,Summon lightning from the sky to strike an area dealing *0 lightning damage. ,revisado
 Thunder Slash,Basic,1,Lightning,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 lightning damage to all enemies.,revisado
 Thunder Storm,Lightning,4,Lightning,"DealsDamage,Harmful,Ranged",nao,,Summon a thunderstorm over a large area that deals *0 lightning damage every turn to enemies within it's range.,revisado
