@@ -946,10 +946,23 @@ namespace BetterTooltips.Patches
             // completa e o unico ponto que so um teste em jogo fecha: se o gatilho do status executa a
             // acao como o Source do status ou como o portador — `trigger.TriggerSource ?? this`,
             // decompilado l.41068. A conferencia humana esta no aceite do RV-26.)
+            // RV-33 (30/09) — DE QUEM E A VIDA MAXIMA: o dano do Flame e % da vida maxima DE QUEM
+            // DISPARA a aura, o ATACANTE (TriggerType `OnGettingHitDamaging` no asset + Condition
+            // `Source.IsEnemy(Target)` + `Targets = Cell.IsCurrentHex(Target)`; e a chamada do motor e
+            // `target.ProcessSkillTriggers(source, ..., OnGettingHitDamaging)` — decompilado l.40075 —
+            // com `this` = quem FOI acertado e o `target` do gatilho = o atacante). Ou seja: a acao roda
+            // na celula do atacante, NUNCA na vida do personagem que so esta parado na aura. Prova
+            // completa no cabecalho do ShrineAuraPatch. Aqui fica so o texto FIXO (a regra e a escala);
+            // a lista DINAMICA por alvo (`FraseAlvosDoFlame`) entra DENTRO deste mesmo bloco de cor para
+            // nao existirem dois blocos iguais. Nada de afirmar a origem do ShrineEffectBonus (o ponto
+            // nao provado byte a byte): o numero e o CRU, vida maxima x porcentagem.
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Minimum 1; the percentage follows the attacker's own enemy type (2.5% for bosses up to 14% for fodder). The Shrine Effect Bonus in the formula is read from the aura's own source, not from the character that carries the aura: Omnism I/II in Chaos, the Worshiper's Worship perk (+100% effect from Shrines) and the Horn of Devotion do not raise this damage.</color>" },
+              "\n<color=#C8B090>Raw damage: the percentage multiplies the Max Health of the attacker that triggers the aura - the character that attacks someone standing inside it - never the Max Health of the character standing in the aura. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Minimum 1. No armour, resistances or other mitigation are applied.</color>" },
+            // RV-33 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target do
+            // proc = quem esta na aura; o gatilho roda no inicio do turno DELE). O numero literal sai na
+            // linha (LinhaDecayComValor); aqui fica a escala e o fato de nao existir minimo.
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Raw damage: your Max Health multiplied by the percentage, with no armour, resistances or other mitigation and no minimum - it can be 0. The percentage follows your own enemy type: 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier).</color>" },
             { "Damage increased by [0]%. ",
               "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Reduces Damage taken by [0]%. ",
@@ -1824,16 +1837,35 @@ namespace BetterTooltips.Patches
                     Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
                 }
             }
-            // RV-26 (30/09) — o VALOR DINÂMICO do Flame Shrine na LINHA ORIGINAL. A chave não tem `[0]`
-            // (o jogo nunca mostra número nenhum ali), então o número vem da fórmula do dano avaliada
-            // pelo interpretador do jogo, com o personagem em foco COMO ATACANTE — e a linha só é
-            // trocada quando o cálculo sai; sem número provado, o texto do jogo fica como está.
+            // RV-26/RV-33 (30/09) — os VALORES do Flame Shrine POR ALVO NA ÁREA. A chave não tem `[0]`, e
+            // o número único "para você" que a RV-26 mostrava SAIU (RV-33): quem leva o dano é o
+            // atacante, e o atacante é desconhecido no hover. O que dá para calcular é o dano de CADA
+            // personagem que tem o status da aura vivo (party e inimigos) — a lista entra DENTRO do bloco
+            // da nota (nunca um segundo bloco da mesma cor: o `CorEOrdemDoTooltip` move só o primeiro e a
+            // ordem inverteria), e a linha azul do RV-31 continua por último.
             if (original == ShrineAuraPatch.ChaveFlame)
             {
-                string linhaFlame = ShrineAuraPatch.LinhaFlameComValor(original);
-                if (!string.IsNullOrEmpty(linhaFlame))
+                string alvos = ShrineAuraPatch.FraseAlvosDoFlame(original);
+                if (!string.IsNullOrEmpty(alvos))
                 {
-                    __result = __result.Replace(original, linhaFlame);
+                    int fim = __result.LastIndexOf("</color>", StringComparison.Ordinal);
+                    __result = fim >= 0
+                        ? __result.Substring(0, fim) + " " + alvos + __result.Substring(fim)
+                        : AnexarNota(__result, "\n<color=#C8B090>" + alvos + "</color>");
+                }
+            }
+
+            // RV-33 (30/09) — o DANO POR TURNO do Decay Shrine na LINHA ORIGINAL. A chave tem `[0]` (a %
+            // que o motor resolve) e a linha passa a trazer o dano literal calculado pela MESMA fórmula
+            // da ação `Decay Aura Proc`, avaliada pelo interpretador do jogo com Target = o personagem em
+            // foco (quem está na aura) — o caso que o dono do jogo descreveu: 100 de vida -> 10 por turno.
+            // Sem número provado, a linha do jogo fica INTACTA.
+            if (original == ShrineAuraPatch.ChaveDecay)
+            {
+                string linhaDecay = ShrineAuraPatch.LinhaDecayComValor(original);
+                if (!string.IsNullOrEmpty(linhaDecay))
+                {
+                    __result = __result.Replace(original, linhaDecay);
                 }
             }
 
