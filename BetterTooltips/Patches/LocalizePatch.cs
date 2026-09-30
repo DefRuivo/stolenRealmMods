@@ -214,12 +214,12 @@ namespace BetterTooltips.Patches
             // RV-9 buffs: Spectral Binding - Invincible: it cannot be damaged.
             { "Will leave when finished playing with you.",
               "\n<color=#C8B090>Invincible: it cannot be damaged.</color>" },
-            // RV-9 buffs: Shield of Retribution - When the shield is depleted it explodes, dealing holy damage to 
-            { "Shielded from [0] damage.",
-              "\n<color=#C8B090>When the shield is depleted it explodes, dealing holy damage to foes within 3 hexes.</color>" },
-            // RV-9 buffs: Seal of Salvation - It reaches allies within 3 hexes of the seal's bearer.
-            { "Restores *0 health per turn.",
-              "\n<color=#C8B090>It reaches allies within 3 hexes of the seal's bearer.</color>" },
+            // RV-9 buffs: Shield of Retribution - REMOVIDA em 30/09 (BUG-32): o texto "Shielded from [0] damage."
+            // tambem e usado pelo status Shield of Light, que NAO tem explosao - a nota mentia para ele.
+            // A skill Shield of Retribution ja descreve a explosao no proprio texto.
+            // RV-9 buffs: Seal of Salvation - REMOVIDA em 30/09 (BUG-32): "Restores *0 health per turn." tambem e
+            // usado por Regenerate e Lingering Light (aura=nao) - a nota do selo mentia para eles. A skill
+            // Seal of Salvation ja diz "All allies within 3 hexes of you heal" no proprio texto.
             // RV-9 buffs: Seal of Protection - It reaches allies within 3 hexes of the seal's bearer.
             { "Decreases damage taken by 10%.",
               "\n<color=#C8B090>It reaches allies within 3 hexes of the seal's bearer.</color>" },
@@ -268,9 +268,10 @@ namespace BetterTooltips.Patches
             // RV-9 buffs: Holy Ground - Targets in holy ground receive healing. Heals each turn while th
             { "Targets in holy ground receive healing.",
               "\n<color=#C8B090>Heals each turn while the target stays in the holy ground.</color>" },
-            // RV-9 buffs: Greater Heal - \n Restores the target to full health (heal equal to their Max H
+            // RV-9 buffs: Greater Heal - o texto "Healed." e compartilhado com Heal e Lesser Heal, que curam
+            // por Spell Power (nao full). Nota generica desde 30/09 (BUG-32).
             { "Healed.",
-              "\n<color=#C8B090>Restores the target to full health (heal equal to their Max Health).</color>" },
+              "\n<color=#C8B090>Restores health. The amount depends on the effect that applied it.</color>" },
             // RV-9 buffs: Glory - \n Also cannot be targeted by harmful skills, and harmful status
             { "Immune to damage.",
               "\n<color=#C8B090>Also cannot be targeted by harmful skills, and harmful statuses do not apply.</color>" },
@@ -286,9 +287,10 @@ namespace BetterTooltips.Patches
             // RV-9 buffs: Enraged - \n Also immune to being Chilled, Frozen, Stunned or Disabled.
             { "Immune to all movement impairing effects and knockback.",
               "\n<color=#C8B090>Also immune to being Chilled, Frozen, Stunned or Disabled.</color>" },
-            // RV-9 buffs: Enduring Evasion - \n Guarantees a dodge (100% chance) of the next 2 incoming attac
+            // RV-9 buffs: Enduring Evasion - o "2" saiu da nota em 30/09 (BUG-32): o texto e compartilhado com
+            // Evasion e Uncanny Evasion, que concedem UMA carga. A contagem fica no texto de cada skill.
             { "Dodging incoming attacks.",
-              "\n<color=#C8B090>Guarantees a dodge (100% chance) of the next 2 incoming attacks; each dodge spends one charge.</color>" },
+              "\n<color=#C8B090>Guarantees a dodge (100% chance) against incoming attacks; each dodge spends one charge.</color>" },
             // RV-9 buffs: Dodging Strikes - \n Each stack adds another 8%; you gain one stack per strike.
             { "Dodge chance increased by 8%.",
               "\n<color=#C8B090>Each stack adds another 8%; you gain one stack per strike.</color>" },
@@ -388,9 +390,9 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Restricted Range I - Only ranged abilities are affected.
             { "Range is reduced by 2 Hexes.",
               "\n<color=#C8B090>Only ranged abilities are affected.</color>" },
-            // RV-9 debuffs: Frozen - While frozen the target also ignores Chilled: no new stacks 
-            { "Cannot move or perform actions.",
-              "\n<color=#C8B090>While frozen the target also ignores Chilled: no new stacks can be applied.</color>" },
+            // RV-9 debuffs: Frozen - REMOVIDA em 30/09 (BUG-32): "Cannot move or perform actions." tambem e o
+            // texto do status Stunned, que NAO ignora Chilled - a nota mentia para ele. Sem texto exclusivo
+            // do Frozen para recebe-la.
             // RV-9 debuffs: Diseased - Current health is reduced by the same percentage and comes b
             { "Maximum health reduced by 15%.",
               "\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
@@ -418,11 +420,15 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
             { "@Maximum health@ reduced by 10%.",
               "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
-            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
-            { "Max Health increased by 10%.",
-              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption - a nota de stack saiu DESTA chave em 30/09 (BUG-32/BUG-31): o texto
+            // "Max Health increased by 10%." e compartilhado com a skill Endurance I (bonus FIXO, sem stack).
+            // A nota mora agora na chave exclusiva da SKILL Consumption (entrada "Devour the life force...").
             // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
             { "@Maximum health@ reduced by 20%.",
+              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption (SKILL - chave exclusiva): e AQUI que a nota de stack mora desde 30/09
+            // (BUG-32/BUG-31): o texto da skill nao e compartilhado com nada.
+            { "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.",
               "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
             // RV-9 debuffs: Blood Howl - Lasts 2 turns.
             { "Attackers lifesteal for [0]%.",
