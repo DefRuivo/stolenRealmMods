@@ -103,11 +103,34 @@ namespace RoguelikeDebugger.Patches
                     // três selos) + quem ela afeta. Sem este campo, toda a classe de
                     // afirmação "N hexes" fica sem par no dump — foi o que travou 6 itens da
                     // árvore Light.
+                    // RV-8d(b): as habilidades que a FORMA ganha (Shapeshift Werewolf/Dire/Vampire Bat)
+                    // vivem no `CharacterInfo` do personagem substituido. `public List<SkillInfo> Skills`
+                    // (l.319927 do decompilado). Sem isto, o "Gain new abilities" do texto fica sem par.
+                    string modelo;
+                    if (s.ModelChangeCharacter != null)
+                    {
+                        var habs = s.ModelChangeCharacter.Skills;
+                        var txt = "";
+                        if (habs != null)
+                        {
+                            int lim = habs.Count > 14 ? 14 : habs.Count;
+                            for (int h = 0; h < lim; h++)
+                            {
+                                if (habs[h] == null) continue;
+                                txt += (txt.Length > 0 ? "; " : "") + habs[h].name;
+                            }
+                            if (habs.Count > lim) txt += "; (+" + (habs.Count - lim) + ")";
+                        }
+                        modelo = s.ModelChangeCharacter.name + " [" + txt + "]";
+                    }
+                    else modelo = "-";
+
                     Plugin.Log.LogInfo(
                         $"[Status] '{s.Name}' | tipo={s.StatusType} | raridade={s.Rarity} | " +
                         $"efeitos={ef} | efeitosDano={efGerais} | nEfeitosDano={nGerais} | " +
                         $"aura={(s.IsAura ? "sim" : "nao")} | raio={s.AuraRadius} | " +
                         $"auraAli={(s.AuraEffectsAllies ? "sim" : "nao")} | auraIni={(s.AuraEffectsEnemies ? "sim" : "nao")} | " +
+                        $"modelo={modelo} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
             }
