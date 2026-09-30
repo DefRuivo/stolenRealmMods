@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -31,17 +34,36 @@ namespace RoguelikeQoL
         /// </summary>
         internal static ConfigEntry<bool> AtivarHud { get; private set; }
 
+        /// <summary>
+        /// Forma SEGURA de consultar a opcao: se o config nao pode ser lido/criado (arquivo
+        /// ausente/corrompido ou chave com tipo invalido), o mod segue com o DEFAULT da opcao
+        /// (HUD DESLIGADO) em vez de morrer no boot com NullReference. Mesmo padrao do RSTV
+        /// (<c>Plugin.BotaoLigado</c>) e do BetterCombatText (try/catch no chamador).
+        /// </summary>
+        internal static bool HudLigado
+        {
+            get { return AtivarHud != null && AtivarHud.Value; }
+        }
+
         private void Awake()
         {
             Log = Logger;
 
-            AtivarHud = Config.Bind(
-                "Geral",
-                "AtivarHUD",
-                false,
-                "Mostra o HUD de modificadores da run no canto superior esquerdo (Treasure Find / Gold Find / Exp Mod). Padrão: false (desligado).");
+            try
+            {
+                AtivarHud = Config.Bind(
+                    "Geral",
+                    "AtivarHUD",
+                    false,
+                    "Mostra o HUD de modificadores da run no canto superior esquerdo (Treasure Find / Gold Find / Exp Mod). Padrão: false (desligado).");
+            }
+            catch (Exception e)
+            {
+                Log.LogError("Roguelike QoL: falha ao ler/criar o arquivo de config — seguindo com o padrao " +
+                             "(HUD DESLIGADO): " + e.Message);
+            }
 
-            if (!AtivarHud.Value)
+            if (!HudLigado)
             {
                 Logger.LogInfo("Roguelike QoL carregado — HUD DESABILITADO (AtivarHUD=false no config).");
                 return;
@@ -54,8 +76,121 @@ namespace RoguelikeQoL
             // 29/09 no log: "QoL: updater DESTRUÍDO pela Unity"), então ele nunca chegava a
             // receber Update() e o HUD não aparecia. A criação é PREGUIÇOSA: acontece no primeiro
             // Localize da UI (ver LocalizeHudTrigger), quando já existe cena viva.
-            new Harmony("com.gumatos.roguelikeqol").PatchAll();
-            Logger.LogInfo("QoL: patch de gatilho (OptionsManager.Localize) aplicado; updater será criado na primeira UI.");
+            // So chega aqui com o HUD LIGADO (o marcador de boot "... carregado." ja foi escrito
+            // acima). Os ganchos sao aplicados um a um: um gancho ruim nao derruba os outros.
+            AplicarPatches();
+
+            Logger.LogInfo("QoL: o updater sera criado de forma PREGUICOSA no primeiro " +
+                           "OptionsManager.Localize da UI (nunca no Awake: a Unity destroi GameObject " +
+                           "criado durante o chainloader do BepInEx).");
+        }
+
+        /// <summary>
+        /// Aplica os ganchos UM A UM, em vez de <c>PatchAll()</c>.
+        ///
+        /// <c>PatchAll()</c> e tudo-ou-nada: um gancho so que falhasse (tipo ou assinatura que mudou
+        /// numa versao do jogo) deixaria os outros sem aplicar — e em silencio. Com o laco abaixo, o
+        /// gancho que falha fica escrito no log com o nome dele e o resto continua funcionando. O
+        /// resumo usa a contagem REAL, nunca um numero fixo. Mesmo modelo do
+        /// RoguelikeSkillTreeVisualizer; quando tudo da certo os patches aplicados sao EXATAMENTE os
+        /// mesmos de antes.
+        /// </summary>
+        private static void AplicarPatches()
+        {
+            var harmony = new Harmony("com.gumatos.roguelikeqol");
+            var falhas = new List<string>();
+            int ganchosTotal = 0;
+            int ganchosOk = 0;
+            int metodosOk = 0;
+
+            Type[] tipos;
+            try
+            {
+                tipos = typeof(Plugin).Assembly.GetTypes();
+            }
+            catch (Exception e)
+            {
+                Log.LogError("QoL: nao deu para listar os tipos do mod — nenhum gancho aplicado: " + e);
+                return;
+            }
+
+            for (int i = 0; i < tipos.Length; i++)
+            {
+                Type tipo = tipos[i];
+                if (!EhClasseDeGancho(tipo))
+                {
+                    continue;
+                }
+
+                ganchosTotal++;
+                try
+                {
+                    PatchClassProcessor processador = harmony.CreateClassProcessor(tipo);
+                    List<MethodInfo> aplicados = processador.Patch();
+                    int quantos = aplicados != null ? aplicados.Count : 0;
+                    metodosOk += quantos;
+                    ganchosOk++;
+                    Log.LogInfo("QoL: gancho aplicado — " + tipo.Name + " (" + quantos + " metodo(s) do jogo).");
+                }
+                catch (Exception e)
+                {
+                    falhas.Add(tipo.Name);
+                    Log.LogError("QoL: FALHA ao aplicar o gancho " + tipo.Name + " — " + e.Message);
+                }
+            }
+
+            string resumo = "QoL: patches Harmony aplicados (" + ganchosOk + "/" + ganchosTotal +
+                            " ganchos, " + metodosOk + " metodos do jogo).";
+
+            if (falhas.Count == 0)
+            {
+                Log.LogInfo(resumo);
+                return;
+            }
+
+            Log.LogError(resumo + " GANCHOS QUE FALHARAM: " + string.Join(", ", falhas.ToArray()) +
+                         ". O mod continua de pe, mas o recurso que dependia deles nao existe nesta sessao.");
+        }
+
+        /// <summary>
+        /// Classe de gancho = tem <c>[HarmonyPatch]</c> no tipo E pelo menos um metodo com
+        /// <c>[HarmonyPrefix]</c>/<c>[HarmonyPostfix]</c> (evita tentar "patchar" uma classe que
+        /// carrega o atributo sem ser um gancho de verdade).
+        /// </summary>
+        private static bool EhClasseDeGancho(Type tipo)
+        {
+            try
+            {
+                if (tipo == null || !tipo.IsClass)
+                {
+                    return false;
+                }
+
+                if (tipo.GetCustomAttributes(typeof(HarmonyPatch), false).Length == 0)
+                {
+                    return false;
+                }
+
+                MethodInfo[] metodos = tipo.GetMethods(
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+
+                for (int i = 0; i < metodos.Length; i++)
+                {
+                    MethodInfo metodo = metodos[i];
+                    if (metodo.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0 ||
+                        metodo.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // atributo com tipo que nao resolve (versao de jogo diferente): nao e gancho nosso
+                return false;
+            }
         }
     }
 
