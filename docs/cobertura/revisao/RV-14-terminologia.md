@@ -7,6 +7,10 @@ padrão a seguir (regra do projeto, a mesma que fechou o caso `Crippled` × `Slo
 > Limite honesto: a lista de conceitos é **curada à mão** — não existe thesaurus do
 > vocabulário do jogo. Conceito novo entra quando a revisão encontra.
 
+> O que esta ferramenta **gera** termina na linha `<!-- fim-gerado -->`. Tudo o que
+> vem depois dela é escrito à mão (o veredito por conceito) e **nunca** é reescrito
+> pela ferramenta: ver `tools/preserva_curado.py`.
+
 | conceito | variante | total | skills | status | itens | afixos | powerups |
 
 |---|---|---|---|---|---|---|---|
@@ -54,6 +58,7 @@ candidata a padronização pela maioria — nunca por gosto.
 4. Se o motor contradiz a maioria (caso `Cripple` → status `Slow`), registre a contradição
    e NÃO mexa: foi a decisão tomada para o `Crippled` × `Slow`.
 
+<!-- fim-gerado -->
 
 ---
 

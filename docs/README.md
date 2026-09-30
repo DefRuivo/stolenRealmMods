@@ -143,8 +143,8 @@ aceita chave repetida — o `Add` estoura `ArgumentException`, e como as tabelas
 carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `Slam` e
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
-"certa"); por isso o `check_dupes` existe. Saída medida em 30/09/2026 (17:21):
-`TextFixes 96 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
+"certa"); por isso o `check_dupes` existe. Saída medida em 30/09/2026 (18:47):
+`TextFixes 98 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
 (o `tools/audita_docs.py`, passo 7, compara estes dois números com o `LocalizePatch.cs` — é por
 ele que um `TextAppends N entradas` escrito de memória vira CI vermelho). **Limite conhecido
 deste check:** ele só confere a forma `TextFixes N entradas` / `TextAppends N entradas`; contagem

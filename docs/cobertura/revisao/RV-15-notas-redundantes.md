@@ -2,6 +2,9 @@
 
 Gerado por `tools/check_notas_redundantes.py` a partir de `BetterTooltips/Patches/LocalizePatch.cs`.
 
+O que a ferramenta **gera** termina na linha `<!-- fim-gerado -->`; tudo o que vier
+depois dela e escrito a mao e **nunca** e reescrito (ver `tools/preserva_curado.py`).
+
 Uma nota existe para dizer o que o texto **nao** diz. Quando ela repete o proprio texto,
 o jogador le a mesma frase duas vezes e a explicacao perde credito - foi o que o usuario
 reportou em 30/09 (`Blinding Lights` duplicado, `Blind`/`Sleep` redundantes,
@@ -29,3 +32,5 @@ Nenhum caso.
 ## 3. Nota que ecoa o texto
 
 Nenhum caso. 
+
+<!-- fim-gerado -->
