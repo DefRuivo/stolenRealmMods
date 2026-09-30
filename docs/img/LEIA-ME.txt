@@ -1,0 +1,119 @@
+==========================================================
+ CAPTURAS DE TELA PENDENTES — docs/img/
+==========================================================
+
+O README.md da raiz usa marcadores no formato
+  ![descrição](docs/img/nome.png)
+para os lugares onde uma captura de tela ajuda quem nunca
+instalou um mod. Os arquivos abaixo AINDA NÃO EXISTEM — quem
+for tirar as capturas deve salvá-las com EXATAMENTE estes
+nomes, nesta pasta (docs/img/), senão as imagens aparecem
+quebradas no GitHub.
+
+Dica geral de captura (Windows):
+  - Win + Shift + S = recorta uma área da tela e copia.
+  - Cole no Paint e salve como PNG (não use JPG: o texto fica
+    borrado e é justamente texto que a pessoa precisa ler).
+  - Se quiser destacar um botão, desenhe um retângulo/balão
+    vermelho em volta antes de salvar.
+  - Prefira 1 captura por passo, largura ~1200px, e corte o
+    excesso da tela (barra de tarefas, outros monitores).
+
+----------------------------------------------------------
+LISTA DE CAPTURAS
+----------------------------------------------------------
+
+1) r2modman-escolher-jogo.png
+   Onde: r2modman aberto, na tela inicial de seleção de jogo
+         ("Select game").
+   O que mostrar: a lista de jogos com "Stolen Realm"
+         visível (pode destacar o item).
+   Usada em: seção "Instalação pelo r2modman", passo 2.
+
+2) r2modman-instalar-bepinex.png
+   Onde: aba "Online" do r2modman, com a busca por
+         "BepInExPack".
+   O que mostrar: o pacote BepInEx-BepInExPack no resultado da
+         busca e o botão "Download with dependencies".
+   Usada em: passo 4.
+
+3) r2modman-start-modded.png
+   Onde: r2modman com o perfil Default selecionado.
+   O que mostrar: o botão "Start modded" (destacado) e, se
+         possível, o "Start vanilla" ao lado, para a pessoa
+         entender que são coisas diferentes.
+   Usada em: passo 5 (o passo que o leigo erra).
+
+4) r2modman-browse-profile-folder.png
+   Onde: engrenagem (Settings) do r2modman.
+   O que mostrar: a opção "Browse profile folder".
+   Usada em: passo 6.
+
+5) bepinex-plugins-estrutura.png
+   Onde: Windows Explorer na pasta do perfil, dentro de
+         BepInEx\plugins.
+   O que mostrar: a barra de endereço (para ver o caminho
+         completo) + as pastas BetterTooltips, BetterStats e
+         BetterFont, cada uma aberta/revelada com a DLL dentro
+         (ex.: abra a pasta BetterFont e deixe
+         BetterFont.dll visível na lista).
+   Usada em: passo 8 e no passo 4 da instalação manual.
+
+6) bepinex-release-win-x64.png
+   Onde: página de releases do BepInEx no GitHub
+         (https://github.com/BepInEx/BepInEx/releases).
+   O que mostrar: os arquivos do release, com
+         "BepInEx_win_x64_5.4.23.x.zip" destacado (e o x86
+         visível, para contraste).
+   Usada em: instalação manual, passo 1.
+
+7) manual-winhttp-na-pasta-do-jogo.png
+   Onde: Windows Explorer na pasta do jogo
+         (...\steamapps\common\Stolen Realm).
+   O que mostrar: a barra de endereço + "winhttp.dll" e
+         "Stolen Realm.exe" na mesma listagem (destaque nos
+         dois). Se a pasta BepInEx já existir por causa do
+         passo 3, ela pode aparecer também.
+   Usada em: instalação manual, passo 2.
+
+8) logoutput-carregado.png
+   Onde: Bloco de Notas (ou Notepad++) com
+         BepInEx\LogOutput.log aberto.
+   O que mostrar: com Ctrl+F procurando "carregado.", as
+         linhas:
+           [Info   :Better Font] Better Font carregado.
+           [Info   :Better Stats] Better Stats carregado.
+           [Info   :Better Tooltips] Better Tooltips carregado.
+         Se o Bloco de Notas estiver em modo "quebra automática
+         de linha", desligue, para as linhas ficarem inteiras.
+   Usada em: seção "Como saber que funcionou".
+
+9) ingame-tooltips-antes-depois.png
+   Onde: no jogo, um tooltip de skill ou status aberto.
+   O que mostrar: ANTES e DEPOIS no MESMO arquivo — duas
+         capturas coladas lado a lado (ou empilhadas), com uma
+         seta/círculo na linha extra de explicação da mecânica
+         que o BetterTooltips acrescenta no fim do tooltip.
+         Para tirar o "antes": desmarque o BetterTooltips no
+         r2modman, abra o jogo, capture, feche e religue o mod.
+   Usada em: seção "Como saber que funcionou".
+
+10) [OPCIONAL] ingame-fonte-serifada.png
+   Onde: no jogo, menu principal ou ficha de personagem.
+   O que mostrar: a fonte serifada (Times New Roman) nos
+         textos — o mesmo efeito do BetterFont.
+   Usada em: seção "Como saber que funcionou" (hoje o README
+         não usa esta imagem; se ela for tirada, vale acrescentar
+         um marcador no README).
+
+----------------------------------------------------------
+REGRAS PARA NÃO QUEBRAR O README
+----------------------------------------------------------
+- Nome do arquivo em minúsculas, sem acento e sem espaço.
+- Se mudar o nome de um arquivo aqui, ATUALIZE o marcador
+  correspondente no README.md da raiz.
+- Se uma captura não puder ser tirada, é melhor REMOVER o
+  marcador do README do que deixar imagem quebrada.
+- NUNCA coloque arquivos de imagem dentro de BepInEx\plugins\
+  nem na pasta do jogo: esta pasta docs/img/ é só do
+  repositório (documentação).

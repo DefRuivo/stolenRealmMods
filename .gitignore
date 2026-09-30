@@ -11,8 +11,25 @@ __pycache__/
 *.pyc
 
 # Notas/dumps de trabalho de IA — superados pelo censo em docs/cobertura/
+# (KANBAN.md e *_INVENTORY.md na raiz seguem FORA do git de proposito)
 *.md
 !README.md
+
+# ENT-2: a DOCUMENTACAO passa a ser versionada. O '*.md' acima continua valendo
+# para as notas de trabalho na raiz; aqui a documentacao de docs/ e re-incluida.
+# Em .gitignore o '!' re-inclui — e para re-incluir arquivo dentro de uma pasta e
+# preciso re-incluir as pastas intermediarias ANTES (por isso as 3 linhas:
+# docs/, as subpastas, e os .md dentro delas).
+!docs/
+!docs/**/
+!docs/**/*.md
+
+# ENT-2: README/CHANGELOG e os metadados do pacote Thunderstore na raiz de cada
+# mod (manifest.json = nome/versao/dependencias; icon.png = icone da pagina).
+!*/README.md
+!*/CHANGELOG.md
+!*/manifest.json
+!*/icon.png
 
 
 # Nao utilizados / uso local do editor
@@ -24,6 +41,18 @@ scratch/old/
 scratch/tooltip.cs
 scratch/shot.ps1
 scratch/shot.png
+
+# Scratch: artefatos de trabalho que NUNCA podem ir para um repo PUBLICO.
+# ATENCAO — scratch/backups/ guarda a DLL de TERCEIRO StolenRealmModAPI (biblioteca
+# do Thunderstore que falha neste build do jogo): redistribuir nao e nosso direito.
+# Tambem ficam fora os logs de ciclo, os JSONs de saida de agente e os scripts de
+# analise avulsos. O test-cycle.sh segue rastreado porque tools/release-check.sh
+# depende dele.
+scratch/backups/
+scratch/ciclo-*.txt
+scratch/*.json
+scratch/release-check-saida*.txt
+scratch/analisa_*.py
 
 # Segredos — nunca publicar
 .env
