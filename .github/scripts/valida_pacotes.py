@@ -5,7 +5,9 @@
 POR QUE EXISTE (CI-2)
 ---------------------
 O repo e publico e a automacao aprovada e de ESCOPO A: SO VALIDACAO. Este script e o
-passo 6 do `.github/workflows/validate.yml`. Ele NAO compila, NAO empacota e NAO publica
+passo 7 do `.github/workflows/validate.yml` (virou 7 quando as versoes entraram como
+passo 2 - ver `tools/check_versoes.py`, que e quem confere se o `version_number` e o
+MESMO `<Version>` do .csproj e a versao do `Plugin.cs`; aqui se confere so o semver). Ele NAO compila, NAO empacota e NAO publica
 nada - so le o que ja esta versionado e diz se o pacote passaria no Thunderstore.
 
 Por que nao reaproveitar `tools/pack-thunderstore.py`: aquele script exige a DLL buildada
@@ -18,7 +20,8 @@ REGRAS (as mesmas que o Thunderstore exige e o pack ja checava)
   1. manifest.json existe e e JSON valido, com os campos obrigatorios;
   2. `name` alfanumerico ([A-Za-z0-9_]+) e IGUAL ao nome da pasta do mod
      (se divergirem, o r2modman instala num caminho diferente do que o README promete);
-  3. `version_number` em semver `X.Y.Z`;
+  3. `version_number` em semver `X.Y.Z` (se ele e o MESMO do .csproj/Plugin.cs NAO e
+     daqui: e do `tools/check_versoes.py`, passo 2 do workflow);
   4. `description` nao vazia e <= 250 caracteres (limite do Thunderstore);
   5. `dependencies` == ["BepInEx-BepInExPack-5.4.2305"] (exatamente, nessa ordem);
   6. `icon.png` e um PNG real de 256x256 e <= 1 MB;
