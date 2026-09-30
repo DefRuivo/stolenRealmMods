@@ -6,12 +6,16 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado hoje (30/09/2026): nada foi publicado.** Os **6** mods estão com `publicar: false`
-(conferido no [`release/mods.json`](../release/mods.json)) e o `team` está vazio de propósito
-(decisão pendente). Os dois workflows **já estão no remoto** — conferido com
-`git ls-remote origin main` e com o `curl` do YAML publicado (mesmo MD5 do arquivo no disco), ver
-[`CI.md`](CI.md) — então o pipeline está **vivo**, não "só no disco": ele **falha antes de tocar
-em qualquer coisa** porque o `team` está vazio, e não chuta.
+**Estado hoje (30/09/2026): nada foi publicado na Thunderstore.** No **remoto** os 6 mods ainda
+estão com `publicar: false` e `team` vazio de propósito; no **disco** os 6 já estão
+`publicar: true` com `team` `DefRuivo_StolenRealmMods` (edição ainda **não commitada** — compare
+com `git diff HEAD -- release/mods.json`). Os dois workflows **já estão no remoto** — para
+reconferir, compare **commit com commit** (`git ls-remote origin main` contra `git rev-parse HEAD`;
+**não** compare MD5 de disco com o do publicado, ver adendo em [`CI.md`](CI.md)) — então o
+pipeline está **vivo**, não "só no disco": enquanto o `team` publicado estiver vazio ele **falha
+antes de tocar em qualquer coisa**, e não chuta. Os 6 zips já gerados estão anexados na GitHub
+Release [`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
+que é o caminho do input `release_tag` do `publish.yml`.
 
 ## 1) As regras da plataforma que mandam no desenho
 
@@ -166,9 +170,11 @@ envio. Nesse cenário:
 
 ## 8) Estado dos workflows e o escopo `workflow` do PAT
 
-Os dois YAML **já estão publicados** — conferido em 30/09/2026: o `main` do GitHub é o mesmo
-commit do HEAD local (`git ls-remote origin main`) e o arquivo publicado tem o **mesmo MD5** do
-arquivo no disco. O que continua exigindo credencial é **editar** esse caminho: um push que mexe
+Os dois YAML **já estão publicados** — para reconferir, compare **commit com commit**: o
+`git ls-remote origin main` tem de dar o mesmo SHA do `git rev-parse HEAD` local (conferido em
+30/09/2026 assim). **Não** compare MD5 do disco com o do arquivo publicado: o disco pode estar
+sujo (edição não commitada) ou em CRLF, e uma reescrita de histórico muda os SHAs — o MD5 muda
+sem nada ter mudado no que o GitHub roda. O que continua exigindo credencial é **editar** esse caminho: um push que mexe
 em `.github/workflows/` precisa do escopo de workflow no PAT. O escopo da credencial atual **não
 foi verificado** (é segredo); se o push desse caminho for recusado, habilite:
 

@@ -39,8 +39,16 @@
 # docs/PUBLICACAO.md; o resumo de CI esta em docs/CI.md. Reproduzir na mao: e usar o mesmo
 # `tools/publish-thunderstore.sh` (dry-run por padrao, so sobe com --go).
 #
-# BLOQUEIO PARA SUBIR ESTE ARQUIVO: o PAT do harness nao tem o escopo `workflow`, entao
-# `.github/workflows/` fica no disco e nao sobe. Ver docs/PUBLICACAO.md ("Como ativar").
+# ESTE ARQUIVO ESTA PUBLICADO (nao ha mais bloqueio de PAT). Isso NAO se confere por MD5 do disco
+# contra o MD5 do publicado: o disco pode estar sujo (edicao nao commitada) ou em CRLF, e uma
+# reescrita de historico muda os SHAs - o MD5 muda sem nada ter mudado no que o GitHub roda.
+# Confirme antes de assumir (a mesma regra esta em docs/CI.md, secao "Escopo B"):
+#   git ls-remote origin main                 # SHA do main no GitHub
+#   git rev-parse HEAD                        # SHA do commit de origem: iguais = o remoto tem este
+#   git status --short -- .github/workflows/  # vazio = o disco tem o mesmo conteudo do commit
+#   curl https://raw.githubusercontent.com/DefRuivo/stolenRealmMods/main/.github/workflows/publish.yml
+# O envio local pelo `tools/publish-thunderstore.sh` (dry-run por padrao) continua valendo como
+# caminho alternativo.
 
 name: Publicacao Thunderstore
 
@@ -254,7 +262,7 @@ jobs:
         env:
           ALVOS_LEGIVEIS: ${{ needs.libera.outputs.alvos }}
 
-      # 1. Nenhum token no que seria publicado. E o passo 6 do release-check, a mesma
+      # 1. Nenhum token no que seria publicado. E o passo 0 do release-check, a mesma
       #    trava que o tools/publish-thunderstore.sh roda antes de enviar.
       - name: "1. Trava de segredo"
         run: python tools/check_segredos.py

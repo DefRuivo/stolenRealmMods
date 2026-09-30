@@ -66,10 +66,20 @@ O que o escopo B não negocia:
   commita com `[skip ci]`.
 
 O passo a passo, o setup do environment `thunderstore` e o troubleshooting estão em
-[PUBLICACAO.md](PUBLICACAO.md). Os dois YAML **estão no remoto** — conferido em 30/09/2026 com
-`git ls-remote origin main` (o `main` do GitHub é o mesmo commit do HEAD local) e com o arquivo
-publicado: `curl .../main/.github/workflows/validate.yml` traz exatamente o mesmo MD5 do arquivo
-no disco. Então os dois escopos são pipeline vivo; o envio local pelo
+[PUBLICACAO.md](PUBLICACAO.md). Os dois YAML **estão no remoto**. Para reconferir isso, compare
+**commit com commit, nunca MD5 de disco com MD5 do publicado**: o disco pode estar sujo (edição
+não commitada) ou em CRLF — os dois mudam o MD5 sem nada ter mudado no que o GitHub roda — e uma
+reescrita de histórico muda os SHAs dos commits. O jeito que não apodrece:
+
+```bash
+git ls-remote origin main      # o SHA do main no GitHub
+git rev-parse HEAD             # o SHA do commit local: iguais = o remoto tem este commit
+git status --short -- .github/workflows/   # vazio = o disco tem o mesmo conteudo do commit
+curl https://raw.githubusercontent.com/DefRuivo/stolenRealmMods/main/.github/workflows/validate.yml
+```
+
+A última linha traz o arquivo como ele está no GitHub (o que roda de verdade). Na conferência de
+30/09/2026 o `main` era o mesmo commit do HEAD local. O envio local pelo
 `tools/publish-thunderstore.sh` (dry-run por padrão) continua valendo como caminho alternativo.
 
 ## Os passos, na ordem
@@ -142,10 +152,13 @@ python tools/audita_docs.py
     `python tools/check_chave_compartilhada.py --estrito; echo $?` → **`0`**.
   - **Se voltar a sair `1`,** o conserto é no `LocalizePatch.cs` (**uma entrada por texto**) —
     nunca afrouxar a flag: a falha é silenciosa em jogo e não aparece em log nenhum.
-  - **O `validate.yml` que está no ar já roda a flag.** Conferido em 30/09/2026 contra o arquivo
-    publicado (não contra o disco): o `curl` do
-    `.../main/.github/workflows/validate.yml` traz a linha
-    `run: python tools/check_chave_compartilhada.py --estrito`, com o mesmo MD5 do arquivo local.
+  - **O `validate.yml` que está no ar já roda a flag.** Conferido em 30/09/2026 lendo o arquivo
+    publicado (não o do disco): o `curl` de
+    `https://raw.githubusercontent.com/DefRuivo/stolenRealmMods/main/.github/workflows/validate.yml`
+    traz a linha `run: python tools/check_chave_compartilhada.py --estrito`. Para reconferir, leia
+    o publicado — **não** compare MD5 com o do disco: o disco pode estar sujo (edição não
+    commitada) ou em CRLF, e uma reescrita de histórico muda os SHAs. Regra geral desta doc:
+    confirme com `git ls-remote origin main` contra `git rev-parse HEAD` antes de assumir.
     Ou seja, o CI **já trava** no caso do `BUG-32`; a versão que falava em "passo 5 sem a flag"
     não é a que está no ar. Editar `.github/workflows/` pela linha de comando continua exigindo o
     escopo `workflow` no PAT (o escopo da credencial atual não foi verificado), mas o que está

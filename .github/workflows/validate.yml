@@ -4,8 +4,8 @@
 # ---------------------
 # Uma trava de REGRESSAO em push/PR para a main. Ele roda as ferramentas que ja existem
 # em tools/ e reprova o commit quando qualquer uma reprova. Cada passo e um passo do
-# ritual manual ("build 0 erros -> check_fix_keys -> check_dupes -> instalar"), so que
-# verificado por maquina em vez de por memoria.
+# ritual manual (versoes -> build 0 erros -> check_fix_keys -> check_dupes -> instalar),
+# so que verificado por maquina em vez de por memoria.
 #
 # O QUE ELE NAO E (de proposito)
 # ------------------------------
@@ -16,12 +16,16 @@
 #   * NAO PUBLICA. Sem token, sem upload, sem release, sem `dist/`. Nenhum segredo e
 #     lido e `permissions: contents: read` garante que nem se quisesse daria.
 #   * NAO EMPACOTA. `tools/pack-thunderstore.py` exige a DLL buildada, entao nao roda
-#     aqui; o que ele confere de METADADO (manifest/icon/README) e repetido pelo passo 6
-#     em `.github/scripts/valida_pacotes.py`, que le so o que esta versionado.
+#     aqui; o que ele confere de METADADO (manifest/icon/README) e repetido pelo passo 7
+#     em `.github/scripts/valida_pacotes.py`, que le so o que esta versionado. A versao do
+#     mod (csproj = manifest = Plugin.cs) NAO depende disso e virou o passo 2.
 #
 # ORDEM DOS PASSOS: do mais barato/mais grave para o mais caro, e para no primeiro
 # erro (o GitHub corta o job no primeiro `run` que sai != 0). Segredo primeiro: se
-# entrou token no que seria publicado, nada mais importa.
+# entrou token no que seria publicado, nada mais importa. Versoes logo em seguida,
+# na MESMA ordem do ritual local (`tools/release-check.sh`): sao dois passos que so
+# leem o repositorio (nenhum precisa de build, de DLL ou do jogo) e nenhum dos dois
+# faz sentido deixar para depois.
 #
 # REPRODUZIR LOCALMENTE: os mesmos comandos, na mesma ordem, da raiz do repo.
 # Ver docs/CI.md.
@@ -70,31 +74,44 @@ jobs:
           echo "arquivos versionados: $(git ls-files | wc -l)"
 
       # 1. Nenhum token/credencial nos arquivos VERSIONADOS (e no que esta por commitar).
-      #    E o passo 6 do release-check; roda sobre `git ls-files`, entao precisa do
-      #    checkout com .git (o actions/checkout ja traz).
+      #    E o passo 0 do release-check (o unico que ABORTA na hora la); roda sobre
+      #    `git ls-files`, entao precisa do checkout com .git (o actions/checkout ja traz).
       - name: "1. Segredos (nenhum token no que seria publicado)"
         run: python tools/check_segredos.py
 
-      # 2. Chaves das tabelas do BetterTooltips contra o censo (RV-7). Hoje sai 0 com
+      # 2. A VERSAO de cada mod tem de bater nos TRES lugares (PKG-2): `<Version>` do
+      #    .csproj (a fonte), `version_number` do manifest.json e o Plugin.cs
+      #    (`[BepInPlugin(...)]` ou a const Version). E o passo 1 do release-check, na
+      #    mesma posicao do ritual: so le o repositorio (sem build, sem DLL - o
+      #    `pack-thunderstore.py` exige a DLL e por isso nao roda aqui). Versao
+      #    divergente faz o log do BepInEx mentir sobre a build carregada e o pacote
+      #    sair do ar com versao errada.
+      #    Entra ANTES dos pacotes de proposito: `valida_pacotes.py` (passo 7) confere
+      #    que o `version_number` e um semver valido, nao que ele e o MESMO do
+      #    csproj/Plugin.cs - era esse furo que so o empacotador pegava, no fim.
+      - name: "2. Versoes (csproj = manifest = Plugin.cs)"
+        run: python tools/check_versoes.py
+
+      # 3. Chaves das tabelas do BetterTooltips contra o censo (RV-7). Hoje sai 0 com
       #    4 chaves "fora do censo" que sao texto de UI/loading - sao AVISO, nao erro
       #    (ver a secao "O que este censo AINDA nao cobre" em docs/cobertura/README.md).
-      - name: "2. Chaves x censo (check_fix_keys)"
+      - name: "3. Chaves x censo (check_fix_keys)"
         run: python tools/check_fix_keys.py
 
-      # 3. Chave DUPLICADA no LocalizePatch. E o modo de falha do INC-1: `Dictionary.Add`
+      # 4. Chave DUPLICADA no LocalizePatch. E o modo de falha do INC-1: `Dictionary.Add`
       #    com chave repetida estoura ArgumentException e derruba o LocalizePatch
       #    INTEIRO na inicializacao estatica - o mod de textos simplesmente nao carrega.
       #    Vale mais que os outros: a falha e total e silenciosa no jogo.
-      - name: "3. Chave duplicada (check_dupes - modo de falha do INC-1)"
+      - name: "4. Chave duplicada (check_dupes - modo de falha do INC-1)"
         run: python tools/check_dupes.py
 
-      # 4. Nota que repete o proprio texto (RV-15): o jogador le a mesma frase duas
+      # 5. Nota que repete o proprio texto (RV-15): o jogador le a mesma frase duas
       #    vezes. O script REGERA docs/cobertura/revisao/RV-15-notas-redundantes.md;
       #    no CI isso nao e commitado, so serve de trava (sai != 0 se achar caso).
-      - name: "4. Notas redundantes (RV-15)"
+      - name: "5. Notas redundantes (RV-15)"
         run: python tools/check_notas_redundantes.py
 
-      # 5. Chave compartilhada (BUG-32): texto usado por mais de um dono no censo, onde
+      # 6. Chave compartilhada (BUG-32): texto usado por mais de um dono no censo, onde
       #    uma correcao/nota por texto pode estar corrigindo o caso errado.
       #    `--estrito` LIGADO em 30/09/2026: a flag existe desde o mesmo dia e o unico caso
       #    real que a mantinha fora do CI (a nota de stack da `Consumption`, chave nas DUAS
@@ -104,27 +121,28 @@ jobs:
       #    TextAppends nunca roda e a nota nao existe em jogo, sem erro no log.
       #    As SUSPEITAS (texto com nota usado por 2+ donos) continuam AVISO que nao reprova
       #    nem com a flag - ali a decisao e humana (ver "Armadilhas conhecidas" em docs/CI.md).
-      - name: "5. Chave compartilhada (BUG-32)"
+      - name: "6. Chave compartilhada (BUG-32)"
         run: python tools/check_chave_compartilhada.py --estrito
 
-      # 6. Metadados dos pacotes Thunderstore: manifest.json (nome alfanumerico == pasta,
+      # 7. Metadados dos pacotes Thunderstore: manifest.json (nome alfanumerico == pasta,
       #    semver, descricao <= 250, dependencies exatas), icon.png 256x256 e <= 1 MB,
       #    README.md e CHANGELOG.md. Uma pasta sem manifest.json (mod em implementacao)
       #    e apenas AVISADA - sem manifest ela nao e pacote, nao ha o que validar.
-      - name: "6. Pacotes (manifest, icon, README, CHANGELOG)"
+      - name: "7. Pacotes (manifest, icon, README, CHANGELOG)"
         run: python .github/scripts/valida_pacotes.py
 
-      # 7. Auditoria dos docs. HOJE este script NAO esta no repo: ele vive em scratch/,
-      #    que e gitignored. O passo confere a existencia antes de chamar, entao a
-      #    ausencia nao reprova nada - e no dia em que ele for promovido para tools/,
-      #    passa a rodar sozinho, sem editar este YAML.
-      - name: "7. Auditoria dos docs (se tools/audita_docs.py existir)"
+      # 8. Auditoria das docs contra o disco (contagens, versoes, ferramentas citadas,
+      #    links e caminhos). O script esta VERSIONADO em tools/audita_docs.py - foi
+      #    promovido de scratch/ em 30/09/2026 -, entao este passo roda de verdade a
+      #    cada push; a checagem de existencia abaixo so evita quebrar o job se o
+      #    arquivo sair do repo um dia.
+      - name: "8. Auditoria dos docs (tools/audita_docs.py)"
         run: |
           if [ -f tools/audita_docs.py ]; then
             python tools/audita_docs.py
           else
-            echo "tools/audita_docs.py nao existe no repo (hoje esta em scratch/, gitignored)."
-            echo "Passo pulado de proposito - ver a nota no fim do YAML."
+            echo "tools/audita_docs.py nao esta no repo - passo pulado de proposito."
+            echo "Ele e versionado em tools/ hoje; se sumiu, foi remocao, nao 'vive em scratch/'."
           fi
 
       # Ajuda no caso de falha: resume onde olhar. `if: failure()` roda so quando algo
