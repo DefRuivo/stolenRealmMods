@@ -44,6 +44,8 @@ def numeros(txt):
         em campo proprio, nao nos efeitos ("Lasts 5 turns" marcou o `Ascendancy`).
     """
     limpo = re.sub(r'\[[^\]]*\]', ' ', txt or '')
+    # (c) `*0` tambem e TOKEN de expressao de dano (mesma familia do `[0]`, licao do RV-8a)
+    limpo = re.sub(r'\*\s*\d+(?:[.,]\d+)?', ' ', limpo)
     limpo = re.sub(r'\d+\s*(?:turn|turns|stack|stacks|hex|hexes|round|rounds)', ' ', limpo, flags=re.I)
     return set(re.findall(r'\d+(?:[.,]\d+)?', limpo))
 
