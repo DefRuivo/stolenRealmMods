@@ -13,7 +13,7 @@ são 10 minutos e você não precisa saber programar nem abrir terminal.
 
 | Mod | O que ele faz de útil para o jogador |
 |---|---|
-| **BetterTooltips** | Deixa os tooltips de skills, status e itens **corretos e completos**: conserta descrições que "mentiam por omissão" (faltava duração, número de stacks, alcance, se acumula com a party…) e acrescenta, no fim do tooltip, uma **explicação curta de como a mecânica realmente funciona**, na cor de texto especial do próprio jogo. |
+| **BetterTooltips** | Deixa os tooltips de skills, status e itens **corretos e completos**: conserta descrições que omitiam informação (faltava duração, número de stacks, alcance, se acumula com a party…) e acrescenta, no fim do tooltip, uma **explicação curta de como a mecânica realmente funciona**, na cor de texto especial do próprio jogo. |
 | **BetterStats** | Mostra seus atributos no formato **`base (combinado)`** — o valor puro que você investiu e, entre parênteses, o valor final já com powerups, equipamento e skills. Vale para a ficha de personagem e para a tela de level up. Também corrige o alinhamento da coluna de valores, que vazava para fora do painel. |
 | **BetterFont** | Troca a fonte do jogo por uma **serifada** (Times New Roman; se não existir, Georgia ou Liberation Serif). A fonte original fica como reserva, então ícones e símbolos continuam aparecendo (sem quadradinhos). |
 | **RoguelikeQoL** | Mostra um **HUD no canto superior esquerdo** com os modificadores da run em andamento: **Treasure Find**, **Gold Find** e o **Exp Mod** da batalha atual, somados de toda a party. Vem **desligado por padrão** — veja [como ligar](#perguntas-frequentes). |
