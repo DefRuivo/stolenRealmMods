@@ -154,6 +154,14 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Fire Breath - o texto nao dava o alcance. Fonte: campo `alvos` do `ActionProps`
+            // (blast=Distance(Source.Cell) <= 4 + IsSameHemisphere + DistanceFromLine < 3f/2f).
+            { "Breath fire dealing *0 fire damage to all enemies in a cone. ",
+              "\n<color=#C8B090>The cone reaches 4 hexes from you.</color>" },
+            // Frost Breath - o texto nao dava o alcance. Fonte: campo `alvos` do `ActionProps`
+            // (blast=Distance(Source.Cell) <= 4 + IsSameHemisphere + DistanceFromLine < 3f/2f).
+            { "Deals *0 cold damage each turn.",
+              "\n<color=#C8B090>Hits everything in a cone reaching 4 hexes from you.</color>" },
             // Stunning Slam tem texto PROPRIO (cita o {STA=Stunned}); o `Slam` e o `Crushing`
             // Slam dividem um texto identico e ficam com uma entrada so. Fonte do alcance: o
             // campo `alvos` do `ActionProps`.
