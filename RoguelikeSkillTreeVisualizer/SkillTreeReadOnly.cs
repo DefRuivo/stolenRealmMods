@@ -36,8 +36,30 @@ namespace RoguelikeSkillTreeVisualizer
 
         internal static void Open(Character target)
         {
+            try
+            {
+                OpenInternal(target);
+            }
+            catch (Exception e)
+            {
+                _pendingTarget = null;
+                ReadOnlySession.End();
+                Plugin.Log.LogError("RSTV: falha ao abrir a skill tree read-only: " + e);
+            }
+        }
+
+        private static void OpenInternal(Character target)
+        {
             if (target == null)
             {
+                Plugin.Log.LogWarning("RSTV: pedido de abrir a arvore sem personagem — nada a fazer.");
+                return;
+            }
+
+            if (GameLogic.instance == null)
+            {
+                Plugin.Log.LogError("RSTV: GameLogic.instance ausente — sem ele a arvore mostraria o " +
+                                    "personagem errado; abertura cancelada.");
                 return;
             }
 

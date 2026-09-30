@@ -57,6 +57,23 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
+        /// Quantos personagens LOCAIS estao na party agora (0 se a leitura falhar). Serve so para o
+        /// diagnostico do botao: "party local=0" explica sozinho um botao desabilitado.
+        /// </summary>
+        internal static int LocalPartyCount()
+        {
+            try
+            {
+                List<Character> myParty = NetworkingManager.Instance.MyPartyCharactersUnaccepted;
+                return myParty != null ? myParty.Count : 0;
+            }
+            catch (Exception)
+            {
+                return 0;
+            }
+        }
+
+        /// <summary>
         /// Alvo do clique: o ultimo que EU adicionei que ainda esta na party. Se a lista local
         /// estiver vazia (ex.: a party ja existia quando a tela abriu), cai para o ultimo da lista
         /// LOCAL da party (`MyPartyCharactersUnaccepted`, l.144841 — nunca o ultimo global).

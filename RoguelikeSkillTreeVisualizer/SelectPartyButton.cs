@@ -26,6 +26,12 @@ namespace RoguelikeSkillTreeVisualizer
         private static CharacterChoiceManager _owner;
         private static GameObject _button;
 
+        // Diagnostico: POR QUE o botao nao esta injetado agora (um mod que injeta UI nao pode
+        // falhar em silencio) e em qual instancia da tela isso ja foi reportado.
+        private static string _reason;
+        private static string _reasonLogged;
+        private static CharacterChoiceManager _diagnosedFor;
+
         /// <summary>Idempotente por instancia de `CharacterChoiceManager`.</summary>
         internal static void Ensure(CharacterChoiceManager manager)
         {
@@ -33,13 +39,27 @@ namespace RoguelikeSkillTreeVisualizer
             {
                 if (manager == null)
                 {
+                    Fail("a instancia da tela Select Party chegou nula", false);
+                    return;
+                }
+
+                if (!Plugin.BotaoLigado)
+                {
+                    // Pedido explicito no config: nao e falha, e o comportamento desejado.
+                    Fail("AtivarBotao=false no arquivo de config", false);
                     return;
                 }
 
                 Button original = manager.roguelikePowerupButton;
-                if (original == null || original.transform == null || original.transform.parent == null)
+                if (original == null)
                 {
-                    Plugin.Log.LogWarning("RSTV: roguelikePowerupButton ausente — botao nao injetado.");
+                    Fail("o botao nativo do qual o clone nasce (roguelikePowerupButton / 'Choose Powerups') nao existe nesta tela", true);
+                    return;
+                }
+
+                if (original.transform == null || original.transform.parent == null)
+                {
+                    Fail("o botao nativo 'Choose Powerups' esta sem Transform ou sem pai na hierarquia", true);
                     return;
                 }
 
@@ -52,7 +72,7 @@ namespace RoguelikeSkillTreeVisualizer
                 RectTransform srcRt = original.GetComponent<RectTransform>();
                 if (srcRt == null)
                 {
-                    Plugin.Log.LogWarning("RSTV: botao nativo sem RectTransform — botao nao injetado.");
+                    Fail("o botao nativo 'Choose Powerups' nao tem RectTransform (sem isso nao da para medir/repor a largura da linha)", true);
                     return;
                 }
 
@@ -85,7 +105,7 @@ namespace RoguelikeSkillTreeVisualizer
                 RectTransform newRt = clone.GetComponent<RectTransform>();
                 if (newRt == null)
                 {
-                    Plugin.Log.LogWarning("RSTV: clone sem RectTransform — botao nao injetado.");
+                    Fail("o clone do botao ficou sem RectTransform", true);
                     return;
                 }
 
@@ -112,6 +132,9 @@ namespace RoguelikeSkillTreeVisualizer
 
                 _owner = manager;
                 _button = clone;
+                _reason = null;
+                _reasonLogged = null;
+                _diagnosedFor = manager;
 
                 Plugin.Log.LogInfo(
                     "RSTV-2: botao '" + Label + "' injetado (" + side.ToString("0.#") + "x" + side.ToString("0.#") +
@@ -121,6 +144,7 @@ namespace RoguelikeSkillTreeVisualizer
             }
             catch (Exception e)
             {
+                Fail("excecao durante a injecao (" + e.GetType().Name + "): " + e.Message, true);
                 Plugin.Log.LogError("RSTV: falha ao injetar o botao: " + e);
             }
         }
@@ -133,7 +157,25 @@ namespace RoguelikeSkillTreeVisualizer
         internal static void Mirror()
         {
             CharacterChoiceManager manager = CharacterChoiceManager.Instance;
-            if (manager == null || _button == null || manager != _owner)
+            if (manager == null || !Plugin.BotaoLigado)
+            {
+                return;
+            }
+
+            if (_button == null)
+            {
+                // O botao nao existe: em vez de sumir em silencio, reporta UMA vez — com o motivo
+                // e o estado da tela — qual foi o problema.
+                if (_diagnosedFor != manager && manager.gameObject.activeInHierarchy)
+                {
+                    _diagnosedFor = manager;
+                    DumpDiagnosis(manager);
+                }
+
+                return;
+            }
+
+            if (manager != _owner)
             {
                 return;
             }
@@ -159,6 +201,54 @@ namespace RoguelikeSkillTreeVisualizer
                     button.interactable = canOpen;
                 }
             }
+        }
+
+        /// <summary>
+        /// Registra o motivo pelo qual o botao nao esta injetado e o escreve no log (UMA vez por
+        /// motivo, para nao inundar o LogOutput.log a cada 0,2 s). <paramref name="aviso"/> separa
+        /// "deu errado" (aviso, em amarelo) de "foi desligado de proposito" (info).
+        /// </summary>
+        private static void Fail(string motivo, bool aviso)
+        {
+            _reason = motivo;
+            if (_reasonLogged == motivo)
+            {
+                return;
+            }
+
+            _reasonLogged = motivo;
+            if (aviso)
+            {
+                Plugin.Log.LogWarning("RSTV DIAG: botao '" + Label + "' NAO injetado — " + motivo + ".");
+            }
+            else
+            {
+                Plugin.Log.LogInfo("RSTV DIAG: botao '" + Label + "' desativado — " + motivo + ".");
+            }
+        }
+
+        /// <summary>
+        /// Resumo de diagnostico: quando a tela esta aberta e o botao nao apareceu, TODO o estado
+        /// relevante vai para o log de uma vez (motivo + o que foi encontrado na hierarquia), para
+        /// nao precisar de uma segunda rodada para descobrir o que faltou.
+        /// </summary>
+        private static void DumpDiagnosis(CharacterChoiceManager manager)
+        {
+            string tela = manager != null && manager.gameObject != null ? manager.gameObject.name : "AUSENTE";
+            bool ativa = manager != null && manager.gameObject != null && manager.gameObject.activeInHierarchy;
+
+            Button original = manager != null ? manager.roguelikePowerupButton : null;
+            Transform parent = original != null && original.transform != null ? original.transform.parent : null;
+
+            Plugin.Log.LogWarning(
+                "RSTV DIAG: a tela Select Party esta aberta e o botao '" + Label + "' NAO foi injetado. " +
+                "motivo=" + (_reason != null ? _reason : "desconhecido") +
+                "; tela=" + tela +
+                "; ativaNaHierarquia=" + ativa +
+                "; botao nativo do clone=" + (original != null ? "presente" : "AUSENTE") +
+                "; paiDoBotao=" + (parent != null ? parent.name : "AUSENTE") +
+                "; grupo=" + DescribeGroup(parent) +
+                "; party local=" + PartyTargets.LocalPartyCount() + " personagem(ns).");
         }
 
         private static void OnClick()
