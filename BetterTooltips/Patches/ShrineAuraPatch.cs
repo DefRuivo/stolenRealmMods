@@ -61,6 +61,39 @@ namespace BetterTooltips.Patches
     /// O Source da avaliação é o `Root.WorldCharacter` (o personagem VAZIO do shrine): é o que o jogo
     /// usa como origem da aura e é a razão de Decay/Flame NÃO escalarem com Omnism/Horn, enquanto as
     /// auras de buff (X = Target) escalam com o bônus do personagem em foco.
+    ///
+    /// RV-29 (30/09) — a LINHA SÓ APARECE PARA QUEM TEM A AURA ATIVA. O defeito: a decisão (e) acima
+    /// derivou a aura da DEFINIÇÃO do shrine aberto e nunca olhou o estado do personagem em foco, então
+    /// a linha saía em TODO hover de shrine — inclusive para quem estava FORA da área (o usuário viu
+    /// "personagens que não têm os buffs aparecendo como se tivessem"). A correção usa a lista VIVA de
+    /// status (`Character.ActionStatuses`) APENAS COMO FILTRO — `AcharStatusVivo` — e continua tirando o
+    /// VALOR do caminho que já estava certo (`AttributeEffects` + expressão avaliada pelo interpretador
+    /// do jogo). Prova de que o filtro é o vínculo correto: o status aplicado pela aura É o mesmo objeto
+    /// que o tooltip do shrine descreve (`GroundEffectInfo.ActionStatuses[0]`, decompilado l.214180) e o
+    /// motor o cria no personagem ao entrar na área — `GroundEffect.AddGroundEffectedPlayer` ->
+    /// `CreateActionStatus(Source, player, statusInfo, ...)` (decompilado l.116911-116924), chamado de
+    /// dentro de `GameLogic.ProcessGroundEffects` quando o personagem entra/termina o movimento
+    /// (decompilado l.112652 e l.34445).
+    ///
+    /// RV-30 (30/09) — "valor DOBRADO": NÃO havia dobra na aritmética deste arquivo, e o número do
+    /// jogador não foi mudado. O que a investigação provou (logs do jogo do usuário + assets):
+    ///   (1) o valor sai de UMA avaliação da expressão do próprio status — `ValorDaExpressao`
+    ///       (l.444-467) chama `TryParseWithEnglishCulture` e, se falhar, `Game.TryEval<float>` UMA vez;
+    ///       o motor usa exatamente a mesma ordem na caminhada de atributos (decompilado l.37256-37263),
+    ///       e o ÚNICO multiplicador extra do motor é `parsed2 *= TotalStacks` (l.37263), que não é
+    ///       reescrito aqui;
+    ///   (2) a diferença entre personagens é do PERSONAGEM, não do código: no log do usuário a MESMA
+    ///       chave/base 20 saiu 20 para Ashley e 40 para Raven (`Crit Chance +20%` / `Crit Chance +40%`),
+    ///       o que só se explica por `Target["ShrineEffectBonus"]` = 0 e 100 no receptor;
+    ///   (3) o +100 tem nome nos assets do jogo: o perk `Worship` — "100% increased effect from Shrines"
+    ///       com valor 100 (`resources.assets` @1519682848-1519682905), ao lado do CharacterInfo
+    ///       `T2_Worshiper`/@1519682296, no mesmo arquivo que define o atributo `ShrineEffectBonus`
+    ///       (@1519625600). É o termo que o usuário citou — e o único +100% de shrine além do roll de
+    ///       100 do Horn of Devotion.
+    ///   Logo: a aura de um Worshiper vale ×2 DE VERDADE (base 20 -> 40); o que fazia isso parecer
+    ///   invenção era (a) a linha sair também para quem não tinha a aura (RV-29, corrigido acima) e
+    ///   (b) a nota do mod citar só Omnism I/II e Horn como fontes do bônus (LocalizePatch, corrigido).
+    ///   O log do acumulado passa a imprimir `bonus=` do receptor, para o usuário conferir a origem.
     /// </summary>
     [HarmonyPatch]
     public static class ShrineAuraPatch
@@ -288,8 +321,21 @@ namespace BetterTooltips.Patches
                     return "";
                 }
 
-                // (b)+(d) a aura é a DESTA tooltip — não a soma das auras de outros shrines.
-                ActionStatusInfo aura = AcharAuraDaTooltip(chaveDaTooltip);
+                // (b)+(d) RV-29 — a aura é a DESTA tooltip E TEM DE ESTAR VIVA no receptor agora.
+                // O valor obedece à condição de existência: fora da aura não há número a mostrar.
+                ActionStatus vivo = AcharStatusVivo(receptor, chaveDaTooltip);
+                if (vivo == null)
+                {
+                    Marca($"RV-29 sem linha: {receptor.CharacterName} nao tem a aura '{chaveDaTooltip}' ativa agora");
+                    return "";
+                }
+
+                // A DEFINIÇÃO vem do status VIVO (é o objeto que o motor está aplicando neste
+                // personagem); `AcharAuraDaTooltip` fica só como reserva, para o caso de o status vivo
+                // não trazer a definição.
+                ActionStatusInfo aura = vivo.ActionStatusInfo != null
+                    ? vivo.ActionStatusInfo
+                    : AcharAuraDaTooltip(chaveDaTooltip);
                 if (aura == null)
                 {
                     Marca($"acumulado: nenhuma aura de shrine com a descricao '{chaveDaTooltip}'");
@@ -304,7 +350,11 @@ namespace BetterTooltips.Patches
                     return "";
                 }
 
-                Marca($"acumulado: shrine='{aura.Name}' char={receptor.CharacterName} -> {efeito}");
+                // RV-30: o `bonus=` entra no log de proposito — é a ÚNICA entrada que multiplica o
+                // valor da aura, e sai do ATRIBUTO do próprio personagem (ex.: perk Worship = 100),
+                // nunca de uma segunda aplicação do mod. Permite ao usuário provar a origem do número.
+                Marca($"acumulado: shrine='{aura.Name}' char={receptor.CharacterName}"
+                    + $" bonus={BonusDoReceptor(receptor)} -> {efeito}");
                 // O texto do status pode ja terminar em ponto (Flame/Decay): nao somar outro.
                 string fecho = (efeito.EndsWith(".", StringComparison.Ordinal)
                     || efeito.EndsWith("!", StringComparison.Ordinal)
@@ -316,6 +366,75 @@ namespace BetterTooltips.Patches
             {
                 Plugin.Log.LogWarning($"[Shrine RV-23] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
                 return "";
+            }
+        }
+
+        /// <summary>
+        /// RV-29 — O STATUS VIVO da aura DESTA tooltip no personagem em foco (o FILTRO da linha).
+        /// A lista viva (`Character.ActionStatuses`) já foi usada como FONTE de valor e dava "só alguns
+        /// valores, só em alguns momentos"; aqui ela é usada só para responder "este personagem tem esta
+        /// aura agora?". O casamento é pela DESCRIÇÃO (a mesma chave com que o `LocalizePatch` chamou),
+        /// que é justamente o texto que o tooltip do shrine mostra (`GroundEffectInfo.ActionStatuses[0]`)
+        /// e o texto do status que o motor aplica ao personagem ao entrar na área. Se mais de um status
+        /// vivo compartilhar o texto, ganha o que tem `AttributeEffects` — o que carrega o efeito real.
+        /// Devolver null = personagem FORA da aura -> a linha NÃO aparece (o valor nem é calculado).
+        /// </summary>
+        private static ActionStatus AcharStatusVivo(Character receptor, string chaveDaTooltip)
+        {
+            try
+            {
+                if (receptor == null || string.IsNullOrEmpty(chaveDaTooltip))
+                {
+                    return null;
+                }
+                Burst2Flame.Observable.ObservableList<ActionStatus> vivos = receptor.ActionStatuses;
+                if (vivos == null || vivos.Count == 0)
+                {
+                    return null;
+                }
+                ActionStatus semEfeito = null;
+                foreach (ActionStatus s in vivos)
+                {
+                    if (s == null || s.ActionStatusInfo == null || s.ActionStatusInfo.Description == null)
+                    {
+                        continue;
+                    }
+                    if (!string.Equals(s.ActionStatusInfo.Description, chaveDaTooltip, StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+                    if (s.ActionStatusInfo.AttributeEffects != null && s.ActionStatusInfo.AttributeEffects.Length > 0)
+                    {
+                        return s;
+                    }
+                    if (semEfeito == null)
+                    {
+                        semEfeito = s;
+                    }
+                }
+                return semEfeito;
+            }
+            catch (Exception ex)
+            {
+                // Falha de leitura não pode inventar estado: sem prova de que a aura está viva, não
+                // mostra a linha (e o log diz que a leitura falhou).
+                Plugin.Log.LogWarning($"[Shrine RV-29] leitura da lista viva falhou ({ex.GetType().Name}): {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>RV-30 — o `ShrineEffectBonus` REAL do receptor, só para o log (a única entrada que
+        /// multiplica o valor da aura). Nunca entra no texto; o número mostrado é o que a expressão do
+        /// jogo devolve. Chamado só depois do guard `GetAttribute("ShrineEffectBonus") != null`.</summary>
+        private static string BonusDoReceptor(Character receptor)
+        {
+            try
+            {
+                return receptor != null ? receptor["ShrineEffectBonus"].ToString("0.#") : "(sem receptor)";
+            }
+            catch (Exception ex)
+            {
+                return "(" + ex.GetType().Name + ")";
             }
         }
 

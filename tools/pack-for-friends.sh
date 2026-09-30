@@ -28,7 +28,12 @@ STAGE="dist/_stage/StolenRealm-Mods"
 rm -rf dist/_stage
 mkdir -p "$STAGE/BepInEx/plugins" dist
 
-echo "== compilando =="
+# PKG-6: o pacote distribuido sai da build de RELEASE (a mesma que o
+# tools/pack-thunderstore.py empacota). O caminho da DLL segue a configuracao, como o
+# $(Configuration) do MSBuild. Para empacotar Debug: CONFIG=Debug bash tools/pack-for-friends.sh
+CONFIG="${CONFIG:-Release}"
+
+echo "== compilando (config $CONFIG) =="
 FAIL=0
 for m in "${MODS[@]}"; do
   if [ ! -f "$m/$m.csproj" ]; then
@@ -36,8 +41,12 @@ for m in "${MODS[@]}"; do
     continue
   fi
   printf "  %-18s " "$m"
+  # -c $CONFIG: build de Release (a que vira pacote).
+  # -p:DeployToBepInEx=false: NÃO copia para o perfil do r2modman — gerar pacote não
+  #   pode sobrescrever a DLL que está instalada e em teste.
   # -clp:ErrorsOnly: só erro no log de build; -v q: sem ruído de warnings
-  if LC_ALL=C dotnet build "$m/$m.csproj" --nologo -v q -clp:ErrorsOnly > "dist/_stage/_b_$m.log" 2>&1 \
+  if LC_ALL=C dotnet build "$m/$m.csproj" -c "$CONFIG" -p:DeployToBepInEx=false \
+     --nologo -v q -clp:ErrorsOnly > "dist/_stage/_b_$m.log" 2>&1 \
      && ! grep -aq "error CS" "dist/_stage/_b_$m.log"; then
     echo "ok"
   else
@@ -56,7 +65,7 @@ echo "== montando o pacote =="
 INCLUIDOS=()
 for m in "${MODS[@]}"; do
   [ -f "$m/$m.csproj" ] || continue
-  DLL="$m/bin/Debug/netstandard2.1/$m.dll"
+  DLL="$m/bin/$CONFIG/netstandard2.1/$m.dll"
   if [ ! -f "$DLL" ]; then
     echo "  !! DLL não encontrada: $DLL"
     FAIL=1

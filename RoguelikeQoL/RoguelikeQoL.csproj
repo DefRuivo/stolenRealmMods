@@ -5,6 +5,12 @@
     <LangVersion>10</LangVersion>
     <AssemblyName>RoguelikeQoL</AssemblyName>
     <RootNamespace>RoguelikeQoL</RootNamespace>
+    <!-- PKG-2: FONTE UNICA DE VERSAO. Este <Version> manda. Os outros dois lugares que
+         carregam versao sao ESPELHOS e sao CONFERIDOS antes de empacotar
+         (tools/pack-thunderstore.py): o version_number do manifest.json e o literal do
+         [BepInPlugin(...)] no Plugin.cs. Depois de subir a versao aqui, rode o
+         empacotador com a opcao de sincronizar versao (ver docs/README.md, secao
+         "Fonte unica de versao"). -->
     <Version>0.1.0</Version>
     <Description>Qualidade de vida para o Stolen Realm (HUD de modificadores da run).</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>

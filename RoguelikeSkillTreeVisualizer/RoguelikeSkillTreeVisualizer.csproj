@@ -5,6 +5,12 @@
     <LangVersion>10</LangVersion>
     <AssemblyName>RoguelikeSkillTreeVisualizer</AssemblyName>
     <RootNamespace>RoguelikeSkillTreeVisualizer</RootNamespace>
+    <!-- PKG-2: FONTE UNICA DE VERSAO. Este <Version> manda. Os outros dois lugares que
+         carregam versao sao ESPELHOS e sao CONFERIDOS antes de empacotar
+         (tools/pack-thunderstore.py): o version_number do manifest.json e a const
+         Version do Plugin.cs (usada pelo [BepInPlugin(...)]). Depois de subir a versao
+         aqui, rode o empacotador com a opcao de sincronizar versao (ver docs/README.md,
+         secao "Fonte unica de versao"). -->
     <Version>0.1.0</Version>
     <Description>Botao na tela Select Party do Roguelike que abre a Skill Tree nativa em modo somente leitura.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
@@ -75,9 +81,11 @@
 
   <!-- Deploy automático: copia a DLL para o perfil do r2modman após o build.
        Escotilha para buildar SEM mexer no perfil do jogo (útil com o jogo aberto):
-           dotnet build -p:SkipDeploy=true
-       Sem a propriedade, o comportamento é o dos outros mods do repositório: copia. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(SkipDeploy)' != 'true'">
+           dotnet build -p:DeployToBepInEx=false
+       PKG-6: a propriedade passou a ser a MESMA dos outros 5 mods (antes era `SkipDeploy`),
+       para quem empacota (tools/pack-for-friends.sh, scripts/package.ps1) passar uma flag
+       só para todos. Sem a propriedade, o comportamento de sempre: copia. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
     <PropertyGroup>
       <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
     </PropertyGroup>
