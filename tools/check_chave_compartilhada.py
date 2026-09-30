@@ -34,7 +34,20 @@ O QUE A VARREDURA FAZ
   (c) cruza com as chaves que TEM correcao/nota no LocalizePatch;
   (d) imprime as SUSPEITAS: chave + donos + nota aplicada.
 
-E AVISO, NAO REPROVA: **exit 0 sempre** (a decisao de mudar a nota e humana).
+MODO PADRAO x --estrito
+-----------------------
+As duas familias que a varredura imprime NAO tem o mesmo peso:
+
+  * CHAVE NAS DUAS TABELAS (defeito objetivo): a MESMA chave existe em `TextFixes`
+    e em `TextAppends`. O lookup do mod e `if/else if` na MESMA chave, entao a
+    entrada de `TextAppends` NUNCA roda: a nota nao existe em jogo, em silencio,
+    sem erro no log. Nao ha decisao humana aqui -> em `--estrito` o script sai 1.
+  * SUSPEITAS de texto compartilhado (humano): a nota pode mentir para outro dono
+    do texto, mas se mente ou nao depende da mecanica citada -> continua AVISO
+    que nao reprova, nos dois modos.
+
+`--estrito` e o modo usado pelo `tools/release-check.sh` (trava de release). Sem a
+flag o script e relatorio: **exit 0 sempre**.
 
 REGRAS DE LEITURA DO RESULTADO
 ------------------------------
@@ -62,8 +75,15 @@ tem aspas soltas em prosa) e respeitando escape `\\"` - mesma abordagem do
 
 USO
 ---
-    python tools/check_chave_compartilhada.py        # sempre exit 0
-    python tools/check_chave_compartilhada.py -v     # mostra tambem as chaves limpas
+    python tools/check_chave_compartilhada.py             # relatorio: sempre exit 0
+    python tools/check_chave_compartilhada.py --estrito   # exit 1 se a MESMA chave
+                                                          # estiver nas DUAS tabelas
+    python tools/check_chave_compartilhada.py -v          # mostra tambem as chaves limpas
+    python tools/check_chave_compartilhada.py --estrito --fonte OUTRO.cs
+                                                          # le outro fonte (teste do detector,
+                                                          # sem tocar no LocalizePatch.cs)
+
+Codigos de saida: 0 = ok/aviso, 1 = chave nas duas tabelas (so em --estrito), 2 = erro de uso/fonte.
 
 Relatorio das suspeitas: docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md
 """
@@ -298,16 +318,50 @@ def mostra_valor(v):
     return re.sub(r'\s+', ' ', v).strip()
 
 
+def argumentos(argv):
+    """Le as flags. Devolve (verbose, estrito, caminho_do_fonte, erro).
+
+    `--fonte ARQUIVO.cs` existe para TESTAR O DETECTOR: aponta o parser para um
+    fonte falso (com/sem par repetido nas duas tabelas) sem tocar no
+    LocalizePatch.cs, que e o arquivo sob revisao de outro agente.
+    """
+    verbose = '-v' in argv
+    estrito = '--estrito' in argv
+    caminho = FONTE
+    i = 0
+    while i < len(argv):
+        a = argv[i]
+        if a == '--fonte':
+            if i + 1 >= len(argv):
+                return verbose, estrito, caminho, '--fonte exige um caminho'
+            caminho = argv[i + 1]
+            i += 1
+        elif a.startswith('--fonte='):
+            caminho = a.split('=', 1)[1]
+        elif a not in ('-v', '--estrito'):
+            return verbose, estrito, caminho, 'opcao desconhecida: %s' % a
+        i += 1
+    return verbose, estrito, caminho, None
+
+
 def main():
-    verbose = '-v' in sys.argv
-    if not os.path.exists(FONTE):
-        print('nao achei %s' % FONTE)
+    verbose, estrito, fonte_caminho, erro = argumentos(sys.argv[1:])
+    if erro:
+        print(erro)
+        print('uso: check_chave_compartilhada.py [--estrito] [-v] [--fonte ARQUIVO.cs]')
+        return 2
+    if not os.path.exists(fonte_caminho):
+        print('nao achei %s' % fonte_caminho)
         return 2
 
-    fonte = io.open(FONTE, encoding='utf-8').read()
+    fonte = io.open(fonte_caminho, encoding='utf-8').read()
     chaves = []   # (tabela, linha, comentario, chave, valor)
     for tabela in BLOCOS:
-        txt, k = bloco(fonte, tabela)
+        try:
+            txt, k = bloco(fonte, tabela)
+        except ValueError:
+            print('nao achei a tabela %s em %s' % (tabela, fonte_caminho))
+            return 2
         nl_antes = fonte[:k].count(NL)
         for linha, com, kk, v in entradas(txt, nl_antes):
             chaves.append((tabela, linha, com, kk, v))
@@ -359,7 +413,9 @@ def main():
     n_app = sum(1 for c in chaves if c[0] == 'TextAppends')
     print('BUG-32 - varredura de CHAVE COMPARTILHADA (LocalizePatch x censo)')
     print('')
-    print('fonte: %s' % os.path.relpath(FONTE, RAIZ).replace(BS, '/'))
+    print('modo: %s' % ('ESTRITO (chave nas DUAS tabelas = exit 1)' if estrito
+                        else 'relatorio (aviso, exit 0)'))
+    print('fonte: %s' % os.path.relpath(fonte_caminho, RAIZ).replace(BS, '/'))
     print('  TextFixes   : %d entradas' % n_fix)
     print('  TextAppends : %d entradas' % n_app)
     print('  chaves com correcao/nota: %d' % len(chaves))
@@ -402,7 +458,8 @@ def main():
     print('')
     print('=' * 78)
     if ambas:
-        print('ALERTA EXTRA - chave nas DUAS tabelas (so a de TextFixes executa): %d' % len(ambas))
+        print('ALERTA EXTRA - chave nas DUAS tabelas (so a de TextFixes executa)%s: %d'
+              % (' - TRAVA DE RELEASE em --estrito' if estrito else '', len(ambas)))
         for k in ambas:
             print('   %r' % k)
         print('')
@@ -423,17 +480,33 @@ def main():
           % sum(1 for s in suspeitas if s['variantes']))
     print('  chaves limpas (1 dono, sem variante) .. %d' % len(limpas))
     print('  chaves fora do censo .................. %d' % len(fora))
+    print('  chave nas DUAS tabelas (TextFixes+TextAppends) ......... %d' % len(ambas))
     print('')
-    print('>>> AVISO (nao reprova): a decisao e humana -')
-    print('    nota que cita mecanica especifica (stack/gatilho/aura) mente para os')
-    print('    outros donos; corrigir movendo a nota para uma chave exclusiva ou')
-    print('    trocando a entrada por TextFixes no dono certo.')
+    if ambas:
+        if estrito:
+            print('>>> BLOQUEIO DE RELEASE (BUG-32 - CHAVE NAS DUAS TABELAS) <<<')
+        else:
+            print('>>> DEFEITO OBJETIVO (BUG-32 - CHAVE NAS DUAS TABELAS) <<<')
+            print('    Aqui e so aviso; `--estrito` (o modo do release-check) TRAVA a release.')
+        print('    A entrada de TextAppends NAO roda: o lookup e if/else if na MESMA chave,')
+        print('    e a de TextFixes ganha. A nota nao existe em jogo e NAO ha erro no log.')
+        print('    Correcao (no LocalizePatch.cs, UMA entrada por texto): fundir o valor da')
+        print('    TextAppends no valor da TextFixes que executa - mantem as duas coisas.')
+    else:
+        print('>>> AVISO (nao reprova): a decisao e humana -')
+        print('    nota que cita mecanica especifica (stack/gatilho/aura) mente para os')
+        print('    outros donos; corrigir movendo a nota para uma chave exclusiva ou')
+        print('    trocando a entrada por TextFixes no dono certo.')
     print('    Relatorio: docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md')
     if verbose:
         print('')
         print('CHAVES LIMPAS (1 dono exato, sem variante): %d' % len(limpas))
         for tabela, linha, k in limpas:
             print('   [%s l.%d] %r' % (tabela, linha, k[:95]))
+    if estrito and ambas:
+        print('')
+        print('EXIT 1: %d chave(s) nas DUAS tabelas - release TRAVADA (BUG-32).' % len(ambas))
+        return 1
     return 0
 
 

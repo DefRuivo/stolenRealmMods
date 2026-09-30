@@ -1,6 +1,8 @@
 # RV-19 — Tooltips dos SHRINES: auras, escala (`Shrine Effect Bonus`) e o dano do Flame Shrine
 
 Data: 30/09/2026 · Status: **investigação fechada; notas propostas (NADA aplicado no mod)**
+Revisão **RV-24 (30/09/2026, auditoria independente)**: 4 correções de fato (marcadas com ⚠RV-24 abaixo) + tabela de
+números finais (§2.2) + 1 pendência para o **RV-22** (nota do Dwarven no `.cs` — o doc não edita código).
 Fontes: `Assembly-CSharp.dll` (build atual do jogo) + `resources.assets` (1,7 GB) + censo (`docs/cobertura/*.csv`) + dump de boot no `LogOutput.log`.
 Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.decompiled.cs`, 371.804 linhas; classe `CompiledDynamicExpresso` em l.49965).
 
@@ -8,19 +10,27 @@ Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.dec
 
 ## 0. Veredito rápido
 
-1. **A família de auras de shrine escala por `ShrineEffectBonus`.** No motor o padrão é
-   `Mathf.Round(BASE * (1 + (X["ShrineEffectBonus"] / 100)))`, com `X = Target` (quem recebe a aura) na maioria e
-   `X = Source` nas duas auras de perigo (Decay/Flame). Confirmado nos assets (strings dos próprios status) e no
-   cache de expressões compiladas do assembly (l.66061–66428) — mesmas strings, byte a byte.
-2. **O dano do Flame Shrine não é fixo, nem escala por nível, nem por Might.** É uma **% do Max Health do alvo**
-   (o atacante), com a % variando por **tipo de inimigo**, multiplicada por `(1 + Source["ShrineEffectBonus"]/100)`,
-   com mínimo 1. A fórmula mora na **AÇÃO `Flame Aura Proc`** (campo `Effects[0].Action`), não no status.
-   O Decay é o irmão exato (`Decay Aura Proc`, por turno).
+1. **As 9 auras de BUFF da família escalam por `ShrineEffectBonus`** (⚠RV-24: não são "toda a família"). No motor o
+   padrão é `Mathf.Round(BASE * (1 + (X["ShrineEffectBonus"] / 100)))`, com `X = Target` (quem recebe a aura) nessas
+   9 — Warrior, Guardian, Conqueror, Rogue, Reaper, Seraph, Shaman, Energy e Fury. Confirmado nos assets (strings dos
+   próprios status) e no cache de expressões compiladas do assembly (l.66061–66428) — mesmas strings, byte a byte.
+   **Quem NÃO escala com o bônus do jogador:** `Decay` e `Flame`, cuja expressão usa `X = Source` — e o `Source` não
+   tem bônus nenhum (item 2). O `Dwarven` usa `X = Target` e **deve** escalar (tabela e pendência na §2.2).
+2. **O dano do Flame Shrine não é fixo, nem escala por nível, nem por Might, nem pelo seu bônus de shrine.** É uma
+   **% do Max Health do alvo** (o atacante), com a % variando por **tipo de inimigo**, com mínimo 1. A fórmula mora na
+   **AÇÃO `Flame Aura Proc`** (campo `Effects[0].Action`), não no status. O Decay é o irmão exato (`Decay Aura Proc`,
+   por turno). ⚠RV-24: a fórmula carrega o fator `(1 + Source["ShrineEffectBonus"]/100)`, **mas o `Source` é o
+   personagem do shrine (vazio, sem bônus) → o fator vale ×1 na prática**: o dano dos dois **NÃO** cresce com `Omnism`
+   nem com o `Horn of Devotion`. Hoje só as 9 auras de buff do item 1 escalam; o `Dwarven` (`X = Target`) **deve**
+   escalar e é pendência (§2.2).
 3. O texto de hoje **não diz a cadeia do Shrine Effect Bonus** em nenhuma aura, e o `Flame Shrine Aura` **não tem
    número nenhum** ("Attackers take Fire Damage."). Proposta de notas na seção 6.
-4. **O que não deu para fechar** (registrado na seção 7): qual campo do status dispara a ação (`ActionsOnTick`?
-   `SkillTriggers`? mecânica de aura?) e o binding exato de `Source`/`Target` no momento do dano — o dump atual de
-   status não expõe esses campos.
+4. **Causa raiz do número travado na BASE (⚠RV-24, resolvido):** não é "`Target` vazio" — o motor já resolve
+   `if (Target == null) Target = Source` (decompilado l.215241–215243). O problema é o **`Source`**: no hover do
+   shrine ele é `Root.WorldCharacter`, um `Character` **VAZIO** (`Observable.New<Character>()`, l.143680–143684; só
+   `.Level` é atribuído, l.155836) → `ShrineEffectBonus` = 0, e o `[0]` sai sempre na base. O que **continua** em
+   aberto (seção 7) é só **qual campo do status dispara a ação** (`ActionsOnTick`? `SkillTriggers`? mecânica de
+   aura?) — o dump de status não expõe esses campos.
 
 ---
 
@@ -79,6 +89,36 @@ Detalhes dos assets (strings completas, para auditoria):
 (+ variantes `(Destructible)`). O tooltip do shrine mostra `ActionStatuses[0].Description` (l.214180) — por isso
 "Attackers take Fire Damage." aparece ao passar o mouse no Flame Shrine (observação do usuário, bate com o código).
 
+⚠RV-24 — as **AURAS** da família (não os GroundEffectInfo) ocupam os pids **2543233–2543253** nos assets, 12 objetos:
+as 9 auras de buff + `Decay Shrine Aura` + `Flame Shrine Aura` + `Dwarven Totem Aura Status`.
+
+### 2.2 Números finais por aura — e quem realmente escala (⚠RV-24)
+
+Os cinco valores possíveis do `ShrineEffectBonus` hoje são **0, +8 (`Omnism I`), +20 (`Omnism II`, que *substitui* a I
+— §3), +50 e +100 (`Horn of Devotion`)**. Com o `Mathf.Round` do jogo (half-to-even), cada BASE vale:
+
+| BASE (auras) | 0 | +8 | +20 | +50 | +100 | Escala com o bônus do jogador? |
+|---|---|---|---|---|---|---|
+| 20 (Warrior, Guardian, Conqueror, Rogue) | 20 | 22 | 24 | 30 | 40 | **sim** — `X = Target` |
+| 8 (Reaper) | 8 | 9 | 10 | 12 | 16 | **sim** |
+| 10 (Seraph, Shaman) | 10 | 11 | 12 | 15 | 20 | **sim** |
+| 50 (Energy — exibição; o EFEITO é −50) | 50 | 54 | 60 | 75 | 100 | **sim** (efeito: −50 / −54 / −60 / −75 / −100) |
+| 25 e −25 (Fury, no mesmo texto) | 25 | 27 | 30 | 38 | 50 | **sim** (negativo: −25 / −27 / −30 / −38 / −50) |
+| 20 (Dwarven) | 20 | 22 | 24 | 30 | 40 | **deve** (`X = Target`) — pendência abaixo |
+| 5 (Flame, por ataque) | 5 | 5 | 5 | 5 | 5 | **não** (`X = Source` = shrine vazio) |
+| 10 (Decay, por turno) | 10 | 10 | 10 | 10 | 10 | **não** (idem) |
+
+Caveat: "escala" acima é o **efeito real** (o `AttributeEffects` das auras, que usa `Target` = quem recebe a aura). O
+**número exibido no hover do SHRINE** saía sempre na BASE para toda a família, pelo `Source` vazio (§0.4/§3).
+
+**Pendência — Dwarven (RV-24 → RV-22; arquivo `.cs`, fora do escopo de docs):** a nota do Dwarven em
+`BetterTooltips/Patches/LocalizePatch.cs` (e o comentário em `ShrineAuraPatch.cs`, commit RV-19/`f6ef4d9`) diz que ele
+**não** escala. O asset do `Dwarven Totem Aura Status` (pid 2543235) **tem** a fórmula com `Target`:
+`Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))`, **2×** (`resources.assets` @1517115395 e @1517115647 =
+offset +340 e +592 dentro do status) — reconferido por byte scan em 30/09. Logo ele **deve** escalar, e o que o
+usuário viu em jogo ("o número não muda com Omnism") se explica pelo **`Source` vazio do hover**, não pelo efeito.
+Até a RV-22 corrigir a nota em código, este documento trata o Dwarven como **"deve escalar / não confirmado em jogo"**.
+
 ---
 
 ## 3. Quem dá o `ShrineEffectBonus` (a cadeia)
@@ -91,16 +131,27 @@ Detalhes dos assets (strings completas, para auditoria):
 
 - Provas: skills.csv/log (attrs acima) + testes de integração do próprio jogo:
   `LearnAndExpectAttributeDelta(Caster, "CHAOS_1_P1_Omnism I", "ShrineEffectBonus", 8f)` (l.183426) e
-  `… "CHAOS_2_P1_Omnism II", "ShrineEffectBonus", 20f` (l.183505). Os tiers somam: 8 + 12 = 20 (o "additional 12%"
-  é o incremento do tier 2; o attr do tier 2 já vale 20).
+  `… "CHAOS_2_P1_Omnism II", "ShrineEffectBonus", 20f` (l.183505).
+- ⚠RV-24 — **os tiers NÃO somam: com as duas tiers o total é 20, não 28.** O filtro de `Character.Skills` **descarta
+  uma skill quando o personagem conhece alguma listada em `SkillsThatReplace`**, e `Omnism I` é *substituída* pela
+  `Omnism II` — por isso o conjunto efetivo nunca traz as duas ao mesmo tempo. O "additional 12%" do texto é apenas a
+  diferença 8 → 20, **não** um incremento a somar. A conta está fechada pelo teste do próprio jogo:
+  `LearnAndExpectAttributeDelta(..., "CHAOS_2_P1_Omnism II", "ShrineEffectBonus", 20f)` (l.183505).
+- ⚠RV-24 — **as fontes do atributo são 5 e TODAS positivas** (`Horn of Devotion` {50,100}, `Omnism I` 8, `Omnism II`
+  20, a `CharacterInfo` `T2_Worshiper` e 1 byte-run). **Não existe fonte negativa** no asset, logo **não há caso de
+  borda de bônus negativo** a considerar hoje (varredura do asset, 30/09).
 - O atributo se chama **"Shrine Effect Bonus"** na localização (chave própria).
 - Localização ainda tem a chave `"100% increased effect from Shrines"` (roll máximo do Horn) e a dica de loading:
   *"Add stunning chance to all your attacks by standing in a Dwarven Totem or force your enemies to lose life in
   the Decay Shrine."* (Seção `Shrines` das dicas.)
-- **O número exibido nas auras já vem multiplicado**: as `DescriptionExpressions` de cada aura são a PRÓPRIA fórmula
-  (com o fator `1 + ShrineEffectBonus/100`), e o caminho do tooltip as avalia com o personagem do jogador —
-  status tooltip em l.213903+ (`Source`/`Target` do status) e tooltip do shrine em l.214180
-  (`Source = NetworkingManager…Root.WorldCharacter`, sem Target). ⚠ confirmação in-game = RV-20; aqui é evidência de código.
+- **O número exibido no tooltip**: as `DescriptionExpressions` de cada aura são a PRÓPRIA fórmula (com o fator
+  `1 + ShrineEffectBonus/100`), mas ⚠RV-24 — **no hover do SHRINE esse número sai sempre na BASE**. O caminho é o
+  `ShowGroundEffectTooltip` (l.214180), que monta `Source = NetworkingManager…Root.WorldCharacter` e deixa `Target`
+  nulo; o `WorldCharacter` é um `Character` **VAZIO** (`Observable.New<Character>()`, l.143680–143684; só `.Level` é
+  atribuído, l.155836) → `ShrineEffectBonus` = 0. Não é "`Target` vazio": o motor já faz `if (Target == null) Target
+  = Source` (l.215241–215243) — é o **`Source`** que não tem atributo nenhum. Quem mostra o número multiplicado é o
+  tooltip do **STATUS** (l.213903+), onde o jogo preenche `Source`/`Target` com os personagens reais. Correção em
+  código = RV-20 (tentativa, desativada) / RV-21 / RV-22.
 
 ---
 
@@ -142,18 +193,21 @@ não-AI → `player`; AI → pelo `EnemyType` (enum l.99774: Fodder=0, Soldier=1
 | **Decay Shrine** (Shadow, por turno) | 5% | 10% | 12% | 15% | 20% | **10%** |
 
 A ponte com o texto/exibição: a base do asset (5 no Flame, 10 no Decay) **é igual ao valor "player"** da fórmula
-(5%/10%) — o texto de hoje do Decay ("Take [0]% of your Max Health…") é exatamente essa % do alvo; e o valor que o
-tooltip mostra (`[0]`) já vem multiplicado pelo bônus (seção 3). Para o Flame o texto não tem `[0]` — por isso o
-jogador não vê número nenhum: a informação só existe no código.
+(5%/10%) — o texto de hoje do Decay ("Take [0]% of your Max Health…") é exatamente essa % do alvo. ⚠RV-24 — o `[0]`
+do Decay é avaliado com **`X = Source`** (o personagem do shrine, sem bônus — §0.4), então ele sai sempre na BASE (10)
+e **o dano de verdade também não escala** com `Omnism`/`Horn`: nesses dois o fator `(1 + bônus)` é ×1. Para o Flame o
+texto não tem `[0]` — por isso o jogador não vê número nenhum: a informação só existe no código.
 
 ### 4.4 O que isso significa em jogo
 
 - **Flame Shrine Aura**: quem **ataca** um personagem dentro da aura leva dano de fogo = `Máx(1, MaxHealth(quem atacou)
-  × % por tipo × (1 + bônus de shrine))`. É um efeito de retaliação ("Attackers take Fire Damage."): a condição do
+  × % por tipo × 1)` — ⚠RV-24: o fator de bônus é **×1** (o `Source` é o shrine, sem bônus; §0.2), então o dano **não**
+  cresce com `Omnism`/`Horn`. É um efeito de retaliação ("Attackers take Fire Damage."): a condição do
   status (`Source.IsEnemy(Target)`) e a ação (`Cell.HasEnemy(Source)` na seleção de alvo) apontam para "inimigo do
   portador da aura".
 - **Decay Shrine Aura**: quem **fica dentro** perde `% do próprio Max Health em Shadow` por turno (o texto diz isso);
-  a dica de loading confirma o uso ("force your enemies to lose life in the Decay Shrine").
+  a dica de loading confirma o uso ("force your enemies to lose life in the Decay Shrine"). Pelo mesmo motivo do
+  Flame, **não escala** com o bônus do jogador.
 
 ---
 
@@ -173,6 +227,8 @@ jogador não vê número nenhum: a informação só existe no código.
   o Flame/Decay não têm nenhum dos dois: o dano mora na AÇÃO `* Aura Proc` (seção 4), que o censo de status não vê.
   Ou seja, **o vazio é legítimo, não é falha de dump** para essas duas colunas.
 - Sibling fora do filtro: `Dwarven Aura` também está com `efeitos` VAZIO (mesma família, mesmo padrão de asset).
+  ⚠RV-24 — **"efeitos vazio" no dump NÃO significa "não escala"**: o asset do `Dwarven Totem Aura Status` tem a
+  fórmula com `Target` (§2.2). O dump só não lê aquele campo.
 - No `LogOutput.log` o dump completo tem ainda `aura=nao | raio=3 | auraAli=nao | auraIni=nao` para todas as auras
   (o `raio=3` é só o default da classe; esses status NÃO são do tipo `IsAura` — o raio do shrine vem do GroundEffect).
 
@@ -191,9 +247,9 @@ interpretaria o token (regra do projeto).
 // RV-19 shrines — famílias de aura de shrine: base + cadeia do Shrine Effect Bonus.
 // A chave do Flame não tem número no texto: a nota carrega o dano real (ação "Flame Aura Proc").
 { "Attackers take Fire Damage.",
-  "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+  "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Does not scale with the Shrine Effect Bonus (Omnism, Horn of Devotion).</color>" },
 { "Take [0]% of your Max Health in Shadow Damage per turn.",
-  "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+  "\n<color=#C8B090>Base 10% of the target's Max Health; varies by enemy type (5% for bosses up to 20% for fodder). Does not scale with the Shrine Effect Bonus (Omnism, Horn of Devotion).</color>" },
 { "Damage increased by [0]%. ",
   "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
 { "Reduces Damage taken by [0]%. ",
@@ -206,12 +262,21 @@ interpretaria o token (regra do projeto).
   "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
 { "Decreases the cost of mana using abilities by [0]%.",
   "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+// ⚠RV-24 (pendência RV-22): a nota do Dwarven abaixo assumia "não escala" — ERRADO: o asset do `Dwarven Totem Aura
+// Status` TEM a fórmula com Target (§2.2), então ele DEVE escalar; a observação in-game se explica pelo Source vazio.
+// A nota em CÓDIGO (LocalizePatch.cs / ShrineAuraPatch.cs, RV-19+f6ef4d9) é corrigida junto com a RV-22.
 { "Your attacks have a [0]% chance to stun the target.",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+  "\n<color=#C8B090>Base 20%. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
 ```
 
 ⚠ todas as 9 chaves foram conferidas: **1 dono cada** no `status.csv` (sem risco de chave compartilhada) e **nenhuma
 das 9 existe hoje** em `TextFixes` nem em `TextAppends` (checado por script em `LocalizePatch.cs`, 30/09).
+
+⚠RV-24 — o trecho "The value shown already includes the Shrine Effect Bonus" das **8 auras de buff** é verdade no
+**tooltip do STATUS** (onde o número sai com o bônus); no **hover do SHRINE** ele saía sempre na BASE, pelo `Source`
+vazio (§0.4/§3). Isso é defeito de código (RV-20/RV-21/RV-22), não de texto: a redação da nota não muda por causa disso.
+As duas notas que **mentiam** eram a do Flame (dizia que escala — §0.2) e a do Decay (dizia "already includes" — §4.3);
+essas foram corrigidas para "Does not scale".
 
 ### 6.2 Casos especiais (decisão necessária antes de aplicar)
 
@@ -231,11 +296,14 @@ das 9 existe hoje** em `TextFixes` nem em `TextAppends` (checado por script em `
 
 Indeterminado: **(a)** qual campo do status `Flame Shrine Aura`/`Decay Shrine Aura` dispara a ação `* Aura Proc`
 (candidatos: `ActionsOnTick` + `ActionsOnTickCondition`/`ActionsOnTickTargets`, `SkillTriggers`, ou a mecânica de
-`AuraSourceStatus`/`AuraTriggerStatus`); **(b)** o binding exato de `Source`/`Target` no momento do dano — a fórmula
-usa `Source["ShrineEffectBonus"]` e o shrine é criado sem bônus (`CreateNewGroundEffectCharacter`, l.143758:
-`TeamIndex = 2`, nada herdado); no caminho do TOOLTIP o mesmo símbolo resolve para o **personagem do jogador**
-(l.214180). Se o dano rodar com `Source` = shrine, o fator `(1 + bônus)` seria ×1 na prática — é exatamente o tipo de
-divergência que o projeto registra em vez de "corrigir".
+`AuraSourceStatus`/`AuraTriggerStatus`).
+
+**(b) RESOLVIDO no RV-24:** o binding é o previsto — o shrine é criado sem bônus (`CreateNewGroundEffectCharacter`,
+l.143758: `TeamIndex = 2`, nada herdado) e o próprio caminho do TOOLTIP já mostra por que o `[0]` saía na base: o
+`Source` da avaliação é `Root.WorldCharacter`, um `Character` **VAZIO** (`Observable.New<Character>()`,
+l.143680–143684; só `.Level` é atribuído, l.155836) → `Source["ShrineEffectBonus"]` = 0. O fator `(1 + bônus)` é,
+portanto, **×1 na prática** em Decay/Flame — não por erro de fórmula, mas porque naquele personagem não há bônus
+nenhum. "`Target` vazio" **não** é a explicação: o motor já faz `if (Target == null) Target = Source` (l.215241–215243).
 
 Para fechar (dump): no `RoguelikeDebugger`, o dump de status (`ActionStatusInventoryPatch`) **deveria exportar**
 `TooltipDamageInfoRefAction`, `TooltipDamageInfoRefStatus`, `DamageExpressionOverrides`, `TickTargets`,
@@ -245,8 +313,10 @@ E o dump de AÇÕES (`SkillInventoryPatch`) hoje só cobre ações ligadas a ski
 (`Flame Aura Proc`, `Decay Aura Proc`, `Energy Coil Static Field`, `* Shrine Explosion`) não entram; varrer
 `Game.Instance.Actions` inteiro (ou pelo menos as `* Aura Proc`) com `Effects[].Action` fecharia os dois itens de uma vez.
 
-Confirmação em jogo (escopo do RV-20): (i) hover no shrine com/sem `Omnism` — o número do `[0]` muda? (esperado: sim);
-(ii) o dano do Flame para "attackers" escala com o SEU bônus? (a fórmula diz que sim/fator; o binding é a dúvida).
+Confirmação em jogo (escopo do RV-20/RV-21): (i) hover no shrine com/sem `Omnism` — o número do `[0]` muda? (esperado:
+**não**, enquanto o `Source` da avaliação for o `WorldCharacter` vazio — é exatamente isso que o RV-20/RV-21 tentam
+corrigir); (ii) o dano do Flame para "attackers" escala com o SEU bônus? (esperado: **NÃO** — o `Source` é o shrine,
+sem bônus; item (b) acima).
 
 ---
 
@@ -255,6 +325,8 @@ Confirmação em jogo (escopo do RV-20): (i) hover no shrine com/sem `Omnism` �
 - Statuses das auras (UTF-8 em `resources.assets`): Conqueror @1517112096 · Decay @1517113960 · Dwarven @1517115056 ·
   Energy Coil @1517116232 · **Flame @1517120720** · Goblin Battle Standard @1517121808 · Guardian's @1517124568 ·
   Reaper's @1517127576 · Rogue @1517128536 · Seraph's @1517129496 · Shaman @1517130552 · Warrior's @1517133224.
+  ⚠RV-24 — Dwarven: a fórmula `... (Target["ShrineEffectBonus"] ...)` está **dentro** desse status, em
+  @1517115395 (= +340) e @1517115647 (= +592).
 - Ações: `Decay Aura Proc` @1519517560 (fórmula UTF-16 @1519519282) · `Flame Aura Proc` @1519544376
   (fórmula UTF-16 @1519546098).
 - GroundEffects: Flame Shrine @1520832880 · Decay Shrine @1520830600 (…demais shrines no mesmo cluster ~1520,8M).
@@ -265,3 +337,8 @@ Confirmação em jogo (escopo do RV-20): (i) hover no shrine com/sem `Omnism` �
   `CreateNewGroundEffectCharacter` 143758 · tooltips 213903 / 214180 · testes Omnism 183426 / 183505.
 - Scripts: `%LOCALAPPDATA%\hermes\cache\scratch\scan_proc_actions.py`, `scan_utf16.py`, `check_keys_mod.py`,
   `scan8_full.py` (varredura de bytes do install inteiro: `GetValueByEnemyType` só existe no Assembly-CSharp.dll).
+- ⚠RV-24 — como reconferir a tabela da §2.2 sem decompilar: `grep -abo "ShrineEffectBonus" .../resources.assets` dá
+  **24** ocorrências ASCII — 23 nos 12 statuses da família (2 por aura em geral; **3** no Fury, que tem `+25` ×2 e
+  `−25`; **1** só no Decay e **1** só no Flame, porque usam `Source`) + 1 no asset de atributo. Dumpar o contexto
+  imprimível de cada offset (script `%LOCALAPPDATA%\hermes\cache\scratch\rv24_dump.py`) mostra a fórmula e o nome do
+  status ao lado.

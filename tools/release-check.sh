@@ -9,13 +9,17 @@
 #     bash tools/release-check.sh
 #
 # Passos:
+#   0. SEGREDOS   — tools/check_segredos.py (nenhum token versionado; release para)
 #   1. BUILD      — dotnet build de todos os <Mod>/<Mod>.csproj (0 erros CS)
 #   2. CHAVES     — tools/check_fix_keys.py (chave dos textos existe no censo)
 #   3. DUPLICADAS — tools/check_dupes.py    (trava INC-1: chave repetida derruba
 #                   o mod INTEIRO com TypeInitializationException)
 #   4. NOTAS      — tools/check_notas_redundantes.py (nota que repete o texto)
-#   5. COMPARTILH.— tools/check_chave_compartilhada.py (AVISO, nunca reprova:
-#                   nota em texto usado por 2+ entidades pode mentir — BUG-32)
+#   5. COMPARTILH.— tools/check_chave_compartilhada.py --estrito  (TRAVA BUG-32:
+#                   a MESMA chave em TextFixes E TextAppends = a entrada de
+#                   TextAppends nunca roda e a nota nao existe em jogo, em
+#                   silencio. As SUSPEITAS de texto compartilhado NESTA MESMA
+#                   ferramenta seguem aviso: dependem de decisao humana.)
 #   6. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
 #                   LogOutput.log: 0 TypeInitializationException,
 #                   0 ArgumentException, 0 linhas '[Error'
@@ -83,7 +87,7 @@ fi
 
 # ================================ 1. BUILD ===================================
 echo
-echo "== PASSO 0 - SEGREDOS =="
+echo "== PASSO 0/6 — SEGREDOS =="
 if python tools/check_segredos.py; then
   echo "  [ OK ] 0. nenhum token nos arquivos versionados"
 else
@@ -91,7 +95,7 @@ else
   exit 1
 fi
 
-echo "== PASSO 1/5 — BUILD (todos os .csproj de mod na raiz) =="
+echo "== PASSO 1/6 — BUILD (todos os .csproj de mod na raiz) =="
 mapfile -t PROJETOS < <(find . -maxdepth 2 -name '*.csproj' \
                           -not -path '*/bin/*' -not -path '*/obj/*' \
                         | sed 's|^\./||' | sort)
@@ -128,7 +132,7 @@ fi
 
 # =============================== 2. CHAVES ===================================
 echo
-echo "== PASSO 2/5 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
+echo "== PASSO 2/6 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
 SAIDA_CHAVES="$($PYTHON tools/check_fix_keys.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_CHAVES" | sed 's/^/   /'
 if [ "$rc" -ne 0 ]; then
@@ -147,7 +151,7 @@ fi
 
 # ============================= 3. DUPLICADAS =================================
 echo
-echo "== PASSO 3/5 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
+echo "== PASSO 3/6 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
 SAIDA_DUP="$($PYTHON tools/check_dupes.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_DUP" | sed 's/^/   /'
 if [ "$rc" -eq 1 ]; then
@@ -166,7 +170,7 @@ fi
 
 # ======================= 4. NOTAS REDUNDANTES ================================
 echo
-echo "== PASSO 4/5 — NOTAS REDUNDANTES (a nota repete o texto que ja estava la?) =="
+echo "== PASSO 4/6 — NOTAS REDUNDANTES (a nota repete o texto que ja estava la?) =="
 SAIDA_NOTAS="$($PYTHON tools/check_notas_redundantes.py 2>&1)"; rc=$?
 printf '%s
 ' "$SAIDA_NOTAS" | sed 's/^/   /'
@@ -189,21 +193,31 @@ fi
 
 # ======================= 5. CHAVE COMPARTILHADA ==============================
 echo
-echo "== PASSO 5/6 — CHAVE COMPARTILHADA (aviso; a ferramenta sempre sai 0) =="
-SAIDA_COMP="$($PYTHON tools/check_chave_compartilhada.py 2>&1)"; rc_comp=$?
+echo "== PASSO 5/6 — CHAVE COMPARTILHADA (trava BUG-32: chave nas DUAS tabelas) =="
+SAIDA_COMP="$($PYTHON tools/check_chave_compartilhada.py --estrito 2>&1)"; rc_comp=$?
 printf '%s\n' "$SAIDA_COMP" | sed 's/^/   /'
-if [ "$rc_comp" -ne 0 ]; then
-  passo_fail "5. COMPARTILH." "check_chave_compartilhada.py NAO RODOU (exit $rc_comp) - aviso BUG-32 nao verificado"
+if [ "$rc_comp" -eq 1 ]; then
+  N_AMBAS=$(printf '%s\n' "$SAIDA_COMP" | grep -aoE 'chave nas DUAS tabelas \(TextFixes\+TextAppends\) [.]+ [0-9]+' | grep -oE '[0-9]+$' | head -1)
+  passo_fail "5. COMPARTILH." "${N_AMBAS:-1} chave(s) nas DUAS tabelas — BUG-32, release travada"
+  echo
+  echo "   >>> BLOQUEIO DE RELEASE (BUG-32) <<<"
+  echo "   A MESMA chave existe em TextFixes e em TextAppends. O lookup e if/else if"
+  echo "   na mesma chave, entao a entrada de TextAppends NUNCA roda: a nota nao"
+  echo "   existe em jogo, em silencio, sem erro nenhum no log. NAO e opiniao."
+  echo "   Correcao: UMA entrada por texto — fundir o valor da TextAppends no valor"
+  echo "   da TextFixes (a que executa hoje) e apagar a duplicada."
+elif [ "$rc_comp" -ne 0 ]; then
+  passo_fail "5. COMPARTILH." "check_chave_compartilhada.py NAO RODOU (exit $rc_comp) — trava BUG-32 nao verificada"
 else
   N_SUSP=$(printf '%s\n' "$SAIDA_COMP" | grep -aoE 'SUSPEITAS[^:]*: [0-9]+' | grep -oE '[0-9]+' | head -1)
   N_SUSP=${N_SUSP:-0}
   if [ "$N_SUSP" != "0" ]; then
     echo
     echo "   AVISO (nao reprova): $N_SUSP suspeita(s) de chave compartilhada - a nota pode"
-    echo "   estar mentindo para outro dono do texto. Revisar:"
-    echo "   docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md"
+    echo "   estar mentindo para outro dono do texto. A decisao e humana (mecanica citada)."
+    echo "   Revisar: docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md"
   fi
-  passo_ok "5. COMPARTILH." "$N_SUSP suspeita(s) (aviso; nunca reprova)"
+  passo_ok "5. COMPARTILH." "0 chave nas duas tabelas; $N_SUSP suspeita(s) (aviso humano)"
 fi
 
 # ============================== 6. CICLO =====================================
@@ -254,9 +268,9 @@ fi
 # garante que o jogo ficou fechado
 taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1 || true
 
-# =============================== 5. HUMANO ===================================
+# ============================== 7. HUMANO ====================================
 echo
-echo "== PASSO 7 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
+echo "== PASSO 7/7 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
 cat <<'HUMANO'
    Estes itens NAO podem ser checados por script — nenhum deles aparece no log.
    O release NAO esta completo enquanto um humano nao conferir, em jogo:
@@ -293,7 +307,7 @@ done
 printf '  [HUMANO] %-14s %s\n' "7. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
 echo
 if [ "${#FALHAS[@]}" -eq 0 ]; then
-  echo "  CONCLUSAO: APROVADO (verificacao automatizada: build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
+  echo "  CONCLUSAO: APROVADO (verificacao automatizada: segredos, build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
   echo "             LEMBRETE: o release so esta COMPLETO depois dos passos humanos 5.1-5.5."
   echo "             Nada foi instalado a mao: o build dos .csproj ja deployou as DLLs."
   RC=0
@@ -304,6 +318,7 @@ else
       "1. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
       "2. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
       "3. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
+      "5. COMPARTILH.") echo "             >> BLOQUEIO BUG-32: chave nas DUAS tabelas = entrada de TextAppends morta." ;;
       "6. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
     esac
   done

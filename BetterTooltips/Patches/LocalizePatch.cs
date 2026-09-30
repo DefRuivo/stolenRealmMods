@@ -1642,10 +1642,12 @@ namespace BetterTooltips.Patches
                     Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
                 }
             }
-            // RV-20 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine ativas
-            // no WorldCharacter, somadas por atributo com o bônus real (ShrineAuraPatch). O número
-            // individual de cada shrine fica dinâmico pelo prefix do ShrineAuraPatch (Target vazio
-            // no ShowGroundEffectTooltip = valor sempre na base).
+            // RV-22 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine ativas
+            // no RECEPTOR (personagem em foco -> WorldCharacter), somadas por atributo com o
+            // bônus real (ShrineAuraPatch). O número individual de cada shrine fica dinâmico
+            // pelo prefix do ShrineAuraPatch: o ShowGroundEffectTooltip monta os parâmetros com
+            // Source = WorldCharacter (personagem vazio) e SEM Target, então o [0] saía sempre
+            // na base — o prefix preenche o receptor para o motor calcular com Omnism/Horn.
             if (ShrineAuraPatch.IsShrineKey(original))
             {
                 string acumulado = ShrineAuraPatch.AcumuladoShrines();
@@ -1653,7 +1655,7 @@ namespace BetterTooltips.Patches
                 {
                     __result = AnexarNota(__result, acumulado);
                 }
-                Plugin.Log.LogInfo($"[Shrine RV-20] chave '{original}' -> resultado final: '{(__result.Length > 140 ? __result.Substring(0, 140) + "..." : __result)}'");
+                Plugin.Log.LogInfo($"[Shrine RV-22] chave '{original}' -> resultado final: '{(__result.Length > 140 ? __result.Substring(0, 140) + "..." : __result)}'");
             }
         }
     }
