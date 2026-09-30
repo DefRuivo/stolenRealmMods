@@ -67,3 +67,10 @@ scratch/*.py
 *.keystore
 credentials*.json
 secrets*.json
+
+# Credenciais: nunca versionadas (o token do Thunderstore fica fora do repo)
+.thunderstore-token
+*.token
+secrets*
+*.pem
+*.key
