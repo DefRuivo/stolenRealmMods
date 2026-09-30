@@ -72,8 +72,13 @@ def main():
     if '--resumo' in sys.argv:
         return 0
 
+    # RV-9: a fila segue a classificacao do ASSET (coluna `beneficio`, vinda de
+    # `IsBeneficial`/`IsHarmful` sobre `SkillTags`): **DEBUFFS PRIMEIRO**, como o pedido
+    # especifica, depois buffs e neutros.
+    ORDEM = {'Debuff': 0, 'Buff': 1, 'Neutro': 2, '?': 3}
     normal = [r for r in linhas if r['tipo'] == 'Normal']
-    pend = [r for r in normal if r[COLUNA] == 'pendente']
+    pend = sorted([r for r in normal if r[COLUNA] == 'pendente'],
+                  key=lambda r: ORDEM.get(r.get('beneficio', '?'), 3))
     partes = [
         '# RV-9 — Censo dos status (buffs e debuffs)',
         '',
@@ -98,14 +103,14 @@ def main():
         '> Quando o campo for dumpado, este censo ganha a coluna e a fila é reordenada:',
         '> **Harmful (debuffs) → Beneficial (buffs) → Quest/Fortune/resto**.',
         '',
-        '## Fila de trabalho (primeiros 60 pendentes de `Normal`)',
+        '## Fila de trabalho — DEBUFFS PRIMEIRO (primeiros 60 pendentes)',
         '',
-        '| nome | raridade | efeitos | revise |',
-        '|---|---|---|---|',
+        '| nome | tipo | raridade | efeitos | revise |',
+        '|---|---|---|---|---|',
     ]
     for r in pend[:60]:
         ef = (r['efeitos'] or r['efeitosDano'] or '')[:70].replace('|', '/')
-        partes.append('| `%s` | %s | %s | ⬜ |' % (r['nome'][:38], r['raridade'], ef))
+        partes.append('| `%s` | %s | %s | %s | ⬜ |' % (r['nome'][:36], r.get('beneficio','?'), r['raridade'], ef))
     partes += [
         '',
         '## Como o veredito entra',
