@@ -4,6 +4,7 @@ Mod **BepInEx 5** para **Stolen Realm** que troca a fonte renderizada do jogo po
 
 - **GUID:** `com.gumatos.betterfont`
 - **Versão:** 1.0.0
+- **Compatível com:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026).
 - **Dependências:** nenhuma além do BepInEx 5 (que o r2modman já instala no perfil).
 
 ## O que ele faz

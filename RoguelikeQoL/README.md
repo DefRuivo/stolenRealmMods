@@ -4,6 +4,7 @@ Mod **BepInEx 5** para **Stolen Realm** com melhorias de qualidade de vida no **
 
 - **GUID:** `com.gumatos.roguelikeqol`
 - **Versão:** 0.1.0
+- **Compatível com:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026).
 - **Dependências:** nenhuma além do BepInEx 5 (que o r2modman já instala no perfil).
 
 ## O que ele faz
