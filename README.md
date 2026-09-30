@@ -17,6 +17,7 @@ No mod touches the game's content, balance or files: each one is a **separate DL
 | | [Uninstall](#uninstall) | nothing is left behind |
 | | [FAQ](#faq) | game won't open, mod seems missing… |
 | | [Mod identifiers](#mod-identifiers) | GUIDs, log names, versions |
+| | [For developers: building, packaging, testing, publishing](#for-developers-building-packaging-testing-and-publishing) | from source to a release |
 | **PT** | [O que cada mod faz](#o-que-cada-mod-faz-para-você) | a parte que interessa ao jogador |
 | | [Instalação pelo r2modman](#instalação-pelo-r2modman-recomendado) | 10 minutos, sem terminal |
 | | [Instalação manual](#instalação-manual-sem-r2modman) | sem o gerenciador |
@@ -24,7 +25,10 @@ No mod touches the game's content, balance or files: each one is a **separate DL
 | | [Como desfazer](#como-desfazer-desinstalar) | nada fica para trás |
 | | [Perguntas frequentes](#perguntas-frequentes) | jogo não abre, mod não aparece… |
 | | [Identificadores internos](#identificadores-internos) | GUIDs, nomes no log, versões |
-| — | [Building / packaging (dev)](docs/README.md) | build ritual, Thunderstore package |
+| | [Para quem vai mexer no código](#para-quem-vai-mexer-no-código-compilar-empacotar-testar-e-publicar) | do código até o release |
+| — | [Build ritual (dev)](docs/README.md) | the full internal ritual, step by step |
+| — | [Thunderstore packaging & publishing](docs/PUBLICACAO.md) | the pipeline and the human gates |
+| — | [CI](docs/CI.md) | the two workflows and every check |
 | — | [Environment](docs/AMBIENTE.md) | validated versions and paths |
 
 ---
@@ -74,7 +78,8 @@ No mod touches the game's content, balance or files: each one is a **separate DL
        └── BetterFont.dll
    ```
 
-   Where do those DLLs come from? Either the ready-made package (see **Publishing** below) or by
+   Where do those DLLs come from? Either the ready-made package (see
+   [Packaging](#packaging) / [Publishing](#publishing) below) or by
    compiling from source: `dotnet build` inside each mod folder produces
    `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`.
 
@@ -185,6 +190,117 @@ Useful to confirm what loaded in the log:
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
 | RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
 | RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+
+---
+
+## For developers: building, packaging, testing and publishing
+
+This part is for someone who opens the repository without knowing anything about it. It is the
+short version — every step here exists because of a real incident, and the full ritual (with the
+reason for each step) is in [docs/README.md](docs/README.md); the pipeline is in
+[docs/CI.md](docs/CI.md) and [docs/PUBLICACAO.md](docs/PUBLICACAO.md).
+
+**What you need:** Windows, the game installed through Steam, the **.NET SDK 6** and **Python 3**
+(measured here on 30/09/2026: `dotnet --version` → `6.0.428`, `python --version` → `3.14.7`), plus
+a `lib/` folder at the repository root with the *game's* assemblies (`Assembly-CSharp.dll`,
+`BepInEx.dll`, `UnityEngine*`, `0Harmony.dll`, `Sirenix.*`, 15 DLLs in total). That folder is
+**gitignored** and holds game-owned files, so it is never committed — see
+[docs/AMBIENTE.md](docs/AMBIENTE.md) for the validated versions and paths.
+
+> **Close the game before building.** The build copies the DLL into the r2modman profile (the
+> `DeployToBepInEx` target); that copy fails while the file is in use.
+
+### Building
+
+```bash
+cd C:/dev/stolen-realm
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:ErrorsOnly
+```
+
+- builds **Debug** *and installs it*: the DLL goes to `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` and
+  the target copies it to `...\BepInEx\plugins\<Mod>\<Mod>.dll` in the profile;
+- `-clp:ErrorsOnly` prints **nothing** when it works — any line is a problem, so stop there;
+- swap the project for the mod you touched: `BetterStats`, `BetterFont`, `RoguelikeQoL`,
+  `RoguelikeDebugger` or `RoguelikeSkillTreeVisualizer` (all 6 use the same layout).
+
+To build **Release** (what packages are made of) *without* touching the installed DLL:
+
+```bash
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
+```
+
+The DLL comes out in `<Mod>/bin/Release/netstandard2.1/<Mod>.dll`. The flag
+`-p:DeployToBepInEx=false` is **mandatory** whenever the mod is installed and under test:
+without it, the build overwrites the DLL that is being tested in the profile.
+
+### Packaging
+
+Two packages, for two audiences:
+
+| Audience | Command | Output |
+|---|---|---|
+| **friends** (no account, no terminal) | `bash tools/pack-for-friends.sh` | `dist/StolenRealm-Mods-<date>.zip` (see [docs/MODS-PARA-AMIGOS.md](docs/MODS-PARA-AMIGOS.md)) |
+| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, or `.\scripts\package.ps1 <Mod>`, or `bash tools/publish-thunderstore.sh` | `dist/gumatos-<Mod>-<version>.zip` |
+
+Both build in **Release** with `-p:DeployToBepInEx=false`, so making a package never overwrites the
+DLL installed in the profile. `python tools/pack-thunderstore.py --listar-nomes` prints the mods the
+packager knows (measured 30/09/2026, in this order): `BetterFont`, `BetterStats`, `BetterTooltips`,
+`RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **6 mods**.
+
+The Thunderstore zip is **4 files at the package root** (`manifest.json`, `README.md`,
+`CHANGELOG.md`, `icon.png`) plus `plugins/<Mod>/<Mod>.dll`. The packager has a **pre-flight that
+aborts instead of producing a broken zip**: missing manifest/README/CHANGELOG, an icon that is not
+a real 256×256 PNG, a DLL that was not built in the requested configuration, or a version that
+disagrees between `.csproj`, `manifest.json` and `Plugin.cs`.
+
+The version has **one source** — the `<Version>` in `<Mod>/<Mod>.csproj` — and two mirrors checked
+automatically. To bump it: edit the `.csproj`, then run **once**
+`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` (it rewrites the two mirrors only
+when they disagree) and package.
+
+### Testing
+
+Minimum before calling anything done:
+
+```bash
+bash tools/release-check.sh
+```
+
+It runs the automatable steps in order — secrets, build with 0 errors, fix keys, duplicate keys,
+redundant notes, shared key, one game cycle reading the log — and then prints the human step (what
+only an eye in game can check). At the end it says **APROVADO** or **REPROVADO**, naming what failed.
+
+The rule read straight from the log: after launching the game through the profile, `LogOutput.log`
+must have one `... carregado.` line per installed mod and **zero** `ArgumentException`,
+`TypeInitializationException` and `[Error` lines.
+
+The same checks run in CI on every `push`/`pull_request` to `main`
+([`.github/workflows/validate.yml`](.github/workflows/validate.yml), described in
+[docs/CI.md](docs/CI.md)). A red check there is the same gate as the local `release-check.sh`.
+
+### Publishing
+
+The Thunderstore version is **immutable**: after it is accepted nothing can be edited, so any change
+— even README text — requires a **new version number**. Nothing is published by guessing:
+
+1. **[`release/mods.json`](release/mods.json)** is the versioned gate. A mod with `"publicar": false`
+   is **never** sent, not even when you pick it by hand (the run fails on purpose and shows the
+   `motivo`). On 30/09/2026 all **6** mods were `false` and the `team` field was empty on purpose —
+   so the pipeline fails *before* touching anything.
+2. **A GitHub Environment with required reviewers** is the human gate: the approval is a click in
+   *Review deployments*, not a label or a variable.
+
+Two ways to actually send:
+
+- **Local — the simplest today:** `bash tools/publish-thunderstore.sh` is a **dry-run by default**
+  and only uploads with `--go`. It runs the secret gate and the whole `release-check.sh` first, and
+  refuses a token file that lives inside the repository.
+- **GitHub Actions:** [`.github/workflows/publish.yml`](.github/workflows/publish.yml) — manual
+  dispatch, with a `mod` input, the approval gate and a pre-flight that refuses a repeated version.
+  It does **not** build: it ships the `.zip` produced on the development machine.
+
+The step-by-step, the platform rules and the known traps are in
+[docs/PUBLICACAO.md](docs/PUBLICACAO.md).
 
 ---
 
@@ -496,6 +612,116 @@ mantém o projeto.
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
 | RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
 | RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+
+---
+
+## Para quem vai mexer no código: compilar, empacotar, testar e publicar
+
+Esta é a versão curta, para quem chega no repositório sem saber nada. Cada passo existe por causa de
+um incidente real; o ritual completo (com o porquê de cada passo) está em
+[docs/README.md](docs/README.md), e o pipeline em [docs/CI.md](docs/CI.md) e
+[docs/PUBLICACAO.md](docs/PUBLICACAO.md).
+
+**O que você precisa:** Windows, o jogo instalado pela Steam, o **.NET SDK 6** e o **Python 3**
+(medido aqui em 30/09/2026: `dotnet --version` → `6.0.428`, `python --version` → `3.14.7`), além da
+pasta `lib/` na raiz com as *assemblies do jogo* (`Assembly-CSharp.dll`, `BepInEx.dll`,
+`UnityEngine*`, `0Harmony.dll`, `Sirenix.*` — 15 DLLs). Essa pasta é **gitignored** (arquivo do jogo
+nunca entra no repositório) — versões e caminhos validados em [docs/AMBIENTE.md](docs/AMBIENTE.md).
+
+> **Feche o jogo antes de compilar.** O build copia a DLL para o perfil do r2modman (target
+> `DeployToBepInEx`) e a cópia falha com o arquivo em uso.
+
+### Compilando
+
+```bash
+cd C:/dev/stolen-realm
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:ErrorsOnly
+```
+
+- compila em **Debug** *e instala*: a DLL sai em `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` e o
+  target copia para `...\BepInEx\plugins\<Mod>\<Mod>.dll` no perfil;
+- `-clp:ErrorsOnly` não imprime **nada** quando dá certo — qualquer linha é problema, pare aí;
+- troque o projeto pelo mod que você mexeu: `BetterStats`, `BetterFont`, `RoguelikeQoL`,
+  `RoguelikeDebugger` ou `RoguelikeSkillTreeVisualizer` (os 6 usam a mesma estrutura).
+
+Para compilar em **Release** (de onde saem os pacotes) **sem** tocar na DLL instalada:
+
+```bash
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
+```
+
+A DLL sai em `<Mod>/bin/Release/netstandard2.1/<Mod>.dll`. A flag `-p:DeployToBepInEx=false` é
+**obrigatória** quando o mod está instalado e em teste: sem ela o build sobrescreve a DLL que está
+sendo testada no perfil.
+
+### Empacotando
+
+Dois pacotes, para dois públicos:
+
+| Público | Comando | Saída |
+|---|---|---|
+| **amigos** (sem conta e sem terminal) | `bash tools/pack-for-friends.sh` | `dist/StolenRealm-Mods-<data>.zip` (ver [docs/MODS-PARA-AMIGOS.md](docs/MODS-PARA-AMIGOS.md)) |
+| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, ou `.\scripts\package.ps1 <Mod>`, ou `bash tools/publish-thunderstore.sh` | `dist/gumatos-<Mod>-<versao>.zip` |
+
+Os dois compilam em **Release** com `-p:DeployToBepInEx=false`, então gerar pacote **nunca**
+sobrescreve a DLL do perfil. `python tools/pack-thunderstore.py --listar-nomes` lista os mods que o
+empacotador conhece (medido em 30/09/2026, nesta ordem): `BetterFont`, `BetterStats`,
+`BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **6 mods**.
+
+O zip do Thunderstore são **4 arquivos na raiz do pacote** (`manifest.json`, `README.md`,
+`CHANGELOG.md`, `icon.png`) mais `plugins/<Mod>/<Mod>.dll`. O empacotador tem um **pre-flight que
+aborta em vez de gerar zip quebrado**: falta de manifest/README/CHANGELOG, ícone que não é PNG
+256×256 de verdade, DLL de configuração errada ou versão divergente entre `.csproj`,
+`manifest.json` e `Plugin.cs`.
+
+A versão tem **uma fonte** — o `<Version>` do `<Mod>/<Mod>.csproj` — e dois espelhos conferidos
+automaticamente. Para subir: edite o `.csproj` e rode **uma** vez
+`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` (ele reescreve os espelhos só quando
+divergem) e empacote.
+
+### Testando
+
+Mínimo antes de considerar pronto:
+
+```bash
+bash tools/release-check.sh
+```
+
+Ele roda os passos automatizáveis na ordem — segredos, build com 0 erros, chaves, duplicadas, notas,
+chave compartilhada, um ciclo do jogo lendo o log — e depois imprime o passo humano (o que só um
+olho em jogo confere). No fim diz **APROVADO** ou **REPROVADO**, apontando o que falhou.
+
+A regra lida direto do log: depois de abrir o jogo pelo perfil, o `LogOutput.log` tem de ter uma
+linha `... carregado.` por mod instalado e **zero** `ArgumentException`,
+`TypeInitializationException` e linhas `[Error`.
+
+Os mesmos checks rodam no CI a cada `push`/`pull_request` na `main`
+([`.github/workflows/validate.yml`](.github/workflows/validate.yml), descrito em
+[docs/CI.md](docs/CI.md)). Um check vermelho lá é a mesma trava do `release-check.sh` local.
+
+### Publicando
+
+A versão na Thunderstore é **imutável**: depois de aceita não se edita nada, então qualquer mudança
+— até texto de README — exige uma **versão nova**. Nada é publicado por adivinhação:
+
+1. **[`release/mods.json`](release/mods.json)** é o gate versionado. Um mod com `"publicar": false`
+   **nunca** é enviado, nem escolhido a dedo no disparo (o run falha de propósito e mostra o
+   `motivo`). Em 30/09/2026 os **6** mods estavam `false` e o campo `team` vazio de propósito — por
+   isso o pipeline falha *antes* de tocar em qualquer coisa.
+2. **Um GitHub Environment com revisores obrigatórios** é o gate humano: a aprovação é um clique em
+   *Review deployments*, não é label nem variável de ambiente.
+
+Dois caminhos para enviar de verdade:
+
+- **Local — o mais simples hoje:** `bash tools/publish-thunderstore.sh` é **dry-run por padrão** e só
+  sobe com `--go`. Ele roda a trava de segredo e o `release-check.sh` inteiro antes, e recusa token
+  que esteja dentro do repositório.
+- **GitHub Actions:** [`.github/workflows/publish.yml`](.github/workflows/publish.yml) — disparo
+  manual, com input de `mod`, o gate de aprovação e um pre-flight que recusa versão repetida. Ele
+  **não** compila: transporta o `.zip` gerado na máquina de desenvolvimento.
+
+O passo a passo, as regras da plataforma e as armadilhas estão em
+[docs/PUBLICACAO.md](docs/PUBLICACAO.md).
 
 ---
 

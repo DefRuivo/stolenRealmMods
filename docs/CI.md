@@ -66,9 +66,11 @@ O que o escopo B não negocia:
   commita com `[skip ci]`.
 
 O passo a passo, o setup do environment `thunderstore` e o troubleshooting estão em
-[PUBLICACAO.md](PUBLICACAO.md). Enquanto `.github/workflows/` não subir (falta o escopo
-`workflow` no PAT — ver a seção de armadilhas abaixo), o escopo B existe **no disco** e o
-envio continua saindo pelo `tools/publish-thunderstore.sh` local (dry-run por padrão).
+[PUBLICACAO.md](PUBLICACAO.md). Os dois YAML **estão no remoto** — conferido em 30/09/2026 com
+`git ls-remote origin main` (o `main` do GitHub é o mesmo commit do HEAD local) e com o arquivo
+publicado: `curl .../main/.github/workflows/validate.yml` traz exatamente o mesmo MD5 do arquivo
+no disco. Então os dois escopos são pipeline vivo; o envio local pelo
+`tools/publish-thunderstore.sh` (dry-run por padrão) continua valendo como caminho alternativo.
 
 ## Os passos, na ordem
 
@@ -140,17 +142,29 @@ python tools/audita_docs.py
     `python tools/check_chave_compartilhada.py --estrito; echo $?` → **`0`**.
   - **Se voltar a sair `1`,** o conserto é no `LocalizePatch.cs` (**uma entrada por texto**) —
     nunca afrouxar a flag: a falha é silenciosa em jogo e não aparece em log nenhum.
-  - **A mudança vale a partir do commit em que o `validate.yml` subir.** O arquivo está em
-    `.github/workflows/`, e o push automático do harness **não** tem o escopo `workflow` do PAT:
-    editar o YAML no disco funciona, subir não. Enquanto ele não for commitado, o CI continua
-    rodando o passo 5 **sem** a flag (relatório); o `release-check.sh` local, esse já trava.
+  - **O `validate.yml` que está no ar já roda a flag.** Conferido em 30/09/2026 contra o arquivo
+    publicado (não contra o disco): o `curl` do
+    `.../main/.github/workflows/validate.yml` traz a linha
+    `run: python tools/check_chave_compartilhada.py --estrito`, com o mesmo MD5 do arquivo local.
+    Ou seja, o CI **já trava** no caso do `BUG-32`; a versão que falava em "passo 5 sem a flag"
+    não é a que está no ar. Editar `.github/workflows/` pela linha de comando continua exigindo o
+    escopo `workflow` no PAT (o escopo da credencial atual não foi verificado), mas o que está
+    publicado está atualizado.
+  - **Comentário desatualizado dentro do YAML (texto fora desta doc).** O passo 7 do
+    `validate.yml` ainda diz no comentário que o `tools/audita_docs.py` "vive em `scratch/`,
+    gitignored" — não vive: ele é **versionado** em `tools/` (passo 7 do CI) e a auditoria roda de
+    verdade a cada push. O passo funciona (a checagem é condicional), mas o comentário mente e é
+    texto dentro de `.github/`, não desta doc.
 - **O passo 2 tem 4 avisos que não são erro.** Chaves de UI/loading que o censo do RV-7
   ainda não cobre (a frase das lojas, `Resist Divine`/`Resistance Divine`, a dica da
   poção). Isso é esperado e está documentado em
   [`cobertura/README.md`](cobertura/README.md), na seção "O que este censo AINDA não cobre".
 - **Pasta de mod sem `manifest.json` não é erro.** O passo 6 a **avisa** e segue: um mod
-  em implementação (hoje o `RoguelikeSkillTreeVisualizer`) ainda não é pacote, então não
-  há o que validar. Assim que o `manifest.json` aparecer, ele passa a ser validado sozinho.
+  em implementação ainda não é pacote, então não há o que validar; assim que o `manifest.json`
+  aparecer, ele passa a ser validado sozinho. O `RoguelikeSkillTreeVisualizer` foi esse caso até
+  30/09/2026 — hoje ele já tem `manifest.json`, `README.md`, `CHANGELOG.md` e `icon.png` e entra na
+  validação normal (`python .github/scripts/valida_pacotes.py` → **6 pacotes validados, 0 com
+  problema**, medido em 30/09/2026).
 
 ## Adicionar um check novo
 

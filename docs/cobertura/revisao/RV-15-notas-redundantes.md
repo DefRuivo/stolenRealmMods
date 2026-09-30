@@ -14,9 +14,9 @@ reportou em 30/09 (`Blinding Lights` duplicado, `Blind`/`Sleep` redundantes,
 | nota == chave | **0** | texto e nota sao a MESMA frase: aparece duplicado na tela |
 | nota contida na chave | **0** | a nota inteira ja esta no texto: nao acrescenta nada |
 | nota ecoa >= 6 palavras da chave | **0** | repete o inicio do texto em sequencia |
-| notas unicas (OK) | 205 | dizem algo que o texto nao diz |
+| notas unicas (OK) | 195 | dizem algo que o texto nao diz |
 
-Total de notas analisadas: **205**.
+Total de notas analisadas: **195**.
 
 ## 1. Nota identica a chave (DUPLICADO na tela)
 
