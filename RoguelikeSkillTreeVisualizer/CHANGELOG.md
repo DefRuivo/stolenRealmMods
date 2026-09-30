@@ -1,5 +1,74 @@
 # Changelog — RoguelikeSkillTreeVisualizer
 
+## 0.2.0
+
+**RSTV-5 — o botão `Skills` agora existe DURANTE A RUN**, ancorado no **Ping Button** (o botão de
+apontar o hex) do HUD, ao lado dele, na mesma linha. A janela é a MESMA Skill Tree nativa, no mesmo
+modo somente leitura. **Nada disto foi conferido em jogo ainda** — o roteiro está no `README.md`.
+
+- **Botão no HUD da run**: clone do botão nativo `CurrentCharacterUI.pingBtn` (l.209464, handler
+  `ButtonPressedPing` l.210027 → `GUIManager.TogglePingMode` l.119299), injetado como irmão à direita
+  dele com a mesma compensação de largura já validada na tela de party (reusa o
+  `SelectPartyButton.ApplySquareLayout` nos 3 modos de layout). Injeção 1× pelo postfix de
+  `CurrentCharacterUI.InitSingleton` (l.209626, o ponto em que o jogo instancia o HUD) e espelhamento
+  no `RstvHost.Update` do mod — **nunca** no `Update`/`UIUpdate` do próprio HUD (l.209655, que roda
+  todo frame e mexe no `endTurnButton`).
+- **Alvo resolvido no clique**: o personagem **selecionado no momento**; se o jogo estiver sem
+  ninguém selecionado, o **primeiro personagem local da party** (fallback documentado).
+- **Portão de segurança (sempre ativo, mesmo com o botão ligado)**: o botão **some e recusa a
+  abertura**, com o motivo no log, quando há **mira de skill ativa** (`HexCellManager.CurrentState ==
+  Action`), **modo de apontar hex ligado**, **não é o turno do jogador**, alguém **agindo/movendo**,
+  **posicionamento inicial**, **level-up pendente** (`RoguelikeManager`), **janela de UI aberta** ou
+  `GUIState` fora de `InBattle`/`InWorldMap`/`InTown`. Em dúvida (até numa exceção ao ler o estado),
+  não abre.
+
+### Blindagens implementadas (cada uma com a linha do decompilado no código)
+
+1. **Ciclo de vida** — a guarda deixou de ser "a tela de party está aberta" (durante a run ela está
+   desligada e a árvore fecharia no frame seguinte): agora é "a instância nativa ainda está ativa" +
+   whitelist de `GUIState` para o contexto de run; a checagem da tela de party continua só no
+   contexto de party.
+2. **Escrita de `GameLogic.CurrentlySelectedCharacter`** (setter l.108082) — só escreve quando é
+   **inofensivo**: se o alvo **já é** o selecionado (o setter retorna cedo, l.108097 → zero efeito) ou
+   se o jogo está **sem ninguém selecionado** (a metade perigosa do setter só roda com um personagem
+   anterior). O valor anterior é **guardado e devolvido** no fechamento (padrão do próprio jogo,
+   l.163711/163942). Com **outro** personagem selecionado, a abertura é **recusada** — se não, o
+   setter marcaria `IsPartyLeader`, travaria a câmera, **forçaria `HexCellManager.CurrentState =
+   Movement`** (cancelando a mira) e chamaria `NotifyPlayerOfTheirTurn` em outro personagem.
+3. **Slot único de `CancelInterceptor`** (`UIWindowManager.CancelInterceptor`, l.215982) — o mod
+   **fotografa** quem tinha o slot antes de abrir (antes do `SetActive(true)`, que dispara o
+   `OnEnable` do jogo, l.172890) e **devolve esse delegate** no fechamento (antes deixava `null`).
+   O Esc **deixa de ser consumido** quando a janela do topo não é a nossa, a `CharacterMenusManager`
+   ou a tela de party (mesmo critério do jogo, l.172924) — a mochila por cima continua fechando no Esc.
+4. **Portão do botão** — ver acima.
+5. **Clique do hex** — o branch de **Action** do `PlayerMovement.ProcessLeftMouseClick` (l.153393-153397)
+   **não** checa `PointerOverUIObject` (o de movimento checa, l.153342). Duas camadas: a janela passa a
+   ser registrada em `UIWindowManager.OpenedWindows` (→ `GUIManager.InMenus`, l.118297, faz
+   `ProcessUpdateInputs` l.152986 retornar antes do clique) **e** um prefixo Harmony em
+   `ProcessLeftMouseClick(HexCell)` (l.153277) consome o clique enquanto a sessão está ativa. Uma rede
+   de segurança no host retira a entrada de `OpenedWindows` se a janela fechar por fora, para o input
+   de batalha não ficar morto.
+6. **Troca de personagem / de estado** — se o jogo trocar o personagem selecionado ou sair de
+   `InBattle`/`InWorldMap`/`InTown`, a sessão é **fechada** (nada de janela read-only com contexto errado).
+
+### Config
+
+- `Geral` → **`AtivarBotaoNaRun`** (padrão `true`): liga/desliga **só** o botão da run. O portão 4
+  vale mesmo com `true`.
+- `Geral` → **`AjustarZOrder`** (padrão `true`): ajusta o índice de irmão para a árvore ficar por cima
+  do HUD na run. Desligue se o tooltip do jogo aparecer atrás da árvore.
+- `Geral` → `AtivarBotao` continua sendo o da tela Select Party (inalterado).
+
+### Outras mudanças
+
+- **Ganchos**: 8 → **10** (novos: postfix de `CurrentCharacterUI.InitSingleton`, prefixo de
+  `PlayerMovement.ProcessLeftMouseClick`). A contagem do boot vira `10/10 ganchos, 10 metodos do jogo`.
+- **Diagnóstico**: o botão da run diz **por que** está escondido, com throttle de 5 s por motivo, e
+  avisa quando volta a aparecer; a abertura registra a geometria da linha, o `targetGraphic` do clone
+  e quantos gráficos herdados foram desligados.
+- `SkillTreeReadOnly` ganhou contexto (`PartyScreen`/`Run`) e a sessão ganhou as guardas de
+  ciclo de vida, a devolução da seleção e a limpeza de `OpenedWindows`.
+
 ## 0.1.0
 
 Primeira versão. O mod **ainda não foi conferido em jogo** — a conferência está no roteiro do `README.md`.

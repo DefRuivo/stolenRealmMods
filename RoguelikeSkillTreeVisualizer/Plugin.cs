@@ -19,9 +19,11 @@ namespace RoguelikeSkillTreeVisualizer
     /// a party). Nenhum ponto e gasto, nada e gravado.
     ///
     /// Pecas do mod:
-    ///   - <c>SelectPartyButton</c>  — clona o botao nativo e compensa a largura da linha;
+    ///   - <c>SelectPartyButton</c>  — clona o botao nativo da tela Select Party e compensa a largura da linha;
+    ///   - <c>RunButton</c>          — RSTV-5: o mesmo botao no HUD DA RUN, ancorado no Ping Button;
+    ///   - <c>RunTargets</c>         — RSTV-5: alvo do clique na run + PORTAO DE SEGURANCA (estado do jogo);
     ///   - <c>PartyTargets</c>       — ordem de adicao local (o jogo NAO guarda essa ordem);
-    ///   - <c>SkillTreeReadOnly</c>  — abertura nativa + sessao de somente leitura;
+    ///   - <c>SkillTreeReadOnly</c>  — abertura nativa + sessao de somente leitura (blindagens 1/2/3/5/6);
     ///   - <c>Patches</c>            — os ganchos Harmony (cada um com a linha do decompilado);
     ///   - <c>RstvHost</c>           — MonoBehaviour criado de forma preguicosa.
     ///
@@ -42,7 +44,7 @@ namespace RoguelikeSkillTreeVisualizer
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.1.0";
+        public const string Version = "0.2.0";
 
         internal static ManualLogSource Log { get; private set; }
 
@@ -54,12 +56,39 @@ namespace RoguelikeSkillTreeVisualizer
         internal static ConfigEntry<bool> AtivarBotao { get; private set; }
 
         /// <summary>
+        /// RSTV-5: opcao de config PROPRIA do botao que aparece DURANTE A RUN, ao lado do botao de
+        /// apontar o hex (Ping Button) do HUD. Padrao <c>true</c> (ligado). Desligar aqui NAO desliga
+        /// o botao da tela Select Party e vice-versa. O PORTAO DE SEGURANCA
+        /// (<c>RunTargets.GateOk</c>) continua valendo mesmo com a opcao ligada: em estado de risco o
+        /// botao fica escondido e o log diz por que.
+        /// </summary>
+        internal static ConfigEntry<bool> AtivarBotaoNaRun { get; private set; }
+
+        /// <summary>
+        /// RSTV-5: ajusta o indice de irmao da janela nativa para a arvore ficar POR CIMA do HUD na
+        /// run (a janela e outro ramo da hierarquia do canvas). Desligar deixa a arvore no indice em
+        /// que o prefab a posicionou — util se o tooltip do jogo aparecer atras da arvore.
+        /// </summary>
+        internal static ConfigEntry<bool> AjustarZOrderConfig { get; private set; }
+
+        /// <summary>
         /// Forma SEGURA de consultar a opcao: se por algum motivo o config nao pode ser lido/criado,
         /// o mod continua com o comportamento de sempre (botao ligado) em vez de morrer no boot.
         /// </summary>
         internal static bool BotaoLigado
         {
             get { return AtivarBotao == null || AtivarBotao.Value; }
+        }
+
+        /// <summary>Mesma regra para o botao da run: config ilegivel = botao LIGADO (com o portao 4).</summary>
+        internal static bool RunBotaoLigado
+        {
+            get { return AtivarBotaoNaRun == null || AtivarBotaoNaRun.Value; }
+        }
+
+        internal static bool AjustarZOrder
+        {
+            get { return AjustarZOrderConfig == null || AjustarZOrderConfig.Value; }
         }
 
         private void Awake()
@@ -74,21 +103,41 @@ namespace RoguelikeSkillTreeVisualizer
                     true,
                     "Injeta o botao 'Skills' na tela Select Party do modo Roguelike. Padrao: true. " +
                     "Com false o mod carrega e registra os ganchos, mas nao cria botao nenhum na tela.");
+
+                AtivarBotaoNaRun = Config.Bind(
+                    "Geral",
+                    "AtivarBotaoNaRun",
+                    true,
+                    "Injeta o botao 'Skills' no HUD DURANTE A RUN (ao lado do Ping Button, o botao de " +
+                    "apontar o hex). Padrao: true. Com false o mod nao cria esse botao. ATENCAO: o " +
+                    "portao de seguranca (RunTargets.GateOk) vale mesmo com true — em mira de skill, " +
+                    "turno do inimigo, personagem agindo/movendo, level-up pendente ou GUIState fora de " +
+                    "InBattle/InWorldMap/InTown o botao fica escondido e o log diz por que.");
+
+                AjustarZOrderConfig = Config.Bind(
+                    "Geral",
+                    "AjustarZOrder",
+                    true,
+                    "Ajusta o indice de irmao da janela nativa para a arvore ficar POR CIMA do HUD na " +
+                    "run. Padrao: true. Desligue se o tooltip do jogo aparecer atras da arvore.");
             }
             catch (Exception e)
             {
                 Log.LogError("RSTV: falha ao ler/criar o arquivo de config — seguindo com o padrao " +
-                             "(botao LIGADO): " + e.Message);
+                             "(botoes LIGADOS): " + e.Message);
             }
 
             // Marcador de vida: se esta linha nao aparecer no LogOutput.log, o plugin nem carregou.
             Log.LogInfo("Roguelike Skill Tree Visualizer " + Version +
-                        " carregado (RSTV-2: botao ao lado do Choose Powerups + skill tree read-only).");
+                        " carregado (RSTV-5: botao na tela Select Party + botao no HUD da run, " +
+                        "ancorado no Ping Button, skill tree read-only).");
 
             AplicarPatches();
 
-            Log.LogInfo("RSTV DIAG: botao 'Skills' " + (BotaoLigado ? "HABILITADO" : "DESABILITADO") +
-                        " nesta sessao (AtivarBotao=" + BotaoLigado + " no config).");
+            Log.LogInfo("RSTV DIAG: botao 'Skills' da tela Select Party " + (BotaoLigado ? "HABILITADO" : "DESABILITADO") +
+                        " nesta sessao (AtivarBotao=" + BotaoLigado + " no config); botao 'Skills' do HUD da run " +
+                        (RunBotaoLigado ? "HABILITADO" : "DESABILITADO") +
+                        " (AtivarBotaoNaRun=" + RunBotaoLigado + "); portao 4 sempre ativo no botao da run.");
         }
 
         /// <summary>

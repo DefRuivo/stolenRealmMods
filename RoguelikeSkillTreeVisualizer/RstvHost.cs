@@ -10,13 +10,20 @@ namespace RoguelikeSkillTreeVisualizer
     /// do postfix de `CharacterChoiceManager.OpenCharacterChoiceManager` — cena viva, comprovada.
     ///
     /// Trabalho do Update (timeScale na UI e 0: nada de coroutine com WaitForSeconds):
-    ///   1. terminar a abertura da skill tree quando a instancia nativa chega (SkillTreeReadOnly.Tick);
-    ///   2. manter o clone do botao em sincronia com o original (visibilidade e interactable).
+    ///   1. terminar a abertura da skill tree quando a instancia nativa chega (SkillTreeReadOnly.Tick) —
+    ///      e, a cada frame, as guardas de ciclo de vida da sessao;
+    ///   2. manter o clone do botao da tela Select Party em sincronia com o original (visibilidade e
+    ///      interactable) — 0,2 s;
+    ///   3. o mesmo para o botao da RUN, que alem disso reavalia o PORTAO 4
+    ///      (`RunTargets.GateOk`) — 0,1 s, porque o estado que o portao olha (mira, turno, animacao)
+    ///      muda rapido. O Update do proprio HUD (`CurrentCharacterUI.UIUpdate`, l.209655) roda todo
+    ///      frame e mexe no `endTurnButton` — nao e lugar para o mod.
     /// </summary>
     internal class RstvHost : MonoBehaviour
     {
         private static RstvHost _instance;
         private float _nextMirror;
+        private float _nextRunMirror;
         private float _lastErrorLog;
 
         internal static RstvHost Ensure()
@@ -38,6 +45,14 @@ namespace RoguelikeSkillTreeVisualizer
             try
             {
                 SkillTreeReadOnly.Tick();
+
+                if (Time.realtimeSinceStartup >= _nextRunMirror)
+                {
+                    // Portao 4 reavaliado 10x por segundo: o botao da run some/volta conforme a mira,
+                    // o turno e as animacoes mudam.
+                    _nextRunMirror = Time.realtimeSinceStartup + 0.1f;
+                    RunButton.Mirror();
+                }
 
                 if (Time.realtimeSinceStartup < _nextMirror)
                 {
