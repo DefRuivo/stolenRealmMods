@@ -58,7 +58,10 @@ def main():
         print('   um arquivo FORA do repositorio, e ROTACIONE o token exposto.')
         return 1
     print('  ==> nenhum padrao de credencial encontrado')
-    return 0
+
+    # Motor GENERICO (formato + entropia) - pega o que ainda nao tem prefixo conhecido.
+    r = subprocess.run([sys.executable, os.path.join(RAIZ, 'tools', 'check_padroes_segredo.py')])
+    return r.returncode
 
 
 if __name__ == '__main__':
