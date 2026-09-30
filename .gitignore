@@ -3,7 +3,10 @@ obj/
 lib/
 .vs/
 *.user
-dist/
+# PKG-5: dist/ guarda os pacotes .zip gerados (artefato de build) — o CONTEUDO segue
+# ignorado; so o .gitkeep e versionado, para a pasta existir no clone.
+dist/*
+!dist/.gitkeep
 *_lib/
 b_*.txt
 build_*.txt

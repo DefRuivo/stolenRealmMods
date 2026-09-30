@@ -73,8 +73,10 @@
     </Reference>
   </ItemGroup>
 
-  <!-- Deploy automático (INFRA-1): copia a DLL para o perfil do r2modman após o build. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build">
+  <!-- Deploy automático (INFRA-1): copia a DLL para o perfil do r2modman após o build.
+       PKG-5: para PULAR o deploy (ex.: buildar Release sem sobrescrever a DLL que
+       está no perfil do r2modman), passe -p:DeployToBepInEx=false na linha de comando. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
     <PropertyGroup>
       <BepInExPluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</BepInExPluginsDir>
     </PropertyGroup>

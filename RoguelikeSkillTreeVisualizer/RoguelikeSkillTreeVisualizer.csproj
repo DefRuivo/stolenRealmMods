@@ -1,0 +1,89 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>RoguelikeSkillTreeVisualizer</AssemblyName>
+    <RootNamespace>RoguelikeSkillTreeVisualizer</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>Botao na tela Select Party do Roguelike que abre a Skill Tree nativa em modo somente leitura.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx">
+      <HintPath>..\lib\BepInEx.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="0Harmony">
+      <HintPath>..\lib\0Harmony.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine">
+      <HintPath>..\lib\UnityEngine.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\lib\UnityEngine.CoreModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextRenderingModule">
+      <HintPath>..\lib\UnityEngine.TextRenderingModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UI">
+      <HintPath>..\lib\UnityEngine.UI.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.UIModule">
+      <HintPath>..\lib\UnityEngine.UIModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="TextMeshPro">
+      <HintPath>..\lib\Unity.TextMeshPro.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreFontEngineModule">
+      <HintPath>..\lib\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.TextCoreTextEngineModule">
+      <HintPath>..\lib\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Assembly-CSharp">
+      <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Serialization">
+      <HintPath>..\lib\Sirenix.Serialization.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Serialization.Config">
+      <HintPath>..\lib\Sirenix.Serialization.Config.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes">
+      <HintPath>..\lib\Sirenix.OdinInspector.Attributes.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Sirenix.Utilities">
+      <HintPath>..\lib\Sirenix.Utilities.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <!-- Deploy automático: copia a DLL para o perfil do r2modman após o build.
+       Escotilha para buildar SEM mexer no perfil do jogo (útil com o jogo aberto):
+           dotnet build -p:SkipDeploy=true
+       Sem a propriedade, o comportamento é o dos outros mods do repositório: copia. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(SkipDeploy)' != 'true'">
+    <PropertyGroup>
+      <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginsDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)" />
+    <Message Importance="high" Text="Deploy: $(TargetFileName) copiado para $(PluginsDir)" />
+  </Target>
+
+</Project>

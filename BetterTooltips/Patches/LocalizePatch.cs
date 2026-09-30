@@ -61,38 +61,111 @@ namespace BetterTooltips.Patches
                 return null;
             }
 
-            /// <summary>Move a explicacao para o fim (depois de custos e alcance).</summary>
+            /// <summary>Move as explicacoes para o fim (depois de custos e alcance).
+            ///
+            /// RV-27: com DUAS cores no mesmo tooltip (a nota na cor especial do jogo e a linha de
+            /// auras ativas no azul do proprio jogo) mover so o PRIMEIRO bloco embaralharia a ordem —
+            /// a linha azul ficaria ANTES da nota. Entao os dois blocos sao retirados e recolocados na
+            /// ordem desejada: nota primeiro, linha de auras por ULTIMO, cada um com exatamente uma
+            /// linha em branco antes (regra do `AnexarNota`).
+            /// </summary>
             private static void Prefix(ref string __3)
             {
                 if (string.IsNullOrEmpty(__3))
                 {
                     return;
                 }
-                string cor = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
-                string abre = "<color=#" + cor + ">";
-                int i = __3.IndexOf(abre, StringComparison.Ordinal);
-                if (i < 0)
+                string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
+                string corAura = CorDaLinhaDeAuras();
+                bool mesmaCor = string.Equals(corNota, corAura, StringComparison.OrdinalIgnoreCase);
+
+                // Se as cores coincidirem (a leitura da paleta falhou e a linha caiu na cor das notas),
+                // a ULTIMA ocorrencia e a linha de auras — ela e a ultima coisa anexada ao texto.
+                // O bloco da linha de auras so e aceito se comecar com o marcador dela: assim nenhum
+                // bloco colorido do proprio jogo (com a MESMA cor de status) entra na conta.
+                string nota;
+                string aura;
+                bool achouAura = TirarBloco(ref __3, corAura, mesmaCor, ShrineAuraPatch.MarcadorLinhaDeAuras, out aura);
+                bool achouNota = TirarBloco(ref __3, corNota, false, null, out nota);
+
+                if (!achouAura && !achouNota)
                 {
                     if (!_diagnosticadoCor)
                     {
                         _diagnosticadoCor = true;
-                        Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado SEM o bloco (procurando " + abre + ")");
+                        Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado SEM o bloco (procurando "
+                            + "<color=#" + corNota + "> e <color=#" + corAura + ">)");
                     }
                     return;
                 }
                 if (!_diagnosticadoCor)
                 {
                     _diagnosticadoCor = true;
-                    Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, bloco da explicacao movido para o fim (cor #" + cor + ")");
+                    Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, blocos movidos para o fim (nota #"
+                        + corNota + ", auras ativas #" + corAura + ")");
                 }
-                int f = __3.IndexOf("</color>", i, StringComparison.Ordinal);
-                if (f < 0)
+
+                string corpo = __3.TrimEnd();
+                if (!string.IsNullOrEmpty(nota))
                 {
-                    return;
+                    corpo += "\n\n" + nota;
                 }
-                int ini = ((i > 0 && __3[i - 1] == '\n') ? i - 1 : i);
-                string nota = __3.Substring(ini, f + "</color>".Length - ini);
-                __3 = __3.Remove(ini, f + "</color>".Length - ini).TrimEnd() + "\n\n" + nota.TrimStart('\n').TrimEnd();
+                if (!string.IsNullOrEmpty(aura))
+                {
+                    corpo += "\n\n" + aura;
+                }
+                __3 = corpo;
+            }
+
+            /// <summary>
+            /// Tira do corpo o PRIMEIRO (ou o ULTIMO) bloco `&lt;color=#hex&gt;...&lt;/color&gt;`, junto
+            /// com a quebra de linha que vem antes dele, e devolve o bloco ja aparado nas pontas.
+            /// `exigir` (opcional) so aceita o bloco que contiver esse trecho — usado na linha de auras,
+            /// que tem marcador proprio, para nao confundir com blocos do jogo na MESMA cor.
+            /// Sem bloco que sirva -> false (e o corpo fica como estava).
+            /// </summary>
+            private static bool TirarBloco(ref string corpo, string hex, bool ultimo, string exigir, out string bloco)
+            {
+                bloco = null;
+                if (string.IsNullOrEmpty(corpo) || string.IsNullOrEmpty(hex))
+                {
+                    return false;
+                }
+                const string fechamento = "</color>";
+                string abre = "<color=#" + hex + ">";
+                int i = ultimo
+                    ? corpo.LastIndexOf(abre, StringComparison.Ordinal)
+                    : corpo.IndexOf(abre, StringComparison.Ordinal);
+                while (i >= 0)
+                {
+                    int f = corpo.IndexOf(fechamento, i, StringComparison.Ordinal);
+                    if (f < 0)
+                    {
+                        return false;
+                    }
+                    int ini = ((i > 0 && corpo[i - 1] == '\n') ? i - 1 : i);
+                    int fim = f + fechamento.Length;
+                    string texto = corpo.Substring(ini, fim - ini).TrimStart('\n').TrimEnd();
+                    if (string.IsNullOrEmpty(exigir) || texto.IndexOf(exigir, StringComparison.Ordinal) >= 0)
+                    {
+                        bloco = texto;
+                        corpo = corpo.Remove(ini, fim - ini);
+                        return true;
+                    }
+                    if (ultimo)
+                    {
+                        if (i == 0)
+                        {
+                            return false;
+                        }
+                        i = corpo.LastIndexOf(abre, i - 1, StringComparison.Ordinal);
+                    }
+                    else
+                    {
+                        i = corpo.IndexOf(abre, i + 1, StringComparison.Ordinal);
+                    }
+                }
+                return false;
             }
         }
         /// <summary>
@@ -132,6 +205,93 @@ namespace BetterTooltips.Patches
             return string.IsNullOrEmpty(_corEspecialDoJogo)
                 ? texto
                 : texto.Replace("#C8B090", _corEspecialDoJogo);
+        }
+
+        /// <summary>
+        /// RV-27 — a COR da LINHA DE AURAS ATIVAS ("Your active shrine auras: ..."), o unico texto do
+        /// mod que nao e explicacao de mecanica da skill, e sim ESTADO AGREGADO do personagem.
+        ///
+        /// POR QUE NAO UM HEX FIXO: nao existe azul em constante nenhuma do jogo. Varredura do
+        /// Assembly-CSharp.dll (literais `&lt;color=#RRGGBB&gt;`) devolve so CBB396 (43 usos), FFFFFF (5),
+        /// 808080, CFCFCF, FF9C00 e 00000000 — paleta quente/neutra. A cor tem de vir, como as
+        /// outras, de um CAMPO de cor do PROPRIO tooltip lido em runtime.
+        ///
+        /// ORDEM DE PREFERENCIA (duas cores do jogo, nenhuma escolhida a mao):
+        ///   1) `Tooltip.skillStatusColor` — a cor que o PROPRIO jogo usa nos tooltips para os blocos de
+        ///      STATUS anexados (nome + descricao do status): decompiado `Tooltip.ShowTooltip`,
+        ///      l.213588 e l.213618 (`"&lt;i&gt;&lt;color=#" + skillStatusColor + "&gt;" + status.Name + "&lt;/color&gt;&lt;/i&gt;"`).
+        ///      E o analogo exato desta linha: texto sobre o ESTADO do personagem, nao sobre a mecanica
+        ///      da skill.
+        ///   2) `GUIManager.coldColor` — o azul do tipo de dano Cold, usado nos tooltips pelo par
+        ///      `Tooltip.GetDamageTypeColor` -> `GlobalSettingsManager.GetDamageTypeColor`
+        ///      (decompiado l.214898, `GetItemInfoDetails` do tooltip de arma).
+        ///   3) Se nenhum dos dois for um azul legivel (ou o tooltip ainda nao existir), devolve o
+        ///      marcador "#C8B090" — a linha sai na MESMA cor das notas, em vez de sair sem cor, e o
+        ///      log avisa. Nenhum hex inventado entra no codigo.
+        ///
+        /// So esta linha passa por aqui: `ComACorDoJogo` (as notas) continua intocado.
+        /// </summary>
+        internal static string CorDaLinhaDeAuras()
+        {
+            if (_corAuraDoJogo == null)
+            {
+                _corAuraDoJogo = LerCorAzulDoJogo();
+                if (_corAuraDoJogo == null)
+                {
+                    _corAuraDoJogo = "C8B090";
+                    Plugin.Log.LogWarning("BetterTooltips: nenhuma cor azul da paleta do jogo disponivel "
+                        + "(skillStatusColor/coldColor) — a linha de auras ativas sai na cor das notas (#C8B090).");
+                }
+                else
+                {
+                    Plugin.Log.LogInfo("BetterTooltips: cor da linha de auras ativas = #" + _corAuraDoJogo);
+                }
+            }
+            return _corAuraDoJogo;
+        }
+
+        /// <summary>Hex da linha de auras ativas, resolvido uma vez (o tooltip e remontado a cada hover).</summary>
+        internal static string _corAuraDoJogo;
+
+        private static string LerCorAzulDoJogo()
+        {
+            try
+            {
+                Tooltip t = GUIManager.instance != null ? GUIManager.instance.tooltip : null;
+                if (t != null && EhAzul(t.skillStatusColor))
+                {
+                    string cor = UnityEngine.ColorUtility.ToHtmlStringRGB(t.skillStatusColor);
+                    Plugin.Log.LogInfo("BetterTooltips: azul da paleta lido em Tooltip.skillStatusColor (status do jogo em tooltip) = #" + cor);
+                    return cor;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning("BetterTooltips: nao consegui ler skillStatusColor (" + ex.Message + ").");
+            }
+            try
+            {
+                if (GUIManager.instance != null && EhAzul(GUIManager.instance.coldColor))
+                {
+                    string cor = UnityEngine.ColorUtility.ToHtmlStringRGB(GUIManager.instance.coldColor);
+                    Plugin.Log.LogInfo("BetterTooltips: azul da paleta lido em GUIManager.coldColor (cor do dano Cold) = #" + cor);
+                    return cor;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning("BetterTooltips: nao consegui ler coldColor (" + ex.Message + ").");
+            }
+            return null;
+        }
+
+        /// <summary>Azul = o canal B nao perde para os outros dois e a cor nao e cinza/quase branca.
+        /// (Serve de SANIDADE: se o build mudar a cor de status para bege, a linha nao vira uma copia
+        /// silenciosa das notas.)</summary>
+        private static bool EhAzul(UnityEngine.Color c)
+        {
+            float excesso = (c.b - c.r) + (c.b - c.g);
+            return c.b >= c.r && c.b >= c.g && c.b > 0.35f && excesso > 0.05f;
         }
 
         /// <summary>
@@ -426,10 +586,10 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
             { "@Maximum health@ reduced by 20%.",
               "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
-            // RV-9 debuffs: Consumption (SKILL - chave exclusiva): e AQUI que a nota de stack mora desde 30/09
-            // (BUG-32/BUG-31): o texto da skill nao e compartilhado com nada.
-            { "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.",
-              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption (SKILL - chave exclusiva). A nota de stack morava AQUI desde
+            // 30/09 (BUG-32/BUG-31) e foi FUNDIDA na entrada de `TextFixes` em 30/09 (RV-25): a chave
+            // estava nas DUAS tabelas e o if/else if fazia a de `TextAppends` nunca rodar. Uma entrada
+            // por texto — procurar por "Devour the life force" em `TextFixes`.
             // RV-9 debuffs: Blood Howl - Lasts 2 turns.
             { "Attackers lifesteal for [0]%.",
               "\n<color=#C8B090>Lasts 2 turns.</color>" },
@@ -904,8 +1064,13 @@ namespace BetterTooltips.Patches
             { "Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.",
               "Increase the effectiveness of your damage and healing skills by 30%.   Max health reduced by 20%." },
             // RV-14 terminologia: Consumption | maximum health -> max health
+            // RV-25 (30/09): esta chave tambem existia em `TextAppends` (a nota de stack) e, como o
+            // lookup e if/else if na MESMA chave, a entrada de `TextAppends` NUNCA rodava: a nota nao
+            // aparecia em jogo e NAO havia erro no log. UMA entrada por texto: fica esta, que carrega o
+            // fix de terminologia do RV-14, com a nota FUNDIDA nela no formato do `AnexarNota` (uma
+            // linha em branco + bloco na cor do jogo). A entrada de `TextAppends` foi apagada.
             { "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.",
-              "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Max Health@ for each enemy effected." },
+              "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Max Health@ for each enemy effected.\n\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
             // RV-14 terminologia: Bone Collector | maximum health -> max health
             { "Every enemy slain grants 6% @maximum health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times.",
               "Every enemy slain grants 6% @max health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times." },
@@ -1642,20 +1807,22 @@ namespace BetterTooltips.Patches
                     Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
                 }
             }
-            // RV-22 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine ativas
-            // no RECEPTOR (personagem em foco -> WorldCharacter), somadas por atributo com o
-            // bônus real (ShrineAuraPatch). O número individual de cada shrine fica dinâmico
+            // RV-22/RV-23/RV-27 — acumulado de shrines (30/09): linha dinâmica com a aura do SHRINE
+            // desta tooltip, calculada para o RECEPTOR (personagem em foco) com o bônus real dele
+            // (ShrineAuraPatch.AcumuladoShrines). O número individual de cada shrine fica dinâmico
             // pelo prefix do ShrineAuraPatch: o ShowGroundEffectTooltip monta os parâmetros com
             // Source = WorldCharacter (personagem vazio) e SEM Target, então o [0] saía sempre
             // na base — o prefix preenche o receptor para o motor calcular com Omnism/Horn.
+            // A LINHA vai no azul da paleta do jogo (RV-27) e o `CorEOrdemDoTooltip` a coloca por
+            // ÚLTIMO, depois da nota da shrine, mantendo uma linha em branco antes de cada bloco.
             if (ShrineAuraPatch.IsShrineKey(original))
             {
-                string acumulado = ShrineAuraPatch.AcumuladoShrines();
+                string acumulado = ShrineAuraPatch.AcumuladoShrines(original);
                 if (!string.IsNullOrEmpty(acumulado))
                 {
                     __result = AnexarNota(__result, acumulado);
                 }
-                Plugin.Log.LogInfo($"[Shrine RV-22] chave '{original}' -> resultado final: '{(__result.Length > 140 ? __result.Substring(0, 140) + "..." : __result)}'");
+                Plugin.Log.LogInfo($"[Shrine RV-23] chave '{original}' -> resultado final: '{(__result.Length > 140 ? __result.Substring(0, 140) + "..." : __result)}'");
             }
         }
     }

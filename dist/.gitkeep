@@ -1,0 +1,2 @@
+# Mantem a pasta dist/ no repositorio (o .gitignore ignora dist/*).
+# Os .zip de release ficam ao lado deste arquivo, sem serem versionados.

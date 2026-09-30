@@ -42,33 +42,32 @@ namespace BetterTooltips.Patches
     /// O método roda em TODA tooltip do jogo: todo o corpo é try/catch e, em qualquer falha, os
     /// parâmetros chegam ao original exatamente como estavam.
     ///
-    /// A Dwarven Aura fica FORA do acumulado: o efeito real dela não mora no AttributeEffects
-    /// (vazio no dump, sem fórmula no cache compilado) — registrar, não somar.
+    /// RV-23 (30/09) — a LINHA DE ACUMULADO ("Your active shrine auras: ...") foi REESCRITA:
+    ///   (a) receptor: o MESMO resolvedor do prefix (`Tooltip.TooltipCharacter` ->
+    ///       `Root.WorldCharacter` -> Source) — o WorldCharacter é vazio e nunca tem as auras;
+    ///   (b) a aura mostrada é a DESTA tooltip (o status cuja descrição é o texto localizado), não a
+    ///       soma de qualquer aura de shrine que o personagem tenha;
+    ///   (c) os valores saem do `ActionStatusInfo.AttributeEffects` REAL do status, avaliado pelas
+    ///       expressões do PRÓPRIO jogo (`Game.TryParseWithEnglishCulture`/`Game.TryEval`), em vez de
+    ///       uma tabela de 9 nomes com a fórmula reescrita à mão;
+    ///   (d) cobre a família inteira (12): Dwarven, Decay e Flame ficavam fora da tabela antiga e as
+    ///       tooltips deles exibiam as auras de OUTRO shrine;
+    ///   (e) não lê mais `Character.ActionStatuses` (lista viva, que muda durante o turno — era a
+    ///       origem do "só em alguns momentos"): o efeito é derivado da DEFINIÇÃO do shrine, com o
+    ///       bônus do personagem em foco. Para os dois status cujo efeito não mora no
+    ///       `AttributeEffects` (Flame e Decay — o dano vive na ação `* Aura Proc`, RV-19 §4) a linha
+    ///       mostra a descrição do próprio status com o `[0]` avaliado pela expressão dele.
+    ///
+    /// O Source da avaliação é o `Root.WorldCharacter` (o personagem VAZIO do shrine): é o que o jogo
+    /// usa como origem da aura e é a razão de Decay/Flame NÃO escalarem com Omnism/Horn, enquanto as
+    /// auras de buff (X = Target) escalam com o bônus do personagem em foco.
     /// </summary>
     [HarmonyPatch]
     public static class ShrineAuraPatch
     {
-        private static readonly HashSet<string> Family = new HashSet<string>
-        {
-            "Warrior Aura", "Guardian Aura", "Conqueror Aura", "Rogue Aura", "Reaper Aura",
-            "Energy Aura", "Seraph Aura", "Shaman Aura", "Fury"
-        };
-
-        private static readonly Dictionary<string, (string attr, float baseVal)> AuraMap =
-            new Dictionary<string, (string, float)>
-            {
-                { "Warrior Aura",   ("DamageMod", 20f) },
-                { "Guardian Aura",  ("DamageReduction", 20f) },
-                { "Conqueror Aura", ("CritChance", 20f) },
-                { "Rogue Aura",     ("DodgeChance", 20f) },
-                { "Reaper Aura",    ("LifeOnHit", 8f) },
-                { "Energy Aura",    ("ManaCostMod", -50f) },
-                { "Seraph Aura",    ("HealthPerTurnPercent", 10f) },
-                { "Shaman Aura",    ("ManaPerTurnPercent", 10f) },
-                { "Fury",           ("DamageMod", 25f) }, // Fury também tem DamageReduction −25 (no loop)
-            };
-
-        /// <summary>Chaves de texto (exatas) da família de auras de shrine no LocalizePatch.</summary>
+        /// <summary>Chaves de texto (exatas) da família de auras de shrine no LocalizePatch.
+        /// Serve de PRÉ-FILTRO barato (o postfix roda em todo texto localizado do jogo); quem decide
+        /// se a linha aparece é o `AcumuladoShrines`, casando a chave com a descrição do status.</summary>
         private static readonly HashSet<string> ShrineKeys = new HashSet<string>
         {
             "Attackers take Fire Damage.",
@@ -234,7 +233,7 @@ namespace BetterTooltips.Patches
                 {
                     return;
                 }
-                Plugin.Log.LogInfo($"[Shrine RV-22] {linha}");
+                Plugin.Log.LogInfo($"[Shrine RV-23] {linha}");
             }
             catch
             {
@@ -242,93 +241,251 @@ namespace BetterTooltips.Patches
             }
         }
 
-        /// <summary>Formata um atributo acumulado com a semântica CERTA do jogo:
-        /// DamageReduction positivo = dano tomado REDUZIDO; ManaCostMod negativo = custo REDUZIDO.</summary>
+        /// <summary>Formata um atributo conhecido com a semântica CERTA do jogo (DamageReduction
+        /// positivo = dano tomado REDUZIDO; ManaCostMod negativo = custo REDUZIDO).
+        /// null = atributo que não está nesta lista; quem chamou usa o nome do próprio jogo.</summary>
         private static string Format(string attr, float v)
         {
             switch (attr)
             {
                 case "DamageReduction":
-                    return v >= 0 ? "Damage taken −" + v + "%" : "Damage taken +" + (-v) + "%";
+                    return v >= 0 ? "Damage taken −" + v.ToString("0.#") + "%" : "Damage taken +" + (-v).ToString("0.#") + "%";
                 case "ManaCostMod":
-                    return "Mana Costs reduced by " + (-v) + "%";
-                case "DamageMod": return "Damage +" + v + "%";
-                case "CritChance": return "Crit Chance +" + v + "%";
-                case "DodgeChance": return "Dodge +" + v + "%";
-                case "LifeOnHit": return "Life Steal +" + v + "%";
-                case "HealthPerTurnPercent": return "Health per turn +" + v + "%";
-                case "ManaPerTurnPercent": return "Mana per turn +" + v + "%";
-                default: return attr + " " + v + "%";
+                    return "Mana Costs reduced by " + (-v).ToString("0.#") + "%";
+                case "DamageMod": return "Damage +" + v.ToString("0.#") + "%";
+                case "CritChance": return "Crit Chance +" + v.ToString("0.#") + "%";
+                case "DodgeChance": return "Dodge +" + v.ToString("0.#") + "%";
+                case "LifeOnHit": return "Life Steal +" + v.ToString("0.#") + "%";
+                case "HealthPerTurnPercent": return "Health per turn +" + v.ToString("0.#") + "%";
+                case "ManaPerTurnPercent": return "Mana per turn +" + v.ToString("0.#") + "%";
+                default: return null;
             }
         }
 
-        /// <summary>Linha de acumulado (ou "" se não há nada). Nunca lança.</summary>
-        public static string AcumuladoShrines()
+        /// <summary>Começo da linha de auras ativas. O `LocalizePatch` usa este marcador para achar o
+        /// bloco azul no corpo do tooltip (RV-27) sem encostar em nenhum outro bloco colorido — nem nos
+        /// que o PRÓPRIO jogo colore com essa cor (blocos de status do `ShowTooltip`).</summary>
+        internal const string MarcadorLinhaDeAuras = "Your active shrine auras:";
+
+        /// <summary>Linha de acumulado (ou "" se não há nada). Nunca lança.
+        /// `chaveDaTooltip` = o texto localizado que está sendo montado: é ele que diz QUAL shrine
+        /// está aberto (o hover do shrine mostra `GroundEffectInfo.ActionStatuses[0].Description`,
+        /// decompilado l.214180).</summary>
+        public static string AcumuladoShrines(string chaveDaTooltip)
         {
             try
             {
-                // RV-22: o receptor é o MESMO do prefix — o WorldCharacter é vazio e nunca carrega
-                // as auras ativas (elas ficam nos ActionStatuses do PERSONAGEM que está no shrine).
                 if (Burst2Flame.Game.Instance?.GetAttribute("ShrineEffectBonus") == null)
                 {
                     return "";
                 }
-                Character c = Receptor(null, default(GameFunctionParameters));
-                if (c == null || c.ActionStatuses == null || c.ActionStatuses.Count == 0)
+
+                // (a) o receptor é o MESMO do prefix: o personagem em foco (o WorldCharacter é vazio).
+                Character receptor = Receptor(null, default(GameFunctionParameters));
+                if (receptor == null)
                 {
-                    Marca($"acumulado: receptor indisponivel (char={(c == null ? "(null)" : c.CharacterName)})");
+                    Marca("acumulado: nenhum receptor disponivel");
                     return "";
                 }
-                float bonus = c["ShrineEffectBonus"];
-                Dictionary<string, float> totals = new Dictionary<string, float>();
-                int vistos = 0;
-                foreach (var st in c.ActionStatuses)
+
+                // (b)+(d) a aura é a DESTA tooltip — não a soma das auras de outros shrines.
+                ActionStatusInfo aura = AcharAuraDaTooltip(chaveDaTooltip);
+                if (aura == null)
                 {
-                    if (st == null || st.ActionStatusInfo == null)
-                    {
-                        continue;
-                    }
-                    string nome = st.ActionStatusInfo.Name;
-                    if (!Family.Contains(nome) || !AuraMap.TryGetValue(nome, out var m))
-                    {
-                        continue;
-                    }
-                    vistos++;
-                    float v = Mathf.Round(m.baseVal * (1f + bonus / 100f));
-                    if (nome == "Fury")
-                    {
-                        Add(totals, "DamageMod", v);
-                        Add(totals, "DamageReduction", -v);
-                    }
-                    else
-                    {
-                        Add(totals, m.attr, v);
-                    }
-                }
-                Marca($"acumulado: char={c.CharacterName} bonus={bonus} auras={vistos} statuses={c.ActionStatuses.Count}");
-                if (totals.Count == 0)
-                {
+                    Marca($"acumulado: nenhuma aura de shrine com a descricao '{chaveDaTooltip}'");
                     return "";
                 }
-                List<string> parts = new List<string>();
-                foreach (var kv in totals)
+
+                // (c)+(e) valores do próprio status (AttributeEffects + expressões do jogo).
+                string efeito = DescreverEfeito(aura, receptor);
+                if (string.IsNullOrEmpty(efeito))
                 {
-                    parts.Add(Format(kv.Key, kv.Value));
+                    Marca($"acumulado: aura '{aura.Name}' sem efeito calculavel para {receptor.CharacterName}");
+                    return "";
                 }
-                string linha = "\n<color=#C8B090>Your active shrine auras: " + string.Join("; ", parts) + ".</color>";
-                Marca("acumulado: " + linha.Replace("\n", " | "));
-                return linha;
+
+                Marca($"acumulado: shrine='{aura.Name}' char={receptor.CharacterName} -> {efeito}");
+                // O texto do status pode ja terminar em ponto (Flame/Decay): nao somar outro.
+                string fecho = (efeito.EndsWith(".", StringComparison.Ordinal)
+                    || efeito.EndsWith("!", StringComparison.Ordinal)
+                    || efeito.EndsWith("?", StringComparison.Ordinal)) ? "" : ".";
+                return "\n<color=#" + LocalizePatch.CorDaLinhaDeAuras() + ">"
+                    + MarcadorLinhaDeAuras + " " + efeito + fecho + "</color>";
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"[Shrine RV-22] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
+                Plugin.Log.LogWarning($"[Shrine RV-23] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
                 return "";
             }
         }
 
-        private static void Add(Dictionary<string, float> totals, string attr, float v)
+        /// <summary>
+        /// O status de aura que a tooltip está mostrando. `Game.Instance.ActionStatuses` é a lista das
+        /// DEFINIÇÕES de status do jogo (não os status vivos de um personagem), então casar pela
+        /// descrição não depende do momento do turno. Se mais de um status compartilhar o mesmo texto,
+        /// ganha o que tem `AttributeEffects` — é o que carrega o efeito de verdade.
+        /// </summary>
+        private static ActionStatusInfo AcharAuraDaTooltip(string chaveDaTooltip)
         {
-            totals[attr] = totals.TryGetValue(attr, out float cur) ? cur + v : v;
+            if (string.IsNullOrEmpty(chaveDaTooltip))
+            {
+                return null;
+            }
+            List<ActionStatusInfo> statuses = Burst2Flame.Game.Instance?.ActionStatuses;
+            if (statuses == null)
+            {
+                return null;
+            }
+            ActionStatusInfo semEfeito = null;
+            foreach (ActionStatusInfo s in statuses)
+            {
+                if (s == null || s.Description == null)
+                {
+                    continue;
+                }
+                if (!string.Equals(s.Description, chaveDaTooltip, StringComparison.Ordinal))
+                {
+                    continue;
+                }
+                if (s.AttributeEffects != null && s.AttributeEffects.Length > 0)
+                {
+                    return s;
+                }
+                if (semEfeito == null)
+                {
+                    semEfeito = s;
+                }
+            }
+            return semEfeito;
+        }
+
+        /// <summary>
+        /// O que a aura FAZ, lido do status (nunca de tabela): um item por `AttributeEffects`, com o
+        /// valor vindo da expressão do próprio efeito avaliada pelo interpretador do jogo. Auras sem
+        /// AttributeEffects (Flame/Decay — o dano mora na ação `* Aura Proc`, RV-19 §4) caem na
+        /// descrição do status com o `[0]` avaliado pela expressão dele.
+        /// </summary>
+        private static string DescreverEfeito(ActionStatusInfo aura, Character receptor)
+        {
+            List<string> partes = new List<string>();
+            CharacterEffectInfo[] efeitos = aura.AttributeEffects;
+            if (efeitos != null)
+            {
+                foreach (CharacterEffectInfo efeito in efeitos)
+                {
+                    if (efeito == null || efeito.CharacterAttribute == null)
+                    {
+                        continue;
+                    }
+                    float valor;
+                    if (!ValorDaExpressao(efeito.Amount, receptor, out valor))
+                    {
+                        Marca($"acumulado: expressao nao avaliada no efeito de '{aura.Name}': {efeito.Amount}");
+                        continue;
+                    }
+                    partes.Add(TextDoEfeito(efeito.CharacterAttribute, valor));
+                }
+            }
+            if (partes.Count == 0)
+            {
+                string texto = TextoDaDescricao(aura, receptor);
+                if (!string.IsNullOrEmpty(texto))
+                {
+                    partes.Add(texto);
+                }
+            }
+            return partes.Count == 0 ? "" : string.Join("; ", partes.ToArray());
+        }
+
+        /// <summary>
+        /// Descrição do próprio status com os `[n]` trocados pelo valor real da expressão `n` (mesma
+        /// convenção do `ApplyDescriptionExpressions` do jogo).
+        /// </summary>
+        private static string TextoDaDescricao(ActionStatusInfo aura, Character receptor)
+        {
+            string texto = aura.Description;
+            if (string.IsNullOrEmpty(texto))
+            {
+                return null;
+            }
+            string[] expressoes = aura.DescriptionExpressions;
+            if (expressoes == null || expressoes.Length == 0)
+            {
+                expressoes = aura.GetDescriptionExpressionsNonCharacterBased();
+            }
+            if (expressoes != null)
+            {
+                for (int i = 0; i < expressoes.Length && i < 10; i++)
+                {
+                    string token = "[" + i + "]";
+                    if (texto.IndexOf(token, StringComparison.Ordinal) < 0)
+                    {
+                        continue;
+                    }
+                    float valor;
+                    if (!ValorDaExpressao(expressoes[i], receptor, out valor))
+                    {
+                        continue;
+                    }
+                    texto = texto.Replace(token, valor.ToString("0.#"));
+                }
+            }
+            return texto.Trim();
+        }
+
+        /// <summary>
+        /// Avalia a expressão do jogo como o motor faz ao aplicar o efeito: primeiro número puro
+        /// (`TryParseWithEnglishCulture`), senão `Game.TryEval` (mesma ordem de
+        /// `Character.GetAttributeWalk`).
+        /// `Source` = personagem do SHRINE (o `Root.WorldCharacter`, vazio e sem bônus — é isso que
+        /// mantém Decay/Flame na base); `Target` = o personagem em foco (é o que faz as auras de buff
+        /// escalarem com Omnism/Horn).
+        /// </summary>
+        private static bool ValorDaExpressao(string expressao, Character receptor, out float valor)
+        {
+            valor = 0f;
+            if (string.IsNullOrEmpty(expressao))
+            {
+                return false;
+            }
+            GameFunctionParameters parametros = new GameFunctionParameters
+            {
+                Source = NetworkingManager.Instance?.NetworkManager?.Root?.WorldCharacter,
+                Target = receptor
+            };
+            // Expressão que lê `Source[...]` precisa do personagem do shrine: sem ele, melhor não
+            // mostrar número nenhum do que mostrar um número mentiroso.
+            if (parametros.Source == null && expressao.IndexOf("Source[", StringComparison.Ordinal) >= 0)
+            {
+                return false;
+            }
+            if (Burst2Flame.Game.TryParseWithEnglishCulture(expressao, out valor))
+            {
+                return true;
+            }
+            return Burst2Flame.Game.TryEval<float>(expressao, parametros, out valor);
+        }
+
+        /// <summary>
+        /// Rótulo do efeito. Os atributos conhecidos têm frase própria (o sinal do atributo não é o
+        /// sinal do texto: `DamageReduction` positivo REDUZ o dano tomado e `ManaCostMod` negativo
+        /// reduz o custo). Qualquer outro usa o nome de tooltip do PRÓPRIO jogo
+        /// (`CharacterAttribute.GetTooltipDisplayName`) — nada inventado aqui.
+        /// </summary>
+        private static string TextDoEfeito(CharacterAttribute atributo, float v)
+        {
+            string nome = atributo.name;
+            string conhecido = Format(nome, v);
+            if (conhecido != null)
+            {
+                return conhecido;
+            }
+            string rotulo = atributo.GetTooltipDisplayName();
+            if (string.IsNullOrEmpty(rotulo))
+            {
+                rotulo = nome;
+            }
+            return rotulo + " " + (v >= 0f ? "+" : "−") + Mathf.Abs(v).ToString("0.#") + "%";
         }
     }
 }
