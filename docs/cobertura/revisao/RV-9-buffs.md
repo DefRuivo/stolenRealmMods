@@ -902,6 +902,13 @@ Gerado do `status.csv`. **Descricoes COMPLETAS** (ja errei com texto truncado, R
 - descricao (completa): Increases the effect of Shrines by {50,100}%.  <i><color=#808080>"Given to great warriors to aid them in battle."</i></color>
 - ja no mod: nao
 
+> **Nota RV-24 (30/09/2026) — a cadeia do `ShrineEffectBonus`:** este é o item e, ao lado dele, os
+> tiers de `Omnism` (`I` = **8**, `II` = **20**), que são as fontes do bônus. Os tiers **NÃO somam**
+> (8 + 20 = 28 está **errado**): a `Omnism II` **substitui** a `Omnism I` (`SkillsThatReplace`), o
+> total é **20** — teste do próprio jogo, `20f` (decompilado l.183505) — e o "an additional 12%" do
+> texto é só a diferença 8 → 20. Fonte corrigida, aura por aura: `docs/cobertura/revisao/RV-19-shrines.md`.
+> (Nota acrescentada: o relatório em si é registro histórico e não foi reescrito.)
+
 ## Hunger  [Common]
 - efeitos: `ManaOnHit:Base:10`
 - efeitosDano: `TargetStored['ShadowDamage'] = Target.MaxHealth * .1f`

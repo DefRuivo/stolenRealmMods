@@ -222,6 +222,49 @@ grep -a "carregado\." "$LOG"                                                # 1 
 
 Só depois disso a alteração conta como instalada e testada.
 
+### Passo 8 — Release: só quando for **empacotar** (PKG-5)
+
+O dia a dia continua em **Debug**: `dotnet build <Mod>/<Mod>.csproj` (sem `-c`) compila em
+`<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` e o alvo `DeployToBepInEx` copia essa DLL para o perfil
+do r2modman. **Nada disso mudou.**
+
+O que passou a existir é o build de **Release** para gerar o artefato que vai para o `dist/`. É o
+mesmo fonte — nenhum arquivo dos 5 mods usa `#if DEBUG` (conferido com
+`grep -rn "#if DEBUG" BetterFont/ BetterStats/ BetterTooltips/ RoguelikeQoL/ RoguelikeDebugger/`) —
+então muda só otimização/pdb/nome da pasta de saída.
+
+```bash
+cd C:/dev/stolen-realm
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
+```
+
+- a DLL sai em **`<Mod>/bin/Release/netstandard2.1/<Mod>.dll`** (a pasta de Debug fica intacta);
+- **`-p:DeployToBepInEx=false` desliga o deploy** — é o que impede um build de Release de
+  sobrescrever a DLL que está instalada no perfil do r2modman (obrigatório quando o mod está aberto
+  em teste). O alvo `DeployToBepInEx` dos 5 `.csproj` ganhou
+  `Condition="'$(DeployToBepInEx)' != 'false'"`: **sem a flag o comportamento é o de sempre** (copia),
+  e a cópia continua usando `$(TargetPath)`, ou seja, a DLL da configuração que foi buildada.
+
+Saída literal medida em 30/09/2026 (os dois mods mais simples; os outros 3 usam o mesmo `.csproj` e
+a mesma receita):
+
+| mod | comando | resultado |
+|---|---|---|
+| BetterFont | `dotnet build BetterFont/BetterFont.csproj -c Release -p:DeployToBepInEx=false` | `Compilação com êxito.` / `1 Aviso(s)` / `0 Erro(s)` → `BetterFont/bin/Release/netstandard2.1/BetterFont.dll` |
+| BetterStats | `dotnet build BetterStats/BetterStats.csproj -c Release -p:DeployToBepInEx=false` | `Compilação com êxito.` / `2 Aviso(s)` / `0 Erro(s)` → `BetterStats/bin/Release/netstandard2.1/BetterStats.dll` |
+
+Conferência de que o deploy ficou desligado de verdade: nenhuma linha `Deploy:`/`copiado para` na
+saída e o MD5 das DLLs do perfil **não mudou** depois do build.
+
+O aviso é o `MSB3277` **pré-existente** (`System.Net.Http`: o `Assembly-CSharp.dll` do jogo aponta
+para 4.2.0.0 e o `netstandard2.1` traz 4.1.2.0). Ele aparece igual em Debug e Release e não é erro.
+
+**Pendência conhecida (não é do PKG-5):** quem consome a DLL para empacotar ainda aponta para
+**Debug** — `tools/pack-for-friends.sh` (`<Mod>/bin/Debug/netstandard2.1/<Mod>.dll`) e o cabeçalho
+do `tools/pack-thunderstore.py` (e o comentário em `.github/scripts/valida_pacotes.py`) falam de
+`bin/Debug`. Enquanto isso não for trocado, `dist/` continua sendo gerado a partir da build de
+**Debug**; o `-c Release` acima prova que a compilação de Release funciona nos 5 projetos.
+
 ---
 
 ## 4. `tools/` — o que cada script faz
@@ -249,6 +292,7 @@ Só depois disso a alteração conta como instalada e testada.
 | `check_segredos.py` | **Trava de segredo:** varre os arquivos versionados procurando credencial (token do Thunderstore, PAT do GitHub, chave privada). Exit 1 e o release para. |
 | `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. |
 | `release-check.sh` | **A trava de release:** roda os 7 passos de uma vez (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. Duas travas objetivas até aqui: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). |
+| `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/plugin), ferramentas citadas x existentes em `tools/`, links relativos, caminhos que saíram do repo e a dependência do Thunderstore. Sai `exit 1` quando alguma afirmação não bate — é o **passo 7 do CI**. Descobre a raiz do repo a partir do próprio arquivo (roda de qualquer diretório) e **marca** os falsos positivos que já conhece (referência histórica ao `BetterTexts`, tabela que diz "não instale", a linha que explica que o `KANBAN.md` não é versionado, script de bancada em `scratch/`) em vez de reprovar. |
 
 ---
 

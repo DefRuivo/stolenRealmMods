@@ -3,10 +3,10 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>10</LangVersion>
-    <AssemblyName>BetterStats</AssemblyName>
-    <RootNamespace>BetterStats</RootNamespace>
-    <Version>1.0.0</Version>
-    <Description>Mostra os stats no formato "base (combinado)" na tela de personagem e na de level up.</Description>
+    <AssemblyName>RoguelikeSkillTreeVisualizer</AssemblyName>
+    <RootNamespace>RoguelikeSkillTreeVisualizer</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>Botao na tela Select Party do Roguelike que abre a Skill Tree nativa em modo somente leitura.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
@@ -74,9 +74,10 @@
   </ItemGroup>
 
   <!-- Deploy automático: copia a DLL para o perfil do r2modman após o build.
-       PKG-5: para PULAR o deploy (ex.: buildar Release sem sobrescrever a DLL que
-       está no perfil do r2modman), passe -p:DeployToBepInEx=false na linha de comando. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
+       Escotilha para buildar SEM mexer no perfil do jogo (útil com o jogo aberto):
+           dotnet build -p:SkipDeploy=true
+       Sem a propriedade, o comportamento é o dos outros mods do repositório: copia. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(SkipDeploy)' != 'true'">
     <PropertyGroup>
       <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
     </PropertyGroup>

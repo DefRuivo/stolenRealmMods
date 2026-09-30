@@ -60,8 +60,10 @@
 
   <!-- INFRA-1: deploy automático após o build — copia a DLL para o perfil do r2modman.
        O caminho usa $(USERPROFILE) (env var do Windows) + o perfil Default do mod manager.
-       Se o jogo estiver aberto, a cópia falha (arquivo em uso) — feche o jogo antes de buildar. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build">
+       Se o jogo estiver aberto, a cópia falha (arquivo em uso) — feche o jogo antes de buildar.
+       PKG-5: para PULAR o deploy (ex.: buildar Release sem sobrescrever a DLL que
+       está no perfil do r2modman), passe -p:DeployToBepInEx=false na linha de comando. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
     <PropertyGroup>
       <BepInExPluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</BepInExPluginsDir>
     </PropertyGroup>

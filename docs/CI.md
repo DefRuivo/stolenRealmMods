@@ -35,9 +35,9 @@ A ordem vai do mais barato/mais grave para o mais caro.
 | 2 | `python tools/check_fix_keys.py` | chave das tabelas do `LocalizePatch` que não existe no censo |
 | 3 | `python tools/check_dupes.py` | chave **duplicada** → `ArgumentException` derruba o `LocalizePatch` inteiro (INC-1) |
 | 4 | `python tools/check_notas_redundantes.py` | nota que repete o próprio texto (RV-15) |
-| 5 | `python tools/check_chave_compartilhada.py` | texto usado por mais de um dono, com correção por texto (BUG-32) |
+| 5 | `python tools/check_chave_compartilhada.py` | texto usado por mais de um dono, com correção por texto (BUG-32). A flag `--estrito` **existe**, mas o CI **não** a usa de propósito — ver "Armadilhas conhecidas" (1 caso real ainda aberto) |
 | 6 | `python .github/scripts/valida_pacotes.py` | manifest, ícone, README e CHANGELOG de cada pacote |
-| 7 | `python tools/audita_docs.py` **se existir** | auditoria dos docs (hoje mora em `scratch/`, fora do git) |
+| 7 | `python tools/audita_docs.py` | auditoria das docs contra o disco: contagens, versões, ferramentas citadas, links e caminhos que saíram do repo (promovido de `scratch/` em 30/09/2026) |
 
 Nenhum passo instala dependência: todos usam só a biblioteca padrão do Python
 (`csv`, `json`, `re`, `struct`, `zlib`, `subprocess`).
@@ -53,7 +53,12 @@ python tools/check_dupes.py
 python tools/check_notas_redundantes.py
 python tools/check_chave_compartilhada.py
 python .github/scripts/valida_pacotes.py
+python tools/audita_docs.py
 ```
+
+O passo 5 tem a flag `--estrito` (o modo do `release-check.sh`); troque a linha por
+`python tools/check_chave_compartilhada.py --estrito` para ver **hoje** o caso que mantém a flag
+fora do CI — ele vai apontar a chave `Devour...`, e sai `1` (ver "Armadilhas conhecidas").
 
 Com `bash`/git-bash dá para parar no primeiro erro como o CI faz:
 
@@ -61,6 +66,7 @@ Com `bash`/git-bash dá para parar no primeiro erro como o CI faz:
 for s in check_segredos check_fix_keys check_dupes check_notas_redundantes \
          check_chave_compartilhada; do python "tools/$s.py" || break; done
 python .github/scripts/valida_pacotes.py
+python tools/audita_docs.py
 ```
 
 ## Armadilhas conhecidas
@@ -70,10 +76,29 @@ python .github/scripts/valida_pacotes.py
   a cada execução. No CI isso não é commitado (é só trava), mas localmente ele deixa o
   arquivo modificado. Se o número do relatório divergir do commit, é porque o relatório
   ficou **velho** em relação ao `LocalizePatch.cs` — rodar o script de novo é o conserto.
-- **O passo 5 hoje não reprova nada.** O `check_chave_compartilhada.py` aceita só `-v`;
-  ele sempre sai `0` e **lista** as suspeitas. Quando existir `--estrito`, trocar a linha
-  no YAML por `python tools/check_chave_compartilhada.py --estrito` e aí sim as suspeitas
-  viram reprovação.
+- **O passo 5 é a única trava ainda DESLIGADA — de propósito, e o que falta é UM caso.**
+  O `check_chave_compartilhada.py` **já tem** a flag `--estrito` (existe desde 30/09/2026 e é a
+  mesma que o `tools/release-check.sh` usa como passo 5). Sem a flag ele é relatório: sai `0`
+  sempre e **lista** as suspeitas. Com `--estrito` ele sai `1` quando a **mesma chave** está em
+  `TextFixes` **e** em `TextAppends` — caso em que o lookup `if/else if` executa o de `TextFixes`
+  e a entrada de `TextAppends` **nunca roda** (a nota não existe em jogo, sem erro no log). As 12
+  *suspeitas* de texto compartilhado seguem aviso que não reprova **nos dois modos** — ali a
+  decisão é humana (se a nota mente para o outro dono depende da mecânica que ela cita).
+  - **HOJE (o CI roda sem a flag, de propósito):** rodando `--estrito` na árvore atual ele sai
+    `1` por **1 caso real** — a chave `Devour the life force of all enemies within 2 hexes
+    dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.` está
+    nas duas tabelas (`TextAppends` l.431, nota de *stack* da skill `Consumption`, e `TextFixes`
+    l.907, o fix de terminologia `maximum health`→`max health` que é quem executa). Enquanto esse
+    caso existir, ligar a flag no CI deixaria a `main` vermelha para todo mundo **sem ganho
+    imediato** — e nada fica encoberto: o mesmo caso já reprova o `release-check.sh` na hora de
+    publicar (o CI é uma trava cedo, não a única).
+  - **DEPOIS (quando o caso for corrigido no `LocalizePatch.cs` — 1 entrada por texto, fundindo
+    o valor da `TextAppends` no da `TextFixes`):** trocar a linha do passo 5 no YAML por
+    `python tools/check_chave_compartilhada.py --estrito` e conferir antes, na sua máquina, com
+    `python tools/check_chave_compartilhada.py --estrito; echo $?` → **`0`**. Só então a flag
+    entra no CI e as chaves repetidas nas duas tabelas passam a reprovar no push, que é o
+    objetivo. (No `release-check.sh` esse já é o modo do **passo 5/6** dele hoje: é só o CI que
+    ainda não ligou a flag.)
 - **O passo 2 tem 4 avisos que não são erro.** Chaves de UI/loading que o censo do RV-7
   ainda não cobre (a frase das lojas, `Resist Divine`/`Resistance Divine`, a dica da
   poção). Isso é esperado e está documentado em

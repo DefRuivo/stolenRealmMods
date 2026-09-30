@@ -131,6 +131,13 @@ correção em runtime (como o RV-9 prevê) ou se fica como está.
 
 - **Tiers que SOMAM** (quando duas tiers compartilham um status, o valor é acumulado):
   `Masochism` 2/5, `Momentum` 2/3/5, `Omnism` 8/20, `Variety` 40/100.
+  > **⚠ Correção RV-24 (30/09/2026) — vale só para o `Omnism`:** os tiers de `Omnism` **NÃO somam**
+  > (ler 8 + 20 = 28 está **errado**). A `Omnism II` **substitui** a `Omnism I` — o personagem que
+  > conhece a II não tem a I (`SkillsThatReplace`) — e o total é **20**, exatamente como o teste do
+  > próprio jogo afirma: `LearnAndExpectAttributeDelta(..., "CHAOS_2_P1_Omnism II", "ShrineEffectBonus", 20f)`
+  > (decompilado, l.183505). O "an additional 12%" do texto é só a diferença 8 → 20, não um
+  > incremento a somar. `Masochism`, `Momentum` e `Variety` seguem como estão.
+  > Fonte corrigida (fórmulas de cada aura do shrine, item a item): `docs/cobertura/revisao/RV-19-shrines.md` (§3).
 - **"Cripple" é o vocabulário do jogo para `Slow`** — pela regra do padrão da maioria (5 de 5).
 - **Invocação não COPIA atributos, mas ESCALA com eles**: Might → dano, Intelligence → vida.
 - **`Brambles`/`Ice Wall`** são destrutíveis que ganham Might/Int mas **não contam como summon**.
