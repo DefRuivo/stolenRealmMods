@@ -23,36 +23,36 @@
     {
       "nome": "BetterStats",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "1.0.0",
+      "publicado_em": "2026-09-30T22:22:53.130988Z",
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
     },
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-09-30T22:23:00.141599Z",
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
     },
     {
       "nome": "RoguelikeDebugger",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-09-30T22:23:08.183028Z",
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
     },
     {
       "nome": "RoguelikeQoL",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-09-30T22:23:15.919446Z",
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
     },
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-09-30T22:23:23.226305Z",
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
     }
   ]
