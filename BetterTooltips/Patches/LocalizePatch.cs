@@ -436,8 +436,15 @@ namespace BetterTooltips.Patches
             { "Damage and Health increased by 25% Size increased by 25%",
               "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
             // RV-9 buffs: Fury - \n Also increases the healing you do by the same percentage.
+            // RV-43 (01/10): era a UNICA das 9 chaves de aura de shrine SEM a base e SEM a cadeia do
+            // Shrine Effect Bonus, e sem dizer que e aura de SHRINE. A base e 25/25 (status.csv:205:
+            // `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"] / 100))` e
+            // `DamageReduction:Base:Mathf.Round(-25 * (1 + ...))` = +25% de dano tomado), o MESMO
+            // modelo das outras 8 (l.933-946, 1002, 1032). A frase de cura FICA: nao e falsa (o motor
+            // soma DamageMod a cura) - so entrou o que faltava. A chave continua SO em `TextAppends`
+            // (o texto original do jogo nao mudou); `check_chave_compartilhada.py --estrito` = 0.
             { "Damage increased by [0]%. Damage taken increased by [0]%. ",
-              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+              "\n<color=#C8B090>Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion). Also increases the healing you do by the same percentage.</color>" },
             // RV-9 buffs: Evolution - \n Also increases the healing you do by the same percentage.
             { "Damage increased by 5% per stack.  Can stack up to 10 times.",
               "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
@@ -914,7 +921,11 @@ namespace BetterTooltips.Patches
             // `Source.IsEnemy(Target)` + `Targets = Cell.IsCurrentHex(Target)`; e a chamada do motor e
             // `target.ProcessSkillTriggers(source, ..., OnGettingHitDamaging)` — decompilado l.40075 —
             // com `this` = quem FOI acertado e o `target` do gatilho = o atacante). Ou seja: a acao roda
-            // na celula do atacante, NUNCA na vida do personagem que so esta parado na aura. Prova
+            // na celula do atacante. RV-43 (01/10): no HOVER ninguem sabe quem vai atacar, entao a lista
+            // por alvo e uma PROJECAO — cada ocupante da aura e projetado COMO SE fosse o atacante, e o
+            // numero sai da vida maxima DELE (hipotese explicita, aceita pelo dono). O texto da nota diz
+            // isso ("if this character attacked") e NAO afirma mais que a vida usada nao e a de quem esta
+            // na aura: essa frase contradizia a propria lista. Prova
             // completa no cabecalho do ShrineAuraPatch. Aqui fica so o texto FIXO (a regra e a escala);
             // a lista DINAMICA por alvo (`FraseAlvosDoFlame`) entra DENTRO deste mesmo bloco de cor para
             // nao existirem dois blocos iguais. RV-34: o numero E a % saem com o MESMO fator do
@@ -922,7 +933,7 @@ namespace BetterTooltips.Patches
             // o valor e ANTES DAS REDUCOES DE DANO — pedido explicito do dono do jogo (sem isso o numero
             // parece prometer o dano que aparece na tela e nao bate).
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: the percentage and the Shrine Effect Bonus of the attacker that triggers the aura - the character that attacks someone standing inside it - multiply that attacker's Max Health, never the Max Health of the character standing in the aura, and no armor, resistances or other mitigation is applied. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: the number is the projection of THIS character as the attacker - if this character attacked, the percentage and its own Shrine Effect Bonus multiply its own Max Health, and no armor, resistances or other mitigation is applied. At hover time the game cannot know who will attack, so every character standing in the aura is projected as if it were the attacker. The percentage follows that character's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
             // RV-33/RV-34 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target
             // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE) VEZES o ShrineEffectBonus
             // DELE (RV-34: medido em jogo, com Worship dobra). O numero literal sai na linha

@@ -1,6 +1,6 @@
 {
   "name": "BetterTooltips",
-  "version_number": "0.1.0",
+  "version_number": "0.1.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Reescreve os tooltips de skills e status do Stolen Realm para nao mentirem por omissao, acrescentando ao fim do texto a explicacao de mecanica que falta.",
   "dependencies": [
