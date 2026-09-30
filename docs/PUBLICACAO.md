@@ -19,10 +19,23 @@ comunidade é **cache** e não serve para conferir (ver a nota *Ao conferir na A
 [`README.md`](README.md), § *Publicação — credencial e namespace*). Os dois workflows **já estão no
 remoto** — para reconferir, compare **commit com commit** (`git ls-remote origin main` contra
 `git rev-parse HEAD`; **não** compare MD5 de disco com o do publicado, ver adendo em
-[`CI.md`](CI.md)) — então o pipeline está **vivo**, não "só no disco". Os 6 zips do release de 30/09
-estão anexados na GitHub Release
+[`CI.md`](CI.md)) — então o pipeline está **vivo**, não "só no disco". Os **8** anexos do release de
+30/09 — **7** mods, com o `BetterFont` em duas versões (1.0.0 e 1.0.1) — estão na GitHub Release
 [`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
-que é o caminho do input `release_tag` do `publish.yml`.
+que é o caminho do input `release_tag` do `publish.yml`. Contagem conferida na **API do GitHub**
+(`assets` da Release, 30/09/2026), não na memória: `gumatos-BetterCombatText-0.1.0.zip`,
+`gumatos-BetterFont-1.0.0.zip`, `gumatos-BetterFont-1.0.1.zip`, `gumatos-BetterStats-1.0.0.zip`,
+`gumatos-BetterTooltips-0.1.0.zip`, `gumatos-RoguelikeDebugger-0.1.0.zip`,
+`gumatos-RoguelikeQoL-0.1.0.zip`, `gumatos-RoguelikeSkillTreeVisualizer-0.1.0.zip` — o **título** da
+Release ("Pacotes dos 6 mods - 30/09/2026") é que ficou velho: o zip do `BetterCombatText` entrou
+depois.
+
+O pipeline tem um passo de envio por mod — os 5.1–5.6 mais o **5.7 (`BetterCombatText`)**, na forma
+dos outros (`categories: mods`, `path: envio-BetterCombatText`) — e o input `mod:` do
+`workflow_dispatch` lista os **7**. Sem esse encaixe, virar `publicar: true` no `BetterCombatText`
+hoje não publicaria: o passo 5.0 criaria o `envio-BetterCombatText`, nenhum passo enviaria e o passo
+6 terminaria vermelho com `NAO esta no ar: BetterCombatText v0.1.0` depois de sondar por até 20
+minutos.
 
 ## 0) Antes do primeiro upload: licença e categorias (pesquisa de 30/09/2026)
 
@@ -81,17 +94,23 @@ vitrine, não trava nada).
   wiki diz que o mod "pode aparecer só numa seção" conforme as categorias escolhidas, e
   "WrongCategories" é motivo de rejeição. Recomendado, não bloqueante
   (<https://wiki.thunderstore.io/mods/mod-not-visible>).
-- **O caminho automatizado não envia categoria**: `tools/publish-thunderstore.sh` manda só
-  `-F "file=@..."`, e `publish.yml` nem `pack-thunderstore.py` têm campo de categoria — é por isso
-  que o BetterFont subiu com `categories: []`. Para ajustar **sem refazer o zip** existe a API
-  oficial `POST /api/experimental/package-listing/{id}/update/`, cujo corpo **exige**
-  `{"categories": ["Mods"]}` (endpoint confere: responde 400/405, não 404).
+- **O `publish.yml` envia categoria; o envio local não.** Desde o commit `420a7a4` os passos
+  de envio do workflow levam o input `categories:` (`mods` nos 5.1/5.2/5.3/5.5/5.6 e no 5.7 `BetterCombatText`;
+  `tools` no 5.4) — não vale mais dizer que "o `publish.yml` nem o `pack-thunderstore.py` têm campo de
+  categoria". Quem segue **sem** categoria é o envio **local**: o `tools/publish-thunderstore.sh`
+  manda só `-F "file=@..."` e o `tools/pack-thunderstore.py` não tem campo de categoria. É por isso
+  que o `BetterFont` — o único que subiu **antes** do `420a7a4` — está no ar com `categories: []`,
+  enquanto os cinco seguintes já saíram com a categoria certa. Para ajustar **sem refazer o zip**
+  existe a API oficial `POST /api/experimental/package-listing/{id}/update/`, cujo corpo **exige**
+  `{"categories": ["Mods"]}` (endpoint confere: responde 400/405, não 404) — mas ela **não funciona**
+  com o token do CI: ver *Categorias na automação*, abaixo.
 - **INDETERMINADO / a decidir pelo dono**: qual licença. E vale lembrar que um `LICENSE` no repo
   ou no zip é **texto informativo** — a plataforma não lê esse arquivo nem o exibe como metadado.
 
 ### Categorias na automação — o que já está provado (30/09/2026)
 
-> **Correção ao bullet acima:** o `POST /api/experimental/package-listing/{id}/update/` existe
+> **Correção ao bullet da seção anterior (que cita esta API):** o
+> `POST /api/experimental/package-listing/{id}/update/` existe
 > (rota `package-listing/<int:pk>/update/` na fonte), mas **não fecha o caso**: `{id}` é o PK
 > **inteiro** da listagem e **nenhum endpoint público o expõe** (conferido no OpenAPI completo —
 > `curl -s "https://thunderstore.io/api/docs/?format=openapi"` — e nos serializers do pacote).
@@ -100,9 +119,13 @@ vitrine, não trava nada).
 > `{"categories": ["mods"]}` — **slug, não o nome**.
 
 **O bloqueio real é o tipo de token, não o PK.** Os dois caminhos chamam o mesmo
-`update_categories` → `ensure_update_categories_permission` → `validate_user()`, e esse
-`validate_user` **recusa service account por desenho** (`Service accounts are unable to perform
-this action`, em `django/thunderstore/permissions/utils.py`). O token do repo é service account
+`update_categories` → `PackageListing.ensure_update_categories_permission` → `validate_user()`
+com `allow_serviceaccount=False`, e esse `validate_user` **recusa service account por desenho**
+(`Service accounts are unable to perform this action`, em
+`django/thunderstore/permissions/utils.py`). **É esta a razão de a categoria ter de entrar no
+momento do UPLOAD:** depois de o pacote ser aceito não há como corrigir pela API com o token do
+pipeline — o 403 é do **desenho da permissão** (`allow_serviceaccount=False`), não de escopo de
+token, então nem rotacionar a credencial resolve. O token do repo é service account
 (`...sa@thunderstore.io`, papel `member` no team `DefRuivo_StolenRealmMods`) e o token do CI
 também tem de ser (seção 3). Medido ao vivo, sem adivinhar:
 
@@ -118,18 +141,22 @@ com este token). Para o BetterFont, já publicado com `categories: []`, sobra a 
 requisição é a da listagem) e `PackageSubmissionMetadataSerializer.community_categories`
 (`{"stolen-realm": ["mods"]}`).
 
-**E a automação já tem o encaixe pronto, só não usado:** a Action
+**O encaixe é o input `categories` da Action, e o `publish.yml` já o usa** (commit `420a7a4`; o
+passo 5.7 do `BetterCombatText` entrou na mesma forma): a Action
 `GreenTF/upload-thunderstore-package` tem o input **`categories`** (`action.yml` → `TS_CATEGORIES`
 → `cfg_edit.js` grava `publish.categories["stolen-realm"]`, em **slug minúsculo**, no
-`thunderstore.toml` do `tcli`). Falta preencher o input nos blocos do `publish.yml` — e, no envio
-local, mandar `community_categories` no metadata.
+`thunderstore.toml` do `tcli`). Hoje ele está preenchido em **todos os 7** passos de envio —
+`categories: mods` nos 5.1/5.2/5.3/5.5/5.6/**5.7** e `categories: tools` no 5.4. O que **continua
+sem** categoria é o envio **local** (dry-run por padrão, em `tools/publish-thunderstore.sh`): lá o
+caminho é mandar `community_categories` no metadata.
 
-**Lista proposta por mod** (com o slug da API; o nome é só rótulo). As 6 categorias válidas e os
+**Lista aplicada por mod** (com o slug da API; o nome é só rótulo). As 6 categorias válidas e os
 slugs vêm de <https://thunderstore.io/api/experimental/community/stolen-realm/category/> →
 `audio, misc, libraries, tools, modpacks, mods`:
 
 | Mod | Categoria (slug) | Por quê |
 |---|---|---|
+| BetterCombatText | **Mods** (`mods`) | contorno/halo legível no texto de combate |
 | BetterFont | **Mods** (`mods`) | troca a fonte renderizada da interface |
 | BetterStats | **Mods** (`mods`) | números na ficha e no level up |
 | BetterTooltips | **Mods** (`mods`) | reescreve o texto dos tooltips |
@@ -137,8 +164,11 @@ slugs vêm de <https://thunderstore.io/api/experimental/community/stolen-realm/c
 | RoguelikeQoL | **Mods** (`mods`) | HUD de qualidade de vida |
 | RoguelikeSkillTreeVisualizer | **Mods** (`mods`) | abre a skill tree nativa em modo leitura |
 
-**Nada foi alterado no `publish.yml` nem no `tools/publish-thunderstore.sh` nesta rodada** — o
-formato (input da Action × metadata no script local) fica para o dono decidir.
+**O `publish.yml` foi alterado** — `420a7a4` (categoria por mod no upload) mais o **passo 5.7
+(`BetterCombatText`)** e a opção dele no input `mod:` do `workflow_dispatch`. Não vale mais dizer
+"nada foi alterado no `publish.yml` nesta rodada". O que **não** mudou é o envio **local**
+(`tools/publish-thunderstore.sh` + `tools/pack-thunderstore.py`, os dois sem categoria): quem
+decidir mandar categoria por lá precisa passar `community_categories` no metadata.
 
 ## 1) As regras da plataforma que mandam no desenho
 
@@ -340,12 +370,22 @@ A árvore completa da API, também sem credencial:
   mostra a maior). O pre-flight recusa.
 - **Zip de outro commit**: se você editar o `manifest.json`/descrição depois de zipar, o
   pre-flight acusa "o zip não é deste commit". Rebuilde e reempacote.
+- **Mod sem passo de envio no `publish.yml` = run vermelho.** O diretório `envio-<Mod>` do passo
+  5.0 é genérico (sai do `release/mods.json`), mas o **envio** é um passo por mod (5.1–5.7) e a
+  lista do input `mod:` do `workflow_dispatch` é fixa. Liberar um mod que não tem passo (era o caso
+  do `BetterCombatText` até esta rodada) faz o 5.0 criar o diretório, **nenhum** passo enviar e o
+  passo 6 fechar com `::error::NAO esta no ar: <mod> v<versao>` depois de sondar por até 20 minutos.
+  Ao liberar um mod **novo** no gate, acrescente as **três** peças juntas: o passo 5.x
+  (`categories:` incluído, `path: envio-<Mod>`), a opção no input `mod:` e — só se o modo automático
+  for ligado algum dia — a pasta no `paths:` comentado.
 - **`RoguelikeSkillTreeVisualizer` tinha o pacote incompleto** (faltava `CHANGELOG.md`) e por isso
   não podia ser liberado. **Corrigido em 30/09/2026:** os **7** mods têm `manifest.json`, `README.md`,
   `CHANGELOG.md` e `icon.png`, e o `python .github/scripts/valida_pacotes.py` valida os
   **7 pacotes com 0 problemas** — o empacotador não recusa mais nenhum por pacote incompleto.
   Ele foi liberado no mesmo dia e está **no ar** (0.1.0). O único que segue fora do ar é o
-  `BetterCombatText`: empacotado, com `publicar: false` no gate — falta o dono liberar.
+  `BetterCombatText`: empacotado (o zip 0.1.0 **está** anexado na Release `pack-2026-09-30`), com
+  `publicar: false` no gate — falta o dono liberar. E o envio dele já existe: o **passo 5.7** e a
+  opção no input `mod:`, então virar `publicar: true` basta.
 - **O `[skip ci]` no commit do registro** evita disparar a validação inteira de novo por um
   commit que só escreve a versão publicada.
 - **Push do registro pode falhar** (proteção de branch, permissão de escrita). Nesse caso a
