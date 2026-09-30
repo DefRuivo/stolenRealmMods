@@ -312,7 +312,7 @@ Quick Hands,Ranger,3,None,,sim,,Your basic attack has a 50% chance to strike twi
 Quickening,Light,4,None,Beneficial,sim,,"Every time one of your Light skills is cast on an ally, one of the ally's spells has it's cooldown lowered by 1 turn.  This effect can only happen once per turn.",corrigido
 Rage,Warrior,1,None,Beneficial,nao,,Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.,corrigido
 Rage Spores,Nature,4,None,"Harmful,Ranged",nao,,Infects enemies and allies with Rage Spores that increase @damage dealt@ and reduce @damage reduction@ by 25% for 2 turns.,revisado
-Rainstorm,Nature,4,None,"Beneficial,Ranged",nao,,Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.,pendente
+Rainstorm,Nature,4,None,"Beneficial,Ranged",nao,,Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.,revisado
 Raise Iron Golem,Shadow,5,None,Ranged,nao,,Raise a Mighty Iron Golem to fight for you.,corrigido
 Raise Skeletal Archer,Shadow,1,None,Ranged,nao,,Summon a skeletal archer to fight by your side.,corrigido
 Raise Skeletal Mage,Shadow,5,None,"Beneficial,Ranged",nao,,Summon a skeletal mage to fight by your side.,corrigido
@@ -345,10 +345,10 @@ Seal of Salvation,Light,5,None,Beneficial,nao,,All allies within 3 hexes of you 
 Shadow Breath,Shadow,1,Shadow,"Harmful,Ranged,DealsDamage",nao,,Breathe out a stream of shadow energy dealing *0 shadow damage to all enemies in range.,revisado
 Shadow Claw,Basic,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Slash nearby targets dealing *0 shadow damage to all enemies in range.,revisado
 Shadow Walk,Thief,4,None,,nao,,Teleport through the shadows. Applies {STA=Stealth} for this turn.  Unaffected by increased range modifiers.,corrigido
-Shapeshift Dire Werewolf,Nature,5,None,,nao,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,pendente
+Shapeshift Dire Werewolf,Nature,5,None,,nao,,Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.,revisado
 Shapeshift Dragonkin,Nature,5,None,Beneficial,nao,,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",corrigido
 Shapeshift Vampire Bat,Innate,3,None,12,nao,,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,revisado
-Shapeshift Werewolf,Nature,3,None,Beneficial,nao,,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,pendente
+Shapeshift Werewolf,Nature,3,None,Beneficial,nao,,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,revisado
 Shatter,Cold,5,None,"Harmful,Ranged",nao,,Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,revisado
 Shattering Cord,Bard,3,None,Beneficial,nao,,Dispels all negative effects off of allies and all positive effects off of enemies in a 4 hex radius. 3 turn cooldown. Free Action.,intocavel
 Shield Mastery,Warrior,3,None,,sim,"ShieldMastery:Set:1,",Increases @All Stats@ from shields by 50%,revisado
