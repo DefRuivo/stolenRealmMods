@@ -19,6 +19,28 @@ O mod complementa esse texto:
 
 Cada correção é baseada no código do jogo (decompilado do `Assembly-CSharp.dll`), não em opinião.
 
+## Números das auras de shrine
+
+Os tooltips de **shrine** do jogo mostravam sempre o valor **base** — mesmo para quem tinha o bônus que multiplica a aura. O mod faz a conta com o **bônus real do personagem em foco**:
+
+- **Auras de buff**: o valor sai já multiplicado pelo *Shrine Effect Bonus* — **Omnism I/II** (Chaos), o perk **`Worship`** (`100% increased effect from Shrines`) e o **Horn of Devotion**. Um `20%` base vira o número que você realmente recebe.
+- **Linha `Your active shrine auras:`**: um bloco que lista **todas as auras de shrine que o personagem está recebendo naquele momento** (por atributo). Quem está **fora** da aura não vê a linha.
+- **Decay Shrine**: a linha do jogo ganha o **dano por turno literal** (ex.: `20 damage per turn for you`), sobre a **sua** vida máxima e o **seu** bônus. Com `Worship`, dobra.
+- **Flame Shrine**: o dano é **por alvo** — um item para cada personagem na área da aura (party e inimigos), porque no hover ainda não se sabe **quem vai atacar**. Cada alvo usa a vida máxima, o tipo e o bônus **dele**.
+- **Sustenance I/II**: o tooltip de cada **globule** (e dos pickups de poção) mostra a cura real — 8%, 20% ou a soma das tiers ativas — sobre a sua vida e a sua mana máximas.
+
+> **O número é cru, antes de qualquer redução de dano** — as notas de Decay e Flame dizem isso: não entra armadura, resistência nem mitigação posterior. Quando não há prova (personagem fora da aura, atributo ausente no build, expressão não avaliável), o texto original fica **intacto** e o log diz o motivo: o mod **não estima**.
+
+**Conferência:** os números foram escritos contra o código e os assets do jogo, e o **fator do `Worship` (o dano dobra)** foi **medido em jogo** pelo autor. A **conferência visual final das linhas novas em jogo ainda não foi feita** depois da última revisão — se algo não corresponder ao que aparece na tela, é aqui que se reporta.
+
+## O que ele NÃO faz
+
+- **Não altera gameplay** — nenhum valor, dano, custo ou regra muda; o mod só reescreve texto.
+- **Não modifica nenhum arquivo do jogo** (nem save) e não deixa resíduo.
+- **Não revela o sorteio do Chaos** — é intencional: a graça da árvore é não saber o resultado.
+- **Não mostra número quando não há prova** — prefere deixar o texto original a inventar um valor.
+- **Não aplica mitigação** ao número que exibe: ele é o cru da fórmula do jogo.
+
 ## Instalar
 
 **Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a DLL em `BepInEx\plugins\BetterTooltips\`.

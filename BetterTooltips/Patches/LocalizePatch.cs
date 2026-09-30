@@ -1384,6 +1384,23 @@ namespace BetterTooltips.Patches
             { "The caster reaches out in aid healing 30% of target's maximum health.",
               "The caster reaches out in aid healing 30% of target's max health.\n\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
 
+            // ---- RV-13b (30/09): as duas `corrigido` do fechamento do censo (RV-13b §5) ----
+            // RV-13b: Raise Skeletal Lackey | o efeito do asset reduz CINCO coisas
+            // (`MaxHealth:Multiplicative:.5, DamageMod:Multiplicative:.5, Armor:Multiplicative:.5,
+            // DodgeChance:Multiplicative:.5, MagicArmor:Multiplicative:.5`) e o texto listava
+            // quatro: sem o Magic Armor, quem le le UMA mitigacao caindo quando caem DUAS.
+            // `Multiplicative:.5` = -50% esta provado pelo irmao `Transcendence` (ja `revisado`:
+            // "Reduces @Max Health@ by {50,35}%" = `MaxHealth:Multiplicative:{.5,.65}`).
+            // `ModelScaleMultiplier:Set:-40` nao entra: e escala visual, nao atributo.
+            { "Max Health, Damage, Armor, and Dodge Chance reduced by 50%.",
+              "Max Health, Damage, Armor, Magic Armor, and Dodge Chance reduced by 50%." },
+            // RV-13b: Warrior's Blade | a familia de efeito identico escreve com a preposicao -
+            // `Destructive` ("Damage increased by 50% ", ja `revisado`) e `Empowered Blood`
+            // ("Increases damage dealt by 50%.", ja `revisado`) - e esta entrada perdeu o `by`.
+            // Mesmo efeito (`DamageMod:Base:50`, o status `Warrior Shrine Explosion`, RV-19 §2).
+            { "Damage increased 50%.",
+              "Damage increased by 50%." },
+
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
