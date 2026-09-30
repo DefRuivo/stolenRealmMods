@@ -3,7 +3,9 @@
   "version_number": "0.1.0",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Qualidade de vida no modo roguelike: HUD sobreposto com os modificadores da run (Treasure Find, Gold Find e Exp da batalha). Vem desligado por padrao no config.",
-  "dependencies": [],
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2305"
+  ],
   "extra": {
     "author": "gumatos"
   }
