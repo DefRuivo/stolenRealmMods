@@ -104,4 +104,9 @@ cima. Nada mais precisa ser feito do lado dele.
 - Cada mod é um projeto independente, com `DeployToBepInEx` próprio no `.csproj`
   (copia a DLL para o perfil local depois do build).
 - Depois de compilar, a DLL de cada mod fica em
-  `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll` — é essa que o script empacota.
+  `<Mod>\bin\Release\netstandard2.1\<Mod>.dll` — é essa que o script empacota
+  (**Release** é a configuração padrão do empacotador; `--config Debug` empacota a
+  build de Debug, mas o pacote normal sai de Release). Compile com
+  `dotnet build <Mod>\<Mod>.csproj -c Release -p:DeployToBepInEx=false`: a flag
+  `DeployToBepInEx=false` é obrigatória aqui, senão o build sobrescreve a DLL
+  instalada no perfil do r2modman antes mesmo de empacotar.

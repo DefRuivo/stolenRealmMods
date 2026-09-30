@@ -257,7 +257,109 @@ namespace BetterTooltips.Patches
             return parametros.Source != null ? parametros.Source : parametros.Target;
         }
 
-        /// <summary>Loga cada combinação UMA vez (o prefix roda a cada frame de hover).</summary>
+        /// <summary>
+        /// RV-26 — RECEPTOR da tooltip, exposto para os outros patches (RV-28 usa o mesmo: o número
+        /// tem de ser do personagem em foco, nunca do WorldCharacter vazio do shrine).
+        /// </summary>
+        internal static Character ReceptorDaTooltip()
+        {
+            return Receptor(null, default(GameFunctionParameters));
+        }
+
+        /// <summary>
+        /// RV-26 — o VALOR DINÂMICO do Flame Shrine na LINHA ORIGINAL.
+        ///
+        /// A linha é `Attackers take Fire Damage.` (sem `[0]`), então o número não podia sair da
+        /// expressão do status: ele sai da FÓRMULA DO DANO, que mora na ação `Flame Aura Proc`
+        /// (`Effects[0].Action`) e foi copiada BYTE A BYTE abaixo — mesma string no asset
+        /// (`resources.assets` @1519546098, UTF-16) e no cache compilado (decompilado l.87156/87158).
+        ///
+        /// O que dá para calcular no hover, e é o que sai: o dano que o JOGO aplicaria ao jogador
+        /// SE ELE FOSSE O ATACANTE. A aura é aplicada a QUALQUER personagem não-untargetable dentro
+        /// da área (`Source.IsEnemy(Target)`, com o `Source` = o personagem do shrine, TeamIndex 2 →
+        /// verdadeiro para os dois times, `Character.IsEnemy`, l.37884), e a % sai do tipo do próprio
+        /// atacante (`Target.GetValueByEnemyType`, l.38351: não-AI → 5%). NÃO existe "número único por
+        /// inimigo": o hover não sabe quem vai atacar (conclusão do RV-19 §4.4).
+        ///
+        /// O `Source` da avaliação é o MESMO personagem vazio do shrine que o jogo usa no hover
+        /// (`Root.WorldCharacter`): é dele que o fator `(1 + Source["ShrineEffectBonus"]/100)` sai —
+        /// e é por isso que Omnism/Worship/Horn NÃO multiplicam este dano.
+        ///
+        /// Devolve null quando não dá para calcular (sem receptor, sem vida, expressão não avaliada):
+        /// a linha então fica intacta — nunca sai número inventado.
+        /// </summary>
+        public static string LinhaFlameComValor(string chaveDaTooltip)
+        {
+            try
+            {
+                if (!string.Equals(chaveDaTooltip, ChaveFlame, StringComparison.Ordinal))
+                {
+                    return null;
+                }
+                Character atacante = ReceptorDaTooltip();
+                if (atacante == null)
+                {
+                    Marca("RV-26 sem numero: nenhum receptor (personagem em foco) disponivel");
+                    return null;
+                }
+                if (atacante.MaxHealth <= 0f)
+                {
+                    Marca("RV-26 sem numero: receptor sem MaxHealth");
+                    return null;
+                }
+                float pct;
+                if (!ValorDaExpressao(PorcentagemDoAtacante, atacante, out pct))
+                {
+                    Marca("RV-26 sem numero: GetValueByEnemyType nao avaliado");
+                    return null;
+                }
+                float dano;
+                if (!ValorDaExpressao(FormulaDanoFlame, atacante, out dano))
+                {
+                    // Reserva: a MESMA fórmula, montada aqui, para o caso de o interpretador não aceitar
+                    // a string inteira (método + indexer na mesma expressão). O fator continua vindo do
+                    // personagem do shrine (`Source`), nunca do jogador; se nem esse trecho avaliar,
+                    // vale 1 — que é o valor real enquanto a origem da aura não tiver bônus.
+                    float fator;
+                    if (!ValorDaExpressao("(1 + (Source[\"ShrineEffectBonus\"] / 100))", atacante, out fator))
+                    {
+                        fator = 1f;
+                    }
+                    dano = Mathf.Max(1f, Mathf.Round(atacante.MaxHealth * pct * fator));
+                    Marca("RV-26 reserva: formula completa nao avaliada; dano montado a partir da % do atacante");
+                }
+                string linha = "Attackers take Fire Damage (" + (pct * 100f).ToString("0.#")
+                    + "% of the attacker's Max Health: " + dano.ToString("0.#") + " for you).";
+                Marca($"RV-26 linha com valor: {atacante.CharacterName} MaxHealth={atacante.MaxHealth.ToString("0.#")}"
+                    + $" -> '{linha}'");
+                return linha;
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-26] valor do Flame falhou (linha intacta): {ex.GetType().Name}: {ex.Message}");
+                return null;
+            }
+        }
+
+        /// <summary>A chave de texto exata do Flame Shrine (a descrição da aura).</summary>
+        internal const string ChaveFlame = "Attackers take Fire Damage.";
+
+        /// <summary>
+        /// A fórmula do dano do Flame, copiada byte a byte do asset da ação `Flame Aura Proc`
+        /// (`Effects[0].Action`, `resources.assets` @1519546098 — dois espaços depois de `Max(1,`,
+        /// é do asset) e idêntica no cache compilado (decompilado l.87156/87158). Avaliada pelo
+        /// INTERPRETADOR DO PRÓPRIO JOGO (`Game.TryEval`), com `Source` = o personagem vazio do shrine
+        /// e `Target` = o jogador: nenhum número dela é escrito à mão aqui.
+        /// </summary>
+        private const string FormulaDanoFlame =
+            "Mathf.Max(1,  Mathf.Round((Target[\"MaxHealth\"] * Target.GetValueByEnemyType(.025f, .08f, .1f, .12f, .14f, .05f)) * (1 + (Source[\"ShrineEffectBonus\"] / 100))))";
+
+        /// <summary>A % do próprio atacante, lida do asset (mesma lista da fórmula acima): 5% para o
+        /// jogador (`GetValueByEnemyType` devolve `player` quando o personagem não é AI, l.38351-38360).</summary>
+        private const string PorcentagemDoAtacante =
+            "Target.GetValueByEnemyType(.025f, .08f, .1f, .12f, .14f, .05f)";
+
+        /// <summary>Loga cada combinação UMA vez (o postfix roda a cada frame de hover).</summary>
         private static void Marca(string linha)
         {
             try

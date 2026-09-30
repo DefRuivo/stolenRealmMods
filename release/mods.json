@@ -1,0 +1,59 @@
+{
+  "esquema": 1,
+  "sobre": "Estado de publicacao de CADA mod na Thunderstore. E o gate do pipeline: o .github/workflows/publish.yml le este arquivo e age SO nos mods com \"publicar\": true. O quadro de tarefas do projeto nao esta no repositorio (e gitignored de proposito), entao esta e a unica forma de o CI saber o que esta liberado - e a decisao humana fica visivel no diff.",
+  "como_usar": "Para liberar um mod: vire \"publicar\" para true e explique em \"motivo\". Um mod com publicar:false NAO e publicado pelo pipeline, nem se for escolhido a mao no disparo (o workflow falha de proposito e mostra este motivo).",
+  "comunidade": "stolen-realm",
+  "team": "",
+  "team_pendente": "PUB-3: decidir QUAL team publica (o time e escrito na URL e nao se renomeia depois; publicar em outro team cria um pacote NOVO). Enquanto \"team\" estiver vazio o pipeline FALHA de proposito, antes de tocar em qualquer coisa. Quem define o team de verdade e o TOKEN usado no envio (o namespace vem do token, nao do zip).",
+  "esquema_de_um_mod": {
+    "nome": "nome da pasta do mod na raiz - tem que bater com tools/pack-thunderstore.py --listar-nomes",
+    "publicar": "true = este mod pode ser publicado pelo pipeline; false = nunca",
+    "versao_publicada": "ultima versao que esta no ar (null = nenhuma). Escrito pelo pipeline depois de um envio bem-sucedido.",
+    "publicado_em": "data da publicacao registrada (vem da API publica da Thunderstore)",
+    "motivo": "por que esta liberado ou travado, em uma linha"
+  },
+  "mods": [
+    {
+      "nome": "BetterFont",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    },
+    {
+      "nome": "BetterStats",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    },
+    {
+      "nome": "BetterTooltips",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    },
+    {
+      "nome": "RoguelikeDebugger",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    },
+    {
+      "nome": "RoguelikeQoL",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    },
+    {
+      "nome": "RoguelikeSkillTreeVisualizer",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "primeira publicacao ainda nao feita - ver PUB-3 (decisao de team) e PUB-2"
+    }
+  ]
+}

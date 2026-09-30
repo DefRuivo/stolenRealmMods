@@ -1,10 +1,16 @@
 # CI
 
-Automacao de GitHub Actions do repositorio. Hoje existe **um** workflow:
+Automacao de GitHub Actions do repositorio. Existem **dois** workflows, em escopos
+diferentes:
 
 | arquivo | quando roda | o que faz |
 |---|---|---|
-| [`.github/workflows/validate.yml`](../.github/workflows/validate.yml) | `push` e `pull_request` na `main` | só **valida**: reprova o commit se um dos checks do projeto falhar |
+| [`.github/workflows/validate.yml`](../.github/workflows/validate.yml) | `push` e `pull_request` na `main` | escopo **A** — só **valida**: reprova o commit se um dos checks do projeto falhar |
+| [`.github/workflows/publish.yml`](../.github/workflows/publish.yml) | **manual** (`workflow_dispatch`) + aprovacao num Environment | escopo **B** — **publica**: manda um `.zip` já empacotado para a Thunderstore, só dos mods liberados em [`release/mods.json`](../release/mods.json) |
+
+Nenhum dos dois compila e nenhum toca na `lib/` do jogo. O escopo B tem documento próprio:
+[PUBLICACAO.md](PUBLICACAO.md) — regras da Thunderstore, o gate, o setup do environment, o
+passo a passo e as armadilhas.
 
 ## Escopo A: só validação (decidido)
 
@@ -23,6 +29,46 @@ O CI **não compila** e **não publica**. Isso é decisão, não pendência:
 
 O efeito prático: o workflow é a mesma trava do `tools/release-check.sh`, mas **cedo**
 — no push, e não na hora de publicar.
+
+## Escopo B: publicação (decidido em 30/09/2026)
+
+O "não publica" do escopo A continua valendo **para o `validate.yml`**. A publicação é um
+segundo workflow, **separado e manual**, porque não dá para automatizá-la sem quebrar duas
+regras do projeto: não hospedar DLL do jogo num repositório público, e não publicar sem
+revisão humana.
+
+| | escopo A (`validate.yml`) | escopo B (`publish.yml`) |
+|---|---|---|
+| disparo | `push`/`pull_request` na `main` | **manual** (`workflow_dispatch`), com input de mod |
+| segredo | nenhum | `THUNDERSTORE_TOKEN`, **secret do environment** `thunderstore` |
+| permissão | `contents: read` | `contents: read`; o job `registra` usa `contents: write` só em `release/mods.json` |
+| compila | não | **não** — envia o `.zip` do `dist/` pelo input `file:` da Action |
+| aprovação | — | **Environment com revisores obrigatórios** (a aprovação é o clique) |
+| efeito | trava o commit | publica uma versão **nova** na comunidade |
+
+O que o escopo B não negocia:
+
+- **Sem `lib/` não há build no CI.** O `publish.yml` não compila: o zip chega pronto de fora
+  (GitHub Release + input `release_tag`, ou runner self-hosted com o jogo instalado). Se o
+  pacote não estiver lá, o job **falha** dizendo o comando exato a rodar na máquina local —
+  pacote incompleto é pior que pacote nenhum.
+- **Mod travado não sai.** Quem decide é o `release/mods.json`, e a lista de mods dele é
+  conferida a cada run contra o `tools/pack-thunderstore.py --listar-nomes` (uma fonte só
+  para "o que é um mod"). Escolher à mão um mod com `publicar: false` **reprova** o run.
+- **Versão repetida nunca.** Versão na Thunderstore é **imutável**: o pre-flight lê a lista
+  pública da comunidade e recusa versão que já existe — ou que não seja maior que a que está
+  no ar (a plataforma exibe sempre a maior).
+- **O token nunca entra em log.** `tools/check_segredos.py` roda como passo do job (a mesma
+  trava que o `publish-thunderstore.sh` faz localmente) e o valor só existe dentro do job que
+  declara o environment.
+- **O registro é conferido, não presumido.** O job `registra` só escreve `versao_publicada` /
+  `publicado_em` no `release/mods.json` **depois** de a API pública confirmar a versão, e
+  commita com `[skip ci]`.
+
+O passo a passo, o setup do environment `thunderstore` e o troubleshooting estão em
+[PUBLICACAO.md](PUBLICACAO.md). Enquanto `.github/workflows/` não subir (falta o escopo
+`workflow` no PAT — ver a seção de armadilhas abaixo), o escopo B existe **no disco** e o
+envio continua saindo pelo `tools/publish-thunderstore.sh` local (dry-run por padrão).
 
 ## Os passos, na ordem
 
