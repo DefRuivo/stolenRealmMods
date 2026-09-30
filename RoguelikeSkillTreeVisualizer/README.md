@@ -5,6 +5,8 @@
 começar — seguindo o padrão dos outros mods do repositório: uma pasta na raiz, com o `.csproj`,
 o `Plugin.cs` e o alvo `DeployToBepInEx` (não existe `src/`, decisão registrada na PKG-1).
 
+**Alvo de compatibilidade:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026) — o pacote Thunderstore declarará esta versão quando o mod for lançado.
+
 ## O que o mod vai fazer
 
 Adiciona um **visualizador de Skill Trees** na tela **Roguelike → Select Party**: um botão
