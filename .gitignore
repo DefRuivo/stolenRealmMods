@@ -37,6 +37,7 @@ ReloadProbe/
 *.code-workspace
 
 # Scratch: defasados (test-cycle.sh segue rastreado)
+scratch/
 scratch/old/
 scratch/tooltip.cs
 scratch/shot.ps1
