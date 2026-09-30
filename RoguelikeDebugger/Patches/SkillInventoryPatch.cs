@@ -198,6 +198,42 @@ namespace RoguelikeDebugger.Patches
                     }
                 }
 
+                    // RV-8d(b2): as STACKS que o texto promete = MULTIPLICIDADE DO ARRAY. Nao existe campo de
+                // quantidade em lugar nenhum do assembly: cada elemento de StatusEffects vira 1
+                // CreateActionStatus = 1 AddStack (l.111674-111695 / 111884 / 28191). Prova: o array do
+                // `Dragonkin Thunder Blast` tem 9x GL-Shocked e o texto diz "10 stacks" - a 10a vem do
+                // dano eletrico do proprio golpe (Character aplica 1 Shocked por instancia, l.39844).
+                var contagem = new System.Collections.Generic.Dictionary<string, int>();
+                if (ac.StatusEffects != null)
+                    foreach (var st in ac.StatusEffects)
+                    {
+                        if (st == null) continue;
+                        var nm = Limpa(st.Name);
+                        int v; contagem[nm] = contagem.TryGetValue(nm, out v) ? v + 1 : 1;
+                    }
+                if (ac.SourceStatusEffects != null)
+                    foreach (var st in ac.SourceStatusEffects)
+                    {
+                        if (st == null) continue;
+                        var nm = Limpa(st.Name);
+                        int v; contagem[nm] = contagem.TryGetValue(nm, out v) ? v + 1 : 1;
+                    }
+                var stacksTxt = new System.Text.StringBuilder();
+                foreach (var kv in contagem) stacksTxt.Append(kv.Key).Append("x").Append(kv.Value).Append(",");
+                // RV-8d(c): TERRENO (o `Rainstorm`). Nao vem de asset: e construido em CODIGO a partir
+                // do bloco [Header("Ground Effects")] do ActionInfo (l.317284-317347), e o `AddGroundEffect`
+                // (l.112731) monta o GroundEffect com estes campos. `GroundDuration` e a expressao dos
+                // "2 turns" e `GroundActionStatuses` sao os status de quem entra na area.
+                var groundTxt = "-";
+                if (ac.UseGroundEffect)
+                {
+                    var gs = new System.Text.StringBuilder();
+                    if (ac.GroundActionStatuses != null)
+                        foreach (var st in ac.GroundActionStatuses) if (st != null) gs.Append(Limpa(st.Name)).Append(",");
+                    groundTxt = Limpa(ac.GroundTargetConditions) + " dur=" + Limpa(ac.GroundDuration)
+                        + (ac.GroundIsInfinite ? " infinito" : "") + " maxTrg=" + ac.GroundMaxNumTriggers
+                        + " status=" + gs;
+                }
                 Plugin.Log.LogInfo(
                     $"[ActionProps] '{nome}' | tipo={ac.ActionType} | beneficio={ac.BenefitType} | " +
                     $"skillType={ac.SkillType} | nAlvos={nAlvos} | alvos={alvos} | " +
@@ -239,7 +275,7 @@ namespace RoguelikeDebugger.Patches
                     $"exprHits={Limpa(ac.NumHitsEquation)} | alcanceHits={Limpa(ac.MultipleHitRange)} | " +
                     $"cooldown={Limpa(ac.Cooldown)} | cargas={Limpa(ac.MaxCharges)}/{Limpa(ac.InitialCharges)} | " +
                     $"precisa={Limpa(ac.UseCondition)} | condFalha={Limpa(ac.UseConditionFailText)} | " +
-                    $"statusAplicados={statusAplic} | statusFonte={statusFonte} | chances={chances}");
+                $"statusAplicados={statusAplic} | stacks={stacksTxt} | ground={groundTxt} | statusFonte={statusFonte} | chances={chances}");
 
                 // RV-8b-2h: INVOCAÇÕES. A tooltip de "Nature Summoning I" diz apenas
                 // "Summons a Raven, Coyote, or Raccoon to fight for you." - não diz o que
