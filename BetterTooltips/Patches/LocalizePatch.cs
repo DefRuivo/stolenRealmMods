@@ -154,17 +154,14 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Stunning Slam tem texto PROPRIO (cita o {STA=Stunned}); o `Slam` e o `Crushing`
+            // Slam dividem um texto identico e ficam com uma entrada so. Fonte do alcance: o
+            // campo `alvos` do `ActionProps`.
+            { "Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.",
+              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
             // Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
             // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
             { "Deals *0 weapon damage to all enemies within a line.",
-              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
-            // Crushing Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
-            // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
-            { "Deals *0 weapon damage to all enemies within a line.",
-              "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
-            // Stunning Slam - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
-            // `ActionProps` (blast/rsel): Cell.Distance(Source.Cell) <= 5 && Cell.IsSameHemisphere(...) && Cell.DistanceFromLine(...) < 3f/2f
-            { "Deals *0 weapon damage and applies {STA=Stunned} to all enemies within a line for 1 turn.",
               "\n<color=#C8B090>The line reaches 5 hexes from you.</color>" },
             // Ice Lance - o texto dava a FORMA mas nao o alcance. Fonte: campo `alvos` do
             // `ActionProps` (blast/rsel): ... Distance(Source.Cell) <= 10 ... (mesma forma de linha)
