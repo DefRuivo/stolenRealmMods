@@ -35,4 +35,4 @@ redimensionado para o tamanho que a plataforma aceita.
 ## Especificação e aceite
 
 A especificação completa (77 itens: investigação obrigatória, estratégia de injeção, rastreio de
-personagem, testes por caso) e os critérios de aceite estão no bloco **RSTV** do `KANBAN.md`.
+personagem, testes por caso) e os critérios de aceite estão registrados no quadro interno do projeto (não versionado).
