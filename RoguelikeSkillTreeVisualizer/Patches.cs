@@ -127,21 +127,25 @@ namespace RoguelikeSkillTreeVisualizer
     [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.AcceptSkillChanges), new[] { typeof(bool) })]
     internal static class SkillTreeManagerAcceptSkillChangesPatch
     {
+        // Devolve bool (e nao void) por causa do caminho de FALHA: se a higienizacao nao puder ser
+        // feita, nao da para deixar o original rodar com o estado real (isso seria o unico caminho
+        // capaz de gravar). Nesse caso a janela e fechada por aqui e o original nao roda: zero
+        // escrita, e o log diz que foi o mod quem fechou.
         [HarmonyPrefix]
-        private static void Prefix(SkillTreeManager __instance, bool closeMenu)
+        private static bool Prefix(SkillTreeManager __instance, bool closeMenu)
         {
             try
             {
                 if (!ReadOnlySession.Active || __instance == null)
                 {
-                    return;
+                    return true;
                 }
 
                 // Na criacao de personagem o original desvia para PresetManager.RefreshChosenSkills:
                 // nao mexer nesse caminho (a nossa sessao nunca e aberta nesse estado).
                 if (GUIManager.instance != null && GUIManager.instance.CurrentGuiState == GUIState.CreatingCharacter)
                 {
-                    return;
+                    return true;
                 }
 
                 Character target = ReadOnlySession.Target;
@@ -171,10 +175,23 @@ namespace RoguelikeSkillTreeVisualizer
 
                 Plugin.Log.LogInfo("RSTV-2: commit higienizado (read-only, closeMenu=" + closeMenu +
                                    ") — nenhuma escrita no personagem (" + union.Count + " skills no snapshot).");
+                return true;
             }
             catch (Exception e)
             {
-                Plugin.Log.LogError("RSTV: falha ao higienizar AcceptSkillChanges: " + e);
+                Plugin.Log.LogError("RSTV: falha ao higienizar AcceptSkillChanges — o original NAO vai rodar " +
+                                    "(zero escrita); fechando a janela para nao prender a UI: " + e);
+
+                try
+                {
+                    ReadOnlySession.Close();
+                }
+                catch (Exception fechamento)
+                {
+                    Plugin.Log.LogError("RSTV: e o fechamento de emergencia tambem falhou: " + fechamento.Message);
+                }
+
+                return false;
             }
         }
     }
@@ -226,7 +243,17 @@ namespace RoguelikeSkillTreeVisualizer
             }
             catch (Exception e)
             {
-                Plugin.Log.LogError("RSTV: falha ao reafirmar o modo somente leitura: " + e);
+                Plugin.Log.LogError("RSTV: falha ao reafirmar o modo somente leitura — fechando a arvore " +
+                                    "para nao deixar uma janela interativa em estado desconhecido: " + e);
+
+                try
+                {
+                    ReadOnlySession.Close();
+                }
+                catch (Exception fechamento)
+                {
+                    Plugin.Log.LogError("RSTV: e o fechamento de emergencia tambem falhou: " + fechamento.Message);
+                }
             }
         }
     }
@@ -276,13 +303,27 @@ namespace RoguelikeSkillTreeVisualizer
         [HarmonyPrefix]
         private static bool Prefix(SkillTreeItem __instance)
         {
+            bool readOnly;
             try
             {
-                if (!ReadOnlySession.Active)
-                {
-                    return true;
-                }
+                readOnly = ReadOnlySession.Active;
+            }
+            catch (Exception)
+            {
+                // Sem saber se a sessao esta ativa, o seguro e DEIXAR o jogo agir (a higienizacao do
+                // AcceptSkillChanges continua sendo a garantia de que nada e gravado).
+                return true;
+            }
 
+            if (!readOnly)
+            {
+                return true;
+            }
+
+            // O bloqueio NAO depende do log: o `return false` fica FORA do try, senao uma falha ao
+            // montar a mensagem deixaria o clique passar em pleno modo somente leitura.
+            try
+            {
                 if (!_firstBlockLogged)
                 {
                     _firstBlockLogged = true;
@@ -292,14 +333,14 @@ namespace RoguelikeSkillTreeVisualizer
                     Plugin.Log.LogInfo("RSTV-2: clique na arvore BLOQUEADO (read-only) — primeira skill clicada: " +
                                        name + ".");
                 }
-
-                return false;
             }
             catch (Exception e)
             {
-                Plugin.Log.LogError("RSTV: falha no prefixo de ToggleAddToSkillToAddList: " + e);
-                return true;
+                Plugin.Log.LogWarning("RSTV: nao deu para logar o bloqueio do clique (o clique continua bloqueado): " +
+                                      e.Message);
             }
+
+            return false;
         }
     }
 
