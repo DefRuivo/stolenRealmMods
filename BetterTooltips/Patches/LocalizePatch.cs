@@ -492,6 +492,15 @@ namespace BetterTooltips.Patches
             // (`InRange(c, n) => Distance <= n`). Se a dev subir o asset, esta chave sai.
             { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.",
               "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 3 hexes to strike again. Strikes up to 3 times." },
+            // ---- RV-13 (29/09): "Resist Divine" -> "Resist Holy" ----
+            // O jogo e incoerente consigo mesmo: o DANO e "holy" (`TargetStored['HolyDamage']`, e o
+            // texto do `Dragonkin Holy Slash` diz "holy damage"), mas a RESISTENCIA se chama "Divine".
+            // Fonte: a string "Resist Divine" NAO existe no assembly (0 ocorrencias) - ela e uma CHAVE
+            // de localizacao nos assets do jogo (resources.assets: {\"Key\":\"Resist Divine\",\"Value\":...}),
+            // que e exatamente o que este patch intercepta. O campo interno `ResistDivine` NAO e tocado.
+            // Se o jogo um dia padronizar para "Holy", estas duas entradas podem sair.
+            { "Resist Divine", "Resist Holy" },
+            { "Resistance Divine", "Resistance Holy" },
             // ---- Textos de UI e dicas de loading (fontes: o log do boot do jogo) ----
             // Não estão no censo de tooltips (que cobre skills/status/itens/afixos/
             // powerups). O defeito era o espaço duplo deixado depois do ponto.
