@@ -154,6 +154,21 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // RV-12 powerup: Damage Reduction (Lv5)
+            { "+ 20% Damage Reduction",
+              "\n<color=#C8B090>Reduces all damage you take. Applied before Resistances and Armor.</color>" },
+            // RV-12 powerup: Damage Reduction (Lv4)
+            { "+ 16% Damage Reduction",
+              "\n<color=#C8B090>Reduces all damage you take. Applied before Resistances and Armor.</color>" },
+            // RV-12 powerup: Damage Reduction (Lv3)
+            { "+ 12% Damage Reduction",
+              "\n<color=#C8B090>Reduces all damage you take. Applied before Resistances and Armor.</color>" },
+            // RV-12 powerup: Damage Reduction (Lv2)
+            { "+ 8% Damage Reduction",
+              "\n<color=#C8B090>Reduces all damage you take. Applied before Resistances and Armor.</color>" },
+            // RV-12 powerup: Damage Reduction (Lv1)
+            { "+ 4% Damage Reduction",
+              "\n<color=#C8B090>Reduces all damage you take. Applied before Resistances and Armor.</color>" },
             // RV-15 Chaos: Chaos Cloud - o sorteio do elemento e o dodge sao testes SEPARADOS.
             { "Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal *0 damage.",
               "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
@@ -752,6 +767,48 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // RV-11/RV-10: Warmachine Gauntlet
+            { "10% chance to cast Level [level value] {SKL=Meteor} when Striking.",
+              "10% chance to cast Level [level value] {SKL=Meteor} when striking." },
+            // RV-11/RV-10: Twisted Dagger
+            { "Striking with this weapon applies 2 stack of Poison.",
+              "Striking with this weapon applies 2 stacks of Poison." },
+            // RV-11/RV-10: Potion of Vigor
+            { "Vitality increased by 10 for 5 turns.",
+              "Vitality increased by 5 for 5 turns." },
+            // RV-11/RV-10: Ksvaldir
+            { "Applies Hunger Ksvaldir: Sacrifices 10% of your max health per turn.",
+              "Applies Hunger of Ksvaldir: Sacrifices 10% of your max health per turn." },
+            // RV-11/RV-10: Goblin Bone Axe
+            { "Weapon attacks apply 1 stacks of bleeding.",
+              "Weapon attacks apply 1 stack of bleeding." },
+            // RV-11/RV-10: Fallen Cleric Robes
+            { "10% chance on hit to cast Level [level value] {SKL=Consumption}",
+              "10% chance on hit to cast Level [level value] {SKL=Consumption}." },
+            // RV-11/RV-10: Dragon Fist
+            { "5% chance to cast Level [level value] {SKL=Thunder Bolt} when hitting an enemy with any ability.  5% chance to cast Level [level value] {SKL=Frost Nova} when hitting an enemy with any ability.  5% chance to cast Level [level value] {SKL=Fireball} when hitting an enemy with any ability.",
+              "5% chance to cast Level [level value] {SKL=Thunder Bolt} when hitting an enemy with any ability. 8% chance to cast Level [level value] {SKL=Frost Nova} when hitting an enemy with any ability. 5% chance to cast Level [level value] {SKL=Fireball} when hitting an enemy with any ability." },
+            // RV-11/RV-10: Dead One's Phylactery
+            { "Grants the passive Grants the passive skill {SKL=Lich Lord}.",
+              "Grants the passive skill {SKL=Lich Lord}." },
+            // RV-11/RV-10: Ancient Staff
+            { "Increases the power and cost of all @Mana Abilites@ by 5% of your Max Mana.",
+              "Increases the power and cost of all @Mana Abilities@ by 5% of your Max Mana." },
+            // RV-11/RV-10: Savior
+            { "Holy power increased by [15]%",
+              "Holy Power increased by [15]%" },
+            // RV-11/RV-10: Physician
+            { "Holy power increased by [6]%",
+              "Holy Power increased by [6]%" },
+            // RV-11/RV-10: Mender
+            { "Holy power increased by [3]%",
+              "Holy Power increased by [3]%" },
+            // RV-11/RV-10: Healer
+            { "Holy power increased by [9]%",
+              "Holy Power increased by [9]%" },
+            // RV-11/RV-10: Doctor
+            { "Holy power increased by [12]%",
+              "Holy Power increased by [12]%" },
             // RV-14 terminologia: Regenerating | max life -> max health
 
             { "5% of your max life regenerated per turn.",
@@ -1224,6 +1281,30 @@ namespace BetterTooltips.Patches
         // poluir rótulos simples (ex.: o label "Armor" da ficha de stats).
         private static readonly Regex ArmorAffixRegex = new Regex(@"\bArmor\b", RegexOptions.Compiled);
 
+        // Afixos "Armor increased by N%" cujo ASSET concede Armor E Magic Armor no mesmo valor,
+        // mas cujo texto cita so Armor. Verificados um a um nos assets pelos agentes (RV-11:
+        // IM[Armor%N,MagicArmor%N]). Entram AQUI e nao como entrada em TextAppends de proposito:
+        // o dicionario e if/else, entao uma entrada estatica TIRARIA a explicacao de mitigacao
+        // (BuildArmorNote) desse mesmo texto - trocaria informacao em vez de somar.
+        private static readonly HashSet<string> ArmorQueTambemDaMagicArmor = new HashSet<string>
+        {
+            "Armor increased by 5%",
+            "Armor increased by 35%",
+            "Armor increased by 15%",
+            "Armor increased by [50]% Movement points lowered 1",
+            "Armor increased by 25% Movement points lowered",
+            "Armor increased by [30]% Movement points lowered 1",
+            "Armor increased by 45% Movement points lowered",
+            "Armor increased by 20%",
+            "Armor increased by 25%",
+            "Armor increased by [60]% Movement points lowered 1",
+            "Armor increased by [20]% Movement points lowered 1",
+            "Armor increased by 35% Movement points lowered",
+            "Armor increased by 45%",
+            "Armor increased by [40]% Movement points lowered 1",
+            "Armor increased by 10%",
+        };
+
         // Armor usado como FONTE de outro valor (ex.: `Battle Ready` e `Diamond Ice`: "1% of your
         // @Armor@ value is added to your character as @Additional Weapon Damage@"). Nesses casos a
         // nota de mitigacao nao interessa ao jogador - reportado pelo usuario em 30/09.
@@ -1489,6 +1570,11 @@ namespace BetterTooltips.Patches
                             string note = BuildArmorNote();
                             if (note != null)
                             {
+                                if (ArmorQueTambemDaMagicArmor.Contains(original))
+                                {
+                                    note = "\nAlso increases Magic Armor by the same amount." + note;
+                                }
+
                                 __result = AnexarNota(__result, note);
                                 appended = true;
                             }
