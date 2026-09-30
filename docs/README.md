@@ -220,6 +220,8 @@ Só depois disso a alteração conta como instalada e testada.
 | `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. |
 | `pack-for-friends.sh` | Compila e empacota os mods distribuíveis em `dist/`. |
 | `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`), com pre-flight que **aborta** em vez de gerar pacote inválido. |
+| `check_segredos.py` | **Trava de segredo:** varre os arquivos versionados procurando credencial (token do Thunderstore, PAT do GitHub, chave privada). Exit 1 e o release para. |
+| `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. |
 | `release-check.sh` | **A trava de release:** roda os 6 passos de uma vez (build 0 erros → chaves → duplicadas → notas → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. |
 
 ---
@@ -252,6 +254,34 @@ desativada e falha neste build do jogo) — por isso ela nao entra em nenhum man
 
 **Estrutura do ZIP** (conferida com `unzip -l`): os 4 arquivos na RAIZ do pacote + `plugins/<Mod>/<Mod>.dll`.
 O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar certo.
+
+
+### Publicação — credencial e namespace
+
+**O namespace já existe:** o token de service account pertence ao team
+**`Stolen_Realm_Mods`**, e os 6 nomes de pacote estão **livres** na comunidade (conferido na API
+pública em 30/09/2026, que naquele momento listava 5 pacotes: `BepInEx-BepInExPack`,
+`StolenRealmModding-StolenRealmModAPI`, `StolenRealmModding-Player_Limit_Mod`, `ebkr-r2modman` e
+`Kesomannen-GaleModManager`). Os pacotes publicados vão aparecer como
+`Stolen_Realm_Mods-<NomeDoMod>`.
+
+**O token nunca entra no repositório.** Ele é lido, nesta ordem, de `TCLI_AUTH_TOKEN`, de um arquivo
+apontado por `THUNDERSTORE_TOKEN_FILE`, ou de `~/.thunderstore-token` (fora da árvore do git). Duas
+travas protegem isso: a regra de credencial no `.gitignore` (`.thunderstore-token`, `*.token`,
+`*.pem`, `*.key`) e o `tools/check_segredos.py`, que é o **passo 0** do `release-check.sh` — um
+release que contenha token nem chega a compilar.
+
+```bash
+bash tools/publish-thunderstore.sh          # dry-run: mostra o que subiria
+bash tools/publish-thunderstore.sh --go     # publica de verdade
+bash tools/publish-thunderstore.sh --go BetterTooltips   # um mod só
+```
+
+O script roda a trava de segredo e o `release-check.sh` antes de qualquer envio (para pular a parte
+do ciclo do jogo em publicação automatizada: `PULAR_RELEASE_CHECK=1`, use com consciência).
+
+> **Token colado em chat é token exposto.** O do Thunderstore e o PAT do GitHub foram passados por
+> mensagem: os dois devem ser **rotacionados** no painel de cada serviço depois de usados.
 
 **Gerar o pacote:** `python tools/pack-thunderstore.py` (ou passando nomes de mods para empacotar so alguns).
 Os zips saem em `dist/` com pre-flight: sem manifest valido, README, CHANGELOG, icone 256x256 real ou DLL

@@ -80,6 +80,14 @@ fi
 
 # ================================ 1. BUILD ===================================
 echo
+echo "== PASSO 0 - SEGREDOS =="
+if python tools/check_segredos.py; then
+  echo "  [ OK ] 0. nenhum token nos arquivos versionados"
+else
+  echo "  [FALHA] 0. credencial no que seria publicado - release travada"
+  exit 1
+fi
+
 echo "== PASSO 1/5 — BUILD (todos os .csproj de mod na raiz) =="
 mapfile -t PROJETOS < <(find . -maxdepth 2 -name '*.csproj' \
                           -not -path '*/bin/*' -not -path '*/obj/*' \
