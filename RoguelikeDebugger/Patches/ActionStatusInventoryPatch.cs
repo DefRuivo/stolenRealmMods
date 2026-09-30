@@ -18,6 +18,46 @@ namespace RoguelikeDebugger.Patches
         private static int _lastCount = -1;
         private static int _stableHits;
 
+        /// <summary>
+        /// Os gatilhos de um status (RV-8b-0g). `ActionStatusInfo.SkillTriggers` e
+        /// `SkillTrigger[]` e `SkillTrigger.GeneralEffects` e `GeneralEffect[]` - array
+        /// CONCRETO (l.45797 do decompilado), entao NESTE caminho o cast nao falha: o que
+        /// faltava era o campo sair no dump. Caso aberto que isto fecha: o `Dwarven Aura`,
+        /// cujo stun nao esta em nenhuma acao do status.
+        /// Formato: indice:Tipo[ef=...~cond=...~status=...]; ...
+        /// </summary>
+        private static string TriggersDe(ActionStatusInfo s)
+        {
+            if (s == null || s.SkillTriggers == null || s.SkillTriggers.Length == 0)
+            {
+                return "";
+            }
+            var sb = new System.Text.StringBuilder();
+            foreach (var tg in s.SkillTriggers)
+            {
+                if (tg == null)
+                {
+                    continue;
+                }
+                var stt = new System.Text.StringBuilder();
+                if (tg.ActionStatuses != null)
+                {
+                    foreach (var st in tg.ActionStatuses)
+                    {
+                        if (st != null)
+                        {
+                            stt.Append(EfeitosInfo.Limpa(st.Name)).Append(',');
+                        }
+                    }
+                }
+                sb.Append(tg.TriggerType)
+                  .Append("[ef=").Append(EfeitosInfo.Descreve(tg.GeneralEffects))
+                  .Append("~cond=").Append(EfeitosInfo.Limpa(tg.Condition))
+                  .Append("~status=").Append(stt)
+                  .Append("]; ");
+            }
+            return sb.ToString().TrimEnd(' ', ';');
+        }
         private static void Postfix(List<ActionStatusInfo> __result)
         {
             try
@@ -45,6 +85,7 @@ namespace RoguelikeDebugger.Patches
                 _dumped = true;
 
                 Plugin.Log.LogInfo($"[Status] Inventário: {__result.Count} status carregados.");
+                EfeitosInfo.Zerar();   // RV-8b-0g: resumo de tipos concretos e por categoria
                 foreach (var s in __result)
                 {
                     if (s == null)
@@ -106,6 +147,22 @@ namespace RoguelikeDebugger.Patches
                     // RV-8d(b): as habilidades que a FORMA ganha (Shapeshift Werewolf/Dire/Vampire Bat)
                     // vivem no `CharacterInfo` do personagem substituido. `public List<SkillInfo> Skills`
                     // (l.319927 do decompilado). Sem isto, o "Gain new abilities" do texto fica sem par.
+                    // RV-8b-0g: TIPO CONCRETO de CADA efeito. `Effects` e `IEffectInfo[]` -
+                    // interface VAZIA (l.322255 do decompilado) - e o cast `e as GeneralEffect`
+                    // (logo acima) devolve null em todo elemento que nao seja `GeneralEffect`:
+                    // era assim que o dado sumia do dump. Ha DUAS implementacoes na montagem,
+                    // `GeneralEffect` (l.322250, campo `Action`) e `CharacterVariableEffectInfo`
+                    // (l.320295, campos EffectTarget / CharacterVariableAttribute / Amount) -
+                    // justamente os que o cast antigo descartava. `nEfeitosTot` e o
+                    // `Effects.Length` (inclui os de acao vazia e os de tipo nao-GeneralEffect).
+                    var efTipos = EfeitosInfo.Descreve(s.Effects);
+
+                    // Mesmo tratamento para `AttributeEffects` (CharacterEffectInfo[]):
+                    // array de tipo CONCRETO, entao o cast nunca falhou aqui - mas o dump so
+                    // publicava nome:metodo:valor e perdia as flags (Infinite,
+                    // CalculateOnSecondPass, HideIfNotEquipped, IgnoreTierEffects).
+                    var attrTipos = EfeitosInfo.Descreve(s.AttributeEffects);
+
                     string modelo;
                     if (s.ModelChangeCharacter != null)
                     {
@@ -140,8 +197,20 @@ namespace RoguelikeDebugger.Patches
                         // "Stacks up to N times" (o cap mora em `MaxStacks`) e "Lasts N turns" (a
                         // duracao mora em `Duration`). Nenhum dos dois era exportado (l.319149/319141).
                         $"dur={s.Duration} | maxStk={s.MaxStacks} | " +
+                        // RV-8b-0g: o dado que o cast antigo perdia, mais os gatilhos do status.
+                        // `SkillTriggers` e `SkillTrigger[]` e `SkillTrigger.GeneralEffects` e
+                        // `GeneralEffect[]` (l.45797) - array CONCRETO, entao NESTE caminho o
+                        // cast nao falha; o que faltava era o campo sair no dump (caso aberto
+                        // do `Dwarven Aura`: o stun nao esta na acao, e o suspeito e o gatilho).
+                        $"nEfeitosTot={EfeitosInfo.Conta(s.Effects)} | efTipos={efTipos} | " +
+                        $"nAttrEf={EfeitosInfo.Conta(s.AttributeEffects)} | attrTipos={attrTipos} | " +
+                        $"nTrig={EfeitosInfo.Conta(s.SkillTriggers)} | trigEf={TriggersDe(s)} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
+
+                // Prova, no proprio log, de que existe elemento que nao e GeneralEffect -
+                // e de quais tipos concretos apareceram na categoria.
+                Plugin.Log.LogInfo($"[Efeitos] resumo (status): {EfeitosInfo.Resumo()}");
             }
             catch (Exception e)
             {

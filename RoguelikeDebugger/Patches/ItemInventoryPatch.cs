@@ -39,6 +39,7 @@ namespace RoguelikeDebugger.Patches
                     return;
                 }
                 _itemsDumped = true;
+                EfeitosInfo.Zerar();   // RV-8b-0g: resumo dos efeitos de consumivel
 
                 Plugin.Log.LogInfo($"[Item] Inventário: {__result.Count} itens base carregados.");
                 foreach (var it in __result)
@@ -78,8 +79,14 @@ namespace RoguelikeDebugger.Patches
                     Plugin.Log.LogInfo(
                         $"[Item] '{it.name}' | tipo={it.ItemType} | raridade={it.Rarity} | " +
                         $"lvlMin={it.MinLevel} | consumivel={cons.ToString().Replace("|", "/").Replace("\n", " ")} | " +
+                        // RV-8b-0g: o cast `ef as GeneralEffect` daqui de cima devolve null em
+                        // todo elemento que nao seja `GeneralEffect` - o tipo concreto de CADA um
+                        // passa a sair neste campo (mesmo formato do dump de status/acao).
+                        $"consEf={EfeitosInfo.Descreve(it.IsConsumable && it.ConsumableAction != null ? it.ConsumableAction.Effects : null)} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
+
+                Plugin.Log.LogInfo($"[Efeitos] resumo (itens): {EfeitosInfo.Resumo()}");
 
                 // Coleta ATIVA dos afixos: o getter é lazy e não é acessado no menu,
                 // então carregamos a lista nós mesmos (o próprio jogo faz o mesmo

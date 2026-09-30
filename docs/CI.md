@@ -176,7 +176,7 @@ python tools/audita_docs.py
   em implementação ainda não é pacote, então não há o que validar; assim que o `manifest.json`
   aparecer, ele passa a ser validado sozinho. O `RoguelikeSkillTreeVisualizer` foi esse caso até
   30/09/2026 — hoje ele já tem `manifest.json`, `README.md`, `CHANGELOG.md` e `icon.png` e entra na
-  validação normal (`python .github/scripts/valida_pacotes.py` → **6 pacotes validados, 0 com
+  validação normal (`python .github/scripts/valida_pacotes.py` → **7 pacotes validados, 0 com
   problema**, medido em 30/09/2026).
 
 ## Adicionar um check novo

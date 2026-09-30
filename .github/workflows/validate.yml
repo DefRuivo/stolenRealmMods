@@ -4,8 +4,8 @@
 # ---------------------
 # Uma trava de REGRESSAO em push/PR para a main. Ele roda as ferramentas que ja existem
 # em tools/ e reprova o commit quando qualquer uma reprova. Cada passo e um passo do
-# ritual manual (versoes -> build 0 erros -> check_fix_keys -> check_dupes -> instalar),
-# so que verificado por maquina em vez de por memoria.
+# ritual manual (segredos -> versoes -> patches -> build 0 erros -> check_fix_keys ->
+# check_dupes -> instalar), so que verificado por maquina em vez de por memoria.
 #
 # O QUE ELE NAO E (de proposito)
 # ------------------------------
@@ -22,10 +22,12 @@
 #
 # ORDEM DOS PASSOS: do mais barato/mais grave para o mais caro, e para no primeiro
 # erro (o GitHub corta o job no primeiro `run` que sai != 0). Segredo primeiro: se
-# entrou token no que seria publicado, nada mais importa. Versoes logo em seguida,
-# na MESMA ordem do ritual local (`tools/release-check.sh`): sao dois passos que so
-# leem o repositorio (nenhum precisa de build, de DLL ou do jogo) e nenhum dos dois
-# faz sentido deixar para depois.
+# entrou token no que seria publicado, nada mais importa. Versoes e patches logo em
+# seguida, na MESMA ordem do ritual local (`tools/release-check.sh`): sao TRES passos
+# que so leem o repositorio (nenhum precisa de build, de DLL ou do jogo) e nenhum dos
+# tres faz sentido deixar para depois. O de patches vale mais que os outros dois de
+# robustez: o parametro posicional do Harmony COMPILA sem um aviso sequer, entao nem o
+# build nem o log de boot deste workflow o denunciariam.
 #
 # REPRODUZIR LOCALMENTE: os mesmos comandos, na mesma ordem, da raiz do repo.
 # Ver docs/CI.md.
@@ -97,26 +99,41 @@ jobs:
       - name: "2. Versoes (csproj = manifest = Plugin.cs)"
         run: python tools/check_versoes.py
 
-      # 3. Chaves das tabelas do BetterTooltips contra o censo (RV-7). Hoje sai 0 com
+      # 3. TRV-1: as 5 regras de robustez dos patches Harmony (tools/check_patches.py), lidas
+      #    dos .cs SEM compilar - e o passo 2 do release-check, na mesma posicao (le so o
+      #    repositorio, sem build e sem DLL). Regras: nenhum parametro POSICIONAL do Harmony
+      #    (`__0`/`__1`/`__2`/...), assinatura por TIPO em todo `[HarmonyPatch]` (typeof/nameof),
+      #    todo Prefix/Postfix em try/catch (direto ou por delegacao), marcador de vida
+      #    '... carregado.' em cada Plugin.cs e aplicacao gancho a gancho (nao `PatchAll()` puro).
+      #    Nao precisa compilar - e justamente por isso que ele existe: um `ref __3` apontando
+      #    para o argumento ERRADO passa pelo build sem uma linha de aviso e so aparece em jogo,
+      #    como 112 NullReferenceException por frame (o caso que travou uma batalha do dono).
+      #    Achado de slot posicional JUSTIFICADO em comentario sai como AVISO e NAO reprova;
+      #    `PatchAll()` puro e patch sem try/catch tambem sao AVISO (dependem de refatoracao
+      #    humana ja mapeada), entao o passo sai 0 hoje. Ver o cabecalho do proprio script.
+      - name: "3. Patches (TRV-1: 5 regras de robustez do Harmony)"
+        run: python tools/check_patches.py
+
+      # 4. Chaves das tabelas do BetterTooltips contra o censo (RV-7). Hoje sai 0 com
       #    4 chaves "fora do censo" que sao texto de UI/loading - sao AVISO, nao erro
       #    (ver a secao "O que este censo AINDA nao cobre" em docs/cobertura/README.md).
-      - name: "3. Chaves x censo (check_fix_keys)"
+      - name: "4. Chaves x censo (check_fix_keys)"
         run: python tools/check_fix_keys.py
 
-      # 4. Chave DUPLICADA no LocalizePatch. E o modo de falha do INC-1: `Dictionary.Add`
+      # 5. Chave DUPLICADA no LocalizePatch. E o modo de falha do INC-1: `Dictionary.Add`
       #    com chave repetida estoura ArgumentException e derruba o LocalizePatch
       #    INTEIRO na inicializacao estatica - o mod de textos simplesmente nao carrega.
       #    Vale mais que os outros: a falha e total e silenciosa no jogo.
-      - name: "4. Chave duplicada (check_dupes - modo de falha do INC-1)"
+      - name: "5. Chave duplicada (check_dupes - modo de falha do INC-1)"
         run: python tools/check_dupes.py
 
-      # 5. Nota que repete o proprio texto (RV-15): o jogador le a mesma frase duas
+      # 6. Nota que repete o proprio texto (RV-15): o jogador le a mesma frase duas
       #    vezes. O script REGERA docs/cobertura/revisao/RV-15-notas-redundantes.md;
       #    no CI isso nao e commitado, so serve de trava (sai != 0 se achar caso).
-      - name: "5. Notas redundantes (RV-15)"
+      - name: "6. Notas redundantes (RV-15)"
         run: python tools/check_notas_redundantes.py
 
-      # 6. Chave compartilhada (BUG-32): texto usado por mais de um dono no censo, onde
+      # 7. Chave compartilhada (BUG-32): texto usado por mais de um dono no censo, onde
       #    uma correcao/nota por texto pode estar corrigindo o caso errado.
       #    `--estrito` LIGADO em 30/09/2026: a flag existe desde o mesmo dia e o unico caso
       #    real que a mantinha fora do CI (a nota de stack da `Consumption`, chave nas DUAS
@@ -126,22 +143,22 @@ jobs:
       #    TextAppends nunca roda e a nota nao existe em jogo, sem erro no log.
       #    As SUSPEITAS (texto com nota usado por 2+ donos) continuam AVISO que nao reprova
       #    nem com a flag - ali a decisao e humana (ver "Armadilhas conhecidas" em docs/CI.md).
-      - name: "6. Chave compartilhada (BUG-32)"
+      - name: "7. Chave compartilhada (BUG-32)"
         run: python tools/check_chave_compartilhada.py --estrito
 
-      # 7. Metadados dos pacotes Thunderstore: manifest.json (nome alfanumerico == pasta,
+      # 8. Metadados dos pacotes Thunderstore: manifest.json (nome alfanumerico == pasta,
       #    semver, descricao <= 250, dependencies exatas), icon.png 256x256 e <= 1 MB,
       #    README.md e CHANGELOG.md. Uma pasta sem manifest.json (mod em implementacao)
       #    e apenas AVISADA - sem manifest ela nao e pacote, nao ha o que validar.
-      - name: "7. Pacotes (manifest, icon, README, CHANGELOG)"
+      - name: "8. Pacotes (manifest, icon, README, CHANGELOG)"
         run: python .github/scripts/valida_pacotes.py
 
-      # 8. Auditoria das docs contra o disco (contagens, versoes, ferramentas citadas,
+      # 9. Auditoria das docs contra o disco (contagens, versoes, ferramentas citadas,
       #    links e caminhos). O script esta VERSIONADO em tools/audita_docs.py - foi
       #    promovido de scratch/ em 30/09/2026 -, entao este passo roda de verdade a
       #    cada push; a checagem de existencia abaixo so evita quebrar o job se o
       #    arquivo sair do repo um dia.
-      - name: "8. Auditoria dos docs (tools/audita_docs.py)"
+      - name: "9. Auditoria dos docs (tools/audita_docs.py)"
         run: |
           if [ -f tools/audita_docs.py ]; then
             python tools/audita_docs.py
