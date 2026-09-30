@@ -154,6 +154,21 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // RV-15 Chaos: Chaos Cloud - o sorteio do elemento e o dodge sao testes SEPARADOS.
+            { "Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal *0 damage.",
+              "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
+            // RV-15 Chaos: Chaos Crash - o sorteio do elemento e o dodge sao testes SEPARADOS.
+            { "Hurls a bolt of chaos dealing damage to a single target. Every damage type has a 50% chance to deal *0 damage.",
+              "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
+            // RV-15 Chaos: Chaos Curse - o sorteio do elemento e o dodge sao testes SEPARADOS.
+            { "Curses the target to take damage. Each element has a @50%@ chance to deal *0 damage every turn.",
+              "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
+            // RV-15 Chaos: Chaos Cut - o sorteio do elemento e o dodge sao testes SEPARADOS.
+            { "Summons a whirling blade of chaos in a line. Every damage type has a 50% chance to deal *0 damage.",
+              "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
+            // RV-15 Chaos: Replicate - o sorteio do elemento e o dodge sao testes SEPARADOS.
+            { "Creates a clone of yourself that can cast your abilities. The Replicate Clone explodes for damage on death, each element has a @50%@ chance to deal *0 damage.",
+              "\n<color=#C8B090>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>" },
             // RV-9 buffs: Vengeful - Increases damage dealt by 15%. Stacks up to 10 times, one stack 
             { "Increases damage dealt by 15%.",
               "\n<color=#C8B090>Stacks up to 10 times, one stack per ally killed.</color>" },
@@ -346,9 +361,6 @@ namespace BetterTooltips.Patches
             // RV-9 debuffs: Sleep - Cannot move or perform actions; damage taken is increased by
             { "Asleep.",
               "\n<color=#C8B090>Cannot move or perform actions; damage taken is increased by 50%.</color>" },
-            // RV-9 debuffs: Sleep - Cannot move or perform actions; damage taken is increased by
-            { "Cannot move or perform actions and damage taken increased by 50%.  Can be awakened by getting attacked.",
-              "\n<color=#C8B090>Cannot move or perform actions; damage taken is increased by 50%.</color>" },
             // RV-9 debuffs: Shapeshift: Box - While in the box you cannot move or use abilities.
             { "Shapeshifted into a box. Damage taken increased by 100%.",
               "\n<color=#C8B090>While in the box you cannot move or use abilities.</color>" },
@@ -402,9 +414,6 @@ namespace BetterTooltips.Patches
               "\n<color=#C8B090>Lasts 2 turns.</color>" },
             // RV-9 debuffs: Blind - Skill range is reduced to 1 hex.
             { "Blind.",
-              "\n<color=#C8B090>Skill range is reduced to 1 hex.</color>" },
-            // RV-9 debuffs: Blind - Skill range is reduced to 1 hex.
-            { "Skill range is reduced to 1 hex.",
               "\n<color=#C8B090>Skill range is reduced to 1 hex.</color>" },
             // RV-9 debuffs: Aura of Lightning - The aura reaches 3 hexes from its source.
             { "*0 lightning damage dealt to enemies within the aura each time they perform an action.",
@@ -556,9 +565,9 @@ namespace BetterTooltips.Patches
             { "Summons a Raven, Coyote, or Raccoon to fight for you.",
               "\n<color=#C8B090>One is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Stag, Wolf, or Boar to fight for you.",
-              "\n<color=#C8B090>One is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>One is summoned at random:\n- Stag: Melee Attack, Stunning Kick\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Bear, Moose, or Panther to fight for you.",
-              "\n<color=#C8B090>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Melee Attack, Ground Slam\n- Panther: Melee Attack, Shadow Walk\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Tundra Wolf to fight for you.",
               "\n<color=#C8B090>Tundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Dire Wolf to fight for you.",
@@ -1068,7 +1077,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you.\n<color=#C8B090>Timber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Summons a Timber Wolf to fight for you.\n<color=#C8B090>Timber Wolf: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
         };
 
@@ -1192,11 +1201,33 @@ namespace BetterTooltips.Patches
         };
 
         // BT-8: afixos de itens — mecânicas verificadas no código (Character.ApplyAction):
+        /// <summary>
+        /// Junta a nota ao texto com EXATAMENTE uma linha em branco entre eles.
+        /// O texto do jogo costuma terminar com quebras de linha proprias e a concatenacao crua
+        /// somava mais uma -> vazio desnecessario no tooltip (reportado pelo usuario em
+        /// `Chain Lightning` e `Breath of Winter`). O TrimEnd so roda em texto que RECEBE nota;
+        /// o resto continua sem ser aparado (regra do projeto).
+        /// </summary>
+        private static string AnexarNota(string texto, string nota)
+        {
+            if (string.IsNullOrEmpty(nota))
+            {
+                return texto;
+            }
+
+            return texto.TrimEnd() + "\n\n" + nota.TrimStart(new char[] { '\n' });
+        }
+
         // Armor: dano - (Armor/ArmorPerDamagePointReduction), com cap maxArmorReductionPercent.
         // Resists: dano × (1 - Resist/100) por elemento.
         // Só disparam em textos com verbo de modificação ("increased/added/...") para não
         // poluir rótulos simples (ex.: o label "Armor" da ficha de stats).
         private static readonly Regex ArmorAffixRegex = new Regex(@"\bArmor\b", RegexOptions.Compiled);
+
+        // Armor usado como FONTE de outro valor (ex.: `Battle Ready` e `Diamond Ice`: "1% of your
+        // @Armor@ value is added to your character as @Additional Weapon Damage@"). Nesses casos a
+        // nota de mitigacao nao interessa ao jogador - reportado pelo usuario em 30/09.
+        private static readonly Regex ArmorValueSourceRegex = new Regex(@"Armor@?\s+value", RegexOptions.Compiled);
         private static readonly Regex ResistAffixRegex = new Regex(@"\bResistance\w*\b", RegexOptions.Compiled);
 
         private static string BuildArmorNote()
@@ -1339,7 +1370,7 @@ namespace BetterTooltips.Patches
             }
             else if (TextAppends.TryGetValue(original, out string append))
             {
-                __result += append;
+                __result = AnexarNota(__result, append);
                 if (_appliedAppends.Add(original))
                 {
                     Plugin.Log.LogInfo($"BetterTooltips: explicação adicionada a '{original}'");
@@ -1354,7 +1385,7 @@ namespace BetterTooltips.Patches
                     string effects = BuildAttributeEffects(m.Groups[1].Value);
                     if (effects != null)
                     {
-                        __result += effects;
+                        __result = AnexarNota(__result, effects);
                         if (_appliedAppends.Add(original))
                         {
                             Plugin.Log.LogInfo($"BetterTooltips: efeitos por ponto adicionados a '{original}'");
@@ -1369,7 +1400,7 @@ namespace BetterTooltips.Patches
                         string note = BuildDamageReductionNote();
                         if (note != null)
                         {
-                            __result += note;
+                            __result = AnexarNota(__result, note);
                             if (_appliedAppends.Add(original))
                             {
                                 Plugin.Log.LogInfo($"BetterTooltips: ordem de redução adicionada a '{original}'");
@@ -1386,7 +1417,7 @@ namespace BetterTooltips.Patches
                             string effects = BuildAttributeEffects(rule.Attribute);
                             if (effects != null)
                             {
-                                __result += effects;
+                                __result = AnexarNota(__result, effects);
                                 appended = true;
                             }
                             break;
@@ -1403,7 +1434,7 @@ namespace BetterTooltips.Patches
                                 string effects = BuildAttributeEffects(rule.Attribute);
                                 if (effects != null)
                                 {
-                                    __result += effects;
+                                    __result = AnexarNota(__result, effects);
                                     appended = true;
                                 }
                                 break;
@@ -1418,7 +1449,7 @@ namespace BetterTooltips.Patches
                         {
                             if (original.StartsWith(prefix, StringComparison.Ordinal))
                             {
-                                __result += ResistanceExplainSuffix;
+                                __result = AnexarNota(__result, ResistanceExplainSuffix);
                                 appended = true;
                                 break;
                             }
@@ -1437,7 +1468,7 @@ namespace BetterTooltips.Patches
                             if (rule.Match.IsMatch(original) &&
                                 !original.Contains(rule.ExcludeIfContains))
                             {
-                                __result += rule.Append;
+                                __result = AnexarNota(__result, rule.Append);
                                 appended = true;
                                 break;
                             }
@@ -1452,12 +1483,13 @@ namespace BetterTooltips.Patches
                             low.Contains("lowered") || low.Contains("reduced") ||
                             low.Contains("granted");
                         if (hasVerb && ArmorAffixRegex.IsMatch(original) &&
+                            !ArmorValueSourceRegex.IsMatch(original) &&
                             !original.Contains("blocks damage"))
                         {
                             string note = BuildArmorNote();
                             if (note != null)
                             {
-                                __result += note;
+                                __result = AnexarNota(__result, note);
                                 appended = true;
                             }
                         }
@@ -1465,7 +1497,7 @@ namespace BetterTooltips.Patches
                             !original.Contains("Summon resistance") &&
                             !original.Contains("resistances reduce"))
                         {
-                            __result += ResistanceExplainSuffix;
+                            __result = AnexarNota(__result, ResistanceExplainSuffix);
                             appended = true;
                         }
                     }
