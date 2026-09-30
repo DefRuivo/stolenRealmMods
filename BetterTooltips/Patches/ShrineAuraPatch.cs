@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Burst2Flame;
 using HarmonyLib;
@@ -89,9 +90,20 @@ namespace BetterTooltips.Patches
         [HarmonyPrefix]
         private static void FixShrineTarget(ref GameFunctionParameters __3, string[] expressions)
         {
-            if (__3.Target == null && __3.Source != null && UsesShrineBonus(expressions))
+            if (!UsesShrineBonus(expressions))
+            {
+                return;
+            }
+            string srcNome = __3.Source != null ? __3.Source.CharacterName : "(null)";
+            string alvoAntes = __3.Target != null ? __3.Target.CharacterName : "(null)";
+            if (__3.Target == null && __3.Source != null)
             {
                 __3.Target = __3.Source;
+                Plugin.Log.LogInfo($"[Shrine RV-20] Target vazio em expressao com ShrineEffectBonus — preenchido: Source={srcNome} -> Target={srcNome}");
+            }
+            else
+            {
+                Plugin.Log.LogInfo($"[Shrine RV-20] expressao com ShrineEffectBonus — nada a fazer: Source={srcNome}, Target={alvoAntes}");
             }
         }
 
@@ -123,21 +135,24 @@ namespace BetterTooltips.Patches
                 Character c = NetworkingManager.Instance?.NetworkManager?.Root?.WorldCharacter;
                 if (c == null || c.ActionStatuses == null || c.ActionStatuses.Count == 0)
                 {
+                    Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: WorldCharacter indisponivel");
                     return "";
                 }
                 float bonus = c["ShrineEffectBonus"];
                 Dictionary<string, float> totals = new Dictionary<string, float>();
+                int vistos = 0;
                 foreach (var st in c.ActionStatuses)
                 {
-                    if (st == null || st.EventStatusInfo == null)
+                    if (st == null || st.ActionStatusInfo == null)
                     {
                         continue;
                     }
-                    string nome = st.EventStatusInfo.Name;
+                    string nome = st.ActionStatusInfo.Name;
                     if (!Family.Contains(nome) || !AuraMap.TryGetValue(nome, out var m))
                     {
                         continue;
                     }
+                    vistos++;
                     float v = Mathf.Round(m.baseVal * (1f + bonus / 100f));
                     if (nome == "Fury")
                     {
@@ -149,6 +164,7 @@ namespace BetterTooltips.Patches
                         Add(totals, m.attr, v);
                     }
                 }
+                Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: char={c.CharacterName} bonus={bonus} auras={vistos} statuses={c.ActionStatuses.Count}");
                 if (totals.Count == 0)
                 {
                     return "";
@@ -158,10 +174,13 @@ namespace BetterTooltips.Patches
                 {
                     parts.Add(Format(kv.Key, kv.Value));
                 }
-                return "\n<color=#C8B090>Your active shrine auras: " + string.Join("; ", parts) + ".</color>";
+                string linha = "\n<color=#C8B090>Your active shrine auras: " + string.Join("; ", parts) + ".</color>";
+                Plugin.Log.LogInfo($"[Shrine RV-20] acumulado: {linha.Replace("\n", " | ")}");
+                return linha;
             }
-            catch
+            catch (Exception ex)
             {
+                Plugin.Log.LogWarning($"[Shrine RV-20] acumulado falhou: {ex.GetType().Name}: {ex.Message}");
                 return "";
             }
         }
