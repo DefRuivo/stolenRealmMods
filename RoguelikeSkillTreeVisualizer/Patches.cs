@@ -116,7 +116,7 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
-    // RSTV-2d (1/3) — o UNICO caminho que persiste
+    // RSTV-2d (1/4) — o caminho principal que persiste (o outro e `ResetSkillPoints`, 5/5 abaixo)
     //
     // `AcceptSkillChanges` (l.172494) e quem escreve no personagem (RemoveSkills/AddSkills,
     // l.172525-172526) e tambem quem FECHA a janela (SetActive(false), l.172533) + toca o som.
@@ -197,7 +197,7 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
-    // RSTV-2d (2/3) — rede de seguranca do estado interno
+    // RSTV-2d (2/5) — rede de seguranca do estado interno
     //
     // `Initialize` (l.172380) e publico e o jogo pode chama-lo de novo se
     // `GameLogic.CurrentlySelectedCharacter` mudar com a arvore aberta (l.108162-108164), o que
@@ -259,7 +259,7 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
-    // RSTV-2d (3/3) — tirar o UNICO gate de escrita que ja existe no jogo
+    // RSTV-2d (3/5) — tirar o UNICO gate de escrita que ja existe no jogo
     //
     // `RespecButton.SetActive(active)` (l.172867) e o gate de permissao de escrita pronto do jogo
     // (active = !creatingMode && character != null && AllMyCharacters.Contains(character),
@@ -288,7 +288,7 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
-    // RSTV-2d (4/4) — clique no no da arvore
+    // RSTV-2d (4/5) — clique no no da arvore
     //
     // `SkillTreeItem.ToggleAddToSkillToAddList()` (l.171967) e a UNICA via de clique (compra,
     // descompra, desaprender). Em read-only o clique e bloqueado por inteiro; hover, zoom, abas e
@@ -338,6 +338,41 @@ namespace RoguelikeSkillTreeVisualizer
             {
                 Plugin.Log.LogWarning("RSTV: nao deu para logar o bloqueio do clique (o clique continua bloqueado): " +
                                       e.Message);
+            }
+
+            return false;
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-2d (5/5) — o OUTRO caminho que persiste, e o unico que NAO passa por AcceptSkillChanges
+    //
+    // `ResetSkillPoints()` (l.173274) e publico, sem parametro e sem guarda nenhuma (nem
+    // `creatingMode`, nem `InRespecMode`): e o candidato natural ao `resetButton` serializado
+    // (l.172057, ao lado de `acceptButton`/`closeButton`, cujo onClick tambem so existe no prefab).
+    // Ele chama `Character.ResetSkills()`, que ZERA `SavedMap[...]` de TODAS as skills do
+    // personagem e ENFILEIRA o save dele (l.37474-37480) — nao passa pelo `AcceptSkillChanges`,
+    // entao a higienizacao de la nao cobriria esse clique. Em read-only ele e bloqueado aqui.
+    // Fechar a janela NAO passa por este metodo (ver `OnDisable`, l.172897), entao bloquear nao
+    // prende a UI.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.ResetSkillPoints), new Type[0])]
+    internal static class SkillTreeManagerResetSkillPointsPatch
+    {
+        private static bool _firstBlockLogged;
+
+        [HarmonyPrefix]
+        private static bool Prefix()
+        {
+            if (!ReadOnlySession.Active)
+            {
+                return true;
+            }
+
+            if (!_firstBlockLogged)
+            {
+                _firstBlockLogged = true;
+                Plugin.Log.LogInfo("RSTV-2: ResetSkillPoints BLOQUEADO (read-only) — nada foi zerado no personagem.");
             }
 
             return false;

@@ -91,6 +91,22 @@ namespace RoguelikeSkillTreeVisualizer
         /// <summary>Chamado todo frame pelo `RstvHost` enquanto a instancia nativa nao chega.</summary>
         internal static void Tick()
         {
+            // RSTV-2d: a tela Select Party pode fechar POR FORA com a arvore aberta — aceitar a
+            // party muda o GUIState e e o proprio jogo que fecha a tela
+            // (`CharacterChoiceManager.CloseWindow()` -> `SetActive(false)`, l.118416 pelo setter do
+            // GUIState, l.133307 ao ficar opaca a loading screen, l.215520 no OpenTown). Nada nesse
+            // caminho fecha o `SkillTreeManager`: o setter do personagem so chama
+            // `AcceptSkillChanges()` SEM `closeMenu` (l.108137), que nao fecha a janela. Sem esta
+            // guarda, a arvore ficaria desenhada por cima do mapa/batalha e com o interceptor de
+            // Esc instalado. Fechar aqui devolve tudo ao estado de antes da abertura.
+            if (ReadOnlySession.Active && !PartyScreenIsOpen())
+            {
+                Plugin.Log.LogInfo("RSTV-2: a tela Select Party fechou com a arvore aberta — " +
+                                   "fechando a skill tree read-only (nada foi gravado no personagem).");
+                ReadOnlySession.Close();
+                return;
+            }
+
             if (_pendingTarget == null)
             {
                 return;
@@ -110,6 +126,18 @@ namespace RoguelikeSkillTreeVisualizer
                 _pendingTarget = null;
                 Plugin.Log.LogError("RSTV: timeout esperando o SkillTreeManager carregar (15s).");
             }
+        }
+
+        /// <summary>
+        /// A tela Select Party ainda esta aberta? Mesmo teste que o proprio jogo usa
+        /// (`CharacterChoiceManager.IsNotNullAndIsActive`, l.208163-208167) e o mesmo objeto que o
+        /// `CloseWindow()` do jogo desliga (`SetActive(false)`, l.208602-208607). Lido de forma
+        /// barata, sem carregar instancia nenhuma: `Instance` e um auto-property (l.208155).
+        /// </summary>
+        private static bool PartyScreenIsOpen()
+        {
+            CharacterChoiceManager screen = CharacterChoiceManager.Instance;
+            return screen != null && screen.gameObject != null && screen.gameObject.activeSelf;
         }
 
         private static void Finish(Character target, SkillTreeManager instance)
