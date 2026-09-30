@@ -62,14 +62,20 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 37 relatórios de revisão
+### `cobertura/revisao/` — 42 relatórios de revisão
+
+O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
+confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
+citado existindo na pasta e todo `.md` da pasta citado nesta tabela. Relatório novo entra na
+pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram sem passar pelo
+índice (o título dizia 37 com 42 na pasta).
 
 | Grupo | Arquivos | Nº |
 |---|---|---:|
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
-| **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs` (+`-1`..`-6`), `RV-9-debuffs` (+`-1`..`-4`), `RV-9-numeros` | 14 |
-| **Outros** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `escala.md`, `omissoes.md`, `RV-14-terminologia.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento) | 5 |
+| **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 10 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
@@ -136,7 +142,9 @@ carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
 "certa"); por isso o `check_dupes` existe. Saída esperada hoje:
-`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 206 entradas | duplicadas: nenhuma`.
+`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 205 entradas | duplicadas: nenhuma`
+(o `tools/audita_docs.py`, passo 7, compara estes dois números com o `LocalizePatch.cs` — é por
+ele que um `206` escrito de memória vira CI vermelho).
 
 ### Passo 4 — `check_notas_redundantes`: a nota **repete** o texto?
 
@@ -259,11 +267,29 @@ saída e o MD5 das DLLs do perfil **não mudou** depois do build.
 O aviso é o `MSB3277` **pré-existente** (`System.Net.Http`: o `Assembly-CSharp.dll` do jogo aponta
 para 4.2.0.0 e o `netstandard2.1` traz 4.1.2.0). Ele aparece igual em Debug e Release e não é erro.
 
-**Pendência conhecida (não é do PKG-5):** quem consome a DLL para empacotar ainda aponta para
-**Debug** — `tools/pack-for-friends.sh` (`<Mod>/bin/Debug/netstandard2.1/<Mod>.dll`) e o cabeçalho
-do `tools/pack-thunderstore.py` (e o comentário em `.github/scripts/valida_pacotes.py`) falam de
-`bin/Debug`. Enquanto isso não for trocado, `dist/` continua sendo gerado a partir da build de
-**Debug**; o `-c Release` acima prova que a compilação de Release funciona nos 5 projetos.
+**Resolvido em 30/09 (PKG-6 + PKG-2 + PKG-3).** Quem consome a DLL para empacotar passou a ler a
+build de **Release**: o caminho é resolvido por configuração, como o `$(Configuration)` do MSBuild
+— `<Mod>/bin/<Config>/netstandard2.1/<Mod>.dll`. No `tools/pack-thunderstore.py` isso é o
+`--config` (padrão **Release**; `--config Debug` ou `PACK_CONFIG=Debug` ficam para conferência) e
+no `tools/pack-for-friends.sh` é a variável `CONFIG` (padrão **Release**). Os dois buildam com
+`-p:DeployToBepInEx=false`, para que gerar pacote **nunca** sobrescreva a DLL instalada no perfil.
+O comentário do `.github/scripts/valida_pacotes.py` acompanhou.
+
+Efeito colateral esperado: mod **sem** build de Release passa a ser recusado no pre-flight
+(`DLL NAO BUILDADA` + o comando exato para resolver) em vez de entrar no zip com a DLL de Debug —
+pacote de configuração errada era o defeito.
+
+Saída literal medida em 30/09/2026 (`python tools/pack-thunderstore.py BetterFont`):
+
+```
+  ok    BetterFont         v1.0.0  | BetterFont\bin\Release\netstandard2.1\BetterFont.dll
+  BetterFont: gumatos-BetterFont-1.0.0.zip
+      plugins/BetterFont/BetterFont.dll             9216 bytes
+      TOTAL                                       100592 bytes  (5 arquivos)
+```
+
+e no zip (`unzip -l dist/gumatos-BetterFont-1.0.0.zip`): `manifest.json`, `README.md`,
+`CHANGELOG.md` e `icon.png` na **raiz** + `plugins/BetterFont/BetterFont.dll`, 5 arquivos.
 
 ---
 
@@ -287,8 +313,8 @@ do `tools/pack-thunderstore.py` (e o comentário em `.github/scripts/valida_paco
 | `analisa_conferir.py` | Desmonta os itens "conferir" de uma ficha: o que o código diz sobre aquele número. |
 | `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. |
 | `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. |
-| `pack-for-friends.sh` | Compila e empacota os mods distribuíveis em `dist/`. |
-| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`), com pre-flight que **aborta** em vez de gerar pacote inválido. |
+| `pack-for-friends.sh` | Compila (**Release**, com `-p:DeployToBepInEx=false` para não tocar na DLL do perfil) e empacota os mods distribuíveis em `dist/`. Configuração: `CONFIG` (padrão `Release`). |
+| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. |
 | `check_segredos.py` | **Trava de segredo:** varre os arquivos versionados procurando credencial (token do Thunderstore, PAT do GitHub, chave privada). Exit 1 e o release para. |
 | `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. |
 | `release-check.sh` | **A trava de release:** roda os 7 passos de uma vez (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. Duas travas objetivas até aqui: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). |
@@ -355,12 +381,64 @@ do ciclo do jogo em publicação automatizada: `PULAR_RELEASE_CHECK=1`, use com 
 > **Token colado em chat é token exposto.** O do Thunderstore e o PAT do GitHub foram passados por
 > mensagem: os dois devem ser **rotacionados** no painel de cada serviço depois de usados.
 
-**Gerar o pacote:** `python tools/pack-thunderstore.py` (ou passando nomes de mods para empacotar so alguns).
-Os zips saem em `dist/` com pre-flight: sem manifest valido, README, CHANGELOG, icone 256x256 real ou DLL
-buildada ele **sai com erro sem gerar pacote quebrado**.
+### Fonte única de versão (PKG-2)
+
+A versão tem **uma** fonte e dois espelhos conferidos automaticamente — o Thunderstore recusa
+versão repetida, e pacote com versão divergente é publicado errado sem ninguém perceber:
+
+| arquivo | papel |
+|---|---|
+| `<Mod>/<Mod>.csproj` — `<Version>` | **FONTE** (autoritativa) |
+| `<Mod>/manifest.json` — `version_number` | espelho — o que o Thunderstore lê |
+| `<Mod>/Plugin.cs` — `[BepInPlugin(..., "x.y.z")]` | espelho — o que o log do BepInEx mostra |
+
+O pre-flight do `tools/pack-thunderstore.py` compara os três **antes de zipar**: se divergir,
+nenhum pacote é gerado e a mensagem mostra qual está fora (seta `DIVERGE`) com o comando que
+resolve. O `Plugin.cs` é lido nos dois formatos que o repo usa: literal no atributo (os mods mais
+antigos) ou `public const string Version = "x.y.z"` usada como último argumento
+(`RoguelikeSkillTreeVisualizer`) — o **mesmo critério** do `tools/audita_docs.py` (passo 7 do CI),
+para não criar uma segunda regra de leitura.
+
+**Subir a versão, na prática:** edite o `<Version>` do `.csproj` e rode **uma** vez
+`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` — ele reescreve o `manifest.json`
+e o `Plugin.cs` **só quando divergem** (se já batiam, os dois arquivos ficam byte-a-byte iguais) e
+não empacota nada. Depois é só empacotar.
+
+> **Por que os espelhos não viraram código gerado** (a alternativa era um `VersaoMod.g.cs` escrito
+> pelo MSBuild a partir do `<Version>`): o `tools/audita_docs.py`, passo 7 do CI, lê o literal
+> **de dentro do `Plugin.cs`** — com a constante gerada em outro arquivo a auditoria perde o par e
+> reprova. Com o pre-flight no empacotamento + o sincronizador, a divergência não chega ao zip nem
+> ao site, e a edição manual por release caiu de três arquivos para um.
+
+### Empacotar no Windows: `scripts/package.ps1` (PKG-3)
+
+`.\scripts\package.ps1 <Mod>` faz o caminho completo em um comando e **não reimplementa nada**:
+compila em `Release` com o deploy desligado, chama o `tools/pack-thunderstore.py` (fonte única da
+validação) e confere o `dist/gumatos-<Mod>-<versao>.zip` gerado, com a versão lida do
+`manifest.json`.
+
+```powershell
+.\scripts\package.ps1 BetterTooltips   # um mod
+.\scripts\package.ps1                  # todos (lista vinda de --listar-nomes, não de uma 2a lista)
+.\scripts\package.ps1 -Listar          # só lista os mods que o empacotador conhece
+.\scripts\package.ps1 BetterStats -Config Debug    # empacotar a build de Debug
+```
+
+Faltando manifest/README/CHANGELOG/icon 256x256/DLL buildada, quem reclama é o Python — a
+mensagem aponta o arquivo exato — e o `package.ps1` devolve o mesmo código de saída: **não existem
+duas listas de regras** (era o risco de reimplementar a validação em PowerShell). Nenhum caminho
+absoluto da máquina de ninguém: a raiz do repo sai do `$PSScriptRoot`, e a lista de mods sai do
+próprio empacotador (`--listar-nomes`).
+
+**Gerar o pacote pela linha de comando:** `python tools/pack-thunderstore.py` (ou passando nomes de
+mods para empacotar só alguns; `--config Debug` para conferir sem Release buildada).
+Os zips saem em `dist/` com pre-flight: sem manifest valido, README, CHANGELOG, icone 256x256 real,
+DLL buildada **na configuração pedida** ou versão única ele **sai com erro sem gerar pacote quebrado**.
 
 **Testar antes de publicar (r2modman):** `Import local mod` no perfil -> conferir que a DLL caiu em
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar:** ainda manual no site do Thunderstore (o CI de release e a tarefa PKG-4). A versao nao pode
-repetir uma ja publicada — por isso a PKG-2 (fonte unica de versao) importa.
+repetir uma ja publicada — a **PKG-2** resolveu isso: a versão tem uma fonte (o `<Version>` do
+`.csproj`) e o empacotamento **recusa** pacote quando `manifest.json` ou `Plugin.cs` divergem dela
+(ver § *Fonte única de versão*).

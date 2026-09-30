@@ -14,10 +14,34 @@ pacote .zip na pasta `dist/` seguindo a convencao do Thunderstore:
       |-- icon.png               <- 256x256, obrigatorio
       `-- plugins/
             `-- <Mod>/
-                  `-- <Mod>.dll  <- vem de <Mod>/bin/Debug/netstandard2.1/<Mod>.dll
+                  `-- <Mod>.dll  <- vem de <Mod>/bin/<Config>/netstandard2.1/<Mod>.dll
 
 Os arquivos ficam na RAIZ do zip (nao dentro de uma pasta) - e assim que o r2modman
 espera encontrar o manifest.json.
+
+CONFIGURACAO DO BUILD (PKG-6)
+-----------------------------
+O pacote sai da build de **Release** por padrao (`--config Release`), que e a que passou
+a existir no PKG-5 para gerar o artefato do `dist/`. O caminho da DLL e resolvido por
+configuracao - `bin/<Config>/` - igual ao `$(Configuration)` do MSBuild, entao
+`--config Debug` continua disponivel (ou `PACK_CONFIG=Debug no ambiente`).
+
+ATENCAO: buildar Release com o alvo `DeployToBepInEx` ligado sobrescreve a DLL instalada
+no perfil do r2modman. Por isso quem empacota builda com `-p:DeployToBepInEx=false`, e o
+comando sugerido no erro sempre traz essa flag.
+
+VERSAO UNICA (PKG-2)
+--------------------
+A versao autoritativa e o `<Version>` do `.csproj`. Os outros dois lugares que carregam
+versao sao ESPELHOS e sao conferidos aqui, no pre-flight, antes de zipar qualquer coisa:
+
+    <Mod>/<Mod>.csproj   <Version>0.1.0</Version>       <- FONTE
+    <Mod>/manifest.json  "version_number": "0.1.0"      <- espelho (Thunderstore)
+    <Mod>/Plugin.cs      [BepInPlugin(..., "0.1.0")]    <- espelho (BepInEx, o log)
+
+Divergiu qualquer espelho -> NENHUM pacote e gerado, e a mensagem diz exatamente qual
+arquivo/linha consertar. `--sincronizar-versao` reescreve os espelhos a partir do
+`.csproj` (so o que divergiu): e o caminho de um comando depois de subir a versao.
 
 REGRAS QUE O SCRIPT RESPEITA (regras do projeto)
 ------------------------------------------------
@@ -37,10 +61,12 @@ deixa um dist/ com metade dos pacotes novos e metade dos antigos.
 
 USO
 ---
-    python tools/pack-thunderstore.py                  # todos os mods
-    python tools/pack-thunderstore.py BetterFont       # so alguns
-    python tools/pack-thunderstore.py --gerar-icones   # cria icon.png que faltarem
-    python tools/pack-thunderstore.py --listar         # so mostra o que achou
+    python tools/pack-thunderstore.py                   # todos os mods (Release)
+    python tools/pack-thunderstore.py BetterFont        # so alguns
+    python tools/pack-thunderstore.py --config Debug    # empacota a build de Debug
+    python tools/pack-thunderstore.py --gerar-icones    # cria icon.png que faltarem
+    python tools/pack-thunderstore.py --listar          # so mostra o que achou
+    python tools/pack-thunderstore.py --sincronizar-versao   # espelhos <- <Version>
 
 Rodar da RAIZ do repo (ele tambem funciona de qualquer lugar: acha a raiz sozinho).
 """
@@ -65,6 +91,10 @@ DIST = os.path.join(RAIZ, "dist")
 STAGE_RAIZ = os.path.join(DIST, "_thunderstore_stage")
 
 TFM = "netstandard2.1"                 # alvo dos csproj do projeto
+# PKG-6: o pacote publicado sai da build de Release (e a que o dist/ consome desde o PKG-5).
+# Uma configuracao diferente (ex.: Debug, para conferir um pacote sem Release buildada) pode
+# vir de --config ou da variavel de ambiente PACK_CONFIG.
+CONFIG_PADRAO = os.environ.get("PACK_CONFIG") or "Release"
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 CAMPOS_OBRIGATORIOS = ("name", "version_number", "website_url", "description",
                        "dependencies")
@@ -235,13 +265,17 @@ def descobrir_mods():
             if eh_mod(entrada)]
 
 
-def caminhos(nome_mod):
+def caminhos(nome_mod, config=CONFIG_PADRAO):
     pasta = os.path.join(RAIZ, nome_mod)
     return {
         "pasta": pasta,
         "csproj": os.path.join(pasta, nome_mod + ".csproj"),
-        "dll": os.path.join(pasta, "bin", "Debug", TFM, nome_mod + ".dll"),
+        # PKG-6: o caminho da DLL segue a CONFIGURACAO, igual ao $(Configuration) do
+        # MSBuild (bin/<Config>/netstandard2.1/). Antes era fixo em bin/Debug e o pacote
+        # publicado saia da build errada.
+        "dll": os.path.join(pasta, "bin", config, TFM, nome_mod + ".dll"),
         "manifest": os.path.join(pasta, "manifest.json"),
+        "plugin": os.path.join(pasta, "Plugin.cs"),
         "readme": os.path.join(pasta, "README.md"),
         "changelog": os.path.join(pasta, "CHANGELOG.md"),
         "icon": os.path.join(pasta, "icon.png"),
@@ -296,18 +330,153 @@ def ler_manifest(nome_mod, p):
     return manifesto
 
 
-def verificar(nome_mod, gerar_icone_se_faltar=False):
-    """Pre-flight de UM mod. Devolve (manifesto, dict de caminhos). Levanta Falha."""
+# ---------------------------------------------------------------------------
+# PKG-2: versao unica - o <Version> do .csproj e a FONTE, o resto sao espelhos
+# ---------------------------------------------------------------------------
+
+def versao_do_csproj(p):
+    """A versao autoritativa: o `<Version>` do `.csproj`. None se nao achar."""
+    if not os.path.isfile(p["csproj"]):
+        return None
+    with open(p["csproj"], encoding="utf-8", errors="replace") as fh:
+        achado = re.search(r"<Version>([^<]+)</Version>", fh.read())
+    return achado.group(1).strip() if achado else None
+
+
+def versao_do_plugin(nome_mod, p):
+    """A versao que o BepInEx registra no log, lida do `Plugin.cs`.
+
+    Mesmo criterio de `tools/audita_docs.py` (o CI cobra esse formato): o literal pode
+    estar no proprio atributo - `[BepInPlugin("guid", "nome", "0.1.0")]` - ou numa
+    constante usada como ultimo argumento - `[BepInPlugin(Guid, "nome", Version)]` com
+    `public const string Version = "0.1.0";` (padrao do RoguelikeSkillTreeVisualizer).
+
+    Devolve `(versao, nome_da_constante)`; `(None, None)` quando nao acha.
+    """
+    if not os.path.isfile(p["plugin"]):
+        return None, None
+    with open(p["plugin"], encoding="utf-8", errors="replace") as fh:
+        fonte = fh.read()
+
+    literal = re.search(r'Plugin\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"', fonte)
+    if literal:
+        return literal.group(3), None
+
+    atributo = re.search(r"\[BepInPlugin\(([^)]*)\)\]", fonte)
+    if atributo:
+        ident = re.search(r",\s*([A-Za-z_][\w.]*)\s*$", atributo.group(1).strip())
+        if ident:
+            nome = ident.group(1).split(".")[-1]
+            const = re.search(r'const\s+string\s+%s\s*=\s*"([^"]+)"' % re.escape(nome), fonte)
+            if const:
+                return const.group(1), nome
+    return None, None
+
+
+def conferir_versoes(nome_mod, p, manifesto):
+    """Tres lugares carregam a versao; so o `<Version>` do .csproj manda (PKG-2).
+
+    Levanta `Falha` quando qualquer espelho divergir - pacote com versao errada e
+    exatamente o que o Thunderstore recusa (versao repetida) ou o que faz o log mentir.
+    Devolve a versao da fonte quando tudo bate.
+    """
+    fonte = versao_do_csproj(p)
+    if not fonte:
+        raise Falha("PKG-2: %s/%s.csproj sem <Version> (e o <Version> que manda)"
+                    % (nome_mod, nome_mod))
+    if not SEMVER.match(fonte):
+        raise Falha("PKG-2: <Version>%s</Version> do .csproj nao esta em semver X.Y.Z"
+                    % fonte)
+
+    no_manifest = manifesto["version_number"]
+    no_plugin, const = versao_do_plugin(nome_mod, p)
+    if no_plugin is None:
+        raise Falha("PKG-2: nao achei a versao em %s/Plugin.cs (esperava o literal no "
+                    "[BepInPlugin(\"guid\", \"nome\", \"x.y.z\")] ou uma const Version)"
+                    % nome_mod)
+    if no_manifest != fonte or no_plugin != fonte:
+        raise Falha(
+            "PKG-2: VERSAO DIVERGE (o .csproj e a fonte)\n"
+            "      %s/%s.csproj      <Version>%s</Version>  <- FONTE\n"
+            "      %s/manifest.json  \"version_number\": \"%s\"%s\n"
+            "      %s/Plugin.cs      %s \"%s\"%s\n"
+            "      -> conserte o(s) DIVERGE, ou rode de uma vez:\n"
+            "         python tools/pack-thunderstore.py --sincronizar-versao %s"
+            % (nome_mod, nome_mod, fonte,
+               nome_mod, no_manifest, "  <-- DIVERGE" if no_manifest != fonte else "",
+               nome_mod, ("const %s =" % const) if const else "[BepInPlugin(...)]",
+               no_plugin, "  <-- DIVERGE" if no_plugin != fonte else "", nome_mod))
+    return fonte
+
+
+# ---------------------------------------------------------------------------
+# PKG-2: sincronizar os espelhos a partir do .csproj (so o que divergir)
+# ---------------------------------------------------------------------------
+
+def sincronizar_versao(nome_mod):
+    """Reescreve manifest.json e Plugin.cs com o `<Version>` do .csproj.
+
+    Mexe SO na versao e SO quando diverge (o arquivo fica byte-a-byte igual se ja estava
+    certo). Devolve a lista de mudancas feitas, em texto.
+    """
     p = caminhos(nome_mod)
+    fonte = versao_do_csproj(p)
+    if not fonte or not SEMVER.match(fonte):
+        raise Falha("PKG-2: %s.csproj sem <Version> semver (nada a sincronizar)" % nome_mod)
+    mudancas = []
+
+    # --- manifest.json: troca o valor de version_number, nada mais -------------
+    # Leitura e escrita com newline="" : os bytes que nao sao a versao passam intactos
+    # (fim de linha inclusive) - sincronizar nao pode reformatar o arquivo.
+    if os.path.isfile(p["manifest"]):
+        with open(p["manifest"], encoding="utf-8", newline="") as fh:
+            texto = fh.read()
+        padrao = re.compile(r'("version_number"\s*:\s*")([^"]*)(")')
+        achado = padrao.search(texto)
+        if achado and achado.group(2) != fonte:
+            with open(p["manifest"], "w", encoding="utf-8", newline="") as fh:
+                fh.write(padrao.sub(lambda m: m.group(1) + fonte + m.group(3), texto, count=1))
+            mudancas.append("manifest.json: version_number %s -> %s"
+                            % (achado.group(2), fonte))
+
+    # --- Plugin.cs: troca o literal da versao (atributo ou const) --------------
+    if os.path.isfile(p["plugin"]):
+        versao_plugin, const = versao_do_plugin(nome_mod, p)
+        if versao_plugin is not None and versao_plugin != fonte:
+            with open(p["plugin"], encoding="utf-8", newline="") as fh:
+                texto = fh.read()
+            if const:
+                padrao = re.compile(r'(const\s+string\s+%s\s*=\s*")([^"]*)(")'
+                                    % re.escape(const))
+            else:
+                padrao = re.compile(r'(Plugin\(\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*")([^"]*)(")')
+            novo = padrao.sub(lambda m: m.group(1) + fonte + m.group(3), texto, count=1)
+            if novo != texto:
+                with open(p["plugin"], "w", encoding="utf-8", newline="") as fh:
+                    fh.write(novo)
+                mudancas.append("Plugin.cs: %s %s -> %s"
+                                % ("const %s" % const if const else "[BepInPlugin]",
+                                   versao_plugin, fonte))
+    return fonte, mudancas
+
+
+def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
+    """Pre-flight de UM mod. Devolve (manifesto, dict de caminhos). Levanta Falha."""
+    p = caminhos(nome_mod, config)
 
     if not os.path.isfile(p["csproj"]):
         raise Falha("nao e mod: falta %s.csproj" % nome_mod)
 
     if not os.path.isfile(p["dll"]):
-        raise Falha("DLL NAO BUILDADA: %s\n      -> rode:  dotnet build %s/%s.csproj"
-                    % (os.path.relpath(p["dll"], RAIZ), nome_mod, nome_mod))
+        raise Falha("DLL NAO BUILDADA: %s\n"
+                    "      -> rode:  dotnet build %s/%s.csproj -c %s "
+                    "-p:DeployToBepInEx=false"
+                    % (os.path.relpath(p["dll"], RAIZ), nome_mod, nome_mod, config))
 
     manifesto = ler_manifest(nome_mod, p)
+
+    # PKG-2: fonte unica de versao - manifest e Plugin.cs tem que bater com o .csproj
+    conferir_versoes(nome_mod, p, manifesto)
 
     for chave in ("readme", "changelog"):
         if not os.path.isfile(p[chave]):
@@ -375,10 +544,19 @@ def main(argv):
     ap = argparse.ArgumentParser(
         description="Empacota os mods do repo no formato Thunderstore (r2modman).")
     ap.add_argument("mods", nargs="*", help="nomes dos mods (padrao: todos)")
+    ap.add_argument("--config", default=CONFIG_PADRAO, metavar="Release|Debug",
+                    help="configuracao do build de onde sai a DLL (padrao: %s; "
+                         "o ambiente PACK_CONFIG tambem vale)" % CONFIG_PADRAO)
     ap.add_argument("--gerar-icones", action="store_true",
                     help="cria um icon.png 256x256 nos mods que estiverem sem")
     ap.add_argument("--listar", action="store_true",
                     help="so lista os mods encontrados e sai")
+    ap.add_argument("--listar-nomes", action="store_true",
+                    help="imprime SO os nomes dos mods (um por linha) - para consumir de "
+                         "script (scripts/package.ps1); a descoberta de mod fica NUM lugar")
+    ap.add_argument("--sincronizar-versao", action="store_true",
+                    help="reescreve manifest.json e Plugin.cs com o <Version> do .csproj "
+                         "(PKG-2) e sai, sem empacotar")
     args = ap.parse_args(argv)
 
     todos = descobrir_mods()
@@ -386,6 +564,14 @@ def main(argv):
         print("!! nenhum mod encontrado em %s (esperava pastas <Mod>/<Mod>.csproj)"
               % RAIZ)
         return 1
+
+    if args.listar_nomes:
+        # Saida maquina-legivel: SO os nomes, um por linha. E daqui que o
+        # scripts/package.ps1 (Windows) tira a lista de mods - descoberta de mod fica
+        # em UM lugar (eh_mod), nunca numa segunda lista que pode divergir.
+        for m in todos:
+            print(m)
+        return 0
 
     if args.listar:
         print("Mods encontrados em %s:" % RAIZ)
@@ -405,10 +591,35 @@ def main(argv):
         print("   mods disponiveis: %s" % ", ".join(todos))
         return 2
 
+    # PKG-2: so conserta os espelhos da versao e sai (nao empacota nada).
+    if args.sincronizar_versao:
+        print("== PKG-2: sincronizando a versao a partir do <Version> do .csproj ==")
+        problemas = 0
+        for mod in alvos:
+            try:
+                fonte, mudancas = sincronizar_versao(mod)
+            except Falha as erro:
+                problemas += 1
+                print("  FALHA %-18s %s" % (mod, erro))
+                continue
+            if mudancas:
+                print("  %-18s fonte <Version>%s</Version>" % (mod, fonte))
+                for m in mudancas:
+                    print("        %s" % m)
+            else:
+                print("  ok    %-18s v%s (manifest e Plugin.cs ja batiam)"
+                      % (mod, fonte))
+        print()
+        if problemas:
+            print(">>> %d mod(s) sem <Version> valido no .csproj." % problemas)
+            return 1
+        print("Espelhos sincronizados. Rode de novo sem --sincronizar-versao para empacotar.")
+        return 0
+
     if args.gerar_icones:
         print("== icon.png (256x256) ==")
         for mod in alvos:
-            p = caminhos(mod)
+            p = caminhos(mod, args.config)
             medidas = png_tamanho(p["icon"]) if os.path.isfile(p["icon"]) else None
             if medidas == (256, 256):
                 print("  ok    %-18s ja existe (256x256, %d bytes)"
@@ -422,14 +633,15 @@ def main(argv):
     print("Repo : %s" % RAIZ)
     print("Saida: %s" % DIST)
     print("Mods : %s" % ", ".join(alvos))
+    print("Build: %s  (a DLL vem de <Mod>/bin/%s/%s/)" % (args.config, args.config, TFM))
     print()
 
     # ---- pre-flight de TODOS antes de escrever qualquer zip -----------------
-    print("== conferindo (build, manifest, icon) ==")
+    print("== conferindo (build %s, versao unica, manifest, icon) ==" % args.config)
     verificados, problemas = {}, 0
     for mod in alvos:
         try:
-            verificados[mod] = verificar(mod, args.gerar_icones)
+            verificados[mod] = verificar(mod, args.config, args.gerar_icones)
             manifesto = verificados[mod][0]
             print("  ok    %-18s v%s  | %s"
                   % (mod, manifesto["version_number"],

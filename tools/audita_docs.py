@@ -17,7 +17,10 @@ O QUE ELE CONFERE
 -----------------
   1. inventario: quantos .md versionados existem e por pasta (informativo);
   2. nome ANTIGO do mod (`BetterTexts`) citado como se fosse o atual;
-  3. contagens declaradas nos docs x o que o `tools/check_dupes.py` diz do `LocalizePatch.cs`;
+  3. contagens: `TextFixes`/`TextAppends` citados nos docs x o que o `tools/check_dupes.py`
+     diz do `LocalizePatch.cs` (ENTRADA = item do dicionario), e o indice de
+     `docs/cobertura/revisao/` x a pasta (total do titulo, `Nº` de cada linha, todo relatorio
+     citado existe e todo .md da pasta esta citado);
   4. ferramentas: as que existem em `tools/` x as citadas nos docs;
   5. versao de cada mod: `manifest.json` x `.csproj` x `Plugin.cs` (+ dependencia do Thunderstore);
   6. links relativos quebrados nas .md versionadas;
@@ -135,11 +138,101 @@ src = ler('BetterTooltips/Patches/LocalizePatch.cs')
 print('   LocalizePatch.cs existe: %s (%d linhas)' % (bool(src), src.count(chr(10))))
 r = rsh('python', 'tools/check_dupes.py')
 print('   check_dupes.py diz: %s' % ' '.join(r.split()[:14]))
+# A contagem OFICIAL e a do `check_dupes.py` (entrada = item do dicionario, com o parser
+# compartilhado do `check_chave_compartilhada.py`). Ate 30/09 esta secao so IMPRIMIA os
+# numeros citados nos docs, sem comparar nada - foi assim que um numero que nao existe no
+# arquivo (`TextAppends 206 entradas`, o parser conta 205) ficou parado na doc, junto com a
+# divergencia 119 x 86 do `TextFixes`. Agora compara.
+vivas = dict(re.findall(r'(TextFixes|TextAppends)\s+(\d+)\s+entradas', r))
+if not vivas:
+    print('   VER nao consegui ler a contagem de TextFixes/TextAppends na saida do check_dupes.py')
+    problemas.append('audita_docs: a saida do check_dupes.py nao traz a contagem '
+                     'de TextFixes/TextAppends (formato mudou?)')
+print('   contagem OFICIAL (entrada = item do dicionario): %s'
+      % ', '.join('%s %s' % kv for kv in sorted(vivas.items())))
 nums_docs = set()
 for d in docs:
     for m2 in re.finditer(r'(\d+)\s*(?:entradas|entries|corre[çc][õo]es|fixes)', ler(d)):
         nums_docs.add(int(m2.group(1)))
 print('   numeros de contagem citados nos docs: %s' % sorted(nums_docs))
+# Cada `TextFixes N entradas` / `TextAppends N entradas` escrito na doc tem de casar com o
+# parser - e a doc que se conserta, nao o numero.
+for d in docs:
+    for i, l in enumerate(ler(d).splitlines(), 1):
+        for m2 in re.finditer(r'(TextFixes|TextAppends)[^\d\n]{0,8}(\d+)\s*entradas', l):
+            tabela, n = m2.group(1), m2.group(2)
+            if tabela in vivas and n != vivas[tabela]:
+                print('   VER %s:%d diz "%s %s entradas" e o LocalizePatch tem %s'
+                      % (d, i, tabela, n, vivas[tabela]))
+                problemas.append('%s:%d diz "%s %s entradas" mas o parser conta %s'
+                                 % (d, i, tabela, n, vivas[tabela]))
+
+# ------------------------------------------------- 3b) indice dos relatorios de revisao
+# Relatorio e coisa que NASCE a cada rodada de revisao (uma ficha por arvore, um relatorio por
+# lote): contagem escrita a mao na doc apodrece sozinha - em 30/09 o titulo dizia 37 e a pasta
+# tinha 42, porque 5 relatorios entraram sem passar pelo indice. Aqui cada afirmacao da secao
+# do indice e conferida contra a PASTA: o total do titulo, o `Nº` de cada linha (nomes listados
+# na linha), todo nome citado existe e todo .md da pasta esta citado.
+print()
+REL_REV = 'cobertura/revisao/'          # como o README escreve (caminho relativo a docs/)
+PASTA_REV = 'docs/cobertura/revisao'
+ARQ_INDICE = 'docs/README.md'
+rel = sorted(f for f in os.listdir(os.path.join(RAIZ, PASTA_REV)) if f.endswith('.md'))
+linhas = ler(ARQ_INDICE).splitlines()
+cab = None
+for i, l in enumerate(linhas):
+    m2 = re.search(r'`%s`[^\d\n]{0,6}(\d+)' % re.escape(REL_REV), l)
+    if m2:
+        cab = (i, int(m2.group(1)))
+        break
+print('== 3b) %s x %s ==' % (ARQ_INDICE, PASTA_REV))
+if cab is None:
+    print('   VER nao achei o titulo "### `%s` - N relatorios" em %s' % (REL_REV, ARQ_INDICE))
+    problemas.append('%s: o indice de %s perdeu o titulo com a contagem (o check 3b depende dele)'
+                     % (ARQ_INDICE, PASTA_REV))
+else:
+    i_cab, total = cab
+    tabela = []
+    for l in linhas[i_cab + 1:]:
+        if l.startswith('|'):
+            tabela.append(l)
+        elif tabela:
+            break
+    tabela = tabela[1:]                       # fora o cabecalho `| Grupo | Arquivos | Nº |`
+    tabela = [l for l in tabela if not set(l.strip()) <= set('|-: ')]   # fora a separacao
+    citados = []
+    for l in tabela:
+        celulas = [c.strip() for c in l.strip().strip('|').split('|')]
+        nomes = []
+        if len(celulas) >= 2:
+            for tok in re.findall(r'`([^`]+)`', celulas[1]):
+                if '/' in tok or not re.match(r'^[A-Za-z][\w.-]*$', tok):
+                    continue      # caminho (`tools/review_ledger.py`) ou prosa: nao e relatorio
+                nomes.append(tok if tok.endswith('.md') else tok + '.md')
+        citados.extend(nomes)
+        num = re.search(r'\d+', celulas[2]) if len(celulas) >= 3 else None
+        if not num:
+            print('   VER linha da tabela sem contagem na coluna `Nº`: %s' % l.strip()[:70])
+            problemas.append('%s: tabela de %s com linha sem contagem na coluna `Nº`'
+                             % (ARQ_INDICE, PASTA_REV))
+        elif int(num.group(0)) != len(nomes):
+            print('   VER linha diz %s e lista %d nome(s): %s'
+                  % (num.group(0), len(nomes), l.strip()[:70]))
+            problemas.append('%s: a tabela de %s diz %s em uma linha que lista %d nome(s)'
+                             % (ARQ_INDICE, PASTA_REV, num.group(0), len(nomes)))
+    print('   pasta: %d relatorios .md | titulo declara %d | tabela lista %d'
+          % (len(rel), total, len(citados)))
+    if total != len(rel):
+        print('   VER o titulo diz %d e a pasta tem %d relatorios' % (total, len(rel)))
+        problemas.append('%s: o titulo de %s diz %d relatorios, a pasta tem %d'
+                         % (ARQ_INDICE, PASTA_REV, total, len(rel)))
+    for n in sorted(set(citados) - set(rel)):
+        print('   VER citado e nao existe na pasta: %s' % n)
+        problemas.append('%s: cita %s/%s, que nao existe' % (ARQ_INDICE, PASTA_REV, n))
+    for n in sorted(set(rel) - set(citados)):
+        print('   VER esta na pasta e nao esta no indice: %s' % n)
+        problemas.append('%s: o relatorio %s/%s nao esta listado no indice'
+                         % (ARQ_INDICE, PASTA_REV, n))
 
 # ---------------------------------------------------------------- 4) ferramentas listadas
 print()

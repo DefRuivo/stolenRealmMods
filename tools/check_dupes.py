@@ -28,19 +28,29 @@ enemies within a line."), e `Stunning Slam` tem texto proprio. Uma entrada por s
 REGRA: **uma entrada por TEXTO, nao por skill**. Se duas skills compartilham o texto,
 uma entrada so serve as duas (o lookup do mod e por texto).
 
-COMO O PARSER LE
-----------------
-Cada entrada tem 2 strings: (chave, valor). Entao:
-  1. remove linhas de comentario (`//`), que contem aspas soltas em prosa;
-  2. varre o bloco string por string, respeitando escape (`\\"`);
-  3. pega as strings de indice PAR = chaves (a impar e o valor).
-Tentar fazer isso com regex `[^"\\\\]` foi o que quebrou na primeira tentativa: o
-heredoc do shell colapsa as barras e o padrao chega invalido ("unterminated
-character set"). Varredura caractere a caractere nao tem esse problema.
+COMO O PARSER LE - E POR QUE ELE E UM SO
+----------------------------------------
+ENTRADA = **um item do dicionario**, isto e, o par `{ "chave", "valor" }`. Essa e a
+contagem OFICIAL do projeto - a mesma que o `tools/check_chave_compartilhada.py`
+publica - e a unica que a documentacao pode citar.
+
+Este arquivo NAO tem parser proprio: importa `bloco()`/`entradas()` do
+`check_chave_compartilhada.py`, para a definicao de "entrada" morar num lugar so (se
+o import falhar o script nao roda, em vez de medir com outra definicao).
+
+Motivo (caso real, 30/09/2026): os dois scripts mediam o MESMO `LocalizePatch.cs` e
+discordavam - o `check_dupes` dizia *TextFixes 119 entradas*, o
+`check_chave_compartilhada` dizia *86*. Nenhum dos dois estava "certo por outra
+definicao": o `check_dupes` fatiava o arquivo a partir da PRIMEIRA ocorrencia crua do
+nome (`TextFixes`), e desde 30/09 esse nome aparece antes numa linha de COMENTARIO
+dentro de `TextAppends`; o corte comecava na tabela errada e ia ate o primeiro `};`,
+entao o "119" era a CAUDA do `TextAppends`. Dois parsers para o mesmo arquivo foi o
+que produziu a divergencia - e um numero errado chegou a ser citado na doc. Um parser
+so, com a definicao escrita, e o conserto de verdade.
 
 USO
 ---
-    python tools/check_dupes.py            # 0 = limpo, 1 = tem duplicata
+    python tools/check_dupes.py     # 0 = limpo, 1 = tem duplicata, 2 = nao achei a tabela
 
 Roda no ritual de build: build 0 erros -> check_fix_keys -> check_dupes -> instalar.
 """
@@ -49,56 +59,41 @@ import os
 import sys
 from collections import Counter
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import check_chave_compartilhada as tabelas     # noqa: E402  parser UNICO do LocalizePatch.cs
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ = os.path.join(RAIZ, 'BetterTooltips', 'Patches', 'LocalizePatch.cs')
 BLOCOS = ('TextFixes', 'TextAppends')
 
 NL = chr(10)
-Q = chr(34)
-BS = chr(92)
 
 
-def extrai_chaves(seg):
-    """Strings de indice par dentro do bloco (as impares sao os valores)."""
-    linhas = [l for l in seg.split(NL) if not l.strip().startswith('//')]
-    seg = NL.join(linhas)
-    strs = []
-    k = 0
-    while True:
-        k = seg.find(Q, k)
-        if k < 0:
-            break
-        m = k + 1
-        buf = []
-        while m < len(seg):
-            c = seg[m]
-            if c == BS:                      # escape: consome 2 chars
-                buf.append(seg[m:m + 2])
-                m += 2
-                continue
-            if c == Q:
-                break
-            buf.append(c)
-            m += 1
-        strs.append(''.join(buf))
-        k = m + 1
-    return [strs[i] for i in range(0, len(strs), 2)]
+def chaves_do_bloco(fonte, nome):
+    """Chaves (1a string) de cada ENTRADA do dicionario `nome`, na ordem do arquivo.
+
+    Entrada = item do dicionario. O bloco e localizado por `NOME = new Dictionary` e por
+    casamento de chaves (nao por proximidade de `};`), e cada item e lido como
+    `{ "chave", "valor" }`, pulando comentarios - inclusive comentario DENTRO das chaves,
+    que a contagem antiga por "strings de indice par" perdia ou desalinhava.
+    """
+    txt, k = tabelas.bloco(fonte, nome)
+    return [e[2] for e in tabelas.entradas(txt, fonte[:k].count(NL))]
 
 
 def main():
     if not os.path.exists(ARQ):
         print('nao achei %s' % ARQ)
-        return 1
+        return 2
     s = io.open(ARQ, encoding='utf-8').read()
     ruins = 0
     for bloco in BLOCOS:
         try:
-            i = s.index(bloco)
-            j = s.index('};', i)
+            chaves = chaves_do_bloco(s, bloco)
         except ValueError:
-            print('%s: bloco nao encontrado' % bloco)
-            continue
-        chaves = extrai_chaves(s[i:j])
+            # Tabela renomeada/movida: sem isso o script diria "0 entradas" e passaria.
+            print('%s: bloco nao encontrado (procura por "%s = new Dictionary")' % (bloco, bloco))
+            return 2
         dup = {k: n for k, n in Counter(chaves).items() if n > 1}
         print('%-12s %3d entradas | duplicadas: %s' % (bloco, len(chaves),
               (', '.join(repr(k[:60]) for k in dup)) if dup else 'nenhuma'))

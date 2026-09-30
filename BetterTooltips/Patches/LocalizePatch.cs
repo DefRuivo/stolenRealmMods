@@ -929,24 +929,29 @@ namespace BetterTooltips.Patches
             { "Skill Tree Removals +8",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
             // RV-19 shrines — familia de auras de shrine: base + cadeia do Shrine Effect Bonus.
             // A chave do Flame nao tem numero no texto: a nota carrega o dano real (acao "Flame Aura Proc").
+            // RV-30 (30/09): a lista de fontes do bonus ganhou o PERK do jogo "Worship" ("100% increased
+            // effect from Shrines", valor 100 nos assets, ao lado do CharacterInfo T2_Worshiper) porque
+            // era exatamente o caso do usuario em jogo: com o perk, a aura sai ×2 e a nota nao explicava
+            // o dobro (parecia numero inventado pelo mod). Nenhum numero foi "ajustado" — o valor da
+            // expressao do jogo e o do personagem; o que faltava era a procedencia estar completa.
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Damage increased by [0]%. ",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Reduces Damage taken by [0]%. ",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Critical hit chance increased by [0]%.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Increases dodge chance by [0]%.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Lifesteal increased by [0]%.",
-              "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Decreases the cost of mana using abilities by [0]%.",
-              "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             { "Your attacks have a [0]% chance to stun the target.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -1002,7 +1007,7 @@ namespace BetterTooltips.Patches
             // RV-14 terminologia: Shaman Aura | maximum mana -> max mana
 
             { "Recover [0]% of maximum mana each turn. ",
-              "Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             // RV-14 terminologia: Curse of the Reaper | max life -> max health
 
             { "Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>\"A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.\"</i></color>",
@@ -1032,7 +1037,7 @@ namespace BetterTooltips.Patches
               "@Max health@ and @maximum mana@ lowered by 25%." },
             // RV-14 terminologia: Seraph Aura | maximum health -> max health
             { "Recover [0]% of maximum health each turn. ",
-              "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+              "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
             // RV-14 terminologia: Salvation | maximum health -> max health
             { "@Maximum health@ increased by 10% per stack.",
               "@Max health@ increased by 10% per stack." },
@@ -1813,6 +1818,8 @@ namespace BetterTooltips.Patches
             // pelo prefix do ShrineAuraPatch: o ShowGroundEffectTooltip monta os parâmetros com
             // Source = WorldCharacter (personagem vazio) e SEM Target, então o [0] saía sempre
             // na base — o prefix preenche o receptor para o motor calcular com Omnism/Horn.
+            // RV-29: a linha é filtrada pelo status VIVO do receptor (`AcharStatusVivo`) — fora da aura
+            // de shrine em foco, `AcumuladoShrines` devolve vazio e nada é anexado.
             // A LINHA vai no azul da paleta do jogo (RV-27) e o `CorEOrdemDoTooltip` a coloca por
             // ÚLTIMO, depois da nota da shrine, mantendo uma linha em branco antes de cada bloco.
             if (ShrineAuraPatch.IsShrineKey(original))
