@@ -276,7 +276,7 @@ namespace RoguelikeSkillTreeVisualizer
         // Layout
         // ---------------------------------------------------------------------------------------
 
-        private static float SquareSide(Button original, RectTransform rect)
+        internal static float SquareSide(Button original, RectTransform rect)
         {
             float height = rect.rect.height;
             if (height <= 1f)
@@ -301,7 +301,7 @@ namespace RoguelikeSkillTreeVisualizer
             return height;
         }
 
-        private static void ApplySquareLayout(Button original, RectTransform srcRt, GameObject clone,
+        internal static void ApplySquareLayout(Button original, RectTransform srcRt, GameObject clone,
             RectTransform newRt, float side, float widthBefore, Transform parent)
         {
             float height = srcRt.rect.height > 1f ? srcRt.rect.height : side;
@@ -352,7 +352,7 @@ namespace RoguelikeSkillTreeVisualizer
                                (parent as RectTransform != null ? RowWidth(parent).ToString("0.#") : "?"));
         }
 
-        private static float WorldWidth(RectTransform rect)
+        internal static float WorldWidth(RectTransform rect)
         {
             if (rect == null)
             {
@@ -364,7 +364,7 @@ namespace RoguelikeSkillTreeVisualizer
             return corners[3].x - corners[0].x;
         }
 
-        private static float RowWidth(Transform parent)
+        internal static float RowWidth(Transform parent)
         {
             RectTransform row = parent as RectTransform;
             if (row == null || row.childCount == 0)
@@ -449,7 +449,7 @@ namespace RoguelikeSkillTreeVisualizer
             return null;
         }
 
-        private static string DescribeGroup(Transform parent)
+        internal static string DescribeGroup(Transform parent)
         {
             if (parent == null)
             {
@@ -466,7 +466,7 @@ namespace RoguelikeSkillTreeVisualizer
             return le != null ? le : go.AddComponent<LayoutElement>();
         }
 
-        private static void DisableLocalizers(GameObject root)
+        internal static void DisableLocalizers(GameObject root)
         {
             Component[] components = root.GetComponentsInChildren<Component>(true);
             for (int i = 0; i < components.Length; i++)

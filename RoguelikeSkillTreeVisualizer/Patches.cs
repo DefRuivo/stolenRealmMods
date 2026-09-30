@@ -364,15 +364,31 @@ namespace RoguelikeSkillTreeVisualizer
         [HarmonyPrefix]
         private static bool Prefix()
         {
-            if (!ReadOnlySession.Active)
+            try
             {
-                return true;
-            }
+                if (!ReadOnlySession.Active)
+                {
+                    return true;
+                }
 
-            if (!_firstBlockLogged)
+                if (!_firstBlockLogged)
+                {
+                    _firstBlockLogged = true;
+                    Plugin.Log.LogInfo("RSTV-2: ResetSkillPoints BLOQUEADO (read-only) — nada foi zerado no personagem.");
+                }
+            }
+            catch (Exception e)
             {
-                _firstBlockLogged = true;
-                Plugin.Log.LogInfo("RSTV-2: ResetSkillPoints BLOQUEADO (read-only) — nada foi zerado no personagem.");
+                // SEGURANCA — o lado seguro aqui e MANTER o bloqueio (nunca liberar o original).
+                // `ResetSkillPoints()` ZERA o SavedMap de TODAS as skills do personagem e
+                // ENFILEIRA o save dele (l.37474-37480): e irreversivel. Se nao der para saber se
+                // a sessao e read-only (a leitura de `ReadOnlySession.Active` lancou), rodar o
+                // original poderia apagar a arvore durante uma VISUALIZACAO — perda grande e sem
+                // volta. Bloqueando, o pior caso e o jogador nao resetar os pontos nesta chamada,
+                // que e perda pequena e reversivel. Por isso a excecao NUNCA devolve true.
+                Plugin.Log.LogError("RSTV: falha ao avaliar o bloqueio de ResetSkillPoints — " +
+                                    "mantendo o reset BLOQUEADO por seguranca: " + e);
+                return false;
             }
 
             return false;
@@ -401,6 +417,94 @@ namespace RoguelikeSkillTreeVisualizer
             {
                 Plugin.Log.LogError("RSTV: falha no postfix de OnDisable: " + e);
             }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-5 (1/3) — injecao do botao no HUD da run
+    //
+    // Ancora: `CurrentCharacterUI.InitSingleton()` (l.209626, PUBLICO e chamado pelo proprio jogo
+    // assim que o prefab do HUD e instanciado — l.132940 e l.133228: `CurrentCharacterUI.Instance =
+    // ...GetComponent<CurrentCharacterUI>(); CurrentCharacterUI.Instance.InitSingleton();`). E
+    // idempotente por instancia (o botao so e criado uma vez por HUD).
+    //
+    // NAO usar o `Update()`/`UIUpdate()` do HUD (l.209655): roda todo frame e mexe em
+    // `endTurnButton` (l.209761) e `fleeBattleButton` (l.209758). Quem chama `RunButton.Mirror()` e o
+    // `RstvHost.Update` do mod.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(CurrentCharacterUI), nameof(CurrentCharacterUI.InitSingleton), new Type[0])]
+    internal static class CurrentCharacterUIInitPatch
+    {
+        private static bool _firstCallLogged;
+
+        [HarmonyPostfix]
+        private static void Postfix(CurrentCharacterUI __instance)
+        {
+            try
+            {
+                if (!_firstCallLogged)
+                {
+                    _firstCallLogged = true;
+                    Plugin.Log.LogInfo("RSTV-5: gancho do HUD da run ATIVO (CurrentCharacterUI.InitSingleton).");
+                }
+
+                RstvHost.Ensure();
+                RunButton.Ensure(__instance);
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha no postfix de CurrentCharacterUI.InitSingleton: " + e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-5 (2/3 / blindagem 5) — o clique do hex no branch de ACAO nao checa PointerOverUIObject
+    //
+    // `PlayerMovement.ProcessLeftMouseClick(HexCell)` (l.153277) e o caminho do clique no hex (chamado
+    // de `ProcessUpdateInputs`, l.153024, que so checa `GUIManager.InMenus`). O branch de MOVIMENTO
+    // respeita `PointerOverUIObject` (l.153342), mas o de ACAO NAO: l.153393-153397 so chama
+    // `ExecuteAction(cell, CurrentAction)`. Com a arvore aberta, um clique que atravessasse a janela
+    // executaria a acao. O prefixo abaixo consome o clique enquanto a sessao read-only esta ativa.
+    //
+    // NAO e metodo de FECHAMENTO (bloquear fechamento prenderia a janela) e NAO e o unico guarda: a
+    // camada 1 e a janela registrada em `UIWindowManager.OpenedWindows` (=> `GUIManager.InMenus`).
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(PlayerMovement), "ProcessLeftMouseClick", new[] { typeof(HexCell) })]
+    internal static class PlayerMovementProcessLeftMouseClickPatch
+    {
+        private static bool _firstBlockLogged;
+
+        [HarmonyPrefix]
+        private static bool Prefix()
+        {
+            try
+            {
+                if (!ReadOnlySession.Active)
+                {
+                    return true;
+                }
+
+                if (!_firstBlockLogged)
+                {
+                    _firstBlockLogged = true;
+                    Plugin.Log.LogInfo("RSTV-5: clique no hex CONSUMIDO enquanto a arvore read-only esta " +
+                                       "aberta (o branch de Action NAO checa PointerOverUIObject).");
+                }
+            }
+            catch (Exception e)
+            {
+                // LADO SEGURO ESCOLHIDO: DEIXAR O JOGO AGIR. A leitura de `ReadOnlySession.Active` e um
+                // campo estatico (nao pode falhar de verdade); se ela falhasse e este prefixo devolvesse
+                // false, o clique do hex MORRERIA PARA SEMPRE (sem sessao nenhuma aberta, sem nada para
+                // fechar) — e so reiniciando o jogo. Executar uma acao, no pior caso, e reversivel; um
+                // input morto permanentemente nao e. Por isso aqui a excecao devolve true.
+                Plugin.Log.LogError("RSTV: falha ao avaliar o bloqueio do clique do hex — deixando o " +
+                                    "jogo tratar o clique: " + e);
+                return true;
+            }
+
+            return false;
         }
     }
 }

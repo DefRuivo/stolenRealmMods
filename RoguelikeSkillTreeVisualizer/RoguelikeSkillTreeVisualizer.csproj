@@ -11,8 +11,8 @@
          Version do Plugin.cs (usada pelo [BepInPlugin(...)]). Depois de subir a versao
          aqui, rode o empacotador com a opcao de sincronizar versao (ver docs/README.md,
          secao "Fonte unica de versao"). -->
-    <Version>0.1.0</Version>
-    <Description>Botao na tela Select Party do Roguelike que abre a Skill Tree nativa em modo somente leitura.</Description>
+    <Version>0.2.0</Version>
+    <Description>Botao na tela Select Party e no HUD da run (ao lado do Ping Button) que abre a Skill Tree nativa em modo somente leitura.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
