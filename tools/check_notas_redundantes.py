@@ -26,12 +26,24 @@ USO:  python tools/check_notas_redundantes.py [-v]
 
 Saida: docs/cobertura/revisao/RV-15-notas-redundantes.md  (e resumo no terminal)
 Sai com codigo 1 se achar qualquer caso — serve de trava de release.
+
+CURADO A MAO x GERADO
+---------------------
+O que a ferramenta GERA termina na linha `<!-- fim-gerado -->`; tudo o que vier DEPOIS dessa
+linha e escrito a mao, e relido do arquivo e regravado identico por `tools/preserva_curado.py`
+— a ferramenta nao apaga trabalho curado (antes de 30/09 ela montava o arquivo inteiro com
+`io.open(SAIDA, 'w')` e derrubava qualquer coisa acrescentada depois, o mesmo defeito que
+apagou as 53 linhas do veredito do RV-14). Blocos `<!-- curado --> ... <!-- /curado -->`
+tambem sao preservados.
 """
 
 import io
 import os
 import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import preserva_curado  # noqa: E402  guarda do trecho curado a mao (ver o docstring dele)
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTE = os.path.join(RAIZ, 'BetterTooltips', 'Patches', 'LocalizePatch.cs')
@@ -203,6 +215,9 @@ def main():
     L.append('')
     L.append('Gerado por `tools/check_notas_redundantes.py` a partir de `BetterTooltips/Patches/LocalizePatch.cs`.')
     L.append('')
+    L.append('O que a ferramenta **gera** termina na linha `<!-- fim-gerado -->`; tudo o que vier')
+    L.append('depois dela e escrito a mao e **nunca** e reescrito (ver `tools/preserva_curado.py`).')
+    L.append('')
     L.append('Uma nota existe para dizer o que o texto **nao** diz. Quando ela repete o proprio texto,')
     L.append('o jogador le a mesma frase duas vezes e a explicacao perde credito - foi o que o usuario')
     L.append('reportou em 30/09 (`Blinding Lights` duplicado, `Blind`/`Sleep` redundantes,')
@@ -247,7 +262,11 @@ def main():
         L.append('')
 
     os.makedirs(os.path.dirname(SAIDA), exist_ok=True)
-    io.open(SAIDA, 'w', encoding='utf-8', newline='').write(NL.join(L))
+    try:
+        origem, n_linhas = preserva_curado.grava(SAIDA, NL.join(L))
+    except preserva_curado.CuradoPerdido as e:
+        print('ABORTADO: %s' % e)
+        return 3
 
     print('RV-15 - varredura de notas redundantes')
     print('  notas analisadas ......... %d' % len(itens))
@@ -255,6 +274,7 @@ def main():
     print('  nota contida na chave .... %d' % len(contidas))
     print('  nota ecoando >= %d palavras %d' % (MIN_PALAVRAS_ECO, len(ecos)))
     print('  notas unicas (OK) ........ %d' % len(ok))
+    print('  curado preservado ........ %d linha(s) a mao (%s)' % (n_linhas, origem))
     print('  relatorio: %s' % os.path.relpath(SAIDA, RAIZ).replace(chr(92), '/'))
     for it in iguais + contidas + ecos:
         print('    l.%d  %s' % (it[0], (it[1] or '')[:80]))

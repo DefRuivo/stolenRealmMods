@@ -26,6 +26,15 @@ que ja apareceu em 451 skills e 133 debuffs revisados; conceito novo entra aqui 
 revisao encontrar. Nao decide nada sozinho: se uma variante tem 3 usos e outra 12, o relatorio
 aponta 12 - quem decide se muda e a revisao, e a regra do projeto e seguir a MAIORIA.
 
+CURADO A MAO x GERADO
+---------------------
+O relatorio tem DUAS partes e a ferramenta so manda na primeira: o que ela GERA termina na
+linha `<!-- fim-gerado -->`, e tudo o que vem DEPOIS (o `VEREDITO POR CONCEITO`, escrito a
+mao) e relido do arquivo e regravado IDENTICO - `tools/preserva_curado.py` cuida disso.
+Ate 30/09 este script montava o arquivo inteiro (`io.open(REL, 'w')`) e APAGAVA o veredito
+(53 linhas) a cada rodada: quem vinha conferir um numero perdia o texto curado.
+`ANCORA_LEGADO` existe so para migrar um arquivo gerado ANTES do marcador entrar nele.
+
 Uso: python tools/check_terminologia.py
 Saida: docs/cobertura/revisao/RV-14-terminologia.md
 """
@@ -33,7 +42,15 @@ import csv
 import io
 import os
 import re
+import sys
 from collections import Counter, OrderedDict
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import preserva_curado  # noqa: E402  guarda do trecho curado a mao (ver o docstring dele)
+
+# Ultima linha do texto GERADO, unica no arquivo: so serve para achar, num arquivo gerado
+# antes do marcador `<!-- fim-gerado -->`, onde termina o gerado e comeca o curado.
+ANCORA_LEGADO = 'e NÃO mexa: foi a decisão tomada para o `Crippled` × `Slow`.'
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 DIR = os.path.join(RAIZ, 'docs', 'cobertura')
@@ -85,6 +102,9 @@ def main():
               'padrão a seguir (regra do projeto, a mesma que fechou o caso `Crippled` × `Slow`).', '',
               '> Limite honesto: a lista de conceitos é **curada à mão** — não existe thesaurus do',
               '> vocabulário do jogo. Conceito novo entra quando a revisão encontra.', '',
+              '> O que esta ferramenta **gera** termina na linha `<!-- fim-gerado -->`. Tudo o que',
+              '> vem depois dela é escrito à mão (o veredito por conceito) e **nunca** é reescrito',
+              '> pela ferramenta: ver `tools/preserva_curado.py`.', '',
               '| conceito | variante | total | skills | status | itens | afixos | powerups |', '',
               '|---|---|---|---|---|---|---|---|']
     achados = 0
@@ -120,8 +140,13 @@ def main():
         '4. Se o motor contradiz a maioria (caso `Cripple` → status `Slow`), registre a contradição',
         '   e NÃO mexa: foi a decisão tomada para o `Crippled` × `Slow`.', '']
     os.makedirs(os.path.dirname(REL), exist_ok=True)
-    io.open(REL, 'w', encoding='utf-8', newline='\n').write('\n'.join(linhas) + '\n')
+    try:
+        origem, n_linhas = preserva_curado.grava(REL, '\n'.join(linhas), ancora=ANCORA_LEGADO)
+    except preserva_curado.CuradoPerdido as e:
+        print('ABORTADO: %s' % e)
+        return 3
     print('conceitos com variantes divergentes: %d de %d' % (achados, len(CONCEITOS)))
+    print('curado preservado: %d linha(s) a mao (%s)' % (n_linhas, origem))
     print('relatorio: %s' % REL)
     return 0
 
