@@ -154,6 +154,21 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Shapeshift Werewolf - as habilidades da forma saem do `CharacterInfo` do personagem substituido:
+            // campo `modelo=` do dump de STATUS (`ModelChangeCharacter.Skills`). Texto dizia
+            // apenas "gain new abilities".
+            { "Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.",
+              "\n<color=#C8B090>While transformed you gain: a stronger basic attack, Blood Howl and Cursed Bite.</color>" },
+            // Shapeshift Dire Werewolf - as habilidades da forma saem do `CharacterInfo` do personagem substituido:
+            // campo `modelo=` do dump de STATUS (`ModelChangeCharacter.Skills`). Texto dizia
+            // apenas "gain new abilities".
+            { "Shapeshift into a @Dire Werewolf@. Basic attack and abilities are further empowered. Increases @Max Health@ by 20%.",
+              "\n<color=#C8B090>While transformed you gain: a further empowered basic attack, Greater Blood Howl and Greater Cursed Bite.</color>" },
+            // Shapeshift Vampire Bat - as habilidades da forma saem do `CharacterInfo` do personagem substituido:
+            // campo `modelo=` do dump de STATUS (`ModelChangeCharacter.Skills`). Texto dizia
+            // apenas "gain new abilities".
+            { "Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.",
+              "\n<color=#C8B090>While transformed you gain: Energy Drain.</color>" },
             // Break The Ice - o texto ficava vago e o teste do PROPRIO jogo diz o mecanismo:
             // COLD_Status_BreakTheIce
             { "The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",
@@ -560,7 +575,7 @@ namespace BetterTooltips.Patches
                 // `10 * Source.Level`, e quem esta nas duas tabelas so executa a CORRECAO
                 // - uma explicacao no TextAppends para este texto nunca rodaria.
                 "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
-                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\n<color=#C8B090>Scales with your character level.</color>"
+                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\n<color=#C8B090>Scales with your character level.</color>\n<color=#C8B090>The Dragonkin grants a Slash, a Breath and an Orb of its element: Shadow, Frost, Lightning, Fire or Holy.</color>"
             },
 
             // ---- RV-8b-2, grafia/gramatica (29/09) ----
