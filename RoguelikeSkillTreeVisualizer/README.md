@@ -7,7 +7,7 @@ prontos e o mod **ainda não foi conferido em jogo** pelo autor; esta pasta guar
 | arquivo | papel |
 |---|---|
 | `Plugin.cs` | `[BepInPlugin]`, config (`AtivarBotao`) e aplicação dos ganchos **um a um**, com contagem real no log (o `Awake` NÃO cria GameObject: isso roda no chainloader) |
-| `Patches.cs` | os 7 ganchos Harmony, cada um com a linha do decompilado no comentário |
+| `Patches.cs` | os 8 ganchos Harmony, cada um com a linha do decompilado no comentário |
 | `SelectPartyButton.cs` | RSTV-2a: clona o `roguelikePowerupButton`, encolhe a linha, trata o clique e **diagnostica por que** o botão não entrou |
 | `PartyTargets.cs` | RSTV-2b: ordem de adição local (o jogo não guarda essa ordem) |
 | `SkillTreeReadOnly.cs` | RSTV-2c/2d: abre a Skill Tree nativa e mantém a sessão somente leitura |
@@ -72,7 +72,7 @@ falha escreve o motivo. No `LogOutput.log`:
 |---|---|
 | `Roguelike Skill Tree Visualizer 0.1.0 carregado ...` | o plugin carregou |
 | `RSTV: gancho aplicado — <Classe> (N metodo(s) do jogo).` | um gancho entrou (uma linha por gancho) |
-| `RSTV: patches Harmony aplicados (7/7 ganchos, 7 metodos do jogo).` | **contagem real** de ganchos aplicados; se vier `6/7`, o mesmo erro termina com `GANCHOS QUE FALHARAM:` e os nomes |
+| `RSTV: patches Harmony aplicados (8/8 ganchos, 8 metodos do jogo).` | **contagem real** de ganchos aplicados; se vier `7/8`, o mesmo erro termina com `GANCHOS QUE FALHARAM:` e os nomes |
 | `RSTV: FALHA ao aplicar o gancho <Classe> — <motivo>` | aquele gancho não entrou (assinatura que mudou de versão, por exemplo) |
 | `RSTV DIAG: botao 'Skills' HABILITADO/DESABILITADO nesta sessao` | o config foi lido |
 | `RSTV-2: botao 'Skills' injetado (NxN px) ... largura da linha A -> B px` | o botão foi criado; as duas larguras devem ser iguais |
@@ -81,7 +81,9 @@ falha escreve o motivo. No `LogOutput.log`:
 | `RSTV-2: clique no botao 'Skills' -> '<nome>' (nivel N).` | o clique resolveu o personagem |
 | `RSTV-2: skill tree read-only aberta para '<nome>' (nivel N, M skills, 0 pontos)` | a árvore abriu |
 | `RSTV-2: clique na arvore BLOQUEADO (read-only)` | o clique no nó foi barrado |
+| `RSTV-2: ResetSkillPoints BLOQUEADO (read-only)` | o clique num botão que zeraria as skills do personagem foi barrado |
 | `RSTV-2: modo somente leitura encerrado (nada foi gravado no personagem)` | fechou limpo |
+| `RSTV-2: a tela Select Party fechou com a arvore aberta — fechando a skill tree read-only` | a tela de party foi fechada por fora (aceitar a party, loading, `OpenTown`) e a árvore foi fechada junto para não ficar presa por cima do jogo |
 
 ## O que o mod faz (técnico)
 
@@ -124,7 +126,7 @@ personagem, testes por caso) e os critérios de aceite estão registrados no qua
 1. Compilar e instalar: `dotnet build RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj`
    (sem a propriedade `DeployToBepInEx=false` ele copia a DLL para o perfil do r2modman).
 2. Abrir o jogo modded e ir em **Roguelike → Select Party**. No `LogOutput.log` devem aparecer
-   `RSTV: patches Harmony aplicados (7/7 ganchos, 7 metodos do jogo)` e
+   `RSTV: patches Harmony aplicados (8/8 ganchos, 8 metodos do jogo)` e
    `RSTV-2: botao 'Skills' injetado ... largura da linha N -> N px` (as duas larguras devem bater).
    Se o botão **não** aparecer, o log já diz o motivo (`RSTV DIAG: ...`, com a tela, o botão nativo e
    a party local) — não precisa adivinhar.
@@ -157,4 +159,28 @@ personagem, testes por caso) e os critérios de aceite estão registrados no qua
   rodar** e fecha a janela por conta própria (zero escrita) em vez de arriscar a gravação. Só
   acontece num caminho de exceção, mas vale conferir que a tela de party volta ao normal depois
   (o log diz `RSTV: falha ao higienizar AcceptSkillChanges ...`).
+- **Segundo caminho de gravação** (achado na auditoria estática): `SkillTreeManager.ResetSkillPoints()`
+  (l.173274) é público, sem parâmetro e chama `Character.ResetSkills()`, que **zera todas as skills** do
+  personagem e enfileira o save dele (l.37474) — sem passar pelo `AcceptSkillChanges`. O mod agora o
+  **bloqueia** em read-only (gancho 8). O que **fica para medir em jogo**: qual botão do prefab chama
+  esse método (o campo `resetButton`, l.172057, não está ligado em código) e se existe algum botão que
+  chame `CheckSkillDependancies(Character)` (l.172328), que também grava (l.172344/172352) mas não tem
+  nenhum chamador no assembly — esse **não** foi bloqueado de propósito (bloqueá-lo às cegas poderia
+  atrapalhar um caminho legítimo do jogo).
+- **Interceptor de Esc é um slot único** (`UIWindowManager.CancelInterceptor`, l.215982). O
+  `InventoryManager.OnEnable` (l.125301) também o ocupa: se a mochila puder ser aberta por cima da
+  árvore, o Esc deixa de fechar a árvore e ela só fecha no botão de fechar da janela (e, quando a tela
+  de party fechar, pela guarda do host). Medir em jogo se isso é alcançável no Select Party.
+- **Largura da linha com `childForceExpandWidth`:** o mod hoje não compensa a largura nesse modo
+  ("o próprio grupo acomoda o filho"). Isso só vale se a linha tiver largura fixa; se ela for
+  dimensionada pelo conteúdo (um `ContentSizeFitter` acima), ela **cresce** com o clone e o log
+  mostra `largura da linha A -> B` com A ≠ B. É exatamente o que a linha do log serve para flagrar
+  no primeiro teste em jogo.
+
+### Correções da auditoria estática (contra o decompilado, sem rodar o jogo)
+
+- Gancho 8: `SkillTreeManager.ResetSkillPoints` bloqueado em read-only (segundo ponto de gravação).
+- A árvore agora fecha sozinha se a tela Select Party fechar por fora (aceitar a party muda o
+  `GUIState` e o jogo fecha a tela em l.118416/l.133307/l.215520 sem fechar o `SkillTreeManager`):
+  antes ela ficaria desenhada por cima do mapa, com o interceptor de Esc instalado.
 
