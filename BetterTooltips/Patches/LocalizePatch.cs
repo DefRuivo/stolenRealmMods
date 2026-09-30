@@ -32,7 +32,7 @@ namespace BetterTooltips.Patches
         /// Duas correcoes de acabamento pedidas em teste:
         ///
         /// (a) A COR. O postfix principal aplica as tabelas; este roda DEPOIS dele
-        ///     (HarmonyPriority.Low = por ultimo nos postfixes) e troca o marcador #8FC1E3
+        ///     (HarmonyPriority.Low = por ultimo nos postfixes) e troca o marcador #C8B090
         ///     pela cor de "texto especial" do proprio tooltip.
         ///
         /// (b) A POSICAO. O jogo monta o tooltip como [descricao], uma quebra de linha e depois
@@ -47,17 +47,6 @@ namespace BetterTooltips.Patches
         {
             /// <summary>Diagnostico 1x: diz no log se o prefix achou o bloco (ou nao).</summary>
             private static bool _diagnosticadoCor;
-            /// <summary>Aplica a cor do jogo DEPOIS das tabelas.</summary>
-            // ORDEM DO HARMONY (o meu erro anterior): em PREFIX a prioridade e decrescente e
-            // em POSTFIX e CRESCENTE - Priority.Low roda PRIMEIRO. Com Low, este postfix rodava
-            // antes da tabela, sobre o texto cru, e morria no return antecipado de
-            // ComACorDoJogo. Prova: nenhuma linha "cor do jogo" no log mesmo com a DLL nova
-            // carregada (log 20:59 > DLL 20:57) e as notas ainda no azul de fallback.
-            [HarmonyPostfix, HarmonyPriority(Priority.High)]
-            private static void CorPostfix(ref string __result)
-            {
-                __result = ComACorDoJogo(__result);
-            }
 
             /// <summary>Mira o overload de ShowTooltip que recebe o corpo do tooltip.</summary>
             private static System.Reflection.MethodBase TargetMethod()
@@ -79,7 +68,7 @@ namespace BetterTooltips.Patches
                 {
                     return;
                 }
-                string cor = string.IsNullOrEmpty(_corEspecialDoJogo) ? "8FC1E3" : _corEspecialDoJogo;
+                string cor = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
                 string abre = "<color=#" + cor + ">";
                 int i = __3.IndexOf(abre, StringComparison.Ordinal);
                 if (i < 0)
@@ -113,14 +102,14 @@ namespace BetterTooltips.Patches
         /// "All [damage type] damage applies {STA=Heat}". Fonte: Tooltip.cs do Assembly, onde a
         /// linha 214387 usa `ColorUtility.ToHtmlStringRGB(specialTextColor)` e a 214388 monta o
         /// token `{STA=<nome>}`.
-        /// Nas tabelas o marcador fica como #8FC1E3 (um azul qualquer, so para o texto continuar
+        /// Nas tabelas o marcador fica como #C8B090 (um azul qualquer, so para o texto continuar
         /// legivel se a leitura falhar); aqui ele e trocado pela cor real do jogo.
         /// </summary>
         internal static string _corEspecialDoJogo;
 
         internal static string ComACorDoJogo(string texto)
         {
-            if (string.IsNullOrEmpty(texto) || texto.IndexOf("#8FC1E3", StringComparison.Ordinal) < 0)
+            if (string.IsNullOrEmpty(texto) || texto.IndexOf("#C8B090", StringComparison.Ordinal) < 0)
             {
                 return texto;
             }
@@ -142,7 +131,25 @@ namespace BetterTooltips.Patches
             }
             return string.IsNullOrEmpty(_corEspecialDoJogo)
                 ? texto
-                : texto.Replace("#8FC1E3", _corEspecialDoJogo);
+                : texto.Replace("#C8B090", _corEspecialDoJogo);
+        }
+
+        /// <summary>
+        /// Aplica a cor do bloco de explicacao DEPOIS das tabelas.
+        ///
+        /// PRECISA ficar DENTRO desta classe: aqui o alvo e `OptionsManager.Localize` (do
+        /// `[HarmonyPatch]` acima). Eu havia posto este postfix numa classe separada que mira
+        /// `Tooltip.ShowTooltip` - cujo retorno e `void` - e o Harmony reportou
+        /// "HarmonyException: IL Compile Error" no log sem executar nada. Sintoma no tooltip:
+        /// nota ainda no azul de fallback.
+        ///
+        /// ORDEM: em POSTFIX a prioridade e CRESCENTE (Low roda PRIMEIRO), entao `Priority.High`
+        /// roda por ULTIMO - que e o que precisamos para ver o texto ja com as tabelas.
+        /// </summary>
+        [HarmonyPostfix, HarmonyPriority(Priority.High)]
+        private static void CorDoJogoPostfix(ref string __result)
+        {
+            __result = ComACorDoJogo(__result);
         }
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
@@ -152,25 +159,25 @@ namespace BetterTooltips.Patches
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.",
-              "\n<color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
+              "\n<color=#C8B090>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
             // "Power of Mana" (`ManaPowerMod`) nao tinha explicacao em lugar nenhum.
             // Fonte: `num36 = properties.CostsMana ? source["ManaPowerMod"] : 0f` somado em
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.",
-              "\n<color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
+              "\n<color=#C8B090>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
             // "Power of Mana" (`ManaPowerMod`) nao tinha explicacao em lugar nenhum.
             // Fonte: `num36 = properties.CostsMana ? source["ManaPowerMod"] : 0f` somado em
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
             // "power of mana using abilities" em `Forbidden Power` e no proprio `Rainstorm`.
             { "Calls down a magical rain that increases potency of Mana using abilities by 50% for allies within the area. Lasts 2 turns.",
-              "\n<color=#8FC1E3>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
+              "\n<color=#C8B090>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
             // OMISSAO (nao mentir por omissao): o efeito real e
             // `Mathf.Min(Target.Health - 1, Target['MaxHealth'] * .1f)`. Os 10% do texto
             // estao certos, mas o `Min` com `Health - 1` garante que NAO MATA - e o texto
             // nao dizia. Muda a decisao de quem hesita em usar num aliado quase morto.
             { "Removes all negative statuses from friendly target but inflicts 10% of target's maximum health as fire damage. Can be used when Disabled.",
-              "\n<color=#8FC1E3>This cannot reduce the target below 1 health.</color>" },
+              "\n<color=#C8B090>This cannot reduce the target below 1 health.</color>" },
             // ---- Escala por NÍVEL (RV-8b-2g) ----
             // Fonte: código do jogo. `GetFlatDamageValue(level, rarity) =
             // Mathf.Ceil(FlatDamageNodes.GetMultipler((int)level) * GetStatRarityMod(rarity))`
@@ -180,10 +187,10 @@ namespace BetterTooltips.Patches
             // São as 5 skills do jogo que usam essa curva (Huntsman I/II, Thorns I/II e
             // Vengeful Shadows); a chave "Physical damage increased by [0]." cobre as duas
             // Huntsman porque as duas escalam igual.
-            { "Grants [0] Return Physical Damage.",  "\n<color=#8FC1E3>Scales with your character level.</color>" },
-            { "Grants an additional [0] Return Physical Damage.",  "\n<color=#8FC1E3>Scales with your character level.</color>" },
-            { "Grants [0] Return Shadow Damage.",  "\n<color=#8FC1E3>Scales with your character level.</color>" },
-            { "Physical damage increased by [0].",  "\n<color=#8FC1E3>Scales with your character level.</color>" },
+            { "Grants [0] Return Physical Damage.",  "\n<color=#C8B090>Scales with your character level.</color>" },
+            { "Grants an additional [0] Return Physical Damage.",  "\n<color=#C8B090>Scales with your character level.</color>" },
+            { "Grants [0] Return Shadow Damage.",  "\n<color=#C8B090>Scales with your character level.</color>" },
+            { "Physical damage increased by [0].",  "\n<color=#C8B090>Scales with your character level.</color>" },
 
             // Segunda leva (RV-8b-2i): a varredura `tools/check_scaling.py` percorreu as
             // fórmulas de TODAS as skills e achou 9 que escalam com `Source.Level` sem
@@ -195,19 +202,19 @@ namespace BetterTooltips.Patches
             // são o caminho padrão de dano, o valor já aparece na tooltip e repetir
             // "escala com ataque" em 135 skills seria ruído, não informação.
             { "@Intelligence@ grants [0] @Armor@ and @Magic Armor@ per point.  Current Bonus: [1]",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Damage caused steals [0] points of @Dexterity@. Lasts the entire battle. Stacks up to 10 times.",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Damage caused steals [0] points of @Intelligence@. Lasts the entire battle. Stacks up to 10 times.",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Damage caused steals [0] points of @Might@. Lasts the entire battle. Stacks up to 10 times.",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
             { "Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.",
-              "\n<color=#8FC1E3>Scales with your character level.</color>" },
+              "\n<color=#C8B090>Scales with your character level.</color>" },
 
             // ---- O que cada INVOCAÇÃO faz (RV-8b-2h) ----
             // Fonte: os assets do jogo, via dump. `ActionInfo.Summons` é a lista de
@@ -219,25 +226,25 @@ namespace BetterTooltips.Patches
             // texto fica ilegível no tooltip. O \n é o mesmo separador que o jogo usa nos
             // textos dele; e só ASCII, para não depender de glifo na fonte do jogo.
             { "Summons a Raven, Coyote, or Raccoon to fight for you.",
-              "\n<color=#8FC1E3>One is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>One is summoned at random:\n- Raven: Melee Attack, Evasion\n- Raccoon: Melee Attack, Steal Action\n- Coyote: Melee Attack, Cripple\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Stag, Wolf, or Boar to fight for you.",
-              "\n<color=#8FC1E3>One is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>One is summoned at random:\n- Stag: Stunning Kick, Melee Attack\n- Wolf: Melee Attack, Howl\n- Boar: Melee Attack, Fracture\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Bear, Moose, or Panther to fight for you.",
-              "\n<color=#8FC1E3>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>One is summoned at random:\n- Bear (a Grizzly): Stunning Slam, Wild Cleave\n- Moose: Ground Slam, Melee Attack\n- Panther: Shadow Walk, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Tundra Wolf to fight for you.",
-              "\n<color=#8FC1E3>Tundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Tundra Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summons a Dire Wolf to fight for you.",
-              "\n<color=#8FC1E3>Dire Wolf: Melee Attack, Blood Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Dire Wolf: Melee Attack, Blood Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summon a grizzly to fight your enemies.",
-              "\n<color=#8FC1E3>Grizzly: Stunning Slam, Wild Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Grizzly: Stunning Slam, Wild Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summon a wolf to fight your enemies.",
-              "\n<color=#8FC1E3>Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Wolf: Melee Attack, Howl\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Summon a Raven to fight your enemies. ",
-              "\n<color=#8FC1E3>Raven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Raven: Melee Attack, Evasion\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Raise an Undead Ranger to fight by your side.",
-              "\n<color=#8FC1E3>Undead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Undead Ranger: Ranged Attack, Hide In Shadows\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
             { "Raise an Undead Berserker to fight by your side.",
-              "\n<color=#8FC1E3>Undead Berserker: Bleeding Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
+              "\n<color=#C8B090>Undead Berserker: Bleeding Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>" },
 
             // Brambles e Ice Wall NAO invocam bicho: sao objetos destrutiveis que bloqueiam
             // hexes. Passam pelo MESMO caminho de beneficio dos bichos (CreateDestructible
@@ -251,16 +258,16 @@ namespace BetterTooltips.Patches
             // incondicionalmente no CreateSummon. Chama-la de "herdaStats" foi rotulo meu e
             // induzia a conclusao errada ("nao herda = nao escala").
             { "Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.",
-              "\n<color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color>" },
+              "\n<color=#C8B090>Benefits from your Might and Intelligence, but does not count as a summon.</color>" },
             { "Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.",
-              "\n<color=#8FC1E3>Benefits from your Might and Intelligence, but does not count as a summon.</color>" },
+              "\n<color=#C8B090>Benefits from your Might and Intelligence, but does not count as a summon.</color>" },
 
             // ---- Omissao: o texto nao pode estar certo pela METADE (RV-8b-3, 29/09) ----
             // Regra do usuario: se o resultado depende de algo que o texto nao diz, e defeito.
             // Achado por tools/check_omissao.py (classes O1..O6).
             // Ascendancy: o status concede 20% e DURA 5 TURNOS; a skill so dizia o 20%.
             { "Increases the target allies' stats by 20%.",
-              "\n<color=#8FC1E3>Lasts 5 turns.</color>" },
+              "\n<color=#C8B090>Lasts 5 turns.</color>" },
             // Touch of Chaos: REVERTIDO a pedido do usuario (29/09). A arvore do Chaos e
             // divertida justamente por NAO revelar os resultados - Coin of Chaos, Benevolence,
             // Malevolence, Hurting e Helping seguem omitidos DE PROPOSITO. Nao "corrigir"
@@ -282,23 +289,23 @@ namespace BetterTooltips.Patches
             // Holy Power and Healing Received by 10%" e o efeito dela e `DamageModHealing` -
             // o mesmo atributo que multiplica a cura aqui.
             { "Restores target's health by *0.",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "Restores *0 health to all allies within 2 hexes of target.",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.\nThe 2-hex area is centred on the chosen TARGET, not on the caster.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.\nThe 2-hex area is centred on the chosen TARGET, not on the caster.</color>" },
             { "Target restores *0 health per turn. ",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "All allies within 3 hexes of you heal for *0 per turn. ",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "The caster reaches out in aid healing 30% of target's maximum health.",
-              "\n<color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "Restores the target to full health.",
-              "\n<color=#8FC1E3>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Healing scales with your Holy Power.\nReduced by effects that lower the target's healing received.</color>" },
             { "Summons a radiant light applying {STA=Blind} to the target dealing *0 Holy damage.",
-              "\n<color=#8FC1E3>Damage scales with your Attack Power and Holy Power.</color>" },
+              "\n<color=#C8B090>Damage scales with your Attack Power and Holy Power.</color>" },
             { "Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.",
-              "\n<color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color>" },
             { "Expel a powerful celestial light blinding enemies and dealing *0 holy damage to all enemies and healing *1 to all allies in range.",
-              "\n<color=#8FC1E3>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color>" },
+              "\n<color=#C8B090>Damage and healing scale with your Attack Power and Holy Power.\nHealing is reduced by effects that lower the target's healing received.</color>" },
             // Fechamento do lote da Light (29/09): quatro que tambem escalam e nao diziam.
             // `Holy Ground` era o caso mais enganoso - o STATUS dele guarda o valor na chave
             // `HolyDamage`, mas o teste do proprio jogo prova que CURA:
@@ -306,22 +313,22 @@ namespace BetterTooltips.Patches
             // A chave e so o slot de armazenamento; o multiplicador de Holy Power entra
             // igual (num7 *= 1 + DamageModHealing/100).
             { "Consecrate an area of ground to heal allies that stand upon it. Heals *0 per turn for 3 turns. ",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.</color>" },
             { "Any target you heal with Cure, Regenerate, Healing Hand, Mass Cure, or Divine Intervention also receives an additional healing over time effect restoring *0 health for 3 turns.",
-              "\n<color=#8FC1E3>Healing scales with your Attack Power and Holy Power.</color>" },
+              "\n<color=#C8B090>Healing scales with your Attack Power and Holy Power.</color>" },
             { "Calls down a shield that protects the target absorbing *0 damage. ",
-              "\n<color=#8FC1E3>Absorption scales with your Attack Power and Holy Power.</color>" },
+              "\n<color=#C8B090>Absorption scales with your Attack Power and Holy Power.</color>" },
             { "Conjures a shield imbued with holy flame absorbing *0 damage. Upon shield depletion, it explodes and deals *0 holy damage to all foes in a 3 hex radius.",
-              "\n<color=#8FC1E3>Damage and absorption scale with your Attack Power and Holy Power.</color>" },
+              "\n<color=#C8B090>Damage and absorption scale with your Attack Power and Holy Power.</color>" },
 
             // ---- Explicações de mecânica: powerups e status (BT-3..BT-8) ----
             // Fonte: o código do jogo (Assembly-CSharp, decompilado). Cada bloco abaixo
             // diz no próprio comentário qual atributo/método confirma a mecânica.
-            { "+ 20% increased Treasure Find",  "\n<color=#8FC1E3>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
-            { "+ 40% increased Treasure Find",  "\n<color=#8FC1E3>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
-            { "+ 60% increased Treasure Find",  "\n<color=#8FC1E3>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
-            { "+ 80% increased Treasure Find",  "\n<color=#8FC1E3>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
-            { "+ 100% increased Treasure Find",  "\n<color=#8FC1E3>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
+            { "+ 20% increased Treasure Find",  "\n<color=#C8B090>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
+            { "+ 40% increased Treasure Find",  "\n<color=#C8B090>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
+            { "+ 60% increased Treasure Find",  "\n<color=#C8B090>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
+            { "+ 80% increased Treasure Find",  "\n<color=#C8B090>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
+            { "+ 100% increased Treasure Find",  "\n<color=#C8B090>Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.</color>" },
 
             // Gold Find — MECÂNICA VERIFICADA NO CÓDIGO (confirmação empírica via RoguelikeDebugger):
             //   - ApplyGoldModifiers lê character["GoldMod"] somado à party e multiplica o ouro
@@ -329,20 +336,20 @@ namespace BetterTooltips.Patches
             //     aventura/quest e ouro de eventos
             //   - "GoldMod" é um asset CharacterAttribute; efeitos de powerup viram contribuições
             //     de atributo (mecanismo provado na BT-3)
-            { "+ 10% increased Gold Find",  "\n<color=#8FC1E3>Increases the gold you earn. Stacks with your party.</color>" },
-            { "+ 20% increased Gold Find",  "\n<color=#8FC1E3>Increases the gold you earn. Stacks with your party.</color>" },
-            { "+ 30% increased Gold Find",  "\n<color=#8FC1E3>Increases the gold you earn. Stacks with your party.</color>" },
-            { "+ 40% increased Gold Find",  "\n<color=#8FC1E3>Increases the gold you earn. Stacks with your party.</color>" },
-            { "+ 50% increased Gold Find",  "\n<color=#8FC1E3>Increases the gold you earn. Stacks with your party.</color>" },
+            { "+ 10% increased Gold Find",  "\n<color=#C8B090>Increases the gold you earn. Stacks with your party.</color>" },
+            { "+ 20% increased Gold Find",  "\n<color=#C8B090>Increases the gold you earn. Stacks with your party.</color>" },
+            { "+ 30% increased Gold Find",  "\n<color=#C8B090>Increases the gold you earn. Stacks with your party.</color>" },
+            { "+ 40% increased Gold Find",  "\n<color=#C8B090>Increases the gold you earn. Stacks with your party.</color>" },
+            { "+ 50% increased Gold Find",  "\n<color=#C8B090>Increases the gold you earn. Stacks with your party.</color>" },
 
             // Damage and Healing — VERIFICADO: soma no atributo "DamageMod" base, que entra
             // em (1 + (DamageMod + DamageMod<Tipo> + ManaPowerMod)/100) × (1+AbilityPower/100)
             // para TODOS os tipos de dano E para a cura (DamageModHealing usa a mesma base).
-            { "+ 5% to Damage and Healing",  "\n<color=#8FC1E3>Increases all damage you deal and all healing you do.</color>" },
-            { "+ 10% to Damage and Healing",  "\n<color=#8FC1E3>Increases all damage you deal and all healing you do.</color>" },
-            { "+ 15% to Damage and Healing",  "\n<color=#8FC1E3>Increases all damage you deal and all healing you do.</color>" },
-            { "+ 20% to Damage and Healing",  "\n<color=#8FC1E3>Increases all damage you deal and all healing you do.</color>" },
-            { "+ 25% to Damage and Healing",  "\n<color=#8FC1E3>Increases all damage you deal and all healing you do.</color>" },
+            { "+ 5% to Damage and Healing",  "\n<color=#C8B090>Increases all damage you deal and all healing you do.</color>" },
+            { "+ 10% to Damage and Healing",  "\n<color=#C8B090>Increases all damage you deal and all healing you do.</color>" },
+            { "+ 15% to Damage and Healing",  "\n<color=#C8B090>Increases all damage you deal and all healing you do.</color>" },
+            { "+ 20% to Damage and Healing",  "\n<color=#C8B090>Increases all damage you deal and all healing you do.</color>" },
+            { "+ 25% to Damage and Healing",  "\n<color=#C8B090>Increases all damage you deal and all healing you do.</color>" },
 
             // Damage Reduction — VERIFICADO: atributo "DamageReduction" vira camada
             // multiplicativa (1 - (DamageReduction + Resilience + TakeCover)/100) na cadeia
@@ -351,57 +358,57 @@ namespace BetterTooltips.Patches
 
             // Movement — VERIFICADO: soma ao atributo "FreeMovementPoints" (movimento por turno).
             // (RV-5: versão não-redundante — o original já diz "additional movement")
-            { "Gain 1 additional movement",  "\n<color=#8FC1E3>Each movement point lets you move one extra hex per turn.</color>" },
-            { "Gain 2 additional movement",  "\n<color=#8FC1E3>Each movement point lets you move one extra hex per turn.</color>" },
+            { "Gain 1 additional movement",  "\n<color=#C8B090>Each movement point lets you move one extra hex per turn.</color>" },
+            { "Gain 2 additional movement",  "\n<color=#C8B090>Each movement point lets you move one extra hex per turn.</color>" },
 
             // Range — VERIFICADO: o powerup alimenta "RangeTypeAdderRanged" (o melee não
             // muda — dump: RangeMelee=0, RangeRanged=2 com Lv2). Texto reflete ranged.
-            { "Gain 1 additional range",  "\n<color=#8FC1E3>Increases the range of your ranged attacks and skills. Does not apply to certain skills.</color>" },
-            { "Gain 2 additional range",  "\n<color=#8FC1E3>Increases the range of your ranged attacks and skills. Does not apply to certain skills.</color>" },
+            { "Gain 1 additional range",  "\n<color=#C8B090>Increases the range of your ranged attacks and skills. Does not apply to certain skills.</color>" },
+            { "Gain 2 additional range",  "\n<color=#C8B090>Increases the range of your ranged attacks and skills. Does not apply to certain skills.</color>" },
 
             // Skill Options — VERIFICADO: RoguelikeManager.GetSkillChoices(numOpcoesBase +
             // character["AdditionalRoguelikeSkillOptions"]) → mais opções na escolha de skill.
-            { "Skill Options +1",  "\n<color=#8FC1E3>Increases the number of skill choices offered when leveling up.</color>" },
-            { "Skill Options +2",  "\n<color=#8FC1E3>Increases the number of skill choices offered when leveling up.</color>" },
+            { "Skill Options +1",  "\n<color=#C8B090>Increases the number of skill choices offered when leveling up.</color>" },
+            { "Skill Options +2",  "\n<color=#C8B090>Increases the number of skill choices offered when leveling up.</color>" },
 
             // Attribute Points — VERIFICADO: UnspentStatPoints = base + (Level-1) ×
             // (NumStatsPerNewLevel + AdditionalRoguelikeAttributesPointsPerLevel).
-            { "Attribute Points Per Level +1",  "\n<color=#8FC1E3>Grants additional attribute points each time you level up.</color>" },
-            { "Attribute Points Per Level +2",  "\n<color=#8FC1E3>Grants additional attribute points each time you level up.</color>" },
-            { "Attribute Points Per Level +3",  "\n<color=#8FC1E3>Grants additional attribute points each time you level up.</color>" },
+            { "Attribute Points Per Level +1",  "\n<color=#C8B090>Grants additional attribute points each time you level up.</color>" },
+            { "Attribute Points Per Level +2",  "\n<color=#C8B090>Grants additional attribute points each time you level up.</color>" },
+            { "Attribute Points Per Level +3",  "\n<color=#C8B090>Grants additional attribute points each time you level up.</color>" },
 
             // Resists — VERIFICADO: dano do elemento × (1 - Resist/100), camada multiplicativa
             // na cadeia de redução (case DamageReductionCalcOrder.Resists em ApplyAction).
-            { "[[ResistCold]] +10%",  "\n<color=#8FC1E3>Reduces Cold damage you take.</color>" },
-            { "[[ResistCold]] +15%",  "\n<color=#8FC1E3>Reduces Cold damage you take.</color>" },
-            { "[[ResistCold]] +20%",  "\n<color=#8FC1E3>Reduces Cold damage you take.</color>" },
-            { "[[ResistFire]] +10%",  "\n<color=#8FC1E3>Reduces Fire damage you take.</color>" },
-            { "[[ResistFire]] +15%",  "\n<color=#8FC1E3>Reduces Fire damage you take.</color>" },
-            { "[[ResistFire]] +20%",  "\n<color=#8FC1E3>Reduces Fire damage you take.</color>" },
-            { "[[ResistLightning]] +10%",  "\n<color=#8FC1E3>Reduces Lightning damage you take.</color>" },
-            { "[[ResistLightning]] +15%",  "\n<color=#8FC1E3>Reduces Lightning damage you take.</color>" },
-            { "[[ResistLightning]] +20%",  "\n<color=#8FC1E3>Reduces Lightning damage you take.</color>" },
-            { "[[ResistPhysical]] +10%",  "\n<color=#8FC1E3>Reduces Physical damage you take.</color>" },
-            { "[[ResistPhysical]] +15%",  "\n<color=#8FC1E3>Reduces Physical damage you take.</color>" },
-            { "[[ResistPhysical]] +20%",  "\n<color=#8FC1E3>Reduces Physical damage you take.</color>" },
+            { "[[ResistCold]] +10%",  "\n<color=#C8B090>Reduces Cold damage you take.</color>" },
+            { "[[ResistCold]] +15%",  "\n<color=#C8B090>Reduces Cold damage you take.</color>" },
+            { "[[ResistCold]] +20%",  "\n<color=#C8B090>Reduces Cold damage you take.</color>" },
+            { "[[ResistFire]] +10%",  "\n<color=#C8B090>Reduces Fire damage you take.</color>" },
+            { "[[ResistFire]] +15%",  "\n<color=#C8B090>Reduces Fire damage you take.</color>" },
+            { "[[ResistFire]] +20%",  "\n<color=#C8B090>Reduces Fire damage you take.</color>" },
+            { "[[ResistLightning]] +10%",  "\n<color=#C8B090>Reduces Lightning damage you take.</color>" },
+            { "[[ResistLightning]] +15%",  "\n<color=#C8B090>Reduces Lightning damage you take.</color>" },
+            { "[[ResistLightning]] +20%",  "\n<color=#C8B090>Reduces Lightning damage you take.</color>" },
+            { "[[ResistPhysical]] +10%",  "\n<color=#C8B090>Reduces Physical damage you take.</color>" },
+            { "[[ResistPhysical]] +15%",  "\n<color=#C8B090>Reduces Physical damage you take.</color>" },
+            { "[[ResistPhysical]] +20%",  "\n<color=#C8B090>Reduces Physical damage you take.</color>" },
 
             // Summon Damage & Health — VERIFICADO: atributos SummonDamageMod/SummonHealthMod.
-            { "+ 5% to Summon Damage and Health",  "\n<color=#8FC1E3>Increases the damage and health of your summoned creatures.</color>" },
-            { "+ 10% to Summon Damage and Health",  "\n<color=#8FC1E3>Increases the damage and health of your summoned creatures.</color>" },
-            { "+ 15% to Summon Damage and Health",  "\n<color=#8FC1E3>Increases the damage and health of your summoned creatures.</color>" },
-            { "+ 20% to Summon Damage and Health",  "\n<color=#8FC1E3>Increases the damage and health of your summoned creatures.</color>" },
-            { "+ 25% to Summon Damage and Health",  "\n<color=#8FC1E3>Increases the damage and health of your summoned creatures.</color>" },
+            { "+ 5% to Summon Damage and Health",  "\n<color=#C8B090>Increases the damage and health of your summoned creatures.</color>" },
+            { "+ 10% to Summon Damage and Health",  "\n<color=#C8B090>Increases the damage and health of your summoned creatures.</color>" },
+            { "+ 15% to Summon Damage and Health",  "\n<color=#C8B090>Increases the damage and health of your summoned creatures.</color>" },
+            { "+ 20% to Summon Damage and Health",  "\n<color=#C8B090>Increases the damage and health of your summoned creatures.</color>" },
+            { "+ 25% to Summon Damage and Health",  "\n<color=#C8B090>Increases the damage and health of your summoned creatures.</color>" },
 
             // Skill Tree Removal — VERIFICADO: remove árvores do pool de escolhas;
             // MinimumTreesRemaining=4; texto "can only be chosen at level 1" vem do próprio jogo.
-            { "Skill Tree Removals +1",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +2",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +3",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +4",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +5",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +6",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +7",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
-            { "Skill Tree Removals +8",  "\n<color=#8FC1E3>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +1",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +2",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +3",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +4",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +5",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +6",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +7",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            { "Skill Tree Removals +8",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -462,7 +469,7 @@ namespace BetterTooltips.Patches
                 // ProcessSummonMasterStats incondicionalmente); o que muda entre eles e o
                 // que o bicho FAZ, nao se ele escala. Ver o bloco do Brambles abaixo.
                 "Raise a Undead Wizard to fight by your side.",
-                "Raise an Undead Wizard to fight by your side.\n<color=#8FC1E3>Undead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Raise an Undead Wizard to fight by your side.\n<color=#C8B090>Undead Wizard: Bone Explosion, Consumption, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
             {
                 // espaco duplo no meio + espaco sobrando no fim
@@ -482,20 +489,20 @@ namespace BetterTooltips.Patches
             // Nomes: "Raise Skeletal Archer/Mage/Warrior" -> descricoes diziam "Summon".
             {
                 "Summon a skeletal archer to fight by your side.",
-                "Raise a skeletal archer to fight by your side.\n<color=#8FC1E3>Skeletal Archer: Ranged Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Raise a skeletal archer to fight by your side.\n<color=#C8B090>Skeletal Archer: Ranged Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
             {
                 "Summon a skeletal mage to fight by your side.",
-                "Raise a skeletal mage to fight by your side.\n<color=#8FC1E3>Skeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Raise a skeletal mage to fight by your side.\n<color=#C8B090>Skeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
             {
                 "Summon a skeletal warrior to fight by your side.",
-                "Raise a skeletal warrior to fight by your side.\n<color=#8FC1E3>Skeletal Warrior: Melee Attack, Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Raise a skeletal warrior to fight by your side.\n<color=#C8B090>Skeletal Warrior: Melee Attack, Cleave\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
             {
                 // Unico invocador com fecho diferente: 6 usam "by your side", 1 usava "for you".
                 "Raise a Mighty Iron Golem to fight for you.",
-                "Raise a Mighty Iron Golem to fight by your side.\n<color=#8FC1E3>Iron Golem: Ground Slam\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Raise a Mighty Iron Golem to fight by your side.\n<color=#C8B090>Iron Golem: Ground Slam\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
             {
                 // Familia "Shapeshift *": 3 abrem com "Shapeshift into", esta abria com
@@ -504,7 +511,7 @@ namespace BetterTooltips.Patches
                 // `10 * Source.Level`, e quem esta nas duas tabelas so executa a CORRECAO
                 // - uma explicacao no TextAppends para este texto nunca rodaria.
                 "Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",
-                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\n<color=#8FC1E3>Scales with your character level.</color>"
+                "Shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].\n<color=#C8B090>Scales with your character level.</color>"
             },
 
             // ---- RV-8b-2, grafia/gramatica (29/09) ----
@@ -578,7 +585,7 @@ namespace BetterTooltips.Patches
             },
             {
                 "Summons a Timber Wolf to fight for you",
-                "Summons a Timber Wolf to fight for you.\n<color=#8FC1E3>Timber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
+                "Summons a Timber Wolf to fight for you.\n<color=#C8B090>Timber Wolf: Cripple, Melee Attack\nDoes not copy your attributes.\nYour Might raises its damage; your Intelligence, its health.</color>"
             },
         };
 
