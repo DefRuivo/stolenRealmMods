@@ -22,7 +22,7 @@ namespace RoguelikeQoL
     /// Este mod agora é SÓ o HUD: a troca de fonte (QoL-2) virou o mod **BetterFont** e o
     /// display de stats "base (combinado)" (QoL-3) virou o mod **BetterStats**.
     /// </summary>
-    [BepInPlugin("com.gumatos.roguelikeqol", "Roguelike QoL", "0.1.0")]
+    [BepInPlugin("com.gumatos.roguelikeqol", "Roguelike QoL", "0.1.1")]
     public class Plugin : BaseUnityPlugin
     {
         internal static ManualLogSource Log { get; private set; }

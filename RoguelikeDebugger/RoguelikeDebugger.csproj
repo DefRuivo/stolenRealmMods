@@ -12,7 +12,7 @@
          [BepInPlugin(...)] no Plugin.cs. Depois de subir a versao aqui, rode o
          empacotador com a opcao de sincronizar versao (ver docs/README.md, secao
          "Fonte unica de versao"). -->
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>Logs de investigação de mecânicas do Stolen Realm (loot, Gold, Experience, eventos).</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>

@@ -18,49 +18,49 @@
       "publicar": false,
       "versao_publicada": null,
       "publicado_em": null,
-      "motivo": "mod NOVO (commit 7dc8b90), ainda NAO liberado pelo dono para a Thunderstore: o zip 0.1.0 nao esta na Release pack-2026-09-30 (a Release tem os 6 do release de 30/09) e o dono nao o incluiu na leva liberada. Entra como publicar:true quando o dono liberar e o pacote for para uma Release. Ele PRECISA estar nesta lista mesmo travado: o gate do pipeline compara esta lista com o que o empacotador descobre (tools/pack-thunderstore.py --listar-nomes) e falha se divergirem - foi o que derrubou o run 36786930505."
+      "motivo": "mod NOVO (commit 7dc8b90), ainda NAO liberado pelo dono para a Thunderstore. CORRECAO DE FATO em 30/09/2026 (conferido na API da Release, asset 601920253, 22:30): o zip gumatos-BetterCombatText-0.1.0.zip ESTA na Release pack-2026-09-30 - a versao anterior desta linha afirmava que nao estava. Ele foi reempacotado em 30/09 depois do conserto do aplicador de ganchos (A-1) e o asset foi substituido. Entra como publicar:true quando o dono liberar e o pacote for para uma Release. Ele PRECISA estar nesta lista mesmo travado: o gate do pipeline compara esta lista com o que o empacotador descobre (tools/pack-thunderstore.py --listar-nomes) e falha se divergirem - foi o que derrubou o run 36786930505. ORDEM DE ENVIO (30/09, provado no codigo do Thunderstore: DependencyField usa PackageReferenceValidator(resolve=True) e o upload recusa referencia inexistente): os dois se referenciam e nenhuma das versoes novas existe no ar - na pratica o par BetterFont 1.0.1 / BetterCombatText 0.1.0 NAO sobe nessa forma (a primeira falha com 'No matching package found for reference'); a saida e UMA UNICA direcao: subir BetterFont 1.0.1 sem a dependencia do BetterCombatText e depois o BetterCombatText 0.1.0 dependendo de BetterFont-1.0.1 (ou aceitar um BetterFont 1.0.2 depois)."
     },
     {
       "nome": "BetterFont",
       "publicar": true,
       "versao_publicada": "1.0.0",
       "publicado_em": "2026-09-30T21:51:27.376259Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 1.0.0 que esta no ar e a build ANTERIOR ao conserto do estilo de fonte e ao endurecimento do aplicador de ganchos; o fonte ja esta na 1.0.1 (nunca publicada) e o pacote 1.0.1, com o aplicador corrigido, esta em dist/ e na Release pack-2026-09-30. ORDEM DE ENVIO (30/09, provado no codigo do Thunderstore: DependencyField usa PackageReferenceValidator(resolve=True) e o upload recusa referencia inexistente): os dois se referenciam e nenhuma das versoes novas existe no ar - na pratica o par BetterFont 1.0.1 / BetterCombatText 0.1.0 NAO sobe nessa forma (a primeira falha com 'No matching package found for reference'); a saida e UMA UNICA direcao: subir BetterFont 1.0.1 sem a dependencia do BetterCombatText e depois o BetterCombatText 0.1.0 dependendo de BetterFont-1.0.1 (ou aceitar um BetterFont 1.0.2 depois)."
     },
     {
       "nome": "BetterStats",
       "publicar": true,
       "versao_publicada": "1.0.0",
       "publicado_em": "2026-09-30T22:22:53.130988Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 1.0.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel, o fonte subiu para 1.0.1 (bump de PATCH) e o pacote 1.0.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
     },
     {
       "nome": "BetterTooltips",
       "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-09-30T22:23:00.141599Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. OBS (30/09): o fonte de hoje esta em 0.1.1 (dist/gumatos-BetterTooltips-0.1.1.zip), mas esse zip NAO esta na Release pack-2026-09-30 (so a 0.1.0 esta) e nao foi reempacotado nesta rodada - o filtro de ganchos deste mod ja era o modelo correto."
     },
     {
       "nome": "RoguelikeDebugger",
       "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-09-30T22:23:08.183028Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 0.1.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho, ao conserto A-1 e ao dump de efeitos por tipo concreto; o fonte subiu para 0.1.1 (bump de PATCH), com ICONE NOVO de 256x256 no pacote, e o 0.1.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
     },
     {
       "nome": "RoguelikeQoL",
       "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-09-30T22:23:15.919446Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 0.1.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel, o fonte subiu para 0.1.1 (bump de PATCH) e o pacote 0.1.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
     },
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-09-30T22:23:23.226305Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods"
+      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. OBS (30/09): o fonte de hoje esta em 0.2.0 (dist/gumatos-RoguelikeSkillTreeVisualizer-0.2.0.zip), mas esse zip NAO esta na Release pack-2026-09-30 (so a 0.1.0 esta) e nao foi reempacotado nesta rodada - os 10 ganchos deste mod tem atributo (funciona), com o risco ja registrado de um gancho futuro por convencao ser ignorado pelo filtro dele."
     }
   ]
 }

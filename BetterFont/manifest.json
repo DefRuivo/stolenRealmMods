@@ -4,7 +4,8 @@
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Troca a fonte renderizada do jogo por uma serifada (Times New Roman, com fallback Georgia/Liberation Serif) preservando cor, contorno e sombra dos textos. Sem alteracao de gameplay.",
   "dependencies": [
-    "BepInEx-BepInExPack-5.4.2305"
+    "BepInEx-BepInExPack-5.4.2305",
+    "DefRuivo_StolenRealmMods-BetterCombatText-0.1.0"
   ],
   "extra": {
     "author": "gumatos"

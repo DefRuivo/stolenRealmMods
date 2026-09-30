@@ -13,11 +13,18 @@
 - `UpdateMeshPadding()` após ligar contorno/sombra (sem isso o contorno é cortado na borda do mesh).
 - README: seção do defeito/conserto, tabela de configuração e convivência com o **BetterCombatText** (que clona o material por componente e se re-aplica quando ele muda; o BetterFont só **lê** material de outro mod).
 
-### Correção do aplicador de ganchos (mesma versão, sem subir número)
+### Correção do aplicador de ganchos (também nesta 1.0.1)
 
 - A troca do `PatchAll()` por **aplicação gancho a gancho** (que entrou nesta versão) veio acompanhada de um filtro de classe de gancho que exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no método**. Este mod declara o gancho pela **convenção de nome** do Harmony (`LocalizeFontTrigger.Postfix`), que o Harmony aceita exatamente como o atributo — o filtro recusava a única classe de patch: o mod **carregava, logava "carregado." e não aplicava gancho nenhum** (o silêncio parecendo sucesso; era o defeito A-1 da REV-2, em 4 mods).
 - O filtro agora exige só `[HarmonyPatch]` **no TIPO** — o mesmo conjunto de classes que o `PatchAll()` processava. Medido invocando o filtro real da DLL construída: **1 de 1 classe de patch aceita e 1 método de gancho dentro** (antes: 0 de 1). Em todo o projeto, os 4 mods afetados passaram de 0/14 para **14/14** classes de patch aceitas.
-- A versão **não** subiu: o defeito foi corrigido antes de qualquer download e a correção não muda nada no caminho feliz.
+- **Esta 1.0.1 não tinha sido publicada** (a versão no ar é a 1.0.0, que carrega os dois defeitos): a correção do estilo e a do aplicador entram nesta mesma build, e é ela que vai para a Thunderstore — por isso o número **não** sobe de novo. No caminho feliz nada muda: o conjunto de ganchos aplicados é o mesmo.
+- Também nesta versão, do mesmo endurecimento: o `Config.Bind` ganhou guarda (`BindSeguro`, com try/catch e o default documentado valendo em caso de falha) e o `Update()` do plugin ficou protegido no ponto da chamada — um `.cfg` inválido não derruba mais o mod.
+
+### Dependência declarada neste manifest
+
+- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterCombatText-0.1.0`**. O BetterCombatText é quem devolve o estilo (contorno/sombra) nos textos de combate que a troca de fonte, sozinha, não preserva — os dois andam juntos.
+- A referência aponta a versão **nova** dos dois lados de propósito: apontar para a 1.0.0 do BetterCombatText faria o gerenciador resolver o MESMO pacote em duas versões (duas DLLs com o mesmo GUID dentro do BepInEx).
+- **Ordem de envio importa:** a Thunderstore valida a dependência no upload resolvendo a referência (`No matching package found for reference`), e os dois pacotes se referenciam — a primeira publicação do par precisa de um dos lados apontando para uma versão que já está no ar (nota de ordem registrada em `release/mods.json`).
 
 ## 1.0.0
 

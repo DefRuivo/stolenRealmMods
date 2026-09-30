@@ -1,6 +1,6 @@
 {
   "name": "BetterStats",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Mostra os numeros de stats e atributos na ficha de personagem e na tela de level up no formato base (combinado). Sem alteracao de gameplay.",
   "dependencies": [

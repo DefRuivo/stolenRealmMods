@@ -2,7 +2,10 @@
 
 ## 0.1.0
 
-Primeira versao.
+Primeira versao — **ainda NAO publicada** (por isso a versao nao sobe: esta e a primeira build candidata).
+
+- **Aplicador de ganchos corrigido antes da primeira publicacao**: o filtro de classe de gancho copiado do RoguelikeSkillTreeVisualizer exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no metodo** e este mod declara os **9 ganchos pela convencao de nome** do Harmony (metodo `Postfix`) — teria pulado os 9 em silencio. O filtro agora exige so `[HarmonyPatch]` **no TIPO** (o mesmo conjunto que o `PatchAll()` processava) e os ganchos sao aplicados **um a um**, com log por gancho e resumo com a contagem real.
+- **Diagnostico de arranque mais barato**: a varredura de cena passou de 2s para 5s e **para no primeiro alvo que aparece em cena** (chave propria no `.cfg`), em vez de varrer todas as superficies sempre.
 
 - **Contorno/halo suave no texto de combate**: contorno `_OutlineWidth` + `_OutlineSoftness` (alto = halo borrado, o "sombreamento radial" pedido) com **cor preta a 10% de alfa** por padrao, mais sombra difusa `_Underlay` (offset, dilate, softness) opcional.
 - **Alvos, cada um com liga/desliga proprio no `.cfg`**:
@@ -20,3 +23,9 @@ Primeira versao.
 - **Convivência com o BetterFont**: com os dois ligados, os textos de combate tendem a manter a **fonte original** enquanto o resto da UI fica serifada — o BetterFont pula texto com material estilizado (`PularTextosEstilizados = true`) e este mod clona o material por componente. Cosmetico, nada quebra; detalhe no README.
 - **Desligar tudo em 1 linha**: `Ativar = false` na secao `1. Geral` — nenhum patch e aplicado e o jogo roda original.
 - **Sem alteracao de gameplay** e sem tocar em arquivo do jogo. Nada de Bard/musica.
+
+### Dependência declarada neste manifest
+
+- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — é aqui que o estilo dos textos de combate volta; a dependência amarra a versão **nova** dos dois lados para o gerenciador não instalar o mesmo pacote em duas versões (mesmo GUID = erro no BepInEx).
+- **Ordem de envio importa:** a referência é validada no upload (o validador resolve o pacote: `No matching package found for reference`) e os dois pacotes se referenciam entre si — a primeira publicação do par precisa de um dos lados apontando para uma versão já publicada.
+

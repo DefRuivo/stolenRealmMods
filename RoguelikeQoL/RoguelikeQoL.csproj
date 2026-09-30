@@ -11,7 +11,7 @@
          [BepInPlugin(...)] no Plugin.cs. Depois de subir a versao aqui, rode o
          empacotador com a opcao de sincronizar versao (ver docs/README.md, secao
          "Fonte unica de versao"). -->
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>Qualidade de vida para o Stolen Realm (HUD de modificadores da run).</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
