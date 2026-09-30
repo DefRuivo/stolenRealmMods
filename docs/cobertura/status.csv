@@ -8,9 +8,9 @@ Affinity: Shadow,Normal,Common,DamageModShadow:Base:2,,0,buff,Increases @Shadow 
 Aged,Normal,Common,"MightBase:Percentage:-10, DexterityBase:Percentage:-10",,0,debuff,You have been magically aged! Might and Dexterity are reduced by 10%.,revisado,revisado,Debuff,0,100
 Ancestral Protection,Fortune,Legendary,"Armor:Base:{20,300}, MagicArmor:Base:{20,300}",,0,indefinido,"Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you. Grants {20,300} Armor and Magic Armor.  <i><color=#808080>""You do not walk this world alone. With every step you take, you tread upon the footprints of your ancestors. They have blazed the trail before you, weathering storms you cannot fathom, crossing paths you cannot see.""</i></color>",revisado,revisado,Buff,0,1
 Angered,Normal,Common,"DamageReduction:Base:-15, DamageMod:Base:25, MaxHealth:Percentage:15, ModelScaleMultiplier:Base:15",,0,buff,Increases damage dealt by 25%. Increases max life and damage taken by 15%.,revisado,revisado,Buff,3,100
-Anthulk Carapace,Normal,Common,,,0,indefinido,50% chance to cast Anthulk Spines when struck.,indeterminado,indeterminado,Buff,3,1
-Anthulk Venom,Normal,Common,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 10 times.,indeterminado,indeterminado,Debuff,VAR,VAR
-Anthulk Venom,Normal,Mythic,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 5 times.,indeterminado,indeterminado,Debuff,VAR,VAR
+Anthulk Carapace,Normal,Common,,,0,indefinido,50% chance to cast Anthulk Spines when struck.,revisado,revisado,Buff,3,1
+Anthulk Venom,Normal,Common,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 10 times.,revisado,revisado,Debuff,VAR,10
+Anthulk Venom,Normal,Mythic,DamageFlatPhysicalTarget:Base:ActionStatus.GetFlatDamageValue * .5f,,0,buff,The target takes [0] increased flat physical damage. Stacks up to 5 times.,revisado,revisado,Debuff,VAR,5
 Antidote,Normal,Common,ImmunityPoisoned:Set:1,,0,buff,Immune to poisoned.,revisado,revisado,Buff,2,100
 Ascendancy,Normal,Common,"MightBase:Percentage:20, DexterityBase:Percentage:20, VitalityBase:Percentage:20, IntelligenceBase:Percentage:20, ReflexBase:Percentage:20",,0,buff,Increases target ally's stats by 20%.  Lasts 5 turns. ,revisado,revisado,Buff,5,100
 Aura of Flame,Normal,Common,,,0,indefinido,*0 fire damage dealt to enemies within the aura.,revisado,revisado,Debuff,2,100
@@ -147,7 +147,7 @@ Elemental Equilibrium: Fire,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValu
 Elemental Equilibrium: Lightning,Normal,Common,"DamageFlatCold:Base:GetFlatDamageValue*3f, DamageFlatFire:Base:GetFlatDamageValue*3f, DamageFlatLightning:Base:GetFlatDamageValue*3f",,0,indefinido,Adds [0] damage to elemental attacks.,revisado,revisado,Buff,3,100
 Elemental Power,Fortune,Rare,"DamageModCold:Base:{5,25}, DamageModFire:Base:{5,25}, DamageModLightning:Base:{5,25}",,0,buff,"Increases @Elemental Damage@ by {5,25}%.",revisado,revisado,Buff,0,1
 Elemental Protection,Normal,Common,"ResistCold:Base:15, ResistFire:Base:15, ResistLightning:Base:15",,0,buff,@Elemental resistance@ increased by 15%.,revisado,revisado,Buff,VAR,VAR
-Elixir of the Scarlet Ox,Fortune,Legendary,,,0,indefinido,"Grants Elixir of the Scarlet Ox: Grants 1 additional Action Point and 3 Movement Points. Applies Exhaustion. 1 charge.  <i><color=#808080>""Bestows upon you wings.  Metaphorically of course.""</color></i> ",indeterminado,indeterminado,Buff,0,1
+Elixir of the Scarlet Ox,Fortune,Legendary,,,0,indefinido,"Grants Elixir of the Scarlet Ox: Grants 1 additional Action Point and 3 Movement Points. Applies Exhaustion. 1 charge.  <i><color=#808080>""Bestows upon you wings.  Metaphorically of course.""</color></i> ",revisado,revisado,Buff,0,1
 Elusive,Normal,Common,DodgeChance:Base:25,,0,buff,Dodge Chance increased by 25%,revisado,revisado,Buff,3,100
 Emblem of the Iron Fortress,Fortune,Mythic,"DamageReturnedFlatPhysical:Base:Source[""Armor""] * {.03f, .03f}, Armor:Base:{10, 250}",,0,indefinido,"Grants {10,250} Armor. 3% of your Armor is added as physical damage return.  <i><color=#808080>The Iron Fortress, an indomitable monolith of enduring strength, stood resolute and unyielding for hundreds of years, its towering parapets and impenetrable defenses the silent testament to countless civilizations that had crumbled in their futile attempts to conquer it.</color></i>",revisado,revisado,Buff,0,1
 Emerald Protection,Normal,Common,DamageReduction:Base:25,,0,buff,Damage taken reduced by 25%.,revisado,revisado,Buff,2,10
@@ -307,7 +307,7 @@ Necronomicon,Fortune,Mythic,"SummonDamageMod:Base:{5,25}, SummonHealthMod:Base:{
 Negating Tonic,Normal,Common,MagicArmor:Base:50,,0,buff,Magic armor increased by 50.,revisado,revisado,Buff,5,100
 Nullifying Tonic,Normal,Common,MagicArmor:Base:100,,0,buff,Magic armor increased by 100.,revisado,revisado,Buff,5,100
 Obsidian Plating,Normal,Common,DamageReduction:Base:75,,0,buff,Damage taken reduced by 75%.,revisado,revisado,Buff,1,10
-Oculus Gem,Fortune,Rare,,,0,indefinido,"Teleports you randomly when struck. 4 turn cooldown.  <i><color=#808080>Where you'll go, nobody knows!</i></color> ",indeterminado,indeterminado,Buff,0,1
+Oculus Gem,Fortune,Rare,,,0,indefinido,"Teleports you randomly when struck. 4 turn cooldown.  <i><color=#808080>Where you'll go, nobody knows!</i></color> ",revisado,revisado,Buff,0,1
 Oil of Acceleration,Normal,Common,TurnFreeMovementPoints:Base:5,,0,buff,Movement Points increased by 5.,revisado,revisado,Buff,5,100
 Oil of Alacrity,Normal,Common,TurnFreeMovementPoints:Base:4,,0,buff,Movement Points increased by 4.,revisado,revisado,Buff,5,100
 Oil of Momentum,Normal,Common,TurnFreeMovementPoints:Base:2,,0,buff,Movement Points increased by 2.,revisado,revisado,Buff,5,100
@@ -326,7 +326,7 @@ Perfect Rage,Normal,Common,"DamageMod:Base:{50,100}, ModelScaleMultiplier:Base:2
 Perfect Rage,Fortune,Mythic,,,0,indefinido,"Grants the skill Perfect Rage.  <i><color=#808080>""Rage, like fire, in our veins does ignite, A storm within, both destroyer and might.""</i></color> ",revisado,revisado,Buff,VAR,VAR
 Petrification,Normal,Common,"TurnFreeMovementPoints:Base:-1, DamageReduction:Base:-20",,0,debuff,Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.,revisado,revisado,Debuff,2,99
 Petrify,Normal,Common,"Rooted:Set:1, Disabled:Set:1, DamageReduction:Base:-100",,0,buff,Stunned.  Damage Taken increased by 100%.,revisado,revisado,Debuff,2,10
-Phoenix Feather,Fortune,Rare,,,0,indefinido,"Brings you back with 20% Health. 1 charge per Quest.  <i><color=#808080>""The glowing feather of a Phoenix.""</color></i> ",indeterminado,indeterminado,Buff,0,1
+Phoenix Feather,Fortune,Rare,,,0,indefinido,"Brings you back with 20% Health. 1 charge per Quest.  <i><color=#808080>""The glowing feather of a Phoenix.""</color></i> ",revisado,revisado,Buff,0,1
 Physical Thorns,Normal,Common,"DamageReturnedFlatPhysical:Base:{1,300}",,0,indefinido,Reflects [0] physical damage back to attackers.,revisado,revisado,Buff,3,1
 Pirate's Rum,Fortune,Legendary,"DamageReduction:Base:{5,20}",,0,debuff,"Increases @Damage Reduction@ by {5,20}%.  <i><color=#808080>Numbs everything, including pain!</i></color> ",revisado,revisado,?,?,?
 Point Blank,Normal,Common,DamageMod:Base:50,,0,buff,Ranged spells deal damage the closer you are. Calculates how much ranged you have and the closer you are from your max range the more damage you deal.,corrigido,corrigido,Buff,VAR,VAR
@@ -401,11 +401,11 @@ Rhythm of Recovery,Normal,Common,"HealthPerTurnPercent:Base:5 * Source.GetNumSta
 Ritual Sickness,Normal,Common,DarkRitualedRecently:Set:1,,0,buff,Cannot have Dark Ritual cast on you,revisado,revisado,Debuff,2,1
 Rogue Aura,Normal,Common,"DodgeChance:Base:Mathf.Round(20 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,buff,Increases dodge chance by [0]%.,revisado,revisado,Buff,3,100
 Ruby of Rancor,Normal,Common,"ManaCostMod:Set:{-25,-100}",,0,debuff,"3 extra Action Points granted. Mana Costs reduced by {25,100}%. Die at the end of your turn.",revisado,revisado,Buff,VAR,VAR
-Ruby of Rancor,Fortune,Mythic,,,0,debuff,"Grants 1 charge of Ruby of Rancor: Grants 3 extra Action Points and reduces Mana Costs. Die at the end of your turn.  <i><color=#808080>The gem seems to hum in your grasp, as if resonating with your heartbeat, its pulses syncing with your own.</color></i>",indeterminado,indeterminado,Buff,VAR,VAR
+Ruby of Rancor,Fortune,Mythic,,,0,debuff,"Grants 1 charge of Ruby of Rancor: Grants 3 extra Action Points and reduces Mana Costs. Die at the end of your turn.  <i><color=#808080>The gem seems to hum in your grasp, as if resonating with your heartbeat, its pulses syncing with your own.</color></i>",revisado,revisado,Buff,VAR,VAR
 Ruby Protection,Normal,Common,DamageReduction:Base:25,,0,buff,Damage taken reduced by 25%.,revisado,revisado,Buff,2,10
 Ruby Rancor,Normal,Common,ExtraTurnActionPoints:Set:1,,0,buff,Grants an additional Action Point.,revisado,revisado,Buff,2,10
 Rune of Exploding,Normal,Common,,,0,indefinido,,sem-explicacao,sem-explicacao,Neutro,3,100
-Rune of Refreshment,Fortune,Mythic,,,0,indefinido,Reset all cooldowns. Cost 75% of Max Mana. 1 charge per battle.  <i><color=#808080>A tremendous sacrifice is required to power this inert rune.</color></i>,indeterminado,indeterminado,Buff,0,1
+Rune of Refreshment,Fortune,Mythic,,,0,indefinido,Reset all cooldowns. Cost 75% of Max Mana. 1 charge per battle.  <i><color=#808080>A tremendous sacrifice is required to power this inert rune.</color></i>,revisado,revisado,Buff,0,1
 Salvation,Normal,Common,MaxHealth:Percentage:10,,0,buff,@Maximum health@ increased by 10% per stack.,revisado,revisado,Buff,3,100
 Sandstone Plating,Normal,Common,DamageReduction:Base:50,,0,buff,Damage taken reduced by 50%.,revisado,revisado,Buff,1,10
 Savage Scorn,Normal,Common,DamageReduction:Base:-20,,0,debuff,Damage taken increased by 20%.,revisado,revisado,Debuff,2,1000
@@ -419,15 +419,15 @@ Seraph Aura,Normal,Common,"HealthPerTurnPercent:Base:Mathf.Round(10 * (1 + (Targ
 Severely Burned,Normal,Common,ResistFire:Base:-25,,0,debuff,Reduces @Fire Resistance@ by @25%@ per stack.,revisado,revisado,Debuff,0,100
 Shadow-Drenched Heart,QuestItem,Common,,,0,indefinido,,sem-explicacao,sem-explicacao,Buff,0,100
 Shaman Aura,Normal,Common,"ManaPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target[""ShrineEffectBonus""] / 100)))",,0,indefinido,Recover [0]% of maximum mana each turn. ,revisado,revisado,Buff,3,100
-Shapeshift: Black Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a Black Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,indeterminado,indeterminado,Buff,3,100
-Shapeshift: Blue Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Blue Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,indeterminado,indeterminado,Buff,3,100
+Shapeshift: Black Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a Black Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,revisado,revisado,Buff,3,100
+Shapeshift: Blue Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Blue Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,revisado,revisado,Buff,3,100
 Shapeshift: Box,Normal,Common,"DamageReduction:Base:-100, Rooted:Set:1, Silenced:Set:1",,0,buff,Shapeshifted into a box. Damage taken increased by 100%.,revisado,revisado,Debuff,1,100
 Shapeshift: Dire Werewolf,Normal,Common,,,0,buff,Shapeshifted into a Dire Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,revisado,revisado,Buff,3,100
-Shapeshift: Green Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Green Dragonkin. Basic attack empowered. Gain new abilities. Armor and Lightning Resistance increased.,indeterminado,indeterminado,Buff,3,100
-Shapeshift: Red Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Red Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,indeterminado,indeterminado,Buff,3,100
+Shapeshift: Green Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Green Dragonkin. Basic attack empowered. Gain new abilities. Armor and Lightning Resistance increased.,revisado,revisado,Buff,3,100
+Shapeshift: Red Dragonkin,Normal,Common,,,0,buff,Shapeshifted into a Red Dragonkin. Basic attack empowered. Gain new abilities. Armor and Cold Resistance increased.,corrigido,corrigido,Buff,3,100
 Shapeshift: Vampire Bat,Normal,Common,TurnFreeMovementPoints:Base:4,Target['FreeMovementPoints'] = Target['FreeMovementPoints'] + 4,1,buff,Shapeshifted into a Vampire Bat. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,revisado,revisado,Buff,1,100
 Shapeshift: Werewolf,Normal,Common,,,0,buff,Shapeshifted into a Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by [0]%.,revisado,revisado,Buff,3,100
-Shapeshift: White Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a White Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,indeterminado,indeterminado,Buff,3,100
+Shapeshift: White Dragonkin,Normal,Common,,,0,debuff,Shapeshifted into a White Dragonkin. Basic attack empowered. Gain new abilities. Armor and Damage Reduction increased.,revisado,revisado,Buff,3,100
 Sharpened,Fortune,Uncommon,DamageFlatPhysical:Base:ActionStatus.GetFlatDamageValue,,0,buff,Increases @Physical Damage@ by GetFlatDamageValue().,revisado,revisado,Buff,0,1
 Shield Flask,Normal,Common,Armor:Base:400,,0,buff,Armor increased by 400.,revisado,revisado,Buff,5,100
 Shield of Light,Normal,Common,,,0,indefinido,Shielded from [0] damage.,revisado,revisado,Buff,3,100
@@ -508,7 +508,7 @@ Toxic,Normal,Common,,,0,indefinido,Applies @2@ @poison@ when striking Applies @2
 Tracker's Mark,Normal,Common,"CritChanceTarget:Base:8, DamageReduction:Base:-15",,0,buff,Chance of suffering critical strikes increased by 8%. Damage taken increased by 15%.,revisado,revisado,?,?,?
 Tranquility of the Forest,Normal,Common,Recovery:Base:5+(5*0.2*IslandLevel)-(5*0.2),,0,buff,Recovery increased by [0].,revisado,revisado,Buff,0,100
 Transcendence,Normal,Common,Invincible:Set:1,,0,buff,Cannot take damage.,revisado,revisado,Buff,VAR,VAR
-Transcendence,Fortune,Mythic,"MaxHealth:Multiplicative:{.5,.65}",,0,debuff,"Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",indeterminado,indeterminado,Buff,VAR,VAR
+Transcendence,Fortune,Mythic,"MaxHealth:Multiplicative:{.5,.65}",,0,debuff,"Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",revisado,revisado,Buff,VAR,VAR
 Treasure of Moltendunn,Quest,Common,,,0,indefinido,,sem-explicacao,sem-explicacao,Buff,0,100
 Trial of the Ymir,Quest,Common,,,0,indefinido,A greater challenge looms ahead.,revisado,revisado,Buff,0,100
 Trophy Hunter,Normal,Common,DamageMod:Base:10,,0,buff,@Damage Dealt@ increased by 10% per stack.,revisado,revisado,Buff,1,100

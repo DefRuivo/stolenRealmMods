@@ -276,8 +276,167 @@ sendo passo humano, não cobertura.
 
 ---
 
+## 7. RV-13c — fechamento por ASSET das 16 `indeterminado` (leitura direta do `resources.assets`)
+
+> **Rodada:** 30/09/2026. Método: leitura do `resources.assets` do install por **typetree gerado
+> dos DLLs do jogo** (`UnityPy 1.25.3` + `TypeTreeGeneratorAPI 0.10`, com os `.dll` de
+> `…/Stolen Realm_Data/Managed/`), mais **byte scan dentro do objeto** (mesma técnica do RV-13/RV-19).
+> Bancada: `%LOCALAPPDATA%\hermes\cache\scratch\rv13c\` (`q.py`/`q2.py` leitura tolerante,
+> `nameindex2.py` índice nome→asset das 314.468 `MonoBehaviour`, `inv_status.py` inventário dos 424
+> `ActionStatusInfo`). **O mod NÃO foi editado** (nenhum `.cs`, nenhum build): mudou só o
+> `docs/cobertura/status.csv` e esta seção.
+
+**Aviso de método (endereços):** os `@NNN` do RV-13b são o offset da **string** no
+`resources.assets`, não do objeto (o objeto começa antes: `Shape Red Dragonkin` string
+@1633826336 → objeto @1633826304, 552 B). Aqui todo endereço é o `byte_start` do objeto; onde a
+prova é um campo, o deslocamento é `rel` (relativo ao `byte_start`).
+
+| veredito | antes | depois | quais |
+|---|---:|---:|---|
+| `revisado` | 504 | **517** | 13 das 16 |
+| `corrigido` | 19 | **20** | `Shapeshift: Red Dragonkin` |
+| `indeterminado` | 16 | **2** | `Champion of Blood`, `Frenzy` |
+
+### 7.1 As 6 Fortunes — carga/recarga (grupo a) — **fechado**
+
+O campo que o dump não exportava é o do **`ActionInfo`**: `HasCharges`, `MaxCharges`,
+`InitialCharges`, `ChargesPerBattle`, `ChargesPerTurn`, `StartingBattleCharges`
+(l.317259-317266 do decompilado). Para Fortune implementada como `EventStatus`, o número mora no
+`SkillTrigger` (`MaxNumUses`, `Cooldown`).
+
+| entrada | asset (nome do objeto · pid · byte_start · tam.) | campo = valor | texto |
+|---|---|---|---|
+| `Rune of Refreshment` | `Rune of Refreshment` · 2544260 · 1519439224 · 2920 B | `HasCharges=1`, `MaxCharges="1"`, `InitialCharges="1"`, `ChargesPerBattle="1"`, `StartingBattleCharges="1"`, `Cooldown="0"` | "1 charge per battle." ✔ |
+| `Transcendence` | `Transcendence` · 2544265 · 1519452800 · 2636 B | `MaxCharges/InitialCharges/ChargesPerBattle/StartingBattleCharges = "4"` (e `Cooldown="1"`) | "Grants 4 charges … per battle." ✔ |
+| `Elixir of the Scarlet Ox` | `Elixir of the Scarlet Ox` · 2544249 · 1519408576 · 3164 B | os cinco campos `= "1"` | "1 charge." ✔ |
+| `Ruby of Rancor` (Mythic) | `Rune of Energy` (ação) · 2544259 · 1519438336→objeto @1519436376 · 2848 B | `HasCharges=1`, `MaxCharges/InitialCharges/ChargesPerBattle/StartingBattleCharges="1"`, `ActionNameOverride="Ruby of Rancor"`, `StatusEffects=[2543378]` | "Grants 1 charge of Ruby of Rancor" ✔ |
+| `Oculus Gem` | `Oculus Gem` (EventStatus) · 2545458 · 1520177624 · 576 B | `SkillTriggers[0]`: `Cooldown=4.0`, `TriggerType=1` (OnGettingHitDamaging), `Actions=[2544279 "[Oculus Gem] Teleport"]` | "Teleports you randomly when struck. 4 turn cooldown." ✔ |
+| `Phoenix Feather` | `Phoenix Feather` (EventStatus) · 2545461 · 1520179184 · 660 B | `SkillTriggers[0]`: `MaxNumUses="1"`, `Cooldown=0.0`, `TriggerType=9` (OnDeath), `Condition="Source.HasDied"` | "1 charge" ✔ (ver ressalva) |
+
+Cadeia do Ruby of Rancor: `EventStatus "Ruby of Rancor"` (2545465) → `GrantedSkills=[2547708]` →
+`SkillInfo "Rune of Energy"` (`SkillName="Ruby of Rancor"`) → `ActionsGranted=[2544259]` → a
+`ActionInfo` da tabela acima.
+
+**Ressalva (`Phoenix Feather`, "per Quest"):** o `SkillTrigger.ReplenishMaxUseFrequency` do asset
+é **2 (`PersistentDurationType.Battle`)** — e nos 26 triggers dos 424 `ActionStatusInfo`
+inventariados **só existe** esse valor (2), que também é o *default* da classe (l.45824). O campo
+portanto não distingue Quest × Battle e **não** refuta o "per Quest" do texto; o que o asset
+afirma é o número ("1"). A linha entra `revisado` com este registro.
+
+### 7.2 `MaxStacks` por asset (grupo b) — **fechado**
+
+A coluna `maxStk` saía `VAR` porque o censo agrega por **nome** e existem **dois** assets com
+`Name = "Anthulk Venom"` (raridades diferentes):
+
+| objeto | pid | byte_start | tam. | `Name` | `Description` | `MaxStacks` |
+|---|---:|---:|---:|---|---|---:|
+| `Anthulk Venom Status` | 2543254 | 1517134152 | 968 B | Anthulk Venom | "…Stacks up to 10 times." | **10.0** em `rel604` (`00 00 20 41`) |
+| `Event_Status_Claw of the Anthulk` | 2543372 | 1517252640 | 1020 B | Anthulk Venom | "…Stacks up to 5 times." | **5.0** em `rel656` (`00 00 A0 40`) |
+
+Prova do offset: o bloco `[Infinite=1][Duration="3"][ExpireType][TickType][StackBonusMultiplier=0.0]
+[MaxStacks]` é o mesmo do `Enemy_Champion of Blood Status` (2543361), que o node lê **EXATO** byte
+a byte e cujo `MaxStacks` é `1.0` — nos dois assets acima o mesmo bloco termina em `10.0` e `5.0`.
+As duas linhas ficaram `revisado` e a coluna `maxStk` recebeu o valor **por asset** (10 e 5), que
+é o que o RV-13b §4.3(b) pedia ("exportar `MaxStacks` por guid").
+
+### 7.3 Chance/cura dentro de trigger (grupo c) — 1 de 3 fechado
+
+**(c1) `Anthulk Carapace` — FECHADO.** O valor não está no status: `Enemy_Anthulk Carapace`
+(2543359, 1517239792, 820 B) tem `SkillTriggers=[]`, `AttributeEffects=[]`, `EffectOverrides=[]`,
+`MaxStacks=1.0`. Está no **`CharacterInfo` da criatura `Anthulk`** (2545015, 1519781040, 1712 B),
+`SkillTriggers[1]`:
+
+- `TriggerType = 1` = **OnGettingHitDamaging** ("when struck"; enum em l.45741)
+- `Actions = [2544014 "Anthulk Spine Explosion"]`
+- `ActionChanceEquations = ["50"]` — bytes do array em `rel1020..1031`: `01 00 00 00 | 02 00 00 00 | "50"`
+
+No mesmo `CharacterInfo`, `SkillTriggers[0]` (OnHittingDamaging, condição
+`ActionProperties.IsAttackPowerBased && Source.IsEnemy(Target)`) aplica
+`ActionStatuses=[2543254 "Anthulk Venom Status"]` — o par ataque→veneno do inimigo. → `revisado`.
+
+**(c2) `Champion of Blood` — não fechou (campo nomeado).** O status (`Enemy_Champion of Blood
+Status`, 2543361, 1517241752, 848 B) não tem fórmula: `SkillTriggers=[]`, `AttributeEffects=[]`,
+`EffectOverrides=[]`, `ActionsOnTick=[]`, e o único PPtr é o `ActionStatusVisualSet`. O elo está no
+`CharacterInfo` do invocado (`Champion of Blood`, 2545036, 1519805784, 1072 B): `SkillTriggers[0]` =
+`TriggerType 0` (OnHittingDamaging), `Condition="Source.SummonMaster != null"`,
+`Actions=[2544142 "[Countess] Vampire Hit Heal"]`, `Targets="Cell == Source.SummonMaster.Cell"` —
+ou seja "striking enemies" + "heals the Countess" estão provados; `CharacterEffects = [LifeSteal 100
+(Base), OpportunityAttack Set 1]`.
+
+**Falta o "10%".** Não está em nenhum campo do status, do `CharacterInfo` nem da `ActionInfo`
+2544142 (2980 B: nenhum PPtr e nenhuma string de fórmula — só os alvos `Cell == Target.Cell` e
+`Cell.InRange(Target.Cell, 3)…`). O campo é **`ActionInfo.Effects`** (§7.5). → continua
+`indeterminado` com esse motivo.
+
+**(c3) `Frenzy` — não fechou (campo nomeado).** O status é o `Goblin Battle Standard Explosion
+Status` (2543242, 1517122872, 808 B; `Name="Frenzy"`, `Description="Action Points Increase by 1."`):
+os bytes do objeto **não têm nenhum PPtr para `CharacterAttribute`** e `AttributeEffects=[]`,
+`SkillTriggers=[]`, `ActionsOnTick=[]`, `EffectOverrides=[]`. A ação que aplica o status (`Goblin
+Battle Standard Explosion`, 2544300, 1518747520, 2860 B) só referencia 2543242 (o próprio status) e
+o `ActionStatusVisualSet` — o `Effects` dela também é invisível ao node.
+
+A forma canônica do "+1 AP" no jogo, provada em quatro irmãos: `AttributeEffects =
+[{CharacterAttribute = **2544324 `ExtraTurnActionPoints`**, Method = Base, Amount = "1"}]` em
+`Incalculable Rage` (2543365), `Rampage` (2543367 e 2543567), `Growing Hatred` (2543464) e
+`Ruby Rancor Enemy` (2543476). No `Frenzy` esse array está vazio → o número não está no asset do
+status. → continua `indeterminado` com esse motivo.
+
+### 7.4 Stats da forma (grupo d) — **fechado** (4 `revisado` + 1 `corrigido`)
+
+O status não carrega os números (`AttributeEffects=[]`, como o RV-13b suspeitava); quem carrega é o
+**`CharacterInfo` apontado por `ModelChangeCharacter`**, no campo `CharacterEffects[]`
+(`CharacterAttribute` + `CharacterEffectMethod` + `Amount`):
+
+| entrada | status (pid) | `ModelChangeCharacter` | `CharacterEffects` (Amount) | texto |
+|---|---|---|---|---|
+| Black | `NAT_Status_ShapeshiftBlackDragonkin` (2543452) | **2548207** `Shape Black Dragonkin` | `Armor 6*Source.Level` + **`LifeOnHit 8`** + `DamageReduction 20` | "Armor and Damage Reduction increased." |
+| Blue | `…BlueDragonkin` (2543453) | **2548208** `Shape Blue Dragonkin` | `Armor 6*Source.Level` + **`ResistCold 30`** (`BasicEffects.coldResist` ainda = 20) | "Armor and Cold Resistance increased." ✔ |
+| Green | `…GreenDragonkin` (2543455) | **2548210** `Shape Green Dragonkin` | `Armor 6*Source.Level` + **`ResistLightning 30`** | "Armor and Lightning Resistance increased." ✔ |
+| **Red** | `…RedDragonkin` (2543456) | **2548211** `Shape Red Dragonkin` | `Armor 6*Source.Level` + **`ResistFire 30`** | "Armor and **Cold** Resistance increased." ✗ |
+| White | `…WhiteDragonkin` (2543459) | **2548213** `Shape White Dragonkin` | `Armor 6*Source.Level` + `DamageReduction 20` | "Armor and Damage Reduction increased." ✔ |
+
+Atributos resolvidos pelo pathID: 2544401 `Armor`, 2544414 `DamageReduction`, 2544459 `LifeOnHit`,
+2544495 `ResistCold`, 2544498 `ResistFire`, 2544499 `ResistLightning`.
+
+- **`Shapeshift: Red Dragonkin` → `corrigido`.** A forma concede `ResistFire 30`; o texto diz "Cold
+  Resistance" — é o texto do Azul. Correção **decidida e não aplicada** (entra no dicionário do
+  `BetterTooltips/Patches/LocalizePatch.cs`, não nesta rodada):
+  `"Armor and Cold Resistance increased."` → `"Armor and Fire Resistance increased."`
+- **`Shapeshift: Black Dragonkin` → `revisado` com registro.** As duas stats que o texto nomeia
+  existem (`Armor`, `DamageReduction`), mas a forma concede **também `LifeOnHit 8`**, que o texto não
+  menciona (omissão — mesma família do caso `Raise Skeletal Lackey` do §2). Fica como **decisão
+  humana**, registrado como o **segundo caso mais suspeito** da lista (depois do Red).
+- Azul/Verde/Branco: campo e texto concordam número por número → `revisado`.
+
+### 7.5 O que ficou aberto e como fechar (próximo ciclo)
+
+Os 2 `indeterminado` restantes têm **uma causa só**: o node de typetree gerado a partir do
+`Assembly-CSharp.dll` do install **não inclui os campos de efeito serializados por referência de
+interface**:
+
+- **`ActionStatusInfo.Effects`** e **`ActionInfo.Effects`** (`IEffectInfo[]`, l.317229 do
+  decompilado): a classe declara, o node não tem (node do `ActionStatusInfo` = 98 campos de nível 1;
+  node do `ActionInfo` = 168; `Effects` não está em nenhum dos dois; `ActionStatusInfo.Guid` também
+  não). O asset **tem** conteúdo nesse campo — prova: em `Anthulk Venom Status` (2543254) a string
+  `"ActionStatus.GetFlatDamageValue * .5f"` aparece **duas** vezes, em `rel360`
+  (`DescriptionExpressions`) e em `rel520` (dentro do array de `Effects`, precedida do PPtr para
+  **2544358 `DamageFlatPhysicalTarget`**). É esse elemento que desalinha a leitura do objeto a partir
+  daí (`read_typetree` estoura o `byte_size`); onde o array é vazio — `Enemy_Anthulk Carapace` — o
+  node lê o objeto **o byte a byte, exato**.
+- **Como destravar:** (1) no `RoguelikeDebugger`, exportar `s.Effects.Length` **e o tipo concreto de
+  cada elemento** (`s.Effects[i].GetType().Name`) + o `CharacterAttribute` do elemento — o dump atual
+  só publica `GeneralEffect.Action` (`efeitosDano`), e o cast `as GeneralEffect` devolve `null`
+  justamente nesses elementos (por isso `efeitosDano` sai vazio em `Anthulk Carapace` e `Frenzy`);
+  ou (2) ler `Effects` pelo registro de referências (`references`/`ManagedReferencesRegistry` no fim
+  do objeto) com o UnityPy, como foi feito aqui.
+
+---
+
 *Fontes: `docs/cobertura/*.csv` (os 8), `docs/cobertura/revisao/` (RV-9 buffs/debuffs, RV-13,
 RV-14, RV-19, BUG-32-chaves-compartilhadas), `BetterTooltips/Patches/LocalizePatch.cs`,
 `resources.assets` do install atual (byte scan por offset; os offsets citados são do arquivo de
 30/09), `Assembly-CSharp.dll` (strings UTF-16), e as ferramentas `censo_status.py`,
-`check_fix_keys.py`, `check_dupes.py`, `check_chave_compartilhada.py`, `audita_docs.py`.*
+`check_fix_keys.py`, `check_dupes.py`, `check_chave_compartilhada.py`, `audita_docs.py`.
+**§7 (RV-13c):** `resources.assets` lido por **typetree gerado** dos `.dll` de
+`Stolen Realm_Data/Managed/` (UnityPy 1.25.3 + TypeTreeGeneratorAPI 0.10) e os scripts de bancada em
+`%LOCALAPPDATA%\hermes\cache\scratch\rv13c\`.*
