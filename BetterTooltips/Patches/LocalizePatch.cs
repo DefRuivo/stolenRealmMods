@@ -48,17 +48,64 @@ namespace BetterTooltips.Patches
             /// <summary>Diagnostico 1x: diz no log se o prefix achou o bloco (ou nao).</summary>
             private static bool _diagnosticadoCor;
 
-            /// <summary>Mira o overload de ShowTooltip que recebe o corpo do tooltip.</summary>
+            /// <summary>
+            /// Assinatura EXATA (13 tipos, na ordem) do overload de ShowTooltip que recebe o corpo do
+            /// tooltip. Fonte: decompilado do Assembly-CSharp.dll (`ilspycmd -t Tooltip -il`):
+            ///   instance void Tooltip::ShowTooltip(string, string,
+            ///     class [UnityEngine.CoreModule]UnityEngine.Sprite, string, class TooltipOffsetInfo,
+            ///     valuetype [UnityEngine.CoreModule]UnityEngine.Color,
+            ///     valuetype System.Nullable`1&lt;UnityEngine.Vector3&gt;, bool, bool, float32,
+            ///     valuetype System.Nullable`1&lt;ControlGlyphInfo&gt;, string, bool)
+            /// `TooltipOffsetInfo` e CLASSE (vai como tipo puro); `ControlGlyphInfo` e STRUCT, entao o
+            /// slot nullable dele e `Nullable&lt;ControlGlyphInfo&gt;` (`ControlGlyphInfo?`).
+            /// </summary>
+            private static readonly Type[] AssinaturaDoShowTooltip = new Type[]
+            {
+                typeof(string),                 // __0 title
+                typeof(string),                 // __1 subtitle
+                typeof(UnityEngine.Sprite),     // __2 icon
+                typeof(string),                 // __3 description  <- o slot que o prefix reescreve
+                typeof(TooltipOffsetInfo),      // __4 tooltipOffsetInfo
+                typeof(UnityEngine.Color),      // __5 titleTextColor
+                typeof(UnityEngine.Vector3?),   // __6 hoveringElementScreenPos
+                typeof(bool),                   // __7 showIcon
+                typeof(bool),                   // __8 isItem
+                typeof(float),                  // __9 alpha
+                typeof(ControlGlyphInfo?),      // __10 controlGlyphInfo
+                typeof(string),                 // __11 footerText
+                typeof(bool)                    // __12 showEquipped
+            };
+
+            /// <summary>
+            /// Mira o overload de ShowTooltip que recebe o corpo do tooltip por LISTA EXPLICITA DE
+            /// TIPOS (mesmo padrao do `ShrineAuraPatch` l.303-304), NUNCA mais "o primeiro metodo
+            /// chamado ShowTooltip com mais de 4 parametros": era assim antes e, se o jogo reordenasse
+            /// os parametros ou surgisse uma segunda sobrecarga, o slot mudaria EM SILENCIO (o mesmo
+            /// defeito que ja derrubou o jogo com um patch lendo o slot de um float).
+            /// Sem o metodo por assinatura exata o gancho NAO e aplicado — nunca um alvo escolhido por
+            /// engano — e o motivo fica escrito no log.
+            /// </summary>
             private static System.Reflection.MethodBase TargetMethod()
             {
-                foreach (System.Reflection.MethodInfo m in AccessTools.GetDeclaredMethods(typeof(Tooltip)))
+                try
                 {
-                    if (m.Name == "ShowTooltip" && m.GetParameters().Length > 4)
+                    System.Reflection.MethodInfo alvo =
+                        AccessTools.Method(typeof(Tooltip), "ShowTooltip", AssinaturaDoShowTooltip);
+                    if (alvo != null)
                     {
-                        return m;
+                        return alvo;
                     }
+                    Plugin.Log.LogError("BetterTooltips: Tooltip.ShowTooltip com a assinatura de 13 "
+                        + "parametros NAO foi encontrado — o gancho de cor/ordem do tooltip NAO sera "
+                        + "aplicado nesta sessao (nunca um metodo escolhido por engano).");
+                    return null;
                 }
-                return null;
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError("BetterTooltips: falha ao resolver Tooltip.ShowTooltip pela "
+                        + "lista de tipos — gancho de cor/ordem NAO aplicado: " + e.Message);
+                    return null;
+                }
             }
 
             /// <summary>Move as explicacoes para o fim (depois de custos e alcance).
@@ -69,52 +116,72 @@ namespace BetterTooltips.Patches
             /// ordem desejada: nota primeiro, linha de auras por ULTIMO, cada um com exatamente uma
             /// linha em branco antes (regra do `AnexarNota`).
             /// </summary>
-            private static void Prefix(ref string __3)
+            /// PARAMETRO POR NOME, nunca por indice: `ref string description` casa com o 4o parametro do
+            /// metodo do jogo pelo NOME DELE (`ShowTooltip(string title, string subtitle, Sprite icon,
+            /// string description, ...)`), nao pela posicao. O `ref __3` antigo dependia do slot 3 e o
+            /// alvo era achado por reflexao "o primeiro ShowTooltip com mais de 4 parametros" — se a
+            /// assinatura mudasse, `__3` passaria a apontar para outro tipo EM SILENCIO (foi exatamente
+            /// essa a familia de defeito que quebrou o jogo em batalha). O `TargetMethod` acima agora
+            /// resolve pela lista de 13 tipos, entao nome e posicao ficam amarrados.
+            /// O corpo roda a cada hover (gancho QUENTE): qualquer falha e registrada UMA vez por motivo
+            /// e o texto do jogo sai INTACTO.
+            private static void Prefix(ref string description)
             {
-                if (string.IsNullOrEmpty(__3))
+                // Snapshot: o corpo abaixo remove blocos coloridos pelo caminho; se algo lancar no meio,
+                // devolvemos EXATAMENTE o texto que o jogo montou (nunca um texto pela metade).
+                string textoDoJogo = description;
+                try
                 {
-                    return;
-                }
-                string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
-                string corAura = CorDaLinhaDeAuras();
-                bool mesmaCor = string.Equals(corNota, corAura, StringComparison.OrdinalIgnoreCase);
+                    if (string.IsNullOrEmpty(description))
+                    {
+                        return;
+                    }
+                    string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
+                    string corAura = CorDaLinhaDeAuras();
+                    bool mesmaCor = string.Equals(corNota, corAura, StringComparison.OrdinalIgnoreCase);
 
-                // Se as cores coincidirem (a leitura da paleta falhou e a linha caiu na cor das notas),
-                // a ULTIMA ocorrencia e a linha de auras — ela e a ultima coisa anexada ao texto.
-                // O bloco da linha de auras so e aceito se comecar com o marcador dela: assim nenhum
-                // bloco colorido do proprio jogo (com a MESMA cor de status) entra na conta.
-                string nota;
-                string aura;
-                bool achouAura = TirarBloco(ref __3, corAura, mesmaCor, ShrineAuraPatch.MarcadorLinhaDeAuras, out aura);
-                bool achouNota = TirarBloco(ref __3, corNota, false, null, out nota);
+                    // Se as cores coincidirem (a leitura da paleta falhou e a linha caiu na cor das notas),
+                    // a ULTIMA ocorrencia e a linha de auras — ela e a ultima coisa anexada ao texto.
+                    // O bloco da linha de auras so e aceito se comecar com o marcador dela: assim nenhum
+                    // bloco colorido do proprio jogo (com a MESMA cor de status) entra na conta.
+                    string nota;
+                    string aura;
+                    bool achouAura = TirarBloco(ref description, corAura, mesmaCor, ShrineAuraPatch.MarcadorLinhaDeAuras, out aura);
+                    bool achouNota = TirarBloco(ref description, corNota, false, null, out nota);
 
-                if (!achouAura && !achouNota)
-                {
+                    if (!achouAura && !achouNota)
+                    {
+                        if (!_diagnosticadoCor)
+                        {
+                            _diagnosticadoCor = true;
+                            Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado SEM o bloco (procurando "
+                                + "<color=#" + corNota + "> e <color=#" + corAura + ">)");
+                        }
+                        return;
+                    }
                     if (!_diagnosticadoCor)
                     {
                         _diagnosticadoCor = true;
-                        Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado SEM o bloco (procurando "
-                            + "<color=#" + corNota + "> e <color=#" + corAura + ">)");
+                        Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, blocos movidos para o fim (nota #"
+                            + corNota + ", auras ativas #" + corAura + ")");
                     }
-                    return;
-                }
-                if (!_diagnosticadoCor)
-                {
-                    _diagnosticadoCor = true;
-                    Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, blocos movidos para o fim (nota #"
-                        + corNota + ", auras ativas #" + corAura + ")");
-                }
 
-                string corpo = __3.TrimEnd();
-                if (!string.IsNullOrEmpty(nota))
-                {
-                    corpo += "\n\n" + nota;
+                    string corpo = description.TrimEnd();
+                    if (!string.IsNullOrEmpty(nota))
+                    {
+                        corpo += "\n\n" + nota;
+                    }
+                    if (!string.IsNullOrEmpty(aura))
+                    {
+                        corpo += "\n\n" + aura;
+                    }
+                    description = corpo;
                 }
-                if (!string.IsNullOrEmpty(aura))
+                catch (Exception e)
                 {
-                    corpo += "\n\n" + aura;
+                    description = textoDoJogo;
+                    RegistrarFalhaIgnorada("prefix de cor/ordem do Tooltip.ShowTooltip", e);
                 }
-                __3 = corpo;
             }
 
             /// <summary>
@@ -309,7 +376,19 @@ namespace BetterTooltips.Patches
         [HarmonyPostfix, HarmonyPriority(Priority.High)]
         private static void CorDoJogoPostfix(ref string __result)
         {
-            __result = ComACorDoJogo(__result);
+            // O helper `ComACorDoJogo` ja tem guarda interna propria; o try/catch aqui PADRONIZA o
+            // tratamento neste gancho (roda em todo texto localizado do jogo) e garante que uma falha
+            // futura nao escape para dentro do `OptionsManager.Localize` — o texto do jogo sai INTACTO.
+            string textoDoJogo = __result;
+            try
+            {
+                __result = ComACorDoJogo(__result);
+            }
+            catch (Exception e)
+            {
+                __result = textoDoJogo;
+                RegistrarFalhaIgnorada("postfix de cor (Priority.High) do OptionsManager.Localize", e);
+            }
         }
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
@@ -1693,7 +1772,55 @@ namespace BetterTooltips.Patches
             }
         }
 
+        /// <summary>
+        /// Gancho MAIS QUENTE do projeto: TODO texto de interface do jogo passa por
+        /// <c>OptionsManager.Localize</c>. O corpo (as tabelas + as regras dinamicas) roda em
+        /// <c>AplicarNotasDoFunil</c>, DENTRO de try/catch: uma excecao inesperada (indexador, regex,
+        /// NRE) NAO pode escapar para dentro do metodo do jogo — ela e registrada uma vez por motivo
+        /// distinto e o texto que o jogo produziu e devolvido INTACTO.
+        /// Com tudo funcionando o caminho e exatamente o de antes: o corpo nao mudou.
+        /// </summary>
         private static void Postfix(string original, ref string __result)
+        {
+            string textoDoJogo = __result;
+            try
+            {
+                AplicarNotasDoFunil(original, ref __result);
+            }
+            catch (Exception e)
+            {
+                __result = textoDoJogo;
+                RegistrarFalhaIgnorada("postfix do funil OptionsManager.Localize", e);
+            }
+        }
+
+        /// <summary>
+        /// Motivos de falha ja registrados: o log sai UMA vez por motivo DISTINTO (tipo + mensagem),
+        /// nunca a cada chamada — este funil roda em todo texto localizado do jogo e um erro repetido
+        /// encheria o LogOutput.log em um frame. O teto de 25 motivos limita o pior caso.
+        /// </summary>
+        private static readonly HashSet<string> _falhasRegistradas = new HashSet<string>();
+
+        private static void RegistrarFalhaIgnorada(string gancho, Exception e)
+        {
+            try
+            {
+                string motivo = gancho + " | " + e.GetType().FullName + ": " + e.Message;
+                if (_falhasRegistradas.Count >= 25 || !_falhasRegistradas.Add(motivo))
+                {
+                    return;
+                }
+                Plugin.Log.LogError("BetterTooltips: falha IGNORADA em " + gancho
+                    + " (texto do jogo mantido intacto) — " + motivo);
+            }
+            catch
+            {
+                // nem o proprio log pode derrubar o jogo
+            }
+        }
+
+        /// <summary>Corpo do postfix do funil — inalterado desde antes do try/catch. Ver `Postfix`.</summary>
+        private static void AplicarNotasDoFunil(string original, ref string __result)
         {
             if (original == null || __result == null)
             {
