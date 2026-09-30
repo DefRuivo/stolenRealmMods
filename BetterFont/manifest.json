@@ -1,8 +1,8 @@
 {
   "name": "BetterFont",
-  "version_number": "1.0.0",
+  "version_number": "1.0.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Troca a fonte renderizada do jogo por uma serifada (Times New Roman, com fallback Georgia/Liberation Serif) em toda a interface. Sem alteracao de gameplay.",
+  "description": "Troca a fonte renderizada do jogo por uma serifada (Times New Roman, com fallback Georgia/Liberation Serif) preservando cor, contorno e sombra dos textos. Sem alteracao de gameplay.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305"
   ],
