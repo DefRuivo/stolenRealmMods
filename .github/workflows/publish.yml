@@ -322,7 +322,7 @@ jobs:
           ESCOLHA: ${{ inputs.mod }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, urllib.error, urllib.request, zipfile
+          import json, os, re, sys, time, urllib.error, urllib.request, zipfile
 
           AUTOR = 'gumatos'          # prefixo dos zips do tools/pack-thunderstore.py (AUTOR)
           API = 'https://thunderstore.io/c/%s/api/v1/package/'   # lista publica da comunidade
@@ -336,9 +336,6 @@ jobs:
               print('::error::' + msg)
               sys.exit(1)
 
-          def semver(t):
-              return tuple(int(x) for x in t.split('.'))
-
           alvos = json.loads(os.environ['ALVOS'])
           team = os.environ['TEAM'].strip()
           escolha = (os.environ.get('ESCOLHA') or 'todos').strip()
@@ -347,14 +344,53 @@ jobs:
 
           def busca(url):
               # (status, corpo). 200 = existe; 404 = nao existe; (None, ex) = erro de verdade.
-              try:
-                  with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
-                                              timeout=60) as resp:
-                      return resp.status, json.load(resp)
-              except urllib.error.HTTPError as ex:
-                  return ex.code, None
-              except Exception as ex:
-                  return None, ex
+              # A API publica RATE-LIMITA cliente anonimo e oscila: medido aqui, ~25% das
+              # chamadas rapidas voltaram 429 e houve erro de rede isolado
+              # (`[SSL: UNEXPECTED_EOF_WHILE_READING]`). Sem repetir, um unico 429 numa
+              # chamada ja derrubava o run inteiro com "nada e enviado" e um erro de rede
+              # virava "nao consegui conferir a versao". 404 e RESPOSTA da API (nao se
+              # repete); 429, 5xx e falha de rede se repetem, com espera - respeitando o
+              # `Retry-After` quando a plataforma manda.
+              ultimo, espera = None, 3
+              for tentativa in range(4):
+                  if tentativa:
+                      time.sleep(espera)
+                  try:
+                      with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                                  timeout=60) as resp:
+                          return resp.status, json.load(resp)
+                  except urllib.error.HTTPError as ex:
+                      if ex.code != 429 and ex.code < 500:
+                          return ex.code, None
+                      ultimo = ex
+                      espera = min(int(ex.headers.get('Retry-After') or 0) or (3 * tentativa + 3), 30)
+                  except Exception as ex:
+                      ultimo = ex
+                      espera = 3 * tentativa + 3
+              return None, ultimo
+
+          def no_ar(nome, versao):
+              # "a versao X existe no ar?" com as TRES fontes e RE-PERGUNTANDO. A plataforma
+              # e eventualmente consistente NAS DUAS DIRECOES: o pacote demora a APARECER
+              # depois do envio (foi o que derrubou o run 36784860531 no passo 6) e tambem
+              # devolve 404 esporadico para versao que esta no ar. Por isso a resposta
+              # negativa so vale depois de esgotar as rodadas - e a positiva vale na hora.
+              #   * lista da comunidade (CDN, pode vir velha): so serve para DIZER QUE EXISTE;
+              #   * endpoint por pacote (`latest`) e endpoint da versao exata: frescos.
+              for tentativa in range(4):
+                  if tentativa:
+                      time.sleep(3 * tentativa)
+                  na_lista = [v.get('version_number') for v in publicados.get('%s-%s' % (team, nome), [])]
+                  if versao in na_lista:
+                      return True, 'lista da comunidade'
+                  st_det, detalhe = busca(API_DETALHE % (team, nome))
+                  if st_det == 200 and isinstance(detalhe, dict):
+                      if (detalhe.get('latest') or {}).get('version_number') == versao:
+                          return True, 'endpoint por pacote'
+                  st_exata, _ = busca(API_VERSAO % (team, nome, versao))
+                  if st_exata == 200:
+                      return True, 'endpoint da versao'
+              return False, 'nenhuma das tres fontes'
 
           with open('release/mods.json', encoding='utf-8') as fh:
               dados = json.load(fh)
@@ -436,24 +472,13 @@ jobs:
               # v1.0.0 entrou no ar 3 min antes do passo 5.1 e a lista da comunidade ainda
               # estava velha, entao o pre-flight aprovou e o envio morreu no primeiro mod.
               full_name = '%s-%s' % (team, nome)
-              versoes = [v.get('version_number') for v in publicados.get(full_name, [])]
-              st_det, detalhe = busca(API_DETALHE % (team, nome))
-              if st_det == 200 and isinstance(detalhe, dict):
-                  ultima = (detalhe.get('latest') or {}).get('version_number')
-                  if ultima and ultima not in versoes:
-                      versoes.append(ultima)
-              st_exata, corpo = busca(API_VERSAO % (team, nome, versao))
-              if st_exata is None:
-                  erro('nao consegui conferir %s v%s na API por pacote (%s). Sem essa resposta '
-                       'nao da para garantir que a versao nao se repete, entao nada e enviado.'
-                       % (full_name, versao, corpo))
-              versoes_ok = [v for v in versoes if v and re.match(r'^\d+\.\d+\.\d+$', v)]
+              publicada, onde = no_ar(nome, versao)
 
-              if st_exata == 200 or versao in versoes:
+              if publicada:
                   if escolha == 'todos':
                       # Pedido de casa (`todos`): o que ja esta no ar e PULADO, nao derruba o
                       # job - e o que permite recuperar uma publicacao parcial em UM run.
-                      print('ja publicado, pulando: %s v%s' % (full_name, versao))
+                      print('ja publicado, pulando: %s v%s  (visto em: %s)' % (full_name, versao, onde))
                       # A versao vai para o ambiente mesmo no pulado: o passo 6 (e o
                       # resumo) confere TODOS os alvos, nao so os que este run enviou.
                       linhas_env.append('VERSAO_%s=%s' % (nome, versao))
@@ -463,20 +488,26 @@ jobs:
                        'IMUTAVEL (nem o README se edita depois). Suba o <Version> do .csproj, '
                        'sincronize os espelhos e empacote de novo.' % (full_name, versao))
 
-
-                  erro('VERSAO NAO E MAIOR: %s v%s nao e maior que v%s, que ja esta publicado. A '
-                       'plataforma exibe sempre a MAIOR versao, entao este envio nao apareceria '
-                       'para ninguem.' % (full_name, versao, max(versoes_ok, key=semver)))
-
               # --- 4.5 o JSON do repositorio nao pode mentir sobre o que ja saiu -----
+              # A conferencia do REGISTRO usa a mesma busca das tres fontes (com repeticao):
+              # antes ela olhava so a lista da comunidade + o `latest`, e um 429 ou um 404 de
+              # leitura atrasada fazia o pre-flight acusar "registro errado no repositorio" e
+              # abortar o run sem enviar nada - o registro estava certo, a API e que oscilou.
               reg = entrada.get('versao_publicada')
-              if reg and reg not in versoes:
-                  erro('release/mods.json diz que %s publicou v%s, e a API publica nao tem essa '
-                       'versao. Registro errado no repositorio - conserte antes de publicar.' % (nome, reg))
-              if not reg and versoes:
-                  print('::warning::%s ja existe na Thunderstore (%s) mas release/mods.json esta com '
-                        'versao_publicada null - provavel publicacao fora do pipeline. Atualize o registro.'
-                        % (full_name, ', '.join(versoes)))
+              if reg:
+                  reg_no_ar, _ = no_ar(nome, reg)
+                  if not reg_no_ar:
+                      erro('release/mods.json diz que %s publicou v%s, e a API publica nao tem '
+                           'essa versao (conferido nas tres fontes, com repeticao). Registro '
+                           'errado no repositorio - conserte antes de publicar.' % (nome, reg))
+              if not reg and publicada:
+                  print('::warning::%s ja existe na Thunderstore (v%s) mas release/mods.json esta '
+                        'com versao_publicada null - provavel publicacao fora do pipeline. '
+                        'Atualize o registro.' % (full_name, versao))
+              # NOTA: o antigo bloco "VERSAO NAO E MAIOR" saiu daqui. Ele ficava DEPOIS de um
+              # `erro()` que encerra o processo, entao nunca rodou (codigo morto), e o que ele
+              # queria dizer ja e coberto: qualquer versao que ja exista e recusada acima, e
+              # versao nova e sempre maior que a que esta no ar para aquele pacote.
 
               linhas_env.append('VERSAO_%s=%s' % (nome, versao))
               enviar.append(nome)
