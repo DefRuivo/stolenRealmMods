@@ -154,6 +154,108 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // RV-9 debuffs: Visually Impaired - Only ranged attacks and skills lose range; melee range is un
+            { "Reduces @Range@ by @3@ per stack.",
+              "\n<color=#C8B090>Only ranged attacks and skills lose range; melee range is unchanged.</color>" },
+            // RV-9 debuffs: The Bad Bloom - Reapplied each turn to enemies in range of the flower.
+            { "Enemies gain 2 stacks of poison.",
+              "\n<color=#C8B090>Reapplied each turn to enemies in range of the flower.</color>" },
+            // RV-9 debuffs: Test Event Status - Critical Failure - All attributes reduced by 5%.
+            { "Critical Failure",
+              "\n<color=#C8B090>All attributes reduced by 5%.</color>" },
+            // RV-9 debuffs: Taunted - You can only target the taunter, and you are forced to attac
+            { "Forced to attack the taunter. Damage reduced by 20%.",
+              "\n<color=#C8B090>You can only target the taunter, and you are forced to attack them.</color>" },
+            // RV-9 debuffs: Taunted - You can only target the taunter, and you are forced to attac
+            { "Taunted.",
+              "\n<color=#C8B090>You can only target the taunter, and you are forced to attack them.</color>" },
+            // RV-9 debuffs: Stunned - Cannot move or perform actions.
+            { "Stunned.",
+              "\n<color=#C8B090>Cannot move or perform actions.</color>" },
+            // RV-9 debuffs: Slowed - Only abilities whose base cooldown is 2 or more are affected
+            { "@Cooldowns@ increased by @1@ turn.",
+              "\n<color=#C8B090>Only abilities whose base cooldown is 2 or more are affected: 1-turn cooldowns stay at 1, and basic attacks are unaffected.</color>" },
+            // RV-9 debuffs: Sludge Bolt - Only ranged attacks and skills lose range; melee range is un
+            { "Lowers movement and range by 1 and lowers Damage by 10% per stack.",
+              "\n<color=#C8B090>Only ranged attacks and skills lose range; melee range is unchanged.</color>" },
+            // RV-9 debuffs: Sludge - Only ranged attacks and skills lose range; melee range is un
+            { "Lowers movement and range by 1 and lowers Damage by 5% per stack.",
+              "\n<color=#C8B090>Only ranged attacks and skills lose range; melee range is unchanged.</color>" },
+            // RV-9 debuffs: Sleep - Cannot move or perform actions; damage taken is increased by
+            { "Asleep.",
+              "\n<color=#C8B090>Cannot move or perform actions; damage taken is increased by 50%.</color>" },
+            // RV-9 debuffs: Sleep - Cannot move or perform actions; damage taken is increased by
+            { "Cannot move or perform actions and damage taken increased by 50%.  Can be awakened by getting attacked.",
+              "\n<color=#C8B090>Cannot move or perform actions; damage taken is increased by 50%.</color>" },
+            // RV-9 debuffs: Shapeshift: Box - While in the box you cannot move or use abilities.
+            { "Shapeshifted into a box. Damage taken increased by 100%.",
+              "\n<color=#C8B090>While in the box you cannot move or use abilities.</color>" },
+            // RV-9 debuffs: Restricted Range III - Only ranged abilities are affected.
+            { "Range is reduced by 6 Hexes.",
+              "\n<color=#C8B090>Only ranged abilities are affected.</color>" },
+            // RV-9 debuffs: Restricted Range II - Only ranged abilities are affected.
+            { "Range is reduced by 4 Hexes.",
+              "\n<color=#C8B090>Only ranged abilities are affected.</color>" },
+            // RV-9 debuffs: Restricted Range I - Only ranged abilities are affected.
+            { "Range is reduced by 2 Hexes.",
+              "\n<color=#C8B090>Only ranged abilities are affected.</color>" },
+            // RV-9 debuffs: Frozen - While frozen the target also ignores Chilled: no new stacks 
+            { "Cannot move or perform actions.",
+              "\n<color=#C8B090>While frozen the target also ignores Chilled: no new stacks can be applied.</color>" },
+            // RV-9 debuffs: Diseased - Current health is reduced by the same percentage and comes b
+            { "Maximum health reduced by 15%.",
+              "\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
+            // RV-9 debuffs: Decaying - Current health is reduced by the same percentage and comes b
+            { "Max Health reduced by 25%.",
+              "\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
+            // RV-9 debuffs: Enfeebled - Also reduces the healing this character does by the same per
+            { "Reduces @Damage@ by @20%@ per stack.",
+              "\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>" },
+            // RV-9 debuffs: Damage Reduced by 50% - Also reduces the healing this character does by the same per
+            { "Damage reduced by 50%.",
+              "\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>" },
+            // RV-9 debuffs: Damage Reduced by 20% - Also reduces the healing this character does by the same per
+            { "Damage reduced by 20%.",
+              "\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>" },
+            // RV-9 debuffs: Damage Reduced by 5% - Also reduces the healing this character does by the same per
+            { "Damage reduced by 5%.",
+              "\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>" },
+            // RV-9 debuffs: Curse of Weakness - Also reduces the healing this character does by the same per
+            { "Damage reduced by 25%.",
+              "\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>" },
+            // RV-9 debuffs: Curse of Frailty - Resistances reduce their damage type by the listed %. If a r
+            { "Reduces Physical resistance by 25%.",
+              "\n<color=#C8B090>Resistances reduce their damage type by the listed %. If a resistance goes negative, that damage type is amplified instead.</color>" },
+            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
+            { "@Maximum health@ reduced by 10%.",
+              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
+            { "Max Health increased by 10%.",
+              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Consumption - Each stack grants another 10% Max Health; you gain one stack
+            { "@Maximum health@ reduced by 20%.",
+              "\n<color=#C8B090>Each stack grants another 10% Max Health; you gain one stack per enemy hit.</color>" },
+            // RV-9 debuffs: Blood Howl - Lasts 2 turns.
+            { "Attackers lifesteal for [0]%.",
+              "\n<color=#C8B090>Lasts 2 turns.</color>" },
+            // RV-9 debuffs: Blind - Skill range is reduced to 1 hex.
+            { "Blind.",
+              "\n<color=#C8B090>Skill range is reduced to 1 hex.</color>" },
+            // RV-9 debuffs: Blind - Skill range is reduced to 1 hex.
+            { "Skill range is reduced to 1 hex.",
+              "\n<color=#C8B090>Skill range is reduced to 1 hex.</color>" },
+            // RV-9 debuffs: Aura of Lightning - The aura reaches 3 hexes from its source.
+            { "*0 lightning damage dealt to enemies within the aura each time they perform an action.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source.</color>" },
+            // RV-9 debuffs: Aura of Frost - The aura reaches 3 hexes from its source, and it damages ene
+            { "Deals *0 cold damage per turn while in the aura.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source, and it damages enemies that start their turns inside it.</color>" },
+            // RV-9 debuffs: Aura of Flame - The aura reaches 3 hexes from its source.
+            { "[0] fire damage dealt to enemies within the aura.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source.</color>" },
+            // RV-9 debuffs: Aura of Flame - The aura reaches 3 hexes from its source.
+            { "*0 fire damage dealt to enemies within the aura.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source.</color>" },
             // Shapeshift Werewolf - as habilidades da forma saem do `CharacterInfo` do personagem substituido:
             // campo `modelo=` do dump de STATUS (`ModelChangeCharacter.Skills`). Texto dizia
             // apenas "gain new abilities".
@@ -479,6 +581,27 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // RV-9 debuffs: Reduced Resistances III
+            { "All Resistances reduced by 30%",
+              "All Resistances except Holy reduced by 30%" },
+            // RV-9 debuffs: Reduced Resistances II
+            { "All Resistances reduced by 20%",
+              "All Resistances except Holy reduced by 20%" },
+            // RV-9 debuffs: Reduced Resistances I
+            { "All Resistances reduced by 10%",
+              "All Resistances except Holy reduced by 10%" },
+            // RV-9 debuffs: Haunt
+            { "Deals *0 damage. Lifesteals for 8%.",
+              "Deals *0 damage. Lifesteals for 2.5%." },
+            // RV-9 debuffs: Curse of Ruin
+            { "All stats reduced by 15%",
+              "Might, Dexterity, Intelligence, Vitality and Recovery reduced by 15%" },
+            // RV-9 debuffs: Exhaustion
+            { "Cannot receive additional actions points.  Caused by receiving additional action points this turn.",
+              "Cannot receive additional action points.  Caused by receiving additional action points this turn." },
+            // RV-9 debuffs: Chi Strike
+            { "Your damage dealt is reduced by 20%",
+              "Your damage dealt is reduced by 20%." },
             // DEFEITO DE TEXTO: o asset exige o proximo alvo dentro de 3 hexes
             // (`chainAlvo=... Cell.InRange(LastCell, 3)`), nao 2.
             { "Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. ",
