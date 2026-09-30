@@ -3,7 +3,7 @@
 > Entregue 30/09 — tarefa `t_1b74de83` (RSTV-1). **Nenhuma linha de código de mod escrita.**
 > A especificação (item 54, 77 itens) manda investigar ANTES de implementar; todo o bloco RSTV depende disto.
 >
-> **Fonte:** `%USERPROFILE%/AppData/Local/hermes/cache/scratch/cs/Assembly-CSharp.decompiled.cs` (decompilado canônico do
+> **Fonte:** `%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs` (decompilado canônico do
 > projeto, 371.804 linhas). **Todos os números de linha abaixo são DESSE arquivo.**
 > **Reconferência:** cada tipo citado foi re-decompilado por tipo (`ilspycmd -t <Tipo>`) contra a DLL VIVA do jogo
 > (`E:\SteamLibrary\...\Stolen Realm_Data\Managed\Assembly-CSharp.dll`) e os nomes batem. Nada foi inventado.
@@ -353,8 +353,8 @@ grep -n "ToggleSelectedCharacter\|OpenRoguelikePowerupWindow\|roguelikePowerupBu
 #                 CharacterMenusManager, RoguelikeSkillTreeRemoval, RoguelikePowerupWindow, ReferenceLoader
 
 # 3) a referência da ModAPI (só técnica)
-"$HOME/.dotnet/tools/ilspycmd" "%USERPROFILE%/AppData/Local/hermes/cache/scratch/rstv/ModAPI.dll" -t StolenRealmModAPI.UI.SkillTreeUIPatches
-"$HOME/.dotnet/tools/ilspycmd" "%USERPROFILE%/AppData/Local/hermes/cache/scratch/rstv/ModAPI.dll" -t StolenRealmModAPI.UI.SkillTreeUI
+"$HOME/.dotnet/tools/ilspycmd" "%LOCALAPPDATA%\hermes\cache\scratch\rstv\ModAPI.dll" -t StolenRealmModAPI.UI.SkillTreeUIPatches
+"$HOME/.dotnet/tools/ilspycmd" "%LOCALAPPDATA%\hermes\cache\scratch\rstv\ModAPI.dll" -t StolenRealmModAPI.UI.SkillTreeUI
 ```
 
 **Conclusão curta:** os 4 pontos que mais erram têm resposta no código — (a) ownership real = `OwnerID == NetworkId`
