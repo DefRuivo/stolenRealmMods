@@ -72,6 +72,7 @@ on:
         default: todos
         options:
           - todos
+          - BetterCombatText
           - BetterFont
           - BetterStats
           - BetterTooltips
@@ -104,6 +105,7 @@ on:
   # push:
   #   branches: [main]
   #   paths:
+  #     - 'BetterCombatText/**'
   #     - 'BetterFont/**'
   #     - 'BetterStats/**'
   #     - 'BetterTooltips/**'
@@ -577,8 +579,8 @@ jobs:
       #    mapeia para TS_CATEGORIES e o cfg_edit.js grava
       #    `publish.categories["stolen-realm"] = [...]` no thunderstore.toml do tcli; lista
       #    valida em /api/experimental/community/stolen-realm/category/):
-      #      mods  -> BetterFont, BetterStats, BetterTooltips, RoguelikeQoL,
-      #               RoguelikeSkillTreeVisualizer        (mudam o jogo para o jogador)
+      #      mods  -> BetterCombatText, BetterFont, BetterStats, BetterTooltips,
+      #               RoguelikeQoL, RoguelikeSkillTreeVisualizer  (mudam o jogo para o jogador)
       #      tools -> RoguelikeDebugger                  (ferramenta de diagnostico)
       #    A CATEGORIA SO ENTRA NO ENVIO: versao publicada e imutavel e o token do CI e service
       #    account - a API recusa corrigir categoria depois (HTTP 403, "Service accounts are
@@ -587,7 +589,7 @@ jobs:
       # 5.0 O `path:` de cada 5.x aponta para um diretorio PROPRIO, porque a Action
       #     MOVE (`mv`) o que recebe para dentro do container: o que ela move some da
       #     area de trabalho do runner. Um diretorio por mod = cada envio tem o que a
-      #     Action espera e os outros cinco ficam intactos. A arvore e a MESMA de antes
+      #     Action espera e os outros seis ficam intactos. A arvore e a MESMA de antes
       #     (`dist/<zip>` + `README.md`, que a Action leva para /README.md).
       - name: "5.0 Prepara um diretorio de envio por mod (a Action move o que recebe)"
         run: |
@@ -621,7 +623,7 @@ jobs:
 
       - name: "5.1 Publica BetterFont"
         if: contains(steps.pre.outputs.ENVIAR, '"BetterFont"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -639,7 +641,7 @@ jobs:
 
       - name: "5.2 Publica BetterStats"
         if: contains(steps.pre.outputs.ENVIAR, '"BetterStats"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -657,7 +659,7 @@ jobs:
 
       - name: "5.3 Publica BetterTooltips"
         if: contains(steps.pre.outputs.ENVIAR, '"BetterTooltips"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -675,7 +677,7 @@ jobs:
 
       - name: "5.4 Publica RoguelikeDebugger"
         if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeDebugger"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -693,7 +695,7 @@ jobs:
 
       - name: "5.5 Publica RoguelikeQoL"
         if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeQoL"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -711,7 +713,7 @@ jobs:
 
       - name: "5.6 Publica RoguelikeSkillTreeVisualizer"
         if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeSkillTreeVisualizer"')
-        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
         # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
         continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
@@ -726,6 +728,24 @@ jobs:
           repo: https://thunderstore.io
           path: envio-RoguelikeSkillTreeVisualizer
           file: dist/gumatos-RoguelikeSkillTreeVisualizer-${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}.zip
+
+      - name: "5.7 Publica BetterCombatText"
+        if: contains(steps.pre.outputs.ENVIAR, '"BetterCombatText"')
+        # Um mod com problema nao pode derrubar os outros seis: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: BetterCombatText
+          version: ${{ steps.pre.outputs.VERSAO_BetterCombatText }}
+          description: ${{ steps.pre.outputs.DESC_BetterCombatText }}
+          categories: mods
+          repo: https://thunderstore.io
+          path: envio-BetterCombatText
+          file: dist/gumatos-BetterCombatText-${{ steps.pre.outputs.VERSAO_BetterCombatText }}.zip
 
       # 6. FECHA O CICLO. O resultado do job e decidido AQUI, nao no codigo de saida de cada
       #    envio: os passos 5.x tem `continue-on-error` para um mod com problema nao derrubar
