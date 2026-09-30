@@ -131,6 +131,15 @@ namespace RoguelikeDebugger.Patches
                         $"aura={(s.IsAura ? "sim" : "nao")} | raio={s.AuraRadius} | " +
                         $"auraAli={(s.AuraEffectsAllies ? "sim" : "nao")} | auraIni={(s.AuraEffectsEnemies ? "sim" : "nao")} | " +
                         $"modelo={modelo} | " +
+                        // RV-9 (29/09): classificacao buff/debuff do ASSET. NAO existe `BenefitType`
+                        // em `ActionStatusInfo` - esse campo e da classe `EventStatus` (status de evento).
+                        // O certo aqui e `IsBeneficial`/`IsHarmful`, computados de `SkillTags`
+                        // (l.319287/319428/319430). E o que separa buffs de debuffs no censo do RV-9.
+                        $"beneficio={(s.IsBeneficial ? "Buff" : (s.IsHarmful ? "Debuff" : "Neutro"))} | " +
+                        // RV-9: dois campos que travavam itens do lote 1 dos debuffs - os textos
+                        // "Stacks up to N times" (o cap mora em `MaxStacks`) e "Lasts N turns" (a
+                        // duracao mora em `Duration`). Nenhum dos dois era exportado (l.319149/319141).
+                        $"dur={s.Duration} | maxStk={s.MaxStacks} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
             }
