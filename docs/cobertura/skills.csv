@@ -9,7 +9,7 @@ Ambush II,Thief,2,None,,sim,"Ambush:Base:24,",Deal an additional 24% @increased 
 Animal Companion Grizzly,Ranger,5,Physical,Ranged,nao,,Summon a grizzly to fight your enemies.,revisado
 Ascendancy,Light,5,None,"Beneficial,Ranged",nao,,Increases the target allies' stats by 20%.,revisado
 Aura of Flame,Fire,3,Fire,Beneficial,nao,,Continually deals *0 fire damage to enemies within 3 hexes of your character.,revisado
-Aura Of Frost,Cold,3,None,Beneficial,nao,,Deals *0 cold damage to enemies that start their turns within 3 hexes of your character.,pendente
+Aura Of Frost,Cold,3,None,Beneficial,nao,,Deals *0 cold damage to enemies that start their turns within 3 hexes of your character.,revisado
 Aura of Lightning,Lightning,3,Lightning,Beneficial,nao,,Each time an action is made by an enemy within the aura they suffer *0 lightning damage. ,pendente
 Avatar of Flame,Fire,5,None,,sim,"AvatarOfFlame:Set:1,",Each stack of @heat@ now applies [0] fire damage to the target per turn.,revisado
 Bash,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Knocks the target back up to 3 hexes.,corrigido
@@ -34,12 +34,12 @@ Body and Soul,Monk,4,None,,sim,"Armor:Base:Source[""Vitality""] * 5, MagicArmor:
 Bolstering Ballad,Bard,2,None,Beneficial,nao,,"(Song) Allies within 4 hexes of you gain 5 Vitality, Armor and Magic Armor. Every time Bolstering Ballad is cast consecutively gain Crescendo of Bolstering: increases the amount given. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.",intocavel
 Bone Collector,Warrior,4,None,,sim,,Every enemy slain grants 6% @maximum health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times.,corrigido
 Bounty Hunter's Mark,Ranger,2,None,"Harmful,Ranged",nao,,"Gain 15% @increased damage@ and 8% @critical hit chance@ against the target.  If the target dies while Bounty Hunter's Mark is active, all cooldowns are reduced by 1.",corrigido
-Brain Freeze,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Deals *0 cold damage each time the target performs an action.,pendente
+Brain Freeze,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Deals *0 cold damage each time the target performs an action.,revisado
 Brambles,Nature,1,None,"CrowdControl,Ranged",nao,,Summon brambles to block 4 hexes. Attackers will take physical damage when striking the brambles. Lasts 4 turns.,revisado
 Branching Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage. Bounces to enemies within 3 hexes. Each bounce increases its damage by 50%.,revisado
-Break The Ice,Cold,2,None,Beneficial,sim,,"The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",pendente
+Break The Ice,Cold,2,None,Beneficial,sim,,"The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",revisado
 Breath of Life,Light,1,Holy,"Harmful,Ranged,DealsDamage,Elemental",nao,,Breathe out a stream of holy light dealing *0 holy damage to all enemies and healing *0 to all allies in range.,revisado
-Breath of Winter,Cold,3,None,"Harmful,DealsDamage,Elemental,AreaEffect",nao,,Conjures the breath of a frost dragon dealing *0 cold damage to all enemies in a cone. ,pendente
+Breath of Winter,Cold,3,None,"Harmful,DealsDamage,Elemental,AreaEffect",nao,,Conjures the breath of a frost dragon dealing *0 cold damage to all enemies in a cone. ,revisado
 Bristles,Nature,3,None,,sim,"Bristles:Set:1,",Summons gain 50% of your return damage.,revisado
 Burning Ground,Fire,2,Fire,"Harmful,Ranged,DealsDamage",nao,,Ignite an area in flames. Enemies take *0 fire damage each turn they remain on burning ground.,revisado
 Burning Reach,Fire,1,None,,sim,"RangeTypeAdderRanged:Base:1,",Increase the range of all non-melee abilites by 1 hex. ,corrigido
@@ -61,11 +61,11 @@ Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",nao,,Enchant an ally with a rando
 Charge,Warrior,2,Weapon,"Harmful,DealsDamage",nao,,Charges to the target and deals *0 weapon damage to all enemies in your path.,pendente
 Chi Strike,Monk,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Strike an enemy dealing *0 weapon damage.  Reduces the targets damage dealt by 20% for 1 turn.,corrigido
 Child of the Abyss,Shadow,5,None,Beneficial,sim,"MaxHealth:Percentage:100, ChildOfTheAbyss:Set:1,",Increases @Max Health@ by 100%. Can no longer be healed by any means other than life steal.,revisado
-Chilling Strike,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Melee",nao,,The caster's hand becomes imbued with frost thrusting it at the target dealing *0 cold damage.,pendente
+Chilling Strike,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Melee",nao,,The caster's hand becomes imbued with frost thrusting it at the target dealing *0 cold damage.,revisado
 Circle of Life,Nature,4,None,,sim,,"When an enemy dies, you have a 50% chance to spawn a Good Bloom or Bad Bloom.",revisado
 Cleave,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Swing in a 180 degree arc striking all foes for *0 weapon damage.,pendente
 Coin of Chaos,Shadow,5,None,Ranged,nao,,Flip the Coin of Chaos!,sem-explicacao
-Cold Heart,Cold,3,None,,sim,"DamageModCold:Base:Source.GetNumStatusesCaused(""GL-ChilledStatus"") * 5,",Each stack of chilled you've applied increases your cold damage by 5%.,pendente
+Cold Heart,Cold,3,None,,sim,"DamageModCold:Base:Source.GetNumStatusesCaused(""GL-ChilledStatus"") * 5,",Each stack of chilled you've applied increases your cold damage by 5%.,revisado
 Colossus,Warrior,5,None,,sim,"Colossus:Set:1,",Damage you deal splashes to enemies within 1 hex for 50% of the damage dealt.,pendente
 Combo Breaker,Monk,3,None,,sim,,Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ,revisado
 Conduit,Lightning,5,None,,sim,"ExtraTurnActionPoints:Base:1,",Gain an additional action each turn.,pendente
@@ -79,8 +79,8 @@ Crash and Flow,Monk,4,None,,sim,,Dodging an attack increases your damage dealt b
 Cripple,Thief,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *0 weapon damage.  Applies {STA=Slow} for 1 turn.,corrigido
 Crippling Shot,Ranger,1,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Applies {STA=Slow}.,corrigido
 Crushing Slam,Warrior,4,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage to all enemies within a line.,pendente
-Crystalize I,Cold,1,None,,sim,"ResistPhysical:Base:5,",Increases @Physical Resistance@ by 5%.,pendente
-Crystalize II,Cold,2,None,,sim,"ResistPhysical:Base:10,",Increases @Physical Resistance@ by an additional 10%.,pendente
+Crystalize I,Cold,1,None,,sim,"ResistPhysical:Base:5,",Increases @Physical Resistance@ by 5%.,revisado
+Crystalize II,Cold,2,None,,sim,"ResistPhysical:Base:10,",Increases @Physical Resistance@ by an additional 10%.,revisado
 Cupid Shot,Ranger,5,Physical,"Ranged,Harmful",nao,,Charm the enemy target for 1 turn.  Cannot target bosses.,corrigido
 Cure,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Restores target's health by *0.,revisado
 Curse,Shadow,2,None,"Harmful,Ranged",nao,,Curse the target lowering @All resistances@ by 20% and @Healing Received@ by 50%.,revisado
@@ -96,7 +96,7 @@ Deadly Dagger,Thief,2,Weapon,"Ranged,Harmful,DealsDamage",nao,,Throw a dagger de
 Death Dealer I,Thief,1,None,,sim,"CritDamage:Base:16,",Increase @Critical Hit Damage and Healing@ by 16%.,revisado
 Death Dealer II,Thief,2,None,,sim,"CritDamage:Base:24,",Increase @Critical Hit Damage and Healing@ by an additional 24%.,revisado
 Deathblow,Thief,5,Weapon,"Harmful,DealsDamage,Melee",nao,,Deals *1 weapon damage. Critical hits deal an additional 200% @Critical Hit Damage@.,revisado
-Deep Freeze,Cold,2,None,"Harmful,MovementImpairing,Ranged",nao,,Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.,pendente
+Deep Freeze,Cold,2,None,"Harmful,MovementImpairing,Ranged",nao,,Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.,revisado
 Detonate,Fire,3,Fire,"Harmful,DealsDamage,AreaEffect",nao,,Deals *0 fire damage to all foes within 2 hexes of your character.,revisado
 Diamond Ice,Cold,3,None,,sim,"DamageFlatCold:Base:Source[""Armor""] * .01f,",1% of your @Armor@ value is added to your character as @Additional Cold Damage@.  Current Bonus: [0],corrigido
 Dire Bite,Innate,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage and lowers target's @Healing@ received by 50% for 2 turns.,pendente
@@ -122,7 +122,7 @@ Elemental Protection,Light,1,None,"Beneficial,Ranged",nao,,Increases target's @e
 Empowered Light I,Light,1,None,Beneficial,sim,"DamageModHealing:Base:10, HealingReceivedBonus:Base:10,",Increases Holy Power and Healing Received by 10%.,revisado
 Empowered Light II,Light,2,None,Beneficial,sim,"DamageModHealing:Base:15, HealingReceivedBonus:Base:15,",Increases Holy Power and Healing Received by an additional 15%.,revisado
 En Garde,Thief,3,None,,sim,"CounterAttacksPerTurn:Base:2,",Increases your maximum amount of Counter Attacks per turn by 2.,revisado
-Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 cold damage to attacks. ,pendente
+Enchant Cold,Cold,2,Cold,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 cold damage to attacks. ,revisado
 Enchant Fire,Fire,2,None,"Beneficial,Elemental,Ranged",nao,,Enchants the target's weapon to add *0 fire damage to attacks. ,revisado
 Enchant Lightning,Lightning,2,Lightning,"Beneficial,Ranged",nao,,Enchants the target's weapon to add *0 lightning damage to attacks. ,pendente
 Encore,Bard,5,None,Beneficial,sim,"BardEncoreChance:Set:50,",Whenever you make an action or free action it has a 50% chance to cast again.,intocavel
@@ -163,18 +163,18 @@ Focused Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy de
 Force Kick,Monk,2,Physical,"Harmful,Melee,DealsDamage",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 5 hexes.   Any enemy hit by the target also receives *0 physical damage.,corrigido
 Force Shot,Ranger,5,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage in a line and knocks targets back up to 4 hexes.  Any enemy hit by the target also receives [1] damage.,corrigido
 Fracture,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Lowers targets @Resistance@ by 20% for 2 turns.,corrigido
-Freeze Earth,Cold,1,None,"MovementImpairing,CrowdControl,Ranged,Harmful",nao,,Freezes the ground in the target area applying 1 stack of Chilled to enemies that enter.,pendente
+Freeze Earth,Cold,1,None,"MovementImpairing,CrowdControl,Ranged,Harmful",nao,,Freezes the ground in the target area applying 1 stack of Chilled to enemies that enter.,revisado
 Front Kick,Monk,1,Physical,"Harmful,DealsDamage,Melee",nao,,Kicks the target dealing *0 physical damage and knocking the target back up to 3 hexes.   Any enemy hit by the target also receives *0 damage.,corrigido
-Frost Armor,Cold,1,Cold,"Beneficial,Ranged",nao,,Envelopes the caster in frost granting 10% @Cold Resistance@.   Attackers take *0 cold damage.,pendente
-Frost Borne,Cold,1,None,,sim,"ResistCold:Base:10,",Increases @cold resistance@ by 10%,pendente
+Frost Armor,Cold,1,Cold,"Beneficial,Ranged",nao,,Envelopes the caster in frost granting 10% @Cold Resistance@.   Attackers take *0 cold damage.,corrigido
+Frost Borne,Cold,1,None,,sim,"ResistCold:Base:10,",Increases @cold resistance@ by 10%,revisado
 Frost Breath,Innate,1,Cold,"Harmful,Ranged,DealsDamage,Elemental",nao,,Deals *0 cold damage each turn.,pendente
-Frost Nova,Cold,2,Cold,"Harmful,DealsDamage,AreaEffect,Elemental,Ranged",nao,,The caster creates a wave of frozen energy dealing *0 cold damage within 2 hexes of the selected target.,pendente
-Frost Shard,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Impale your target on a shard of ice dealing *0 cold damage.,pendente
-Frostbite I,Cold,1,None,,sim,"ChilledDamageReduction:Base:2,",Your stacks of @chilled@ now reduce the targets damage by 2%.,pendente
-Frostbite II,Cold,2,None,,sim,"ChilledDamageReduction:Base:3,",Your stacks of @Chilled@ now reduce the targets damage by an additional 3%.,pendente
-Frozen Core,Cold,4,None,,sim,"Frostbite:Set:1,",Each stack of @chilled@ now reduces the target's maxium health by 5%.,pendente
+Frost Nova,Cold,2,Cold,"Harmful,DealsDamage,AreaEffect,Elemental,Ranged",nao,,The caster creates a wave of frozen energy dealing *0 cold damage within 2 hexes of the selected target.,revisado
+Frost Shard,Cold,1,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Impale your target on a shard of ice dealing *0 cold damage.,revisado
+Frostbite I,Cold,1,None,,sim,"ChilledDamageReduction:Base:2,",Your stacks of @chilled@ now reduce the targets damage by 2%.,revisado
+Frostbite II,Cold,2,None,,sim,"ChilledDamageReduction:Base:3,",Your stacks of @Chilled@ now reduce the targets damage by an additional 3%.,revisado
+Frozen Core,Cold,4,None,,sim,"Frostbite:Set:1,",Each stack of @chilled@ now reduces the target's maxium health by 5%.,revisado
 Frozen Orb,Cold,2,Cold,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled},corrigido
-Frozen Spikes,Cold,3,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Hurl 5 shards of ice dealing *0 cold damage to each target.,pendente
+Frozen Spikes,Cold,3,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,Hurl 5 shards of ice dealing *0 cold damage to each target.,revisado
 Fuel for the Flames I,Fire,3,None,,sim,"ManaCostMod:Base:20, ManaPowerMod:Base:40,",Increase the mana cost of all skills by 20% and increase the power of mana using skills by 40%.,revisado
 Fuel for the Flames II,Fire,4,None,,sim,"ManaCostMod:Base:30, ManaPowerMod:Base:60,",Increase the mana cost of all skills by an additional 30% and increase the power of mana using skills by an additional 60%.,revisado
 Garrote,Thief,3,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.,revisado
@@ -204,11 +204,11 @@ Hunger,Shadow,3,None,,sim,,Grants 10% @mana steal@.  Sacrifices 10% maximum heal
 Huntsman I,Ranger,1,None,,sim,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.2f,",Physical damage increased by [0].,revisado
 Huntsman II,Ranger,2,None,,sim,"DamageFlatPhysical:Base:Source.GetFlatDamageValue * 1.8f,",Physical damage increased by [0].,revisado
 Hurting,Chaos,2,None,"Beneficial,Ranged",nao,,Chaotically harm the target enemy. Results may vary greatly...,sem-explicacao
-Ice Lance,Cold,2,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,The caster hurls a razor-like shard of ice piercing foes in a line dealing *0 cold damage. ,pendente
+Ice Lance,Cold,2,Cold,"Harmful,DealsDamage,Elemental,Ranged",nao,,The caster hurls a razor-like shard of ice piercing foes in a line dealing *0 cold damage. ,revisado
 Ice Slash,Basic,1,Cold,"Harmful,Melee,DealsDamage,Elemental",nao,,Slash nearby targets dealing *0 cold damage to all enemies.,pendente
-Ice Storm,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Conjure a massive ice storm dealing *0 cold damage to affected enemies each turn.,pendente
+Ice Storm,Cold,4,None,"Harmful,DealsDamage,Ranged",nao,,Conjure a massive ice storm dealing *0 cold damage to affected enemies each turn.,revisado
 Ice Wall,Cold,3,None,"CrowdControl,Ranged",nao,,Summon pillars of ice to block 4 hexes blocking enemy's line of sight. Attackers take cold damage.  Lasts 4 turns.,corrigido
-Icefall,Cold,5,None,,sim,"Icefall:Set:1,",When enemies are frozen by you they release a @frost nova@. ,pendente
+Icefall,Cold,5,None,,sim,"Icefall:Set:1,",When enemies are frozen by you they release a @frost nova@. ,revisado
 Immolate,Fire,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Burns the target for *0 fire damage each turn.,revisado
 Improvise,Bard,5,None,Beneficial,sim,"BardImprovise:Set:1,",No longer lose Crescendo stacks when playing another song.,intocavel
 Incapacitate,Monk,1,Physical,Harmful,nao,,Incapacitates the target applying {STA=Sleep} for 2 turns.,revisado
@@ -251,10 +251,10 @@ Masochism I,Monk,1,Physical,,sim,,Gain a stack of Masochism each time you take d
 Masochism II,Monk,2,Physical,,sim,,Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ,revisado
 Mass Cure,Light,3,Healing,"Beneficial,AreaEffect,Ranged,Healing",nao,,Restores *0 health to all allies within 2 hexes of target.,revisado
 Mass Entangle,Nature,4,None,"Harmful,MovementImpairing",nao,,Deals *0 physical damage and applies {STA=Immobilized} for 1 turn and @3@ stacks of {STA=Poisoned}.,revisado
-Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,pendente
+Mass Freeze,Cold,5,None,"Harmful,MovementImpairing",nao,,Applies {STA=Frozen} to all enemies.,revisado
 Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this turn. Applies {STA=Exhaustion}.,revisado
 Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,revisado
-Master Of Ice,Cold,5,None,,sim,"MasterOfIce:Set:1,","Each turn you freeze an enemy, you gain an additional action.",pendente
+Master Of Ice,Cold,5,None,,sim,"MasterOfIce:Set:1,","Each turn you freeze an enemy, you gain an additional action.",revisado
 Meditation,Monk,3,Healing,"Beneficial,Ranged",nao,,Put the target ally into a meditative state restoring 20% of max health and mana. ,revisado
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,pendente
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target 3 times.  Applies {STA=Bleeding} on hit.,pendente
@@ -349,7 +349,7 @@ Shapeshift Dire Werewolf,Nature,5,None,,nao,,Shapeshift into a @Dire Werewolf@. 
 Shapeshift Dragonkin,Nature,5,None,Beneficial,nao,,"Gain the ability to shapeshift into a powerful elemental @Dragonkin@. Empowers basic attack, grants new abilities, and resistance based on the color you choose. Increases @Armor@ by [0].",corrigido
 Shapeshift Vampire Bat,Innate,3,None,12,nao,,Shapeshift into a @Vampire Bat@. Gain new abilities. @Movement@ increased. Immune to @attacks of opportunity@.,pendente
 Shapeshift Werewolf,Nature,3,None,Beneficial,nao,,Shapeshift into a @Werewolf@. Empowers your basic attack and gain new abilities. Increases @Max Health@ by 10%.,pendente
-Shatter,Cold,5,None,"Harmful,Ranged",nao,,Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,pendente
+Shatter,Cold,5,None,"Harmful,Ranged",nao,,Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.,revisado
 Shattering Cord,Bard,3,None,Beneficial,nao,,Dispels all negative effects off of allies and all positive effects off of enemies in a 4 hex radius. 3 turn cooldown. Free Action.,intocavel
 Shield Mastery,Warrior,3,None,,sim,"ShieldMastery:Set:1,",Increases @All Stats@ from shields by 50%,pendente
 Shield of Light,Light,2,None,"Beneficial,Ranged",nao,,Calls down a shield that protects the target absorbing *0 damage. ,revisado
@@ -378,7 +378,7 @@ Staff Attack,Basic,0,Healing,"Beneficial,Ranged",nao,,"Heals target ally for *0.
 Stage Presence I,Bard,1,None,Beneficial,sim,"DamageMod:Base:3 * Source.NumAlliesWithin(4), DamageModHealing:Base:3 * Source.NumAlliesWithin(4),",Gain 3% increased damage and healing for each ally within 4 hexes.,intocavel
 Stage Presence II,Bard,2,None,Beneficial,sim,"DamageMod:Base:5 * Source.NumAlliesWithin(4), DamageModHealing:Base:5 * Source.NumAlliesWithin(4),",Gain an additional 5% increased damage and healing for each ally within 4 hexes.,intocavel
 Stalker's Mark,Ranger,2,None,"Harmful,Ranged",nao,,"Gain 25% @increased damage@ and 12% @critical hit chance@ against the target.  If the target dies while Stalker's Mark is active, the cooldown is reset.",corrigido
-Stasis,Cold,4,None,"Beneficial,Ranged",nao,,Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.,pendente
+Stasis,Cold,4,None,"Beneficial,Ranged",nao,,Encases the friendly target in a dome of ice granting [0] Armor and Magic Armor for the duration. Immobilizes the target.,revisado
 Static Field,Lightning,4,Lightning,"Harmful,Ranged",nao,,Averages all the current health percentages of targets within 3 hexes and redistributes them to be even. ,pendente
 Steal Action,Thief,3,None,"Harmful,Melee",nao,,Steals the target's action granting 1 additional action this turn. Applies {STA=Disabled} to the target for 1 turn.  Applies {STA=Exhaustion}.,corrigido
 Steal Status,Thief,3,None,"Harmful,Ranged",nao,,Steals a random positive status from the target.,revisado
