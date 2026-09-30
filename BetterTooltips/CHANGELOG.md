@@ -1,5 +1,15 @@
 # Changelog — BetterTooltips
 
+## 0.1.1
+
+Conserto de **texto/rotulo** nos tooltips de shrine. **Nenhum numero, formula ou logica de calculo mudou** — a auditoria independente confirmou 9/9 dos valores das auras de buff (mais Flame e Decay).
+
+- **RV-43 — a nota do `Fury` era a unica das 9 auras de shrine sem a base e sem a cadeia do bonus.** Causa: a chave `Damage increased by [0]%. Damage taken increased by [0]%. ` estava em `TextAppends` com a nota antiga do `RV-9` (so a frase de cura) — nao dizia que e aura de shrine, nao dava a base e nao citava o *Shrine Effect Bonus*. Conserto: a nota passou a `Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).` e a **frase de cura ficou** (nao era falsa: o motor soma `DamageMod` a cura) — a nota agora tambem cobre o shrine. A base 25/25 sai do asset (`status.csv:205`: `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"]/100))` e o `DamageReduction` espelhado em -25). A chave continua **so** em `TextAppends`: o texto original do jogo nao mudou, entao nada migrou para `TextFixes` (a mesma chave nas duas tabelas derruba o mod — INC-1; `check_chave_compartilhada.py --estrito` = 0).
+- **RV-43 — o rotulo de `ManaCostMod` (Energy Coil) quebrava com total POSITIVO.** Causa: `Format` fazia `"Mana Costs reduced by " + (-v)`, assumindo total negativo. Existem fontes POSITIVAS reais do mesmo atributo — `Forbidden Power` `ManaCostMod:Base:50` (`status.csv:191`) e `Fuel for the Flames I/II` +20/+30 (`skills.csv:178-179`): um personagem de Fire com +70 dentro do Energy Coil (-50) tem total **+20** e a linha imprimia `Mana Costs reduced by -20%`. Conserto: total <= 0 = `Mana Costs reduced by |v|`; total > 0 = `Mana Costs increased by v`.
+- **RV-43 — a mesma classe de sinal nos outros atributos (defeito latente).** Causa: `DamageMod`, `CritChance`, `DodgeChance`, `LifeOnHit`, `HealthPerTurnPercent` e `ManaPerTurnPercent` montavam `+` fixo e imprimiriam `+ -X%` com total negativo. Conserto: todos passam pelo mesmo helper de sinal (`+` para positivo/zero, `−` para negativo), no formato do rotulo de atributo desconhecido. **O texto do total positivo — o comportamento correto de hoje — nao mudou.**
+- **RV-43 — a nota do `Flame Shrine` se contradizia.** Causa: a nota afirmava que a vida maxima usada nao era a de quem esta na aura, mas a lista por alvo usa exatamente o `MaxHealth` do ocupante — o mod projeta cada ocupante COMO SE fosse o atacante, porque no hover nao se sabe quem vai atacar (hipotese explicita, aceita pelo dono). Conserto: a clausula agora diz `the number is the projection of THIS character as the attacker - if this character attacked` e a frase contraditoria saiu; a escala, a marca "antes das reducoes" e a origem do bonus ficaram como estavam.
+- **Versao:** 0.1.0 -> **0.1.1** nos tres lugares (`<Version>` do `.csproj`, `version_number` do `manifest.json`, literal do `[BepInPlugin(...)]` no `Plugin.cs`).
+
 ## 0.1.0
 
 Primeira versão publicada.

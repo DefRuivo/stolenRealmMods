@@ -781,6 +781,12 @@ namespace BetterTooltips.Patches
 
         /// <summary>Formata um atributo conhecido com a semântica CERTA do jogo (DamageReduction
         /// positivo = dano tomado REDUZIDO; ManaCostMod negativo = custo REDUZIDO).
+        /// RV-43 (01/10) — O SINAL É TRATADO EM TODOS OS CASOS: um total pode ser POSITIVO onde a aura
+        /// empurra para baixo (Energy Coil −50 + `Forbidden Power` ManaCostMod:Base:50, status.csv:191,
+        /// ou `Fuel for the Flames I/II` +20/+30, skills.csv:178-179 = total +20) e NEGATIVO onde a aura
+        /// soma. Antes só DamageReduction, ManaCostMod e o default tratavam o sinal; os outros montavam
+        /// "+" fixo e imprimiriam "+ -20%" com total negativo. O rótulo do total POSITIVO é o
+        /// comportamento correto de hoje e NÃO muda.
         /// null = atributo que não está nesta lista; quem chamou usa o nome do próprio jogo.</summary>
         private static string Format(string attr, float v)
         {
@@ -789,15 +795,24 @@ namespace BetterTooltips.Patches
                 case "DamageReduction":
                     return v >= 0 ? "Damage taken −" + v.ToString("0.#") + "%" : "Damage taken +" + (-v).ToString("0.#") + "%";
                 case "ManaCostMod":
-                    return "Mana Costs reduced by " + (-v).ToString("0.#") + "%";
-                case "DamageMod": return "Damage +" + v.ToString("0.#") + "%";
-                case "CritChance": return "Crit Chance +" + v.ToString("0.#") + "%";
-                case "DodgeChance": return "Dodge +" + v.ToString("0.#") + "%";
-                case "LifeOnHit": return "Life Steal +" + v.ToString("0.#") + "%";
-                case "HealthPerTurnPercent": return "Health per turn +" + v.ToString("0.#") + "%";
-                case "ManaPerTurnPercent": return "Mana per turn +" + v.ToString("0.#") + "%";
+                    return v <= 0 ? "Mana Costs reduced by " + Mathf.Abs(v).ToString("0.#") + "%"
+                                  : "Mana Costs increased by " + v.ToString("0.#") + "%";
+                case "DamageMod": return "Damage " + ComSinal(v) + "%";
+                case "CritChance": return "Crit Chance " + ComSinal(v) + "%";
+                case "DodgeChance": return "Dodge " + ComSinal(v) + "%";
+                case "LifeOnHit": return "Life Steal " + ComSinal(v) + "%";
+                case "HealthPerTurnPercent": return "Health per turn " + ComSinal(v) + "%";
+                case "ManaPerTurnPercent": return "Mana per turn " + ComSinal(v) + "%";
                 default: return null;
             }
+        }
+
+        /// <summary>RV-43 — valor com o SINAL explícito, no MESMO formato do rótulo de atributo
+        /// desconhecido (o `default` do `TextDoEfeito`, l.1152): "+" para total positivo ou ZERO, "−"
+        /// (menos U+2212, o mesmo dos outros rótulos) para negativo.</summary>
+        private static string ComSinal(float v)
+        {
+            return (v >= 0f ? "+" : "−") + Mathf.Abs(v).ToString("0.#");
         }
 
         /// <summary>Começo da linha de auras ativas. O `LocalizePatch` usa este marcador para achar o

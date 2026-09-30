@@ -12,7 +12,7 @@ namespace BetterTooltips
     ///   - Nome:    nome legível exibido nos logs
     ///   - Versão:  versão do mod
     /// </summary>
-    [BepInPlugin("com.gumatos.bettertooltips", "Better Tooltips", "0.1.0")]
+    [BepInPlugin("com.gumatos.bettertooltips", "Better Tooltips", "0.1.1")]
     public class Plugin : BaseUnityPlugin
     {
         /// <summary>
