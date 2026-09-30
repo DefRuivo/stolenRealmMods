@@ -23,7 +23,8 @@ Nenhum mod altera `Assembly-CSharp.dll` (o arquivo do jogo): nada nos arquivos d
 modificado, substituído ou apagado. As únicas coisas gravadas são a pasta `BepInEx\` e o
 arquivo de log/configuração dela, do lado de fora dos arquivos do jogo.
 
-> **Ferramenta interna (não instale):** existe no repositório também o projeto `ReloadProbe`, um
+> **Ferramenta interna (não instale):** existe também o projeto `ReloadProbe` (só na máquina de desenvolvimento, FORA do
+> repositório), um
 > *harness* de teste que vai para `BepInEx\scripts` para validar recarga de código durante o
 > desenvolvimento. Ele não é mod de jogador.
 

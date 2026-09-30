@@ -162,7 +162,7 @@ precisar fazer na mão (ou para conferir que a cópia aconteceu):
 
 ```bash
 cp BetterTooltips/bin/Debug/netstandard2.1/BetterTooltips.dll \
-   "%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/BetterTooltips/"
+   "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/BetterTooltips/"
 ```
 
 Destino correto, sempre: **uma pasta por mod, com a DLL dentro dela** —
@@ -184,7 +184,7 @@ passou e fecha o jogo. O segundo argumento é um `grep -E` — ex.:
 **Critério de aprovação — no `LogOutput.log` do perfil:**
 
 ```bash
-LOG="%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log"
+LOG="%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log"
 grep -acE "ArgumentException|TypeInitializationException|\[Error" "$LOG"   # tem que dar 0
 grep -a "plugins to load" "$LOG"                                            # 6 plugins no perfil Default
 grep -a "carregado\." "$LOG"                                                # 1 linha por mod do projeto
