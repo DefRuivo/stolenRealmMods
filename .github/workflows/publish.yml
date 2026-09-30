@@ -26,6 +26,13 @@
 #    o passo 4 le a lista publica da comunidade (API /c/<comunidade>/api/v1/package/),
 #    confere o manifesto DENTRO do zip contra o repositorio e recusa versao ja existente
 #    ou que nao seja MAIOR que a que esta no ar (a plataforma exibe sempre a maior).
+#    ATENCAO: essa lista e servida por CDN e JA VEIO STALE (mais de uma hora de atraso) -
+#    por isso ela NAO decide sozinha: o passo 4 confirma a versao EXATA no endpoint por
+#    pacote (API /api/experimental/package/<team>/<nome>/<versao>/), que responde fresco.
+#    No disparo com o input `todos`, o mod que ja esta publicado NESTA versao e PULADO com
+#    log claro ("ja publicado, pulando") em vez de derrubar o job - e o que permite
+#    recuperar uma publicacao parcial em UM run. Em disparo de um mod especifico, versao
+#    repetida CONTINUA sendo recusa.
 #
 # COMO O TOKEN ENTRA (CI-3)
 # -------------------------
@@ -307,12 +314,18 @@ jobs:
         env:
           ALVOS: ${{ needs.libera.outputs.alvos }}
           TEAM: ${{ needs.libera.outputs.team }}
+          ESCOLHA: ${{ inputs.mod }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, urllib.request, zipfile
+          import json, os, re, sys, urllib.error, urllib.request, zipfile
 
           AUTOR = 'gumatos'          # prefixo dos zips do tools/pack-thunderstore.py (AUTOR)
           API = 'https://thunderstore.io/c/%s/api/v1/package/'   # lista publica da comunidade
+          # A lista da comunidade e servida por CDN: `cache-control: max-age=30`, e ja foi
+          # servida STALE por mais de uma hora. Ela NAO serve para decidir "esta versao ja
+          # saiu" - quem responde isso e o endpoint por pacote, que e fresco.
+          API_DETALHE = 'https://thunderstore.io/api/experimental/package/%s/%s/'       # team, mod
+          API_VERSAO  = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'    # team, mod, versao
 
           def erro(msg):
               print('::error::' + msg)
@@ -323,6 +336,20 @@ jobs:
 
           alvos = json.loads(os.environ['ALVOS'])
           team = os.environ['TEAM'].strip()
+          escolha = (os.environ.get('ESCOLHA') or 'todos').strip()
+
+          cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
+
+          def busca(url):
+              # (status, corpo). 200 = existe; 404 = nao existe; (None, ex) = erro de verdade.
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                              timeout=60) as resp:
+                      return resp.status, json.load(resp)
+              except urllib.error.HTTPError as ex:
+                  return ex.code, None
+              except Exception as ex:
+                  return None, ex
 
           with open('release/mods.json', encoding='utf-8') as fh:
               dados = json.load(fh)
@@ -333,18 +360,16 @@ jobs:
           # recusa cliente anonimo sem identificacao). Sem este cabecalho o pre-flight
           # aborta - e abortar esta certo: sem a lista nao da para garantir versao nova.
           url = API % comunidade
-          cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
-          try:
-              with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
-                                          timeout=60) as resp:
-                  pacotes = json.load(resp)
-          except Exception as ex:
-              erro('nao consegui ler a lista publica de versoes (%s): %s. Sem ela nao da para '
-                   'garantir que a versao nao se repete, entao nada e enviado.' % (url, ex))
+          st_lista, pacotes = busca(url)
+          if st_lista != 200 or not isinstance(pacotes, list):
+              erro('nao consegui ler a lista publica de versoes (%s): HTTP %s. Sem ela nao da para '
+                   'garantir que a versao nao se repete, entao nada e enviado.'
+                   % (url, st_lista if st_lista is not None else pacotes))
           publicados = {}
           for pac in pacotes:
               publicados[pac.get('full_name')] = pac.get('versions') or []
 
+          enviar, pulados, versoes_alvo = [], [], {}
           linhas_env = []
           for nome in alvos:
               entradas = [m for m in dados['mods'] if m.get('nome') == nome]
@@ -359,6 +384,7 @@ jobs:
               if not achado:
                   erro('PKG-2: %s/%s.csproj sem <Version> (e o <Version> que manda).' % (nome, nome))
               versao = achado.group(1).strip()
+              versoes_alvo[nome] = versao
 
               # --- 4.3 o pacote tem que existir e ser DESTE commit -------------------
               zip_rel = 'dist/%s-%s-%s.zip' % (AUTOR, nome, versao)
@@ -397,14 +423,39 @@ jobs:
                            'manifesto dentro do %s.' % (campo, nome, zip_rel))
 
               # --- 4.4 versao IMUTAVEL: nunca repetir, sempre MAIOR ------------------
+              # DUAS fontes, unidas (se QUALQUER uma disser que a versao existe, ela existe):
+              # a lista da comunidade (cache de CDN, pode vir velha) e o endpoint por pacote
+              # (fresco). Sem a segunda, um pacote publicado minutos antes passava batido aqui
+              # e o envio morria com HTTP 400 "Package of the same namespace, name and version
+              # already exists" - foi exatamente o que derrubou o run 36781938117: o BetterFont
+              # v1.0.0 entrou no ar 3 min antes do passo 5.1 e a lista da comunidade ainda
+              # estava velha, entao o pre-flight aprovou e o envio morreu no primeiro mod.
               full_name = '%s-%s' % (team, nome)
               versoes = [v.get('version_number') for v in publicados.get(full_name, [])]
+              st_det, detalhe = busca(API_DETALHE % (team, nome))
+              if st_det == 200 and isinstance(detalhe, dict):
+                  ultima = (detalhe.get('latest') or {}).get('version_number')
+                  if ultima and ultima not in versoes:
+                      versoes.append(ultima)
+              st_exata, corpo = busca(API_VERSAO % (team, nome, versao))
+              if st_exata is None:
+                  erro('nao consegui conferir %s v%s na API por pacote (%s). Sem essa resposta '
+                       'nao da para garantir que a versao nao se repete, entao nada e enviado.'
+                       % (full_name, versao, corpo))
               versoes_ok = [v for v in versoes if v and re.match(r'^\d+\.\d+\.\d+$', v)]
-              if versao in versoes:
+
+              if st_exata == 200 or versao in versoes:
+                  if escolha == 'todos':
+                      # Pedido de casa (`todos`): o que ja esta no ar e PULADO, nao derruba o
+                      # job - e o que permite recuperar uma publicacao parcial em UM run.
+                      print('ja publicado, pulando: %s v%s' % (full_name, versao))
+                      pulados.append(nome)
+                      continue
                   erro('VERSAO REPETIDA: %s v%s ja esta publicada e versao na Thunderstore e '
                        'IMUTAVEL (nem o README se edita depois). Suba o <Version> do .csproj, '
                        'sincronize os espelhos e empacote de novo.' % (full_name, versao))
-              if versoes_ok and semver(versao) <= max(semver(v) for v in versoes_ok):
+
+
                   erro('VERSAO NAO E MAIOR: %s v%s nao e maior que v%s, que ja esta publicado. A '
                        'plataforma exibe sempre a MAIOR versao, entao este envio nao apareceria '
                        'para ninguem.' % (full_name, versao, max(versoes_ok, key=semver)))
@@ -420,6 +471,7 @@ jobs:
                         % (full_name, ', '.join(versoes)))
 
               linhas_env.append('VERSAO_%s=%s' % (nome, versao))
+              enviar.append(nome)
               linhas_env.append('DESC_%s=%s' % (nome, manifesto['description']))
               print('ok    %-30s v%-8s -> %s' % (nome, versao, zip_rel))
 
@@ -430,14 +482,38 @@ jobs:
           #   * $GITHUB_OUTPUT -> lido como `steps.pre.outputs.<nome>` no `with:` das Actions
           #     (o contexto `steps` e o jeito documentado de levar valor dinamico para `with:`);
           #   * $GITHUB_ENV    -> lido como variavel de shell nos passos `run:`.
+          linhas_env.append('ENVIAR=%s' % json.dumps(enviar))
+          linhas_env.append('PULADOS=%s' % json.dumps(pulados))
           linhas_env.append('TEAM=%s' % team)
           linhas_env.append('COMUNIDADE=%s' % comunidade)
           with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
               fh.write('\n'.join(linhas_env) + '\n')
           with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
               fh.write('\n'.join(linhas_env) + '\n')
+
+          # ENVIAR e o que os passos 5.x consomem (o `if:` de cada um le este output); PULADOS
+          # e o que o run nao precisa reenviar. O alvo pulado CONTINUA em `alvos` de proposito:
+          # o job `registra` precisa dele para gravar a versao que ja esta no ar.
+          resumo = ['## Pre-flight (o que vai ser enviado)', '',
+                    '| mod | versao | acao |', '|---|---|---|']
+          for nome in alvos:
+              if nome in pulados:
+                  acao = 'ja publicado - pulando'
+              elif nome in enviar:
+                  acao = 'envia'
+              else:
+                  acao = 'nao enviado'
+              resumo.append('| %s | %s | %s |' % (nome, versoes_alvo.get(nome, '?'), acao))
+          if os.environ.get('GITHUB_STEP_SUMMARY'):
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
+                  fh.write('\n'.join(resumo) + '\n')
+
           print()
-          print('pre-flight ok: %d mod(s) prontos para envio.' % len(alvos))
+          if enviar:
+              print('pre-flight ok: %d mod(s) para envio: %s' % (len(enviar), ', '.join(enviar)))
+          else:
+              print('::notice::nada a enviar - todos os alvos ja estao publicados nesta versao. '
+                    'O job `registra` ainda confere e grava a versao em release/mods.json.')
           PY
 
       # ----------------------------------------------------------------------
@@ -454,7 +530,10 @@ jobs:
       #    valor comeca com `dist/` - e nao e engano.
       # ----------------------------------------------------------------------
       - name: "5.1 Publica BetterFont"
-        if: contains(needs.libera.outputs.alvos, '"BetterFont"')
+        if: contains(steps.pre.outputs.ENVIAR, '"BetterFont"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -467,7 +546,10 @@ jobs:
           file: dist/gumatos-BetterFont-${{ steps.pre.outputs.VERSAO_BetterFont }}.zip
 
       - name: "5.2 Publica BetterStats"
-        if: contains(needs.libera.outputs.alvos, '"BetterStats"')
+        if: contains(steps.pre.outputs.ENVIAR, '"BetterStats"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -480,7 +562,10 @@ jobs:
           file: dist/gumatos-BetterStats-${{ steps.pre.outputs.VERSAO_BetterStats }}.zip
 
       - name: "5.3 Publica BetterTooltips"
-        if: contains(needs.libera.outputs.alvos, '"BetterTooltips"')
+        if: contains(steps.pre.outputs.ENVIAR, '"BetterTooltips"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -493,7 +578,10 @@ jobs:
           file: dist/gumatos-BetterTooltips-${{ steps.pre.outputs.VERSAO_BetterTooltips }}.zip
 
       - name: "5.4 Publica RoguelikeDebugger"
-        if: contains(needs.libera.outputs.alvos, '"RoguelikeDebugger"')
+        if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeDebugger"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -506,7 +594,10 @@ jobs:
           file: dist/gumatos-RoguelikeDebugger-${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}.zip
 
       - name: "5.5 Publica RoguelikeQoL"
-        if: contains(needs.libera.outputs.alvos, '"RoguelikeQoL"')
+        if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeQoL"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -519,7 +610,10 @@ jobs:
           file: dist/gumatos-RoguelikeQoL-${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}.zip
 
       - name: "5.6 Publica RoguelikeSkillTreeVisualizer"
-        if: contains(needs.libera.outputs.alvos, '"RoguelikeSkillTreeVisualizer"')
+        if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeSkillTreeVisualizer"')
+        # Um mod com problema nao pode derrubar os outros cinco: quem decide o
+        # resultado do job e o passo 6, que CONFERE na API o que ficou no ar.
+        continue-on-error: true
         uses: GreenTF/upload-thunderstore-package@v4.3
         with:
           token: ${{ secrets.THUNDERSTORE_TOKEN }}
@@ -531,12 +625,81 @@ jobs:
           repo: https://thunderstore.io
           file: dist/gumatos-RoguelikeSkillTreeVisualizer-${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}.zip
 
-      - name: "6. Fim (o registro da versao e o job 'registra')"
+      # 6. FECHA O CICLO. O resultado do job e decidido AQUI, nao no codigo de saida de cada
+      #    envio: os passos 5.x tem `continue-on-error` para um mod com problema nao derrubar
+      #    os outros. Este passo pergunta a API (endpoint por pacote, FRESCO) se CADA alvo
+      #    ficou no ar; o que faltar vira erro nomeado.
+      - name: "6. Confere o que ficou no ar (API por pacote, fresca)"
+        env:
+          ALVOS: ${{ needs.libera.outputs.alvos }}
+          TEAM: ${{ needs.libera.outputs.team }}
+          ENVIADOS: ${{ steps.pre.outputs.ENVIAR }}
+          PULADOS: ${{ steps.pre.outputs.PULADOS }}
         run: |
-          echo "Envios concluidos. O job 'registra' confere a API publica e grava a versao"
-          echo "publicada em release/mods.json - so o que a API confirmar."
-          echo "Pagina da comunidade: https://thunderstore.io/c/${COMUNIDADE}/"
-          echo "Versoes vivem no repositorio, nunca em tag: o registro e o release/mods.json."
+          python - <<'PY'
+          import json, os, re, sys, time, urllib.error, urllib.request
+
+          API = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'   # team, mod, versao
+          cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
+          ESPERA = 10        # s entre tentativas: a plataforma leva alguns segundos para indexar
+          TENTATIVAS = 6
+
+          def erro(msg):
+              print('::error::' + msg)
+              sys.exit(1)
+
+          alvos = json.loads(os.environ['ALVOS'])
+          team = os.environ['TEAM'].strip()
+          enviados = json.loads(os.environ.get('ENVIADOS') or '[]')
+          pulados = json.loads(os.environ.get('PULADOS') or '[]')
+          with open('release/mods.json', encoding='utf-8') as fh:
+              comunidade = json.load(fh)['comunidade']
+
+          def no_ar(nome, versao):
+              url = API % (team, nome, versao)
+              for _ in range(TENTATIVAS):
+                  try:
+                      with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                                  timeout=60) as resp:
+                          if resp.status == 200:
+                              return True
+                  except urllib.error.HTTPError as ex:
+                      if ex.code != 404:
+                          erro('a API por pacote respondeu HTTP %s em %s' % (ex.code, url))
+                  except Exception:
+                      pass
+                  time.sleep(ESPERA)
+              return False
+
+          vivos, faltando = [], []
+          for nome in alvos:
+              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
+                  versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
+              if no_ar(nome, versao):
+                  vivos.append('%s v%s' % (nome, versao))
+                  print('no ar  %-30s v%s' % (nome, versao))
+              else:
+                  faltando.append('%s v%s' % (nome, versao))
+                  print('::error::NAO esta no ar: %s v%s' % (nome, versao))
+
+          if os.environ.get('GITHUB_STEP_SUMMARY'):
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
+                  fh.write('\n## Envio conferido na API publica\n\n')
+                  fh.write('No ar: %s\n\n' % (', '.join(vivos) or '_nada_'))
+                  fh.write('Enviados neste run: %s\n\n' % (', '.join(enviados) or '_nenhum_'))
+                  fh.write('Pulados (ja publicados): %s\n\n' % (', '.join(pulados) or '_nenhum_'))
+                  if faltando:
+                      fh.write('**FALTANDO: %s**\n' % ', '.join(faltando))
+
+          print()
+          print('no ar: %d de %d alvo(s).' % (len(vivos), len(alvos)))
+          print('Pagina da comunidade: https://thunderstore.io/c/%s/' % comunidade)
+          print('Versoes vivem no repositorio, nunca em tag: o registro e o release/mods.json.')
+          if faltando:
+              erro('envio incompleto: %s nao aparece na API publica. O que ja entrou no ar '
+                   'continua valido - rode de novo com o input "todos": o pre-flight pula o que '
+                   'ja saiu e reenvia so o que falta.' % ', '.join(faltando))
+          PY
 
       - name: Falhou - o que fazer
         if: failure()
@@ -576,7 +739,7 @@ jobs:
           TEAM: ${{ needs.libera.outputs.team }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, urllib.request
+          import json, os, re, sys, urllib.error, urllib.request
 
           def erro(msg):
               print('::error::' + msg)
@@ -588,25 +751,40 @@ jobs:
           with open('release/mods.json', encoding='utf-8') as fh:
               dados = json.load(fh)
 
+          API_VERSAO = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'  # team, mod, versao
           url = 'https://thunderstore.io/c/%s/api/v1/package/' % dados['comunidade']
           cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
-          try:
-              with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
-                                          timeout=60) as resp:
-                  pacotes = json.load(resp)
-          except Exception as ex:
-              erro('nao consegui conferir a API publica (%s): %s' % (url, ex))
 
+          def busca(u):
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(u, headers=cabecalho),
+                                              timeout=60) as resp:
+                      return resp.status, json.load(resp)
+              except urllib.error.HTTPError as ex:
+                  return ex.code, None
+              except Exception:
+                  return None, None
+
+          # Mesmo motivo do pre-flight: a lista da comunidade vem de cache de CDN (pode estar
+          # velha por mais de uma hora). A versao recem-enviada e confirmada no endpoint por
+          # pacote, que responde fresco; a lista fica como segunda fonte.
+          st_lista, pacotes = busca(url)
+          if not isinstance(pacotes, list):
+              print('::warning::nao consegui ler a lista publica da comunidade (HTTP %s) - registro '
+                    'so o que o endpoint por pacote confirmar.' % st_lista)
+              pacotes = []
           publicados = {p.get('full_name'): (p.get('versions') or []) for p in pacotes}
 
           mudou, faltou = [], []
           for nome in alvos:
               with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
                   versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
-              viva = None
-              for v in publicados.get('%s-%s' % (team, nome), []):
-                  if v.get('version_number') == versao:
-                      viva = v
+              st_viva, detalhe = busca(API_VERSAO % (team, nome, versao))
+              viva = detalhe if (st_viva == 200 and isinstance(detalhe, dict)) else None
+              if not viva:
+                  for v in publicados.get('%s-%s' % (team, nome), []):
+                      if v.get('version_number') == versao:
+                          viva = v
               if not viva:
                   faltou.append('%s v%s' % (nome, versao))
                   continue
