@@ -786,7 +786,7 @@ namespace BetterTooltips.Patches
             { "Decreases the cost of mana using abilities by [0]%.",
               "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
             { "Your attacks have a [0]% chance to stun the target.",
-              "\n<color=#C8B090>Unlike the other shrine auras, this value does NOT scale with the Shrine Effect Bonus (Omnism I/II, Horn of Devotion) — its effect is not in the same scaled path (verified in game, 30/09).</color>" },
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -1640,6 +1640,18 @@ namespace BetterTooltips.Patches
                 if (_appliedFixes.Add("espacos:" + antes))
                 {
                     Plugin.Log.LogInfo($"BetterTooltips: espacos normalizados em '{antes}'");
+                }
+            }
+            // RV-20 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine ativas
+            // no WorldCharacter, somadas por atributo com o bônus real (ShrineAuraPatch). O número
+            // individual de cada shrine fica dinâmico pelo prefix do ShrineAuraPatch (Target vazio
+            // no ShowGroundEffectTooltip = valor sempre na base).
+            if (ShrineAuraPatch.IsShrineKey(original))
+            {
+                string acumulado = ShrineAuraPatch.AcumuladoShrines();
+                if (!string.IsNullOrEmpty(acumulado))
+                {
+                    __result = AnexarNota(__result, acumulado);
                 }
             }
         }
