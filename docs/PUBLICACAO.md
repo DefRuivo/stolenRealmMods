@@ -6,15 +6,22 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado hoje (30/09/2026): nada foi publicado na Thunderstore.** No **remoto** os 6 mods ainda
-estão com `publicar: false` e `team` vazio de propósito; no **disco** os 6 já estão
-`publicar: true` com `team` `DefRuivo_StolenRealmMods` (edição ainda **não commitada** — compare
-com `git diff HEAD -- release/mods.json`). Os dois workflows **já estão no remoto** — para
-reconferir, compare **commit com commit** (`git ls-remote origin main` contra `git rev-parse HEAD`;
-**não** compare MD5 de disco com o do publicado, ver adendo em [`CI.md`](CI.md)) — então o
-pipeline está **vivo**, não "só no disco": enquanto o `team` publicado estiver vazio ele **falha
-antes de tocar em qualquer coisa**, e não chuta. Os 6 zips já gerados estão anexados na GitHub
-Release [`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
+**Estado hoje (30/09/2026): 6 dos 7 mods estão publicados na Thunderstore**, sob o namespace
+`DefRuivo_StolenRealmMods` (URL do pacote: `DefRuivo_StolenRealmMods-<Mod>`), e o
+`release/mods.json` **está versionado** com as **7** entradas — os 6 do release de 30/09 com
+`publicar: true` e `versao_publicada`/`publicado_em` preenchidos (1.0.0, 1.0.0, 0.1.0, 0.1.0,
+0.1.0, 0.1.0), e o `BetterCombatText` com `publicar: false` (empacotado em
+`dist/gumatos-BetterCombatText-0.1.0.zip`, fora do ar de propósito). `team` =
+`DefRuivo_StolenRealmMods` — `PUB-3` **resolvido**. Isso não é memória: saiu do
+`git show origin/main:release/mods.json` e da API pública
+(`https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`) — a listagem da
+comunidade é **cache** e não serve para conferir (ver a nota *Ao conferir na API*, em
+[`README.md`](README.md), § *Publicação — credencial e namespace*). Os dois workflows **já estão no
+remoto** — para reconferir, compare **commit com commit** (`git ls-remote origin main` contra
+`git rev-parse HEAD`; **não** compare MD5 de disco com o do publicado, ver adendo em
+[`CI.md`](CI.md)) — então o pipeline está **vivo**, não "só no disco". Os 6 zips do release de 30/09
+estão anexados na GitHub Release
+[`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
 que é o caminho do input `release_tag` do `publish.yml`.
 
 ## 0) Antes do primeiro upload: licença e categorias (pesquisa de 30/09/2026)
@@ -48,12 +55,15 @@ documento não escolhe licença.
 Endpoint oficial: <https://thunderstore.io/api/experimental/community/stolen-realm/category/> →
 **Audio, Misc, Libraries, Tools, Modpacks, Mods**. O que já está publicado usa: `ebkr-r2modman` =
 **Tools**; `StolenRealmModding-StolenRealmModAPI` e `...-Player_Limit_Mod` = **Mods**;
-`BepInEx-BepInExPack`, `Kesomannen-GaleModManager` e o nosso
-`DefRuivo_StolenRealmMods-BetterFont` (o único no ar) estão com **categorias vazias**
-(<https://thunderstore.io/c/stolen-realm/api/v1/package/>).
+`BepInEx-BepInExPack` e `Kesomannen-GaleModManager` estão com **categorias vazias**. Os nossos 6
+publicados ficaram, medido na API experimental em 30/09/2026: `BetterStats`, `BetterTooltips`,
+`RoguelikeQoL` e `RoguelikeSkillTreeVisualizer` = **Mods**; `RoguelikeDebugger` = **Tools**; e
+`BetterFont` = **vazio** (foi o primeiro a subir, antes de a categoria ser escolhida — categoria é
+vitrine, não trava nada).
 
 | Mod | Primária | Opcional | Por quê |
 |---|---|---|---|
+| BetterCombatText | **Mods** | Misc | contorno/halo legível no texto de combate (ainda **não** publicado) |
 | BetterFont | **Mods** | Misc | troca a fonte renderizada da interface |
 | BetterStats | **Mods** | — | mostra números na ficha e no level up |
 | BetterTooltips | **Mods** | — | reescreve o texto dos tooltips |
@@ -61,7 +71,7 @@ Endpoint oficial: <https://thunderstore.io/api/experimental/community/stolen-rea
 | RoguelikeQoL | **Mods** | — | HUD de qualidade de vida no roguelike |
 | RoguelikeSkillTreeVisualizer | **Mods** | Misc | abre a skill tree nativa em modo leitura |
 
-**"Libraries" e "Audio" não se aplicam a nenhum dos 6** — `StolenRealmModding-StolenRealmModAPI`
+**"Libraries" e "Audio" não se aplicam a nenhum dos 7** — `StolenRealmModding-StolenRealmModAPI`
 é biblioteca e mesmo assim está em **Mods**, ou seja a comunidade não usa "Libraries" para mod de API.
 
 ### O que ficou INDETERMINADO
@@ -331,10 +341,11 @@ A árvore completa da API, também sem credencial:
 - **Zip de outro commit**: se você editar o `manifest.json`/descrição depois de zipar, o
   pre-flight acusa "o zip não é deste commit". Rebuilde e reempacote.
 - **`RoguelikeSkillTreeVisualizer` tinha o pacote incompleto** (faltava `CHANGELOG.md`) e por isso
-  não podia ser liberado. **Corrigido em 30/09/2026:** os 6 mods têm `manifest.json`, `README.md`,
+  não podia ser liberado. **Corrigido em 30/09/2026:** os **7** mods têm `manifest.json`, `README.md`,
   `CHANGELOG.md` e `icon.png`, e o `python .github/scripts/valida_pacotes.py` valida os
-  **6 pacotes com 0 problemas** — o empacotador não recusa mais nenhum por pacote incompleto.
-  O que ainda trava esse mod é só o gate (`publicar: false`).
+  **7 pacotes com 0 problemas** — o empacotador não recusa mais nenhum por pacote incompleto.
+  Ele foi liberado no mesmo dia e está **no ar** (0.1.0). O único que segue fora do ar é o
+  `BetterCombatText`: empacotado, com `publicar: false` no gate — falta o dono liberar.
 - **O `[skip ci]` no commit do registro** evita disparar a validação inteira de novo por um
   commit que só escreve a versão publicada.
 - **Push do registro pode falhar** (proteção de branch, permissão de escrita). Nesse caso a

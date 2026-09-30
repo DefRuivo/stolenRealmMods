@@ -76,6 +76,7 @@ namespace RoguelikeDebugger.Patches
         private static void DespejaAcoes()
         {
             Plugin.Log.LogInfo($"[Action] Inventário: {_acoes.Count} ações concedidas por skills.");
+            EfeitosInfo.Zerar();   // RV-8b-0g: resumo so das acoes
 
             // O tooltip NÃO usa os efeitos da própria ação: se `TooltipDamageInfoRefAction`
             // estiver setado, é ELE que carrega a fórmula (Tooltip.GetDamageString, l.2222).
@@ -115,8 +116,15 @@ namespace RoguelikeDebugger.Patches
                 int nDono = ContaEfeitos(ac);
                 int nRef = refAcao != null ? ContaEfeitos(refAcao) : 0;
 
+                var efTipos = EfeitosInfo.Descreve(ac.Effects);
+
                 Plugin.Log.LogInfo(
+                    // RV-8b-0g: `nEfeitos` acima conta SO os `GeneralEffect` (e a contagem que o
+                    // `*N` do texto indexa). `nEfeitosTot` e o `Effects.Length` de verdade e
+                    // `efTipos` traz o TIPO CONCRETO de CADA elemento: era o cast `as GeneralEffect`
+                    // devolvendo null nos elementos `CharacterVariableEffectInfo` que apagava o dado.
                     $"[Action] '{nome}' | dano={ac.DamageType} | " +
+                    $"nEfeitosTot={EfeitosInfo.Conta(ac.Effects)} | efTipos={efTipos} | " +
                     $"efeitos={dono} | refAcao={(refAcao != null ? Limpa(refAcao.name) : "")} | " +
                     $"efeitosRef={refe} | " +
                     $"nEfeitos={nDono} | nEfeitosRef={nRef} | " +
@@ -330,6 +338,9 @@ namespace RoguelikeDebugger.Patches
                         $"criaturas={criaturas}");
                 }
             }
+
+            // RV-8b-0g: prova, no log, de quais TIPOS CONCRETOS de efeito apareceram nas acoes.
+            Plugin.Log.LogInfo($"[Efeitos] resumo (acoes): {EfeitosInfo.Resumo()}");
         }
 
         /// <summary>
@@ -398,6 +409,7 @@ namespace RoguelikeDebugger.Patches
                     return;
                 }
                 _dumped = true;
+                EfeitosInfo.Zerar();   // RV-8b-0g: resumo de tipos concretos por categoria
 
                 Plugin.Log.LogInfo($"[Skill] Inventário: {__result.Count} skills carregados.");
                 foreach (var sk in __result)
@@ -455,12 +467,18 @@ namespace RoguelikeDebugger.Patches
                         }
                     }
 
+                    // RV-8b-0g: `AttributeEffects` e `CharacterEffectInfo[]` (tipo CONCRETO,
+                    // l.319857) - o campo `attr=` acima so publica nome:metodo:valor e perde as
+                    // flags (Infinite, CalculateOnSecondPass, HideIfNotEquipped, IgnoreTierEffects).
+                    var attrTipos = EfeitosInfo.Descreve(sk.AttributeEffects);
+
                     string tags = sk.SkillTags != null ? string.Join(",", sk.SkillTags) : "";
                     Plugin.Log.LogInfo(
                         $"[Skill] '{sk.SkillName}' | tipo={sk.SkillType} | dano={sk.DamageType} | " +
                         $"tier={sk.Tier} | tags={tags} | skid={sk.Guid} | " +
                         $"passivo={(sk.IsPassive ? "sim" : "nao")} | " +
                         $"attr={ef} | acts={acts} | pstat={pstat} | " +
+                        $"nAttrEf={EfeitosInfo.Conta(sk.AttributeEffects)} | attrTipos={attrTipos} | " +
                         $"expr={Junta(sk.DescriptionExpressions)} | " +
                         $"danoExpr={Junta(sk.DamageExpressionOverrides)} | " +
                         $"upg={Limpa(sk.UpgradeText)} | " +
@@ -524,6 +542,9 @@ namespace RoguelikeDebugger.Patches
                         }
                     }
                 }
+
+                // RV-8b-0g: prova, no log, de quais TIPOS CONCRETOS de efeito apareceram.
+                Plugin.Log.LogInfo($"[Efeitos] resumo (skills): {EfeitosInfo.Resumo()}");
 
                 // Depois das skills, as ações que elas concedem (RV-8b-0c).
                 DespejaAcoes();

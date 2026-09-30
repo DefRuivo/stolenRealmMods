@@ -36,6 +36,7 @@ bash tools/pack-for-friends.sh BetterTooltips BetterFont
 | `BetterTooltips` | ✅ | textos e tooltips mais claros |
 | `BetterStats` | ✅ | atributos como `base (total)` |
 | `BetterFont` | ✅ | fonte serifada (Times New Roman) |
+| `BetterCombatText` | ❌ | **não está** na lista padrão do `tools/pack-for-friends.sh` (linha 24, que empacota `BetterTooltips`, `BetterStats` e `BetterFont`) — o pacote dele existe para a Thunderstore, não para o zip dos amigos |
 | `RoguelikeDebugger` | ❌ | é ferramenta de desenvolvimento — despeja **milhares** de linhas no log; só serve pra nós |
 | `RoguelikeQoL` | ❌ | o HUD foi desabilitado por decisão de projeto (`AtivarHUD=false`) |
 | `RoguelikeSkillTreeVisualizer` | ❌ | **não está** na lista padrão do `tools/pack-for-friends.sh` — o script empacota `BetterTooltips`, `BetterStats` e `BetterFont` (é a lista do próprio script, linha 24) |

@@ -18,28 +18,36 @@
 #                   BepInEx mente sobre a build carregada, e os passos CAROS
 #                   abaixo (build/deploy e ciclo do jogo) testariam codigo novo
 #                   achando que e o velho.
-#   2. BUILD      — dotnet build de todos os <Mod>/<Mod>.csproj (0 erros CS)
-#   3. CHAVES     — tools/check_fix_keys.py (chave dos textos existe no censo)
-#   4. DUPLICADAS — tools/check_dupes.py    (trava INC-1: chave repetida derruba
+#   2. PATCHES    — tools/check_patches.py (trava TRV-1: as 5 regras de robustez dos
+#                   patches Harmony, lidas dos .cs SEM compilar — sem parametro
+#                   posicional, assinatura por TIPO, Prefix/Postfix em try/catch,
+#                   marcador de boot e aplicador gancho a gancho)
+#                   ABORTA NA HORA (exit 1): o parametro posicional do Harmony
+#                   COMPILA sem um aviso sequer, entao nem o build nem o ciclo
+#                   denunciam — foi um `ref __3` no argumento errado que encheu o log
+#                   com 112 NullReferenceException por frame e travou uma batalha.
+#   3. BUILD      — dotnet build de todos os <Mod>/<Mod>.csproj (0 erros CS)
+#   4. CHAVES     — tools/check_fix_keys.py (chave dos textos existe no censo)
+#   5. DUPLICADAS — tools/check_dupes.py    (trava INC-1: chave repetida derruba
 #                   o mod INTEIRO com TypeInitializationException)
-#   5. NOTAS      — tools/check_notas_redundantes.py (nota que repete o texto)
-#   6. COMPARTILH.— tools/check_chave_compartilhada.py --estrito  (TRAVA BUG-32:
+#   6. NOTAS      — tools/check_notas_redundantes.py (nota que repete o texto)
+#   7. COMPARTILH.— tools/check_chave_compartilhada.py --estrito  (TRAVA BUG-32:
 #                   a MESMA chave em TextFixes E TextAppends = a entrada de
 #                   TextAppends nunca roda e a nota nao existe em jogo, em
 #                   silencio. As SUSPEITAS de texto compartilhado NESTA MESMA
 #                   ferramenta seguem aviso: dependem de decisao humana.)
-#   7. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
+#   8. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
 #                   LogOutput.log: 0 TypeInitializationException,
 #                   0 ArgumentException, 0 linhas '[Error'
-#   8. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
+#   9. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
 #
 # O mesmo miolo de repositorio roda no CI (.github/workflows/validate.yml), na
-# mesma ordem: 1 segredos, 2 versoes, 3 chaves, 4 duplicadas, 5 notas, 6 chave
-# compartilhada --estrito, 7 pacotes, 8 auditoria dos docs.
+# mesma ordem: 1 segredos, 2 versoes, 3 patches, 4 chaves, 5 duplicadas, 6 notas, 7 chave
+# compartilhada --estrito, 8 pacotes, 9 auditoria dos docs.
 #
 # Notas de projeto:
 #   * NAO usa `set -e`: o relatorio final TEM que aparecer mesmo com falha.
-#     Por isso so os passos 0 e 1 ABORTAM na hora (exit 1); do 2 em diante tudo
+#     Por isso os passos 0, 1 e 2 ABORTAM na hora (exit 1); do 3 em diante tudo
 #     acumula e chega ao RESUMO FINAL, mesmo reprovado.
 #   * Nunca toca Assembly-CSharp.dll; backup de DLL nunca vai para plugins/.
 #   * O <Mod>.csproj tem o Target DeployToBepInEx: buildar JA INSTALA a DLL no
@@ -101,7 +109,7 @@ fi
 
 # ================================ 0. SEGREDOS ================================
 echo
-echo "== PASSO 0/8 — SEGREDOS =="
+echo "== PASSO 0/9 — SEGREDOS =="
 if $PYTHON tools/check_segredos.py; then
   echo "  [ OK ] 0. nenhum token nos arquivos versionados"
   passo_ok "0. SEGREDOS" "nenhum token nos arquivos versionados"
@@ -118,7 +126,7 @@ fi
 # build abaixo (que JA INSTALA a DLL no perfil) e o ciclo testariam codigo novo
 # achando que e o velho - e o pacote sairia com versao errada.
 echo
-echo "== PASSO 1/8 — VERSOES (check_versoes.py: csproj = manifest = Plugin.cs) =="
+echo "== PASSO 1/9 — VERSOES (check_versoes.py: csproj = manifest = Plugin.cs) =="
 SAIDA_VERSOES="$($PYTHON tools/check_versoes.py 2>&1)"; rc_versoes=$?
 printf '%s\n' "$SAIDA_VERSOES" | sed 's/^/   /'
 if [ "$rc_versoes" -eq 0 ]; then
@@ -140,15 +148,47 @@ else
   exit 1
 fi
 
-# ================================= 2. BUILD ==================================
+# ================================ 2. PATCHES =================================
+# Trava TRV-1 (tools/check_patches.py): as 5 regras de robustez dos patches Harmony lidas dos
+# .cs SEM compilar. ABORTA NA HORA (exit 1), como os passos 0 e 1, por um motivo proprio: o
+# parametro posicional do Harmony COMPILA sem um aviso sequer (o build abaixo passaria) e o
+# ciclo do jogo so veria a consequencia - foi um `ref __3` apontando para o argumento errado
+# que encheu o log com 112 NullReferenceException por frame e travou uma batalha. Gancho
+# reprovado aqui nao chega a ser instalado no perfil pelo build.
 echo
-echo "== PASSO 2/8 — BUILD (todos os .csproj de mod na raiz) =="
+echo "== PASSO 2/9 — PATCHES (trava TRV-1: 5 regras de robustez do Harmony) =="
+SAIDA_PATCHES="$($PYTHON tools/check_patches.py 2>&1)"; rc_patches=$?
+printf '%s\n' "$SAIDA_PATCHES" | sed 's/^/   /'
+if [ "$rc_patches" -eq 0 ]; then
+  det_patches=$(printf '%s\n' "$SAIDA_PATCHES" | grep -aoE '[0-9]+ achado\(s\) que REPROVAM \| [0-9]+ aviso\(s\)' | head -1)
+  passo_ok "2. PATCHES" "${det_patches:-nenhum achado que reprova}"
+elif [ "$rc_patches" -eq 1 ]; then
+  echo
+  echo "  [FALHA] 2. patch reprovado pela TRV-1 — release travada"
+  echo "   >>> BLOQUEIO DE RELEASE (TRV-1) <<<"
+  echo "   Os achados acima apontam arquivo:linha. Um parametro posicional do Harmony"
+  echo "   (`ref __3`) aponta para o argumento ERRADO quando a assinatura do jogo muda, e o"
+  echo "   defeito COMPILA: so aparece em jogo, como NullReferenceException em serie (112 por"
+  echo "   frame no caso que originou esta trava). Sem o marcador de boot '... carregado.' o"
+  echo "   teste de ciclo nao tem como saber que o plugin subiu — o silencio parece sucesso,"
+  echo "   e patch sem try/catch inunda o log a cada quadro."
+  echo "   Correcao: use o NOME do parametro, declare a assinatura por TIPO (typeof/nameof),"
+  echo "   mantenha Prefix/Postfix em try/catch e logue a linha de carregamento no Plugin.cs."
+  echo "   Nada foi buildado e nada foi instalado no perfil: conserte e rode de novo."
+  exit 1
+else
+  passo_fail "2. PATCHES" "check_patches.py NAO RODOU (exit $rc_patches) — trava TRV-1 nao verificada"
+fi
+
+# ================================= 3. BUILD ==================================
+echo
+echo "== PASSO 3/9 — BUILD (todos os .csproj de mod na raiz) =="
 
 mapfile -t PROJETOS < <(find . -maxdepth 2 -name '*.csproj' \
                           -not -path '*/bin/*' -not -path '*/obj/*' \
                         | sed 's|^\./||' | sort)
 if [ "${#PROJETOS[@]}" -eq 0 ]; then
-  passo_fail "2. BUILD" "nenhum .csproj encontrado"
+  passo_fail "3. BUILD" "nenhum .csproj encontrado"
   echo "   ERRO: nenhum .csproj encontrado na raiz do repo"
 else
   echo "   projetos descobertos: ${#PROJETOS[@]} -> ${PROJETOS[*]}"
@@ -172,19 +212,19 @@ else
     DETALHES_BUILD="$DETALHES_BUILD $nome=$ncs"
   done
   if [ "$PROJS_FALHOS" -eq 0 ]; then
-    passo_ok "2. BUILD" "${#PROJETOS[@]} projetos, $ERROS_TOTAL erros CS"
+    passo_ok "3. BUILD" "${#PROJETOS[@]} projetos, $ERROS_TOTAL erros CS"
   else
-    passo_fail "2. BUILD" "$PROJS_FALHOS/${#PROJETOS[@]} projeto(s) com falha, $ERROS_TOTAL erros CS"
+    passo_fail "3. BUILD" "$PROJS_FALHOS/${#PROJETOS[@]} projeto(s) com falha, $ERROS_TOTAL erros CS"
   fi
 fi
 
-# =============================== 3. CHAVES ===================================
+# =============================== 4. CHAVES ===================================
 echo
-echo "== PASSO 3/8 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
+echo "== PASSO 4/9 — CHAVES (check_fix_keys.py: chave de texto existe no censo?) =="
 SAIDA_CHAVES="$($PYTHON tools/check_fix_keys.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_CHAVES" | sed 's/^/   /'
 if [ "$rc" -ne 0 ]; then
-  passo_fail "3. CHAVES" "check_fix_keys.py NAO RODOU (exit $rc)"
+  passo_fail "4. CHAVES" "check_fix_keys.py NAO RODOU (exit $rc)"
 else
   N_EXTRA=$(printf '%s\n' "$SAIDA_CHAVES" | grep -aoE 'chaves extraidas: [0-9]+' | grep -oE '[0-9]+' | head -1)
   N_CENSO=$(printf '%s\n' "$SAIDA_CHAVES" | grep -aoE 'no censo *: [0-9]+' | grep -oE '[0-9]+' | head -1)
@@ -194,36 +234,36 @@ else
     echo "   AVISO (nao reprova): $N_FORA chave(s) fora do censo — pode ser texto de UI/loading"
     echo "   ainda nao coberto pelo censo (ver docs/cobertura/README.md)."
   fi
-  passo_ok "3. CHAVES" "$N_EXTRA chaves extraidas, $N_CENSO no censo, $N_FORA fora"
+  passo_ok "4. CHAVES" "$N_EXTRA chaves extraidas, $N_CENSO no censo, $N_FORA fora"
 fi
 
-# ============================= 4. DUPLICADAS =================================
+# ============================= 5. DUPLICADAS =================================
 echo
-echo "== PASSO 4/8 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
+echo "== PASSO 5/9 — DUPLICADAS (trava INC-1: chave repetida = jogo sem o mod) =="
 SAIDA_DUP="$($PYTHON tools/check_dupes.py 2>&1)"; rc=$?
 printf '%s\n' "$SAIDA_DUP" | sed 's/^/   /'
 if [ "$rc" -eq 1 ]; then
-  passo_fail "4. DUPLICADAS" "chave duplicada — INC-1, NAO INSTALAR NADA"
+  passo_fail "5. DUPLICADAS" "chave duplicada — INC-1, NAO INSTALAR NADA"
   echo
   echo "   >>> BLOQUEIO DE RELEASE (INC-1) <<<"
   echo "   Chave repetida em Dictionary<string,string> = ArgumentException no"
   echo "   construtor estatico do LocalizePatch = TypeInitializationException e"
   echo "   NENHUMA tabela do mod carrega. Regra: UMA entrada por TEXTO, nunca por skill."
 elif [ "$rc" -ne 0 ]; then
-  passo_fail "4. DUPLICADAS" "check_dupes.py NAO RODOU (exit $rc) — trava INC-1 nao verificada"
+  passo_fail "5. DUPLICADAS" "check_dupes.py NAO RODOU (exit $rc) — trava INC-1 nao verificada"
 else
   det_dup=$(printf '%s\n' "$SAIDA_DUP" | grep -aoE 'TextFixes[[:space:]]+[0-9]+ entradas \| duplicadas: [a-z]+' | head -1)
-  passo_ok "4. DUPLICADAS" "${det_dup:-nenhuma duplicada}"
+  passo_ok "5. DUPLICADAS" "${det_dup:-nenhuma duplicada}"
 fi
 
-# ======================= 5. NOTAS REDUNDANTES ================================
+# ======================= 6. NOTAS REDUNDANTES ================================
 echo
-echo "== PASSO 5/8 — NOTAS REDUNDANTES (a nota repete o texto que ja estava la?) =="
+echo "== PASSO 6/9 — NOTAS REDUNDANTES (a nota repete o texto que ja estava la?) =="
 SAIDA_NOTAS="$($PYTHON tools/check_notas_redundantes.py 2>&1)"; rc=$?
 printf '%s
 ' "$SAIDA_NOTAS" | sed 's/^/   /'
 if [ "$rc" -eq 1 ]; then
-  passo_fail "5. NOTAS" "nota redundante/duplicada — o jogador le a mesma frase duas vezes"
+  passo_fail "6. NOTAS" "nota redundante/duplicada — o jogador le a mesma frase duas vezes"
   echo
   echo "   >>> REVISAR ANTES DE PUBLICAR <<<"
   echo "   Uma nota existe para dizer o que o texto NAO diz. Familias: nota == chave (a frase"
@@ -232,21 +272,21 @@ if [ "$rc" -eq 1 ]; then
   echo "   estao no codigo (ArmorValueSourceRegex) - se aparecer caso aqui, a regra falhou."
   echo "   Relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md"
 elif [ "$rc" -ne 0 ]; then
-  passo_fail "5. NOTAS" "check_notas_redundantes.py NAO RODOU (exit $rc) — nao verificada"
+  passo_fail "6. NOTAS" "check_notas_redundantes.py NAO RODOU (exit $rc) — nao verificada"
 else
   det_notas=$(printf '%s
 ' "$SAIDA_NOTAS" | grep -aoE 'notas analisadas [.]+ [0-9]+' | head -1)
-  passo_ok "5. NOTAS" "${det_notas:-0 casos}"
+  passo_ok "6. NOTAS" "${det_notas:-0 casos}"
 fi
 
-# ======================= 6. CHAVE COMPARTILHADA ==============================
+# ======================= 7. CHAVE COMPARTILHADA ==============================
 echo
-echo "== PASSO 6/8 — CHAVE COMPARTILHADA (trava BUG-32: chave nas DUAS tabelas) =="
+echo "== PASSO 7/9 — CHAVE COMPARTILHADA (trava BUG-32: chave nas DUAS tabelas) =="
 SAIDA_COMP="$($PYTHON tools/check_chave_compartilhada.py --estrito 2>&1)"; rc_comp=$?
 printf '%s\n' "$SAIDA_COMP" | sed 's/^/   /'
 if [ "$rc_comp" -eq 1 ]; then
   N_AMBAS=$(printf '%s\n' "$SAIDA_COMP" | grep -aoE 'chave nas DUAS tabelas \(TextFixes\+TextAppends\) [.]+ [0-9]+' | grep -oE '[0-9]+$' | head -1)
-  passo_fail "6. COMPARTILH." "${N_AMBAS:-1} chave(s) nas DUAS tabelas — BUG-32, release travada"
+  passo_fail "7. COMPARTILH." "${N_AMBAS:-1} chave(s) nas DUAS tabelas — BUG-32, release travada"
   echo
   echo "   >>> BLOQUEIO DE RELEASE (BUG-32) <<<"
   echo "   A MESMA chave existe em TextFixes e em TextAppends. O lookup e if/else if"
@@ -255,7 +295,7 @@ if [ "$rc_comp" -eq 1 ]; then
   echo "   Correcao: UMA entrada por texto — fundir o valor da TextAppends no valor"
   echo "   da TextFixes (a que executa hoje) e apagar a duplicada."
 elif [ "$rc_comp" -ne 0 ]; then
-  passo_fail "6. COMPARTILH." "check_chave_compartilhada.py NAO RODOU (exit $rc_comp) — trava BUG-32 nao verificada"
+  passo_fail "7. COMPARTILH." "check_chave_compartilhada.py NAO RODOU (exit $rc_comp) — trava BUG-32 nao verificada"
 else
   N_SUSP=$(printf '%s\n' "$SAIDA_COMP" | grep -aoE 'SUSPEITAS[^:]*: [0-9]+' | grep -oE '[0-9]+' | head -1)
   N_SUSP=${N_SUSP:-0}
@@ -265,12 +305,12 @@ else
     echo "   estar mentindo para outro dono do texto. A decisao e humana (mecanica citada)."
     echo "   Revisar: docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md"
   fi
-  passo_ok "6. COMPARTILH." "0 chave nas duas tabelas; $N_SUSP suspeita(s) (aviso humano)"
+  passo_ok "7. COMPARTILH." "0 chave nas duas tabelas; $N_SUSP suspeita(s) (aviso humano)"
 fi
 
-# ============================== 7. CICLO =====================================
+# ============================== 8. CICLO =====================================
 echo
-echo "== PASSO 7/8 — CICLO DO JOGO + ANALISE DO LOG =="
+echo "== PASSO 8/9 — CICLO DO JOGO + ANALISE DO LOG =="
 echo "   $ bash scratch/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
 SAIDA_CICLO="$(bash scratch/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
 printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
@@ -278,7 +318,7 @@ printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
 # --- analise do log ---------------------------------------------------------
 if [ ! -f "$LOG" ]; then
   echo "   ERRO: log nao existe: $LOG"
-  passo_fail "7. CICLO" "sem log — o jogo nao chegou a subir"
+  passo_fail "8. CICLO" "sem log — o jogo nao chegou a subir"
 else
   N_TIE=$(grep -ac 'TypeInitializationException' "$LOG" || true); N_TIE=${N_TIE:-0}
   N_ARG=$(grep -ac 'ArgumentException' "$LOG" || true);           N_ARG=${N_ARG:-0}
@@ -305,9 +345,9 @@ else
   fi
 
   if [ "$N_TIE" -eq 0 ] && [ "$N_ARG" -eq 0 ] && [ "$N_ERR" -eq 0 ] && [ "$N_CARR" -gt 0 ] && [ "$BT_OK" -eq 1 ]; then
-    passo_ok "7. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
+    passo_ok "8. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
   else
-    passo_fail "7. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
+    passo_fail "8. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
     [ "$N_TIE" -gt 0 ] && grep -a -m3 -B1 'TypeInitializationException' "$LOG" | sed 's/^/        /'
     [ "$N_ERR" -gt 0 ] && grep -a -m3 '^\[Error' "$LOG" | sed 's/^/        /'
   fi
@@ -316,9 +356,9 @@ fi
 # garante que o jogo ficou fechado
 taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1 || true
 
-# ============================== 8. HUMANO ====================================
+# ============================== 9. HUMANO ====================================
 echo
-echo "== PASSO 8/8 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
+echo "== PASSO 9/9 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
 cat <<'HUMANO'
    Estes itens NAO podem ser checados por script — nenhum deles aparece no log.
    O release NAO esta completo enquanto um humano nao conferir, em jogo:
@@ -352,10 +392,10 @@ for c in "${CHECKS[@]}"; do
     printf '  [FALHA]  %-14s %s\n' "$nome" "$det"
   fi
 done
-printf '  [HUMANO] %-14s %s\n' "8. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
+printf '  [HUMANO] %-14s %s\n' "9. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
 echo
 if [ "${#FALHAS[@]}" -eq 0 ]; then
-  echo "  CONCLUSAO: APROVADO (verificacao automatizada: segredos, versoes, build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
+  echo "  CONCLUSAO: APROVADO (verificacao automatizada: segredos, versoes, patches, build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
   echo "             LEMBRETE: o release so esta COMPLETO depois dos passos humanos 5.1-5.5."
   echo "             Nada foi instalado a mao: o build dos .csproj ja deployou as DLLs."
   RC=0
@@ -363,11 +403,12 @@ else
   echo "  CONCLUSAO: REPROVADO — passo(s) com falha: ${FALHAS[*]}"
   for f in "${FALHAS[@]}"; do
     case "$f" in
-      "2. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
-      "3. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
-      "4. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
-      "6. COMPARTILH.") echo "             >> BLOQUEIO BUG-32: chave nas DUAS tabelas = entrada de TextAppends morta." ;;
-      "7. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
+      "2. PATCHES")    echo "             >> BLOQUEIO TRV-1: um gancho aceita argumento por POSICAO — corrija antes de instalar." ;;
+      "3. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
+      "4. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
+      "5. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
+      "7. COMPARTILH.") echo "             >> BLOQUEIO BUG-32: chave nas DUAS tabelas = entrada de TextAppends morta." ;;
+      "8. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
     esac
   done
   echo "             Nada deve ser distribuido/instalado enquanto o veredito for REPROVADO."

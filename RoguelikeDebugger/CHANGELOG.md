@@ -2,6 +2,16 @@
 
 > Ferramenta de **desenvolvimento**, não mod de jogador.
 
+## Não lançado
+
+- **Efeitos por TIPO CONCRETO (RV-8b-0g).** Os arrays `Effects` (de status e de ação) são `IEffectInfo[]`, interface vazia: o cast `e as GeneralEffect` que o dump usava para ler o `Action` devolve `null` em todo elemento de outro tipo, e o dado desaparecia do dump (2 entradas do censo de tooltips ficaram `indeterminado` por isso). Agora:
+  - campos novos `nEfeitosTot` / `efTipos` (status e ação): tamanho do array e **tipo concreto + campos de cada elemento**, lidos por reflexão;
+  - `nAttrEf` / `attrTipos` (status e skill) e `consEf` (item) para os `AttributeEffects` e a ação de consumível;
+  - `nTrig` / `trigEf` no `[Status]`: os gatilhos do status (tipo, efeitos, condição, status) — antes não saíam;
+  - linha de resumo por categoria, `[Efeitos] resumo (...): total= | porTipo= | naoGeneralEffect=`.
+  - `desc=` continua por último e nenhum valor contém `|` ou aspas: o formato antigo não muda.
+  - Versão **não** subiu: os campos de dump deste mod entram sem bump (o `<Version>` é o marco de release; confira `python tools/check_versoes.py`).
+
 ## 0.1.0
 
 Primeira versão publicada.
