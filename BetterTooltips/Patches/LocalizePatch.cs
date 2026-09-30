@@ -154,6 +154,14 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Informacao que o texto nao dava e que o usuario observou em jogo: a corrente pode
+            // voltar no MESMO alvo. Fonte no codigo (`ActionInfo`): `ProjectileChain` +
+            // `ProjectileChainCount` + `ProjectileChainTarget` e, decisivo,
+            // `public bool ChainSameTarget = true` - o mesmo alvo pode ser atingido de novo,
+            // entao o "5" conta SALTOS, nao inimigos distintos. O teste do jogo corrobora:
+            // ele tem dois inimigos e basta ("Chain Lightning chained to the second enemy").
+            { "Conjures a lightning bolt that chains up to 5 enemies near the target dealing *0 lightning damage to each target.  ",
+              "\n<color=#C8B090>The 5 counts the chain's HOPS, not different enemies: the bolt can hit the same enemy again, so with only two enemies in range it bounces between them.</color>" },
             // "Power of Mana" (`ManaPowerMod`) nao tinha explicacao em lugar nenhum.
             // Fonte: `num36 = properties.CostsMana ? source["ManaPowerMod"] : 0f` somado em
             // `num29`, que multiplica dano E cura (`num9 *= num46`). O JOGO usa o termo
