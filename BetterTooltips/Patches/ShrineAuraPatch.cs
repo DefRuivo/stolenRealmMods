@@ -112,15 +112,33 @@ namespace BetterTooltips.Patches
     ///   (2) CONTEÚDO AGREGADO (RV-20, o nome sempre foi no plural): um item por ATRIBUTO que as
     ///       auras vivas mexem — a UNIÃO delas, não só a da tooltip.
     ///
-    /// COMO O VALOR É LIDO (a regra que evita inventar soma): a autoridade é o PRÓPRIO motor. Para
-    /// cada atributo, lê-se o valor FINAL do personagem pelo indexador `Character[atributo]`
+    /// COMO O VALOR É LIDO (a regra que evita inventar soma): o TOTAL é a autoridade do PRÓPRIO motor —
+    /// para cada atributo, lê-se o valor FINAL do personagem pelo indexador `Character[atributo]`
     /// (`Character.this[string]`, decompilado l.32662-32675 -> `GetAttribute(CharacterAttribute)`,
     /// l.40520) — ele JÁ é o resultado de todas as contribuições somadas pelo jogo (base + efeitos de
     /// gear/skills/shrine). Não somamos nada aqui, não aplicamos `(1 + bonus/100)` por fora e não
     /// assumimos aditividade: se o motor combina as contribuições de outro jeito, o número lido já
     /// reflete. É o MESMO valor que a ficha mostra (o BetterStats imprime `character[finalAttrs[i].name]`,
-    /// `BetterStats/Plugin.cs` l.77) — é com ela que o usuário confere. O `^` desta linha é a única
-    /// entrada que multiplica cada aura (`ShrineEffectBonus`), e ela já está dentro do número lido.
+    /// `BetterStats/Plugin.cs` l.77) — é com ela que o usuário confere.
+    ///
+    /// RV-44 (30/09) — O TOTAL SAIU DA FRENTE DO ITEM. Defeito relatado com print do dono: a linha se
+    /// chama "Your active shrine auras" e mostrava aura + skill + equipamento num número só — no
+    /// Goblin Battle Standard (Fury) o tooltip do shrine dizia 25% (50% com `Worship`) e a linha dizia
+    /// 50% (75%), e no Rogue Shrine dizia `Dodge +57%` com a aura entregando 40% (20 × 2 do Worship).
+    /// Na tela isso é indistinguível de "a aura dá 57%". Agora cada item é
+    /// **`<o que as auras dão> (total <o total do personagem>%)`** — ex.: `Dodge +40% (total +57%)`,
+    /// `Damage +25% (total +50%)` —, com a contribuição saindo do `AttributeEffects` REAL das auras
+    /// VIVAS (a mesma expressão que o tooltip do shrine mostra, avaliada pelo motor: 20 × (1+bônus/100))
+    /// e o total continuando a ser o indexador. Um item por atributo (RV-31) e a ordem canônica não
+    /// mudam; **duas auras no mesmo atributo SOMAM as contribuições** (`Warrior + Fury` em `DamageMod`).
+    /// Prova com as telas do dono (30/09) — as contas fecham de forma aditiva nas duas:
+    ///   Fury sem Worship: aura 25 / total 50 (resto da ficha +25); Damage taken: aura 25 / total 5
+    ///     (`DamageReduction` −25 / −5 -> resto +20).
+    ///   Fury com Worship: aura 50 / total 75 (resto +25); Damage taken: aura 50 / total 30
+    ///     (`DamageReduction` −50 / −30 -> resto +20).
+    ///   Rogue Shrine com Worship: `Dodge +40% (total +57%)` (resto +17).
+    /// O parênteses é o número que o jogador lê na ficha, então o resto é constatável em tela — o log
+    /// `RV-44 item ...: aura=... total=... resto=...` imprime as três parcelas em cada hover.
     ///
     /// O que NÃO entra: Flame e Decay (o efeito deles é dano numa AÇÃO `* Aura Proc`, RV-19 §4 — não
     /// existe atributo de personagem para ler) e o stun do Dwarven. Sem atributo, não há item: inventar
@@ -815,6 +833,21 @@ namespace BetterTooltips.Patches
             return (v >= 0f ? "+" : "−") + Mathf.Abs(v).ToString("0.#");
         }
 
+        /// <summary>
+        /// RV-44 — o TOTAL do personagem no parênteses do item, na MESMA grandeza do rótulo que vem
+        /// antes dele: `DamageReduction` positivo REDUZ o dano tomado, então o valor sai invertido
+        /// (`Damage taken +25% (total +5%)` = aura empurrando +25 de dano tomado e um total de +5, isto
+        /// é, `DamageReduction` = −5 no indexador). Nos outros atributos o sinal cru serve — inclusive
+        /// `ManaCostMod`, cujo total POSITIVO é custo aumentado (RV-43) e o rótulo da frente
+        /// (`Mana Costs reduced by 50%` / `increased by 20%`) já diz para que lado a aura empurra.
+        /// Não é uma segunda leitura do motor: é o MESMO `Character[atributo]` que já foi lido.
+        /// </summary>
+        private static string TotalComSinal(string nome, float v)
+        {
+            float exibido = string.Equals(nome, "DamageReduction", StringComparison.Ordinal) ? -v : v;
+            return ComSinal(exibido) + "%";
+        }
+
         /// <summary>Começo da linha de auras ativas. O `LocalizePatch` usa este marcador para achar o
         /// bloco azul no corpo do tooltip (RV-27) sem encostar em nenhum outro bloco colorido — nem nos
         /// que o PRÓPRIO jogo colore com essa cor (blocos de status do `ShowTooltip`).</summary>
@@ -840,6 +873,11 @@ namespace BetterTooltips.Patches
         ///
         /// `chaveDaTooltip` = o texto localizado que está sendo montado. Ele NÃO decide mais o conteúdo
         /// (era isso que fazia a linha mostrar só a aura do shrine aberto); entra apenas no log.
+        ///
+        /// RV-44 — cada item é a **contribuição das auras** na frente e o **total do personagem** no
+        /// parênteses: `Dodge +40% (total +57%)`, `Damage +25% (total +50%)`. A contribuição sai do
+        /// `AttributeEffects` das auras vivas (`ContribuicaoDasAuras`), o total do indexador do motor.
+        /// Sem contribuição separável com confiança, o item sai só com o total (fallback).
         /// </summary>
         public static string AcumuladoShrines(string chaveDaTooltip)
         {
@@ -879,11 +917,16 @@ namespace BetterTooltips.Patches
                     return "";
                 }
 
-                // (d) O VALOR é do MOTOR: `Character[atributo]` é o total FINAL do personagem (base +
-                // todas as contribuições, as do shrine inclusive). Não somamos nada aqui e não
-                // aplicamos (1 + bonus/100) por fora — o número lido já é o resultado do jogo, e é o
-                // mesmo que a ficha (BetterStats) mostra. Se o jogo combina as contribuições de outro
-                // jeito, o valor lido já reflete isso.
+                // (d) DOIS NÚMEROS POR ITEM (RV-44): a CONTRIBUIÇÃO DAS AURAS na frente — é o que o
+                // nome da linha ("Your active shrine auras") promete — e o TOTAL DO PERSONAGEM entre
+                // parênteses. O total continua saindo do MOTOR (`Character[atributo]`, o MESMO número
+                // da ficha/BetterStats: base + gear + skills + auras); a contribuição sai do
+                // `AttributeEffects` das auras VIVAS, avaliado pela expressão do PRÓPRIO asset na
+                // mesma ordem do motor (`TryParseWithEnglishCulture` e, se falhar, `Game.TryEval`),
+                // com `Target` = `Source` = o personagem em foco — é assim que as 9 auras de BUFF da família
+                // leem o `ShrineEffectBonus` (`Target[...]`; `status.csv:205` do Fury e irmãs: 9/9 com
+                // `AttributeEffects`, todas `Base`; Dwarven não expõe efeito e Decay/Flame usam `Source`). Nada
+                // é somado por fora do efeito do asset.
                 List<string> partes = new List<string>();
                 foreach (CharacterAttribute atributo in atributos)
                 {
@@ -895,8 +938,27 @@ namespace BetterTooltips.Patches
                         Marca($"RV-31 item omitido: atributo '{nome}' ausente neste build");
                         continue;
                     }
-                    float valor = receptor[nome];
-                    partes.Add(TextDoEfeito(atributo, valor));
+                    float total = receptor[nome];
+                    float contribuicao;
+                    if (ContribuicaoDasAuras(ativas, atributo, receptor, out contribuicao))
+                    {
+                        partes.Add(TextDoEfeito(atributo, contribuicao)
+                            + " (total " + TotalComSinal(nome, total) + "%)");
+                        // O `resto` (total − contribuição) é o pedaço da ficha que NÃO é aura: é ele que
+                        // prova, em jogo, se o total é aditivo — com as duas telas do dono (30/09) o
+                        // resto deu +25 (DamageMod) e +20 (DamageReduction) nos DOIS casos.
+                        Marca($"RV-44 item '{nome}': aura={ComSinal(contribuicao)}% total={ComSinal(total)}%"
+                            + $" resto={ComSinal(total - contribuicao)}% em [{string.Join(", ", NomesDasAuras(ativas).ToArray())}]");
+                    }
+                    else
+                    {
+                        // FALLBACK (RV-44): sem contribuição separável com confiança (efeito não
+                        // somável — `Multiplicative`/`Set` — ou expressão não avaliada; a família de
+                        // shrine NÃO tem nenhum desses casos hoje, conferido no censo: 9/9 são
+                        // `Base`), o item sai com o total do personagem, como antes.
+                        partes.Add(TextDoEfeito(atributo, total));
+                        Marca($"RV-44 item '{nome}' sem separacao: sai com o total do personagem ({ComSinal(total)}%)");
+                    }
                 }
                 if (partes.Count == 0)
                 {
@@ -931,7 +993,8 @@ namespace BetterTooltips.Patches
         /// O casamento é pela DESCRIÇÃO contra `ShrineKeys` — a MESMA definição de família que o
         /// `LocalizePatch` usa de pré-filtro e o mesmo texto que o tooltip do shrine mostra
         /// (`GroundEffectInfo.ActionStatuses[0]`, decompilado l.214180). O valor de cada atributo NÃO
-        /// sai daqui: sai do indexador do personagem (ver `AcumuladoShrines`).
+        /// sai daqui: o TOTAL sai do indexador do personagem e a CONTRIBUIÇÃO das auras, do
+        /// `AttributeEffects` destas MESMAS auras (ver `AcumuladoShrines`/`ContribuicaoDasAuras`, RV-44).
         ///
         /// Falha de leitura devolve lista vazia: sem prova de que a aura está viva, a linha não sai.
         /// </summary>
@@ -1022,6 +1085,113 @@ namespace BetterTooltips.Patches
                 }
             }
             return ordenados;
+        }
+
+        /// <summary>
+        /// RV-44 — A CONTRIBUIÇÃO DAS AURAS em UM atributo: a soma, aura por aura, do `AttributeEffects`
+        /// REAL de cada aura VIVA (nunca o total do personagem). É o número que o tooltip do shrine, o
+        /// de cada aura, mostra: a expressão do asset (`Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"]
+        /// / 100)))` e irmãs; ver `status.csv:205` para o Fury) avaliada pelo PRÓPRIO motor — a mesma
+        /// ordem de `Character.GetAttributeWalk` (decompilado l.37256-37263: `TryParseWithEnglishCulture`
+        /// e, se falhar, `Game.TryEval` com `Source`/`Target`/`StatusLevel` do status).
+        ///
+        /// POR QUE NÃO SOMAR O TOTAL DO PERSONAGEM: o defeito relatado (30/09, print do dono) é que a
+        /// linha se chama "Your active shrine auras" e mostrava aura + skill + equipamento num número
+        /// só — indistinguível de "a aura dá 50%" quando a aura dá 25%. Aqui entra o que a aura dá; o
+        /// total vai no parênteses (é o mesmo número da ficha).
+        ///
+        /// REGRAS DA SOMA (todas tiradas do motor, nenhuma inventada):
+        ///   - `EffectTarget` tem de ser `Target` — o laço de `ActionStatuses` do motor descarta
+        ///     `EffectTarget.Source` (decompilado l.37207-37210); um efeito assim não entra no total do
+        ///     portador e também não entra aqui (só é logado).
+        ///   - `Base`/`Additive`/`Percentage` SOMAM (`val = val + parsed2`, l.37263-37271); é o bucket
+        ///     aditivo do motor.
+        ///   - `Multiplicative` e `Set` NÃO são somáveis (multiplicam/substituem): qualquer um deles num
+        ///     atributo devolve `false` e o item sai no fallback, com o total do personagem (a família
+        ///     de shrine não tem nenhum caso hoje — censo: as 9 que têm `AttributeEffects` são todas `Base`).
+        ///   - `TotalStacks` multiplica o valor (l.37263), como no motor; um status vivo tem no mínimo 1.
+        ///   - **DUAS AURAS NO MESMO ATRIBUTO SOMAM** (o caso do print: Warrior + Fury em `DamageMod`, e
+        ///     o próprio Fury em `DamageMod` e `DamageReduction`): o item continua sendo UM por atributo
+        ///     e o valor é a soma das contribuições — não o total do personagem.
+        ///
+        /// `false` = não há contribuição separável com confiança (nenhum efeito somável, efeito não
+        /// somável ou expressão não avaliada): quem chamou usa o total rotulado. Nunca estima.
+        /// </summary>
+        private static bool ContribuicaoDasAuras(List<ActionStatus> auras, CharacterAttribute atributo,
+            Character receptor, out float contribuicao)
+        {
+            contribuicao = 0f;
+            if (auras == null || atributo == null || receptor == null)
+            {
+                return false;
+            }
+            string nome = atributo.name;
+            bool somou = false;
+            foreach (ActionStatus s in auras)
+            {
+                CharacterEffectInfo[] efeitos = s != null && s.ActionStatusInfo != null
+                    ? s.ActionStatusInfo.AttributeEffects
+                    : null;
+                if (efeitos == null)
+                {
+                    continue;
+                }
+                // Status vivo = no mínimo 1 stack (o motor multiplica por `TotalStacks`).
+                int stacks = s.TotalStacks > 1 ? s.TotalStacks : 1;
+                foreach (CharacterEffectInfo efeito in efeitos)
+                {
+                    if (efeito == null || efeito.CharacterAttribute == null)
+                    {
+                        continue;
+                    }
+                    if (!string.Equals(efeito.CharacterAttribute.name, nome, StringComparison.Ordinal))
+                    {
+                        continue;
+                    }
+                    if (efeito.EffectTarget != EffectTarget.Target)
+                    {
+                        Marca($"RV-44 '{nome}': efeito de '{NomeDaAura(s)}' mira {efeito.EffectTarget}"
+                            + " (nao entra no total do portador) — fora da contribuicao");
+                        continue;
+                    }
+                    if (efeito.CharacterEffectMethod == CharacterEffectMethod.Multiplicative
+                        || efeito.CharacterEffectMethod == CharacterEffectMethod.Set)
+                    {
+                        Marca($"RV-44 '{nome}': efeito {efeito.CharacterEffectMethod} em '{NomeDaAura(s)}'"
+                            + " nao e somavel — item sai com o TOTAL do personagem");
+                        return false;
+                    }
+                    float valor;
+                    if (!ValorDaExpressao(efeito.Amount, receptor, receptor, out valor))
+                    {
+                        Marca($"RV-44 '{nome}': expressao '{efeito.Amount}' de '{NomeDaAura(s)}'"
+                            + " nao avaliada — item sai com o TOTAL do personagem");
+                        return false;
+                    }
+                    contribuicao += valor * stacks;
+                    somou = true;
+                    Marca($"RV-44 soma '{nome}': '{NomeDaAura(s)}' {efeito.CharacterEffectMethod}"
+                        + $" {ComSinal(valor * stacks)}% (stacks={stacks})");
+                }
+            }
+            return somou;
+        }
+
+        /// <summary>Nome do status da aura, só para o log (identifica QUEM entrou na soma).</summary>
+        private static string NomeDaAura(ActionStatus s)
+        {
+            try
+            {
+                if (s != null && s.ActionStatusInfo != null && !string.IsNullOrEmpty(s.ActionStatusInfo.Name))
+                {
+                    return s.ActionStatusInfo.Name;
+                }
+            }
+            catch (Exception ex)
+            {
+                return "(" + ex.GetType().Name + ")";
+            }
+            return "(sem nome)";
         }
 
         /// <summary>Nomes das auras vivas — só para o log (a conferência em jogo precisa ver QUAIS
