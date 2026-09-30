@@ -1,0 +1,671 @@
+# PUB-4 + CI-3 - PUBLICACAO na Thunderstore, so dos mods LIBERADOS e com GATE HUMANO.
+#
+# O QUE ESTE WORKFLOW E
+# ---------------------
+# O caminho de uma VERSAO NOVA para a Thunderstore, com duas travas humanas: o arquivo
+# `release/mods.json` (diz quais mods estao liberados) e um GitHub Environment com
+# revisores obrigatorios (a aprovacao e no clique). Ele NAO compila nada: envia o .zip
+# que `tools/pack-thunderstore.py` gerou na maquina de desenvolvimento.
+#
+# AS 5 DECISOES QUE ESTAO CODIFICADAS AQUI
+# ----------------------------------------
+# 1. PUBLICACAO MANUAL (workflow_dispatch) + aprovacao num Environment. Publicacao
+#    automatica em push fica DESLIGADA (ver o bloco comentado mais abaixo, e por que).
+# 2. O WORKFLOW NAO COMPILA. Os .csproj dependem das assemblies do JOGO, que ficam em
+#    `lib/` (gitignored) e nao existem num runner limpo; commitar DLL do jogo e proibido.
+#    O envio usa o input `file:` da Action pronta `GreenTF/upload-thunderstore-package`,
+#    que PULA o build quando recebe um zip pronto. Quem builda e empacota e a maquina de
+#    desenvolvimento (`dotnet build -c Release -p:DeployToBepInEx=false` + o empacotador).
+# 3. QUEM ESTA LIBERADO: `release/mods.json` - versionado, revisavel no diff. O quadro de
+#    tarefas do projeto nao esta no repositorio (gitignored de proposito), entao o CI nao
+#    tem como consulta-lo; este arquivo e o unico jeito de o CI saber. Aqui ele age SO nos
+#    mods com `publicar: true` - e falha de proposito se alguem pedir um mod travado.
+# 4. "QUAL MOD MUDOU": no modo manual, quem manda e o input do disparo. No modo automatico
+#    (comentado) seria o filtro nativo `paths:` por pasta de mod - nada de script adivinhando.
+# 5. NUNCA PUBLICAR VERSAO REPETIDA: versao na Thunderstore e IMUTAVEL. Antes de enviar,
+#    o passo 4 le a lista publica da comunidade (API /c/<comunidade>/api/v1/package/),
+#    confere o manifesto DENTRO do zip contra o repositorio e recusa versao ja existente
+#    ou que nao seja MAIOR que a que esta no ar (a plataforma exibe sempre a maior).
+#
+# COMO O TOKEN ENTRA (CI-3)
+# -------------------------
+# `secrets.THUNDERSTORE_TOKEN` e secret do ENVIRONMENT `thunderstore`, nunca do repositorio:
+# so o job `publica` (que declara o environment) enxerga o valor, e so depois da aprovacao.
+# Nada aqui imprime o token - os passos so dizem que ele existe.
+#
+# COPIA LOCAL / DOCUMENTACAO
+# --------------------------
+# O processo completo (regras da Thunderstore, passo a passo, troubleshooting) esta em
+# docs/PUBLICACAO.md; o resumo de CI esta em docs/CI.md. Reproduzir na mao: e usar o mesmo
+# `tools/publish-thunderstore.sh` (dry-run por padrao, so sobe com --go).
+#
+# BLOQUEIO PARA SUBIR ESTE ARQUIVO: o PAT do harness nao tem o escopo `workflow`, entao
+# `.github/workflows/` fica no disco e nao sobe. Ver docs/PUBLICACAO.md ("Como ativar").
+
+name: Publicacao Thunderstore
+
+run-name: Publicar ${{ inputs.mod || 'todos' }} na Thunderstore (pedido de ${{ github.actor }})
+
+on:
+  # ---- disparo MANUAL (o unico ligado) -------------------------------------
+  workflow_dispatch:
+    inputs:
+      mod:
+        description: 'Mod a publicar. "todos" = so os mods com publicar:true em release/mods.json'
+        type: choice
+        required: true
+        default: todos
+        options:
+          - todos
+          - BetterFont
+          - BetterStats
+          - BetterTooltips
+          - RoguelikeDebugger
+          - RoguelikeQoL
+          - RoguelikeSkillTreeVisualizer
+      release_tag:
+        description: 'Tag da GitHub Release de onde baixar os zips do dist/ (vazio = os zips tem que ja estar em dist/)'
+        type: string
+        required: false
+        default: ''
+
+  # ========================================================================
+  # MODO AUTOMATICO - DESLIGADO DE PROPOSITO. Para ligar, descomente o bloco
+  # `push:` abaixo (e a Action continua a mesma).
+  # ========================================================================
+  # "Qual mod mudou" no modo automatico e o filtro NATIVO `paths:` - um caminho por
+  # pasta de mod. Sem script adivinhando: se nada foi empurrado naquela pasta, o run
+  # nem comeca; se a pasta entrou no commit, o run comeca e o arquivo `release/mods.json`
+  # continua decidindo se aquele mod PODE ser publicado (publicar:true).
+  #
+  # ATENCAO - o modo automatico NAO funciona com runner hospedado pelo GitHub: o job
+  # precisa do .zip JA empacotado, e empacotar exige compilar, e compilar exige as
+  # assemblies do jogo (`lib/`). Ligue isto SO junto com um runner SELF-HOSTED numa
+  # maquina com o jogo instalado (escopo C da tarefa CI-1), que saiba rodar
+  # `dotnet build -c Release -p:DeployToBepInEx=false` + `python tools/pack-thunderstore.py`
+  # antes do envio - nesse caso troque `runs-on: ubuntu-latest` por `runs-on: self-hosted`
+  # e mantenha o environment com revisores (a aprovacao continua sendo o portao final).
+  #
+  # push:
+  #   branches: [main]
+  #   paths:
+  #     - 'BetterFont/**'
+  #     - 'BetterStats/**'
+  #     - 'BetterTooltips/**'
+  #     - 'RoguelikeDebugger/**'
+  #     - 'RoguelikeQoL/**'
+  #     - 'RoguelikeSkillTreeVisualizer/**'
+  #     - 'release/mods.json'
+
+# Uma publicacao NAO pode ser cancelada por outra: se deixar, o run novo mataria o antigo
+# no meio do envio (e um envio parcial precisa de decisao humana, nao de retry silencioso).
+concurrency:
+  group: publicacao-thunderstore
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  # ==========================================================================
+  # 1) GATE DOS MODS - le release/mods.json e monta a lista de alvos.
+  #    Roda SEM environment: e so leitura, e o humano so deve aprovar o que ja
+  #    passou por aqui.
+  # ==========================================================================
+  libera:
+    name: Gate - quem esta liberado (release/mods.json)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      alvos: ${{ steps.gate.outputs.alvos }}
+      team: ${{ steps.gate.outputs.team }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Gate dos mods liberados
+        id: gate
+        env:
+          MOD: ${{ inputs.mod }}
+        run: |
+          python - <<'PY'
+          import json, os, subprocess, sys
+
+          def erro(msg):
+              print('::error::' + msg)
+              sys.exit(1)
+
+          escolha = (os.environ.get('MOD') or 'todos').strip()
+
+          with open('release/mods.json', encoding='utf-8') as fh:
+              dados = json.load(fh)
+
+          mods = dados.get('mods') or []
+          if not mods:
+              erro('release/mods.json esta sem a lista "mods".')
+
+          # A lista do JSON tem que ser a MESMA que o empacotador descobre - senao existem
+          # duas listas de mods e uma vai envelhecer. A descoberta de mod fica em UM lugar:
+          # o `eh_mod` do tools/pack-thunderstore.py.
+          p = subprocess.run([sys.executable, 'tools/pack-thunderstore.py', '--listar-nomes'],
+                             stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          saida = p.stdout.decode('utf-8', 'replace')
+          if p.returncode != 0:
+              erro('tools/pack-thunderstore.py --listar-nomes saiu %d: %s' % (p.returncode, saida.strip()))
+          nomes_pack = [l.strip() for l in saida.splitlines() if l.strip()]
+          nomes_json = [m.get('nome') for m in mods]
+          if nomes_pack != nomes_json:
+              erro('release/mods.json e o empacotador divergem - a lista de mods tem uma fonte so '
+                   '(`tools/pack-thunderstore.py --listar-nomes`). JSON=%s | empacotador=%s'
+                   % (nomes_json, nomes_pack))
+
+          liberados = [m['nome'] for m in mods if m.get('publicar') is True]
+
+          if escolha == 'todos':
+              alvos = liberados
+          else:
+              alvo = [m for m in mods if m.get('nome') == escolha]
+              if not alvo:
+                  erro('mod desconhecido: %s (opcoes: todos, %s)' % (escolha, ', '.join(nomes_json)))
+              if alvo[0].get('publicar') is not True:
+                  erro('%s esta com publicar:false em release/mods.json e NAO sera publicado. '
+                       'Motivo registrado: %s' % (escolha, alvo[0].get('motivo')))
+              alvos = [escolha]
+
+          team = (dados.get('team') or '').strip()
+          if alvos and not team:
+              erro('release/mods.json esta com "team" vazio (PUB-3: decidir qual team publica). '
+                   'O team e escrito na URL do pacote e NAO se renomeia depois; publicar em outro '
+                   'team cria um pacote NOVO. Enquanto isso o pipeline tem que falhar, nao chutar.')
+
+          comun = (dados.get('comunidade') or '').strip()
+          if alvos and not comun:
+              erro('release/mods.json esta com "comunidade" vazia.')
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('alvos=%s\n' % json.dumps(alvos))
+              fh.write('team=%s\n' % team)
+
+          linhas = ['## Gate de publicacao (release/mods.json)', '',
+                    'Pedido: `%s` | alvos: %s' % (escolha, ', '.join(alvos) or '_nenhum_'), '',
+                    '| mod | liberado | versao publicada | motivo |', '|---|---|---|---|']
+          for m in mods:
+              linhas.append('| %s | %s | %s | %s |' % (
+                  m.get('nome'), 'sim' if m.get('publicar') else 'NAO',
+                  m.get('versao_publicada') or '-', m.get('motivo') or ''))
+          if os.environ.get('GITHUB_STEP_SUMMARY'):
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
+                  fh.write('\n'.join(linhas) + '\n')
+
+          if not alvos:
+              print('::notice::nenhum mod liberado para publicar (publicar:true) - nada sera enviado.')
+              print('Nada a fazer. Para liberar um mod: vire "publicar" para true em release/mods.json')
+              print('e explique em "motivo". A decisao humana fica visivel no diff do commit.')
+              sys.exit(0)
+
+          print('alvos: %s' % ', '.join(alvos))
+          print('team : %s' % team)
+          PY
+
+  # ==========================================================================
+  # 2) PUBLICACAO - aqui o gate humano e o Environment com revisores.
+  # ==========================================================================
+  publica:
+    name: Publica na Thunderstore (Environment com revisores)
+    needs: libera
+    if: needs.libera.outputs.alvos != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    # O ENVIRONMENT E O GATE HUMANO. `thunderstore` precisa ter:
+    #   * revisores obrigatorios (1+) - o job PARA aqui ate alguem aprovar, e a
+    #     aprovacao e um clique em "Review deployments", nao uma variavel de ambiente;
+    #   * o secret THUNDERSTORE_TOKEN (secret DO ENVIRONMENT, nao do repositorio);
+    #   * (opcional) restricao de branch: only `main`.
+    # Sem esse environment configurado, `secrets.THUNDERSTORE_TOKEN` chega vazio e o
+    # passo 2 falha antes de qualquer envio - de proposito.
+    environment: thunderstore
+    permissions:
+      contents: read
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: "0. Contexto (o gate humano ja passou)"
+        run: |
+          echo "quem disparou : $GITHUB_ACTOR"
+          echo "commit        : $(git rev-parse --short HEAD)  $(git log -1 --pretty=%s)"
+          echo "run           : $GITHUB_RUN_ID  (em $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID)"
+          echo "alvos         : ${ALVOS_LEGIVEIS}"
+          echo
+          echo "Se o job ficou parado antes deste passo, era o gate humano: revise e aprove em"
+          echo "'Review deployments'. Nada foi enviado antes da aprovacao."
+        env:
+          ALVOS_LEGIVEIS: ${{ needs.libera.outputs.alvos }}
+
+      # 1. Nenhum token no que seria publicado. E o passo 6 do release-check, a mesma
+      #    trava que o tools/publish-thunderstore.sh roda antes de enviar.
+      - name: "1. Trava de segredo"
+        run: python tools/check_segredos.py
+
+      # 2. O token TEM que existir, e nunca aparece em log (so a noticia de que existe).
+      - name: "2. Token do Environment"
+        env:
+          TOKEN: ${{ secrets.THUNDERSTORE_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::secrets.THUNDERSTORE_TOKEN vazio. O token e secret do ENVIRONMENT 'thunderstore' (Settings -> Environments), nao do repositorio. Crie o environment com revisores obrigatorios e adicione o secret - token de service account do TEAM escolhido (PUB-3)."
+            exit 1
+          fi
+          echo "token presente (valor nunca vai para o log)."
+
+      # 3. Os pacotes: zip PRONTO, gerado por `python tools/pack-thunderstore.py` na
+      #    maquina de desenvolvimento. Nada aqui compila (ver o cabecalho).
+      - name: "3a. Baixa os zips de uma GitHub Release (opcional)"
+        if: inputs.release_tag != ''
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.release_tag }}
+        run: |
+          mkdir -p dist
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern 'gumatos-*.zip' --dir dist --clobber
+          ls -la dist
+
+      - name: "3b. Quais pacotes estao no runner"
+        run: |
+          if [ -d dist ] && ls dist/gumatos-*.zip >/dev/null 2>&1; then
+            ls -la dist/gumatos-*.zip
+          else
+            echo "dist/ nao tem nenhum gumatos-*.zip."
+            echo "O passo 4 vai falhar e dizer o que rodar na sua maquina (o CI nao compila)."
+          fi
+
+      # 4. PRE-FLIGHT. Recusa envio incompleto: pacote ausente, zip de outro commit,
+      #    versao repetida, versao menor que a que esta no ar, JSON mentindo sobre o
+      #    que ja foi publicado. Sai com o que fazer, nao com "erro".
+      - name: "4. Pre-flight (pacote, versao unica, lista publica)"
+        id: pre
+        env:
+          ALVOS: ${{ needs.libera.outputs.alvos }}
+          TEAM: ${{ needs.libera.outputs.team }}
+        run: |
+          python - <<'PY'
+          import json, os, re, sys, urllib.request, zipfile
+
+          AUTOR = 'gumatos'          # prefixo dos zips do tools/pack-thunderstore.py (AUTOR)
+          API = 'https://thunderstore.io/c/%s/api/v1/package/'   # lista publica da comunidade
+
+          def erro(msg):
+              print('::error::' + msg)
+              sys.exit(1)
+
+          def semver(t):
+              return tuple(int(x) for x in t.split('.'))
+
+          alvos = json.loads(os.environ['ALVOS'])
+          team = os.environ['TEAM'].strip()
+
+          with open('release/mods.json', encoding='utf-8') as fh:
+              dados = json.load(fh)
+          comunidade = dados['comunidade']
+
+          # --- 4.1 o que JA esta publicado (fonte publica, sem token) ----------------
+          # ATENCAO: a API publica responde 403 ao User-Agent padrao do urllib (o CDN
+          # recusa cliente anonimo sem identificacao). Sem este cabecalho o pre-flight
+          # aborta - e abortar esta certo: sem a lista nao da para garantir versao nova.
+          url = API % comunidade
+          cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
+          try:
+              with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                          timeout=60) as resp:
+                  pacotes = json.load(resp)
+          except Exception as ex:
+              erro('nao consegui ler a lista publica de versoes (%s): %s. Sem ela nao da para '
+                   'garantir que a versao nao se repete, entao nada e enviado.' % (url, ex))
+          publicados = {}
+          for pac in pacotes:
+              publicados[pac.get('full_name')] = pac.get('versions') or []
+
+          linhas_env = []
+          for nome in alvos:
+              entradas = [m for m in dados['mods'] if m.get('nome') == nome]
+              if not entradas:
+                  erro('%s nao esta em release/mods.json. A lista de alvos VEM desse arquivo, '
+                       'entao isto e um defeito do pipeline - nada e enviado.' % nome)
+              entrada = entradas[0]
+
+              # --- 4.2 a versao vem do <Version> do .csproj (fonte unica, PKG-2) -----
+              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
+                  achado = re.search(r'<Version>([^<]+)</Version>', fh.read())
+              if not achado:
+                  erro('PKG-2: %s/%s.csproj sem <Version> (e o <Version> que manda).' % (nome, nome))
+              versao = achado.group(1).strip()
+
+              # --- 4.3 o pacote tem que existir e ser DESTE commit -------------------
+              zip_rel = 'dist/%s-%s-%s.zip' % (AUTOR, nome, versao)
+              if not os.path.isfile(zip_rel):
+                  erro('PACOTE AUSENTE: %s nao existe no runner.\n'
+                       '      Este workflow NAO COMPILA - os .csproj precisam das assemblies do JOGO\n'
+                       '      (Assembly-CSharp.dll, UnityEngine, Sirenix) que ficam em lib/ (gitignored).\n'
+                       '      Rode na maquina de desenvolvimento, da raiz do repo:\n'
+                       '        dotnet build %s/%s.csproj -c Release -p:DeployToBepInEx=false\n'
+                       '        python tools/pack-thunderstore.py %s\n'
+                       '      e traga os zips do dist/ para o runner: anexe-os numa GitHub Release e\n'
+                       '      dispare este workflow com o input release_tag apontando para ela.'
+                       % (zip_rel, nome, nome, nome))
+
+              with zipfile.ZipFile(zip_rel) as zf:
+                  conteudo = zf.namelist()
+                  manifesto = json.loads(zf.read('manifest.json').decode('utf-8'))
+
+              obrigatorios = ['manifest.json', 'README.md', 'CHANGELOG.md', 'icon.png',
+                              'plugins/%s/%s.dll' % (nome, nome)]
+              faltando = [f for f in obrigatorios if f not in conteudo]
+              if faltando:
+                  erro('PACOTE INCOMPLETO (%s): falta %s. Pacote incompleto e pior que pacote '
+                       'nenhum - refaca com tools/pack-thunderstore.py.' % (zip_rel, ', '.join(faltando)))
+              if manifesto.get('name') != nome:
+                  erro('O ZIP NAO E DESTE MOD: manifest.name=%s, esperado %s.'
+                       % (manifesto.get('name'), nome))
+              if manifesto.get('version_number') != versao:
+                  erro('O ZIP ESTA VELHO: manifest.version_number=%s e o <Version> do .csproj e %s. '
+                       'Rebuilde e reempacote antes de publicar.' % (manifesto.get('version_number'), versao))
+              with open('%s/manifest.json' % nome, encoding='utf-8') as fh:
+                  manifesto_repo = json.load(fh)
+              for campo in ('name', 'version_number', 'description', 'dependencies'):
+                  if manifesto_repo.get(campo) != manifesto.get(campo):
+                      erro('O ZIP NAO E DESTE COMMIT: "%s" difere entre %s/manifest.json e o '
+                           'manifesto dentro do %s.' % (campo, nome, zip_rel))
+
+              # --- 4.4 versao IMUTAVEL: nunca repetir, sempre MAIOR ------------------
+              full_name = '%s-%s' % (team, nome)
+              versoes = [v.get('version_number') for v in publicados.get(full_name, [])]
+              versoes_ok = [v for v in versoes if v and re.match(r'^\d+\.\d+\.\d+$', v)]
+              if versao in versoes:
+                  erro('VERSAO REPETIDA: %s v%s ja esta publicada e versao na Thunderstore e '
+                       'IMUTAVEL (nem o README se edita depois). Suba o <Version> do .csproj, '
+                       'sincronize os espelhos e empacote de novo.' % (full_name, versao))
+              if versoes_ok and semver(versao) <= max(semver(v) for v in versoes_ok):
+                  erro('VERSAO NAO E MAIOR: %s v%s nao e maior que v%s, que ja esta publicado. A '
+                       'plataforma exibe sempre a MAIOR versao, entao este envio nao apareceria '
+                       'para ninguem.' % (full_name, versao, max(versoes_ok, key=semver)))
+
+              # --- 4.5 o JSON do repositorio nao pode mentir sobre o que ja saiu -----
+              reg = entrada.get('versao_publicada')
+              if reg and reg not in versoes:
+                  erro('release/mods.json diz que %s publicou v%s, e a API publica nao tem essa '
+                       'versao. Registro errado no repositorio - conserte antes de publicar.' % (nome, reg))
+              if not reg and versoes:
+                  print('::warning::%s ja existe na Thunderstore (%s) mas release/mods.json esta com '
+                        'versao_publicada null - provavel publicacao fora do pipeline. Atualize o registro.'
+                        % (full_name, ', '.join(versoes)))
+
+              linhas_env.append('VERSAO_%s=%s' % (nome, versao))
+              linhas_env.append('DESC_%s=%s' % (nome, manifesto['description']))
+              print('ok    %-30s v%-8s -> %s' % (nome, versao, zip_rel))
+
+          # Variaveis que os passos de envio consomem (a Action precisa de nome, versao,
+          # descricao e comunidade; a descricao vem do manifesto DENTRO do zip, que e o
+          # artefato que esta de fato indo para a plataforma).
+          # Escritas nos DOIS lugares de proposito:
+          #   * $GITHUB_OUTPUT -> lido como `steps.pre.outputs.<nome>` no `with:` das Actions
+          #     (o contexto `steps` e o jeito documentado de levar valor dinamico para `with:`);
+          #   * $GITHUB_ENV    -> lido como variavel de shell nos passos `run:`.
+          linhas_env.append('TEAM=%s' % team)
+          linhas_env.append('COMUNIDADE=%s' % comunidade)
+          with open(os.environ['GITHUB_ENV'], 'a', encoding='utf-8') as fh:
+              fh.write('\n'.join(linhas_env) + '\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('\n'.join(linhas_env) + '\n')
+          print()
+          print('pre-flight ok: %d mod(s) prontos para envio.' % len(alvos))
+          PY
+
+      # ----------------------------------------------------------------------
+      # 5. ENVIO - uma Action pronta por mod, com o input `file:` (zip pronto,
+      #    build pulado). Sao passos separados porque a Action publica UM pacote
+      #    por chamada; o `if` de cada um le a lista de alvos do job `libera`
+      #    (um mod travado nunca chega aqui - ver o passo 1).
+      #
+      #    `repo:` e OBRIGATORIO: sem ele a Action monta `tcli publish --repository`
+      #    vazio e o envio quebra (o valor "thunderstore.io" e o que o script da
+      #    Action espera para apontar para a producao).
+      #    `file:` e relativo a raiz do repo e o caminho real usado e `dist/<file>`:
+      #    a Action move o repo para /dist e depois publica `dist/$file`. Por isso o
+      #    valor comeca com `dist/` - e nao e engano.
+      # ----------------------------------------------------------------------
+      - name: "5.1 Publica BetterFont"
+        if: contains(needs.libera.outputs.alvos, '"BetterFont"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: BetterFont
+          version: ${{ steps.pre.outputs.VERSAO_BetterFont }}
+          description: ${{ steps.pre.outputs.DESC_BetterFont }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-BetterFont-${{ steps.pre.outputs.VERSAO_BetterFont }}.zip
+
+      - name: "5.2 Publica BetterStats"
+        if: contains(needs.libera.outputs.alvos, '"BetterStats"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: BetterStats
+          version: ${{ steps.pre.outputs.VERSAO_BetterStats }}
+          description: ${{ steps.pre.outputs.DESC_BetterStats }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-BetterStats-${{ steps.pre.outputs.VERSAO_BetterStats }}.zip
+
+      - name: "5.3 Publica BetterTooltips"
+        if: contains(needs.libera.outputs.alvos, '"BetterTooltips"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: BetterTooltips
+          version: ${{ steps.pre.outputs.VERSAO_BetterTooltips }}
+          description: ${{ steps.pre.outputs.DESC_BetterTooltips }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-BetterTooltips-${{ steps.pre.outputs.VERSAO_BetterTooltips }}.zip
+
+      - name: "5.4 Publica RoguelikeDebugger"
+        if: contains(needs.libera.outputs.alvos, '"RoguelikeDebugger"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RoguelikeDebugger
+          version: ${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}
+          description: ${{ steps.pre.outputs.DESC_RoguelikeDebugger }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-RoguelikeDebugger-${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}.zip
+
+      - name: "5.5 Publica RoguelikeQoL"
+        if: contains(needs.libera.outputs.alvos, '"RoguelikeQoL"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RoguelikeQoL
+          version: ${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}
+          description: ${{ steps.pre.outputs.DESC_RoguelikeQoL }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-RoguelikeQoL-${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}.zip
+
+      - name: "5.6 Publica RoguelikeSkillTreeVisualizer"
+        if: contains(needs.libera.outputs.alvos, '"RoguelikeSkillTreeVisualizer"')
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RoguelikeSkillTreeVisualizer
+          version: ${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}
+          description: ${{ steps.pre.outputs.DESC_RoguelikeSkillTreeVisualizer }}
+          repo: https://thunderstore.io
+          file: dist/gumatos-RoguelikeSkillTreeVisualizer-${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}.zip
+
+      - name: "6. Fim (o registro da versao e o job 'registra')"
+        run: |
+          echo "Envios concluidos. O job 'registra' confere a API publica e grava a versao"
+          echo "publicada em release/mods.json - so o que a API confirmar."
+          echo "Pagina da comunidade: https://thunderstore.io/c/${COMUNIDADE}/"
+          echo "Versoes vivem no repositorio, nunca em tag: o registro e o release/mods.json."
+
+      - name: Falhou - o que fazer
+        if: failure()
+        run: |
+          echo "::error::A publicacao parou. NADA foi enviado para a Thunderstore por este passo."
+          echo "Cada passo acima diz o arquivo e a linha; o pre-flight recusa pacote velho,"
+          echo "pacote incompleto e versao repetida (versao na Thunderstore e IMUTAVEL)."
+          echo "O ciclo completo e o troubleshooting estao em docs/PUBLICACAO.md."
+          echo "Nenhum token aparece no log - nem nos passos que falham."
+
+  # ==========================================================================
+  # 3) REGISTRO - le a API publica, confirma cada versao e grava em
+  #    release/mods.json (aceite (d) da PUB-4: a versao publicada fica
+  #    registrada no repositorio, e o registro e conferido, nao presumido).
+  # ==========================================================================
+  registra:
+    name: Registra a versao publicada em release/mods.json
+    needs: [libera, publica]
+    if: needs.publica.result == 'success' && needs.libera.outputs.alvos != '[]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: write        # so este job escreve, e so em release/mods.json
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Confere na API publica e atualiza o registro
+        id: atualiza
+        env:
+          ALVOS: ${{ needs.libera.outputs.alvos }}
+          TEAM: ${{ needs.libera.outputs.team }}
+        run: |
+          python - <<'PY'
+          import json, os, re, sys, urllib.request
+
+          def erro(msg):
+              print('::error::' + msg)
+              sys.exit(1)
+
+          alvos = json.loads(os.environ['ALVOS'])
+          team = os.environ['TEAM'].strip()
+
+          with open('release/mods.json', encoding='utf-8') as fh:
+              dados = json.load(fh)
+
+          url = 'https://thunderstore.io/c/%s/api/v1/package/' % dados['comunidade']
+          cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
+          try:
+              with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                          timeout=60) as resp:
+                  pacotes = json.load(resp)
+          except Exception as ex:
+              erro('nao consegui conferir a API publica (%s): %s' % (url, ex))
+
+          publicados = {p.get('full_name'): (p.get('versions') or []) for p in pacotes}
+
+          mudou, faltou = [], []
+          for nome in alvos:
+              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
+                  versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
+              viva = None
+              for v in publicados.get('%s-%s' % (team, nome), []):
+                  if v.get('version_number') == versao:
+                      viva = v
+              if not viva:
+                  faltou.append('%s v%s' % (nome, versao))
+                  continue
+              entrada = [m for m in dados['mods'] if m.get('nome') == nome][0]
+              if entrada.get('versao_publicada') == versao and entrada.get('publicado_em'):
+                  print('ja registrado: %s v%s' % (nome, versao))
+                  continue
+              entrada['versao_publicada'] = versao
+              entrada['publicado_em'] = viva.get('date_created') or ''
+              mudou.append('%s v%s' % (nome, versao))
+              print('registrado: %s v%s  (%s)' % (nome, versao, viva.get('date_created')))
+
+          resumo = ['## Registro da publicacao', '',
+                    'Alvos : %s' % ', '.join(alvos),
+                    'Team  : %s' % team,
+                    'Publicado e conferido na API: %s' % (', '.join(mudou) or '_nada novo_')]
+          if faltou:
+              resumo.append('NAO encontrado na API publica (nao registrado): %s' % ', '.join(faltou))
+          resumo.append('')
+          resumo.append('```json')
+          resumo.append(json.dumps([m for m in dados['mods'] if m['nome'] in alvos], indent=2))
+          resumo.append('```')
+          if os.environ.get('GITHUB_STEP_SUMMARY'):
+              with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
+                  fh.write('\n'.join(resumo) + '\n')
+
+          if mudou:
+              with open('release/mods.json', 'w', encoding='utf-8', newline='\n') as fh:
+                  json.dump(dados, fh, ensure_ascii=False, indent=2)
+                  fh.write('\n')
+          with open(os.environ['GITHUB_OUTPUT'], 'a', encoding='utf-8') as fh:
+              fh.write('mudou=%s\n' % json.dumps(mudou))
+              fh.write('faltou=%s\n' % json.dumps(faltou))
+              fh.write('mensagem=%s\n' % ('registra ' + ', '.join(mudou) if mudou else 'sem mudanca'))
+
+          if faltou:
+              erro('a publicacao terminou sem erro, mas a API publica NAO mostra %s. Nada foi '
+                   'registrado aqui: confira manualmente o que aconteceu em '
+                   'https://thunderstore.io/c/%s/ antes de mexer no release/mods.json.'
+                   % (', '.join(faltou), dados['comunidade']))
+          if not mudou:
+              print('::notice::nada a registrar (as versoes ja estavam registradas).')
+          PY
+
+      # O registro e um commit normal no repositorio. Se a branch main tiver protecao que
+      # bloqueie push do GITHUB_TOKEN, este passo falha - e a publicacao CONTINUA valida:
+      # o bloco do resumo acima e o que copiar a mao para release/mods.json.
+      - name: Commit e push do registro
+        if: steps.atualiza.outputs.mudou != '[]'
+        env:
+          MENSAGEM: ${{ steps.atualiza.outputs.mensagem }}
+        run: |
+          if git diff --quiet -- release/mods.json; then
+            echo "release/mods.json ja estava assim - nada a commitar."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add release/mods.json
+          # [skip ci]: registrar versao nao precisa disparar a validacao de novo.
+          git commit -m "release: ${MENSAGEM} na Thunderstore [skip ci]"
+          git push origin HEAD:main
+          echo "registro commitado: $(git rev-parse --short HEAD)"
+
+      - name: Push falhou - o que fazer
+        if: failure()
+        run: |
+          echo "::error::A publicacao JA aconteceu (o job 'publica' passou); o que falhou foi so o"
+          echo "registro no repositorio. Copie o bloco JSON do resumo deste run para release/mods.json"
+          echo "e commite a mao: e o registro que os proximos releases usam para recusar versao repetida."
