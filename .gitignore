@@ -53,6 +53,7 @@ scratch/ciclo-*.txt
 scratch/*.json
 scratch/release-check-saida*.txt
 scratch/analisa_*.py
+scratch/*.py
 
 # Segredos — nunca publicar
 .env
