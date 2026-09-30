@@ -13,10 +13,13 @@
 #   2. CHAVES     — tools/check_fix_keys.py (chave dos textos existe no censo)
 #   3. DUPLICADAS — tools/check_dupes.py    (trava INC-1: chave repetida derruba
 #                   o mod INTEIRO com TypeInitializationException)
-#   4. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
+#   4. NOTAS      — tools/check_notas_redundantes.py (nota que repete o texto)
+#   5. COMPARTILH.— tools/check_chave_compartilhada.py (AVISO, nunca reprova:
+#                   nota em texto usado por 2+ entidades pode mentir — BUG-32)
+#   6. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
 #                   LogOutput.log: 0 TypeInitializationException,
 #                   0 ArgumentException, 0 linhas '[Error'
-#   5. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
+#   7. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
 #
 # Notas de projeto:
 #   * NAO usa `set -e`: o relatorio final TEM que aparecer mesmo com falha.
@@ -184,9 +187,28 @@ else
   passo_ok "4. NOTAS" "${det_notas:-0 casos}"
 fi
 
-# ============================== 4. CICLO =====================================
+# ======================= 5. CHAVE COMPARTILHADA ==============================
 echo
-echo "== PASSO 5/5 — CICLO DO JOGO + ANALISE DO LOG =="
+echo "== PASSO 5/6 — CHAVE COMPARTILHADA (aviso; a ferramenta sempre sai 0) =="
+SAIDA_COMP="$($PYTHON tools/check_chave_compartilhada.py 2>&1)"; rc_comp=$?
+printf '%s\n' "$SAIDA_COMP" | sed 's/^/   /'
+if [ "$rc_comp" -ne 0 ]; then
+  passo_fail "5. COMPARTILH." "check_chave_compartilhada.py NAO RODOU (exit $rc_comp) - aviso BUG-32 nao verificado"
+else
+  N_SUSP=$(printf '%s\n' "$SAIDA_COMP" | grep -aoE 'SUSPEITAS[^:]*: [0-9]+' | grep -oE '[0-9]+' | head -1)
+  N_SUSP=${N_SUSP:-0}
+  if [ "$N_SUSP" != "0" ]; then
+    echo
+    echo "   AVISO (nao reprova): $N_SUSP suspeita(s) de chave compartilhada - a nota pode"
+    echo "   estar mentindo para outro dono do texto. Revisar:"
+    echo "   docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md"
+  fi
+  passo_ok "5. COMPARTILH." "$N_SUSP suspeita(s) (aviso; nunca reprova)"
+fi
+
+# ============================== 6. CICLO =====================================
+echo
+echo "== PASSO 6/6 — CICLO DO JOGO + ANALISE DO LOG =="
 echo "   $ bash scratch/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
 SAIDA_CICLO="$(bash scratch/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
 printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
@@ -194,7 +216,7 @@ printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
 # --- analise do log ---------------------------------------------------------
 if [ ! -f "$LOG" ]; then
   echo "   ERRO: log nao existe: $LOG"
-  passo_fail "5. CICLO" "sem log — o jogo nao chegou a subir"
+  passo_fail "6. CICLO" "sem log — o jogo nao chegou a subir"
 else
   N_TIE=$(grep -ac 'TypeInitializationException' "$LOG" || true); N_TIE=${N_TIE:-0}
   N_ARG=$(grep -ac 'ArgumentException' "$LOG" || true);           N_ARG=${N_ARG:-0}
@@ -221,9 +243,9 @@ else
   fi
 
   if [ "$N_TIE" -eq 0 ] && [ "$N_ARG" -eq 0 ] && [ "$N_ERR" -eq 0 ] && [ "$N_CARR" -gt 0 ] && [ "$BT_OK" -eq 1 ]; then
-    passo_ok "5. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
+    passo_ok "6. CICLO" "$N_CARR plugins ok, 0 TIE, 0 ArgException, 0 [Error"
   else
-    passo_fail "5. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
+    passo_fail "6. CICLO" "TIE=$N_TIE ArgEx=$N_ARG [Error=$N_ERR plugins=$N_CARR BT=$BT_OK (exit test-cycle=$rc_ciclo)"
     [ "$N_TIE" -gt 0 ] && grep -a -m3 -B1 'TypeInitializationException' "$LOG" | sed 's/^/        /'
     [ "$N_ERR" -gt 0 ] && grep -a -m3 '^\[Error' "$LOG" | sed 's/^/        /'
   fi
@@ -234,7 +256,7 @@ taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1 || true
 
 # =============================== 5. HUMANO ===================================
 echo
-echo "== PASSO 6 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
+echo "== PASSO 7 — PASSO HUMANO (NAO automatizavel: exige jogo aberto e olho humano) =="
 cat <<'HUMANO'
    Estes itens NAO podem ser checados por script — nenhum deles aparece no log.
    O release NAO esta completo enquanto um humano nao conferir, em jogo:
@@ -268,10 +290,10 @@ for c in "${CHECKS[@]}"; do
     printf '  [FALHA]  %-14s %s\n' "$nome" "$det"
   fi
 done
-printf '  [HUMANO] %-14s %s\n' "6. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
+printf '  [HUMANO] %-14s %s\n' "7. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
 echo
 if [ "${#FALHAS[@]}" -eq 0 ]; then
-  echo "  CONCLUSAO: APROVADO (verificacao automatizada: build, chaves, duplicadas, ciclo)"
+  echo "  CONCLUSAO: APROVADO (verificacao automatizada: build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
   echo "             LEMBRETE: o release so esta COMPLETO depois dos passos humanos 5.1-5.5."
   echo "             Nada foi instalado a mao: o build dos .csproj ja deployou as DLLs."
   RC=0
@@ -282,7 +304,7 @@ else
       "1. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
       "2. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
       "3. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
-      "5. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
+      "6. CICLO")      echo "             >> ler as linhas de erro do log acima antes de qualquer release." ;;
     esac
   done
   echo "             Nada deve ser distribuido/instalado enquanto o veredito for REPROVADO."

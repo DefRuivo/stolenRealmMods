@@ -767,6 +767,26 @@ namespace BetterTooltips.Patches
             { "Skill Tree Removals +6",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
             { "Skill Tree Removals +7",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
             { "Skill Tree Removals +8",  "\n<color=#C8B090>Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.</color>" },
+            // RV-19 shrines — familia de auras de shrine: base + cadeia do Shrine Effect Bonus.
+            // A chave do Flame nao tem numero no texto: a nota carrega o dano real (acao "Flame Aura Proc").
+            { "Attackers take Fire Damage.",
+              "\n<color=#C8B090>Deals fire damage equal to 5% of the attacker's Max Health (2.5% for bosses up to 14% for fodder; 5% for players), minimum 1. Scales with the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Take [0]% of your Max Health in Shadow Damage per turn.",
+              "\n<color=#C8B090>Base 10% of Max Health; varies by enemy type (5% for bosses up to 20% for fodder). The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Damage increased by [0]%. ",
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Reduces Damage taken by [0]%. ",
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Critical hit chance increased by [0]%.",
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Increases dodge chance by [0]%.",
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Lifesteal increased by [0]%.",
+              "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Decreases the cost of mana using abilities by [0]%.",
+              "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
+            { "Your attacks have a [0]% chance to stun the target.",
+              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -822,7 +842,7 @@ namespace BetterTooltips.Patches
             // RV-14 terminologia: Shaman Aura | maximum mana -> max mana
 
             { "Recover [0]% of maximum mana each turn. ",
-              "Recover [0]% of max mana each turn. " },
+              "Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
             // RV-14 terminologia: Curse of the Reaper | max life -> max health
 
             { "Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>\"A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.\"</i></color>",
@@ -852,7 +872,7 @@ namespace BetterTooltips.Patches
               "@Max health@ and @maximum mana@ lowered by 25%." },
             // RV-14 terminologia: Seraph Aura | maximum health -> max health
             { "Recover [0]% of maximum health each turn. ",
-              "Recover [0]% of max health each turn. " },
+              "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; Horn of Devotion).</color>" },
             // RV-14 terminologia: Salvation | maximum health -> max health
             { "@Maximum health@ increased by 10% per stack.",
               "@Max health@ increased by 10% per stack." },
