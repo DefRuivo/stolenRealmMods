@@ -449,6 +449,9 @@ jobs:
                       # Pedido de casa (`todos`): o que ja esta no ar e PULADO, nao derruba o
                       # job - e o que permite recuperar uma publicacao parcial em UM run.
                       print('ja publicado, pulando: %s v%s' % (full_name, versao))
+                      # A versao vai para o ambiente mesmo no pulado: o passo 6 (e o
+                      # resumo) confere TODOS os alvos, nao so os que este run enviou.
+                      linhas_env.append('VERSAO_%s=%s' % (nome, versao))
                       pulados.append(nome)
                       continue
                   erro('VERSAO REPETIDA: %s v%s ja esta publicada e versao na Thunderstore e '
@@ -525,10 +528,51 @@ jobs:
       #    `repo:` e OBRIGATORIO: sem ele a Action monta `tcli publish --repository`
       #    vazio e o envio quebra (o valor "thunderstore.io" e o que o script da
       #    Action espera para apontar para a producao).
-      #    `file:` e relativo a raiz do repo e o caminho real usado e `dist/<file>`:
-      #    a Action move o repo para /dist e depois publica `dist/$file`. Por isso o
-      #    valor comeca com `dist/` - e nao e engano.
+      #    `file:` e relativo a raiz do repo: a Action publica `dist/$file`, ou seja
+      #    `dist/` + o valor daqui - por isso o valor comeca com `dist/` (nao e engano).
+      #    `path:` e a entrada que faz o envio FUNCIONAR mais de uma vez no mesmo job:
+      #    o entrypoint da Action faz `mv $TS_PATH/* /dist` e esse mv SAI da area de
+      #    trabalho montada, entao com o padrao (".") o runner fica VAZIO depois da
+      #    primeira invocacao e a segunda morre em `mv: cannot stat './*'` (foi o que
+      #    derrubou o run 36781938117 no 5.2, DEPOIS do 5.1 publicar). Cada passo aponta
+      #    para o seu proprio `envio-<Mod>/` (criado no passo 5.0), com a MESMA arvore que
+      #    a Action espera: `dist/<zip>` + `README.md`, e so esse diretorio e consumido.
       # ----------------------------------------------------------------------
+      # 5.0 O `path:` de cada 5.x aponta para um diretorio PROPRIO, porque a Action
+      #     MOVE (`mv`) o que recebe para dentro do container: o que ela move some da
+      #     area de trabalho do runner. Um diretorio por mod = cada envio tem o que a
+      #     Action espera e os outros cinco ficam intactos. A arvore e a MESMA de antes
+      #     (`dist/<zip>` + `README.md`, que a Action leva para /README.md).
+      - name: "5.0 Prepara um diretorio de envio por mod (a Action move o que recebe)"
+        run: |
+          python - <<'PY'
+          import json, os, shutil, sys
+
+          with open('release/mods.json', encoding='utf-8') as fh:
+              nomes = [m['nome'] for m in json.load(fh)['mods'] if m.get('publicar') is True]
+
+          feitos, faltou = [], []
+          for nome in nomes:
+              versao = os.environ.get('VERSAO_%s' % nome)
+              zip_rel = 'dist/gumatos-%s-%s.zip' % (nome, versao)
+              if not versao or not os.path.isfile(zip_rel):
+                  faltou.append(nome)
+                  continue
+              destino = 'envio-%s' % nome
+              shutil.rmtree(destino, ignore_errors=True)
+              os.makedirs(os.path.join(destino, 'dist'))
+              shutil.copy2(zip_rel, os.path.join(destino, 'dist'))
+              for extra in ('README.md', 'icon.png'):
+                  if os.path.isfile(extra):
+                      shutil.copy2(extra, destino)
+              feitos.append(nome)
+              print('envio-%-28s -> %s' % (nome, sorted(os.listdir(destino))))
+          print('diretorios de envio prontos: %d de %d mod(s) liberado(s)'
+                % (len(feitos), len(nomes)))
+          if faltou:
+              print('SEM PACOTE (nao teriam como ser enviados): %s' % ', '.join(faltou))
+          PY
+
       - name: "5.1 Publica BetterFont"
         if: contains(steps.pre.outputs.ENVIAR, '"BetterFont"')
         # Um mod com problema nao pode derrubar os outros cinco: quem decide o
@@ -543,6 +587,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_BetterFont }}
           description: ${{ steps.pre.outputs.DESC_BetterFont }}
           repo: https://thunderstore.io
+          path: envio-BetterFont
           file: dist/gumatos-BetterFont-${{ steps.pre.outputs.VERSAO_BetterFont }}.zip
 
       - name: "5.2 Publica BetterStats"
@@ -559,6 +604,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_BetterStats }}
           description: ${{ steps.pre.outputs.DESC_BetterStats }}
           repo: https://thunderstore.io
+          path: envio-BetterStats
           file: dist/gumatos-BetterStats-${{ steps.pre.outputs.VERSAO_BetterStats }}.zip
 
       - name: "5.3 Publica BetterTooltips"
@@ -575,6 +621,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_BetterTooltips }}
           description: ${{ steps.pre.outputs.DESC_BetterTooltips }}
           repo: https://thunderstore.io
+          path: envio-BetterTooltips
           file: dist/gumatos-BetterTooltips-${{ steps.pre.outputs.VERSAO_BetterTooltips }}.zip
 
       - name: "5.4 Publica RoguelikeDebugger"
@@ -591,6 +638,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeDebugger }}
           repo: https://thunderstore.io
+          path: envio-RoguelikeDebugger
           file: dist/gumatos-RoguelikeDebugger-${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}.zip
 
       - name: "5.5 Publica RoguelikeQoL"
@@ -607,6 +655,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeQoL }}
           repo: https://thunderstore.io
+          path: envio-RoguelikeQoL
           file: dist/gumatos-RoguelikeQoL-${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}.zip
 
       - name: "5.6 Publica RoguelikeSkillTreeVisualizer"
@@ -623,6 +672,7 @@ jobs:
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeSkillTreeVisualizer }}
           repo: https://thunderstore.io
+          path: envio-RoguelikeSkillTreeVisualizer
           file: dist/gumatos-RoguelikeSkillTreeVisualizer-${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}.zip
 
       # 6. FECHA O CICLO. O resultado do job e decidido AQUI, nao no codigo de saida de cada
@@ -650,10 +700,13 @@ jobs:
 
           alvos = json.loads(os.environ['ALVOS'])
           team = os.environ['TEAM'].strip()
+          comunidade = os.environ.get('COMUNIDADE') or 'stolen-realm'
           enviados = json.loads(os.environ.get('ENVIADOS') or '[]')
           pulados = json.loads(os.environ.get('PULADOS') or '[]')
-          with open('release/mods.json', encoding='utf-8') as fh:
-              comunidade = json.load(fh)['comunidade']
+          # NADA de ler arquivo do repositorio aqui: os passos 5.x MOVEM o que recebem
+          # para dentro do container, entao a area de trabalho do runner ja nao tem os
+          # .csproj nem o release/mods.json. A versao de cada alvo vem do ambiente, que o
+          # pre-flight escreveu para TODOS os alvos (inclusive os que ele pulou).
 
           def no_ar(nome, versao):
               url = API % (team, nome, versao)
@@ -673,8 +726,10 @@ jobs:
 
           vivos, faltando = [], []
           for nome in alvos:
-              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
-                  versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
+              versao = os.environ.get('VERSAO_%s' % nome)
+              if not versao:
+                  erro('sem a versao de %s no ambiente - o pre-flight nao chegou a ler o '
+                       '.csproj desse mod, entao nao da para conferir o envio.' % nome)
               if no_ar(nome, versao):
                   vivos.append('%s v%s' % (nome, versao))
                   print('no ar  %-30s v%s' % (nome, versao))
