@@ -154,6 +154,168 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // RV-9 buffs: Vengeful - Increases damage dealt by 15%. Stacks up to 10 times, one stack 
+            { "Increases damage dealt by 15%.",
+              "\n<color=#C8B090>Stacks up to 10 times, one stack per ally killed.</color>" },
+            // RV-9 buffs: Vampiric Aura - @Life steal@ increased. Increases life steal by 50%. The aura re
+            { "@Life steal@ increased.",
+              "\n<color=#C8B090>Increases life steal by 50%. The aura reaches 3 hexes from its source and applies to allies inside it.</color>" },
+            // RV-9 buffs: Vampiric Aura - @Life steal@ increased by 5%. The aura reaches 3 hexes from its 
+            { "@Life steal@ increased by 5%.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source and applies to allies inside it.</color>" },
+            // RV-9 buffs: Vampiric Aura - @Life steal@ increased by 20%. The aura reaches 3 hexes from its
+            { "@Life steal@ increased by 20%.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source and applies to allies inside it.</color>" },
+            // RV-9 buffs: Vampiric Aura - @Life Steal@ increased by 5%. The aura reaches 3 hexes from its 
+            { "@Life Steal@ increased by 5%.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source and applies to allies inside it.</color>" },
+            // RV-9 buffs: Vampire Lord Aura - @Life steal@ increased by 50%. The aura reaches 3 hexes from its
+            { "@Life steal@ increased by 50%.",
+              "\n<color=#C8B090>The aura reaches 3 hexes from its source and applies to allies inside it.</color>" },
+            // RV-9 buffs: Unyielding Contender - Grants 50% increased Armor, Magic Armor, and Max Health. Lasts 2
+            { "Grants 50% increased Armor, Magic Armor, and Max Health.",
+              "\n<color=#C8B090>Lasts 2 turns.</color>" },
+            // RV-9 buffs: Titan Bloom - Increases Max Health and Damage by [0]%. Stacks. Stacks up to 5 
+            { "Increases Max Health and Damage by [0]%. Stacks.",
+              "\n<color=#C8B090>Stacks up to 5 times.</color>" },
+            // RV-9 buffs: Thunder Charged - The next damage you deal causes a Thunder Bolt to strike your ta
+            { "The next damage you deal causes a Thunder Bolt to strike your target. Stacks.",
+              "\n<color=#C8B090>Stacks up to 8 times.</color>" },
+            // RV-9 buffs: Spectral Binding - Invincible: it cannot be damaged.
+            { "Will leave when finished playing with you.",
+              "\n<color=#C8B090>Invincible: it cannot be damaged.</color>" },
+            // RV-9 buffs: Shield of Retribution - When the shield is depleted it explodes, dealing holy damage to 
+            { "Shielded from [0] damage.",
+              "\n<color=#C8B090>When the shield is depleted it explodes, dealing holy damage to foes within 3 hexes.</color>" },
+            // RV-9 buffs: Seal of Salvation - It reaches allies within 3 hexes of the seal's bearer.
+            { "Restores *0 health per turn.",
+              "\n<color=#C8B090>It reaches allies within 3 hexes of the seal's bearer.</color>" },
+            // RV-9 buffs: Seal of Protection - It reaches allies within 3 hexes of the seal's bearer.
+            { "Decreases damage taken by 10%.",
+              "\n<color=#C8B090>It reaches allies within 3 hexes of the seal's bearer.</color>" },
+            // RV-9 buffs: Rage - Current health is increased by the same percentage and goes back
+            { "Increases damage dealt and max life by 15%. Increases damage received by 15%.",
+              "\n<color=#C8B090>Current health is increased by the same percentage and goes back down when the status ends.\nAlso increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Perfect Rage - Also increases the healing this character does by the same perce
+            { "Cannot control your character. Increases damage by [0]%. Grants enrage.",
+              "\n<color=#C8B090>Also increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Patient Hunter - Gains a stack at the end of your turn, and moving removes the st
+            { "Damage increased by 10%, Range increased by 1 per stack.",
+              "\n<color=#C8B090>Gains a stack at the end of your turn, and moving removes the status.\nAlso increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Overgrow - Current health is increased by the same percentage and goes back
+            { "Increases Damage Dealt and Max Health by 25%.",
+              "\n<color=#C8B090>Current health is increased by the same percentage and goes back down when the status ends.\nAlso increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Overflowing Energy - Power of Mana increases the damage and healing of abilities that
+            { "Increases @Mana Costs@ by {4,20}%, power of all @Mana Abilites@ by {8,40}% and @Intelligence@ by {3,15}.  <i><color=#808080>The energies of a Mana Spring swell within you!</i></color> ",
+              "\n<color=#C8B090>Power of Mana increases the damage and healing of abilities that cost Mana.\nIt does not change how much Mana they cost, it does nothing for abilities that cost no Mana,\nand it does not change the duration or the bonuses of the statuses those abilities apply.</color>" },
+            // RV-9 buffs: Overcharge - Lasts 2 turns.
+            { "Adds *0 lightning damage to your next basic attack.  Can stack up to 10 times.",
+              "\n<color=#C8B090>Lasts 2 turns.</color>" },
+            // RV-9 buffs: Otherworldly Tether - While the tether lasts the Dead One is Invincible: it takes no d
+            { "The Dead One's tether to this world wanes.  Lasts [0] more round(s).",
+              "\n<color=#C8B090>While the tether lasts the Dead One is Invincible: it takes no damage and harmful statuses cannot be applied to it.</color>" },
+            // RV-9 buffs: Necronomicon - <color=#808080>You carry the Necronomicon! Changes your @Skeleta
+            { "<i><color=#808080>You carry the Necronomicon!</i></color>   Changes your @Skeletal Summons@ into something... stronger. Increases Summon Damage and Health by {5,25}%",
+              "\n<color=#C8B090>Your skeletal summons are raised as Undead instead: Undead Berserker, Undead Ranger and Undead Wizard.</color>" },
+            // RV-9 buffs: Muse - Mana costs reduced. Allies within 4 hexes of the caster: Muse I 
+            { "Mana costs reduced.",
+              "\n<color=#C8B090>Allies within 4 hexes of the caster: Muse I reduces Mana Costs by 10%, Muse II by a further 15%.</color>" },
+            // RV-9 buffs: Mark of the Alpha - <color=#808080>"Look at me, I'm the alpha now! Changes your @Nat
+            { "<i><color=#808080>\"Look at me, I'm the alpha now!</i></color>   Changes your @Nature Summons@ into @Pack Summons@. Increases Summon Damage and Health by {5,25}%",
+              "\n<color=#C8B090>Pack summons are fixed instead of random: Timber Wolf, Tundra Wolf and Dire Wolf.</color>" },
+            // RV-9 buffs: Ivory Dragon Scale - Gain the ability to shapeshift into a White Dragonkin. <color=#8
+            { "Gain the ability to shapeshift into a White Dragonkin.  <i><color=#808080>\"Imbued with a gentle radiance, it serves as a testament to the enduring strength of the forces of light\"</i></color> ",
+              "\n<color=#C8B090>While transformed you gain: Dragonkin Holy Slash, Dragonkin Holy Breath and Dragonkin Holy Blast.</color>" },
+            // RV-9 buffs: Invincible - Invincible. Cannot take damage.
+            { "Invincible.",
+              "\n<color=#C8B090>Cannot take damage.</color>" },
+            // RV-9 buffs: Inspiring Aura - Damage increased by 60%. The aura reaches 3 hexes from its sourc
+            { "Damage increased by 60%.",
+              "\n<color=#C8B090>Also increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Immunity - Can only be harmed by destroying Soul Fetishes. Immune to moveme
+            { "Can only be harmed by destroying Soul Fetishes.  Immune to movement imparing effects.",
+              "\n<color=#C8B090>Also grants immunity to effects that Disable the character (they cannot perform actions).</color>" },
+            // RV-9 buffs: Holy Ground - Targets in holy ground receive healing. Heals each turn while th
+            { "Targets in holy ground receive healing.",
+              "\n<color=#C8B090>Heals each turn while the target stays in the holy ground.</color>" },
+            // RV-9 buffs: Greater Heal - \n Restores the target to full health (heal equal to their Max H
+            { "Healed.",
+              "\n<color=#C8B090>Restores the target to full health (heal equal to their Max Health).</color>" },
+            // RV-9 buffs: Glory - \n Also cannot be targeted by harmful skills, and harmful status
+            { "Immune to damage.",
+              "\n<color=#C8B090>Also cannot be targeted by harmful skills, and harmful statuses do not apply.</color>" },
+            // RV-9 buffs: Giant - \n Also increases the healing you do by the same percentage.
+            { "Damage and Health increased by 25% Size increased by 25%",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Fury - \n Also increases the healing you do by the same percentage.
+            { "Damage increased by [0]%. Damage taken increased by [0]%. ",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Evolution - \n Also increases the healing you do by the same percentage.
+            { "Damage increased by 5% per stack.  Can stack up to 10 times.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Enraged - \n Also immune to being Chilled, Frozen, Stunned or Disabled.
+            { "Immune to all movement impairing effects and knockback.",
+              "\n<color=#C8B090>Also immune to being Chilled, Frozen, Stunned or Disabled.</color>" },
+            // RV-9 buffs: Enduring Evasion - \n Guarantees a dodge (100% chance) of the next 2 incoming attac
+            { "Dodging incoming attacks.",
+              "\n<color=#C8B090>Guarantees a dodge (100% chance) of the next 2 incoming attacks; each dodge spends one charge.</color>" },
+            // RV-9 buffs: Dodging Strikes - \n Each stack adds another 8%; you gain one stack per strike.
+            { "Dodge chance increased by 8%.",
+              "\n<color=#C8B090>Each stack adds another 8%; you gain one stack per strike.</color>" },
+            // RV-9 buffs: Destructive - Lasts 3 turns. Also increases the healing you do by the same per
+            { "Damage increased by 50% ",
+              "\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Courage of the Ymir - Also works with Fist weapons, and it does not apply while wieldi
+            { "Increases your @Action Points@ by @1@. If you are using a One-Handed Sword, Axe, Hammer, Gun, or Wand.  <i><color=#808080>You carry the Speed of the Ymir!</color></i>",
+              "\n<color=#C8B090>Also works with Fist weapons, and it does not apply while wielding a two-handed weapon.</color>" },
+            // RV-9 buffs: Control Resistance - Also halves the effect of Chilled.
+            { "Has a [0]% chance to resist any control effects.",
+              "\n<color=#C8B090>Also halves the effect of Chilled.</color>" },
+            // RV-9 buffs: Combo Breaker - Each stack is consumed by your next damaging or healing skill.
+            { "Damage and healing from non basic skills increased by 10%.",
+              "\n<color=#C8B090>Each stack is consumed by your next damaging or healing skill.</color>" },
+            // RV-9 buffs: Call of the Reaper - Also increases the healing you do by the same percentage.
+            { "Increases @Damage@ by {6,30}%. Increases @Damage Taken@ by 10%.  <i><color=#808080>\"Judge not a life until its final breath, for the Reaper's touch brings truth to death.\"</i></color>  ",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Break The Ice - It also boosts your first healing, and the bonus is consumed by 
+            { "Your first attack in battle deals 100% additional damage.",
+              "\n<color=#C8B090>It also boosts your first healing, and the bonus is consumed by your first damaging or healing cast.</color>" },
+            // RV-9 buffs: Bottled Wrath - Also increases the healing you do by the same percentage.
+            { "Damage increased by 50%. Damage taken increased by 25%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bottled Rage - Also increases the healing you do by the same percentage.
+            { "Damage increased by 30%. Damage taken increased by 15%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bottled Irritation - Also increases the healing you do by the same percentage.
+            { "Damage increased by 10%. Damage taken increased by 5%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bottled Fury - Also increases the healing you do by the same percentage.
+            { "Damage increased by 40%. Damage taken increased by 20%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bottled Anger - Also increases the healing you do by the same percentage.
+            { "Damage increased by 20%. Damage taken increased by 10%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bone Collector - Stacks up to 5 times. Also increases the healing you do by the s
+            { "@Maximum health@ and @Damage Dealt@ increased by 6% per stack.",
+              "\n<color=#C8B090>Stacks up to 5 times.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Blood Frenzy - Lasts 2 turns. Also increases the healing you do by the same per
+            { "Increases damage dealt and life steal by 25%.",
+              "\n<color=#C8B090>Lasts 2 turns.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Bless - Also increases the healing you do by the same percentage.
+            { "@Maximum health@ and @maximum mana@ increased by 10%.  @Damage dealt@ increased by 10%.",
+              "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Berserking - Lasts 3 turns. The bonus is your missing health as a percentage:
+            { "Maximum health increased by 25% Deals more damage at lower health",
+              "\n<color=#C8B090>Lasts 3 turns.\nThe bonus is your missing health as a percentage: up to +100% damage at 1 health.</color>" },
+            // RV-9 buffs: Battle Fury - Lasts 3 turns. Also increases the healing you do by the same per
+            { "Increases damage dealt by 30%.",
+              "\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
+            // RV-9 buffs: Antidote - Lasts 2 turns.
+            { "Immune to poisoned.",
+              "\n<color=#C8B090>Lasts 2 turns.</color>" },
+            // RV-9 buffs: Angered - Lasts 3 turns. Also increases the healing you do by the same per
+            { "Increases damage dealt by 25%. Increases max life and damage taken by 15%.",
+              "\n<color=#C8B090>Lasts 3 turns.\nAlso increases the healing you do by the same percentage.</color>" },
             // RV-9 debuffs: Visually Impaired - Only ranged attacks and skills lose range; melee range is un
             { "Reduces @Range@ by @3@ per stack.",
               "\n<color=#C8B090>Only ranged attacks and skills lose range; melee range is unchanged.</color>" },
@@ -581,6 +743,30 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // RV-9 buffs: Toxic
+            { "Applies @2@ @poison@ when striking Applies @2@ @poison@ when struck",
+              "Applies @2@ @poison@ when striking. Applies @2@ @poison@ when struck." },
+            // RV-9 buffs: Rampaging
+            { "Increased damage by 50% All resistances lowered by 25% Control Resistance",
+              "Increased damage by 50%. All resistances except Holy lowered by 25%. Control Resistance" },
+            // RV-9 buffs: Power Globule
+            { "Increases damage and summon damage by 10%",
+              "Increases damage and summon damage by 10%.\n<color=#C8B090>Also increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Point Blank
+            { "Ranged spells deal damage the closer you are. Calculates how much ranged you have and the closer you are from your max range the more damage you deal.",
+              "Increases damage by 50%.\n<color=#C8B090>Also increases the healing this character does by the same percentage.</color>" },
+            // RV-9 buffs: Miniature
+            { "Movement increased by 3 Action Points increased by 1 Max Health reduced by 25% Damage reduced by 25%",
+              "Movement increased by 3. Action Points increased by 1. Max Health reduced by 25%. Damage reduced by 25%.\n<color=#C8B090>Also reduces the healing this character does by the same percentage.</color>\n<color=#C8B090>Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.</color>" },
+            // RV-9 buffs: Incalculable Rage
+            { "Grants 1 additional Action Points. Lowers movement points by 6.",
+              "Grants 1 additional Action Point. Lowers movement points by 6." },
+            // RV-9 buffs: Growing Hatred
+            { "Grants 1 additional Action Point. Increases Damage Taken by 25%.",
+              "Grants 1 additional Action Point." },
+            // RV-9 buffs: Eye Drops
+            { "Immune to Bleeding.",
+              "Immune to Blind." },
             // RV-9 debuffs: Reduced Resistances III
             { "All Resistances reduced by 30%",
               "All Resistances except Holy reduced by 30%" },
