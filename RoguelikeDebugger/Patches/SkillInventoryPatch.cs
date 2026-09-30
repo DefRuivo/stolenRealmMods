@@ -215,6 +215,13 @@ namespace RoguelikeDebugger.Patches
                     $"colisao={(ac.KnockbackCollideAction != null ? ac.KnockbackCollideAction.name : "-")} | " +
                     $"hexesAtiv={(string.IsNullOrEmpty(ac.ActivationIndicatorHexes) ? "-" : ac.ActivationIndicatorHexes.Replace('\n', ','))} | " +
                     $"numHitsEq={(ac.UseNumHitsEquation ? "Sim" : "-")} | " +
+                    // A corrente de PROJETIL (a `Chain Lightning`): quantos saltos, qual a
+                    // regra do proximo alvo e, o que o texto nao diz, se o MESMO alvo pode ser
+                    // atingido de novo (`ChainSameTarget` e true por padrao).
+                    $"chainProj={(ac.ProjectileChain ? "Sim" : "Nao")} | " +
+                    $"chainProjN={ac.ProjectileChainCount} | " +
+                    $"chainProjAlvo={Limpa(ac.ProjectileChainTarget)} | " +
+                    $"chainMesmo={ac.ChainSameTarget} | " +
                     // Os DOIS campos que fecham casos concretos que ficaram abertos:
                     // (a) `DashChainTarget` - a string que escolhe os alvos da corrente. E o
                     //     candidato ao raio do PUXAO do `Cyclone Kick` ("pulls enemies within
