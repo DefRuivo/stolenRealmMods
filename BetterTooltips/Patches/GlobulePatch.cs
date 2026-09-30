@@ -18,11 +18,23 @@ namespace BetterTooltips.Patches
     /// `Refreshing Globule`/"Lowers Cooldowns by 1" (@1520829548).
     /// Por que ESTES são "globules": o gatilho do Sustenance é `TriggerType.OnGlobulePickup`, disparado
     /// por `GroundEffect.ExecuteActionOnEnter` quando `GroundEffectInfo.GroundEffectType == Pickup`
-    /// (decompilado l.117020-117023) — e a família dos pickups do jogo é essa (a `Magic Hat III`,
-    /// "Produce a random Globule on the target hex.", sorteia da mesma lista). Os objetos
-    /// `Pickup Health 10`/`Pickup Mana 10` do mesmo cluster NÃO entram: o nome não é `*Globule` e a
-    /// descrição deles é a da poção ("Restores 10% health"), texto COMPARTILHADO com o item — uma nota
-    /// aqui mentiria para a poção (família do BUG-31/INC-1). Decisão registrada.
+    /// (ilspycmd: `player.ProcessSkillTriggers(..., TriggerType.OnGlobulePickup)` + `Root.Increment
+    /// GlobulePickupCountAchievementStat`; enum `GroundEffectType { Pickup, Shrine, Destructable }`) — e a
+    /// família dos pickups do jogo é essa (a `Magic Hat III`, "Produce a random Globule on the target hex.",
+    /// sorteia da mesma lista; o `BattleManager.SpawnPickup` sorteia de `BattleDrops`, do mesmo tipo).
+    ///
+    /// RV-32 (30/09) — OS PICKUPS DE POÇÃO TAMBÉM ENTRAM. A RV-28 os deixou de fora por acreditar que a
+    /// descrição deles fosse a MESMA da poção. Não é — e isso foi medido, não suposto: varredura byte a
+    /// byte de `resources.assets` (1,7 GB) com `grep -abo` + leitura pontual, sem UnityPy.
+    /// No cluster dos GroundEffectInfo (@1520825016 `Pickup Health 10` → campo `Name` "Minor Healing
+    /// Potion" @1520825328, `Description` "Restores 10% health" @1520825352) a descrição é EXCLUSIVA do
+    /// pickup. O ITEM de mesmo nome tem OUTRO texto, em outro cluster: @1521192488 "Minor Healing Potion"
+    /// → @1521192860 "Restores 75 health." (bate com `docs/cobertura/itens.csv:510`). Cada uma das SEIS
+    /// descrições de pickup ("Restores 10% / 15% / 20% health", "Restores 10% / 15% / 20% mana") aparece
+    /// UMA única vez em todo o asset — nenhuma outra entidade a usa. O que É compartilhado é só o TÍTULO
+    /// do tooltip (o campo `Name` do GroundEffectInfo, localizado por `Tooltip.ShowGroundEffectTooltip`,
+    /// decompilado l.1243, e que é o nome do item: "Minor Healing Potion"); a nota entra pela DESCRIÇÃO,
+    /// então a poção não é tocada. Sem mentira para outro dono — a lacuna fecha.
     ///
     /// O `Power Globule` é BUFF DE DANO, não cura — e entra do mesmo jeito, porque a cura do Sustenance
     /// acontece ao CONSUMIR o globule, qualquer que seja o efeito dele ("Consuming any Globule..."). A
@@ -50,7 +62,9 @@ namespace BetterTooltips.Patches
     {
         /// <summary>As descrições (chave EXATA do `OptionsManager.Localize`) que o tooltip de um
         /// globule mostra. São elas que o postfix do `LocalizePatch` recebe — o nome do asset vira o
-        /// TÍTULO do tooltip (prefixo `<color>` + `[Stacks]`) e por isso NÃO serve de âncora.</summary>
+        /// TÍTULO do tooltip (prefixo `<color>` + `[Stacks]`) e por isso NÃO serve de âncora.
+        /// RV-32: a família instrumentada é a do gatilho `OnGlobulePickup` — estes sete (os seis
+        /// `*Globule`) MAIS as seis descrições exclusivas dos pickups de poção, em `PickupKeys`.</summary>
         private static readonly HashSet<string> GlobuleKeys = new HashSet<string>
         {
             "Heals for 50% of Max Health",                 // Health Globule
@@ -64,8 +78,25 @@ namespace BetterTooltips.Patches
 
         public static bool EhGlobule(string texto)
         {
-            return texto != null && GlobuleKeys.Contains(texto);
+            return texto != null && (GlobuleKeys.Contains(texto) || PickupKeys.Contains(texto));
         }
+
+        /// <summary>RV-32 — as descrições dos SEIS pickups de poção do cluster (@1520825016-@1520828016,
+        /// assets `Pickup Health 10/15/20x 1` e `Pickup Mana 10/15/20x 1`). São GroundEffectInfo de
+        /// `GroundEffectType == Pickup` — o MESMO gatilho do Sustenance — e por isso a nota vale aqui.
+        /// Cada texto é EXCLUSIVO: a varredura do asset acha UMA ocorrência de cada, no próprio pickup
+        /// (o item correspondente diz outra coisa: "Restores 75/300/… health."). O título do tooltip
+        /// ("Minor Healing Potion", "Healing Potion", …) é que coincide com o nome do item — por isso ele
+        /// NÃO serve de âncora: a nota entra pelo postfix do `Localize` da DESCRIÇÃO.</summary>
+        private static readonly HashSet<string> PickupKeys = new HashSet<string>
+        {
+            "Restores 10% health",   // Pickup Health 10   -> Name "Minor Healing Potion"
+            "Restores 15% health",   // Pickup Health 15   -> Name "Healing Potion"
+            "Restores 20% health",   // Pickup Health 20x 1-> Name "Major Healing Potion"
+            "Restores 10% mana",     // Pickup Mana 10     -> Name "Minor Mana Potion"
+            "Restores 15% mana",     // Pickup Mana 15     -> Name "Mana Potion"
+            "Restores 20% mana"      // Pickup Mana 20x 1  -> Name "Major Mana Potion"
+        };
 
         /// <summary>Começo exato da descrição do Sustenance no asset da skill (tier I e II).
         /// O texto termina em "of max life and mana." (o RV-14 corrige "life"→"health" só na SAÍDA).</summary>
@@ -113,7 +144,12 @@ namespace BetterTooltips.Patches
                 }
 
                 string quem = tiers.Count == 1 ? tiers[0] : string.Join(" and ", tiers.ToArray());
-                string frase = "Consuming a Globule also heals you for " + pct.ToString("0.#")
+                // RV-32: no pickup de poção o que o jogador faz é PEGAR o item. Chamar a poção de
+                // "Globule" seria errado — a mesma cura, com o sujeito certo em cada família.
+                string abertura = PickupKeys.Contains(chaveDaTooltip)
+                    ? "Picking this up also heals you for "
+                    : "Consuming a Globule also heals you for ";
+                string frase = abertura + pct.ToString("0.#")
                     + "% of your Max Health and Max Mana (" + quem + "): "
                     + (vida * pct / 100f).ToString("0.#") + " health and "
                     + (mana * pct / 100f).ToString("0.#") + " mana with your current pools.";

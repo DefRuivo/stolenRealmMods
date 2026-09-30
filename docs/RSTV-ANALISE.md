@@ -3,7 +3,7 @@
 **Escopo desta fase:** localizar no decompilado onde a UI que o mod precisa tocar é montada.
 Não é implementação. Cada afirmação tem `arquivo:linha`.
 
-**Fonte única:** `%USERPROFILE%\AppData\Local\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs`
+**Fonte única:** `%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs`
 (371.804 linhas, decompilado do `Assembly-CSharp.dll` do jogo v1.3.1). Abaixo, `l.N` = essa linha.
 Não foi lido inteiro — só `grep -n` com contexto. **Nenhum asset foi aberto** (`resources.assets`, 1,7 GB).
 

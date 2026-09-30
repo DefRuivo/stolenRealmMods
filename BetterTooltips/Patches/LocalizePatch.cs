@@ -1856,14 +1856,17 @@ namespace BetterTooltips.Patches
                 }
             }
 
-            // RV-22/RV-23/RV-27 — acumulado de shrines (30/09): linha dinâmica com a aura do SHRINE
-            // desta tooltip, calculada para o RECEPTOR (personagem em foco) com o bônus real dele
+            // RV-22/RV-23/RV-27 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine
+            // VIVAS no RECEPTOR (personagem em foco), com o bônus real dele
             // (ShrineAuraPatch.AcumuladoShrines). O número individual de cada shrine fica dinâmico
             // pelo prefix do ShrineAuraPatch: o ShowGroundEffectTooltip monta os parâmetros com
             // Source = WorldCharacter (personagem vazio) e SEM Target, então o [0] saía sempre
             // na base — o prefix preenche o receptor para o motor calcular com Omnism/Horn.
-            // RV-29: a linha é filtrada pelo status VIVO do receptor (`AcharStatusVivo`) — fora da aura
-            // de shrine em foco, `AcumuladoShrines` devolve vazio e nada é anexado.
+            // RV-29: a linha é filtrada pelo status VIVO do receptor (`AurasVivas`) — fora das auras de
+            // shrine, `AcumuladoShrines` devolve vazio e nada é anexado.
+            // RV-31: o CONTEÚDO é o AGREGADO de todas as auras vivas (um item por atributo, com o valor
+            // final lido do próprio personagem) — `original` (a chave do shrine aberto) entra só no log
+            // e no pré-filtro `IsShrineKey`; não decide mais o que a linha mostra.
             // A LINHA vai no azul da paleta do jogo (RV-27) e o `CorEOrdemDoTooltip` a coloca por
             // ÚLTIMO, depois da nota da shrine, mantendo uma linha em branco antes de cada bloco.
             if (ShrineAuraPatch.IsShrineKey(original))

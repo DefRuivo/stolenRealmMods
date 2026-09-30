@@ -66,9 +66,10 @@ namespace BetterTooltips.Patches
     /// derivou a aura da DEFINIÇÃO do shrine aberto e nunca olhou o estado do personagem em foco, então
     /// a linha saía em TODO hover de shrine — inclusive para quem estava FORA da área (o usuário viu
     /// "personagens que não têm os buffs aparecendo como se tivessem"). A correção usa a lista VIVA de
-    /// status (`Character.ActionStatuses`) APENAS COMO FILTRO — `AcharStatusVivo` — e continua tirando o
-    /// VALOR do caminho que já estava certo (`AttributeEffects` + expressão avaliada pelo interpretador
-    /// do jogo). Prova de que o filtro é o vínculo correto: o status aplicado pela aura É o mesmo objeto
+    /// status (`Character.ActionStatuses`) APENAS COMO FILTRO. (O método daquele fix, `AcharStatusVivo`,
+    /// ficava preso à chave da tooltip e foi substituído no RV-31 por `AurasVivas` — o filtro agora é
+    /// "tem ALGUMA aura de shrine viva", e o valor passou a sair do indexador do personagem.)
+    /// Prova de que o filtro é o vínculo correto: o status aplicado pela aura É o mesmo objeto
     /// que o tooltip do shrine descreve (`GroundEffectInfo.ActionStatuses[0]`, decompilado l.214180) e o
     /// motor o cria no personagem ao entrar na área — `GroundEffect.AddGroundEffectedPlayer` ->
     /// `CreateActionStatus(Source, player, statusInfo, ...)` (decompilado l.116911-116924), chamado de
@@ -94,6 +95,36 @@ namespace BetterTooltips.Patches
     ///   invenção era (a) a linha sair também para quem não tinha a aura (RV-29, corrigido acima) e
     ///   (b) a nota do mod citar só Omnism I/II e Horn como fontes do bônus (LocalizePatch, corrigido).
     ///   O log do acumulado passa a imprimir `bonus=` do receptor, para o usuário conferir a origem.
+    ///
+    /// RV-31 (30/09) — a linha VOLTA A SOMAR TODAS AS AURAS VIVAS (defeito relatado pelo usuário: a
+    /// linha "Your active shrine auras" mostrava só a aura do shrine cuja tooltip estava aberta).
+    /// Efeito colateral do RV-29: a correção filtrou pelo status VIVO (certo) mas amarrou a leitura na
+    /// CHAVE DA TOOLTIP (errado) — `AcharStatusVivo(receptor, chaveDaTooltip)` devolvia só o status
+    /// cuja descrição é o texto do shrine aberto, e a linha ficava no singular de fato.
+    ///
+    /// Os dois comportamentos agora coexistem:
+    ///   (1) FILTRO (RV-29 preservado): `AurasVivas(receptor)` pergunta à lista VIVA de status quais
+    ///       auras de shrine o personagem em foco está recebendo AGORA; nenhuma -> a linha não sai;
+    ///   (2) CONTEÚDO AGREGADO (RV-20, o nome sempre foi no plural): um item por ATRIBUTO que as
+    ///       auras vivas mexem — a UNIÃO delas, não só a da tooltip.
+    ///
+    /// COMO O VALOR É LIDO (a regra que evita inventar soma): a autoridade é o PRÓPRIO motor. Para
+    /// cada atributo, lê-se o valor FINAL do personagem pelo indexador `Character[atributo]`
+    /// (`Character.this[string]`, decompilado l.32662-32675 -> `GetAttribute(CharacterAttribute)`,
+    /// l.40520) — ele JÁ é o resultado de todas as contribuições somadas pelo jogo (base + efeitos de
+    /// gear/skills/shrine). Não somamos nada aqui, não aplicamos `(1 + bonus/100)` por fora e não
+    /// assumimos aditividade: se o motor combina as contribuições de outro jeito, o número lido já
+    /// reflete. É o MESMO valor que a ficha mostra (o BetterStats imprime `character[finalAttrs[i].name]`,
+    /// `BetterStats/Plugin.cs` l.77) — é com ela que o usuário confere. O `^` desta linha é a única
+    /// entrada que multiplica cada aura (`ShrineEffectBonus`), e ela já está dentro do número lido.
+    ///
+    /// O que NÃO entra: Flame e Decay (o efeito deles é dano numa AÇÃO `* Aura Proc`, RV-19 §4 — não
+    /// existe atributo de personagem para ler) e o stun do Dwarven. Sem atributo, não há item: inventar
+    /// um número para eles seria justamente o que o RV-30 mostrou que não se pode fazer.
+    ///
+    /// ASSINATURA: nada muda no Harmony aqui — este arquivo segue com a assinatura explícita por TIPO
+    /// no único patch (`ApplyDescriptionExpressions`, 5 tipos, `ref __2`) e nenhum parâmetro por índice
+    /// novo. Todo o trabalho novo é código de leitura, dentro de try/catch.
     /// </summary>
     [HarmonyPatch]
     public static class ShrineAuraPatch
@@ -402,10 +433,27 @@ namespace BetterTooltips.Patches
         /// que o PRÓPRIO jogo colore com essa cor (blocos de status do `ShowTooltip`).</summary>
         internal const string MarcadorLinhaDeAuras = "Your active shrine auras:";
 
-        /// <summary>Linha de acumulado (ou "" se não há nada). Nunca lança.
-        /// `chaveDaTooltip` = o texto localizado que está sendo montado: é ele que diz QUAL shrine
-        /// está aberto (o hover do shrine mostra `GroundEffectInfo.ActionStatuses[0].Description`,
-        /// decompilado l.214180).</summary>
+        /// <summary>Ordem da linha: os atributos que a família de auras de shrine mexe, na ordem em que
+        /// o censo os lista (Warrior/DamageMod, Guardian/DamageReduction, Conqueror/CritChance,
+        /// Rogue/DodgeChance, Reaper/LifeOnHit, Seraph/HealthPerTurnPercent, Shaman/ManaPerTurnPercent,
+        /// Energy/ManaCostMod — Fury entra nos dois primeiros). Um atributo fora desta lista NÃO é
+        /// descartado: entra depois, na ordem em que apareceu, com o rótulo do próprio jogo.</summary>
+        private static readonly string[] OrdemDosAtributos =
+        {
+            "DamageMod", "DamageReduction", "CritChance", "DodgeChance",
+            "LifeOnHit", "HealthPerTurnPercent", "ManaPerTurnPercent", "ManaCostMod"
+        };
+
+        /// <summary>
+        /// Linha de acumulado (ou "" se não há nada). Nunca lança.
+        ///
+        /// RV-31 — a linha é o AGREGADO das auras de shrine VIVAS no personagem em foco (um item por
+        /// ATRIBUTO da família), e não mais a aura do shrine cuja tooltip está aberta. O filtro do
+        /// RV-29 continua: sem NENHUMA aura de shrine viva, não há linha.
+        ///
+        /// `chaveDaTooltip` = o texto localizado que está sendo montado. Ele NÃO decide mais o conteúdo
+        /// (era isso que fazia a linha mostrar só a aura do shrine aberto); entra apenas no log.
+        /// </summary>
         public static string AcumuladoShrines(string chaveDaTooltip)
         {
             try
@@ -423,46 +471,62 @@ namespace BetterTooltips.Patches
                     return "";
                 }
 
-                // (b)+(d) RV-29 — a aura é a DESTA tooltip E TEM DE ESTAR VIVA no receptor agora.
-                // O valor obedece à condição de existência: fora da aura não há número a mostrar.
-                ActionStatus vivo = AcharStatusVivo(receptor, chaveDaTooltip);
-                if (vivo == null)
+                // (b) FILTRO (RV-29 preservado, agora sem o recorte pela tooltip): quais auras de
+                // shrine este personagem está recebendo AGORA? Nenhuma -> nada de linha.
+                List<ActionStatus> ativas = AurasVivas(receptor);
+                if (ativas.Count == 0)
                 {
-                    Marca($"RV-29 sem linha: {receptor.CharacterName} nao tem a aura '{chaveDaTooltip}' ativa agora");
+                    Marca($"RV-31 sem linha: {receptor.CharacterName} nao tem aura de shrine viva agora"
+                        + $" (tooltip '{chaveDaTooltip}')");
                     return "";
                 }
 
-                // A DEFINIÇÃO vem do status VIVO (é o objeto que o motor está aplicando neste
-                // personagem); `AcharAuraDaTooltip` fica só como reserva, para o caso de o status vivo
-                // não trazer a definição.
-                ActionStatusInfo aura = vivo.ActionStatusInfo != null
-                    ? vivo.ActionStatusInfo
-                    : AcharAuraDaTooltip(chaveDaTooltip);
-                if (aura == null)
+                // (c) CONTEÚDO AGREGADO: um item por ATRIBUTO que as auras vivas mexem (a intenção do
+                // RV-20, cujo nome sempre foi no plural). Flame/Decay (o efeito é dano numa ação) e o
+                // stun do Dwarven não têm atributo de personagem — não entram, não há o que ler.
+                List<CharacterAttribute> atributos = AtributosDasAuras(ativas);
+                if (atributos.Count == 0)
                 {
-                    Marca($"acumulado: nenhuma aura de shrine com a descricao '{chaveDaTooltip}'");
+                    Marca($"RV-31 sem linha: {ativas.Count} aura(s) viva(s) sem atributo de personagem"
+                        + $" em {receptor.CharacterName}");
                     return "";
                 }
 
-                // (c)+(e) valores do próprio status (AttributeEffects + expressões do jogo).
-                string efeito = DescreverEfeito(aura, receptor);
-                if (string.IsNullOrEmpty(efeito))
+                // (d) O VALOR é do MOTOR: `Character[atributo]` é o total FINAL do personagem (base +
+                // todas as contribuições, as do shrine inclusive). Não somamos nada aqui e não
+                // aplicamos (1 + bonus/100) por fora — o número lido já é o resultado do jogo, e é o
+                // mesmo que a ficha (BetterStats) mostra. Se o jogo combina as contribuições de outro
+                // jeito, o valor lido já reflete isso.
+                List<string> partes = new List<string>();
+                foreach (CharacterAttribute atributo in atributos)
                 {
-                    Marca($"acumulado: aura '{aura.Name}' sem efeito calculavel para {receptor.CharacterName}");
+                    string nome = atributo.name;
+                    // O INDEXADOR LANÇA para nome desconhecido (`Character.this[string]`,
+                    // decompilado l.32662-32675): checar antes de ler.
+                    if (string.IsNullOrEmpty(nome) || Burst2Flame.Game.Instance.GetAttribute(nome) == null)
+                    {
+                        Marca($"RV-31 item omitido: atributo '{nome}' ausente neste build");
+                        continue;
+                    }
+                    float valor = receptor[nome];
+                    partes.Add(TextDoEfeito(atributo, valor));
+                }
+                if (partes.Count == 0)
+                {
                     return "";
                 }
 
-                // RV-30: o `bonus=` entra no log de proposito — é a ÚNICA entrada que multiplica o
+                string efeito = string.Join("; ", partes.ToArray());
+                // RV-30: o `bonus=` entra no log de propósito — é a ÚNICA entrada que multiplica o
                 // valor da aura, e sai do ATRIBUTO do próprio personagem (ex.: perk Worship = 100),
-                // nunca de uma segunda aplicação do mod. Permite ao usuário provar a origem do número.
-                Marca($"acumulado: shrine='{aura.Name}' char={receptor.CharacterName}"
-                    + $" bonus={BonusDoReceptor(receptor)} -> {efeito}");
-                // O texto do status pode ja terminar em ponto (Flame/Decay): nao somar outro.
-                string fecho = (efeito.EndsWith(".", StringComparison.Ordinal)
-                    || efeito.EndsWith("!", StringComparison.Ordinal)
-                    || efeito.EndsWith("?", StringComparison.Ordinal)) ? "" : ".";
+                // nunca de uma segunda aplicação do mod. Aqui ele é o bonus de quem tem as auras, e
+                // serve para o usuário conferir a origem do número. Os nomes das auras agregadas vão
+                // no log para a conferência em jogo dizer QUAIS auras entraram na conta.
+                Marca($"RV-31 acumulado: auras=[{string.Join(", ", NomesDasAuras(ativas).ToArray())}]"
+                    + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)} -> {efeito}");
+                // Os itens terminam em "%": o fecho é sempre o ponto.
                 return "\n<color=#" + LocalizePatch.CorDaLinhaDeAuras() + ">"
-                    + MarcadorLinhaDeAuras + " " + efeito + fecho + "</color>";
+                    + MarcadorLinhaDeAuras + " " + efeito + ".</color>";
             }
             catch (Exception ex)
             {
@@ -472,57 +536,118 @@ namespace BetterTooltips.Patches
         }
 
         /// <summary>
-        /// RV-29 — O STATUS VIVO da aura DESTA tooltip no personagem em foco (o FILTRO da linha).
-        /// A lista viva (`Character.ActionStatuses`) já foi usada como FONTE de valor e dava "só alguns
-        /// valores, só em alguns momentos"; aqui ela é usada só para responder "este personagem tem esta
-        /// aura agora?". O casamento é pela DESCRIÇÃO (a mesma chave com que o `LocalizePatch` chamou),
-        /// que é justamente o texto que o tooltip do shrine mostra (`GroundEffectInfo.ActionStatuses[0]`)
-        /// e o texto do status que o motor aplica ao personagem ao entrar na área. Se mais de um status
-        /// vivo compartilhar o texto, ganha o que tem `AttributeEffects` — o que carrega o efeito real.
-        /// Devolver null = personagem FORA da aura -> a linha NÃO aparece (o valor nem é calculado).
+        /// RV-31 — TODAS as auras de shrine VIVAS no personagem em foco. É o caminho do RV-29
+        /// (`Character.ActionStatuses`, a lista viva, que muda durante o turno) SEM descartar as que
+        /// não são a da tooltip: a pergunta que a lista responde é "quais auras de shrine este
+        /// personagem está recebendo agora?".
+        ///
+        /// O casamento é pela DESCRIÇÃO contra `ShrineKeys` — a MESMA definição de família que o
+        /// `LocalizePatch` usa de pré-filtro e o mesmo texto que o tooltip do shrine mostra
+        /// (`GroundEffectInfo.ActionStatuses[0]`, decompilado l.214180). O valor de cada atributo NÃO
+        /// sai daqui: sai do indexador do personagem (ver `AcumuladoShrines`).
+        ///
+        /// Falha de leitura devolve lista vazia: sem prova de que a aura está viva, a linha não sai.
         /// </summary>
-        private static ActionStatus AcharStatusVivo(Character receptor, string chaveDaTooltip)
+        private static List<ActionStatus> AurasVivas(Character receptor)
         {
+            List<ActionStatus> ativas = new List<ActionStatus>();
+            if (receptor == null)
+            {
+                return ativas;
+            }
             try
             {
-                if (receptor == null || string.IsNullOrEmpty(chaveDaTooltip))
-                {
-                    return null;
-                }
                 Burst2Flame.Observable.ObservableList<ActionStatus> vivos = receptor.ActionStatuses;
                 if (vivos == null || vivos.Count == 0)
                 {
-                    return null;
+                    return ativas;
                 }
-                ActionStatus semEfeito = null;
                 foreach (ActionStatus s in vivos)
                 {
                     if (s == null || s.ActionStatusInfo == null || s.ActionStatusInfo.Description == null)
                     {
                         continue;
                     }
-                    if (!string.Equals(s.ActionStatusInfo.Description, chaveDaTooltip, StringComparison.Ordinal))
+                    if (ShrineKeys.Contains(s.ActionStatusInfo.Description))
                     {
-                        continue;
-                    }
-                    if (s.ActionStatusInfo.AttributeEffects != null && s.ActionStatusInfo.AttributeEffects.Length > 0)
-                    {
-                        return s;
-                    }
-                    if (semEfeito == null)
-                    {
-                        semEfeito = s;
+                        ativas.Add(s);
                     }
                 }
-                return semEfeito;
             }
             catch (Exception ex)
             {
-                // Falha de leitura não pode inventar estado: sem prova de que a aura está viva, não
-                // mostra a linha (e o log diz que a leitura falhou).
-                Plugin.Log.LogWarning($"[Shrine RV-29] leitura da lista viva falhou ({ex.GetType().Name}): {ex.Message}");
-                return null;
+                Plugin.Log.LogWarning($"[Shrine RV-31] leitura da lista viva falhou ({ex.GetType().Name}): {ex.Message}");
+                ativas.Clear();
             }
+            return ativas;
+        }
+
+        /// <summary>
+        /// RV-31 — os atributos que as auras VIVAS mexem, SEM repetição (Fury aparece com dois: dano
+        /// ganho e dano tomado; duas auras que mexem no mesmo atributo viram UM item) e na ordem
+        /// canônica de `OrdemDosAtributos`. A lista sai do `AttributeEffects` do PRÓPRIO status — o
+        /// nome de atributo de cada shrine não é cravado no código.
+        /// </summary>
+        private static List<CharacterAttribute> AtributosDasAuras(List<ActionStatus> auras)
+        {
+            List<CharacterAttribute> achados = new List<CharacterAttribute>();
+            HashSet<string> vistos = new HashSet<string>();
+            foreach (ActionStatus s in auras)
+            {
+                CharacterEffectInfo[] efeitos = s.ActionStatusInfo != null ? s.ActionStatusInfo.AttributeEffects : null;
+                if (efeitos == null)
+                {
+                    continue;
+                }
+                foreach (CharacterEffectInfo efeito in efeitos)
+                {
+                    if (efeito == null || efeito.CharacterAttribute == null)
+                    {
+                        continue;
+                    }
+                    string nome = efeito.CharacterAttribute.name;
+                    if (!string.IsNullOrEmpty(nome) && vistos.Add(nome))
+                    {
+                        achados.Add(efeito.CharacterAttribute);
+                    }
+                }
+            }
+
+            // Ordem canônica primeiro; o que não estiver na lista entra depois, na ordem de encontro.
+            List<CharacterAttribute> ordenados = new List<CharacterAttribute>();
+            HashSet<string> postos = new HashSet<string>();
+            foreach (string canonico in OrdemDosAtributos)
+            {
+                foreach (CharacterAttribute a in achados)
+                {
+                    if (string.Equals(a.name, canonico, StringComparison.Ordinal) && postos.Add(canonico))
+                    {
+                        ordenados.Add(a);
+                        break;
+                    }
+                }
+            }
+            foreach (CharacterAttribute a in achados)
+            {
+                if (postos.Add(a.name))
+                {
+                    ordenados.Add(a);
+                }
+            }
+            return ordenados;
+        }
+
+        /// <summary>Nomes das auras vivas — só para o log (a conferência em jogo precisa ver QUAIS
+        /// auras o agregado somou).</summary>
+        private static List<string> NomesDasAuras(List<ActionStatus> auras)
+        {
+            List<string> nomes = new List<string>();
+            foreach (ActionStatus s in auras)
+            {
+                string nome = (s != null && s.ActionStatusInfo != null) ? s.ActionStatusInfo.Name : null;
+                nomes.Add(string.IsNullOrEmpty(nome) ? "(sem nome)" : nome);
+            }
+            return nomes;
         }
 
         /// <summary>RV-30 — o `ShrineEffectBonus` REAL do receptor, só para o log (a única entrada que
@@ -538,120 +663,6 @@ namespace BetterTooltips.Patches
             {
                 return "(" + ex.GetType().Name + ")";
             }
-        }
-
-        /// <summary>
-        /// O status de aura que a tooltip está mostrando. `Game.Instance.ActionStatuses` é a lista das
-        /// DEFINIÇÕES de status do jogo (não os status vivos de um personagem), então casar pela
-        /// descrição não depende do momento do turno. Se mais de um status compartilhar o mesmo texto,
-        /// ganha o que tem `AttributeEffects` — é o que carrega o efeito de verdade.
-        /// </summary>
-        private static ActionStatusInfo AcharAuraDaTooltip(string chaveDaTooltip)
-        {
-            if (string.IsNullOrEmpty(chaveDaTooltip))
-            {
-                return null;
-            }
-            List<ActionStatusInfo> statuses = Burst2Flame.Game.Instance?.ActionStatuses;
-            if (statuses == null)
-            {
-                return null;
-            }
-            ActionStatusInfo semEfeito = null;
-            foreach (ActionStatusInfo s in statuses)
-            {
-                if (s == null || s.Description == null)
-                {
-                    continue;
-                }
-                if (!string.Equals(s.Description, chaveDaTooltip, StringComparison.Ordinal))
-                {
-                    continue;
-                }
-                if (s.AttributeEffects != null && s.AttributeEffects.Length > 0)
-                {
-                    return s;
-                }
-                if (semEfeito == null)
-                {
-                    semEfeito = s;
-                }
-            }
-            return semEfeito;
-        }
-
-        /// <summary>
-        /// O que a aura FAZ, lido do status (nunca de tabela): um item por `AttributeEffects`, com o
-        /// valor vindo da expressão do próprio efeito avaliada pelo interpretador do jogo. Auras sem
-        /// AttributeEffects (Flame/Decay — o dano mora na ação `* Aura Proc`, RV-19 §4) caem na
-        /// descrição do status com o `[0]` avaliado pela expressão dele.
-        /// </summary>
-        private static string DescreverEfeito(ActionStatusInfo aura, Character receptor)
-        {
-            List<string> partes = new List<string>();
-            CharacterEffectInfo[] efeitos = aura.AttributeEffects;
-            if (efeitos != null)
-            {
-                foreach (CharacterEffectInfo efeito in efeitos)
-                {
-                    if (efeito == null || efeito.CharacterAttribute == null)
-                    {
-                        continue;
-                    }
-                    float valor;
-                    if (!ValorDaExpressao(efeito.Amount, receptor, out valor))
-                    {
-                        Marca($"acumulado: expressao nao avaliada no efeito de '{aura.Name}': {efeito.Amount}");
-                        continue;
-                    }
-                    partes.Add(TextDoEfeito(efeito.CharacterAttribute, valor));
-                }
-            }
-            if (partes.Count == 0)
-            {
-                string texto = TextoDaDescricao(aura, receptor);
-                if (!string.IsNullOrEmpty(texto))
-                {
-                    partes.Add(texto);
-                }
-            }
-            return partes.Count == 0 ? "" : string.Join("; ", partes.ToArray());
-        }
-
-        /// <summary>
-        /// Descrição do próprio status com os `[n]` trocados pelo valor real da expressão `n` (mesma
-        /// convenção do `ApplyDescriptionExpressions` do jogo).
-        /// </summary>
-        private static string TextoDaDescricao(ActionStatusInfo aura, Character receptor)
-        {
-            string texto = aura.Description;
-            if (string.IsNullOrEmpty(texto))
-            {
-                return null;
-            }
-            string[] expressoes = aura.DescriptionExpressions;
-            if (expressoes == null || expressoes.Length == 0)
-            {
-                expressoes = aura.GetDescriptionExpressionsNonCharacterBased();
-            }
-            if (expressoes != null)
-            {
-                for (int i = 0; i < expressoes.Length && i < 10; i++)
-                {
-                    string token = "[" + i + "]";
-                    if (texto.IndexOf(token, StringComparison.Ordinal) < 0)
-                    {
-                        continue;
-                    }
-                    float valor;
-                    if (!ValorDaExpressao(expressoes[i], receptor, out valor))
-                    {
-                        continue;
-                    }
-                    texto = texto.Replace(token, valor.ToString("0.#"));
-                }
-            }
-            return texto.Trim();
         }
 
         /// <summary>
