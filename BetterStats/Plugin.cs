@@ -104,9 +104,18 @@ namespace BetterStats
         }
 
         /// <summary>
-        /// Classe de gancho = tem <c>[HarmonyPatch]</c> no tipo E pelo menos um metodo com
-        /// <c>[HarmonyPrefix]</c>/<c>[HarmonyPostfix]</c> (evita tentar "patchar" uma classe que
-        /// carrega o atributo sem ser um gancho de verdade).
+        /// Classe de gancho = tem <c>[HarmonyPatch]</c> no TIPO (declarado, nao herdado) — a MESMA
+        /// condicao que o <c>PatchAll()</c> exigia para processar a classe.
+        ///
+        /// AQUI NAO SE EXIGE <c>[HarmonyPrefix]</c>/<c>[HarmonyPostfix]</c> NO METODO: os ganchos
+        /// deste mod sao declarados pela CONVENCAO DE NOME do Harmony (metodo chamado <c>Postfix</c>,
+        /// ver <c>InventoryStatPatch</c> e <c>RoguelikeStatPatch</c>), que o Harmony aceita
+        /// exatamente como aceita o atributo — os nomes sao
+        /// <c>Prefix</c>/<c>Postfix</c>/<c>Transpiler</c>/<c>Finalizer</c>. Exigir o atributo PULA
+        /// os ganchos deste mod: o mod carrega, loga "carregado." e nao aplica nada — o silencio
+        /// parecendo sucesso. Uma classe com <c>[HarmonyPatch]</c> e sem metodo de patch apenas nao
+        /// registra nada (<c>Patch()</c> devolve lista vazia), sem efeito colateral — e o mesmo
+        /// conjunto que o <c>PatchAll()</c> processaria. Mesmo filtro do BetterTooltips.
         /// </summary>
         private static bool EhClasseDeGancho(Type tipo)
         {
@@ -117,25 +126,7 @@ namespace BetterStats
                     return false;
                 }
 
-                if (tipo.GetCustomAttributes(typeof(HarmonyPatch), false).Length == 0)
-                {
-                    return false;
-                }
-
-                MethodInfo[] metodos = tipo.GetMethods(
-                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
-
-                for (int i = 0; i < metodos.Length; i++)
-                {
-                    MethodInfo metodo = metodos[i];
-                    if (metodo.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0 ||
-                        metodo.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
-                    {
-                        return true;
-                    }
-                }
-
-                return false;
+                return tipo.GetCustomAttributes(typeof(HarmonyPatch), false).Length > 0;
             }
             catch (Exception)
             {

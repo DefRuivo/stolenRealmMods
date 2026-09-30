@@ -25,3 +25,9 @@ Primeira versão publicada.
   - **Loot, ouro e experiência**: os rolls, os modificadores aplicados e os valores concedidos.
 - É a fonte dos CSVs de cobertura em `docs/cobertura/` usados pelos outros mods do projeto.
 - **Não distribuir para amigos**: enche o log com milhares de linhas a cada boot.
+
+### Correção do aplicador de ganchos (mesma versão, sem subir número)
+
+- A troca do `PatchAll()` por **aplicação gancho a gancho** (que entrou nesta versão) veio acompanhada de um filtro de classe de gancho que exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no método**. Este mod declara os 10 ganchos pela **convenção de nome** do Harmony (método `Postfix` em cada classe de `Patches/`), que o Harmony aceita exatamente como o atributo — o filtro recusava as 10 classes: a ferramenta **carregava, logava "carregado." e não dumpava nada** (o silêncio parecendo sucesso; era o defeito A-1 da REV-2, em 4 mods).
+- O filtro agora exige só `[HarmonyPatch]` **no TIPO** — o mesmo conjunto de classes que o `PatchAll()` processava. Medido invocando o filtro real da DLL construída: **10 de 10 classes de patch aceitas e 10 métodos de gancho dentro** (antes: 0 de 10). Em todo o projeto, os 4 mods afetados passaram de 0/14 para **14/14** classes de patch aceitas.
+- A versão **não** subiu: o defeito foi corrigido antes de qualquer download e a correção não muda nada no caminho feliz.

@@ -31,14 +31,26 @@ As 5 regras, todas lidas dos .cs:
                     teste de ciclo conclui "carregado" sem ter como saber.
   5. APLICADOR    - cada mod tem de aplicar os ganchos UM A UM (o `processador.Patch()` do
                     projeto), nao `PatchAll()` puro: `PatchAll()` e tudo-ou-nada, um gancho
-                    ruim deixa todos os outros sem aplicar e em silencio.
+                    ruim deixa todos os outros sem aplicar e em silencio. Aqui nao basta
+                    PROCURAR a string do aplicador: a COBERTURA dele e conferida. O filtro
+                    (`EhClasseDeGancho`) que exige `[HarmonyPrefix]`/`[HarmonyPostfix]` NO
+                    METODO ignora todo gancho declarado pela CONVENCAO DE NOME do Harmony
+                    (metodo `Prefix`/`Postfix`/`Transpiler`/`Finalizer`, sem atributo) - os
+                    dois valem igual para o Harmony, e o `PatchAll()` aceitava os dois. Se o
+                    mod tem gancho por nome e o filtro exige atributo, ele carrega, loga
+                    "carregado." e NAO aplica gancho nenhum: o silencio parecendo sucesso
+                    (defeito A-1 da REV-2: 4 mods, 14 classes de patch, 0 aplicadas).
+                    A conta sai do codigo: classes com `[HarmonyPatch]`, metodos de gancho
+                    por nome e por atributo, e o filtro lido contra eles.
 
 COMO LER A SAIDA
 ----------------
-  REPROVA  - achado mecanico e inequivoco (regras 1 sem justificativa, 2 e 4). exit 1.
+  REPROVA  - achado mecanico e inequivoco (regras 1 sem justificativa, 2, 4 e 5 com filtro
+             que exigiria atributo sobre gancho declarado por nome). exit 1.
   AVISO    - achado real que o projeto ja aceitou de forma documentada (regra 1 justificada)
-             ou que depende de refatoracao humana ja mapeada (regras 3 e 5). NAO reprova -
-             mas e impresso com arquivo:linha, para nao virar ponto cego.
+             ou que depende de refatoracao humana ja mapeada (regras 3 e 5 sem cobertura a
+             perder hoje). NAO reprova - mas e impresso com arquivo:linha, para nao virar
+             ponto cego.
 
 Exit codes: 0 = nada que reprova, 1 = achado que reprova, 2 = nao conseguiu verificar.
 
@@ -348,6 +360,99 @@ def regra5_aplicador(codigo):
 
 
 # ---------------------------------------------------------------------------
+# regra 5, segunda parte: o aplicador proprio COBRE os ganchos que existem?
+#
+# A string do aplicador nao prova nada: o `processador.Patch()` so processa as classes que o
+# FILTRO do mod aceitar. O filtro que exige `[HarmonyPrefix]`/`[HarmonyPostfix]` no metodo
+# aceita 0 gancho declarado pela CONVENCAO DE NOME (metodo `Postfix`, sem atributo) - e o
+# PatchAll() aceitava os dois. A conta abaixo sai do CODIGO: quantas classes de patch, quantos
+# metodos de gancho por nome e por atributo, e o que o filtro do proprio mod exigiria.
+# ---------------------------------------------------------------------------
+
+# declaracao de classe (com ou sem modificadores); o [HarmonyPatch] do TIPO e procurado nos
+# atributos que a antecedem, por LINHA - um `new Type[0]` dentro do atributo nao atrapalha
+DECLARACAO_CLASSE = re.compile(
+    r"(?m)^[ \t]*(?:(?:public|internal|private|protected|static|sealed|abstract|partial)\s+)*class\s+(\w+)")
+
+# os nomes que o Harmony aceita por convencao, sem atributo nenhum em cima do metodo
+NOMES_DE_GANCHO = ("Prefix", "Postfix", "Transpiler", "Finalizer")
+
+# mencao ao ATRIBUTO do Harmony no metodo ([HarmonyPrefix], [HarmonyPostfix], ...)
+ATRIBUTOS_DO_HARMONY = re.compile(r"\bHarmony(Prefix|Postfix|Transpiler|Finalizer)\b")
+
+# mencao ao NOME de convencao (Prefix/Postfix/Transpiler/Finalizer) SOLTO: e o que um filtro
+# correto cita ao aceitar o gancho por nome. `\b` de proposito: "HarmonyPrefix" NAO conta.
+NOMES_DE_CONVENCAO = re.compile(r"\b(Prefix|Postfix|Transpiler|Finalizer)\b")
+
+
+def atributos_acima(linhas, ln):
+    """Texto dos atributos contiguos imediatamente ACIMA da linha `ln` (1-based)."""
+    i = ln - 2
+    achados = []
+    while i >= 0:
+        t = linhas[i].strip()
+        if not t:
+            i -= 1
+            continue
+        if not t.startswith("["):
+            break
+        achados.append(t)
+        i -= 1
+    return " ".join(reversed(achados))
+
+
+def classes_de_patch(codigo):
+    """[(nome, linha, [(metodo, linha, por_nome)])] das classes com [HarmonyPatch] no TIPO.
+
+    Conta como metodo de gancho o que o Harmony aceita: o metodo chamado
+    `Prefix`/`Postfix`/`Transpiler`/`Finalizer` (convencao de nome) e o que carrega
+    `[HarmonyPrefix]`/`[HarmonyPostfix]`/... em cima.
+
+    `por_nome` = declarado pela CONVENCAO DE NOME e SEM atributo - e exatamente esse que o
+    filtro que exige atributo pula.
+    """
+    achados = []
+    linhas = codigo.split("\n")
+    for m in DECLARACAO_CLASSE.finditer(codigo):
+        if "HarmonyPatch" not in atributos_acima(linhas, linha_de(codigo, m.start())):
+            continue
+        bloco = bloco_chaves(codigo, m.end())
+        corpo = codigo[bloco[0]:bloco[1]] if bloco else ""
+        linhas_corpo = corpo.split("\n")
+        ganchos = []
+        for nome, ln, _, _, _ in metodos(corpo):
+            attrs = atributos_acima(linhas_corpo, ln)
+            tem_atributo = ATRIBUTOS_DO_HARMONY.search(attrs) is not None
+            if nome not in NOMES_DE_GANCHO and not tem_atributo:
+                continue
+            ganchos.append((nome, ln, nome in NOMES_DE_GANCHO and not tem_atributo))
+        achados.append((m.group(1), linha_de(codigo, m.start()), ganchos))
+    return achados
+
+
+def filtros_de_gancho(codigo, sem_comentario):
+    """[(nome, linha, corpo)] dos metodos booleanos que decidem o que e classe de gancho.
+
+    E o `EhClasseDeGancho` do mod (qualquer nome): metodo que devolve bool e cita Harmony no
+    corpo. E ele - e nao a string do aplicador - que decide se o gancho entra ou nao.
+
+    O corpo devolvido vem do texto SEM COMENTARIO mas COM AS STRINGS INTACTAS: o comentario nao
+    decide nada, e um filtro que aceita o gancho por NOME compara com a string
+    (`metodo.Name == "Postfix"`) - com as strings apagadas isso viraria um falso REPROVA.
+    """
+    achados = []
+    linhas = codigo.split("\n")
+    for nome, ln, pos, _, _ in metodos(codigo):
+        bloco = bloco_chaves(codigo, pos)
+        if bloco is None:
+            continue
+        if "Harmony" not in codigo[bloco[0]:bloco[1]] or "bool" not in linhas[ln - 1]:
+            continue
+        achados.append((nome, ln, sem_comentario[bloco[0]:bloco[1]]))
+    return achados
+
+
+# ---------------------------------------------------------------------------
 
 def main():
     try:
@@ -446,9 +551,10 @@ def main():
     print("  -> %d de %d Plugin.cs com marcador de vida"
           % (len(pastas) - len(r4_reprovam), len(pastas)))
 
-    # ---- 5. aplicador proprio -------------------------------------------
+    # ---- 5. aplicador proprio + COBERTURA dos ganchos ---------------------
     r5_avisos = []
-    print("== REGRA 5: aplicacao gancho a gancho (nao PatchAll() puro) ==")
+    r5_reprovam = []
+    print("== REGRA 5: aplicacao gancho a gancho (nao PatchAll() puro) e cobertura dos ganchos ==")
     for pasta in pastas:
         caminho = os.path.join(RAIZ, pasta, "Plugin.cs")
         achado = [c for c in por_pasta[pasta] if c[0] == caminho]
@@ -458,16 +564,57 @@ def main():
             print("  n/a     %-30s sem [HarmonyPatch] no projeto (nao aplica gancho)" % pasta)
             continue
         ok, detalhe = regra5_aplicador(achado[0][1])
-        if ok:
-            print("  ok      %-30s %s" % (pasta, detalhe))
-        else:
+        if not ok:
             r5_avisos.append((caminho, 0, pasta, detalhe))
             print("  AVISO   %-30s %s" % (pasta, detalhe))
-    print("  -> %d de %d projetos com patch usam aplicador proprio (aviso nos demais)"
-          % (len(patchudos) - len(r5_avisos), len(patchudos)))
+            continue
+
+        # o que o aplicador proprio tem para cobrir, contado no CODIGO do projeto
+        classes = []
+        for _, codigo_cs, _, _ in por_pasta[pasta]:
+            classes.extend(classes_de_patch(codigo_cs))
+        ganchos = [g for c in classes for g in c[2]]
+        por_nome = [g for g in ganchos if g[2]]
+        cobertura = ("%d classe(s) de patch, %d metodo(s) de gancho (%d por nome, %d por atributo)"
+                     % (len(classes), len(ganchos), len(por_nome), len(ganchos) - len(por_nome)))
+
+        # o filtro do proprio mod, lido contra esses ganchos
+        filtros = filtros_de_gancho(achado[0][1], achado[0][2])
+        exigem_atributo = [f for f in filtros
+                           if ATRIBUTOS_DO_HARMONY.search(f[2]) and not NOMES_DE_CONVENCAO.search(f[2])]
+
+        if exigem_atributo and por_nome:
+            nome_f, ln_f, _ = exigem_atributo[0]
+            detalhe = ("%s (Plugin.cs:%d) exige atributo no metodo e nao cita os nomes de "
+                       "convencao: %s, e os %d por nome (Prefix/Postfix/Transpiler/Finalizer) "
+                       "ficam de fora — o mod carregaria aplicando 0 gancho por convencao de nome"
+                       % (nome_f, ln_f, cobertura, len(por_nome)))
+            r5_reprovam.append((caminho, ln_f, nome_f, detalhe))
+            print("  REPROVA %-30s %s" % (pasta, detalhe))
+            continue
+
+        if exigem_atributo:
+            nome_f, ln_f, _ = exigem_atributo[0]
+            detalhe = ("%s exige atributo no metodo e nao cita os nomes Prefix/Postfix: hoje %s, "
+                       "mas um gancho novo por convencao de nome seria ignorado em silencio"
+                       % (nome_f, cobertura))
+            r5_avisos.append((caminho, ln_f, pasta, detalhe))
+            print("  AVISO   %-30s %s" % (pasta, detalhe))
+            continue
+
+        if filtros:
+            print("  ok      %-30s aplicador proprio — %s; filtro %s aceita todos (nao exige "
+                  "atributo no metodo)" % (pasta, cobertura, filtros[0][0]))
+        else:
+            print("  ok      %-30s aplicador proprio — %s; sem filtro proprio (todo tipo com "
+                  "[HarmonyPatch] entra)" % (pasta, cobertura))
+    print("  -> %d de %d projetos com patch usam aplicador proprio cobrindo os ganchos "
+          "(%d reprova(m), %d aviso(s))"
+          % (len(patchudos) - len(r5_avisos) - len(r5_reprovam), len(patchudos),
+             len(r5_reprovam), len(r5_avisos)))
 
     # ---- contagem final ---------------------------------------------------
-    reprovam = r1_reprovam + r2_reprovam + r4_reprovam
+    reprovam = r1_reprovam + r2_reprovam + r4_reprovam + r5_reprovam
     avisos = r1_avisos + r3_avisos + r5_avisos
     print()
     print("CONTAGEM: %d projeto(s) | %d arquivo(s) .cs | %d achado(s) que REPROVAM | %d aviso(s)"
@@ -485,14 +632,23 @@ def main():
         if r4_reprovam:
             print("    Sem a linha de 'carregado' o teste de ciclo nao tem como saber se o")
             print("    plugin subiu - o silencio parece sucesso.")
+        if r5_reprovam:
+            print("    O aplicador gancho a gancho so aplica o que o FILTRO dele aceitar: exigir")
+            print("    [HarmonyPrefix]/[HarmonyPostfix] NO METODO ignora todo gancho declarado pela")
+            print("    CONVENCAO DE NOME do Harmony (metodo Prefix/Postfix/Transpiler/Finalizer) -")
+            print("    os dois valem igual, e era isso que o PatchAll() processava. O mod carrega,")
+            print("    loga 'carregado.' e nao aplica gancho nenhum: o silencio parecendo sucesso.")
+            print("    Filtre so pelo [HarmonyPatch] no TIPO (o modelo do BetterTooltips).")
         return 1
 
     print("==> trava OK (TRV-1): 0 posicional sem justificativa; %d/%d classes de patch com"
           % (r2_total - len(r2_reprovam), r2_total))
     print("    assinatura por TIPO; %d/%d metodos de patch protegidos; %d/%d Plugin.cs com"
           % (r3_total - len(r3_avisos), r3_total, len(pastas) - len(r4_reprovam), len(pastas)))
-    print("    marcador de vida. %d aviso(s) NAO reprovam (ver 'COMO LER A SAIDA' no cabecalho)."
-          % len(avisos))
+    print("    marcador de vida; %d/%d projetos com patch com aplicador proprio cobrindo os"
+          % (len(patchudos) - len(r5_avisos) - len(r5_reprovam), len(patchudos)))
+    print("    ganchos (0 filtro exigindo atributo sobre gancho por nome).")
+    print("    %d aviso(s) NAO reprovam (ver 'COMO LER A SAIDA' no cabecalho)." % len(avisos))
     return 0
 
 
