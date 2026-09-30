@@ -743,6 +743,95 @@ namespace BetterTooltips.Patches
         // no jogo, sem nenhuma afirmação de gameplay. Chave = texto original exato.
         private static readonly Dictionary<string, string> TextFixes = new Dictionary<string, string>
         {
+            // RV-14 terminologia: Regenerating | max life -> max health
+
+            { "5% of your max life regenerated per turn.",
+              "5% of your max health regenerated per turn." },
+            // RV-14 terminologia: Shaman Aura | maximum mana -> max mana
+
+            { "Recover [0]% of maximum mana each turn. ",
+              "Recover [0]% of max mana each turn. " },
+            // RV-14 terminologia: Curse of the Reaper | max life -> max health
+
+            { "Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>\"A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.\"</i></color>",
+              "Increases @Life Steal@ by 6%. Reduces @Max Health@ by 15%.  <i><color=#808080>\"A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.\"</i></color>" },
+            // RV-14 terminologia: Berserker's Rage | max life -> max health
+
+            { "Increases Damage and Damage Taken by 25%. Increases max life by 15%.",
+              "Increases Damage and Damage Taken by 25%. Increases max health by 15%." },
+            // RV-14 terminologia: Sustenance II | max life -> max health
+
+            { "Consuming any Globule heals you for 20% of max life and mana.",
+              "Consuming any Globule heals you for 20% of max health and mana." },
+            // RV-14 terminologia: Sustenance I | max life -> max health
+
+            { "Consuming any Globule heals you for 8% of max life and mana.",
+              "Consuming any Globule heals you for 8% of max health and mana." },
+            // RV-14 terminologia: Gathering Storm | maximum mana -> max mana
+
+            { "Increases @maximum mana@ by 20%.",
+              "Increases @max mana@ by 20%." },
+            // RV-14 terminologia: Ecosystem | max life -> max health
+
+            { "Every summon active increases the @Max Life@, @Damage@ and @Healing@ of you and your summons by 5%.",
+              "Every summon active increases the @Max Health@, @Damage@ and @Healing@ of you and your summons by 5%." },
+            // RV-14 terminologia: Soul Fracture | maximum health -> max health
+            { "@Maximum health@ and @maximum mana@ lowered by 25%.",
+              "@Max health@ and @maximum mana@ lowered by 25%." },
+            // RV-14 terminologia: Seraph Aura | maximum health -> max health
+            { "Recover [0]% of maximum health each turn. ",
+              "Recover [0]% of max health each turn. " },
+            // RV-14 terminologia: Salvation | maximum health -> max health
+            { "@Maximum health@ increased by 10% per stack.",
+              "@Max health@ increased by 10% per stack." },
+            // RV-14 terminologia: Immortal Night | maximum health -> max health
+            { "@Maximum health@ and @maximum mana@ lowered by 25% per stack.",
+              "@Max health@ and @maximum mana@ lowered by 25% per stack." },
+            // RV-14 terminologia: Focused Strike | damage received -> damage taken
+            { "Increases damage received by 20%.",
+              "Increases damage taken by 20%." },
+            // RV-14 terminologia: Warrior's Boon | maximum health -> max health
+            { "Heals 25% of your maximum health and removes all negative statuses. Can be used when Disabled.",
+              "Heals 25% of your max health and removes all negative statuses. Can be used when Disabled." },
+            // RV-14 terminologia: Reaper's Toll | maximum health -> max health
+            { "Every enemy that dies heals you for 10% of your maximum health.",
+              "Every enemy that dies heals you for 10% of your max health." },
+            // RV-14 terminologia: Rage | damage received -> damage taken
+            { "Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage received@ by 15%.",
+              "Increases @Damage dealt@ and @Max Life@ by 15%.  Increases @damage taken@ by 15%." },
+            // RV-14 terminologia: Into the Fray | maximum health -> max health
+            { "For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Maximum Health@.",
+              "For every enemy within 3 hexes of your character gain 3% @increased Damage@ and 3% @Max Health@." },
+            // RV-14 terminologia: Hunger | maximum health -> max health
+            { "Grants 10% @mana steal@.  Sacrifices 10% maximum health per turn.",
+              "Grants 10% @mana steal@.  Sacrifices 10% max health per turn." },
+            // RV-14 terminologia: Endless Night | maximum health -> max health
+            { "Gain 2% of your maximum health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0].",
+              "Gain 2% of your max health as @Additional Shadow Damage@.   Current Shadow Damage Increase: [0]." },
+            // RV-14 terminologia: Dark Pact | maximum health -> max health
+            { "Increase the effectiveness of your damage and healing skills by 30%.   Maximum health reduced by 20%.",
+              "Increase the effectiveness of your damage and healing skills by 30%.   Max health reduced by 20%." },
+            // RV-14 terminologia: Consumption | maximum health -> max health
+            { "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Maximum Health@ for each enemy effected.",
+              "Devour the life force of all enemies within 2 hexes dealing *0 Shadow Damage and giving you 10% @Max Health@ for each enemy effected." },
+            // RV-14 terminologia: Bone Collector | maximum health -> max health
+            { "Every enemy slain grants 6% @maximum health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times.",
+              "Every enemy slain grants 6% @max health@ and @Increased Damage@.  Lasts the duration of the battle.  Stacks up to 5 times." },
+            // RV-14 terminologia: Bless | maximum health -> max health
+            { "Bless all allies within 5 hexes.  Increases @damage@, @maximum health@, and @maximum Mana@ by 10%.",
+              "Bless all allies within 5 hexes.  Increases @damage@, @max health@, and @maximum Mana@ by 10%." },
+            // RV-14 terminologia: Berserker's Rage | damage received -> damage taken
+            { "Increases @Damage dealt@ and @damage received@ by 25%. Increases @Max Life@ by 15%.",
+              "Increases @Damage dealt@ and @damage taken@ by 25%. Increases @Max Life@ by 15%." },
+            // RV-14 terminologia: Saint | Divine Resistance -> Holy Resistance
+            { "Divine Resistance increased by 5%",
+              "Holy Resistance increased by 5%" },
+            // RV-14 terminologia: God | Divine Resistance -> Holy Resistance
+            { "Divine Resistance increased by 15%",
+              "Holy Resistance increased by 15%" },
+            // RV-14 terminologia: Angel | Divine Resistance -> Holy Resistance
+            { "Divine Resistance increased by 10%",
+              "Holy Resistance increased by 10%" },
             // RV-9 buffs: Toxic
             { "Applies @2@ @poison@ when striking Applies @2@ @poison@ when struck",
               "Applies @2@ @poison@ when striking. Applies @2@ @poison@ when struck." },
