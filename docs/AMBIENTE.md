@@ -44,7 +44,7 @@ mods são DLLs .NET gerenciadas (`netstandard2.1`), compiladas contra
 |---|---|
 | Repositório | `C:\dev\stolen-realm` |
 | **Jogo** (Steam, appid **1330000**) | `E:\SteamLibrary\steamapps\common\Stolen Realm` |
-| **Perfil do r2modman** (raiz) | `%USERPROFILE%\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\` — `winhttp.dll`, `doorstop_config.ini`, `mods.yml`, `BepInEx\` |
+| **Perfil do r2modman** (raiz) | `%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\` — `winhttp.dll`, `doorstop_config.ini`, `mods.yml`, `BepInEx\` |
 | **BepInEx do perfil** | `…\profiles\Default\BepInEx\` — `core\` (BepInEx.dll, 0Harmony.dll, Mono.Cecil…), `plugins\`, `config\`, `patchers\`, `cache\`, `scripts\` |
 | Plugins dos mods | `…\BepInEx\plugins\<Mod>\<Mod>.dll` (**uma pasta por mod**) |
 | **Log** | `…\BepInEx\LogOutput.log` |
@@ -144,11 +144,11 @@ powershell -c "(Get-Item \"$env:APPDATA\r2modmanPlus-local\StolenRealm\profiles\
 cd C:/dev/stolen-realm && ls lib/        # Assembly-CSharp.dll, BepInEx.dll, UnityEngine*, 0Harmony, Sirenix*
 
 # a API está desativada?
-ls "%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/StolenRealmModding-StolenRealmModAPI/"
+ls "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/StolenRealmModding-StolenRealmModAPI/"
 
 # nada de DLL de backup DENTRO de plugins/  (a lista tem que ficar vazia:
 # o BepInEx carregaria qualquer *.dll ali, inclusive num *.bak/)
-find "%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins" -path "*bak*" -name "*.dll"
+find "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins" -path "*bak*" -name "*.dll"
 ```
 
 Depois de qualquer build/instalação, valide pelo **ritual de build** descrito em

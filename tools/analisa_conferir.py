@@ -22,8 +22,9 @@ import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COB = os.path.join(RAIZ, "docs", "cobertura")
-LOG = ("%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/"
-       "profiles/Default/BepInEx/LogOutput.log")
+LOG = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")),
+                   "r2modmanPlus-local", "StolenRealm", "profiles", "Default",
+                   "BepInEx", "LogOutput.log")
 
 
 def carrega(nome):

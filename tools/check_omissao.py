@@ -31,8 +31,9 @@ from collections import Counter, defaultdict
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COB = os.path.join(RAIZ, "docs", "cobertura")
 SAIDA = os.path.join(COB, "revisao", "omissoes.md")
-LOG = ("%USERPROFILE%/AppData/Roaming/r2modmanPlus-local/StolenRealm/"
-       "profiles/Default/BepInEx/LogOutput.log")
+LOG = os.path.join(os.environ.get("APPDATA", os.path.expanduser("~")),
+                   "r2modmanPlus-local", "StolenRealm", "profiles", "Default",
+                   "BepInEx", "LogOutput.log")
 
 # Nomes de status que sao palavra comum: casar por eles da falso positivo em massa
 # (o censo tem um status chamado "Damage" e o texto de meia duvida de skills tem a palavra).
