@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Reflection;
 using Burst2Flame;
 using BepInEx;
 using BepInEx.Logging;
@@ -29,8 +32,116 @@ namespace BetterStats
             Log = Logger;
             Logger.LogInfo("Better Stats carregado.");
 
-            new Harmony("com.gumatos.betterstats").PatchAll();
-            Logger.LogInfo("Better Stats: patches aplicados.");
+            AplicarPatches();
+        }
+
+        /// <summary>
+        /// Aplica os ganchos UM A UM, em vez de <c>PatchAll()</c>.
+        ///
+        /// <c>PatchAll()</c> e tudo-ou-nada: um gancho so que falhasse (tipo ou assinatura que mudou
+        /// numa versao do jogo) deixaria os outros sem aplicar — e em silencio. Com o laco abaixo, o
+        /// gancho que falha fica escrito no log com o nome dele e o resto continua funcionando
+        /// (aqui sao 2: personagem e level up; se um cair, o outro continua). O resumo usa a
+        /// contagem REAL, nunca um numero fixo. Mesmo modelo do RoguelikeSkillTreeVisualizer;
+        /// quando tudo da certo os patches aplicados sao EXATAMENTE os mesmos de antes.
+        /// </summary>
+        private static void AplicarPatches()
+        {
+            var harmony = new Harmony("com.gumatos.betterstats");
+            var falhas = new List<string>();
+            int ganchosTotal = 0;
+            int ganchosOk = 0;
+            int metodosOk = 0;
+
+            Type[] tipos;
+            try
+            {
+                tipos = typeof(Plugin).Assembly.GetTypes();
+            }
+            catch (Exception e)
+            {
+                Log.LogError("Better Stats: nao deu para listar os tipos do mod — nenhum gancho aplicado: " + e);
+                return;
+            }
+
+            for (int i = 0; i < tipos.Length; i++)
+            {
+                Type tipo = tipos[i];
+                if (!EhClasseDeGancho(tipo))
+                {
+                    continue;
+                }
+
+                ganchosTotal++;
+                try
+                {
+                    PatchClassProcessor processador = harmony.CreateClassProcessor(tipo);
+                    List<MethodInfo> aplicados = processador.Patch();
+                    int quantos = aplicados != null ? aplicados.Count : 0;
+                    metodosOk += quantos;
+                    ganchosOk++;
+                    Log.LogInfo("Better Stats: gancho aplicado — " + tipo.Name + " (" + quantos +
+                                " metodo(s) do jogo).");
+                }
+                catch (Exception e)
+                {
+                    falhas.Add(tipo.Name);
+                    Log.LogError("Better Stats: FALHA ao aplicar o gancho " + tipo.Name + " — " + e.Message);
+                }
+            }
+
+            string resumo = "Better Stats: patches Harmony aplicados (" + ganchosOk + "/" + ganchosTotal +
+                            " ganchos, " + metodosOk + " metodos do jogo).";
+
+            if (falhas.Count == 0)
+            {
+                Log.LogInfo(resumo);
+                return;
+            }
+
+            Log.LogError(resumo + " GANCHOS QUE FALHARAM: " + string.Join(", ", falhas.ToArray()) +
+                         ". O mod continua de pe, mas a tela que dependia deles nao existe nesta sessao.");
+        }
+
+        /// <summary>
+        /// Classe de gancho = tem <c>[HarmonyPatch]</c> no tipo E pelo menos um metodo com
+        /// <c>[HarmonyPrefix]</c>/<c>[HarmonyPostfix]</c> (evita tentar "patchar" uma classe que
+        /// carrega o atributo sem ser um gancho de verdade).
+        /// </summary>
+        private static bool EhClasseDeGancho(Type tipo)
+        {
+            try
+            {
+                if (tipo == null || !tipo.IsClass)
+                {
+                    return false;
+                }
+
+                if (tipo.GetCustomAttributes(typeof(HarmonyPatch), false).Length == 0)
+                {
+                    return false;
+                }
+
+                MethodInfo[] metodos = tipo.GetMethods(
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+
+                for (int i = 0; i < metodos.Length; i++)
+                {
+                    MethodInfo metodo = metodos[i];
+                    if (metodo.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0 ||
+                        metodo.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // atributo com tipo que nao resolve (versao de jogo diferente): nao e gancho nosso
+                return false;
+            }
         }
     }
 

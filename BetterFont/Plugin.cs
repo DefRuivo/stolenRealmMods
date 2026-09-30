@@ -1,4 +1,6 @@
+using System;
 using System.Collections.Generic;
+using System.Reflection;
 using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
@@ -39,13 +41,39 @@ namespace BetterFont
         /// <summary>BF-ESTILO: log por texto (objeto, fonte, material, shader, o que foi copiado).</summary>
         internal static ConfigEntry<bool> LogDiagnosticoEstilo { get; private set; }
 
+        /// <summary>
+        /// Getters SEGUROS das opcoes: se o config nao pudo ser lido/criado (ver <c>BindSeguro</c>),
+        /// a entrada fica null e o mod continua com o DEFAULT de cada opcao em vez de estourar
+        /// NullReference a cada texto da tela. Mesmo padrao do RSTV (<c>Plugin.BotaoLigado</c>).
+        /// </summary>
+        internal static bool PreservarEstiloLigado
+        {
+            get { return PreservarEstilo == null || PreservarEstilo.Value; }
+        }
+
+        /// <summary>Padrao <c>true</c> (nao troca a fonte de material estilizado).</summary>
+        internal static bool PularEstilizadosLigado
+        {
+            get { return PularTextosEstilizados == null || PularTextosEstilizados.Value; }
+        }
+
+        /// <summary>Padrao <c>false</c> (sem log de diagnostico por texto).</summary>
+        internal static bool LogDiagnosticoLigado
+        {
+            get { return LogDiagnosticoEstilo != null && LogDiagnosticoEstilo.Value; }
+        }
+
         private void Awake()
         {
             Log = Logger;
 
+            // Config: cada Bind passa por BindSeguro. Arquivo ausente/corrompido, ou chave com tipo
+            // invalido, NAO pode derrubar o mod nem impedir o jogo de carregar — em falha vale o
+            // DEFAULT de cada opcao (pelos getters seguros abaixo) e o erro fica no log.
+            //
             // BF-ESTILO: PreservarEstilo transporta o estilo do material ANTIGO para o material
             // POR COMPONENTE da fonte nova (é o conserto do defeito: atribuir .font troca o material).
-            PreservarEstilo = Config.Bind("Estilo", "PreservarEstilo", true,
+            PreservarEstilo = BindSeguro("Estilo", "PreservarEstilo", true,
                 "true = antes de trocar a fonte, copia as propriedades de ESTILO do material que o texto ja usava " +
                 "(cor de face _FaceColor, contorno _OutlineWidth/_OutlineSoftness/_OutlineColor, sombra _UnderlayColor/" +
                 "_UnderlayOffsetX/_UnderlayOffsetY/_UnderlayDilate/_UnderlaySoftness, _FaceDilate) para o material " +
@@ -56,29 +84,162 @@ namespace BetterFont
 
             // BF-ESTILO: textos com material estilizado (materiais do jogo em combate, titulos etc.)
             // ficam fora da troca por padrão — garante estilo intacto onde a cópia poderia não reproduzir bem.
-            PularTextosEstilizados = Config.Bind("Estilo", "PularTextosEstilizados", true,
+            PularTextosEstilizados = BindSeguro("Estilo", "PularTextosEstilizados", true,
                 "true = NAO troca a fonte dos textos cujo material e estilizado (material proprio, diferente do " +
                 "material padrao da fonte daquele componente, ou com shader diferente do material da fonte serifada). " +
                 "Nesses textos o visual original fica 100% intacto (so nao ganham a serifa). false = troca a fonte em " +
                 "TODOS os textos e transporta o estilo por copia (PreservarEstilo). Padrao: true (seguro). " +
                 "Para ver o que foi pulado, ligue LogDiagnosticoEstilo.");
 
-            LogDiagnosticoEstilo = Config.Bind("Diagnostico", "LogDiagnosticoEstilo", false,
+            LogDiagnosticoEstilo = BindSeguro("Diagnostico", "LogDiagnosticoEstilo", false,
                 "true = loga um bloco por texto tratado: objeto, fonte, material compartilhado, shader, quais " +
                 "propriedades de estilo foram copiadas e quais existiam na origem mas NAO podem ser transportadas " +
                 "(ex.: _FaceTex, GLOW_ON, _GradientScale do atlas). Serve para conferir um texto especifico e para " +
                 "saber se algo ainda ficou diferente do original. Padrao: false (sem spam no log).");
 
             Logger.LogInfo(
-                $"Better Font carregado (v{Info.Metadata.Version}): preservar estilo={PreservarEstilo.Value}, " +
-                $"pular textos estilizados={PularTextosEstilizados.Value}, diagnostico={LogDiagnosticoEstilo.Value}.");
+                $"Better Font carregado (v{Info.Metadata.Version}): preservar estilo={PreservarEstiloLigado}, " +
+                $"pular textos estilizados={PularEstilizadosLigado}, diagnostico={LogDiagnosticoLigado}.");
 
             // NÃO criar o updater aqui! Este Awake roda durante o chainloader do BepInEx, ANTES
             // de existir cena — a Unity DESTRÓI na primeira carga de cena qualquer GameObject
             // criado ali (mesma causa raiz do HUD do RoguelikeQoL, confirmada 29/09), e o updater
             // nunca chegava a receber Update. A criação é PREGUIÇOSA: no primeiro Localize da UI.
-            new Harmony("com.gumatos.betterfont").PatchAll();
-            Logger.LogInfo("Better Font: patch de gatilho (OptionsManager.Localize) aplicado; updater será criado na primeira UI.");
+            AplicarPatches();
+
+            Logger.LogInfo("Better Font: o updater sera criado de forma PREGUICOSA no primeiro " +
+                           "OptionsManager.Localize da UI (nunca no Awake: a Unity destroi GameObject " +
+                           "criado durante o chainloader do BepInEx).");
+        }
+
+        /// <summary>
+        /// <c>Config.Bind</c> com guarda: arquivo de config ausente/corrompido (ou chave com tipo
+        /// invalido) nao pode derrubar o mod nem impedir o jogo de carregar. Em falha devolve null e
+        /// o getter seguro correspondente passa a valer o DEFAULT — o mesmo comportamento de quem
+        /// nao tem arquivo de config nenhum. Mesmo padrao do RSTV (<c>Plugin.BotaoLigado</c>) e do
+        /// BetterCombatText (try/catch no chamador).
+        /// </summary>
+        private ConfigEntry<T> BindSeguro<T>(string secao, string chave, T padrao, string descricao)
+        {
+            try
+            {
+                return Config.Bind(secao, chave, padrao, descricao);
+            }
+            catch (Exception e)
+            {
+                Log.LogError("Better Font: falha ao ler/criar a chave '" + chave + "' do config — usando o " +
+                             "padrao (" + padrao + "): " + e.Message);
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// Aplica os ganchos UM A UM, em vez de <c>PatchAll()</c>.
+        ///
+        /// <c>PatchAll()</c> e tudo-ou-nada: um gancho so que falhasse (tipo ou assinatura que mudou
+        /// numa versao do jogo) deixaria TODOS os outros sem aplicar — e em silencio. Com o laco
+        /// abaixo, o gancho que falha fica escrito no log com o nome dele e o resto continua
+        /// funcionando. O resumo usa a contagem REAL (quantos ganchos de quantos, e quantos metodos
+        /// do jogo casaram), nunca um numero fixo: e por ele que se descobre, lendo o log, que um
+        /// gancho nao entrou. Mesmo modelo do RoguelikeSkillTreeVisualizer.
+        /// </summary>
+        private static void AplicarPatches()
+        {
+            var harmony = new Harmony("com.gumatos.betterfont");
+            var falhas = new List<string>();
+            int ganchosTotal = 0;
+            int ganchosOk = 0;
+            int metodosOk = 0;
+
+            Type[] tipos;
+            try
+            {
+                tipos = typeof(Plugin).Assembly.GetTypes();
+            }
+            catch (Exception e)
+            {
+                Log.LogError("Better Font: nao deu para listar os tipos do mod — nenhum gancho aplicado: " + e);
+                return;
+            }
+
+            for (int i = 0; i < tipos.Length; i++)
+            {
+                Type tipo = tipos[i];
+                if (!EhClasseDeGancho(tipo))
+                {
+                    continue;
+                }
+
+                ganchosTotal++;
+                try
+                {
+                    PatchClassProcessor processador = harmony.CreateClassProcessor(tipo);
+                    List<MethodInfo> aplicados = processador.Patch();
+                    int quantos = aplicados != null ? aplicados.Count : 0;
+                    metodosOk += quantos;
+                    ganchosOk++;
+                    Log.LogInfo("Better Font: gancho aplicado — " + tipo.Name + " (" + quantos +
+                                " metodo(s) do jogo).");
+                }
+                catch (Exception e)
+                {
+                    falhas.Add(tipo.Name);
+                    Log.LogError("Better Font: FALHA ao aplicar o gancho " + tipo.Name + " — " + e.Message);
+                }
+            }
+
+            string resumo = "Better Font: patches Harmony aplicados (" + ganchosOk + "/" + ganchosTotal +
+                            " ganchos, " + metodosOk + " metodos do jogo).";
+
+            if (falhas.Count == 0)
+            {
+                Log.LogInfo(resumo);
+                return;
+            }
+
+            Log.LogError(resumo + " GANCHOS QUE FALHARAM: " + string.Join(", ", falhas.ToArray()) +
+                         ". O mod continua de pe, mas o recurso que dependia deles nao existe nesta sessao.");
+        }
+
+        /// <summary>
+        /// Classe de gancho = tem <c>[HarmonyPatch]</c> no tipo E pelo menos um metodo com
+        /// <c>[HarmonyPrefix]</c>/<c>[HarmonyPostfix]</c> (a segunda condicao evita tentar
+        /// "patchar" uma classe que carrega o atributo sem ser um gancho de verdade).
+        /// </summary>
+        private static bool EhClasseDeGancho(Type tipo)
+        {
+            try
+            {
+                if (tipo == null || !tipo.IsClass)
+                {
+                    return false;
+                }
+
+                if (tipo.GetCustomAttributes(typeof(HarmonyPatch), false).Length == 0)
+                {
+                    return false;
+                }
+
+                MethodInfo[] metodos = tipo.GetMethods(
+                    BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.DeclaredOnly);
+
+                for (int i = 0; i < metodos.Length; i++)
+                {
+                    MethodInfo metodo = metodos[i];
+                    if (metodo.GetCustomAttributes(typeof(HarmonyPrefix), false).Length > 0 ||
+                        metodo.GetCustomAttributes(typeof(HarmonyPostfix), false).Length > 0)
+                    {
+                        return true;
+                    }
+                }
+
+                return false;
+            }
+            catch (Exception)
+            {
+                // atributo com tipo que nao resolve (versao de jogo diferente): nao e gancho nosso
+                return false;
+            }
         }
     }
 
@@ -204,10 +365,20 @@ namespace BetterFont
 
         private void Update()
         {
-            if (Time.realtimeSinceStartup - _lastSweep >= 2f)
+            // Guarda no PONTO DE CHAMADA (o FontSweep ja tem a guarda interna, mas um Update que
+            // lanca excecao a cada frame e classe de bug conhecida neste projeto — o log encheria
+            // e o objeto poderia ser desativado pela Unity). Mesmo formato do MaybeSweep.
+            try
             {
-                _lastSweep = Time.realtimeSinceStartup;
-                FontSweep();
+                if (Time.realtimeSinceStartup - _lastSweep >= 2f)
+                {
+                    _lastSweep = Time.realtimeSinceStartup;
+                    FontSweep();
+                }
+            }
+            catch (System.Exception e)
+            {
+                Plugin.Log.LogWarning($"Better Font erro no Update: {e.Message}\n{e.StackTrace}");
             }
         }
 
@@ -267,7 +438,7 @@ namespace BetterFont
                         TMP_FontAsset fonteAntiga = t.font;
 
                         string motivoEstilo;
-                        if (Plugin.PularTextosEstilizados.Value && EhEstilizado(antigo, fonteAntiga, out motivoEstilo))
+                        if (Plugin.PularEstilizadosLigado && EhEstilizado(antigo, fonteAntiga, out motivoEstilo))
                         {
                             // Conta/loga o pulo UMA vez por texto (a varredura roda a cada 2s; sem
                             // isto o resumo repetiria para sempre). O texto continua sendo reavaliado
@@ -287,7 +458,7 @@ namespace BetterFont
 
                         string copiados = null;
                         string naoTransportados = null;
-                        if (Plugin.PreservarEstilo.Value && antigo != null && UsaMaterialDaFonteNova(t))
+                        if (Plugin.PreservarEstiloLigado && antigo != null && UsaMaterialDaFonteNova(t))
                         {
                             // fontMaterial devolve/cria a CÓPIA do material POR COMPONENTE.
                             Material novo = t.fontMaterial;
@@ -320,7 +491,7 @@ namespace BetterFont
                 {
                     Plugin.Log.LogInfo(
                         $"Better Font: varredura — {convertidos} texto(s) convertidos para a serifa" +
-                        (Plugin.PreservarEstilo.Value ? " (estilo transportado por cópia)" : string.Empty) +
+                        (Plugin.PreservarEstiloLigado ? " (estilo transportado por cópia)" : string.Empty) +
                         $", {pulados} pulado(s) por material estilizado, {jaNaSerifa} já na serifa.");
                 }
             }
@@ -555,7 +726,7 @@ namespace BetterFont
         private void Diagnostico(string situacao, TMP_Text t, TMP_FontAsset fonteAntiga, Material antigo,
             string copiados, string naoTransportados)
         {
-            if (!Plugin.LogDiagnosticoEstilo.Value)
+            if (!Plugin.LogDiagnosticoLigado)
             {
                 return;
             }
