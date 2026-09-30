@@ -22,7 +22,7 @@ namespace BetterStats
     /// vs o valor final — é isso que este mod exibe. Ex.: skill "Light's Brilliance" aplica
     /// `IntelligenceBase:Percentage:20`, que só aparece no valor final.
     /// </summary>
-    [BepInPlugin("com.gumatos.betterstats", "Better Stats", "1.0.0")]
+    [BepInPlugin("com.gumatos.betterstats", "Better Stats", "1.0.1")]
     public class Plugin : BaseUnityPlugin
     {
         internal static ManualLogSource Log { get; private set; }

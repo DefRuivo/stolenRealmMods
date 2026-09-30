@@ -23,7 +23,12 @@ REGRAS (as mesmas que o Thunderstore exige e o pack ja checava)
   3. `version_number` em semver `X.Y.Z` (se ele e o MESMO do .csproj/Plugin.cs NAO e
      daqui: e do `tools/check_versoes.py`, passo 2 do workflow);
   4. `description` nao vazia e <= 250 caracteres (limite do Thunderstore);
-  5. `dependencies` == ["BepInEx-BepInExPack-5.4.2305"] (exatamente, nessa ordem);
+  5. `dependencies`: o BepInExPack da comunidade vem SEMPRE em primeiro (unica dependencia
+     obrigatoria); cada dependencia extra tem de estar no formato `Autor-Pacote-Versao` e,
+     se for de um mod DESTE repositorio, apontar para a versao que ele declara HOJE -
+     versao antiga faz o gerenciador resolver o MESMO pacote em duas versoes (duas DLLs
+     com o mesmo GUID carregadas juntas, que e o defeito que essa amarra evita); sem
+     dependencia repetida de pacote;
   6. `icon.png` e um PNG real de 256x256 e <= 1 MB;
   7. `README.md` e `CHANGELOG.md` presentes na raiz do mod.
 
@@ -48,7 +53,7 @@ CAMPOS_OBRIGATORIOS = ("name", "version_number", "website_url", "description",
 NOME_VALIDO = re.compile(r"^[A-Za-z0-9_]+$")
 SEMVER = re.compile(r"^\d+\.\d+\.\d+$")
 DESC_MAX = 250
-DEPENDENCIAS_ESPERADAS = ["BepInEx-BepInExPack-5.4.2305"]
+DEPENDENCIA_OBRIGATORIA = "BepInEx-BepInExPack-5.4.2305"
 ICONE_MAX_BYTES = 1024 * 1024            # 1 MB
 ICONE_LADO = 256
 
@@ -84,6 +89,55 @@ def pastas_com_manifest():
             continue
         (com if os.path.isfile(os.path.join(pasta, "manifest.json")) else sem).append(nome)
     return com, sem
+
+
+def versoes_do_repo():
+    """({mod: versao}, team) - o que o repositorio declara hoje, para a regra 5.
+
+    A versao de cada mod sai do proprio `manifest.json` (a trava que compara manifest,
+    csproj e Plugin.cs e o `tools/check_versoes.py`); o team sai do `release/mods.json`,
+    que e onde a decisao de namespace humano esta registrada.
+    """
+    versoes = {}
+    com_manifest, _ = pastas_com_manifest()
+    for nome in com_manifest:
+        try:
+            manifesto = json.loads(io.open(os.path.join(RAIZ, nome, "manifest.json"),
+                                           encoding="utf-8").read())
+        except (OSError, ValueError):
+            continue
+        versoes[nome] = manifesto.get("version_number")
+    team = None
+    try:
+        config = json.loads(io.open(os.path.join(RAIZ, "release", "mods.json"),
+                                    encoding="utf-8").read())
+        team = config.get("team")
+    except (OSError, ValueError):
+        pass
+    return versoes, team
+
+
+def partes_da_referencia(ref):
+    """(namespace, nome, versao) de `Autor-Pacote-Versao`, ou (None, None, None).
+
+    Leitura de tras para frente, a mesma do `PackageReference.parse` do Thunderstore: o
+    NAMESPACE pode conter '-', nome e versao nao.
+    """
+    if not isinstance(ref, str):
+        return None, None, None
+    partes = ref.split("-")
+    if len(partes) < 3:
+        return None, None, None
+    versao, nome = partes[-1], partes[-2]
+    namespace = "-".join(partes[:-2])
+    if not namespace or not SEMVER.match(versao) or not NOME_VALIDO.match(nome):
+        return None, None, None
+    if any(not NOME_VALIDO.match(componente) for componente in namespace.split("-")):
+        return None, None, None
+    return namespace, nome, versao
+
+
+VERSOES_DO_REPO, TEAM_DO_REPO = versoes_do_repo()
 
 
 def valida(nome):
@@ -132,13 +186,39 @@ def valida(nome):
     else:
         dados["desc_len"] = len(descricao)
 
-    # 5. dependencias exatas
+    # 5. dependencias: BepInExPack primeiro, referencia bem formada e - para mod deste
+    #    repositorio - a versao que ele declara HOJE (versao antiga = duas copias)
     deps = manifesto.get("dependencies")
-    if not isinstance(deps, list):
-        erros.append("'dependencies' tem que ser uma lista (use [] se nao houver)")
-    elif deps != DEPENDENCIAS_ESPERADAS:
-        erros.append("'dependencies' != %s (achei %s)"
-                     % (DEPENDENCIAS_ESPERADAS, deps))
+    if not isinstance(deps, list) or not deps:
+        erros.append("'dependencies' tem que ser uma lista nao vazia "
+                     "(o BepInExPack e obrigatorio)")
+    else:
+        if deps[0] != DEPENDENCIA_OBRIGATORIA:
+            erros.append("a PRIMEIRA dependencia tem que ser '%s' (achei %r)"
+                         % (DEPENDENCIA_OBRIGATORIA, deps[0]))
+        if deps.count(DEPENDENCIA_OBRIGATORIA) > 1:
+            erros.append("'%s' repetido na lista" % DEPENDENCIA_OBRIGATORIA)
+        vistos = {}
+        for ref in deps:
+            namespace, nome_dep, versao_dep = partes_da_referencia(ref)
+            if namespace is None:
+                erros.append("dependencia %r nao esta no formato Autor-Pacote-Versao" % (ref,))
+                continue
+            pacote = "%s-%s" % (namespace, nome_dep)
+            if pacote in vistos:
+                erros.append("dependencia repetida do MESMO pacote: %r e %r"
+                             % (vistos[pacote], ref))
+            vistos[pacote] = ref
+            if nome_dep in VERSOES_DO_REPO:
+                if versao_dep != VERSOES_DO_REPO[nome_dep]:
+                    erros.append("dependencia %r aponta a versao %s, mas %s declara hoje %s "
+                                 "(versao antiga = o mesmo pacote instalado duas vezes)"
+                                 % (ref, versao_dep, nome_dep,
+                                    VERSOES_DO_REPO[nome_dep]))
+                if TEAM_DO_REPO and namespace != TEAM_DO_REPO:
+                    erros.append("dependencia %r usa o namespace %r, mas o team deste repo "
+                                 "e %r" % (ref, namespace, TEAM_DO_REPO))
+        dados["deps"] = len(deps)
 
     # 6. icon.png 256x256 e <= 1 MB
     caminho_icone = os.path.join(pasta, "icon.png")

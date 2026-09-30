@@ -1,5 +1,14 @@
 # Changelog — RoguelikeQoL
 
+## 0.1.1
+
+**Correção do aplicador de ganchos: a 0.1.0 publicada carregava o mod e não aplicava gancho nenhum (o HUD nunca aparecia).**
+
+- A troca do `PatchAll()` por **aplicação gancho a gancho** veio acompanhada de um filtro de classe de gancho que exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no método**. Este mod declara o gancho pela **convenção de nome** do Harmony (`LocalizeHudTrigger.Postfix`), que o Harmony aceita exatamente como o atributo — o filtro recusava a única classe de patch: o mod **carregava, logava "carregado." e não aplicava gancho nenhum** (o silêncio parecendo sucesso; era o defeito A-1 da REV-2, em 4 mods).
+- O filtro agora exige só `[HarmonyPatch]` **no TIPO** — o mesmo conjunto de classes que o `PatchAll()` processava. Medido invocando o filtro real da DLL construída: **1 de 1 classe de patch aceita e 1 método de gancho dentro** (antes: 0 de 1). Em todo o projeto, os 4 mods afetados passaram de 0/14 para **14/14** classes de patch aceitas.
+- **Ganchos aplicados um a um** e `Config.Bind` com guarda (mesmo endurecimento, mesma release): `CreateClassProcessor(...).Patch()` por classe de gancho, com log por gancho e resumo com a **contagem real** (um gancho que falhe não derruba o outro); e um `.cfg` corrompido não derruba mais o mod — em caso de falha do bind vale o default documentado, que aqui é o HUD **desligado**.
+- **A versão subiu (0.1.0 → 0.1.1) por causa disso:** versão publicada na Thunderstore é imutável e a 0.1.0 que está no ar carrega o defeito — sem bump a correção não tinha caminho para o usuário. No **caminho feliz nada muda**.
+
 ## 0.1.0
 
 Primeira versão publicada.
@@ -9,12 +18,6 @@ Primeira versão publicada.
 - **Vem desligado por padrão** (`AtivarHUD = false` no `BepInEx\config\com.gumatos.roguelikeqol.cfg`). Para ligar, basta editar o `.cfg` no Notepad e reiniciar — não precisa recompilar.
 - A criação do updater é **preguiçosa** (primeira UI viva, via `OptionsManager.Localize`): um GameObject criado no `Awake` do plugin é destruído pelo jogo na primeira carga de cena, e o HUD nunca aparecia.
 - **Sem qualquer alteração de gameplay.**
-
-### Correção do aplicador de ganchos (mesma versão, sem subir número)
-
-- A troca do `PatchAll()` por **aplicação gancho a gancho** (que entrou nesta versão) veio acompanhada de um filtro de classe de gancho que exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no método**. Este mod declara o gancho pela **convenção de nome** do Harmony (`LocalizeHudTrigger.Postfix`), que o Harmony aceita exatamente como o atributo — o filtro recusava a única classe de patch: o mod **carregava, logava "carregado." e não aplicava gancho nenhum** (o silêncio parecendo sucesso; era o defeito A-1 da REV-2, em 4 mods).
-- O filtro agora exige só `[HarmonyPatch]` **no TIPO** — o mesmo conjunto de classes que o `PatchAll()` processava. Medido invocando o filtro real da DLL construída: **1 de 1 classe de patch aceita e 1 método de gancho dentro** (antes: 0 de 1). Em todo o projeto, os 4 mods afetados passaram de 0/14 para **14/14** classes de patch aceitas.
-- A versão **não** subiu: o defeito foi corrigido antes de qualquer download e a correção não muda nada no caminho feliz.
 
 ### Histórico de escopo
 
