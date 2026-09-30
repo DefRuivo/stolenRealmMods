@@ -7,6 +7,10 @@ Revisão **RV-33/RV-34 (30/09/2026, consertos em código)**: **Decay e Flame ESC
 foram corrigidos aqui (§0.1, §0.2, §2.2, §4.3, §4.4, §6.1), com as provas no §0.5; as limitações que **permanecem**
 estão no §9 e o roteiro de conferência em jogo no §10. Referência viva das notas: `BetterTooltips/Patches/LocalizePatch.cs`
 e `BetterTooltips/Patches/ShrineAuraPatch.cs`.
+Revisão **RV-44 (30/09/2026, conserto em código)**: a linha `Your active shrine auras:` **deixou de mostrar o total do
+personagem como se fosse a aura** — cada item passou a ser `<o que as auras entregam> (total <o total do personagem>%)`;
+o caso do Rogue Shrine com `Worship` (`Dodge +40% (total +57%)`) e as duas telas do Fury entram como **casos de aceite**
+(§9.1/§9.2, §10.5). Nenhuma outra linha foi tocada.
 Fontes: `Assembly-CSharp.dll` (build atual do jogo) + `resources.assets` (1,7 GB) + censo (`docs/cobertura/*.csv`) + dump de boot no `LogOutput.log`.
 Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.decompiled.cs`, 371.804 linhas; classe `CompiledDynamicExpresso` em l.49965).
 
@@ -22,9 +26,11 @@ Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.dec
    `X = Source`, e o `Source` que o hover do shrine entrega é vazio — mas o **prefix do mod** troca esse `Source` pelo
    **personagem avaliado**; no Decay o bônus é o do **próprio personagem NA AURA** (item 2). O `Dwarven` usa `X = Target`
    e escala — a nota em código já foi corrigida (§2.2/§6.1).
-2. **O dano do Flame Shrine não é fixo, nem escala por nível nem por Might.** É uma
-   **% do Max Health do alvo** (o atacante) **multiplicada pelo `ShrineEffectBonus`** (⚠RV-33/RV-34 — a versão ⚠RV-24
-   dizia "não escala com o bônus"), com a % variando por **tipo de inimigo**, com mínimo 1. A fórmula mora na
+2. **O dano do Flame Shrine não é fixo e a fórmula não tem termo de nível nem de Might** (o que muda a vida máxima muda
+   o dano). É uma **% do Max Health do alvo** (o atacante) **multiplicada pelo `ShrineEffectBonus`** — o fator **ENTRA** —
+   com a % variando por **tipo de inimigo**, com mínimo 1. A citação ~~"não escala com o bônus"~~ é **TEXTO MORTO**
+   (frase da versão ⚠RV-24, substituída por RV-33/RV-34: o prefix do mod põe o personagem avaliado no `Source` vazio do
+   hover — §0.4/§0.5). A fórmula mora na
    **AÇÃO `Flame Aura Proc`** (campo `Effects[0].Action`), não no status. O Decay é o irmão exato (`Decay Aura Proc`,
    por turno). ⚠RV-33/RV-34 (substitui a conclusão ⚠RV-24): a fórmula carrega o fator `(1 + Source["ShrineEffectBonus"]/100)`
    **e ele vale de verdade**. O hover do shrine entrega `Source = WorldCharacter` **VAZIO**, mas o prefix do mod preenche
@@ -100,7 +106,9 @@ Detalhes dos assets (strings completas, para auditoria):
   (próxima ação com 100% de crítico); `Guardian Shrine Explosion` → "Guardian Shield" (dano tomado −50%);
   `Reaper Shrine Explosion` → "Marked for Death" (dano tomado +50%); `Warrior Shrine Explosion` → "Warrior's Blade"
   (dano +50%); `Goblin Battle Standard Explosion` → "Frenzy" (+1 AP). Esses NÃO escalam por ShrineEffectBonus
-  (valores fixos) — fora do escopo das notas.
+  (valores fixos) — fora do escopo das notas. Prova da negativa (varredura byte a byte do `resources.assets`, §8): as
+  **24** ocorrências de `ShrineEffectBonus` do install inteiro estão todas nos **12 statuses da família** (23) + 1 no
+  asset do atributo — nenhum status de Explosion carrega o fator, então a negativa aqui não é "dump não lê o campo".
 
 ### 2.1 Os assets dos shrines (GroundEffectInfo, cluster ~1520,8M)
 
@@ -258,7 +266,8 @@ no código (e na nota + lista por alvo que o mod acrescenta).
   o Flame/Decay não têm nenhum dos dois: o dano mora na AÇÃO `* Aura Proc` (seção 4), que o censo de status não vê.
   Ou seja, **o vazio é legítimo, não é falha de dump** para essas duas colunas.
 - Sibling fora do filtro: `Dwarven Aura` também está com `efeitos` VAZIO (mesma família, mesmo padrão de asset).
-  ⚠RV-24 — **"efeitos vazio" no dump NÃO significa "não escala"**: o asset do `Dwarven Totem Aura Status` tem a
+  ⚠RV-24/RV-33 — **"efeitos vazio" no dump NÃO significa "não escala"** (a inferência "não escala por
+  `ShrineEffectBonus`" está MORTA; o dump simplesmente não lê esse campo): o asset do `Dwarven Totem Aura Status` tem a
   fórmula com `Target` (§2.2). O dump só não lê aquele campo.
 - No `LogOutput.log` o dump completo tem ainda `aura=nao | raio=3 | auraAli=nao | auraIni=nao` para todas as auras
   (o `raio=3` é só o default da classe; esses status NÃO são do tipo `IsAura` — o raio do shrine vem do GroundEffect).
@@ -279,9 +288,11 @@ interpretaria o token (regra do projeto).
 // ⚠RV-33/RV-34 — as DUAS notas de perigo abaixo foram REESCRITAS em 30/09: a versão ⚠RV-24 (Flame e Decay
 // "Does not scale with the Shrine Effect Bonus") está MORTA. O texto VIVO (copiado do LocalizePatch.cs) é:
 { "Attackers take Fire Damage.",
-  "\n<color=#C8B090>Raw damage, before damage reduction: the percentage and the Shrine Effect Bonus of the attacker that triggers the aura - the character that attacks someone standing inside it - multiply that attacker's Max Health, never the Max Health of the character standing in the aura, and no armor, resistances or other mitigation is applied. The percentage follows the attacker's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
-// ⚠RV-34 — a nota do Flame diz "bônus do ATACANTE" porque é ele o `Target` da fórmula; a MEDIÇÃO em jogo do
-// dano de RETORNO com `Worship` ainda não foi feita (§9(ii) — se o bônus for o do PORTADOR da aura, o texto muda).
+  "\n<color=#C8B090>Raw damage, before damage reduction: the number is the projection of THIS character as the attacker - if this character attacked, the percentage and its own Shrine Effect Bonus multiply its own Max Health, and no armor, resistances or other mitigation is applied. At hover time the game cannot know who will attack, so every character standing in the aura is projected as if it were the attacker. The percentage follows that character's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
+// ⚠RV-43 (01/10) — a nota do Flame acima foi REESCRITA. A versão ⚠RV-34 ("the percentage and the Shrine Effect Bonus
+// of the attacker that triggers the aura ... never the Max Health of the character standing in the aura") está MORTA:
+// contradizia a própria lista por alvo. O texto VIVO (copiado verbatim de `LocalizePatch.cs`, l.936) é o de cima.
+// O que segue ABERTO é só DE QUEM é o bônus/ a vida lida no proc real (§9(ii) — medição do dano de RETORNO).
 { "Take [0]% of your Max Health in Shadow Damage per turn.",
   "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armor, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
 { "Damage increased by [0]%. ",
@@ -308,7 +319,8 @@ proposta, **nenhuma das 9 existia** em `TextFixes` nem em `TextAppends` (checado
 30/09). **Hoje as 9 estão APLICADAS** — o `LocalizePatch.cs` é a fonte viva destas notas; onde o texto de lá divergir
 deste bloco, vale o `LocalizePatch.cs`.
 
-⚠RV-24 → ⚠RV-33/RV-34 — o trecho "The value shown already includes the Shrine Effect Bonus" das **8 auras de buff** é
+⚠RV-24 → ⚠RV-33/RV-34 — o trecho "The value shown already includes the Shrine Effect Bonus" das **10 chaves de aura de
+buff** (as 9 auras + o Dwarven; conferido em `LocalizePatch.cs`) é
 verdade no **tooltip do STATUS** e, desde o prefix do RV-22/RV-34, também no **hover do SHRINE** (§0.4/§3). As duas notas
 da família de PERIGO foram reescritas em 30/09 e **a conclusão ⚠RV-24 ("Does not scale") caiu**: o texto vivo é o
 `Raw damage, before damage reduction: ...` do bloco acima, que diz que o fator **JÁ ESTÁ incluído**. O `LocalizePatch.cs`
@@ -339,7 +351,8 @@ bônus (`CreateNewGroundEffectCharacter`, l.143758: `TeamIndex = 2`, nada herdad
 `[0]` saía na base: o `Source` da avaliação é `Root.WorldCharacter`, um `Character` **VAZIO**
 (`Observable.New<Character>()`, l.143680–143684; só `.Level` é atribuído, l.155836) → `Source["ShrineEffectBonus"]` = 0.
 "`Target` vazio" **não** é a explicação: o motor já faz `if (Target == null) Target = Source` (l.215241–215243). O ⚠RV-24
-concluiu daí que o fator era **×1 "na prática"** — isso estava **ERRADO como afirmação sobre o DANO**: quem executa a
+concluiu daí que o fator era **×1 "na prática"** — **claim MORTO**: ERRADO como afirmação sobre o DANO (a medição do
+dono mostra o fator valendo 2 com `Worship`, §0.5). Quem executa a
 fórmula é o personagem avaliado (as ações avaliam `Source` = `Target` = o personagem), e o fator lê o bônus DELE. O prefix
 troca o `Source` vazio do shrine pelo receptor e o fator passou a valer também no número exibido (RV-34). A lição ficou
 registrada: **medição em jogo vence leitura de asset** (§0.5).
@@ -388,17 +401,42 @@ fechar se o bônus é o do atacante ou o do portador da aura — **INDETERMINADO
 
 ## 9. Limitações conhecidas (o que o mod NÃO consegue ou NÃO fecha)
 
-1. **A linha `Your active shrine auras:` mostra o TOTAL do personagem, não a contribuição da aura.** O valor lido é o
-   indexador do motor (`Character[atributo]`), o MESMO número da ficha (BetterStats) — inclui base, gear e skills, então
-   pode **exceder** o número do shrine. Efeito visível: **Warrior e Fury colapsam no mesmo item**, porque a linha tem
-   **um item por ATRIBUTO** e os dois mexem `DamageMod` (`Format("DamageMod")` → `Damage +X%`). Confirma que o valor é o
-   total: ele pode ser **positivo onde a aura empurra para baixo** (Energy Coil −50 + `Forbidden Power` +50 = total 0) —
-   o rótulo do total é o comportamento correto e não muda (RV-43, 01/10).
-2. **O FLAME é uma PROJEÇÃO — e falta a medição do dano de RETORNO.** No hover **não se sabe quem vai atacar**: o mod
+1. **A linha `Your active shrine auras:` mostrava o TOTAL do personagem — DEFEITO, CORRIGIDO no RV-44 (30/09).**
+   *Isto deixou de ser limitação "por desenho": era defeito.* O valor saía direto do indexador do motor
+   (`Character[atributo]`, `ShrineAuraPatch.AcumuladoShrines` — a linha era `float valor = receptor[nome];`), que é
+   o MESMO número da ficha (BetterStats) — inclui base, gear e skills. Numa aura de 25% a linha dizia o total do
+   personagem, o que **na tela lê como "a aura dá 50%"**. Prints do dono (30/09):
+   Goblin Battle Standard (Fury) sem `Worship` -> shrine `25%` / linha `Damage +50%`, `Damage taken +5%`; com
+   `Worship` -> `50%` / `Damage +75%`, `Damage taken +30%`; **Rogue Shrine** com `Worship` (caso isolável, sem
+   colisão de atributo) -> shrine `40%` / linha `Dodge +57%`. Conserto: cada item agora é
+   **`<o que as auras entregam> (total <o total do personagem>%)`** — `Dodge +40% (total +57%)`,
+   `Damage +25% (total +50%)`, `Damage taken +25% (total +5%)` —, com a contribuição saindo do
+   **`AttributeEffects` real de cada aura VIVA** (a MESMA expressão do tooltip do shrine:
+   `Mathf.Round(BASE * (1 + Target["ShrineEffectBonus"]/100))`), avaliada pelo motor, e **duas auras no mesmo
+   atributo SOMANDO as contribuições** (`Warrior` + `Fury` em `Damage`). O item continua sendo **um por atributo**,
+   na ordem canônica, com o bloco azul por último (RV-27/29/30/31/33/34 preservados), e o total pelo indexador
+   **não mudou de valor** — só saiu da frente do item para o parênteses.
+   **Fronteira que continua valendo (medida, não suposta):** a contribuição é o **termo aditivo do motor**
+   (`CharacterEffectMethod.Base`, o bucket `initial + ΣBase` de `CalculateAttribute`, decompilado l.40491-40498). Se
+   o MESMO atributo tiver uma fonte `Percentage`/`Multiplicative` no personagem, o total ainda é exato (é o
+   indexador), mas a soma "aura + resto = total" não fecha 1:1, porque esse fator multiplica o bucket inteiro
+   (caso real: `Raise Skeletal Lackey` -> `DamageMod`/`DodgeChance` `Multiplicative:0.5`; `CritChance:Set` no
+   `Might of the Conqueror`/`Overload`). Nos casos das telas do dono **não há** fator assim: `DamageReduction` é
+   `Base` em **39 status + 5 powerups + 3 skills** e não tem **nenhum** `Percentage`/`Multiplicative`/`Set` no
+   censo inteiro; `DamageMod` (fora do Lackey) e `DodgeChance` idem.
+2. **Aditividade de `Damage taken` — fecha nos dois prints (RV-44, contra a suspeita).** O resto da ficha
+   (total − aura) é **constante** nas duas telas: `Damage +25` e `Damage taken +20` — as duas contas
+   (`50−25 = 25` e `−5−(−25) = +20`; `75−50 = 25` e `−30−(−50) = +20`). Isso é o previsto pelo motor: o efeito da
+   aura é `Base` e entra somado (`val + parsed2 * stacks`, l.37256-37271) e o `DamageReduction` é aplicado como
+   **um fator linear só** na hora do dano (`1 - (DamageReduction + Resilience + TakeCover)/100`, decompilado
+   l.39472) — os stacks de `ActionStatus` somam, não encadeiam multiplicativamente. Os próprios testes de
+   integração do jogo assertam **delta exato** no atributo (`AssertDelta("DamageReduction", red, caster[...], -20f)`,
+   l.192215-192218; `-10 * Stacks`, l.196236-196239). Não há, portanto, defeito de leitura a relatar aqui.
+3. **O FLAME é uma PROJEÇÃO — e falta a medição do dano de RETORNO.** No hover **não se sabe quem vai atacar**: o mod
    projeta **cada ocupante da área** como atacante e mostra "o dano se ele atacasse" (vida máxima DELE × a % do tipo DELE
    × o bônus DELE). **INDETERMINADO**: falta a medição em jogo do dano de RETORNO do Flame com `Worship` para fechar se o
-   bônus que multiplica é o do **atacante** ou o do **portador da aura** — a nota de hoje afirma "do atacante" (§6.1) e
-   **tem de mudar se a medição disser o contrário**.
+   bônus que multiplica é o do **atacante** ou o do **portador da aura** — a nota viva (§6.1, texto do RV-43) descreve o
+   número como **projeção do personagem avaliado como atacante** e **tem de mudar se a medição disser o contrário**.
 3. **A linha do Decay depende do receptor resolver.** A cadeia é `Tooltip.TooltipCharacter` → `Root.WorldCharacter` →
    `Source` existente (o `WorldCharacter` é o personagem VAZIO do shrine). Se o `TooltipCharacter` vier vazio, o fallback
    é o personagem vazio → `MaxHealth` = 0 → a linha **some sem erro**: o método devolve `null`, o texto do jogo fica
@@ -439,9 +477,20 @@ bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `
    bonus=... dano=...`. **A medição que falta** (§9(ii)): deixar um personagem COM `Worship` **apanhar** de dentro do
    Flame e comparar o dano de tela com/sem o perk — é o que diz se o bônus é do atacante ou do portador da aura.
 5. **Linha `Your active shrine auras:`**: no hover, com o personagem dentro de qualquer aura de shrine, ela lista **todas**
-   as auras vivas dele (um item por atributo) e **SOME quando ele sai da aura** (filtro do RV-29 — é o passo que prova o
-   filtro). Log: `[Shrine RV-23] RV-31 acumulado: auras=[...] char=... bonus=... -> ...`; o `bonus=` é a única entrada que
-   multiplica a aura e sai do atributo do próprio personagem.
+   as auras vivas dele (um item por atributo), **SOME quando ele sai da aura** (filtro do RV-29 — é o passo que prova o
+   filtro) e, desde o RV-44, cada item traz **os dois números**: `<o que as auras entregam> (total <o total do
+   personagem>%)`. Casos de aceite já vistos em tela pelo dono (30/09):
+
+   | Cena | Aura viva | Item esperado |
+   |---|---|---|
+   | Goblin Battle Standard, sem `Worship` (bônus 0) | Fury (25 / −25) | `Damage +25% (total +50%)`; `Damage taken +25% (total +5%)` |
+   | Goblin Battle Standard, com `Worship` (bônus 100) | Fury (50 / −50) | `Damage +50% (total +75%)`; `Damage taken +50% (total +30%)` |
+   | Rogue Shrine, com `Worship` (bônus 100) | Rogue (40) | `Dodge +40% (total +57%)` |
+
+   O primeiro número é o que o **tooltip do shrine** mostra na mesma tela; o parênteses é o número da **ficha**. Log:
+   `[Shrine RV-23] RV-44 item '<atributo>': aura=... total=... resto=... em [<auras>]` — o `resto` (total − aura) é o
+   pedaço da ficha que NÃO é aura e serve de prova da aditividade; `RV-44 soma '<atributo>': '<aura>' Base +25% (stacks=1)`
+   diz **qual aura** entrou na conta. `bonus=` é a única entrada que multiplica a aura e sai do atributo do próprio personagem.
 
 Se algum número não bater, o que se corrige é **este relatório contra o jogo** (a medição vence a leitura de asset —
 §0.5), nunca o contrário.
