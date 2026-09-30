@@ -136,7 +136,7 @@ carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
 "certa"); por isso o `check_dupes` existe. Saída esperada hoje:
-`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 200 entradas | duplicadas: nenhuma`.
+`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 206 entradas | duplicadas: nenhuma`.
 
 ### Passo 4 — `check_notas_redundantes`: a nota **repete** o texto?
 
@@ -151,7 +151,7 @@ famílias: **nota == chave** (duplicado na tela), **nota inteiramente contida na
 em texto onde Armor é **fonte** de dano e não mitigação (casos `Battle Ready` e `Diamond
 Ice`, barrados no código por `ArmorValueSourceRegex`).
 
-Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09: **200 notas
+Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09: **206 notas
 analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` — foram
 removidas).
 
@@ -211,7 +211,7 @@ Só depois disso a alteração conta como instalada e testada.
 | `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. |
 | `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. |
 | `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? |
-| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 200 notas e sai com exit 1 se achar caso. |
+| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 206 notas e sai com exit 1 se achar caso. |
 | `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. |
 | `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) |
 | `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). |
