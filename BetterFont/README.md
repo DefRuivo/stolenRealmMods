@@ -15,6 +15,12 @@ Mod **BepInEx 5** para **Stolen Realm** que troca a fonte renderizada do jogo po
 - O updater é criado de forma **preguiçosa**, na primeira UI viva (gatilho em `OptionsManager.Localize`). Criá-lo no `Awake` do plugin não funciona: o jogo destrói o GameObject na primeira carga de cena.
 - **Sem qualquer alteração de gameplay** — só a aparência do texto muda.
 
+## O que ele NÃO faz
+
+- **Não altera gameplay** — não muda valor, dano, regra nem balanceamento.
+- **Não modifica nenhum arquivo do jogo** (nem save) e não deixa resíduo ao ser removido.
+- **Não traduz nem reescreve texto nenhum** — troca só a **face** da fonte; o conteúdo continua sendo o original do jogo.
+
 ## Instalar
 
 **Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a DLL em `BepInEx\plugins\BetterFont\`.

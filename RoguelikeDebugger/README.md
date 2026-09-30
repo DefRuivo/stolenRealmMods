@@ -25,6 +25,12 @@ Mod **BepInEx 5** de **investigação** para **Stolen Realm**: faz **dump dos da
 
 > **Por que ele não entra em pacote "para amigos":** o dump é enorme e despeja **milhares** de linhas no log a cada boot, deixando o `LogOutput.log` ilegível para quem só quer jogar.
 
+## O que ele NÃO faz
+
+- **Não altera gameplay nem o save** — a única saída do mod é texto no `LogOutput.log`.
+- **Não melhora a experiência de jogar** — é ferramenta de investigação, não mod de jogador.
+- **Não envia dado nenhum para fora**: tudo fica no log local, no seu computador.
+
 ## Instalar
 
 Este pacote só faz sentido para quem vai **desenvolver/investigar**.

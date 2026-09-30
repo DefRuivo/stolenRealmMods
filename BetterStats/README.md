@@ -24,6 +24,13 @@ Might        12 (18)
 - De quebra, **corrige o layout** dessa coluna de valores: ela era alinhada à esquerda num X fixo e o texto vazava para fora do painel.
 - Nenhum número é inventado: o valor puro vem do `SavedMap` do personagem e o combinado dos atributos finais do `Game`. O mod só formata o texto.
 
+## O que ele NÃO faz
+
+- **Não altera gameplay** — nenhum atributo, dano ou custo muda; o mod só formata o texto exibido.
+- **Não modifica nenhum arquivo do jogo** (nem save) e não deixa resíduo.
+- **Não inventa número**: o valor puro vem do `SavedMap` do personagem e o combinado, dos atributos finais do `Game`.
+- **Não muda outras telas** — a alteração vale para o painel *Attributes* do inventário/personagem e para a tela de level up do roguelike.
+
 ## Instalar
 
 **Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a DLL em `BepInEx\plugins\BetterStats\`.

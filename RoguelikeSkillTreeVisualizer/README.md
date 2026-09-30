@@ -1,8 +1,15 @@
 # RoguelikeSkillTreeVisualizer
 
 **Status: IMPLEMENTADO (RSTV-2 + fase de diagnóstico).** O botão e a árvore somente leitura estão
-prontos e o mod **ainda não foi conferido em jogo** pelo autor; esta pasta guarda o **ícone do mod**
-(que o Thunderstore exige, 256×256), esta nota e o código:
+prontos e o mod **ainda não foi conferido em jogo** pelo autor.
+
+- **GUID:** `com.gumatos.roguelikeskilltreevisualizer`
+- **Versão:** 0.1.0
+- **Compatível com:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026).
+- **Dependências:** nenhuma além do BepInEx 5 (que o r2modman já instala no perfil).
+
+Este mod já é um **pacote Thunderstore**: a pasta tem o `manifest.json`, o `icon.png` (256×256, que o
+Thunderstore exige), o `README.md`, o `CHANGELOG.md` e o código:
 
 | arquivo | papel |
 |---|---|
@@ -16,7 +23,8 @@ prontos e o mod **ainda não foi conferido em jogo** pelo autor; esta pasta guar
 Seguindo o padrão dos outros mods do repositório: uma pasta na raiz, com o `.csproj`,
 o `Plugin.cs` e o alvo `DeployToBepInEx` (não existe `src/`, decisão registrada na PKG-1).
 
-**Alvo de compatibilidade:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026) — o pacote Thunderstore declarará esta versão quando o mod for lançado.
+**Alvo de compatibilidade:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026) — é a
+versão que o `manifest.json` deste pacote declara.
 
 ## Para quem vai usar
 
@@ -43,6 +51,30 @@ o `Plugin.cs` e o alvo `DeployToBepInEx` (não existe `src/`, decisão registrad
 
 O mod **não reimplementa** as Skill Trees: ele resolve o personagem certo e entrega a instância
 real para o sistema nativo. Não há compra de skill, gasto de ponto nem qualquer escrita.
+
+### Instalar
+
+**Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a
+DLL em `BepInEx\plugins\RoguelikeSkillTreeVisualizer\`.
+
+**Manual:**
+
+1. Instale o **BepInEx 5 x64** no jogo (ou dê "Start modded" uma vez no r2modman, que cria a pasta).
+2. Copie a pasta `RoguelikeSkillTreeVisualizer` para:
+   ```text
+   %APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\
+   ```
+   Deve ficar: `...\plugins\RoguelikeSkillTreeVisualizer\RoguelikeSkillTreeVisualizer.dll`
+3. Abra o jogo. No `LogOutput.log` deve aparecer:
+   ```text
+   Roguelike Skill Tree Visualizer 0.1.0 carregado (RSTV-2: botao ao lado do Choose Powerups + skill tree read-only).
+   RSTV: patches Harmony aplicados (8/8 ganchos, 8 metodos do jogo).
+   ```
+   Se vier `7/8` (ou menos), o log diz **qual** gancho não entrou — veja *Diagnóstico* abaixo.
+4. Vá em **Roguelike → Select Party**: o botão `Skills` fica colado à direita do `Choose Powerups`.
+
+> **Só funciona no modo Roguelike** e o botão só aparece na tela **Select Party**. Não é preciso
+> entrar em partida.
 
 ### Config (opcional)
 
