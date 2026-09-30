@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Burst2Flame;
 using HarmonyLib;
 using UnityEngine;
@@ -174,6 +175,35 @@ namespace BetterTooltips.Patches
     /// porque o hover não sabe quem vai atacar. O Decay mostra o dano por turno do personagem em foco na
     /// própria linha do jogo. O fator `ShrineEffectBonus` fica FORA dos dois números (ver acima): é vida
     /// máxima × porcentagem, como o dono do jogo pediu.
+    ///
+    /// RV-34 (30/09) — os `No Compiled Expression for (Single):` do log: 2 eram NOSSOS e 2 são do JOGO, e a
+    /// natureza do aviso é de CACHE, não de falha (provado linha a linha no decompilado):
+    ///   - quem escreve é `CompiledDynamicExpresso.GetExpression<T>` (l.49971-49995): se a string EXATA não
+    ///     está no cache COMPILADO do build (`CompiledExpressions`), ele imprime `Debug.LogError` UMA vez
+    ///     por string única (`MissingExpressions`, l.49980-49984) e devolve null; o `Game.GetExpression<T>`
+    ///     (l.321789-321818) então COMPILA essa mesma string no interpretador (`Interpreter.ParseAsDelegate`,
+    ///     l.321831) e devolve o valor CERTO. O aviso significa "esta string não veio pré-compilada no
+    ///     build do jogo" — não "esta expressão falhou".
+    ///   - prova no log do usuário (Player-prev.log l.3104-3107 e l.3134/3137): as duas primeiras são as
+    ///     DUAS constantes do RV-26 (a fórmula do Flame e a % do Flame), e o número saiu CERTO logo depois
+    ///     (`RV-26 linha com valor: Raven MaxHealth=233 -> ... 12 for you` = `Max(1, Round(233 * .05))`, com
+    ///     o log do próprio mod entre o aviso e o valor). As outras DUAS são do JOGO, não nossas: as
+    ///     `Amount` que o `Root.CreateSummon` monta em runtime (`Source.SummonMaster[...]`, decompilado
+    ///     l.144099-144121), avaliadas no combate — nenhuma das duas strings existe no nosso código (grep
+    ///     no repo e nas DLLs: 0).
+    ///   - O ESPAÇAMENTO NÃO É A CAUSA (hipótese conferida): a string do RV-26 era o RHS do asset COPIADO
+    ///     byte a byte — com os DOIS espaços de `Max(1,  ` (asset @1519546156) — e deu o aviso igual. A
+    ///     chave do cache do jogo é a expressão INTEIRA, com o prefixo `TargetStored["FireDamage"] = `
+    ///     (l.87156); qualquer string sem esse prefixo falta no cache, com um espaço ou com dois. Alinhar
+    ///     espaçamento não removeria aviso nenhum.
+    ///   - EFEITO PRÁTICO: as 3 constantes deste arquivo (`FormulaDanoFlameCru`, `FormulaDanoDecay`,
+    ///     `PorcentagemDoDecay`) são avaliadas UMA vez por sessão e imprimiriam o MESMO aviso (3 linhas de
+    ///     Error num log que o usuário lê), sem nada quebrado. `RegistrarNoCacheDoJogo` pré-registra essas
+    ///     3 strings em `MissingExpressions` (por reflexão; campo ausente = nada suprimido) para o aviso não
+    ///     sair. O valor e o caminho de compilação não mudam: `MissingExpressions` é lido SÓ nesse guard
+    ///     (l.49980/50006) e o cache que resolve o valor é outro (`CompiledExpressions`). Falha REAL de
+    ///     expressão continua imprimindo `This expression caused an error: ...` (l.321857-321869) e caindo
+    ///     no fallback sem número.
     ///
     /// Nada aqui aplica mitigação: o número é o CRU da fórmula (vida máxima × %), sem armadura,
     /// resistência ou qualquer modificador posterior. Sem número provado, a linha do jogo fica INTACTA.
@@ -903,8 +933,64 @@ namespace BetterTooltips.Patches
             {
                 return true;
             }
+            // RV-34: o aviso `No Compiled Expression` é de CACHE do build (não de falha) e sairia uma vez
+            // por constante nossa; registrado antes da primeira avaliação, ele não sai. O valor e o
+            // caminho de compilação não mudam (ver o cabeçalho desta classe).
+            RegistrarNoCacheDoJogo();
             return Burst2Flame.Game.TryEval<float>(expressao, parametros, out valor);
         }
+
+        /// <summary>RV-34 — pré-registra as NOSSAS expressões na lista de avisos de cache do jogo.
+        ///
+        /// `CompiledDynamicExpresso.MissingExpressions` (campo privado estático, l.49969) é lido em UM
+        /// lugar só: o guard que imprime `No Compiled Expression` (l.49980 para valor, l.50006 para void).
+        /// Pôr ali as strings que nós avaliamos não muda NADA no valor (o cache que resolve é o outro,
+        /// `CompiledExpressions`) — só impede o `Debug.LogError` de uma linha por constante num log que o
+        /// usuário lê, já que é o mod que chega primeiro nessas expressões.
+        ///
+        /// Campo ausente/renomeado (build novo do jogo): a reflexão falha, nada é suprimido e o aviso
+        /// volta exatamente como era — nenhuma exceção sai daqui.</summary>
+        private static void RegistrarNoCacheDoJogo()
+        {
+            if (_avisosDeCacheRegistrados)
+            {
+                return;
+            }
+            _avisosDeCacheRegistrados = true;
+            try
+            {
+                // O tipo é do namespace GLOBAL no assembly do jogo (conferido: `ilspycmd -t
+                // CompiledDynamicExpresso`); o nome com prefixo fica como segunda tentativa.
+                Type tipo = typeof(Burst2Flame.Game).Assembly.GetType("CompiledDynamicExpresso")
+                    ?? typeof(Burst2Flame.Game).Assembly.GetType("Burst2Flame.CompiledDynamicExpresso");
+                FieldInfo campo = tipo?.GetField("MissingExpressions", BindingFlags.Static | BindingFlags.NonPublic);
+                HashSet<string> avisos = campo?.GetValue(null) as HashSet<string>;
+                if (avisos == null)
+                {
+                    Marca("RV-34 aviso de cache: MissingExpressions nao acessivel neste build"
+                        + " — o aviso 'No Compiled Expression' volta (nada mais muda)");
+                    return;
+                }
+                string[] nossas = { FormulaDanoFlameCru, FormulaDanoDecay, PorcentagemDoDecay };
+                int registradas = 0;
+                foreach (string expressao in nossas)
+                {
+                    if (avisos.Add(expressao))
+                    {
+                        registradas++;
+                    }
+                }
+                Marca($"RV-34 aviso de cache: {registradas}/{nossas.Length} formula(s) nossa(s) fora da lista"
+                    + " — sem 'No Compiled Expression' para elas (o valor vem do interpretador do mesmo jeito)");
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-34] registro no cache de avisos falhou (aviso do jogo volta): {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        /// <summary>RV-34 — as constantes já registradas (o registro roda uma vez por sessão).</summary>
+        private static bool _avisosDeCacheRegistrados;
 
         /// <summary>
         /// Rótulo do efeito. Os atributos conhecidos têm frase própria (o sinal do atributo não é o
