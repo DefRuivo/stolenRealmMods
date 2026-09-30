@@ -1,13 +1,194 @@
-# Stolen Realm — Mods de QoL (BepInEx)
+# Stolen Realm — QoL Mods (BepInEx)
 
-Mods de **qualidade de vida (QoL)** para o jogo **Stolen Realm** (Steam, AppID `1330000`),
-carregados pelo **BepInEx 5**. Nenhum mod mexe no conteúdo, no balanceamento ou nos arquivos
-originais do jogo: cada um é uma **DLL separada**, colocada em `BepInEx\plugins\`.
+Quality-of-life mods for **Stolen Realm** (Steam AppID `1330000`), loaded by **BepInEx 5**.
+No mod touches the game's content, balance or files: each one is a **separate DLL** dropped into
+`BepInEx\plugins\`. Nothing in `Assembly-CSharp.dll` is ever modified.
 
-Se você nunca instalou um mod na vida, siga o **[passo a passo com o r2modman](#instalação-pelo-r2modman-recomendado)** —
-são 10 minutos e você não precisa saber programar nem abrir terminal.
+**English** · [Português (BR)](#português-br)
+
+## Index
+
+| | Section | |
+|---|---|---|
+| **EN** | [What each mod does](#what-each-mod-does) | the useful part for a player |
+| | [Install with r2modman](#install-with-r2modman-recommended) | 10 minutes, no terminal |
+| | [Manual install](#manual-install-without-r2modman) | without the mod manager |
+| | [How to know it worked](#how-to-know-it-worked) | read the log |
+| | [Uninstall](#uninstall) | nothing is left behind |
+| | [FAQ](#faq) | game won't open, mod seems missing… |
+| | [Mod identifiers](#mod-identifiers) | GUIDs, log names, versions |
+| **PT** | [O que cada mod faz](#o-que-cada-mod-faz-para-você) | a parte que interessa ao jogador |
+| | [Instalação pelo r2modman](#instalação-pelo-r2modman-recomendado) | 10 minutos, sem terminal |
+| | [Instalação manual](#instalação-manual-sem-r2modman) | sem o gerenciador |
+| | [Como saber que funcionou](#como-saber-que-funcionou) | ler o log |
+| | [Como desfazer](#como-desfazer-desinstalar) | nada fica para trás |
+| | [Perguntas frequentes](#perguntas-frequentes) | jogo não abre, mod não aparece… |
+| | [Identificadores internos](#identificadores-internos) | GUIDs, nomes no log, versões |
+| — | [Building / packaging (dev)](docs/README.md) | build ritual, Thunderstore package |
+| — | [Environment](docs/AMBIENTE.md) | validated versions and paths |
 
 ---
+
+# English
+
+> Result you should end up with: **one folder per mod** inside `BepInEx\plugins\`, each with its
+> DLL inside — `...\BepInEx\plugins\BetterTooltips\BetterTooltips.dll`.
+
+## What each mod does
+
+| Mod | What it does for you |
+|---|---|
+| **BetterTooltips** | Makes skill, status and item tooltips **accurate and complete**: it fixes descriptions that "lied by omission" (missing duration, stack limit, range, whether it stacks with the party…) and appends a short **explanation of how the mechanic actually works** at the end of the tooltip, in the game's own special text colour. |
+| **BetterStats** | Shows your attributes as **`base (combined)`** — the raw value you invested and, in brackets, the final value with powerups, gear and skills. Works on the character sheet and on the level-up screen. It also fixes the value column alignment, which used to overflow the panel. |
+| **BetterFont** | Swaps the game font for a **serif** one (Times New Roman; Georgia or Liberation Serif as fallback). The original font stays as a fallback, so icons and symbols keep rendering (no boxes). |
+| **RoguelikeQoL** | Shows a **HUD in the top-left corner** with the current run's modifiers: **Treasure Find**, **Gold Find** and the battle's **Exp Mod**, summed across the whole party. It is **off by default** — see the [FAQ](#faq). |
+| **RoguelikeDebugger** | **NOT a player mod.** It is a **development tool** of ours: instead of improving the screen, it dumps internal game data into the log file (skill, item, affix, powerup and status inventories). It is used to investigate mechanics. If you just want to play, **do not install it** — it fills the log with thousands of lines. |
+
+## Prerequisites
+
+1. **Windows** and **Stolen Realm installed through Steam** (AppID `1330000`).
+2. **r2modman** (the mod manager, which installs BepInEx for you):
+   download `r2modman-Setup-x.y.z.exe` from <https://github.com/ebkr/r2modmanPlus/releases>.
+3. About **10 minutes**. You do **not** need the .NET SDK, Visual Studio or a terminal.
+
+## Install with r2modman (recommended)
+
+1. **Install and open r2modman**. On first run it may ask about importing old profiles — you can skip.
+2. **Pick the game**: click **"Select game"** and choose **Stolen Realm**.
+3. **Pick the profile**: select **`Default`** (the one this project uses) or create your own.
+4. **Install BepInEx**: go to the **"Online"** tab and install **`BepInExPack`** with dependencies.
+   Validated version here: **BepInExPack 5.4.2305** = **BepInEx 5.4.23.5**. Skip if already installed.
+5. **Click "Start modded", wait for the game to open, then CLOSE the game.** This step is what
+   creates the BepInEx folders the mods need — the most common beginner mistake is skipping it.
+6. **Open the profile folder**: r2modman → **Settings (gear)** → **"Browse profile folder"**.
+7. **Go into `BepInEx` and then `plugins`**.
+8. **Copy the mods into `plugins`** — one **folder per mod**, with the DLL **inside** it:
+
+   ```text
+   ...\BepInEx\plugins\
+   ├── BetterTooltips\
+   │   └── BetterTooltips.dll
+   ├── BetterStats\
+   │   └── BetterStats.dll
+   └── BetterFont\
+       └── BetterFont.dll
+   ```
+
+   Where do those DLLs come from? Either the ready-made package (see **Publishing** below) or by
+   compiling from source: `dotnet build` inside each mod folder produces
+   `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`.
+
+   ⚠️ **The DLL cannot sit loose in `plugins\`** — it must be inside the mod's folder. And because
+   BepInEx scans that folder **recursively**, **never** keep DLL copies/backups
+   (`*.dll.bak`, `*.disabled`, old copies) inside `plugins\`.
+9. **Always launch the game from r2modman**, with the **"Start modded"** button. Launching from
+   Steam does **not** inject the mods — the game opens normally, with no mods loaded.
+
+## Manual install (without r2modman)
+
+1. Download **BepInEx 5 `win_x64`** (5.4.23.5 or the latest 5.4.23.x) from
+   <https://github.com/BepInEx/BepInEx/releases>.
+2. **Extract the whole zip into the game folder** (the one with `Stolen Realm.exe`). A
+   **`winhttp.dll`** must appear next to it.
+3. **Launch the game through Steam once and close it.** This creates `BepInEx\` and
+   `BepInEx\plugins\`.
+4. **Copy the mod folders** into `...\steamapps\common\Stolen Realm\BepInEx\plugins\` —
+   again, one folder per mod with the DLL inside.
+5. **Launch the game normally.** Done.
+
+> ⚠️ **Backups:** **NEVER** put DLL backups inside `plugins\` (not `.bak`, not `.dll.old`, not a
+> `backup` subfolder). BepInEx scans `plugins\` recursively and tries to load **every** `.dll` it
+> finds as a mod — the backup loads too, the same fixes are applied twice and things break.
+> Keep backups **outside** `plugins\`.
+
+> ⚠️ **Never modify `Assembly-CSharp.dll`** (in `Stolen Realm_Data\Managed\`). Mods are always a
+> separate DLL: touching the game's DLL breaks the game, breaks the other mods and is undone by the
+> next Steam update.
+
+## How to know it worked
+
+BepInEx writes everything to a file called **`LogOutput.log`**:
+
+- **r2modman install** — in the profile's `BepInEx` folder:
+  `%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\LogOutput.log`
+- **manual install** — in the game folder: `...\BepInEx\LogOutput.log`
+
+Open it with Notepad and search for `carregado.` — there must be **one line per installed mod**:
+
+```text
+[Message:   BepInEx] BepInEx 5.4.23.5 - Stolen Realm
+[Info   :   BepInEx] Loading [Better Font 1.0.0]
+[Info   :Better Font] Better Font carregado.
+[Info   :   BepInEx] Loading [Better Tooltips 0.1.0]
+[Info   :Better Tooltips] Better Tooltips carregado.
+[Message:   BepInEx] Chainloader startup complete
+```
+
+Read it like this: the `Loading [...]` line means BepInEx **found** the DLL; the `... carregado.`
+line means the mod **started working**. If the first appears and the second does not, something
+failed at load time (and the reason shows up right after it, in the same or the following lines).
+
+In game: the font becomes serif; tooltips get an extra line at the end in a different colour; the
+character sheet shows `12 (17)` instead of a single number.
+
+## Uninstall
+
+Nothing in the game is changed, so uninstalling is just deleting files.
+
+1. Close the game.
+2. Delete the mod's folder inside `BepInEx\plugins\<ModName>\` (or untick it in r2modman's
+   **"Installed"** tab — unticking is reversible, deleting is not). Each mod is independent:
+   removing one **does not affect the others**.
+3. To remove everything (100% clean game), also delete the whole `BepInEx\` folder plus
+   `winhttp.dll` and `doorstop_config.ini` from the game folder. No need to reinstall or verify
+   files through Steam.
+
+The `BepInEx\config\` folder keeps mod settings (e.g. `com.gumatos.roguelikeqol.cfg`). It is
+harmless and only read if the mod is installed.
+
+## FAQ
+
+**1. The game no longer opens / opens and closes immediately.**
+Usually wrong or incomplete BepInEx (manual installs must use the **`win_x64` 5.x** package).
+Fix: delete `BepInEx\`, `winhttp.dll` and `doorstop_config.ini` from the game folder — the game
+opens again — and redo it with r2modman. With r2modman, untick the mods and hit **"Start vanilla"**
+to confirm the game opens without mods, then re-enable them one at a time.
+
+**2. The game opens but no mod shows up.**
+Check, in order: the path must be exactly `...\BepInEx\plugins\<ModName>\<ModName>.dll` (a
+loose DLL in `plugins\` is mistake #1); you must launch through **"Start modded"**; look for the
+`... carregado.` line in the log. **RoguelikeQoL specifically** ships with the HUD **off**: open
+`...\BepInEx\config\com.gumatos.roguelikeqol.cfg` and set `AtivarHUD = false` to `true`.
+And if you had the old `BetterTexts`, delete that folder: it was renamed to **BetterTooltips**,
+and having both applies the same fixes twice.
+
+**3. How do I go back to vanilla?** Delete the mod folders inside `BepInEx\plugins\`. Since no
+game file is modified, there is nothing else to undo.
+
+**4. Do I always have to launch through r2modman?** Yes, if you installed that way: it is what
+performs the "modded" startup. Launching from Steam runs the game without the mods, silently.
+
+**5. Can I use it together with other Thunderstore mods?** Yes — each mod is an independent DLL and
+BepInEx loads them all. Just avoid installing two mods that fix the same thing, and check the log.
+
+**6. Can I play with RoguelikeDebugger?** Not worth it: it is a development tool, it draws nothing
+on screen and floods `LogOutput.log`. Only install it to investigate mechanics.
+
+## Mod identifiers
+
+Useful to confirm what loaded in the log:
+
+| Mod | GUID (BepInEx internal name) | Name in the log | Version |
+|---|---|---|---|
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
+| RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+
+---
+
+# Português (BR)
 
 ## O que cada mod faz para você
 
@@ -304,40 +485,17 @@ Não vale a pena: ele é ferramenta de desenvolvimento, não mostra nada na tela
 `LogOutput.log` de milhares de linhas. Só instale se for investigar mecânicas junto com quem
 mantém o projeto.
 
----
+## Identificadores internos
 
-## Install (English summary)
+Útil para conferir no log o que carregou:
 
-**Stolen Realm QoL mods (BepInEx 5)** — small, separate DLLs that improve the game's text without
-touching gameplay or the game files (`Assembly-CSharp.dll` is never modified).
-
-- **BetterTooltips** — rewrites skill/status/item tooltips so they are complete instead of
-  misleading, and appends a short explanation of how each mechanic actually works, in the game's
-  own "special text" colour.
-- **BetterStats** — shows attributes as `base (combined)` on the character sheet and level-up
-  screen.
-- **BetterFont** — swaps the game font for a serif one (Times New Roman), with the original font
-  kept as a fallback.
-- **RoguelikeQoL** — optional HUD with the current run's Treasure Find / Gold Find / Exp Mod
-  (disabled by default; set `AtivarHUD = true` in `BepInEx\config\com.gumatos.roguelikeqol.cfg`).
-- **RoguelikeDebugger** — **developer tool only**, not for players: it dumps internal game data
-  into the log file.
-
-Install:
-
-1. Install **r2modman** (<https://github.com/ebkr/r2modmanPlus/releases>) and pick **Stolen Realm**.
-2. In the **Online** tab, install **BepInExPack** (5.4.2305 validated here) with dependencies.
-3. Click **Start modded** once, let the game open, then close it (this creates the folders).
-4. **Settings → Browse profile folder**, open `BepInEx\plugins`, and copy each mod folder in —
-   one folder per mod, with the DLL inside: `BepInEx\plugins\<ModName>\<ModName>.dll`.
-5. Launch the game with **Start modded** (launching from Steam will not load the mods).
-
-Verify: open `BepInEx\LogOutput.log` (profile folder if you use r2modman, the game folder if you
-installed BepInEx manually) and look for `[Info   :Better Tooltips] Better Tooltips carregado.`
-one line per mod.
-
-Uninstall: delete the mod folders inside `BepInEx\plugins\`. **Never** keep DLL backups inside
-`plugins\` — BepInEx scans that folder recursively and would try to load them as mods.
+| Mod | GUID (nome interno do BepInEx) | Nome no log | Versão |
+|---|---|---|---|
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
+| RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
 
 ---
 
