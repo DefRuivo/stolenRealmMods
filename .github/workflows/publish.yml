@@ -708,12 +708,27 @@ jobs:
           PULADOS: ${{ steps.pre.outputs.PULADOS }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, time, urllib.error, urllib.request
+          import json, os, sys, time, urllib.error, urllib.request
 
-          API = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'   # team, mod, versao
+          API_VERSAO = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'  # team, mod, versao
+          API_PACOTE = 'https://thunderstore.io/api/experimental/package/%s/%s/'     # team, mod
           cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
-          ESPERA = 10        # s entre tentativas: a plataforma leva alguns segundos para indexar
-          TENTATIVAS = 6
+          # 404 AQUI NAO E PROVA DE FALHA - e prova de que a plataforma ainda NAO INDEXOU.
+          # O upload responde "Done!" quando ACEITA o pacote; o endpoint por pacote passa a
+          # mostra-lo depois. No run 36784860531 o BetterStats (enviado 22:22:53Z) e o
+          # RoguelikeSkillTreeVisualizer (22:23:23Z) foram lidos 404 durante todo o minuto de
+          # polling e ESTAVAM no ar - o date_created dos dois e exatamente o instante do
+          # envio. Nao e cache de CDN (os dois endpoints respondem `cf-cache-status: BYPASS`):
+          # o atraso e da propria plataforma. Por isso:
+          #   * a sondagem vai em RODADAS sobre o conjunto que falta, com intervalo crescente,
+          #     em vez de gastar o tempo todo em um alvo (um pacote lento nao come a vez dos
+          #     outros) - e um pacote que ja apareceu nao e sondado de novo;
+          #   * DUAS fontes POR PACOTE (a versao exata e o `latest` do pacote), as duas
+          #     frescas, em vez de so a versao exata;
+          #   * teto de tempo para o run nao ficar pendurado; estourar o teto ainda e erro,
+          #     mas o texto do erro diz que pode ser so indexacao atrasada.
+          ORCAMENTO = 20 * 60        # s de sondagem no total (teto do run), nao por alvo
+          ESPERA_INICIAL, ESPERA_MAX = 10, 60
 
           def erro(msg):
               print('::error::' + msg)
@@ -729,34 +744,65 @@ jobs:
           # .csproj nem o release/mods.json. A versao de cada alvo vem do ambiente, que o
           # pre-flight escreveu para TODOS os alvos (inclusive os que ele pulou).
 
+          def busca(url):
+              # (status, corpo). 200 = existe; 404 = ainda nao aparece na API.
+              try:
+                  with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
+                                              timeout=60) as resp:
+                      return resp.status, json.load(resp)
+              except urllib.error.HTTPError as ex:
+                  return ex.code, None
+              except Exception:
+                  return None, None
+
           def no_ar(nome, versao):
-              url = API % (team, nome, versao)
-              for _ in range(TENTATIVAS):
-                  try:
-                      with urllib.request.urlopen(urllib.request.Request(url, headers=cabecalho),
-                                                  timeout=60) as resp:
-                          if resp.status == 200:
-                              return True
-                  except urllib.error.HTTPError as ex:
-                      if ex.code != 404:
-                          erro('a API por pacote respondeu HTTP %s em %s' % (ex.code, url))
-                  except Exception:
-                      pass
-                  time.sleep(ESPERA)
-              return False
+              # DUAS fontes, as duas POR PACOTE e frescas: a versao exata e o `latest` do
+              # pacote (o `latest` cobre o caso de a versao exata estar em outro caminho de
+              # leitura). Devolve (existe, o que a API respondeu agora).
+              st, _ = busca(API_VERSAO % (team, nome, versao))
+              if st == 200:
+                  return True, 'HTTP 200'
+              st_pac, corpo = busca(API_PACOTE % (team, nome))
+              if st_pac == 200 and isinstance(corpo, dict):
+                  if (corpo.get('latest') or {}).get('version_number') == versao:
+                      return True, 'HTTP 200 (latest do pacote)'
+              return False, 'HTTP %s (versao) / HTTP %s (pacote)' % (st, st_pac)
 
           vivos, faltando = [], []
+          pendentes = []
           for nome in alvos:
               versao = os.environ.get('VERSAO_%s' % nome)
               if not versao:
                   erro('sem a versao de %s no ambiente - o pre-flight nao chegou a ler o '
                        '.csproj desse mod, entao nao da para conferir o envio.' % nome)
-              if no_ar(nome, versao):
-                  vivos.append('%s v%s' % (nome, versao))
-                  print('no ar  %-30s v%s' % (nome, versao))
-              else:
-                  faltando.append('%s v%s' % (nome, versao))
-                  print('::error::NAO esta no ar: %s v%s' % (nome, versao))
+              pendentes.append((nome, versao))
+
+          visto = {}
+          inicio, espera, rodada = time.monotonic(), ESPERA_INICIAL, 0
+          while pendentes:
+              rodada += 1
+              print('-- sondagem %d (%d alvo(s) ainda sem aparecer): %s'
+                    % (rodada, len(pendentes), ', '.join(n for n, _ in pendentes)))
+              for nome, versao in list(pendentes):
+                  ok, o_que = no_ar(nome, versao)
+                  visto[nome] = o_que
+                  if ok:
+                      vivos.append('%s v%s' % (nome, versao))
+                      print('no ar  %-30s v%s  (%s)' % (nome, versao, o_que))
+                      pendentes.remove((nome, versao))
+              if not pendentes:
+                  break
+              if time.monotonic() - inicio >= ORCAMENTO:
+                  print('::warning::teto de %d min de sondagem atingido - o que ainda nao '
+                        'apareceu vai ser reportado como faltando.' % (ORCAMENTO // 60))
+                  break
+              time.sleep(espera)
+              espera = min(int(espera * 1.5), ESPERA_MAX)
+
+          for nome, versao in pendentes:
+              faltando.append('%s v%s' % (nome, versao))
+              print('::error::NAO esta no ar: %s v%s (%s)'
+                    % (nome, versao, visto.get(nome, 'sem resposta')))
 
           if os.environ.get('GITHUB_STEP_SUMMARY'):
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
@@ -772,9 +818,14 @@ jobs:
           print('Pagina da comunidade: https://thunderstore.io/c/%s/' % comunidade)
           print('Versoes vivem no repositorio, nunca em tag: o registro e o release/mods.json.')
           if faltando:
-              erro('envio incompleto: %s nao aparece na API publica. O que ja entrou no ar '
-                   'continua valido - rode de novo com o input "todos": o pre-flight pula o que '
-                   'ja saiu e reenvia so o que falta.' % ', '.join(faltando))
+              erro('envio incompleto: %s nao aparece na API publica nem depois de sondar em '
+                   'rodadas por ate %d min. ATENCAO: 404 aqui tambem acontece por ATRASO DE '
+                   'INDEXACAO da plataforma (pacote aceito e no ar, so ainda invisivel na '
+                   'API) - confira https://thunderstore.io/c/%s/ antes de concluir que '
+                   'falhou. Reenviar NAO duplica: rode de novo com o input "todos", que o '
+                   'pre-flight pula o que ja saiu e reenvia so o que falta. O que ja apareceu '
+                   'neste run continua valido e ja foi registrado pelo job `registra`.'
+                   % (', '.join(faltando), ORCAMENTO // 60, comunidade))
           PY
 
       - name: Falhou - o que fazer
@@ -790,11 +841,18 @@ jobs:
   # 3) REGISTRO - le a API publica, confirma cada versao e grava em
   #    release/mods.json (aceite (d) da PUB-4: a versao publicada fica
   #    registrada no repositorio, e o registro e conferido, nao presumido).
+  #    RODA TAMBEM QUANDO O JOB `publica` FALHOU: o que falha pode ser so a CONFERENCIA
+  #    (o passo 6 existe justamente porque o codigo de saida dos envios nao decide o
+  #    resultado) e, nesse caso, o que ENTROU NO AR precisa ficar registrado. Foi o que
+  #    faltou no run 36784860531: os pacotes foram aceitos e ficaram no ar, o passo 6 leu
+  #    404 por atraso de indexacao, e o registro das versoes ficou null ate alguem
+  #    reconciliar a mao. Este job nao presume nada: grava APENAS o que o endpoint por
+  #    pacote confirmar, commita o que confirmou e CONTINUA falhando (nomeando) o resto.
   # ==========================================================================
   registra:
     name: Registra a versao publicada em release/mods.json
     needs: [libera, publica]
-    if: needs.publica.result == 'success' && needs.libera.outputs.alvos != '[]'
+    if: needs.libera.outputs.alvos != '[]' && (needs.publica.result == 'success' || needs.publica.result == 'failure')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -897,10 +955,14 @@ jobs:
               fh.write('mensagem=%s\n' % ('registra ' + ', '.join(mudou) if mudou else 'sem mudanca'))
 
           if faltou:
-              erro('a publicacao terminou sem erro, mas a API publica NAO mostra %s. Nada foi '
-                   'registrado aqui: confira manualmente o que aconteceu em '
-                   'https://thunderstore.io/c/%s/ antes de mexer no release/mods.json.'
-                   % (', '.join(faltou), dados['comunidade']))
+              # O que RESPONDEU 200 ja foi gravado no arquivo e vai ser commitado pelo passo
+              # seguinte (que roda com `always()`). Este erro e o sinal de que o registro
+              # esta INCOMPLETO - nunca de que nada foi registrado.
+              erro('registro incompleto: a API publica NAO mostra %s. O que apareceu ja foi '
+                   'gravado e commitado; o que falta NAO foi inventado. Confira '
+                   'https://thunderstore.io/c/%s/ e, se o pacote estiver no ar (a API tem '
+                   'atraso de indexacao), rode de novo com o input "todos" para o registro '
+                   'fechar.' % (', '.join(faltou), dados['comunidade']))
           if not mudou:
               print('::notice::nada a registrar (as versoes ja estavam registradas).')
           PY
@@ -909,10 +971,16 @@ jobs:
       # bloqueie push do GITHUB_TOKEN, este passo falha - e a publicacao CONTINUA valida:
       # o bloco do resumo acima e o que copiar a mao para release/mods.json.
       - name: Commit e push do registro
-        if: steps.atualiza.outputs.mudou != '[]'
+        # `always()`: o passo de conferencia pode ter terminado em erro DEPOIS de gravar o
+        # que confirmou (registro parcial). O que ficou no ar tem que ser commitado de
+        # qualquer jeito. O commit NAO depende do output `mudou` - a fonte da verdade e o
+        # `git diff` abaixo (o output e escrito antes de um eventual erro, mas nao se conta
+        # com isso).
+        if: always()
         env:
           MENSAGEM: ${{ steps.atualiza.outputs.mensagem }}
         run: |
+          : "${MENSAGEM:=registro de publicacao}"
           if git diff --quiet -- release/mods.json; then
             echo "release/mods.json ja estava assim - nada a commitar."
             exit 0
@@ -925,9 +993,12 @@ jobs:
           git push origin HEAD:main
           echo "registro commitado: $(git rev-parse --short HEAD)"
 
-      - name: Push falhou - o que fazer
+      - name: Registro nao fechou - o que fazer
         if: failure()
         run: |
-          echo "::error::A publicacao JA aconteceu (o job 'publica' passou); o que falhou foi so o"
-          echo "registro no repositorio. Copie o bloco JSON do resumo deste run para release/mods.json"
-          echo "e commite a mao: e o registro que os proximos releases usam para recusar versao repetida."
+          echo "::error::O registro em release/mods.json NAO fechou (veja o erro do passo acima)."
+          echo "O que a API confirmou ja foi gravado e, se o passo de commit rodou, ja esta na main."
+          echo "Nada e inventado: o registro so recebe versao confirmada no endpoint por pacote, e e"
+          echo "ele que faz os proximos releases recusarem versao repetida."
+          echo "Se o pacote estiver no ar mas ainda fora do registro (a API tem atraso de indexacao),"
+          echo "rode de novo com o input 'todos': o pre-flight pula o que ja saiu e o registro fecha."
