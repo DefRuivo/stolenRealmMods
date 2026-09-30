@@ -3,7 +3,9 @@
   "version_number": "0.1.0",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Reescreve os tooltips de skills e status do Stolen Realm para nao mentirem por omissao, acrescentando ao fim do texto a explicacao de mecanica que falta.",
-  "dependencies": [],
+  "dependencies": [
+    "BepInEx-BepInExPack-5.4.2305"
+  ],
   "extra": {
     "author": "gumatos"
   }

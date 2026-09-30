@@ -219,3 +219,44 @@ Só depois disso a alteração conta como instalada e testada.
 | `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. |
 | `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. |
 | `pack-for-friends.sh` | Compila e empacota os mods distribuíveis em `dist/`. |
+
+---
+
+## Pacote Thunderstore / r2modman
+
+**Decisao do usuario (30/09):** os mods ficam **separados** — cada um e um pacote independente no
+Thunderstore, com seus proprios `manifest.json`, `README.md`, `CHANGELOG.md` e `icon.png` (que vivem
+DENTRO da pasta do mod). Nao existe pasta `src/` nem `thunderstore/`: a estrutura atual ja entrega o
+mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do `.gitignore` e o alvo
+`DeployToBepInEx` dos csproj.
+
+**Os parametros que o Thunderstore exige, conferidos um a um nos 5 mods:**
+
+| parametro | regra | estado |
+|---|---|---|
+| `name` | alfanumerico/underscore, ate 128, estavel entre releases | OK |
+| `version_number` | semver MAJOR.MINOR.PATCH, ate 16 chars | OK |
+| `description` | ate 250 chars | OK (139..160) |
+| `website_url` | URL valida | OK |
+| `icon.png` | PNG 256x256, ate 1 MB | OK (256x256, ~940 bytes) |
+| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` |
+| arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
+
+**A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5
+pacotes, e o pack do BepInEx e `BepInEx-BepInExPack` na versao **5.4.2305** — exatamente a que o perfil
+do r2modman deste PC usa. Consulta: `curl -s https://thunderstore.io/c/stolen-realm/api/v1/package/`.
+`StolenRealmModding-StolenRealmModAPI` tambem existe la, mas **nenhum mod nosso depende dela** (esta
+desativada e falha neste build do jogo) — por isso ela nao entra em nenhum manifest.
+
+**Estrutura do ZIP** (conferida com `unzip -l`): os 4 arquivos na RAIZ do pacote + `plugins/<Mod>/<Mod>.dll`.
+O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar certo.
+
+**Gerar o pacote:** `python tools/pack-thunderstore.py` (ou passando nomes de mods para empacotar so alguns).
+Os zips saem em `dist/` com pre-flight: sem manifest valido, README, CHANGELOG, icone 256x256 real ou DLL
+buildada ele **sai com erro sem gerar pacote quebrado**.
+
+**Testar antes de publicar (r2modman):** `Import local mod` no perfil -> conferir que a DLL caiu em
+`BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
+
+**Publicar:** ainda manual no site do Thunderstore (o CI de release e a tarefa PKG-4). A versao nao pode
+repetir uma ja publicada — por isso a PKG-2 (fonte unica de versao) importa.
