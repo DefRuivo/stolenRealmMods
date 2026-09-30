@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Text;
 using Burst2Flame;
 using HarmonyLib;
 using UnityEngine;
@@ -96,19 +95,23 @@ namespace BetterTooltips.Patches
             }
         }
 
-        private static string Label(string attr)
+        /// <summary>Formata um atributo acumulado com a semântica CERTA do jogo:
+        /// DamageReduction positivo = dano tomado REDUZIDO; ManaCostMod negativo = custo REDUZIDO.</summary>
+        private static string Format(string attr, float v)
         {
             switch (attr)
             {
-                case "DamageMod": return "Damage";
-                case "DamageReduction": return "Damage taken";
-                case "CritChance": return "Crit Chance";
-                case "DodgeChance": return "Dodge";
-                case "LifeOnHit": return "Life Steal";
-                case "ManaCostMod": return "Mana Costs";
-                case "HealthPerTurnPercent": return "Health per turn";
-                case "ManaPerTurnPercent": return "Mana per turn";
-                default: return attr;
+                case "DamageReduction":
+                    return v >= 0 ? "Damage taken −" + v + "%" : "Damage taken +" + (-v) + "%";
+                case "ManaCostMod":
+                    return "Mana Costs reduced by " + (-v) + "%";
+                case "DamageMod": return "Damage +" + v + "%";
+                case "CritChance": return "Crit Chance +" + v + "%";
+                case "DodgeChance": return "Dodge +" + v + "%";
+                case "LifeOnHit": return "Life Steal +" + v + "%";
+                case "HealthPerTurnPercent": return "Health per turn +" + v + "%";
+                case "ManaPerTurnPercent": return "Mana per turn +" + v + "%";
+                default: return attr + " " + v + "%";
             }
         }
 
@@ -150,16 +153,12 @@ namespace BetterTooltips.Patches
                 {
                     return "";
                 }
-                var sb = new StringBuilder("\n<color=#C8B090>Your active shrine auras:");
+                List<string> parts = new List<string>();
                 foreach (var kv in totals)
                 {
-                    float v = kv.Value;
-                    string sinal = v >= 0 ? "+" : "";
-                    sb.Append(" ").Append(Label(kv.Key)).Append(' ').Append(sinal).Append(v).Append("%;");
+                    parts.Add(Format(kv.Key, kv.Value));
                 }
-                sb.Length--; // remove o último ';'
-                sb.Append(".</color>");
-                return sb.ToString();
+                return "\n<color=#C8B090>Your active shrine auras: " + string.Join("; ", parts) + ".</color>";
             }
             catch
             {
