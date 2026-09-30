@@ -477,7 +477,7 @@ namespace RoguelikeDebugger.Patches
                                 // (`TriggerCooldownDict[trigger] = trigger.Cooldown`), nao o da acao.
                                 // O `Calculated Risk` cita "1 turn cooldown" no texto e a acao `Evasion`
                                 // dele tem cooldown=3 - este campo desempata.
-                                $"cooldownTrig=tg.Cooldown");
+                                $"cooldownTrig={tg.Cooldown}");
                         }
                     }
                 }
