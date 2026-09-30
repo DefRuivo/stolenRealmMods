@@ -14,6 +14,13 @@
   },
   "mods": [
     {
+      "nome": "BetterCombatText",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "mod NOVO (commit 7dc8b90), ainda NAO liberado pelo dono para a Thunderstore: o zip 0.1.0 nao esta na Release pack-2026-09-30 (a Release tem os 6 do release de 30/09) e o dono nao o incluiu na leva liberada. Entra como publicar:true quando o dono liberar e o pacote for para uma Release. Ele PRECISA estar nesta lista mesmo travado: o gate do pipeline compara esta lista com o que o empacotador descobre (tools/pack-thunderstore.py --listar-nomes) e falha se divergirem - foi o que derrubou o run 36786930505."
+    },
+    {
       "nome": "BetterFont",
       "publicar": true,
       "versao_publicada": "1.0.0",
