@@ -537,6 +537,16 @@ jobs:
       #    derrubou o run 36781938117 no 5.2, DEPOIS do 5.1 publicar). Cada passo aponta
       #    para o seu proprio `envio-<Mod>/` (criado no passo 5.0), com a MESMA arvore que
       #    a Action espera: `dist/<zip>` + `README.md`, e so esse diretorio e consumido.
+      #    `categories:` leva o SLUG MINUSCULO da categoria da comunidade, por mod (a Action
+      #    mapeia para TS_CATEGORIES e o cfg_edit.js grava
+      #    `publish.categories["stolen-realm"] = [...]` no thunderstore.toml do tcli; lista
+      #    valida em /api/experimental/community/stolen-realm/category/):
+      #      mods  -> BetterFont, BetterStats, BetterTooltips, RoguelikeQoL,
+      #               RoguelikeSkillTreeVisualizer        (mudam o jogo para o jogador)
+      #      tools -> RoguelikeDebugger                  (ferramenta de diagnostico)
+      #    A CATEGORIA SO ENTRA NO ENVIO: versao publicada e imutavel e o token do CI e service
+      #    account - a API recusa corrigir categoria depois (HTTP 403, "Service accounts are
+      #    unable to perform this action"), entao categoria fora daqui = categoria nenhuma.
       # ----------------------------------------------------------------------
       # 5.0 O `path:` de cada 5.x aponta para um diretorio PROPRIO, porque a Action
       #     MOVE (`mv`) o que recebe para dentro do container: o que ela move some da
@@ -586,6 +596,7 @@ jobs:
           name: BetterFont
           version: ${{ steps.pre.outputs.VERSAO_BetterFont }}
           description: ${{ steps.pre.outputs.DESC_BetterFont }}
+          categories: mods
           repo: https://thunderstore.io
           path: envio-BetterFont
           file: dist/gumatos-BetterFont-${{ steps.pre.outputs.VERSAO_BetterFont }}.zip
@@ -603,6 +614,7 @@ jobs:
           name: BetterStats
           version: ${{ steps.pre.outputs.VERSAO_BetterStats }}
           description: ${{ steps.pre.outputs.DESC_BetterStats }}
+          categories: mods
           repo: https://thunderstore.io
           path: envio-BetterStats
           file: dist/gumatos-BetterStats-${{ steps.pre.outputs.VERSAO_BetterStats }}.zip
@@ -620,6 +632,7 @@ jobs:
           name: BetterTooltips
           version: ${{ steps.pre.outputs.VERSAO_BetterTooltips }}
           description: ${{ steps.pre.outputs.DESC_BetterTooltips }}
+          categories: mods
           repo: https://thunderstore.io
           path: envio-BetterTooltips
           file: dist/gumatos-BetterTooltips-${{ steps.pre.outputs.VERSAO_BetterTooltips }}.zip
@@ -637,6 +650,7 @@ jobs:
           name: RoguelikeDebugger
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeDebugger }}
+          categories: tools
           repo: https://thunderstore.io
           path: envio-RoguelikeDebugger
           file: dist/gumatos-RoguelikeDebugger-${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}.zip
@@ -654,6 +668,7 @@ jobs:
           name: RoguelikeQoL
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeQoL }}
+          categories: mods
           repo: https://thunderstore.io
           path: envio-RoguelikeQoL
           file: dist/gumatos-RoguelikeQoL-${{ steps.pre.outputs.VERSAO_RoguelikeQoL }}.zip
@@ -671,6 +686,7 @@ jobs:
           name: RoguelikeSkillTreeVisualizer
           version: ${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}
           description: ${{ steps.pre.outputs.DESC_RoguelikeSkillTreeVisualizer }}
+          categories: mods
           repo: https://thunderstore.io
           path: envio-RoguelikeSkillTreeVisualizer
           file: dist/gumatos-RoguelikeSkillTreeVisualizer-${{ steps.pre.outputs.VERSAO_RoguelikeSkillTreeVisualizer }}.zip
