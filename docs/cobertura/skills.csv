@@ -2,7 +2,7 @@ nome,arvore,tier,dano,tags,passivo,attr,descricao,status
 Abyssal Night,Shadow,2,Shadow,"Harmful,Ranged,DealsDamage,AreaEffect",nao,,Hurls an orb of dark energy dealing *0 shadow damage to all targets in range.,revisado
 Adaptation I,Nature,1,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 6 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 6 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 6 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 6 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain a 6% resistance to the last type of damage taken.,revisado
 Adaptation II,Nature,2,None,,sim,"ResistPhysical:Base:Source.LastDamageTypeTaken == 1 ? 9 : 0, ResistFire:Base:Source.LastDamageTypeTaken == 2 ? 9 : 0, ResistCold:Base:Source.LastDamageTypeTaken == 3 ? 9 : 0, ResistLightning:Base:Source.LastDamageTypeTaken == 4 ? 9 : 0, ResistDivine:Base:Source.LastDamageTypeTaken == 5",Gain an additional 9% resistance to the last type of damage taken.,revisado
-Affinity,Chaos,3,None,,sim,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,pendente
+Affinity,Chaos,3,None,,sim,,Each time you deal damage or healing with a specific element gain a stacking buff that increases your damage or healing with that element by 2%. Stacks. Lasts the duration of battle.,revisado
 Aid,Chaos,3,None,,sim,,Healing an ally has a 10% chance to apply Helping.,sem-explicacao
 Ambush I,Thief,1,None,,sim,"Ambush:Base:16,",Deal 16% @increased damage@ when an enemy has no allies within 3 hexes.,revisado
 Ambush II,Thief,2,None,,sim,"Ambush:Base:24,",Deal an additional 24% @increased damage@ when an enemy has no allies within 3 hexes.,revisado
@@ -52,11 +52,11 @@ Celestial Light,Light,2,Holy,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",n
 Chain Frost,Cold,5,None,"Harmful,DealsDamage,Elemental,Ranged",nao,,Deals *0 cold damage.  Bounces between enemies within 4 hexes up to 10 times.,corrigido
 Chain Lightning,Lightning,3,Lightning,"DealsDamage,Harmful,Elemental,Ranged",nao,,Conjures a lightning bolt that chains up to 5 enemies near the target dealing *0 lightning damage to each target.  ,pendente
 Challenger,Warrior,1,None,,sim,"Armor:Percentage:5 * Source.NumEnemiesWithin(1), MagicArmor:Percentage:5 * Source.NumEnemiesWithin(1),",For every enemy within 1 hex of your character gain 5% to @Armor@ and @magic armor@.,revisado
-Chaos Cloud,Chaos,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal *0 damage.,pendente
-Chaos Crash,Chaos,1,Weapon,"Harmful,Ranged,DealsDamage,Elemental",nao,,Hurls a bolt of chaos dealing damage to a single target. Every damage type has a 50% chance to deal *0 damage.,pendente
-Chaos Crush,Chaos,5,Weapon,"Harmful,Ranged,DealsDamage",nao,,Call down chaos to crush your enemies. Deals between *0 and *1 damage within 2 hexes. Always hits with all damage types.,pendente
-Chaos Curse,Chaos,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Curses the target to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,pendente
-Chaos Cut,Chaos,2,Weapon,"DealsDamage,Harmful,Elemental",nao,,Summons a whirling blade of chaos in a line. Every damage type has a 50% chance to deal *0 damage.,pendente
+Chaos Cloud,Chaos,3,Weapon,"Harmful,Ranged,DealsDamage",nao,,Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal *0 damage.,revisado
+Chaos Crash,Chaos,1,Weapon,"Harmful,Ranged,DealsDamage,Elemental",nao,,Hurls a bolt of chaos dealing damage to a single target. Every damage type has a 50% chance to deal *0 damage.,revisado
+Chaos Crush,Chaos,5,Weapon,"Harmful,Ranged,DealsDamage",nao,,Call down chaos to crush your enemies. Deals between *0 and *1 damage within 2 hexes. Always hits with all damage types.,revisado
+Chaos Curse,Chaos,1,Fire,"Harmful,Ranged,DealsDamage,Elemental",nao,,Curses the target to take damage. Each element has a @50%@ chance to deal *0 damage every turn.,revisado
+Chaos Cut,Chaos,2,Weapon,"DealsDamage,Harmful,Elemental",nao,,Summons a whirling blade of chaos in a line. Every damage type has a 50% chance to deal *0 damage.,revisado
 Chaos Touch,Chaos,4,Weapon,"Beneficial,Ranged",nao,,Enchant an ally with a random chaos modifier.,sem-explicacao
 Charge,Warrior,2,Weapon,"Harmful,DealsDamage",nao,,Charges to the target and deals *0 weapon damage to all enemies in your path.,revisado
 Chi Strike,Monk,1,Weapon,"Harmful,DealsDamage,Melee",nao,,Strike an enemy dealing *0 weapon damage.  Reduces the targets damage dealt by 20% for 1 turn.,corrigido
@@ -106,10 +106,10 @@ Disengage,Ranger,2,None,,sim,"TurnFreeMovementPoints:Base:1, OpportunityAttackIm
 Dismiss Shapeshift,Innate,1,None,,nao,,Dismiss your active shapeshift.,pendente
 Dispelling Fracture,Warrior,2,Weapon,"Melee,Harmful,DealsDamage",nao,,"Deals *0 weapon damage, removes 1 random benefical status from the target and lowers the target's @Resistance@ by 20% for 2 turns.",corrigido
 Dispelling Shot,Ranger,4,Weapon,"Harmful,Ranged",nao,,Deals *0 weapon damage. Removes 1 random benefical status from the target.,corrigido
-Disperse,Chaos,3,Weapon,"DealsDamage,Harmful,Elemental",nao,,Teleports all enemies within 3 hexes of you to any random hex 4 to 8 hexes from you. Applies a 1 turn slow.,pendente
-Displacement,Chaos,2,None,,sim,,Teleport randomly when taking damage.,pendente
-Disruption I,Chaos,1,None,,sim,"IgnoreDamageChance:Base:4,",4% chance to negate all damage when taking damage.,pendente
-Disruption II,Chaos,2,None,,sim,"IgnoreDamageChance:Base:6,",6% chance to negate all damage when taking damage.,pendente
+Disperse,Chaos,3,Weapon,"DealsDamage,Harmful,Elemental",nao,,Teleports all enemies within 3 hexes of you to any random hex 4 to 8 hexes from you. Applies a 1 turn slow.,revisado
+Displacement,Chaos,2,None,,sim,,Teleport randomly when taking damage.,revisado
+Disruption I,Chaos,1,None,,sim,"IgnoreDamageChance:Base:4,",4% chance to negate all damage when taking damage.,revisado
+Disruption II,Chaos,2,None,,sim,"IgnoreDamageChance:Base:6,",6% chance to negate all damage when taking damage.,revisado
 Divine Intervention,Light,4,Healing,"Beneficial,Ranged,Healing",nao,,Restores the target to full health.,revisado
 Dodging Strikes,Monk,4,Weapon,"Harmful,DealsDamage",nao,,Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes to strike again. Strikes up to 4 times.  Each time you strike a target it increases your dodge chance by 8%.  Lasts 2 turns. ,corrigido
 Double Edge,Warrior,1,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage to the target and 15% of the damage back to you. ,revisado
@@ -138,7 +138,7 @@ Evasion,Thief,2,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attac
 Evolution,Nature,5,None,,sim,,Getting hit increases max health by 5% stacking 10x. Hitting increases damage by 5% stacking 10x. Only one of the buffs can be active at a time.,revisado
 Executioner,Warrior,4,None,,sim,,Every enemy slain on your turn grants 1 additonal AP.  Can only grant up to 1 additional AP per turn.,corrigido
 Exorcism,Shadow,4,Shadow,"Harmful,Ranged",nao,,"Deals *0 shadow damage and removes a random benefical status from the target. If a status is removed, the target suffers an additional *0 shadow damage.",corrigido
-Fabricate,Chaos,4,None,,sim,,When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area of you.,pendente
+Fabricate,Chaos,4,None,,sim,,When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area of you.,revisado
 Fade,Thief,3,None,,sim,,"Whenever an enemy dies, you have a 50% chance to gain {STA=Stealth} for 1 turn. ",revisado
 Faerie Swarm,Nature,1,Physical,"Harmful,Ranged,DealsDamage",nao,,Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.,corrigido
 Falcon Dash,Monk,3,Weapon,"Harmful,DealsDamage",nao,,Dash to the target area and dealing *0 weapon damage to affected area.,revisado
@@ -238,9 +238,9 @@ Lingering Light,Light,4,None,Beneficial,sim,,"Any target you heal with Cure, Reg
 Living Armor,Nature,2,None,"Beneficial,Ranged",nao,,Envelopes the target in living vines that increase @armor@ and @magic armor@ by [0] and causes the target to regenerate *0 @health@ each turn.,revisado
 Long Shot,Ranger,3,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Every hex between you and your target increases the damage of by 10%. ,corrigido
 Ludicrous Display,Bard,3,None,Beneficial,sim,,On the enemies' first turn they are all taunted towards you.,intocavel
-Magic Hat I,Chaos,2,None,"Beneficial,Ranged",nao,,Produce a random barrel on the target hex.,pendente
-Magic Hat II,Chaos,3,None,"Beneficial,Ranged",nao,,Produce a random Shrine on the target hex. The shrine is destructable and moveable.,pendente
-Magic Hat III,Chaos,4,None,"Beneficial,Ranged",nao,,Produce a random Globule on the target hex.,pendente
+Magic Hat I,Chaos,2,None,"Beneficial,Ranged",nao,,Produce a random barrel on the target hex.,revisado
+Magic Hat II,Chaos,3,None,"Beneficial,Ranged",nao,,Produce a random Shrine on the target hex. The shrine is destructable and moveable.,revisado
+Magic Hat III,Chaos,4,None,"Beneficial,Ranged",nao,,Produce a random Globule on the target hex.,revisado
 Maim,Thief,2,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage.  Applies {STA=Disabled} for 1 turn.,corrigido
 Malevolence,Chaos,4,None,Beneficial,nao,,Applies @Hurting@ to all enemies.,sem-explicacao
 Mana Drain,Shadow,3,None,"Harmful,DealsDamage,Ranged",nao,,Removes 20% of the target's max mana and restores 20% of the caster's max mana.,revisado
@@ -277,8 +277,8 @@ Nature Summoning II,Nature,3,None,Ranged,nao,,"Summons a Stag, Wolf, or Boar to 
 Nature Summoning III,Nature,5,None,Ranged,nao,,"Summons a Bear, Moose, or Panther to fight for you.",revisado
 Necromancer I,Shadow,1,None,,sim,"SummonDamageMod:Base:10, SummonHealthMod:Base:10,",Summons deal 10% more damage and have 10% more health.,revisado
 Necromancer II,Shadow,2,None,,sim,"SummonDamageMod:Base:15, SummonHealthMod:Base:15,",Summons deal an additional 15% more damage and have an additional 15% more health.,revisado
-Omnism I,Chaos,1,None,,sim,"ShrineEffectBonus:Base:8,",Increases the effectiveness of shrines by 8%.,pendente
-Omnism II,Chaos,2,None,,sim,"ShrineEffectBonus:Base:20,",Increases the effectiveness of shrines by an additional 12%.,pendente
+Omnism I,Chaos,1,None,,sim,"ShrineEffectBonus:Base:8,",Increases the effectiveness of shrines by 8%.,revisado
+Omnism II,Chaos,2,None,,sim,"ShrineEffectBonus:Base:20,",Increases the effectiveness of shrines by an additional 12%.,revisado
 One Punch Monk,Monk,5,None,,sim,,"The first damaging or healing ability you use on your turn has its effectiveness tripled, after which you are unable to use any more damaging or healing abilities that turn.",revisado
 Opening Act,Bard,4,None,Beneficial,sim,,Your songs start with 5 stacks of Crescendo.,intocavel
 Opportunist,Warrior,2,None,,sim,"OpportunityAttackDamageMod:Base:25, CounterAttackDamageMod:Base:25,",Increases damage of @opportunity attacks@ and @counter attacks@ by 25%.,revisado
@@ -293,7 +293,7 @@ Pain Suppression,Monk,2,Physical,Beneficial,nao,,The target's Damage Reduction i
 Paralyzing Strike,Monk,2,Weapon,"Harmful,Melee,DealsDamage",nao,,Strike an enemy dealing *0 weapon damage.  Stuns the target for 1 turn.,corrigido
 Patient Hunter,Ranger,3,None,Beneficial,sim,,Patient Hunter gives 10% @increased damage@ and 1 @skill range@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.,corrigido
 Perfected Soul,Monk,5,None,,sim,"Might:Base:Source.HighestStatName != ""MightBase"" ? Source[Source.HighestStatName] * .1f : 0, Dexterity:Base:Source.HighestStatName != ""DexterityBase"" ? Source[Source.HighestStatName] * .1f : 0, Vitality:Base:Source.HighestStatName != ""VitalityBase"" ? Source[Source.HighestStatName] * .1f : 0, Intelligence:Base:Source.HighestStatName != ""IntelligenceBase"" ? Source[Source.HighestStatName] * .1f : 0, Reflex:Base:Source.HighestStatName != ""ReflexBase"" ? Source[Source.HighestStatName] * .1f : 0, Might:Base:Source.Level, Dexterity:Base:Source.Level, Intelligence:Base:Source.Level, Vitality:Base:Source.Level, Reflex:Base:Source.Level,","Increases all attributes by [0]. In addition, 10% of your highest attribute value is added to all other attributes.  Current Bonus: [1]",corrigido
-Perturb,Chaos,5,None,,sim,"FickleFlame:Set:1,","Each time a damage or healing skill is cast, it receives a random effectiveness modifier from 50% up to 250%. ",pendente
+Perturb,Chaos,5,None,,sim,"FickleFlame:Set:1,","Each time a damage or healing skill is cast, it receives a random effectiveness modifier from 50% up to 250%. ",revisado
 Piercing Shot,Ranger,4,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage in a line.,revisado
 Pinning Shot,Ranger,2,Weapon,"DealsDamage,Harmful,Ranged",nao,,Deals *0 weapon damage.  Applies {STA=Immobilized}.,corrigido
 Plot Armor I,Bard,4,None,Beneficial,sim,"MaxDamagePercentPerHit:Set:50,",The max damage you can take in 1 hit is 50% of your max health.,intocavel
@@ -331,9 +331,9 @@ Recharge,Lightning,4,None,,sim,"Recharge:Set:1,","You have a 33% chance to compl
 Redemption,Light,5,None,Beneficial,sim,,Redeem the soul of the first character to die in your party.  The target's health and mana are fully restored.  Does not affect summoned creatures.,corrigido
 Regenerate,Light,1,Healing,"Beneficial,Ranged,Healing",nao,,Target restores *0 health per turn. ,revisado
 Relocate,Ranger,2,None,,nao,,Jump to the target area.  Unaffected by increased range modifiers.,corrigido
-Replicate,Chaos,5,None,"Harmful,Ranged,DealsDamage",nao,,"Creates a clone of yourself that can cast your abilities. The Replicate Clone explodes for damage on death, each element has a @50%@ chance to deal *0 damage.",pendente
+Replicate,Chaos,5,None,"Harmful,Ranged,DealsDamage",nao,,"Creates a clone of yourself that can cast your abilities. The Replicate Clone explodes for damage on death, each element has a @50%@ chance to deal *0 damage.",revisado
 Resonating Refrain,Bard,4,None,Beneficial,nao,,(Song) (Aura) Deal physical damage in a 4 hex area every time you use an action or a free action. Every time Resonating Refrain is cast gain Resonating Crescendo: increases the damage. Stacks. Lose Crescendo stacks when you switch songs. Cooldown 1 turn. Free Action.,intocavel
-Reverberate,Chaos,5,None,,sim,,When you take a @Free Action@ or @Action@ you have a 33% chance explode in chaos dealing all types of damage and healing.,pendente
+Reverberate,Chaos,5,None,,sim,,When you take a @Free Action@ or @Action@ you have a 33% chance explode in chaos dealing all types of damage and healing.,revisado
 Rhythm of Recovery,Bard,2,None,Beneficial,nao,,(Song) Allies within 4 hexes of you regain 5% Max Life and Mana. Every time Rhythm of Recovery is cast consecutively gain Crescendo of Recovery: increases the amount regained by 5%. Stacks. Lose all stacks when you play another song. Cooldown 1 turn. Duration 1 turn. Free Action.,intocavel
 Rune of Exploding,Fire,3,Fire,"Harmful,Ranged,Elemental,AreaEffect,DealsDamage",nao,,"Place a rune on the selected hex. After 1 turn, it detonates dealing *0 fire damage to all enemies within 1 hex.",revisado
 Rupture,Thief,4,Weapon,"Melee,Harmful,DealsDamage",nao,,Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.,revisado
@@ -398,16 +398,16 @@ Sun Fire,Fire,2,Fire,"Harmful,Ranged,DealsDamage,Elemental,AreaEffect",nao,,Hurl
 Sunder,Warrior,5,Weapon,"Harmful,DealsDamage",nao,,Deals *0 weapon damage. Ignores all armor and resists. Cannot be dodged. @Life Steals@ for 25%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Survivalist I,Ranger,1,None,,sim,"ResistPhysical:Base:3, ResistCold:Base:3, ResistFire:Base:3, ResistLightning:Base:3, DodgeChance:Base:3,",Increases @all resistance@ and @dodge chance@ by 3%.,revisado
 Survivalist II,Ranger,2,None,,sim,"ResistPhysical:Base:5, ResistCold:Base:5, ResistFire:Base:5, ResistLightning:Base:5, DodgeChance:Base:5,",Increases @all resistance@ and @dodge chance@ by an additional 5%.,revisado
-Sustenance I,Chaos,1,None,,sim,,Consuming any Globule heals you for 8% of max life and mana.,pendente
-Sustenance II,Chaos,2,None,,sim,,Consuming any Globule heals you for 20% of max life and mana.,pendente
+Sustenance I,Chaos,1,None,,sim,,Consuming any Globule heals you for 8% of max life and mana.,revisado
+Sustenance II,Chaos,2,None,,sim,,Consuming any Globule heals you for 20% of max life and mana.,revisado
 Swan Song,Bard,5,None,Beneficial,nao,,Allies within 4 hexes gain Invincible for 1 turn. Cooldown 5. Action.,intocavel
 Sweeping Kick,Monk,3,Physical,"Harmful,DealsDamage",nao,,Deal *0 physical damage to all enemies within 1 hex. Knocks back all enemies up to 3 hexes. Targets are crippled for 1 turn. ,revisado
 Swiftness,Thief,1,None,,sim,"TurnFreeMovementPoints:Base:1,",Increases your @movement points@ by 1.,revisado
-Switcheroo,Chaos,1,None,Ranged,nao,,"Swap places with an @Enemy@, @Ally@, or @Object@.",pendente
+Switcheroo,Chaos,1,None,Ranged,nao,,"Swap places with an @Enemy@, @Ally@, or @Object@.",revisado
 Tainted Touch,Shadow,1,Shadow,"Harmful,Melee,DealsDamage",nao,,Reaches out to the target with dark energy dealing *0 shadow damage. @Life Steals@ for 12%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
 Take Cover,Ranger,4,None,,sim,"TakeCover:Set:1,",Damage you take from enemies further than 2 hexes from you is reduced by 35%.,revisado
 Taunt,Bard,1,None,Harmful,nao,,Forces the target to attack you for 1 turn. Reduces the damage the target deals by 20%.,intocavel
-Telekinesis,Chaos,1,None,"Harmful,Ranged,DealsDamage,Elemental",nao,,Moves any @Object@ within 8 hexes.,pendente
+Telekinesis,Chaos,1,None,"Harmful,Ranged,DealsDamage,Elemental",nao,,Moves any @Object@ within 8 hexes.,revisado
 Teleport Other,Lightning,3,None,,nao,,Teleports the target to the location of your choosing in a flash of lightning.  Unaffected by increased range modifiers.,corrigido
 Teleport Self,Lightning,2,None,,nao,,Teleports the caster to the target location in a flash of lightning.  Unaffected by increased range modifiers.,corrigido
 Tempered Rage,Warrior,2,None,Beneficial,nao,,"Increases @Damage@, @Armor@, and @Magic Armor@ by 15%.",revisado
@@ -436,8 +436,8 @@ Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage",nao,,"Heals target al
 Uncanny Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,revisado
 Unyielding Contender,Warrior,5,None,Beneficial,nao,,"Grants 50% increased Armor, Magic Armor, and Max Health for 2 turns. Grants Enrage. Usable while stunned.",revisado
 Vampiric Aura,Shadow,4,None,Beneficial,nao,,Allies within Vampiric Aura @Life Steal@ for 5%.  @Life Steal@ heals you for a percentage of your @max health@ each time you hit. Reduced for area of effect and no ap cost abilities.,corrigido
-Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,pendente
-Variety II,Chaos,4,None,,sim,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,pendente
+Variety I,Chaos,3,None,,sim,,Each turn gain two random buffs that increase the damage of a random element by @40@% this turn. ,revisado
+Variety II,Chaos,4,None,,sim,,Each turn gain two random buffs that increase the damage of a specfic element by 60% this turn. ,revisado
 Vengeful Shadows,Shadow,2,None,,sim,"DamageReturnedFlatShadow:Base:Source.GetFlatDamageValue * 3,",Grants [0] Return Shadow Damage.,revisado
 Venomous Skin,Nature,2,None,"Beneficial,Ranged",nao,,Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.,revisado
 Verse of Valor,Bard,1,None,Beneficial,nao,,"(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",intocavel
