@@ -154,6 +154,14 @@ namespace BetterTooltips.Patches
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
+            // Break The Ice - o texto ficava vago e o teste do PROPRIO jogo diz o mecanismo:
+            // COLD_Status_BreakTheIce
+            { "The first time you deal damage or healing in battle, it's effectiveness is increased by 100%.",
+              "\n<color=#C8B090>That bonus is consumed by your first damaging cast.</color>" },
+            // Cyclone Kick - o texto ficava vago e o teste do PROPRIO jogo diz o mecanismo:
+            // o teste do jogo: "the enemy was not pulled adjacent"
+            { "Deals *0 physical damage. Pulls enemies within 4 hexes towards you. Targets are crippled for 1 turn. ",
+              "\n<color=#C8B090>The pull drags them the whole way: they land on a hex adjacent to you.</color>" },
             // Fire Breath - o texto nao dava o alcance. Fonte: campo `alvos` do `ActionProps`
             // (blast=Distance(Source.Cell) <= 4 + IsSameHemisphere + DistanceFromLine < 3f/2f).
             { "Breath fire dealing *0 fire damage to all enemies in a cone. ",
