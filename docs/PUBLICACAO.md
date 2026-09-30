@@ -17,6 +17,119 @@ antes de tocar em qualquer coisa**, e não chuta. Os 6 zips já gerados estão a
 Release [`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
 que é o caminho do input `release_tag` do `publish.yml`.
 
+## 0) Antes do primeiro upload: licença e categorias (pesquisa de 30/09/2026)
+
+Doc oficial hoje é o **wiki do próprio Thunderstore** — `thunderstore.io/docs` responde **404**.
+O upload fica em `https://thunderstore.io/package/create/` e a API em `https://thunderstore.io/api/docs/`.
+
+### Licença: **não é requisito**, e não existe campo nem lista oficial
+
+| Pergunta | Resposta | Evidência |
+|---|---|---|
+| A API de upload exige licença? | **Não.** O envio é só `multipart/form-data` com o arquivo; o metadata do envio não tem campo de licença. | `PackageSubmissionMetadata` só exige `author_name`, `communities`, `has_nsfw_content`, `upload_uuid` — <https://thunderstore.io/api/docs/> |
+| O formulário web exige? | **Não.** Os campos são arquivo, team, comunidades, **Categories**, NSFW, Submit — a palavra "licen" **não aparece** na página. | <https://thunderstore.io/package/create/> (DOM inspecionado ao vivo) |
+| Exige `LICENSE` dentro do zip? | **Não.** Os arquivos obrigatórios são só `icon.png`, `README.md` e `manifest.json`. | <https://wiki.thunderstore.io/mods/creating-a-package> |
+| A plataforma oferece licenças para escolher? | **Não existe esse campo nem essa lista** (nenhuma página de licença no índice oficial). | <https://wiki.thunderstore.io/llms.txt> |
+
+Mesmo sem ser requisito técnico, as **regras globais** mandam respeitar copyright/licença, e
+"**CopyrightOrLicense**" é motivo oficial de rejeição
+(<https://wiki.thunderstore.io/moderation/global-rules> + enum de `PackageListingReportRequest`
+em <https://thunderstore.io/api/docs/>). Hoje **o repo não tem `LICENSE` e nenhum
+README/manifest menciona licença** — nada trava o upload, mas o código fica sem termos de reúso.
+
+Como não há campo na plataforma, o único mecanismo possível é **por conta própria**: arquivo
+`LICENSE`/`LICENSE.md` na raiz do zip e/ou seção de licença no `README.md`. Opções comuns —
+**MIT**, **Apache-2.0**, **GPL-3.0**, **LGPL-3.0**, **MPL-2.0**, **CC0-1.0**, **Unlicense** —
+ou **nada** (sem arquivo = todos os direitos reservados). **A escolha é do dono**; este
+documento não escolhe licença.
+
+### Categorias: as 6 que a comunidade `stolen-realm` tem de fato
+
+Endpoint oficial: <https://thunderstore.io/api/experimental/community/stolen-realm/category/> →
+**Audio, Misc, Libraries, Tools, Modpacks, Mods**. O que já está publicado usa: `ebkr-r2modman` =
+**Tools**; `StolenRealmModding-StolenRealmModAPI` e `...-Player_Limit_Mod` = **Mods**;
+`BepInEx-BepInExPack`, `Kesomannen-GaleModManager` e o nosso
+`DefRuivo_StolenRealmMods-BetterFont` (o único no ar) estão com **categorias vazias**
+(<https://thunderstore.io/c/stolen-realm/api/v1/package/>).
+
+| Mod | Primária | Opcional | Por quê |
+|---|---|---|---|
+| BetterFont | **Mods** | Misc | troca a fonte renderizada da interface |
+| BetterStats | **Mods** | — | mostra números na ficha e no level up |
+| BetterTooltips | **Mods** | — | reescreve o texto dos tooltips |
+| RoguelikeDebugger | **Tools** | Mods | o próprio README diz "ferramenta de desenvolvimento, NÃO é mod de jogador" |
+| RoguelikeQoL | **Mods** | — | HUD de qualidade de vida no roguelike |
+| RoguelikeSkillTreeVisualizer | **Mods** | Misc | abre a skill tree nativa em modo leitura |
+
+**"Libraries" e "Audio" não se aplicam a nenhum dos 6** — `StolenRealmModding-StolenRealmModAPI`
+é biblioteca e mesmo assim está em **Mods**, ou seja a comunidade não usa "Libraries" para mod de API.
+
+### O que ficou INDETERMINADO
+
+- **Nenhuma fonte oficial diz que categoria é obrigatória.** `categories` é **opcional** em
+  `PackageSubmissionMetadata` e o formulário não bloqueia o envio. O efeito é de **vitrine**: o
+  wiki diz que o mod "pode aparecer só numa seção" conforme as categorias escolhidas, e
+  "WrongCategories" é motivo de rejeição. Recomendado, não bloqueante
+  (<https://wiki.thunderstore.io/mods/mod-not-visible>).
+- **O caminho automatizado não envia categoria**: `tools/publish-thunderstore.sh` manda só
+  `-F "file=@..."`, e `publish.yml` nem `pack-thunderstore.py` têm campo de categoria — é por isso
+  que o BetterFont subiu com `categories: []`. Para ajustar **sem refazer o zip** existe a API
+  oficial `POST /api/experimental/package-listing/{id}/update/`, cujo corpo **exige**
+  `{"categories": ["Mods"]}` (endpoint confere: responde 400/405, não 404).
+- **INDETERMINADO / a decidir pelo dono**: qual licença. E vale lembrar que um `LICENSE` no repo
+  ou no zip é **texto informativo** — a plataforma não lê esse arquivo nem o exibe como metadado.
+
+### Categorias na automação — o que já está provado (30/09/2026)
+
+> **Correção ao bullet acima:** o `POST /api/experimental/package-listing/{id}/update/` existe
+> (rota `package-listing/<int:pk>/update/` na fonte), mas **não fecha o caso**: `{id}` é o PK
+> **inteiro** da listagem e **nenhum endpoint público o expõe** (conferido no OpenAPI completo —
+> `curl -s "https://thunderstore.io/api/docs/?format=openapi"` — e nos serializers do pacote).
+> O equivalente que **endereça por nome** é o que a própria UI web usa:
+> `POST /api/cyberstorm/listing/{community}/{namespace}/{name}/update/`, corpo
+> `{"categories": ["mods"]}` — **slug, não o nome**.
+
+**O bloqueio real é o tipo de token, não o PK.** Os dois caminhos chamam o mesmo
+`update_categories` → `ensure_update_categories_permission` → `validate_user()`, e esse
+`validate_user` **recusa service account por desenho** (`Service accounts are unable to perform
+this action`, em `django/thunderstore/permissions/utils.py`). O token do repo é service account
+(`...sa@thunderstore.io`, papel `member` no team `DefRuivo_StolenRealmMods`) e o token do CI
+também tem de ser (seção 3). Medido ao vivo, sem adivinhar:
+
+| O que | Resultado literal |
+|---|---|
+| `POST .../api/cyberstorm/listing/stolen-realm/DefRuivo_StolenRealmMods/BetterFont/update/` com `{"categories":["mods"]}` | **HTTP 403** · `{"non_field_errors":["Service accounts are unable to perform this action"]}` |
+| `GET .../api/cyberstorm/package/stolen-realm/DefRuivo_StolenRealmMods/BetterFont/permissions/` | `"can_manage_categories": false` |
+
+Consequência: **categoria só entra no momento do envio** (não dá para corrigir depois pela API
+com este token). Para o BetterFont, já publicado com `categories: []`, sobra a UI web logada como
+**pessoa** (não service account) ou esperar a próxima versão. O upload **aceita** categoria —
+`PackageUploadMetadataSerializer.categories` (legado, slug, e só vale quando a comunidade da
+requisição é a da listagem) e `PackageSubmissionMetadataSerializer.community_categories`
+(`{"stolen-realm": ["mods"]}`).
+
+**E a automação já tem o encaixe pronto, só não usado:** a Action
+`GreenTF/upload-thunderstore-package` tem o input **`categories`** (`action.yml` → `TS_CATEGORIES`
+→ `cfg_edit.js` grava `publish.categories["stolen-realm"]`, em **slug minúsculo**, no
+`thunderstore.toml` do `tcli`). Falta preencher o input nos blocos do `publish.yml` — e, no envio
+local, mandar `community_categories` no metadata.
+
+**Lista proposta por mod** (com o slug da API; o nome é só rótulo). As 6 categorias válidas e os
+slugs vêm de <https://thunderstore.io/api/experimental/community/stolen-realm/category/> →
+`audio, misc, libraries, tools, modpacks, mods`:
+
+| Mod | Categoria (slug) | Por quê |
+|---|---|---|
+| BetterFont | **Mods** (`mods`) | troca a fonte renderizada da interface |
+| BetterStats | **Mods** (`mods`) | números na ficha e no level up |
+| BetterTooltips | **Mods** (`mods`) | reescreve o texto dos tooltips |
+| RoguelikeDebugger | **Tools** (`tools`) | o README diz "ferramenta de desenvolvimento, NÃO é mod de jogador" |
+| RoguelikeQoL | **Mods** (`mods`) | HUD de qualidade de vida |
+| RoguelikeSkillTreeVisualizer | **Mods** (`mods`) | abre a skill tree nativa em modo leitura |
+
+**Nada foi alterado no `publish.yml` nem no `tools/publish-thunderstore.sh` nesta rodada** — o
+formato (input da Action × metadata no script local) fica para o dono decidir.
+
 ## 1) As regras da plataforma que mandam no desenho
 
 | Regra | Consequência prática |

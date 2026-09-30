@@ -1,0 +1,79 @@
+# BetterCombatText
+
+Mod **BepInEx 5** para **Stolen Realm** que deixa o **texto de combate legivel**: um **contorno/halo suave em volta das letras** (padrao: **preto a 10% de alfa** — o "sombreamento radial de 10%") nos **nomes dos inimigos** e nos **rotulos/stacks de buff e debuff**, mais o **texto do dado nos eventos de rolagem**. **Nao altera gameplay.**
+
+- **GUID:** `com.gumatos.bettercombattext`
+- **Versao:** 0.1.0
+- **Compativel com:** Stolen Realm **v1.3.1** (versao mais recente do jogo em 30/09/2026).
+- **Dependencias:** nenhuma alem do BepInEx 5 (que o r2modman ja instala no perfil).
+
+## O que ele faz
+
+Cada superficie e ligada/desligada **de forma independente** no `.cfg`, e o efeito usa **sempre** uma **copia do material por componente** (`TMP_Text.fontMaterial`) — **nunca** o material compartilhado da fonte. Isso e o que garante que a interface inteira **nao** ganhe contorno.
+
+| Superficie | O que recebe | Componente real no jogo |
+|---|---|---|
+| **Nomes de inimigos em combate** | contorno/halo suave + sombra difusa | `BossHealthbar.BossName` (barra de chefe) e `PlayerInfoWindow.playerName` (janela que abre ao passar o mouse no inimigo) |
+| **Rotulos de buff/debuff em combate** | contorno duro + sombra + negrito | `StatusIcon.stackCount` ("x3") e `StatusIcon.turnCount` (turnos restantes) |
+| **Texto do dado nos eventos** | contorno/halo suave + sombra | `DiceVisualSetup.DiceNumbers` (o numero na face do dado) e `DiceRoller.TargetText/ResultText/ModifierValueText` |
+| **Numero de vida** (extra, **desligado** por padrao) | contorno/halo suave | `Healthbar.healthbarText` |
+
+### Limitacao honesta: os rotulos de buff/debuff NAO ganham halo suave
+
+Os rotulos `xN` e o contador de turnos dos icones de status sao **`UnityEngine.UI.Text` (o texto legado do Unity)**, e nao `TextMeshPro` — o campo e literalmente `public Text stackCount;` no decompilado (l.174764). Texto legado desenha com **atlas de bitmap**, sem *distance field*: nao existe `_OutlineWidth`/`_OutlineSoftness` para borrar. Ali o mod aplica o que **existe**: contorno duro (componente `Outline`, 4 copias) + sombra dura + **negrito** + tamanho opcional. Para esses rotulos terem halo **suave** seria preciso trocar os componentes `UI.Text` por `TextMeshProUGUI` no prefab — mudanca grande e arriscada, fora do escopo deste mod. Está tudo explicado na secao `3.` do `.cfg`.
+
+## Como configurar
+
+Arquivo: `BepInEx\config\com.gumatos.bettercombattext.cfg` (editavel no Notepad).
+
+- **Desligar TUDO em 1 linha:** na secao `1. Geral`, `Ativar = false`. O mod nao aplica nem patch — o jogo roda 100% original.
+- **Contorno mais forte/fraco:** `LarguraContorno` (espessura) e `AlfaContorno` (opacidade, padrao `0.10` = os 10%).
+- **Halo mais suave ou mais duro:** `SuavidadeContorno` — **alto** = halo suave, `0` = contorno duro.
+- **Sombra difusa:** `Sombra = true/false` + `SombraOffsetX` / `SombraOffsetY` / `SombraSuavidade` / `AlfaSombra`.
+- **Tamanho da fonte:** `TamanhoFonteExtra` — **`0` = nao mexe no tamanho** (padrao).
+- **So os eventos:** `4. Eventos (texto do dado)` > `Ativar = false` desliga apenas o dado e mantem o combate.
+- Mudou o `.cfg`? **Reinicie o jogo** — os valores sao lidos no boot.
+
+## Log
+
+No `BepInEx\LogOutput.log` (trecho **real**, capturado do jogo com este mod instalado):
+
+```text
+[Info   :Better Combat Text] Better Combat Text 0.1.0 carregado (GUID com.gumatos.bettercombattext).
+[Info   :Better Combat Text] Better Combat Text: patches aplicados (por TIPO, sem parametro posicional). ...
+[Info   :Better Combat Text] Better Combat Text: contorno cor=000000 alfa=0,1 largura=0,1 softness=0,6 sombra=True; eventos(dado) ativo=True; numero de vida=False.
+[Info   :Better Combat Text] Better Combat Text: gatilho 'OptionsManager.Localize' vivo (primeira chamada) — o patch esta rodando.
+[Info   :Better Combat Text] Better Combat Text: --- diagnostico de arranque (somente leitura, nada alterado) ---
+[Info   :Better Combat Text] ... PlayerInfoWindow.playerName ... objeto='Target Name', tipo=TextMeshProUGUI, shader='TextMeshPro/Mobile/Distance Field', distance field (tem _OutlineWidth)=True
+[Info   :Better Combat Text] ... DiceVisualSetup.DiceNumbers ... objeto='2', tipo=TextMeshPro, shader='TextMeshPro/Mobile/Distance Field', distance field (tem _OutlineWidth)=True
+[Info   :Better Combat Text] Better Combat Text: faces de dado (TextMeshPro) encontradas: 140 em 7 DiceVisualSetup.
+[Info   :Better Combat Text] Better Combat Text: tipo REAL do rotulo de stack = 'UnityEngine.UI.Text' — UI.Text LEGADO: halo SUAVE e impossivel ali; ...
+[Info   :Better Combat Text] Better Combat Text: TextMesh legado (3D) em cena: 0 — esse tipo (usado por DieSideAwareTextDie) NAO e tocado pelo mod; ...
+[Info   :Better Combat Text] Better Combat Text: total de TMP_Text em cena: 902 (so os alvos sao tocados).
+```
+
+### Verificado em execucao (30/09/2026)
+
+- **Distance field confirmado no jogo, nao so no papel:** todos os alvos TMP usam `TextMeshPro/Mobile/Distance Field` e o teste em runtime `HasProperty("_OutlineWidth")` deu `True` — o halo **suave** e viavel.
+- **O texto do dado E TextMeshPro:** 140 faces em 7 `DiceVisualSetup`, todas `TextMeshPro`. A variante legada `DieSideAwareTextDie` (`TextMesh`) tem **0** instancias em cena neste build — logo o numero do dado recebe o halo.
+- **Os rotulos de stack SAO `UnityEngine.UI.Text` legado**, confirmado pelo tipo real em runtime (124 `StatusIcon` em cena). Ali o halo suave nao existe; o mod aplica contorno duro + sombra + negrito.
+- **902 `TMP_Text` na cena:** editar o material compartilhado pintaria todos. Por isso a regra de clonar por componente e o que mantem o efeito so nos alvos.
+
+## Instalar
+
+**Pelo r2modman (recomendado):** instale o pacote no perfil do Stolen Realm — a DLL vai para `BepInEx\plugins\BetterCombatText\BetterCombatText.dll`.
+
+**Manual:** copie a pasta `BetterCombatText` para `%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\`.
+
+## Como desfazer
+
+Apague a pasta `BepInEx\plugins\BetterCombatText\` (ou desabilite o pacote no r2modman) e abra o jogo. O texto volta ao original no proximo boot: o mod **nao modifica nenhum arquivo do jogo** nem deixa residuo. (Alternativa sem desinstalar: `Ativar = false` no `.cfg`.)
+
+## Compilar do fonte
+
+```powershell
+cd BetterCombatText
+dotnet build
+```
+
+Saida: `bin\Debug\netstandard2.1\BetterCombatText.dll`. As DLLs de referencia vem de `..\lib\` e **nunca sao distribuidas** — a `Assembly-CSharp.dll` e propriedade do jogo.
