@@ -1,7 +1,7 @@
 # Documentação do repositório — índice
 
 Este é o **índice** da documentação do projeto. A documentação de `docs/` é
-**versionada** (ver `ENT-2` no `KANBAN.md`): o `.gitignore` ignora `*.md` como regra
+**versionada**: o `.gitignore` ignora `*.md` como regra
 geral — as notas de trabalho na raiz (`KANBAN.md`, `*_INVENTORY.md`, `TOOLTIP_SWEEP.md`)
 seguem **fora** do git de propósito — e re-inclui `docs/**/*.md` mais `README.md`,
 `CHANGELOG.md`, `manifest.json` e `icon.png` na raiz de cada mod.
@@ -24,8 +24,8 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | `cobertura/` | mantenedor | O **censo** do que existe para revisar (CSVs) e os relatórios de revisão. Ver §2. |
 
 O repositório tem, na raiz, uma pasta por mod — `BetterTooltips`, `BetterStats`,
-`BetterFont`, `RoguelikeQoL`, `RoguelikeDebugger` (e `RoguelikeBalance`, que ainda não
-virou mod). Cada um é um projeto independente, com `DeployToBepInEx` próprio no
+`BetterFont`, `RoguelikeQoL`, `RoguelikeDebugger`, e — em implementação —
+`RoguelikeSkillTreeVisualizer` (e `RoguelikeBalance`, que ainda não virou mod). Cada um é um projeto independente, com `DeployToBepInEx` próprio no
 `.csproj`. A descrição de cada mod e o que ele **não** faz está no `README.md` da
 pasta do mod.
 
@@ -84,7 +84,7 @@ python tools/census.py                       # regrava os CSVs de docs/cobertura
 ## 3. O RITUAL DE BUILD (obrigatório)
 
 Ordem **inegociável**. Cada passo existe por causa de um incidente real
-(`INC-1`/`INC-3` no `KANBAN.md`). Nenhum passo pode ser pulado — inclusive o passo 3,
+(`INC-1`/`INC-3`, registrados no quadro de trabalho interno do projeto). Nenhum passo pode ser pulado — inclusive o passo 3,
 que é o que trava a release.
 
 > **Antes de tudo:** feche o jogo. A cópia da DLL para o perfil falha se o arquivo
@@ -136,7 +136,7 @@ carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
 "certa"); por isso o `check_dupes` existe. Saída esperada hoje:
-`TextFixes 72 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`.
+`TextFixes 86 entradas | duplicadas: nenhuma` e `TextAppends 200 entradas | duplicadas: nenhuma`.
 
 ### Passo 4 — `check_notas_redundantes`: a nota **repete** o texto?
 
@@ -151,7 +151,7 @@ famílias: **nota == chave** (duplicado na tela), **nota inteiramente contida na
 em texto onde Armor é **fonte** de dano e não mitigação (casos `Battle Ready` e `Diamond
 Ice`, barrados no código por `ArmorValueSourceRegex`).
 
-Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09: **195 notas
+Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09: **200 notas
 analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` — foram
 removidas).
 
@@ -211,7 +211,7 @@ Só depois disso a alteração conta como instalada e testada.
 | `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. |
 | `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. |
 | `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? |
-| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 195 notas e sai com exit 1 se achar caso. |
+| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Lê as 200 notas e sai com exit 1 se achar caso. |
 | `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. |
 | `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) |
 | `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). |
@@ -219,6 +219,8 @@ Só depois disso a alteração conta como instalada e testada.
 | `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. |
 | `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. |
 | `pack-for-friends.sh` | Compila e empacota os mods distribuíveis em `dist/`. |
+| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`), com pre-flight que **aborta** em vez de gerar pacote inválido. |
+| `release-check.sh` | **A trava de release:** roda os 6 passos de uma vez (build 0 erros → chaves → duplicadas → notas → ciclo do jogo → conferência visual humana) e para no primeiro que falhar. |
 
 ---
 

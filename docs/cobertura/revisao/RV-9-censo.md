@@ -2,7 +2,7 @@
 
 Gerado por `tools/censo_status.py`. **Alvo do pedido:** revisar todos os buffs e
 debuffs e seus tooltips, **na mesma linha de formato das skills** (o processo completo
-está descrito no RV-9 do `KANBAN.md`).
+está descrito no RV-9 do quadro de trabalho interno do projeto).
 
 ## Onde estamos
 
