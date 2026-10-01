@@ -31,9 +31,14 @@ namespace BetterTooltips.Patches
         /// <summary>
         /// Duas correcoes de acabamento pedidas em teste:
         ///
-        /// (a) A COR. O postfix principal aplica as tabelas; este roda DEPOIS dele
-        ///     (HarmonyPriority.Low = por ultimo nos postfixes) e troca o marcador #C8B090
-        ///     pela cor de "texto especial" do proprio tooltip.
+        /// (a) A COR. Quem troca o marcador #C8B090 pela cor de explicacao do jogo e o gancho DAS
+        ///     NOTAS (`Postfix` de `OptionsManager.Localize`), no FIM dele — a cor e resolvida
+        ///     sobre o texto que aquele gancho acabou de montar, e NAO depende de prioridade de
+        ///     gancho nenhuma. COR-2 (01/10): antes disso a cor era um postfix `Priority.High`
+        ///     SEPARADO e o marcador nunca era trocado, porque na 0Harmony do jogo a prioridade
+        ///     ordena DESCENDENTE (maior roda primeiro) e o gancho da cor rodava ANTES do gancho
+        ///     que acrescenta as notas — ele olhava um texto que ainda nao tinha marcador. Ver o
+        ///     comentario do `Postfix`, a bancada `scratch/cor2/` e docs/TEXTO-TOOLTIPS.md §7.
         ///
         /// (b) A POSICAO. O jogo monta o tooltip como [descricao], uma quebra de linha e depois
         ///     [custos e alcance]
@@ -41,6 +46,14 @@ namespace BetterTooltips.Patches
         ///     descricao - ou seja, ficava ANTES dos custos. Em vez de mudar a tabela (que e
         ///     chaveada pelo texto da descricao), este prefix pega o bloco ja colorido e o
         ///     move para o fim do corpo, que e o texto entregue a `ShowTooltip`.
+        ///
+        ///     COR-3 (01/10) — DE QUE BLOCO SE ESTA FALANDO. "o bloco ja colorido" era lido como
+        ///     "o primeiro bloco da cor do nivel 2", e essa leitura deixou de valer quando a cor
+        ///     do nivel 2 passou a ser aplicada de verdade: `Tooltip.specialDescColor` vale
+        ///     `#CBB396`, o MESMO literal que o motor escreve nos valores dinamicos das skills —
+        ///     o primeiro bloco dessa cor numa tooltip com dano e o VALOR DE DANO, nao a nossa
+        ///     nota. O prefixo passou a achar a nota pelo CONTEUDO (`_conteudosDeNota`), e o
+        ///     `#CBB396` do jogo fica onde esta. Ver o comentario de `_conteudosDeNota`.
         /// </summary>
         [HarmonyPatch]
         internal static class CorEOrdemDoTooltip
@@ -136,7 +149,7 @@ namespace BetterTooltips.Patches
                     {
                         return;
                     }
-                    string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? "C8B090" : _corEspecialDoJogo;
+                    string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? MarcadorCorDeExplicacao : _corEspecialDoJogo;
                     string corAura = CorDaLinhaDeAuras();
                     bool mesmaCor = string.Equals(corNota, corAura, StringComparison.OrdinalIgnoreCase);
 
@@ -144,12 +157,32 @@ namespace BetterTooltips.Patches
                     // a ULTIMA ocorrencia e a linha de auras — ela e a ultima coisa anexada ao texto.
                     // O bloco da linha de auras so e aceito se comecar com o marcador dela: assim nenhum
                     // bloco colorido do proprio jogo (com a MESMA cor de status) entra na conta.
-                    string nota;
                     string aura;
                     bool achouAura = TirarBloco(ref description, corAura, mesmaCor, ShrineAuraPatch.MarcadorLinhaDeAuras, out aura);
-                    bool achouNota = TirarBloco(ref description, corNota, false, null, out nota);
+                    // COR-3: a NOSSA nota e achada pelo CONTEUDO, nunca pela cor — depois que a cor
+                    // do nivel 2 e aplicada ela e o mesmo `#CBB396` dos valores do motor, e "o
+                    // primeiro bloco dessa cor" seria o VALOR DE DANO da skill (era ele que ia para
+                    // o fundo). Ver `_conteudosDeNota`.
+                    //
+                    // RV-17 (01/10) — TODAS AS NOTAS, NA ORDEM DO TEXTO. Uma tooltip pode ter DUAS
+                    // notas do nivel 2: os dois casos reais (`Shapeshift Dragonkin`, que tem o `[0]`
+                    // do Armor, e o buff `Miniature`) trazem DOIS blocos FUNDIDOS no valor do
+                    // `TextFixes` (os dois estao no fonte). Extrair so a primeira — que era o que a
+                    // versao anterior fazia — deixava a SEGUNDA onde ela estava, ANTES do `AP Cost`, e
+                    // a ordem de leitura invertia (a 2a nota na frente da 1a). O formato e UM: cada
+                    // bloco vai para o FIM na ordem em que aparece, uma linha em branco antes de
+                    // cada, e a linha azul do nivel 3 continua por ultimo. Ver
+                    // docs/TEXTO-TOOLTIPS.md §9.
+                    List<string> notas = new List<string>();
+                    string nota;
+                    bool achouNota = TirarNotaDoMod(ref description, out nota);
+                    while (achouNota)
+                    {
+                        notas.Add(nota);
+                        achouNota = TirarNotaDoMod(ref description, out nota);
+                    }
 
-                    if (!achouAura && !achouNota)
+                    if (!achouAura && notas.Count == 0)
                     {
                         if (!_diagnosticadoCor)
                         {
@@ -167,9 +200,9 @@ namespace BetterTooltips.Patches
                     }
 
                     string corpo = description.TrimEnd();
-                    if (!string.IsNullOrEmpty(nota))
+                    foreach (string blocoNota in notas)
                     {
-                        corpo += "\n\n" + nota;
+                        corpo += "\n\n" + blocoNota;
                     }
                     if (!string.IsNullOrEmpty(aura))
                     {
@@ -186,7 +219,8 @@ namespace BetterTooltips.Patches
 
             /// <summary>
             /// Tira do corpo o PRIMEIRO (ou o ULTIMO) bloco `&lt;color=#hex&gt;...&lt;/color&gt;`, junto
-            /// com a quebra de linha que vem antes dele, e devolve o bloco ja aparado nas pontas.
+            /// com a LINHA EM BRANCO que o `AnexarNota` escreveu antes dele (`InicioDoSeparador`), e
+            /// devolve o bloco ja aparado nas pontas.
             /// `exigir` (opcional) so aceita o bloco que contiver esse trecho — usado na linha de auras,
             /// que tem marcador proprio, para nao confundir com blocos do jogo na MESMA cor.
             /// Sem bloco que sirva -> false (e o corpo fica como estava).
@@ -210,7 +244,7 @@ namespace BetterTooltips.Patches
                     {
                         return false;
                     }
-                    int ini = ((i > 0 && corpo[i - 1] == '\n') ? i - 1 : i);
+                    int ini = InicioDoSeparador(corpo, i);
                     int fim = f + fechamento.Length;
                     string texto = corpo.Substring(ini, fim - ini).TrimStart('\n').TrimEnd();
                     if (string.IsNullOrEmpty(exigir) || texto.IndexOf(exigir, StringComparison.Ordinal) >= 0)
@@ -234,25 +268,231 @@ namespace BetterTooltips.Patches
                 }
                 return false;
             }
+
+            /// <summary>
+            /// Tira do corpo o bloco de UMA nota do mod, reconhecida pelo CONTEUDO
+            /// (`_conteudosDeNota`, alimentado por `RegistrarBlocosDeNota`) — nunca pela cor.
+            ///
+            /// COR-3 (01/10): a busca por cor ("o primeiro bloco do nivel 2") so e segura enquanto a
+            /// cor da nota NAO existir em nenhum bloco do jogo. Como `Tooltip.specialDescColor` vale
+            /// exatamente o `#CBB396` que o motor escreve nos valores dinamicos, o primeiro bloco
+            /// dessa cor numa tooltip de skill e o VALOR DE DANO — e era ele que o prefixo movia para
+            /// o fundo. Por conteudo, um numero do motor nunca casa com a frase da nota.
+            ///
+            /// UMA nota por chamada — e o CHAMADOR chama em LACO, porque uma tooltip pode ter DUAS
+            /// notas do nivel 2. Os dois casos reais estao no fonte e nos testes (`Shapeshift
+            /// Dragonkin`, que tem o `[0]` do Armor, e o buff `Miniature`): nos dois o valor FUNDIDO
+            /// do `TextFixes` carrega DOIS blocos com o marcador. A versao anterior deste comentario
+            /// afirmava que o mod anexava UMA nota por tooltip e nunca duas; era FALSO, e era
+            /// exatamente o que deixava a segunda nota para tras, ANTES do `AP Cost`, invertendo a
+            /// ordem de leitura. O bloco removido leva junto a linha em branco que o `AnexarNota`
+            /// escreveu antes dele (`InicioDoSeparador`), e o texto devolvido e o mesmo que o
+            /// `TirarBloco` devolvia.
+            /// </summary>
+            private static bool TirarNotaDoMod(ref string corpo, out string nota)
+            {
+                nota = null;
+                if (string.IsNullOrEmpty(corpo))
+                {
+                    return false;
+                }
+                const string fechamento = "</color>";
+                const string abertura = "<color=#";
+                int i = 0;
+                while (i < corpo.Length)
+                {
+                    int j = corpo.IndexOf(abertura, i, StringComparison.Ordinal);
+                    if (j < 0)
+                    {
+                        return false;
+                    }
+                    int fechaTag = corpo.IndexOf('>', j);
+                    if (fechaTag < 0)
+                    {
+                        return false;
+                    }
+                    int f = corpo.IndexOf(fechamento, fechaTag, StringComparison.Ordinal);
+                    if (f < 0)
+                    {
+                        return false;
+                    }
+                    if (_conteudosDeNota.Contains(corpo.Substring(fechaTag + 1, f - fechaTag - 1)))
+                    {
+                        int ini = InicioDoSeparador(corpo, j);
+                        int fim = f + fechamento.Length;
+                        nota = corpo.Substring(ini, fim - ini).TrimStart('\n').TrimEnd();
+                        corpo = corpo.Remove(ini, fim - ini);
+                        return true;
+                    }
+                    i = f + 1;
+                }
+                return false;
+            }
+
+            /// <summary>
+            /// Onde comeca o trecho que sera REMOVIDO do corpo: o bloco em `posicao` mais a LINHA
+            /// EM BRANCO que o `AnexarNota` escreveu antes dele (as duas quebras), quando elas
+            /// existem.
+            ///
+            /// RV-17 (01/10) — POR QUE AS DUAS, E NAO UMA. O prefixo tira a nota do meio do corpo e
+            /// a recoloca no fim. Consumindo so UMA quebra, a outra ficava para tras e o tooltip
+            /// saia com uma linha em branco ORFA entre a descricao e o `AP Cost` (o bloco saiu
+            /// dali, mas a marca dele ficou): medido no caminho real, `descricao\n\nNOTA\nAP Cost`
+            /// virava `descricao\n\nAP Cost`. Nenhuma quebra do texto do JOGO e tocada: o
+            /// `AnexarNota` apara o fim da descricao antes de escrever o separador dele, entao as
+            /// duas quebras, quando existem, sao NOSSAS. Quando so existe uma (as entradas
+            /// FUNDIDAS do `TextFixes`, ex. `Recover [0]% of max mana each turn. \n<color...`),
+            /// so ela e consumida — o separador de uma quebra do proprio jogo fica. Ver
+            /// docs/TEXTO-TOOLTIPS.md §9.
+            /// </summary>
+            private static int InicioDoSeparador(string corpo, int posicao)
+            {
+                int ini = posicao;
+                if (ini > 0 && corpo[ini - 1] == '\n')
+                {
+                    ini--;
+                    if (ini > 0 && corpo[ini - 1] == '\n')
+                    {
+                        ini--;
+                    }
+                }
+                return ini;
+            }
         }
         /// <summary>
-        /// A cor das explicacoes do mod NAO e escolhida por nos: e a cor de "texto especial" do
-        /// PROPRIO tooltip do jogo (`specialDescColor`, campo do Tooltip em GUIManager), a MESMA
-        /// que colore os nomes de status nas linhas nativas do tipo
-        /// "All [damage type] damage applies {STA=Heat}". Fonte: Tooltip.cs do Assembly, onde a
-        /// linha 214387 usa `ColorUtility.ToHtmlStringRGB(specialTextColor)` e a 214388 monta o
-        /// token `{STA=<nome>}`.
-        /// Nas tabelas o marcador fica como #C8B090 (um azul qualquer, so para o texto continuar
-        /// legivel se a leitura falhar); aqui ele e trocado pela cor real do jogo.
+        /// NIVEL 2 da convencao de cores (docs/TEXTO-TOOLTIPS.md §1/§2) — explicacao de TERMOS e
+        /// CALCULOS. A cor NAO e escolhida por nos: e `Tooltip.specialDescColor`, o campo do prefab
+        /// que o PROPRIO jogo usa para os blocos de DESCRICAO anexados — o par
+        /// `specialTitleColor`+`specialDescColor` monta o bloco "Special" do tooltip de item
+        /// (bancada do decompilado: `scratch/rv22/tooltip.cs:1854-1855` e `1950-1951`).
+        ///
+        /// PROVA DE QUE NAO E A COR DOS NOMES DE STATUS: quem colore os nomes de status/atributo
+        /// e `specialTextColor` (`tooltip.cs:608`/`627`, o token `{STA=}` e o `@atributo@`), um
+        /// campo DIFERENTE. A escolha por `specialDescColor` foi medida em 29/09 (BT-9) contra
+        /// print do proprio jogo: o bloco de descricao anexado sai bege, nao no azul de status.
+        ///
+        /// COR-2 (01/10) — LEITURA DATADA DO PROPRIO ASSET (nao de print): os TRES componentes
+        /// `Tooltip` do jogo (level1 pid 15581/15605 e resources.assets pid 2591822) trazem
+        /// `specialDescColor` = `skillStatusColor` = `specialTextColor` = `specialTitleColor` =
+        /// **#CBB396**. Ou seja: o bege medido por pixel em 29/09 e este campo (a diferenca
+        /// `#C8B090` x `#CBB396` e do print/antialiasing, nao de campo). A leitura do asset foi
+        /// validada contra o log de runtime: o mesmo leitor devolve `GUIManager.coldColor` =
+        /// `#00D7FF`, exatamente o que a sessao de 01/10 logou ao ler o campo em jogo
+        /// (`scratch/cor2/le_cores_do_tooltip.py`, `le_guimanager_cores.py` e `tooltip_cores.json`).
+        ///
+        /// `MarcadorCorDeExplicacao` e o valor medido do bloco do jogo (bege) usado como marcador
+        /// nas tabelas: ele e um hex valido, entao o texto continua legivel se a leitura falhar, e
+        /// o log avisa. O marcador NAO e a cor final — quem manda no tooltip e o campo lido em
+        /// runtime (`#CBB396`).
         /// </summary>
         internal static string _corEspecialDoJogo;
 
+        /// <summary>Marcador do nivel 2. Procedencia: medicao por pixel do bloco de descricao de
+        /// status do jogo em 29/09 (BT-9c, `#C8B090`); o valor do campo `Tooltip.specialDescColor`
+        /// no asset, lido em 01/10 (COR-2), e `#CBB396` — o marcador e so o valor de reserva.
+        /// Fonte declarada: `Tooltip.specialDescColor`. Ver docs/TEXTO-TOOLTIPS.md §2.</summary>
+        internal const string MarcadorCorDeExplicacao = "C8B090";
+
+        /// <summary>
+        /// Envolve uma nota do NIVEL 2 no marcador de cor (o postfix de prioridade alta troca o
+        /// marcador pela cor real do tooltip). Toda nota acrescentada por codigo passa por aqui —
+        /// nota sem marcador sai no tom do corpo do tooltip (o nivel 1) e vira uma explicacao que
+        /// se confunde com a descricao do jogo. O texto NAO muda: so ganha o markup em volta.
+        /// </summary>
+        private static string NotaDeExplicacao(string nota)
+        {
+            if (string.IsNullOrEmpty(nota))
+            {
+                return nota;
+            }
+            return "<color=#" + MarcadorCorDeExplicacao + ">" + nota.Trim() + "</color>";
+        }
+
+        /// <summary>O bloco que comeca logo depois do marcador pertence ao NIVEL 3 (linha de auras
+        /// ativas ou bloco de sinergia status x skill de `StatusSkillSynergyPatch`)? Serve para a
+        /// troca de cor do nivel 2 NAO repintar um bloco do nivel 3 que caiu no mesmo marcador de
+        /// reserva — sem isso os dois niveis colapsam em silencio (achado do COR-1).</summary>
+        private static bool ComecaBlocoDoNivel3(string texto, int posicaoDoMarcador)
+        {
+            int i = posicaoDoMarcador + MarcadorCorDeExplicacao.Length;
+            if (i >= texto.Length || texto[i] != '>')
+            {
+                return false;
+            }
+            return EhBlocoDoNivel3(texto.Substring(i + 1));
+        }
+
+        /// <summary>O texto que ABRE um bloco do NIVEL 3 e o marcador de texto proprio dele
+        /// ("Your active shrine auras:" / "Your skills on this status:"), nunca uma cor — por isso
+        /// a checagem serve tanto para o texto cru quanto para o conteudo ja extraido.</summary>
+        private static bool EhBlocoDoNivel3(string texto)
+        {
+            return texto.StartsWith(ShrineAuraPatch.MarcadorLinhaDeAuras, StringComparison.Ordinal)
+                || texto.StartsWith(StatusSkillSynergyPatch.Marcador, StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// O CONTEUDO das notas que este mod escreveu — o texto entre as tags de cor dos blocos que
+        /// nasceram com o marcador. E a chave de identificacao da NOSSA nota dentro do tooltip ja
+        /// montado.
+        ///
+        /// COR-3 (01/10) — POR QUE POR CONTEUDO, E NAO POR COR. A cor do nivel 2
+        /// (`Tooltip.specialDescColor`, lida em runtime) vale `#CBB396` — o MESMO literal que o
+        /// motor usa nos valores dinamicos que ele mesmo escreve
+        /// (`ApplyDescriptionExpressions`, `<color=#CBB396>` na l.2327 do decompilado, e
+        /// `GetDamageString`, l.2276, com `<size=...><color=#CBB396>NN</color></size>`). Depois que
+        /// `ComACorDoJogo` troca o marcador pela cor do campo, o bloco da NOSSA nota fica com o
+        /// mesmo hex dos valores do jogo — e o `CorEOrdemDoTooltip` ("o primeiro bloco dessa cor")
+        /// passava a pegar o VALOR DE DANO da skill e move-lo para o FUNDO do tooltip. A cor nao
+        /// distingue os dois papeis; o CONTEUDO distingue: o valor do motor e um numero (ou um
+        /// rotulo curto), a nota e uma frase que este mod escreveu.
+        ///
+        /// Bloco do NIVEL 3 que caiu no marcador de reserva fica FORA da lista: ele tem identidade
+        /// propria (o marcador de texto da linha de auras / do bloco de sinergia) e nao pode ser
+        /// confundido com uma nota do nivel 2.
+        /// </summary>
+        private static readonly HashSet<string> _conteudosDeNota = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>Registra o conteudo de cada bloco que nasceu com o marcador. Roda ANTES da troca
+        /// de cor e vale ate quando a leitura do campo falha (o bloco fica no marcador e continua
+        /// identificavel) — ver `_conteudosDeNota`.</summary>
+        private static void RegistrarBlocosDeNota(string texto)
+        {
+            string abre = "<color=#" + MarcadorCorDeExplicacao + ">";
+            int i = 0;
+            while (i < texto.Length)
+            {
+                int j = texto.IndexOf(abre, i, StringComparison.Ordinal);
+                if (j < 0)
+                {
+                    return;
+                }
+                int f = texto.IndexOf("</color>", j + abre.Length, StringComparison.Ordinal);
+                if (f < 0)
+                {
+                    return;
+                }
+                int inicio = j + abre.Length;
+                string conteudo = texto.Substring(inicio, f - inicio);
+                if (!EhBlocoDoNivel3(conteudo))
+                {
+                    _conteudosDeNota.Add(conteudo);
+                }
+                i = f + 1;
+            }
+        }
+
         internal static string ComACorDoJogo(string texto)
         {
-            if (string.IsNullOrEmpty(texto) || texto.IndexOf("#C8B090", StringComparison.Ordinal) < 0)
+            if (string.IsNullOrEmpty(texto) || texto.IndexOf(MarcadorCorDeExplicacao, StringComparison.Ordinal) < 0)
             {
                 return texto;
             }
+            // COR-3: registra o CONTEUDO das notas ANTES de trocar a cor. Depois da troca o bloco da
+            // nota fica com a mesma cor dos valores do motor e so o conteudo o distingue (ver
+            // `_conteudosDeNota`). Vale tambem quando a leitura do campo falha (o bloco continua no
+            // marcador e o registro ja foi feito).
+            RegistrarBlocosDeNota(texto);
             if (_corEspecialDoJogo == null)
             {
                 try
@@ -266,12 +506,31 @@ namespace BetterTooltips.Patches
                 catch (Exception ex)
                 {
                     _corEspecialDoJogo = string.Empty;
-                    Plugin.Log.LogWarning("BetterTooltips: nao consegui ler specialTextColor (" + ex.Message + "); mantendo o fallback.");
+                    Plugin.Log.LogWarning("BetterTooltips: nao consegui ler specialDescColor (" + ex.Message + "); mantendo o fallback.");
                 }
             }
-            return string.IsNullOrEmpty(_corEspecialDoJogo)
-                ? texto
-                : texto.Replace("#C8B090", _corEspecialDoJogo);
+            if (string.IsNullOrEmpty(_corEspecialDoJogo))
+            {
+                return texto;
+            }
+            // NIVEL 2 apenas: percorre as ocorrencias do marcador e troca SO as que abrem bloco de
+            // explicacao. O bloco do nivel 3 que caiu no marcador de reserva fica como esta (o
+            // nivel 3 tem a cor propria dele, resolvida por `CorDaLinhaDeAuras`).
+            var sb = new System.Text.StringBuilder(texto.Length);
+            int i2 = 0;
+            while (i2 < texto.Length)
+            {
+                int j = texto.IndexOf(MarcadorCorDeExplicacao, i2, StringComparison.Ordinal);
+                if (j < 0)
+                {
+                    sb.Append(texto, i2, texto.Length - i2);
+                    break;
+                }
+                sb.Append(texto, i2, j - i2);
+                sb.Append(ComecaBlocoDoNivel3(texto, j) ? MarcadorCorDeExplicacao : _corEspecialDoJogo);
+                i2 = j + MarcadorCorDeExplicacao.Length;
+            }
+            return sb.ToString();
         }
 
         /// <summary>
@@ -283,20 +542,36 @@ namespace BetterTooltips.Patches
         /// 808080, CFCFCF, FF9C00 e 00000000 — paleta quente/neutra. A cor tem de vir, como as
         /// outras, de um CAMPO de cor do PROPRIO tooltip lido em runtime.
         ///
-        /// ORDEM DE PREFERENCIA (duas cores do jogo, nenhuma escolhida a mao):
+        /// ORDEM DE PREFERENCIA (cores do jogo, nenhuma escolhida a mao):
         ///   1) `Tooltip.skillStatusColor` — a cor que o PROPRIO jogo usa nos tooltips para os blocos de
         ///      STATUS anexados (nome + descricao do status): decompiado `Tooltip.ShowTooltip`,
         ///      l.213588 e l.213618 (`"&lt;i&gt;&lt;color=#" + skillStatusColor + "&gt;" + status.Name + "&lt;/color&gt;&lt;/i&gt;"`).
         ///      E o analogo exato desta linha: texto sobre o ESTADO do personagem, nao sobre a mecanica
         ///      da skill.
+        ///      COR-2 (01/10) — LEITURA DATADA: este campo vale **#CBB396** no asset (e o MESMO bege
+        ///      dos campos `special*` do nivel 2), entao ele NUNCA passa no `EhAzul` e esta linha
+        ///      sempre cai no elo seguinte — foi o que a sessao de 01/10 mostrou no log ("azul da
+        ///      paleta lido em GUIManager.coldColor = #00D7FF", sem NENHUMA linha de
+        ///      skillStatusColor). O elo 1 e, por tanto, um elo MORTO hoje; a fonte DECLARADA da cor
+        ///      do nivel 3 na especificacao do dono (`docs/TEXTO-TOOLTIPS.md` §1/§2) NAO se sustenta
+        ///      — o azul em uso e o do elo 2. Fato medido, nao decisao: quem escolhe a cor do nivel 3
+        ///      e o dono (ver §7 e o relato do COR-2). O elo fica onde esta para nao mudar a escolha
+        ///      dele em silencio.
         ///   2) `GUIManager.coldColor` — o azul do tipo de dano Cold, usado nos tooltips pelo par
         ///      `Tooltip.GetDamageTypeColor` -> `GlobalSettingsManager.GetDamageTypeColor`
-        ///      (decompiado l.214898, `GetItemInfoDetails` do tooltip de arma).
-        ///   3) Se nenhum dos dois for um azul legivel (ou o tooltip ainda nao existir), devolve o
+        ///      (decompiado l.214898, `GetItemInfoDetails` do tooltip de arma). Valor medido em
+        ///      01/10: `#00D7FF` (o MESMO que o log de runtime imprime) — e o azul que o tooltip
+        ///      usa de fato.
+        ///   3) `GUIManager.manaColor` — o azul da Mana (COR-1, 01/10): terceiro elo da MESMA paleta da
+        ///      HUD (`scratch/sac1/GUIManager.cs:250`), azul por papel, para a reserva do nivel 3 nao
+        ///      depender de dois campos so.
+        ///   4) Se nenhum deles for um azul legivel (ou o tooltip ainda nao existir), devolve o
         ///      marcador "#C8B090" — a linha sai na MESMA cor das notas, em vez de sair sem cor, e o
-        ///      log avisa. Nenhum hex inventado entra no codigo.
+        ///      log AVISA O COLAPSO (niveis 2 e 3 na mesma cor). Nenhum hex inventado entra no codigo;
+        ///      o achado e a correcao estao em docs/TEXTO-TOOLTIPS.md §5.
         ///
-        /// So esta linha passa por aqui: `ComACorDoJogo` (as notas) continua intocado.
+        /// So esta linha (e o bloco `Your skills on this status`, o caso do Frost Bite) passa por aqui:
+        /// `ComACorDoJogo` (as notas do nivel 2) continua intocado.
         /// </summary>
         internal static string CorDaLinhaDeAuras()
         {
@@ -305,9 +580,10 @@ namespace BetterTooltips.Patches
                 _corAuraDoJogo = LerCorAzulDoJogo();
                 if (_corAuraDoJogo == null)
                 {
-                    _corAuraDoJogo = "C8B090";
+                    _corAuraDoJogo = MarcadorCorDeExplicacao;
                     Plugin.Log.LogWarning("BetterTooltips: nenhuma cor azul da paleta do jogo disponivel "
-                        + "(skillStatusColor/coldColor) — a linha de auras ativas sai na cor das notas (#C8B090).");
+                        + "(skillStatusColor/coldColor/manaColor) — a linha de auras ativas sai na cor das notas "
+                        + "(#" + MarcadorCorDeExplicacao + "): os NIVEIS 2 e 3 COLAPSARAM nesta sessao.");
                 }
                 else
                 {
@@ -349,6 +625,21 @@ namespace BetterTooltips.Patches
             {
                 Plugin.Log.LogWarning("BetterTooltips: nao consegui ler coldColor (" + ex.Message + ").");
             }
+            try
+            {
+                // COR-1 (01/10): TERCEIRO elo azul da MESMA paleta da HUD. Sem ele, a reserva do nivel 3
+                // dependia de DOIS campos e caia no marcador do nivel 2 (niveis colapsados).
+                if (GUIManager.instance != null && EhAzul(GUIManager.instance.manaColor))
+                {
+                    string cor = UnityEngine.ColorUtility.ToHtmlStringRGB(GUIManager.instance.manaColor);
+                    Plugin.Log.LogInfo("BetterTooltips: azul da paleta lido em GUIManager.manaColor (cor de Mana) = #" + cor);
+                    return cor;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning("BetterTooltips: nao consegui ler manaColor (" + ex.Message + ").");
+            }
             return null;
         }
 
@@ -361,35 +652,29 @@ namespace BetterTooltips.Patches
             return c.b >= c.r && c.b >= c.g && c.b > 0.35f && excesso > 0.05f;
         }
 
-        /// <summary>
-        /// Aplica a cor do bloco de explicacao DEPOIS das tabelas.
-        ///
-        /// PRECISA ficar DENTRO desta classe: aqui o alvo e `OptionsManager.Localize` (do
-        /// `[HarmonyPatch]` acima). Eu havia posto este postfix numa classe separada que mira
-        /// `Tooltip.ShowTooltip` - cujo retorno e `void` - e o Harmony reportou
-        /// "HarmonyException: IL Compile Error" no log sem executar nada. Sintoma no tooltip:
-        /// nota ainda no azul de fallback.
-        ///
-        /// ORDEM: em POSTFIX a prioridade e CRESCENTE (Low roda PRIMEIRO), entao `Priority.High`
-        /// roda por ULTIMO - que e o que precisamos para ver o texto ja com as tabelas.
-        /// </summary>
-        [HarmonyPostfix, HarmonyPriority(Priority.High)]
-        private static void CorDoJogoPostfix(ref string __result)
-        {
-            // O helper `ComACorDoJogo` ja tem guarda interna propria; o try/catch aqui PADRONIZA o
-            // tratamento neste gancho (roda em todo texto localizado do jogo) e garante que uma falha
-            // futura nao escape para dentro do `OptionsManager.Localize` — o texto do jogo sai INTACTO.
-            string textoDoJogo = __result;
-            try
-            {
-                __result = ComACorDoJogo(__result);
-            }
-            catch (Exception e)
-            {
-                __result = textoDoJogo;
-                RegistrarFalhaIgnorada("postfix de cor (Priority.High) do OptionsManager.Localize", e);
-            }
-        }
+        // ---------------------------------------------------------------------------------------
+        // COR-2 (01/10) — AQUI MORAVA O `CorDoJogoPostfix` ([HarmonyPostfix, Priority.High]).
+        //
+        // Ele estava ERRADO por construcao: `Priority.High` (600) e o gancho das notas e `Normal`
+        // (400), e na 0Harmony que o jogo carrega a prioridade ordena DESCENDENTE — `PatchSorter`
+        // -> `PatchInfoSerialization.PriorityComparer` devolve `-priority.CompareTo(value)`
+        // (bancada: `scratch/cor2/PatchInfoSerialization.cs:48-58`), e o `HarmonyManipulator`
+        // emite as chamadas na ordem da lista ja ordenada (`scratch/cor2/HarmonyManipulator.cs:646`).
+        // Ou seja: o gancho da cor rodava PRIMEIRO, sobre um texto que ainda NAO tinha marcador
+        // nenhum (as notas sao acrescentadas pelo `Postfix` Normal), e o `#C8B090` das tabelas
+        // chegava ao tooltip sem troca.
+        //
+        // A PROVA EMPIRICA: a linha que `ComACorDoJogo` imprime ao ler o campo
+        // ("cor do jogo para explicacoes = #...") nao existe em NENHUM log, nem na sessao de
+        // 01/10 feita COM a DLL do perfil — enquanto as linhas do gancho das notas e do
+        // `ShowTooltip` (com o `#C8B090` literal no texto final) estao la. O unico jeito de o
+        // gancho da cor nao ler o campo e ele nunca ter visto o marcador.
+        //
+        // O CONSERTO nao foi reordenar (isso manteria a dependencia de uma regra de prioridade
+        // que ja foi lida errada uma vez): a cor passou a ser aplicada no FIM do gancho DAS NOTAS
+        // (`Postfix` -> `AplicarNotasDoFunil` -> `ComACorDoJogo`). Sem gancho de cor separado nao
+        // existe ordem para errar. Ver docs/TEXTO-TOOLTIPS.md §7.
+        // ---------------------------------------------------------------------------------------
 
         private static readonly Dictionary<string, string> TextAppends = new Dictionary<string, string>
         {
@@ -1886,6 +2171,13 @@ namespace BetterTooltips.Patches
         /// NRE) NAO pode escapar para dentro do metodo do jogo — ela e registrada uma vez por motivo
         /// distinto e o texto que o jogo produziu e devolvido INTACTO.
         /// Com tudo funcionando o caminho e exatamente o de antes: o corpo nao mudou.
+        ///
+        /// COR-2 (01/10) — A COR DO NIVEL 2 E APLICADA NO FIM DESTE GANCHO (ultima linha do
+        /// try), DEPOIS das notas. Ordem de gancho NAO decide mais nada aqui: a cor e resolvida
+        /// sobre o texto que este mesmo metodo acabou de montar. O motivo esta escrito onde o
+        /// gancho de cor separado vivia (acima da tabela `TextAppends`) — resumo: na 0Harmony do
+        /// jogo a prioridade ordena DESCENDENTE, entao um postfix `Priority.High` rodava ANTES
+        /// deste e nunca via o marcador. Ver docs/TEXTO-TOOLTIPS.md §7.
         /// </summary>
         private static void Postfix(string original, ref string __result)
         {
@@ -1893,6 +2185,9 @@ namespace BetterTooltips.Patches
             try
             {
                 AplicarNotasDoFunil(original, ref __result);
+                // Unico ponto de aplicacao da cor do nivel 2 (nenhum gancho separado). Idempotente:
+                // sem marcador no texto, `ComACorDoJogo` devolve o texto como veio.
+                __result = ComACorDoJogo(__result);
             }
             catch (Exception e)
             {
@@ -1976,7 +2271,7 @@ namespace BetterTooltips.Patches
                     string effects = BuildAttributeEffects(m.Groups[1].Value);
                     if (effects != null)
                     {
-                        __result = AnexarNota(__result, effects);
+                        __result = AnexarNota(__result, NotaDeExplicacao(effects));
                         if (_appliedAppends.Add(original))
                         {
                             Plugin.Log.LogInfo($"BetterTooltips: efeitos por ponto adicionados a '{original}'");
@@ -1991,7 +2286,7 @@ namespace BetterTooltips.Patches
                         string note = BuildDamageReductionNote();
                         if (note != null)
                         {
-                            __result = AnexarNota(__result, note);
+                            __result = AnexarNota(__result, NotaDeExplicacao(note));
                             if (_appliedAppends.Add(original))
                             {
                                 Plugin.Log.LogInfo($"BetterTooltips: ordem de redução adicionada a '{original}'");
@@ -2008,7 +2303,7 @@ namespace BetterTooltips.Patches
                             string effects = BuildAttributeEffects(rule.Attribute);
                             if (effects != null)
                             {
-                                __result = AnexarNota(__result, effects);
+                                __result = AnexarNota(__result, NotaDeExplicacao(effects));
                                 appended = true;
                             }
                             break;
@@ -2025,7 +2320,7 @@ namespace BetterTooltips.Patches
                                 string effects = BuildAttributeEffects(rule.Attribute);
                                 if (effects != null)
                                 {
-                                    __result = AnexarNota(__result, effects);
+                                    __result = AnexarNota(__result, NotaDeExplicacao(effects));
                                     appended = true;
                                 }
                                 break;
@@ -2040,7 +2335,7 @@ namespace BetterTooltips.Patches
                         {
                             if (original.StartsWith(prefix, StringComparison.Ordinal))
                             {
-                                __result = AnexarNota(__result, ResistanceExplainSuffix);
+                                __result = AnexarNota(__result, NotaDeExplicacao(ResistanceExplainSuffix));
                                 appended = true;
                                 break;
                             }
@@ -2059,7 +2354,7 @@ namespace BetterTooltips.Patches
                             if (rule.Match.IsMatch(original) &&
                                 !original.Contains(rule.ExcludeIfContains))
                             {
-                                __result = AnexarNota(__result, rule.Append);
+                                __result = AnexarNota(__result, NotaDeExplicacao(rule.Append));
                                 appended = true;
                                 break;
                             }
@@ -2097,7 +2392,9 @@ namespace BetterTooltips.Patches
                                     note = "\nAlso increases Magic Armor by the same amount." + note;
                                 }
 
-                                __result = AnexarNota(__result, note);
+                                // NIVEL 2: a nota inteira (inclusive o acrescimo de Magic Armor) entra
+                                // no MESMO bloco de cor — a cor do nivel 2 e uma so por explicacao.
+                                __result = AnexarNota(__result, NotaDeExplicacao(note));
                                 appended = true;
                             }
                         }
@@ -2105,7 +2402,7 @@ namespace BetterTooltips.Patches
                             !original.Contains("Summon resistance") &&
                             !original.Contains("resistances reduce"))
                         {
-                            __result = AnexarNota(__result, ResistanceExplainSuffix);
+                            __result = AnexarNota(__result, NotaDeExplicacao(ResistanceExplainSuffix));
                             appended = true;
                         }
                     }
@@ -2142,8 +2439,10 @@ namespace BetterTooltips.Patches
             // o número único "para você" que a RV-26 mostrava SAIU (RV-33): quem leva o dano é o
             // atacante, e o atacante é desconhecido no hover. O que dá para calcular é o dano de CADA
             // personagem que tem o status da aura vivo (party e inimigos) — a lista entra DENTRO do bloco
-            // da nota (nunca um segundo bloco da mesma cor: o `CorEOrdemDoTooltip` move só o primeiro e a
-            // ordem inverteria), e a linha azul do RV-31 continua por último.
+            // da nota: ela e um pedaco da MESMA nota (o bloco e a unidade do valor), e um segundo bloco
+            // seria um bloco a mais sem ser uma nota a mais. RV-17 (01/10): o `CorEOrdemDoTooltip` hoje
+            // move TODAS as notas, na ordem — o motivo de manter UM bloco e a coesao do texto, nao mais
+            // a extracao (que antes so pegava o primeiro). A linha azul do RV-31 continua por último.
             if (original == ShrineAuraPatch.ChaveFlame)
             {
                 string alvos = ShrineAuraPatch.FraseAlvosDoFlame(original);
@@ -2151,9 +2450,10 @@ namespace BetterTooltips.Patches
                 {
                     // TX-1 (01/10) — VALOR PRIMEIRO: a lista por alvo entra no COMECO do bloco da nota (o
                     // leitor ve os numeros logo depois da linha branca do jogo), nao no fim. E o MESMO
-                    // bloco de cor (nunca um segundo bloco igual: o `CorEOrdemDoTooltip` move so o
-                    // primeiro e a ordem inverteria). Sem bloco colorido, a frase vira bloco proprio.
-                    const string abreNota = "<color=#C8B090>";
+                    // bloco de cor: a lista e um pedaco da mesma nota, nao uma segunda nota (RV-17: a
+                    // extracao hoje move TODAS as notas, na ordem — o que se preserva aqui e a coesao
+                    // do texto). Sem bloco colorido, a frase vira bloco proprio.
+                    const string abreNota = "<color=#" + MarcadorCorDeExplicacao + ">";
                     int abre = __result.IndexOf(abreNota, StringComparison.Ordinal);
                     __result = abre >= 0
                         ? __result.Insert(abre + abreNota.Length, alvos + " ")
@@ -2185,12 +2485,13 @@ namespace BetterTooltips.Patches
                 if (!string.IsNullOrEmpty(sustenance))
                 {
                     // A chave do Power Globule já carrega bloco colorido (nota do RV-9 em `TextFixes`):
-                    // a frase entra DENTRO do mesmo bloco — dois blocos da MESMA cor fariam o
-                    // `CorEOrdemDoTooltip` mover só o primeiro e a ordem no tooltip inverter.
+                    // a frase entra DENTRO do mesmo bloco — ela completa a mesma nota (RV-17: o
+                    // `CorEOrdemDoTooltip` hoje move todas as notas, na ordem; o que se preserva aqui e
+                    // que a frase e um pedaco de UMA nota, nao uma nota nova).
                     int fim = __result.LastIndexOf("</color>", StringComparison.Ordinal);
                     __result = fim >= 0
                         ? __result.Substring(0, fim) + " " + sustenance + __result.Substring(fim)
-                        : AnexarNota(__result, "\n<color=#C8B090>" + sustenance + "</color>");
+                        : AnexarNota(__result, "\n<color=#" + MarcadorCorDeExplicacao + ">" + sustenance + "</color>");
                 }
             }
 
