@@ -2,7 +2,7 @@
   "name": "RoguelikeDebugger",
   "version_number": "0.1.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Ferramenta de DESENVOLVIMENTO, nao e mod de jogador: faz dump dos dados internos do jogo (skills, status, itens, loot, ouro, exp) no LogOutput.log.",
+  "description": "Development tool, not a player mod: dumps the game's internal data (skills, status, items, loot, gold, experience) into LogOutput.log for investigation. No gameplay change.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305"
   ],

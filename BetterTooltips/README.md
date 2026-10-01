@@ -1,75 +1,96 @@
 # BetterTooltips
 
-Mod **BepInEx 5** para **Stolen Realm** que reescreve os tooltips de skills e status do jogo para eles **não mentirem por omissão**, e corrige defeitos objetivos de texto. **Não altera gameplay.**
+Rewrites the game's skill and status tooltips so they stop **leaving out what matters**,
+and fixes small text defects. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettertooltips`
-- **Versão:** 0.1.1
-- **Compatível com:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026).
-- **Dependências:** nenhuma além do BepInEx 5 (que o r2modman já instala no perfil).
+- **Version:** 0.1.1
+- **Works with:** Stolen Realm v1.3.1.
+- **Needs:** BepInEx 5 (r2modman installs it for you).
 
-## O que ele faz
+## What it does
 
-O jogo explica as skills no texto do tooltip, mas às vezes **deixa de fora a metade que decide o jogo**: de qual atributo vem o número, o limite de stacks, a duração, quem é afetado, o gatilho, o número de golpes. O texto não está errado — está incompleto, e o jogador decide com informação faltando.
+The game's tooltips sometimes leave out the half that decides the fight: which attribute
+feeds the number, the stack limit, the duration, who is affected, the trigger, the number
+of hits. The text is not wrong — it is **incomplete**.
 
-O mod complementa esse texto:
+The mod completes it:
 
-- Todo texto do jogo passa pelo funil de localização (`OptionsManager.Localize`). O mod intercepta esse funil e compara a string com uma tabela de correções e de notas de mecânica.
-- A explicação que falta é **acrescentada ao fim do tooltip**, depois dos custos e do alcance, na **cor de texto especial do próprio jogo** — assim ela se distingue do texto oficial.
-- Defeitos objetivos (grafia, pontuação, espaço duplo) são corrigidos direto.
+- Every game text passes through one place before it is shown; the mod compares that text
+  with a table of fixes and mechanic notes.
+- The missing explanation is **added at the end of the tooltip**, in the game's own
+  special text colour, so it stands apart from the official text.
+- Plain mistakes (spelling, punctuation, double spaces) are fixed directly.
 
-Cada correção é baseada no código do jogo (decompilado do `Assembly-CSharp.dll`), não em opinião.
+Every note is based on the **game's own code**, not on opinion — and where the game cannot
+be observed at that moment, the note says what is assumed.
 
-## Números das auras de shrine
+## Shrine auras
 
-Os tooltips de **shrine** do jogo mostravam sempre o valor **base** — mesmo para quem tinha o bônus que multiplica a aura. O mod faz a conta com o **bônus real do personagem em foco**:
+The game's shrine tooltips always showed the **base** value, even for a character with
+the bonus that multiplies the aura. The mod does the maths with the **real bonus of the
+character in focus** — the *Shrine Effect Bonus* (**Omnism I/II**, the **Worship** perk
+and the **Horn of Devotion**). A base `20%` becomes the number you actually receive.
 
-- **Auras de buff**: o valor sai já multiplicado pelo *Shrine Effect Bonus* — **Omnism I/II** (Chaos), o perk **`Worship`** (`100% increased effect from Shrines`) e o **Horn of Devotion**. Um `20%` base vira o número que você realmente recebe. A nota de cada uma das **9 chaves** (Warrior, Guardian, Conqueror, Rogue, Reaper, Seraph, Shaman, Energy e **Fury**) diz a **base** e que o valor mostrado **já inclui** esse bônus — a do `Fury` é `Base 25% damage and +25% damage taken.` com a mesma cadeia das outras.
-- **Energy Coil — o rótulo segue o SINAL do total**: `Mana Costs reduced by 50%` quando o total do atributo é **negativo** (a aura empurra o custo para baixo) e `Mana Costs increased by 20%` quando fontes **positivas** do mesmo atributo — `Forbidden Power` (`+50`), `Fuel for the Flames I/II` (`+20`/`+30`) — superam a aura. Antes a linha assumia total negativo e imprimia `reduced by -20%`.
-- **Linha `Your active shrine auras:`**: um bloco que lista **todas as auras de shrine que o personagem está recebendo naquele momento** (por atributo), com **dois números por item**: na frente, **o que AS AURAS entregam** (`Dodge +40%`); entre parênteses, o **seu total** naquele atributo (`(total +57%)`), que é o mesmo número da ficha. Ex.: `Your active shrine auras: Damage +25% (total +50%); Damage taken +25% (total +5%)`. A contribuição da aura é a **soma das auras vivas** naquele atributo — `Warrior` + `Fury` somam em `Damage` — e sai do efeito real de cada aura (base × o *Shrine Effect Bonus*), nunca do total do personagem. Quem está **fora** da aura não vê a linha.
-- **Decay Shrine**: a linha do jogo ganha o **dano por turno literal** (ex.: `20 damage per turn for you`), sobre a **sua** vida máxima e o **seu** bônus. Com `Worship`, dobra.
-- **Flame Shrine**: o dano é **por alvo** — um item para cada personagem na área da aura (party e inimigos), porque no hover ainda não se sabe **quem vai atacar**. Cada alvo usa a vida máxima, o tipo e o bônus **dele**: o número é a **projeção do ocupante como atacante** (*if this character attacked*), e a nota diz isso.
-- **Sustenance I/II**: o tooltip de cada **globule** (e dos pickups de poção) mostra a cura real — 8%, 20% ou a soma das tiers ativas — sobre a sua vida e a sua mana máximas.
+It also adds a line listing **every shrine aura the character is receiving right now**,
+with two numbers per aura: what the auras give you, and your total in that attribute
+(the same number shown on the character sheet).
 
-> **O número é cru, antes de qualquer redução de dano** — as notas de Decay e Flame dizem isso: não entra armadura, resistência nem mitigação posterior. Quando não há prova (personagem fora da aura, atributo ausente no build, expressão não avaliável), o texto original fica **intacto** e o log diz o motivo: o mod **não estima**.
+> **The number is raw**, before any damage reduction: armour, resistance and later
+> mitigation are not counted. When there is no proof (character outside the aura, an
+> attribute missing from the build), the original text is left **untouched** and the log
+> says why — the mod does not guess.
 
-**Conferência:** os números foram escritos contra o código e os assets do jogo, e o **fator do `Worship` (o dano dobra)** foi **medido em jogo** pelo autor. A **conferência visual final das linhas novas em jogo ainda não foi feita** depois da última revisão — se algo não corresponder ao que aparece na tela, é aqui que se reporta.
+## Verification
 
-## O que ele NÃO faz
+The numbers were written against the game's code and data, and the Worship doubling was
+**measured in game**. The final visual check of the new lines on screen had **not** been
+done at the last revision — if a line does not match what you see, that is where to
+report it.
 
-- **Não altera gameplay** — nenhum valor, dano, custo ou regra muda; o mod só reescreve texto.
-- **Não modifica nenhum arquivo do jogo** (nem save) e não deixa resíduo.
-- **Não revela o sorteio do Chaos** — é intencional: a graça da árvore é não saber o resultado.
-- **Não mostra número quando não há prova** — prefere deixar o texto original a inventar um valor.
-- **Não aplica mitigação** ao número que exibe: ele é o cru da fórmula do jogo.
+## What it does not do
 
-## Instalar
+- **No gameplay change** — no value, damage, cost or rule changes; it only rewrites text.
+- **No game file is modified** (nor the save) and nothing is left behind.
+- **Does not reveal the Chaos draw** — that is on purpose: the tree's fun is not knowing.
+- **Does not show a number without proof** — it keeps the original text instead.
+- **Does not apply mitigation** — the number is the raw formula result.
 
-**Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a DLL em `BepInEx\plugins\BetterTooltips\`.
+## Install
 
-**Manual:**
+**r2modman (recommended):** install this package in the Stolen Realm profile — the DLL
+goes to `BepInEx\plugins\BetterTooltips\`.
 
-1. Instale o **BepInEx 5 x64** no jogo (ou dê "Start modded" uma vez no r2modman, que cria a pasta).
-2. Copie a pasta `BetterTooltips` para:
-   ```text
-   %APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\
-   ```
-   Deve ficar: `...\plugins\BetterTooltips\BetterTooltips.dll`
-3. Abra o jogo. No `LogOutput.log` deve aparecer:
-   ```text
-   [Info   :Better Tooltips] Better Tooltips carregado.
-   ```
+**Manual:** install BepInEx 5 x64 (or press "Start modded" once in r2modman to create
+the folders), then copy the `BetterTooltips` folder to:
 
-## Como desfazer
+```text
+%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\
+```
 
-Apague a pasta `BepInEx\plugins\BetterTooltips\` (ou desabilite o pacote no r2modman) e abra o jogo de novo. O mod não modifica nenhum arquivo do jogo e não deixa resíduo.
+The file must end up as `...\plugins\BetterTooltips\BetterTooltips.dll`.
 
-## Compilar do fonte
+## Uninstall
+
+Delete the folder `BepInEx\plugins\BetterTooltips\` (or untick the package in r2modman)
+and open the game again. No game file was ever changed.
+
+## Build from source
 
 ```powershell
 cd BetterTooltips
 dotnet build
 ```
 
-Saída: `bin\Debug\netstandard2.1\BetterTooltips.dll`
+Output: `bin\Debug\netstandard2.1\BetterTooltips.dll`. The reference DLLs come from the
+game and are **never distributed**.
 
-As DLLs de referência (BepInEx, Unity, `Assembly-CSharp`) vêm de `..\lib\` e **nunca são distribuídas**: a `Assembly-CSharp.dll` é propriedade do jogo.
+---
+
+## Português (BR)
+
+Reescreve os tooltips de skills e status para pararem de **omitir o que decide**: qual
+atributo alimenta o número, limite de stacks, duração, quem é afetado, o gatilho, o número
+de golpes. Acrescenta a explicação que falta no fim do tooltip, na cor especial do jogo,
+e corrige erros simples de texto. As auras de shrine passam a mostrar o número com o
+**seu** bônus real. **Não altera gameplay.**
