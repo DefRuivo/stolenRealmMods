@@ -1,0 +1,13 @@
+aura,acao,tipo,percentual,fonte,minimo1
+Decay Shrine Aura,Decay Aura Proc,boss,5,resources.assets@1519519468,nao
+Decay Shrine Aura,Decay Aura Proc,champion,10,resources.assets@1519519468,nao
+Decay Shrine Aura,Decay Aura Proc,elite,12,resources.assets@1519519468,nao
+Decay Shrine Aura,Decay Aura Proc,soldier,15,resources.assets@1519519468,nao
+Decay Shrine Aura,Decay Aura Proc,fodder,20,resources.assets@1519519468,nao
+Decay Shrine Aura,Decay Aura Proc,player,10,resources.assets@1519519468,nao
+Flame Shrine Aura,Flame Aura Proc,boss,2.5,resources.assets@1519546308,sim
+Flame Shrine Aura,Flame Aura Proc,champion,8,resources.assets@1519546308,sim
+Flame Shrine Aura,Flame Aura Proc,elite,10,resources.assets@1519546308,sim
+Flame Shrine Aura,Flame Aura Proc,soldier,12,resources.assets@1519546308,sim
+Flame Shrine Aura,Flame Aura Proc,fodder,14,resources.assets@1519546308,sim
+Flame Shrine Aura,Flame Aura Proc,player,5,resources.assets@1519546308,sim
