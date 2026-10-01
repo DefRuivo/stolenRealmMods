@@ -5,6 +5,7 @@
   "comunidade": "stolen-realm",
   "team": "DefRuivo_StolenRealmMods",
   "team_pendente": "PUB-3 RESOLVIDO em 30/09/2026: o team que publica e DefRuivo_StolenRealmMods (namespace da URL do pacote, definitivo - nao se renomeia depois). O namespace vem do TOKEN usado no envio, nao do zip; confira que o token e de service account DESTE team antes de enviar.",
+  "registro": "As datas de \"publicado_em\" saem do endpoint POR PACOTE da Thunderstore (o unico fresco; a listagem da comunidade e cache de CDN e nao serve para conferir), nunca da memoria. AS SEIS ENTRADAS DESTA LEVA FORAM GRAVADAS A MAO em 01/10/2026: o job `registra` do run 36801937843 confirmou as seis na API (passo 4 = success) e falhou no passo 5 (`Commit e push do registro`). O log desse job NAO esta acessivel - a API do GitHub responde 403 'Must have admin rights to Repository' sem credencial de admin e a UI diz 'Sign in to view logs' -, entao a causa e a que a linha do tempo sustenta: o checkout do run e o commit cb0d12c (01:29Z) e a main recebeu 46fde11 (01:50Z) e c26128d (01:51Z) enquanto o run esperava a aprovacao humana; o passo 5 tentou gravar as 02:04Z e `git push origin HEAD:main` foi recusado por NAO ser fast-forward, porque o passo nunca rebasava. Conserto, no mesmo commit que gravou estas entradas: o job passou a buscar a main fresca, rebasar o commit do registro sobre ela e repetir o push com espera crescente (o trecho antes/depois esta em .github/workflows/publish.yml, no passo 'Commit e push do registro'). Os motivos anteriores desta leva - sha256 dos zips, contagem de assets da Release pack-2026-09-30 - ficam no historico do git; este arquivo guarda o estado de hoje.",
   "esquema_de_um_mod": {
     "nome": "nome da pasta do mod na raiz - tem que bater com tools/pack-thunderstore.py --listar-nomes",
     "publicar": "true = este mod pode ser publicado pelo pipeline; false = nunca",
@@ -16,44 +17,44 @@
     {
       "nome": "BetterCombatText",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
-      "motivo": "LIBERADO pelo dono em 30/09/2026 (hora de Brasilia): o motivo anterior dizia que ele entrava quando o dono liberasse - liberou. Pacote reempacotado nesta leva (o CHANGELOG.md dentro do zip era anterior ao do repositorio; a DLL ja estava em dia com o fonte) e anexado na Release pack-2026-09-30-2. PROVA DO ARTEFATO, lida do zip em 30/09/2026: a DLL em plugins/BetterCombatText/BetterCombatText.dll tem sha256 32aba269ca24a178, identica byte a byte a build Release de hoje; a string 0.1.0 aparece nos recursos de versao dela (0.1.0.0 / 0.1.0); e o manifest lido DE DENTRO do zip diz name=BetterCombatText, version_number=0.1.0. Nunca publicado: versao_publicada segue null e a API publica da comunidade nao lista o pacote (conferido nesta rodada). ORDEM DO PIPELINE, NAO INVERTER: este 0.1.0 declara BepInEx-BepInExPack-5.4.2305 + DefRuivo_StolenRealmMods-BetterFont-1.0.1 e o upload da Thunderstore RESOLVE a referencia (PackageReferenceValidator(resolve=True)), recusando a que nao existe com 'No matching package found for reference' - por isso o passo 5.1 publica o BetterFont 1.0.1 ANTES do passo 5.6 deste mod. A mao dupla foi descartada por fato (commit ac0210f): os dois lados apontavam para versoes ineditas e nao havia ordem de envio valida."
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-10-01T02:00:04.251384Z",
+      "motivo": "PUBLICADO na leva de 01/10/2026 (run 36801937843, input 'todos', aprovacao humana no Environment thunderstore): 0.1.0 no ar desde 2026-10-01T02:00:04Z, lido do endpoint por pacote. Era a UNICA entrada com versao_publicada null e o primeiro mod cujo envio exigiu passo proprio no pipeline (o 5.6). ORDEM DO PIPELINE, NAO INVERTER: o manifest deste 0.1.0 declara BepInEx-BepInExPack-5.4.2305 + DefRuivo_StolenRealmMods-BetterFont-1.0.1, e o upload da Thunderstore RESOLVE a referencia (PackageReferenceValidator(resolve=True)), recusando a que nao existe com 'No matching package found for reference' - por isso o passo 5.1 publica o BetterFont 1.0.1 ANTES do passo 5.6 deste mod."
     },
     {
       "nome": "BetterFont",
       "publicar": true,
-      "versao_publicada": "1.0.0",
-      "publicado_em": "2026-09-30T21:51:27.376259Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 1.0.0 que esta no ar e a build ANTERIOR ao conserto do estilo de fonte e ao endurecimento do aplicador de ganchos; o fonte ja esta na 1.0.1 (nunca publicada) e o pacote 1.0.1, com o aplicador corrigido, esta em dist/ e na Release pack-2026-09-30. DEPENDENCIA - UMA DIRECAO SO (30/09/2026, commit ac0210f): este 1.0.1 declara SOMENTE BepInEx-BepInExPack-5.4.2305 (manifest.json deste mod, conferido no zip de dist/); quem declara a outra ponta e o BetterCombatText 0.1.0 (-> BetterFont 1.0.1). A mao dupla foi DESCARTADA por fato, nao por preferencia: o upload da Thunderstore RESOLVE cada referencia (PackageReferenceValidator(resolve=True)) e RECUSA a inexistente com 'No matching package found for reference', e os dois lados apontavam para versoes INEDITAS - nao havia ordem de envio valida. O zip antigo deste 1.0.1 (asset 602033482, 104068 bytes) ainda trazia a mao dupla no manifest: ele foi SUBSTITUIDO na Release pack-2026-09-30 pelo zip de dist/ (asset 602037896, 104038 bytes) que declara so o BepInExPack - provado baixando o asset publicado de volta e comparando o sha256 com o local. OPCAO do dono (nao e plano, nao existe hoje): se quiser o ciclo de verdade, um BetterFont 1.0.2 DEPOIS, declarando o BetterCombatText 0.1.0 ja publicado."
+      "versao_publicada": "1.0.1",
+      "publicado_em": "2026-10-01T01:59:31.637789Z",
+      "motivo": "PUBLICADO: 1.0.1 no ar desde 2026-10-01T01:59:31Z (run 36801937843), substituindo a 1.0.0 na vitrine (a plataforma mostra a maior versao, nao a mais recente). A 1.0.0 subiu SEM categoria (foi o primeiro envio, antes do commit 420a7a4); esta 1.0.1 saiu COM categoria 'Mods', conferida na API experimental, e com o aplicador de ganchos corrigido (BF-1). DEPENDENCIA EM UMA DIRECAO SO, registrada aqui: quem declara a outra ponta e o BetterCombatText 0.1.0 (-> BetterFont 1.0.1); este mod declara SOMENTE BepInEx-BepInExPack-5.4.2305. A mao dupla foi descartada por FATO (commit ac0210f), nao por preferencia: o upload resolve cada referencia e recusa a inexistente, e naquela rodada os dois lados apontavam para versoes ineditas - nao havia ordem de envio valida."
     },
     {
       "nome": "BetterStats",
       "publicar": true,
-      "versao_publicada": "1.0.0",
-      "publicado_em": "2026-09-30T22:22:53.130988Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 1.0.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel, o fonte subiu para 1.0.1 (bump de PATCH) e o pacote 1.0.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
+      "versao_publicada": "1.0.1",
+      "publicado_em": "2026-10-01T01:59:37.514600Z",
+      "motivo": "PUBLICADO: 1.0.1 no ar desde 2026-10-01T01:59:37Z (run 36801937843), substituindo a 1.0.0. A 1.0.0 era a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel na Thunderstore, o conserto so podia sair como bump de PATCH - e saiu."
     },
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-09-30T22:23:00.141599Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. OBS (30/09): o fonte de hoje esta em 0.1.1 (dist/gumatos-BetterTooltips-0.1.1.zip), mas esse zip NAO esta na Release pack-2026-09-30 (so a 0.1.0 esta) e nao foi reempacotado nesta rodada - o filtro de ganchos deste mod ja era o modelo correto."
+      "versao_publicada": "0.1.1",
+      "publicado_em": "2026-10-01T01:59:44.035205Z",
+      "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:44Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva ao ar o enxugamento das 12 notas de shrine (95ca3f3) e os consertos de formatacao da linha azul mais os 3 campos de log que faltavam na conferencia (46acd97) - tudo ja estava no fonte desde 30/09."
     },
     {
       "nome": "RoguelikeDebugger",
       "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-09-30T22:23:08.183028Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 0.1.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho, ao conserto A-1 e ao dump de efeitos por tipo concreto; o fonte subiu para 0.1.1 (bump de PATCH), com ICONE NOVO de 256x256 no pacote, e o 0.1.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
+      "versao_publicada": "0.1.1",
+      "publicado_em": "2026-10-01T01:59:51.397143Z",
+      "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:51Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva o aplicador gancho a gancho, o conserto A-1 e o dump de efeitos por tipo concreto, com o icone novo de 256x256. Categoria 'Tools': e ferramenta de desenvolvimento, nao mod de jogador."
     },
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-09-30T22:23:23.226305Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. OBS (30/09): o fonte de hoje esta em 0.2.0 (dist/gumatos-RoguelikeSkillTreeVisualizer-0.2.0.zip), mas esse zip NAO esta na Release pack-2026-09-30 (so a 0.1.0 esta) e nao foi reempacotado nesta rodada - os 10 ganchos deste mod tem atributo (funciona), com o risco ja registrado de um gancho futuro por convencao ser ignorado pelo filtro dele."
+      "versao_publicada": "0.2.0",
+      "publicado_em": "2026-10-01T01:59:57.384587Z",
+      "motivo": "PUBLICADO: 0.2.0 no ar desde 2026-10-01T01:59:57Z (run 36801937843), substituindo a 0.1.0. O 0.2.0 leva o botao 'Skills' na tela Select Party e no HUD da run. AVISO REGISTRADO (tools/check_patches.py): os 10 ganchos deste mod tem atributo, mas o filtro EhClasseDeGancho dele exige atributo no metodo e nao cita os nomes Prefix/Postfix - um gancho futuro escrito por convencao de nome seria ignorado em silencio."
     }
   ]
 }
