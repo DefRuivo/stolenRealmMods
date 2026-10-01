@@ -1,0 +1,99 @@
+# ---------------------------------------------------------------------------
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real. (RV-46, 30/09)
+#
+# CONTRA-PROVA dos DOIS defeitos da linha azul das auras de shrine:
+#   (1) CONTRIBUICAO MULTIPLICADA — o caso do print do dono (Rogue Shrine, `Dodge +120%` com a aura
+#       valendo 40): a lista viva trazia a MESMA aura repetida (`instancias=[Rogue Aura x3]`) e a
+#       contribuicao somava por INSTANCIA. Aqui o item sai com 40 (a aura, uma vez) e a ancora carrega
+#       o campo `instancias=` com a contagem que o motor soma.
+#   (2) AURA VIVA FORA DA LISTA — o Dwarven nao aparecia (efeito sem atributo de personagem). Aqui ele
+#       tem item proprio (`Stun chance +N%`, valor do asset) e ha o caso de uma area SO com ele.
+# Tambem exercita: `RV-46 teto` (HasMax do atributo corta o total -> o comparador de aditividade nao
+# pode reprovar por resto que varia) e `RV-46 AVISO` (aura viva sem item = nunca silencio).
+#
+# As linhas [Status]' sao COPIADAS VERBATIM do LogOutput.log real (dump de boot do RoguelikeDebugger).
+# As linhas RV-31/RV-44/RV-46 seguem o formato do `Marca` (ShrineAuraPatch) e os numeros das auras
+# (40 / 16 / 20 / ... com bonus=100) sao os da tabela de conferencia (RV-19 §2.2 + tools/dados/*.csv).
+# ---------------------------------------------------------------------------
+# ---------------------------------------------------------------------------
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real.
+# Serve para a CONTRA-PROVA do tools/checa_shrines.py: reproduz, no formato EXATO dos
+# marcadores do mod, o que o jogo logaria nos 3 casos (bonus 0 / +20 / +100) de cada aura.
+#  - os valores esperados das auras sao os da tabela de conferencia em jogo (RV-19 §10);
+#  - as linhas [Status] do RoguelikeDebugger sao COPIADAS VERBATIM do LogOutput.log real;
+#  - as linhas RV-31/RV-34 seguem o formato do `Marca` (ShrineAuraPatch) e as formulas do
+#    asset; o `tipo=` do Flame sai como `EnemyType.ToString()` (Boss/Fodder...).
+# Personagens: um nome ficticio por aura (ChkWA, ChkF, ChkDecay, ChkGob...).
+# ---------------------------------------------------------------------------
+[Info   :Roguelike Debugger] [Status] 'Conqueror Aura' | tipo=Normal | raridade=Common | efeitos=CritChance:Base:Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Critical hit chance increased by [0]%."
+[Info   :Roguelike Debugger] [Status] 'Decay Shrine Aura' | tipo=Normal | raridade=Common | efeitos= | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Take [0]% of your Max Health in Shadow Damage per turn."
+[Info   :Roguelike Debugger] [Status] 'Dwarven Aura' | tipo=Normal | raridade=Common | efeitos= | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Your attacks have a [0]% chance to stun the target."
+[Info   :Roguelike Debugger] [Status] 'Energy Aura' | tipo=Normal | raridade=Common | efeitos=ManaCostMod:Base:Mathf.Round(-50 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Decreases the cost of mana using abilities by [0]%."
+[Info   :Roguelike Debugger] [Status] 'Flame Shrine Aura' | tipo=Normal | raridade=Common | efeitos= | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Attackers take Fire Damage."
+[Info   :Roguelike Debugger] [Status] 'Fury' | tipo=Normal | raridade=Common | efeitos=DamageMod:Base:Mathf.Round(25 * (1 + (Target["ShrineEffectBonus"] / 100))), DamageReduction:Base:Mathf.Round(-25 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Damage increased by [0]%. Damage taken increased by [0]%. "
+[Info   :Roguelike Debugger] [Status] 'Guardian Aura' | tipo=Normal | raridade=Common | efeitos=DamageReduction:Base:Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Reduces Damage taken by [0]%. "
+[Info   :Roguelike Debugger] [Status] 'Reaper Aura' | tipo=Normal | raridade=Common | efeitos=LifeOnHit:Base:Mathf.Round(8 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Lifesteal increased by [0]%."
+[Info   :Roguelike Debugger] [Status] 'Rogue Aura' | tipo=Normal | raridade=Common | efeitos=DodgeChance:Base:Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Increases dodge chance by [0]%."
+[Info   :Roguelike Debugger] [Status] 'Seraph Aura' | tipo=Normal | raridade=Common | efeitos=HealthPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Recover [0]% of maximum health each turn. "
+[Info   :Roguelike Debugger] [Status] 'Shaman Aura' | tipo=Normal | raridade=Common | efeitos=ManaPerTurnPercent:Base:Mathf.Round(10 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Recover [0]% of maximum mana each turn. "
+[Info   :Roguelike Debugger] [Status] 'Warrior Aura' | tipo=Normal | raridade=Common | efeitos=DamageMod:Base:Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100))),  | efeitosDano= | nEfeitosDano=0 | aura=nao | raio=3 | auraAli=nao | auraIni=nao | modelo=- | beneficio=Buff | dur=3 | maxStk=100 | desc="Damage increased by [0]%. "
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Warrior Aura] char=ChkWA bonus=0 -> Damage +20% (total +50%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Warrior Aura] char=ChkWA bonus=20 -> Damage +24% (total +54%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Warrior Aura] char=ChkWA bonus=100 -> Damage +40% (total +70%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Guardian Aura] char=ChkGA bonus=0 -> Damage taken −20% (total −30%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Guardian Aura] char=ChkGA bonus=20 -> Damage taken −24% (total −34%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Guardian Aura] char=ChkGA bonus=100 -> Damage taken −40% (total −50%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Conqueror Aura] char=ChkCA bonus=0 -> Crit Chance +20% (total +35%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Conqueror Aura] char=ChkCA bonus=20 -> Crit Chance +24% (total +39%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Conqueror Aura] char=ChkCA bonus=100 -> Crit Chance +40% (total +55%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=20 -> Dodge +24% (total +41%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=100 -> Dodge +40% (total +57%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Reaper Aura] char=ChkRA bonus=0 -> Life Steal +8% (total +20%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Reaper Aura] char=ChkRA bonus=20 -> Life Steal +10% (total +22%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Reaper Aura] char=ChkRA bonus=100 -> Life Steal +16% (total +28%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Seraph Aura] char=ChkSA bonus=0 -> Health per turn +10% (total +15%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Seraph Aura] char=ChkSA bonus=20 -> Health per turn +12% (total +17%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Seraph Aura] char=ChkSA bonus=100 -> Health per turn +20% (total +25%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Shaman Aura] char=ChkSA bonus=0 -> Mana per turn +10% (total +15%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Shaman Aura] char=ChkSA bonus=20 -> Mana per turn +12% (total +17%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Shaman Aura] char=ChkSA bonus=100 -> Mana per turn +20% (total +25%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=ChkEA bonus=0 -> Mana Costs reduced by 50% (total −20%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=ChkEA bonus=20 -> Mana Costs reduced by 60% (total −30%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=ChkEA bonus=100 -> Mana Costs reduced by 100% (total −70%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=0 -> Damage +25% (total +50%); Damage taken +25% (total +5%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=20 -> Damage +30% (total +55%); Damage taken +30% (total +10%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=100 -> Damage +50% (total +75%); Damage taken +50% (total +30%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=0 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=20 -> 'Take [0]% of your Max Health in Shadow Damage per turn (12 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (20 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=233 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (47 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=0 dano=5
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=20 dano=6
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=100 dano=10
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=56
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 instancias repetidas na lista viva de Raven: [Guardian Aura x2, Rogue Aura x3] — o motor soma cada instancia (Character.cs:8494 + TotalStacks em Character.cs:8563) e o TETO do atributo corta o total; a CONTRIBUICAO conta cada aura UMA vez (e o numero que a linha branca do proprio shrine mostra)
+[Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'DamageReduction': aura=+40% total=+50% resto=+10% char=Raven bonus=100 em [Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura]
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 teto 'DamageReduction': MaxValue=50 char=Raven total=+50% no-teto=sim (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)
+[Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'CritChance': aura=+40% total=+54% resto=+14% char=Raven bonus=100 em [Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura]
+[Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'DodgeChance': aura=+40% total=+75% resto=+35% char=Raven bonus=100 em [Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura]
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 teto 'DodgeChance': MaxValue=75 char=Raven total=+75% no-teto=sim (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)
+[Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'LifeOnHit': aura=+16% total=+16% resto=+0% char=Raven bonus=100 em [Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura]
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Dwarven: chance do gatilho 'Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))' = 40 char=Raven bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +40%' char=Raven bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura] instancias=[Guardian Aura x2, Rogue Aura x3] char=Raven bonus=100 -> Damage taken −40% (total −50%); Crit Chance +40% (total +54%); Dodge +40% (total +75%); Life Steal +16% (total +16%); Stun chance +40%
+[Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'DodgeChance': aura=+40% total=+52% resto=+12% char=Raven bonus=100 em [Rogue Aura]
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 teto 'DodgeChance': MaxValue=75 char=Raven total=+52% no-teto=nao (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=Raven bonus=100 -> Dodge +40% (total +52%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +40%' char=ChkDW bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW bonus=100 -> Stun chance +40%
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +20%' char=ChkDW0 bonus=0
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW0 bonus=0 -> Stun chance +20%
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +24%' char=ChkDW20 bonus=20
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW20 bonus=20 -> Stun chance +24%
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Decay: MaxHealth=100 bonus=100 dano=20 tipo=player
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Decay Shrine Aura' -> 'Shadow damage per turn 20' char=ChkDecay bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=56
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Flame Shrine Aura' -> 'Fire damage to attackers: ChkGob 56' char=ChkDecay bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Decay Shrine Aura, Flame Shrine Aura] char=ChkDecay bonus=100 -> Shadow damage per turn 20; Fire damage to attackers: ChkGob 56
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 AVISO: a aura viva 'Aura Sem Etiqueta' NAO virou item da linha (efeito sem atributo de personagem e sem etiqueta conhecida (descricao 'Nova aura do jogo.')) — a lista esta incompleta e isto esta registrado; nenhum numero foi estimado
