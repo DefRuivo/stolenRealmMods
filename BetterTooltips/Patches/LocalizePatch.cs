@@ -1516,6 +1516,36 @@ namespace BetterTooltips.Patches
             { "Damage increased 50%.",
               "Damage increased by 50%." },
 
+            // ---- ENC-1 (01/10): encantamento de elemento nao e so para ATAQUE, e para HIT ----
+            // O texto dizia "add *0 <elemento> damage to attacks" e a mecanica e mais larga.
+            // FONTE DA VERDADE (asset + motor, nao prosa):
+            //   - o gatilho do status do encantamento (`resources.assets`: `COLD_Status_EnchantCold`,
+            //     `FIRE_Status_EnchantFire`, `LIGHTNING_Status_EnchantLightning` e os dois irmas
+            //     `Status_EnchantHoly`/`Status_EnchantShadow`) tem TriggerType = 0
+            //     (`OnHittingDamaging`, enum em `scratch/sac1/TriggerType.cs:4`) — o inteiro no asset e
+            //     o 1o campo de `SkillTrigger` (`scratch/sac1/SkillTrigger.cs:9`), lido logo antes da
+            //     string de Condition; controle do metodo no `Toxic`, cujos DOIS gatilhos saem 0
+            //     ("when striking") e 1 ("when struck"), e no `Flame Shrine Aura` (1, ja provado).
+            //   - a Condition do MESMO gatilho e
+            //     `(ActionProperties.IsAttackPowerBased || ActionProperties.IsSpellPowerBased) &&
+            //     Source.IsEnemy(Target)`: cai em qualquer dano que o personagem encantado cause a um
+            //     INIMIGO cuja fonte seja Attack Power OU Spell Power (`ActionProperties.cs:69/85`,
+            //     `ActionInfo.IsAttackPowerBased => BenefitType == BenefitType.AttackPower`,
+            //     `ActionInfo.cs:728/730`).
+            //   - o disparo do motor e `source.ProcessSkillTriggers(target, properties,
+            //     TriggerType.OnHittingDamaging, ...)`, um por tipo de dano, DENTRO do loop de dano de
+            //     `ApplyAction` (`scratch/sac1/Character.cs:11348-11373`) — vale para ataque corpo a
+            //     corpo, ranged e SPELL. NAO vale para dano de retorno: essas acoes sao aplicadas com
+            //     `procSkillTriggers: false` (`Character.cs:11302-11318`).
+            // Assim "hits" (a palavra do enum) + "including spells" (o caso que o dono citou) — em uma
+            // linha, sem enumeracao. A lista completa do que conta como hit fica no relatorio da ENC-1.
+            { "Enchants the target's weapon to add *0 fire damage to attacks. ",
+              "Enchants the target's weapon to add *0 fire damage to hits, including spells. " },
+            { "Enchants the target's weapon to add *0 cold damage to attacks. ",
+              "Enchants the target's weapon to add *0 cold damage to hits, including spells. " },
+            { "Enchants the target's weapon to add *0 lightning damage to attacks. ",
+              "Enchants the target's weapon to add *0 lightning damage to hits, including spells. " },
+
         };
 
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
