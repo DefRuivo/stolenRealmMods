@@ -247,6 +247,65 @@ namespace BetterTooltips.Patches
     /// personagem), sem armadura, resistência ou qualquer modificador posterior. Sem número provado, a
     /// linha do jogo fica INTACTA.
     ///
+    /// RV-46 (30/09) — DOIS DEFEITOS DA LINHA AZUL, os dois achados pelo dono em captura.
+    ///
+    /// (1) CONTRIBUIÇÃO MULTIPLICADA — `Dodge +120%` com a aura valendo 40 (print do dono, Rogue Shrine):
+    ///     A CAUSA É INSTÂNCIA REPETIDA NA LISTA VIVA, NÃO STACK. Prova no log do jogo do dono
+    ///     (`Player.log` do perfil, 30/09):
+    ///       `RV-44 item 'DodgeChance': aura=+120% total=+75% resto=−45% em [Guardian Aura, Rogue Aura,
+    ///        Reaper Aura, Conqueror Aura, Rogue Aura, Rogue Aura]` (l.3498) — a MESMA aura aparece TRÊS
+    ///       vezes na lista, e cada instância entra na soma; o `RV-44 soma` do mesmo hover mostra
+    ///       `'Rogue Aura' Base +40% (stacks=1)`, ou seja **1 stack por instância**: 3 × 40 = 120.
+    ///     Mecânica (decompilado do build atual):
+    ///       - `Character.GetAttributeValueByMethod` percorre TODAS as entradas de `ActionStatuses`
+    ///         (Character.cs:8494) e soma o efeito de cada uma × `TotalStacks` (Character.cs:8563) —
+    ///         não há dedupe no motor;
+    ///       - quem CRIA a segunda instância é o próprio ground effect: `GroundEffect.AddGroundEffectedPlayer`
+    ///         (l.102) só sai cedo se o jogador JÁ está em `EffectedPlayers` (l.104-110) e, ao aplicar,
+    ///         cria um status NOVO (`GameLogic.CreateActionStatus`, l.158). `RemoveGroundEffectedPlayer`
+    ///         (l.174-216) só remove quando `item.Infinite` — e as auras do censo têm `Infinite=False`
+    ///         (dump `[Status] ... | maxStk=100`). Logo: sair e voltar à área (ou terminar o movimento
+    ///         nela) ACUMULA instâncias do mesmo status até a duração de 3 turnos expirar.
+    ///     Por que o TOTAL (75) não fecha com 120 — e não é erro do mod: os atributos do jogo têm TETO
+    ///     (`Character.GetAttribute`, Character.cs:11871-11878: `if (HasMax && num > MaxValue) num = MaxValue`).
+    ///     No asset, `DodgeChance` tem `HasMax` com **MaxValue = 75** (`resources.assets` @1519604232;
+    ///     os dois bools imediatamente antes são HasMax=1/UseMaxAttribute=0) e `DamageReduction` tem
+    ///     **MaxValue = 50** (@1519603860). A medição bate: o índice `Character[atributo]` sai 51.9 com
+    ///     UMA Rogue Aura viva (resto 11.9 do personagem) e **75** com duas e com três (91.9/131.9
+    ///     cortados no teto); `Damage taken` sai −40 com um Guardian e **−50** com dois (−80 cortado).
+    ///     O CONTRIBUTO, portanto, tem de contar cada aura UMA VEZ — é o número que a própria linha
+    ///     branca do shrine mostra (`Increases dodge chance by 40%.`) e o que o motor avalia na
+    ///     expressão do asset (20 × (1 + bônus/100)); a soma por INSTÂNCIA era a multiplicação.
+    ///     `AurasUnicas` (abaixo) desduplica a lista viva pelo status (nome + descrição) para os
+    ///     ITENS e para a soma; as repetições vão para o log (`instancias=[nome xN]` na âncora e
+    ///     `RV-46 instancias`), nunca para o número. O multiplicador por `TotalStacks` CONTINUA
+    ///     (é regra do motor, Character.cs:8563) — no caso do print os stacks eram 1, então ele não
+    ///     era a causa; fica só o que o motor realmente usa.
+    ///     Teto vai no log (`RV-46 teto '<atributo>'`): com o total no teto o `resto` deixa de ser
+    ///     comparável e quem lê o log precisa saber disso. Nenhum texto mudou por causa do teto.
+    ///
+    /// (2) AURA VIVA FORA DA LISTA — a aura do Dwarven não aparecia (defeito do dono, 30/09: com a
+    ///     `Dwarven Aura` ativa a linha mostrava `Damage taken`, `Crit Chance`, `Dodge` e `Life Steal`
+    ///     e NADA do Dwarven). CAUSA: os itens saem por ATRIBUTO de personagem (`AtributosDasAuras` /
+    ///     `ContribuicaoDasAuras` casam `CharacterEffectInfo.CharacterAttribute`) e o efeito do Dwarven
+    ///     NÃO é atributo: o dump de boot do próprio jogo diz `[Status] 'Dwarven Aura' | efeitos= |
+    ///     nAttrEf=0 | nTrig=1 | trigEf=OnHittingDamaging[cond=Source.IsEnemy(Target)~status=Stunned]`
+    ///     — o valor mora na CHANCE do gatilho: `SkillTriggers[0].ActionStatusChanceEquations[0]`
+    ///     (`SkillTrigger.cs:34`; o motor avalia com `Game.Eval<float>` — Character.cs:12492/12511 —,
+    ///     exatamente o mesmo caminho que `ValorDaExpressao` usa). No asset (`Dwarven Totem Aura Status`,
+    ///     `resources.assets` @1517115056) a fórmula aparece 2×:
+    ///       @1517115395 (ao lado da Description, = `DescriptionExpressions[0]`) e
+    ///       @1517115647 (dentro do gatilho, ao lado de `Source.IsEnemy(Target)`/`Cell.IsCurrentHex(Target)`)
+    ///     — as DUAS são `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))`, o mesmo número
+    ///     da linha branca do shrine (40 com bônus 100). É esse o item: `Stun chance +40%`.
+    ///     REGRA QUE FICA (dono, 30/09): a linha se chama "Your active shrine auras" e se apresenta como
+    ///     COMPLETA — nenhuma aura viva pode sair em silêncio. Das 12, TRÊS têm efeito que não é atributo
+    ///     de personagem (censo: 9/9 das outras têm `AttributeEffects`): Dwarven (chance de stun),
+    ///     Decay Shrine Aura (`OnTurnStart`, dano por turno) e Flame Shrine Aura (`OnGettingHitDamaging`,
+    ///     dano em quem ataca). As três ganham item próprio com o número do asset avaliado pelo motor
+    ///     (`ItemDaAuraSemAtributo`); qualquer aura viva que NÃO virar item sai no log com o motivo
+    ///     (`RV-46 AVISO`), nunca sumindo calada.
+    ///
     /// ASSINATURA: nada muda no Harmony aqui — este arquivo segue com a assinatura explícita por TIPO
     /// no único patch (`ApplyDescriptionExpressions`, 5 tipos, `ref __2`) e nenhum parâmetro por índice
     /// novo. Todo o trabalho novo é código de leitura, dentro de try/catch.
@@ -643,6 +702,13 @@ namespace BetterTooltips.Patches
         internal const string ChaveDecay = "Take [0]% of your Max Health in Shadow Damage per turn.";
 
         /// <summary>
+        /// RV-46 — a chave de texto exata do Dwarven (a descrição da aura). É a aura cujo efeito NÃO é
+        /// atributo de personagem: o valor vive na CHANCE do gatilho (`Stunned`) — ver
+        /// `ExpressaoDeChance`/`RotuloSemAtributo`.
+        /// </summary>
+        internal const string ChaveDwarven = "Your attacks have a [0]% chance to stun the target.";
+
+        /// <summary>
         /// RV-34 — a fórmula do dano por turno do Decay, CRUA: vida máxima do próprio personagem × a %
         /// do tipo DELE × o `ShrineEffectBonus` DELE, SEM o `Mathf.Max(1,` (o Decay pode dar 0). É o RHS
         /// do asset da ação `Decay Aura Proc` COPIADO BYTE A BYTE (`resources.assets` @1519519282,
@@ -963,28 +1029,47 @@ namespace BetterTooltips.Patches
                     return "";
                 }
 
-                // (c) CONTEÚDO AGREGADO: um item por ATRIBUTO que as auras vivas mexem (a intenção do
-                // RV-20, cujo nome sempre foi no plural). Flame/Decay (o efeito é dano numa ação) e o
-                // stun do Dwarven não têm atributo de personagem — não entram, não há o que ler.
-                List<CharacterAttribute> atributos = AtributosDasAuras(ativas);
-                if (atributos.Count == 0)
+                // (c) RV-46 — UMA VEZ POR AURA: a lista viva pode carregar a MESMA aura repetida (cada
+                // (re)entrada na área cria um status NOVO — ver o cabeçalho) e somar por instância é o
+                // defeito do print do dono (`Dodge +120%` com a aura valendo 40). Os itens e a soma
+                // usam a lista desduplicada; as repetições vão para o LOG, nunca para o número.
+                List<string> repeticoes;
+                List<ActionStatus> unicas = AurasUnicas(ativas, out repeticoes);
+                if (repeticoes.Count > 0)
                 {
-                    Marca($"RV-31 sem linha: {ativas.Count} aura(s) viva(s) sem atributo de personagem"
-                        + $" em {receptor.CharacterName}");
-                    return "";
+                    Marca($"RV-46 instancias repetidas na lista viva de {receptor.CharacterName}:"
+                        + $" [{string.Join(", ", repeticoes.ToArray())}] — o motor soma cada instancia"
+                        + " (Character.cs:8494 + TotalStacks em Character.cs:8563) e o TETO do atributo"
+                        + " corta o total; a CONTRIBUICAO conta cada aura UMA vez (e o numero que a linha"
+                        + " branca do proprio shrine mostra)");
                 }
 
-                // (d) DOIS NÚMEROS POR ITEM (RV-44): a CONTRIBUIÇÃO DAS AURAS na frente — é o que o
+                // (d) CONTEÚDO AGREGADO: um item por ATRIBUTO que as auras vivas mexem (a intenção do
+                // RV-20, cujo nome sempre foi no plural). As auras cujo efeito NÃO é atributo de
+                // personagem (Dwarven/Decay/Flame) ganham item próprio logo abaixo (RV-46) — mas a
+                // ausência de atributo não pode mais MATAR a linha (senão uma área só com o Dwarven
+                // mostraria "suas auras ativas" vazio).
+                List<CharacterAttribute> atributos = AtributosDasAuras(unicas);
+                if (atributos.Count == 0)
+                {
+                    Marca($"RV-46 nenhuma das {unicas.Count} aura(s) viva(s) de {receptor.CharacterName}"
+                        + " mexe em atributo de personagem — os itens saem do proprio status quando o"
+                        + " asset da o numero (Dwarven/Decay/Flame)");
+                }
+
+                // (e) DOIS NÚMEROS POR ITEM (RV-44): a CONTRIBUIÇÃO DAS AURAS na frente — é o que o
                 // nome da linha ("Your active shrine auras") promete — e o TOTAL DO PERSONAGEM entre
                 // parênteses. O total continua saindo do MOTOR (`Character[atributo]`, o MESMO número
                 // da ficha/BetterStats: base + gear + skills + auras); a contribuição sai do
-                // `AttributeEffects` das auras VIVAS, avaliado pela expressão do PRÓPRIO asset na
-                // mesma ordem do motor (`TryParseWithEnglishCulture` e, se falhar, `Game.TryEval`),
-                // com `Target` = `Source` = o personagem em foco — é assim que as 9 auras de BUFF da família
-                // leem o `ShrineEffectBonus` (`Target[...]`; `status.csv:205` do Fury e irmãs: 9/9 com
-                // `AttributeEffects`, todas `Base`; Dwarven não expõe efeito e Decay/Flame usam `Source`). Nada
-                // é somado por fora do efeito do asset.
+                // `AttributeEffects` das auras VIVAS (SEM as repetições — RV-46), avaliado pela
+                // expressão do PRÓPRIO asset na mesma ordem do motor (`TryParseWithEnglishCulture` e,
+                // se falhar, `Game.TryEval`), com `Target` = `Source` = o personagem em foco — é assim
+                // que as 9 auras de BUFF da família leem o `ShrineEffectBonus` (`Target[...]`;
+                // `status.csv:205` do Fury e irmãs: 9/9 com `AttributeEffects`, todas `Base`; Dwarven
+                // não expõe efeito e Decay/Flame usam `Source`). Nada é somado por fora do efeito do asset.
                 List<string> partes = new List<string>();
+                HashSet<ActionStatus> somadas = new HashSet<ActionStatus>();
+                HashSet<string> emFallback = new HashSet<string>(StringComparer.Ordinal);
                 foreach (CharacterAttribute atributo in atributos)
                 {
                     string nome = atributo.name;
@@ -997,20 +1082,23 @@ namespace BetterTooltips.Patches
                     }
                     float total = receptor[nome];
                     float contribuicao;
-                    if (ContribuicaoDasAuras(ativas, atributo, receptor, out contribuicao))
+                    if (ContribuicaoDasAuras(unicas, atributo, receptor, somadas, out contribuicao))
                     {
                         partes.Add(TextDoEfeito(atributo, contribuicao)
                             + " (total " + TotalComSinal(nome, total) + ")");
                         // O `resto` (total − contribuição) é o pedaço da ficha que NÃO é aura: é ele que
                         // prova, em jogo, se o total é aditivo — com as duas telas do dono (30/09) o
-                        // resto deu +25 (DamageMod) e +20 (DamageReduction) nos DOIS casos.
+                        // resto deu +25 (DamageMod) e +20 (DamageReduction) nos DOIS casos. RV-46: com o
+                        // total no TETO do atributo (HasMax/MaxValue) o resto NÃO é comparável, e por
+                        // isso o teto vai no log ao lado (`RV-46 teto ... no-teto=sim`).
                         // CHK-1 §7.2 (conserto APLICADO) — a marca ganhou `char=` e `bonus=`: sem eles a
                         // evidencia provava o valor da aura mas NAO era atribuivel a um caso (a
                         // conferencia so tinha a linha `RV-31 acumulado` como ancora). Campo de LOG.
                         Marca($"RV-44 item '{nome}': aura={ComSinal(contribuicao)}% total={ComSinal(total)}%"
                             + $" resto={ComSinal(total - contribuicao)}% char={receptor.CharacterName}"
                             + $" bonus={BonusDoReceptor(receptor)}"
-                            + $" em [{string.Join(", ", NomesDasAuras(ativas).ToArray())}]");
+                            + $" em [{string.Join(", ", NomesDasAuras(unicas).ToArray())}]");
+                        MarcaTeto(atributo, receptor, nome, total);
                     }
                     else
                     {
@@ -1018,12 +1106,24 @@ namespace BetterTooltips.Patches
                         // somável — `Multiplicative`/`Set` — ou expressão não avaliada; a família de
                         // shrine NÃO tem nenhum desses casos hoje, conferido no censo: 9/9 são
                         // `Base`), o item sai com o total do personagem, como antes.
+                        emFallback.Add(nome);
                         partes.Add(TextDoEfeito(atributo, total));
                         Marca($"RV-44 item '{nome}' sem separacao: sai com o total do personagem ({ComSinal(total)}%)");
+                        MarcaTeto(atributo, receptor, nome, total);
                     }
                 }
+
+                // (f) RV-46 — NENHUMA AURA VIVA SAI EM SILÊNCIO (regra do dono, 30/09): a linha se chama
+                // "Your active shrine auras" e se apresenta como COMPLETA. As auras cujo efeito não é
+                // atributo de personagem (Dwarven = chance de stun, Decay = dano por turno, Flame = dano
+                // em quem ataca) ganham item próprio com o número do asset avaliado pelo motor; o que
+                // não virar item sai no LOG com o motivo.
+                ItensSemAtributo(unicas, receptor, somadas, emFallback, partes);
+
                 if (partes.Count == 0)
                 {
+                    Marca($"RV-46 sem linha: {unicas.Count} aura(s) viva(s) em {receptor.CharacterName}"
+                        + " sem nenhum numero provado (nada estimado)");
                     return "";
                 }
 
@@ -1033,7 +1133,13 @@ namespace BetterTooltips.Patches
                 // nunca de uma segunda aplicação do mod. Aqui ele é o bonus de quem tem as auras, e
                 // serve para o usuário conferir a origem do número. Os nomes das auras agregadas vão
                 // no log para a conferência em jogo dizer QUAIS auras entraram na conta.
-                Marca($"RV-31 acumulado: auras=[{string.Join(", ", NomesDasAuras(ativas).ToArray())}]"
+                // RV-46: `instancias=[...]` só sai quando a lista viva trazia a MESMA aura repetida —
+                // é o campo que separa "a aura está viva" de "a aura está viva N vezes sem valor
+                // próprio novo" (e o que permite ao comparador não contar a repetição como aura).
+                string campoInstancias = repeticoes.Count == 0
+                    ? "" : " instancias=[" + string.Join(", ", repeticoes.ToArray()) + "]";
+                Marca($"RV-31 acumulado: auras=[{string.Join(", ", NomesDasAuras(unicas).ToArray())}]"
+                    + campoInstancias
                     + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)} -> {efeito}");
                 // Os itens terminam em "%": o fecho é sempre o ponto.
                 return "\n<color=#" + LocalizePatch.CorDaLinhaDeAuras() + ">"
@@ -1092,6 +1198,393 @@ namespace BetterTooltips.Patches
                 ativas.Clear();
             }
             return ativas;
+        }
+
+        /// <summary>
+        /// RV-46 — A MESMA AURA SÓ UMA VEZ. A lista viva (`Character.ActionStatuses`) pode conter o
+        /// MESMO status várias vezes: cada (re)entrada na área do ground effect cria um status NOVO
+        /// (`GroundEffect.AddGroundEffectedPlayer` -> `GameLogic.CreateActionStatus`, decompilado
+        /// l.102/158) e o motor só remove quando o status é `Infinite` (l.206-213) — a aura do shrine
+        /// não é. O log do jogo do dono mostra o caso: `em [Guardian Aura, Rogue Aura, Reaper Aura,
+        /// Conqueror Aura, Rogue Aura, Rogue Aura]` com `aura=+120%` (3 × 40, e o `RV-44 soma` dizendo
+        /// `stacks=1` em cada instância).
+        ///
+        /// A chave é a identidade do status como o jogo a apresenta (nome + descrição do
+        /// `ActionStatusInfo`) — é o que o log e o dono veem, e o que sobrevive a uma cópia de runtime
+        /// do asset. As repetições NÃO são descartadas em silêncio: voltam em `repeticoes` ("Nome xN")
+        /// para o log.
+        ///
+        /// Falha de leitura devolve a lista como veio (melhor repetir do que esconder aura): é log,
+        /// não número.
+        /// </summary>
+        private static List<ActionStatus> AurasUnicas(List<ActionStatus> vivas, out List<string> repeticoes)
+        {
+            repeticoes = new List<string>();
+            List<ActionStatus> unicas = new List<ActionStatus>();
+            if (vivas == null)
+            {
+                return unicas;
+            }
+            try
+            {
+                Dictionary<string, int> contagem = new Dictionary<string, int>(StringComparer.Ordinal);
+                Dictionary<string, string> nomeDaChave = new Dictionary<string, string>(StringComparer.Ordinal);
+                List<string> ordem = new List<string>();
+                foreach (ActionStatus s in vivas)
+                {
+                    if (s == null)
+                    {
+                        continue;
+                    }
+                    string chave = ChaveDaAura(s);
+                    int n;
+                    if (contagem.TryGetValue(chave, out n))
+                    {
+                        contagem[chave] = n + 1;
+                        continue;
+                    }
+                    contagem[chave] = 1;
+                    nomeDaChave[chave] = NomeDaAura(s);
+                    ordem.Add(chave);
+                    unicas.Add(s);
+                }
+                foreach (string chave in ordem)
+                {
+                    if (contagem[chave] > 1)
+                    {
+                        repeticoes.Add(nomeDaChave[chave] + " x" + contagem[chave]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-46] desduplicacao falhou (lista devolvida como veio): {ex.GetType().Name}: {ex.Message}");
+                repeticoes.Clear();
+                return vivas;
+            }
+            return unicas;
+        }
+
+        /// <summary>RV-46 — identidade da aura na lista: nome + descrição do `ActionStatusInfo` (nunca
+        /// só a referência: o jogo pode entregar uma cópia de runtime do mesmo status).</summary>
+        private static string ChaveDaAura(ActionStatus s)
+        {
+            try
+            {
+                ActionStatusInfo info = s != null ? s.ActionStatusInfo : null;
+                string nome = info != null ? info.Name : null;
+                string descricao = info != null ? info.Description : null;
+                if (string.IsNullOrEmpty(nome))
+                {
+                    nome = descricao;
+                }
+                return (nome ?? "") + "\u0001" + (descricao ?? "");
+            }
+            catch (Exception ex)
+            {
+                return "(sem chave: " + ex.GetType().Name + ")";
+            }
+        }
+
+        /// <summary>
+        /// RV-46 — o TETO do atributo, quando o asset define um (`CharacterAttribute.HasMax`), e o
+        /// registro de que o total está batendo nele. O motor corta o valor no teto
+        /// (`Character.GetAttribute`, decompilado l.11871-11878) — então, com o total no teto, o
+        /// `resto` do item (`total − contribuição`) NÃO é "a parte da ficha que não é aura" e não pode
+        /// ser comparado entre hovers. O teto vai no log para quem confere saber; NENHUM texto muda por
+        /// causa dele (o número exibido continua o do motor).
+        /// </summary>
+        private static void MarcaTeto(CharacterAttribute atributo, Character receptor, string nome, float total)
+        {
+            try
+            {
+                float teto;
+                if (!TetoDoAtributo(atributo, receptor, out teto))
+                {
+                    return;
+                }
+                Marca($"RV-46 teto '{nome}': MaxValue={teto.ToString("0.#")} char={receptor.CharacterName}"
+                    + $" total={ComSinal(total)}% no-teto={(total >= teto ? "sim" : "nao")}"
+                    + " (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)");
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-46] leitura do teto falhou (nenhum campo extra no log): {ex.GetType().Name}: {ex.Message}");
+            }
+        }
+
+        /// <summary>RV-46 — o teto do atributo pelo PRÓPRIO objeto do jogo (`HasMax`/`MaxValue`, ou o
+        /// atributo apontado por `UseMaxAttribute`). `false` = atributo sem teto neste build.</summary>
+        private static bool TetoDoAtributo(CharacterAttribute atributo, Character receptor, out float teto)
+        {
+            teto = 0f;
+            if (atributo == null || !atributo.HasMax)
+            {
+                return false;
+            }
+            if (atributo.UseMaxAttribute)
+            {
+                CharacterAttribute outro = atributo.MaxAttribute;
+                if (outro == null || receptor == null || string.IsNullOrEmpty(outro.name))
+                {
+                    return false;
+                }
+                teto = receptor[outro.name];
+                return true;
+            }
+            teto = atributo.MaxValue;
+            return true;
+        }
+
+        /// <summary>
+        /// RV-46 — O ITEM DE UMA AURA VIVA QUE NÃO MEXE EM ATRIBUTO DE PERSONAGEM. A linha se chama
+        /// "Your active shrine auras" e se apresenta como COMPLETA (regra do dono, 30/09): nenhuma aura
+        /// viva pode sair em silêncio. São TRÊS das 12 (censo: as outras 9 têm `AttributeEffects`):
+        ///
+        ///   - `Dwarven Aura` — o efeito é a CHANCE do gatilho (`OnHittingDamaging` -> `Stunned`):
+        ///     `ActionStatusInfo.SkillTriggers[].ActionStatusChanceEquations` (asset @1517115647, a
+        ///     MESMA string da `DescriptionExpressions[0]` @1517115395). Item: `Stun chance +40%`.
+        ///   - `Decay Shrine Aura` — dano por turno (`OnTurnStart`): a MESMA fórmula que a linha do
+        ///     próprio Decay usa (RV-33/RV-34), avaliada com `Source` = `Target` = o personagem em
+        ///     foco. Item: `Shadow damage per turn 23`.
+        ///   - `Flame Shrine Aura` — dano em QUEM ATACA (`OnGettingHitDamaging`), que o hover não
+        ///     conhece: um número por ALVO na área, o mesmo cru da linha do próprio Flame (RV-34).
+        ///     Item: `Fire damage to attackers: <alvo> <dano>, ...`; sem alvo com o status vivo, o
+        ///     número não existe (mesma regra do RV-33) e a aura sai no LOG.
+        ///
+        /// Quem decide a etiqueta é `RotuloSemAtributo` (tabela pelo texto EXATO do asset, o mesmo
+        /// `ShrineKeys` que define a família) — nenhum nome inventado no meio do código. Valor nunca é
+        /// estimado: sem expressão avaliada, o item não sai e o LOG diz por quê.
+        /// </summary>
+        private static void ItensSemAtributo(List<ActionStatus> unicas, Character receptor,
+            HashSet<ActionStatus> somadas, HashSet<string> emFallback, List<string> partes)
+        {
+            if (unicas == null || receptor == null || partes == null)
+            {
+                return;
+            }
+            foreach (ActionStatus s in unicas)
+            {
+                try
+                {
+                    if (s == null || s.ActionStatusInfo == null)
+                    {
+                        continue;
+                    }
+                    if (TemItemNaLinha(s, somadas, emFallback))
+                    {
+                        continue;
+                    }
+                    string nome = NomeDaAura(s);
+                    string motivo;
+                    string item = ItemDaAuraSemAtributo(s, receptor, out motivo);
+                    if (item != null)
+                    {
+                        partes.Add(item);
+                        Marca($"RV-46 item sem atributo: '{nome}' -> '{item}'"
+                            + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)}");
+                    }
+                    else
+                    {
+                        // REGRA (dono, 30/09): a lista se apresenta como completa — se não deu para
+                        // representar, o motivo fica no log. Nunca sumir calada.
+                        Marca($"RV-46 AVISO: a aura viva '{nome}' NAO virou item da linha ({motivo})"
+                            + " — a lista esta incompleta e isto esta registrado; nenhum numero foi estimado");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Plugin.Log.LogWarning($"[Shrine RV-46] item sem atributo falhou (nada entra na linha): {ex.GetType().Name}: {ex.Message}");
+                }
+            }
+        }
+
+        /// <summary>RV-46 — esta aura já está representada na linha? Sim quando ela ENTROU na soma de
+        /// algum item de atributo (`somadas`) ou quando o item do atributo dela saiu no fallback com o
+        /// TOTAL do personagem (`emFallback`): nos dois casos o efeito dela aparece na linha.</summary>
+        private static bool TemItemNaLinha(ActionStatus s, HashSet<ActionStatus> somadas, HashSet<string> emFallback)
+        {
+            if (s == null || s.ActionStatusInfo == null)
+            {
+                return false;
+            }
+            if (somadas != null && somadas.Contains(s))
+            {
+                return true;
+            }
+            CharacterEffectInfo[] efeitos = s.ActionStatusInfo.AttributeEffects;
+            if (efeitos == null || emFallback == null)
+            {
+                return false;
+            }
+            foreach (CharacterEffectInfo e in efeitos)
+            {
+                if (e != null && e.CharacterAttribute != null && emFallback.Contains(e.CharacterAttribute.name))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        /// <summary>
+        /// RV-46 — o item (texto final) de uma aura sem atributo de personagem, ou `null` + `motivo`.
+        /// Só as três auras de efeito sem atributo têm etiqueta; qualquer outra aura viva que chegue
+        /// aqui devolve `null` com motivo — o LOG registra (regra da lista completa).
+        /// </summary>
+        private static string ItemDaAuraSemAtributo(ActionStatus aura, Character receptor, out string motivo)
+        {
+            motivo = null;
+            ActionStatusInfo info = aura.ActionStatusInfo;
+            string chave = info.Description;
+            string rotulo = RotuloSemAtributo(chave);
+            if (rotulo == null)
+            {
+                motivo = "efeito sem atributo de personagem e sem etiqueta conhecida (descricao '"
+                    + (chave ?? "(nula)") + "')";
+                return null;
+            }
+
+            // (1) DECAY — dano por turno do personagem em foco, a MESMA fórmula da linha do Decay
+            // (RV-34), sem o `Mathf.Max(1,` (o Decay pode dar 0). `Source` = `Target` = o personagem.
+            if (string.Equals(chave, ChaveDecay, StringComparison.Ordinal))
+            {
+                if (receptor.MaxHealth <= 0f)
+                {
+                    motivo = "receptor sem MaxHealth";
+                    return null;
+                }
+                float dano;
+                if (!ValorDaExpressao(FormulaDoDano(FormulaDanoDecay, FormulaDanoDecaySemBonus), receptor, receptor, out dano))
+                {
+                    motivo = "formula do Decay nao avaliada pelo interpretador do motor";
+                    return null;
+                }
+                Marca($"RV-46 item do Decay: MaxHealth={receptor.MaxHealth.ToString("0.#")}"
+                    + $" bonus={BonusDoReceptor(receptor)} dano={dano.ToString("0.#")}"
+                    + $" tipo={TipoDoAlvo(receptor)}");
+                return rotulo + " " + dano.ToString("0.#");
+            }
+
+            // (2) FLAME — um número por ALVO na área (o mesmo número cru da linha do próprio Flame,
+            // RV-33/RV-34). O hover não sabe quem vai atacar, então não existe UM número.
+            if (string.Equals(chave, ChaveFlame, StringComparison.Ordinal))
+            {
+                List<Character> alvos = AlvosNaAreaDoFlame();
+                List<string> valores = new List<string>();
+                foreach (Character alvo in alvos)
+                {
+                    if (alvo == null || alvo.MaxHealth <= 0f)
+                    {
+                        continue;
+                    }
+                    float dano;
+                    if (!ValorDaExpressao(FormulaDoDano(FormulaDanoFlameCru, FormulaDanoFlameSemBonus), alvo, alvo, out dano))
+                    {
+                        continue;
+                    }
+                    string nomeAlvo = string.IsNullOrEmpty(alvo.CharacterName) ? "(sem nome)" : alvo.CharacterName;
+                    valores.Add(nomeAlvo + " " + dano.ToString("0.#"));
+                    Marca($"RV-46 item do Flame alvo '{nomeAlvo}': MaxHealth={alvo.MaxHealth.ToString("0.#")}"
+                        + $" tipo={TipoDoAlvo(alvo)} bonus={BonusDoReceptor(alvo)} dano={dano.ToString("0.#")}");
+                }
+                if (valores.Count == 0)
+                {
+                    motivo = "nenhum alvo com o status do Flame vivo agora (o dano e de quem ataca:"
+                        + " sem atacante, sem numero)";
+                    return null;
+                }
+                // Separador `, ` (e não `; `): o `; ` separa os ITENS da linha azul — o comparador
+                // mecanico corta a linha por ele e um `; ` dentro do item do Flame o quebraria em dois.
+                return rotulo + ": " + string.Join(", ", valores.ToArray());
+            }
+
+            // (3) DWARVEN — chance de stun. A expressão é a do GATILHO do status (`Stunned`), avaliada
+            // pelo motor com `Target` = o personagem em foco (a convenção de TODA a família: as
+            // expressões das 12 auras leem `Target["ShrineEffectBonus"]`); no asset ela é a MESMA
+            // string da `DescriptionExpressions[0]`, que é o número da linha branca do shrine.
+            if (string.Equals(chave, ChaveDwarven, StringComparison.Ordinal))
+            {
+                string expressao = ExpressaoDeChance(info);
+                float chance;
+                if (!string.IsNullOrEmpty(expressao)
+                    && ValorDaExpressao(expressao, receptor, receptor, out chance))
+                {
+                    Marca($"RV-46 item do Dwarven: chance do gatilho '{expressao}' = {chance.ToString("0.#")}"
+                        + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)}");
+                    return rotulo + " " + ComSinal(chance) + "%";
+                }
+                // Reserva: a `DescriptionExpressions` do próprio status (o `[0]` da linha branca).
+                string[] exprs = info.DescriptionExpressions;
+                if (exprs != null && exprs.Length > 0
+                    && ValorDaExpressao(exprs[0], receptor, receptor, out chance))
+                {
+                    Marca($"RV-46 item do Dwarven (descricao): '{exprs[0]}' = {chance.ToString("0.#")}"
+                        + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)}");
+                    return rotulo + " " + ComSinal(chance) + "%";
+                }
+                motivo = "sem expressao de chance avaliada (gatilho: '" + (expressao ?? "nenhum")
+                    + "'; descricao: '" + (exprs != null && exprs.Length > 0 ? exprs[0] : "nenhuma") + "')";
+                return null;
+            }
+
+            motivo = "efeito sem atributo de personagem sem item implementado nesta versao";
+            return null;
+        }
+
+        /// <summary>
+        /// RV-46 — a etiqueta do item de uma aura cujo efeito NÃO é atributo de personagem. É uma
+        /// TABELA DE NOME (nunca de número): o valor de cada uma sai do asset, avaliado pelo motor. A
+        /// chave é o texto EXATO da descrição do status — o mesmo critério que define a família
+        /// (`ShrineKeys`). `null` = aura desconhecida: quem chamou loga o motivo e não inventa item.
+        /// </summary>
+        private static string RotuloSemAtributo(string chaveDaAura)
+        {
+            if (string.Equals(chaveDaAura, ChaveDwarven, StringComparison.Ordinal))
+            {
+                return "Stun chance";
+            }
+            if (string.Equals(chaveDaAura, ChaveDecay, StringComparison.Ordinal))
+            {
+                return "Shadow damage per turn";
+            }
+            if (string.Equals(chaveDaAura, ChaveFlame, StringComparison.Ordinal))
+            {
+                return "Fire damage to attackers";
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// RV-46 — a expressão de CHANCE do status: o gatilho que aplica um status com
+        /// `ActionStatusChanceEquations` (o Dwarven aplica `Stunned`). É o campo que o motor avalia
+        /// (`Game.Eval&lt;float&gt;(trigger.ActionStatusChanceEquations[i], ...)`, decompilado
+        /// l.12492/12511) — o índice casa com `ActionStatuses[i]` do MESMO gatilho. `null` = status sem
+        /// gatilho com chance (o caminho do Decay/Flame, cujo valor não é chance).
+        /// </summary>
+        private static string ExpressaoDeChance(ActionStatusInfo info)
+        {
+            if (info == null || info.SkillTriggers == null)
+            {
+                return null;
+            }
+            foreach (SkillTrigger gatilho in info.SkillTriggers)
+            {
+                if (gatilho == null || gatilho.ActionStatuses == null || gatilho.ActionStatusChanceEquations == null)
+                {
+                    continue;
+                }
+                int n = Math.Min(gatilho.ActionStatuses.Length, gatilho.ActionStatusChanceEquations.Length);
+                for (int i = 0; i < n; i++)
+                {
+                    if (gatilho.ActionStatuses[i] != null
+                        && !string.IsNullOrEmpty(gatilho.ActionStatusChanceEquations[i]))
+                    {
+                        return gatilho.ActionStatusChanceEquations[i];
+                    }
+                }
+            }
+            return null;
         }
 
         /// <summary>
@@ -1178,9 +1671,16 @@ namespace BetterTooltips.Patches
         ///
         /// `false` = não há contribuição separável com confiança (nenhum efeito somável, efeito não
         /// somável ou expressão não avaliada): quem chamou usa o total rotulado. Nunca estima.
+        ///
+        /// RV-46 — a lista recebida é a DESDUPLICADA (`AurasUnicas`): cada aura entra UMA vez. A aura
+        /// viva repetida na lista do personagem (mesmo status aplicado de novo ao (re)entrar na área)
+        /// não é uma segunda aura, é a mesma — e contá-la duas vezes foi o `Dodge +120%` do print do
+        /// dono (a aura vale 40, e 40 é o que a linha branca do shrine mostra). `somadas` recebe as
+        /// auras que ENTRARAM na soma deste atributo: é o que `ItensSemAtributo` usa para saber quais
+        /// auras já estão representadas na linha (RV-46, regra da lista completa).
         /// </summary>
         private static bool ContribuicaoDasAuras(List<ActionStatus> auras, CharacterAttribute atributo,
-            Character receptor, out float contribuicao)
+            Character receptor, HashSet<ActionStatus> somadas, out float contribuicao)
         {
             contribuicao = 0f;
             if (auras == null || atributo == null || receptor == null)
@@ -1231,6 +1731,10 @@ namespace BetterTooltips.Patches
                         return false;
                     }
                     contribuicao += valor * stacks;
+                    if (somadas != null)
+                    {
+                        somadas.Add(s);
+                    }
                     somou = true;
                     // CHK-1 §7.2 (conserto APLICADO) — `char=` e `bonus=` na marca: e ela que nomeia a
                     // aura E o atributo, entao com os dois campos a evidencia fica atribuivel a um caso

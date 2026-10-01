@@ -507,3 +507,61 @@ bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `
 
 Se algum número não bater, o que se corrige é **este relatório contra o jogo** (a medição vence a leitura de asset —
 §0.5), nunca o contrário.
+
+---
+
+## RV-46 (30/09) — DOIS DEFEITOS DA LINHA AZUL (`Dodge +120%` e o Dwarven ausente)
+
+**O código é a autoridade aqui:** `BetterTooltips/Patches/ShrineAuraPatch.cs` (bloco `RV-46` do cabeçalho,
+`AurasUnicas`, `ItensSemAtributo`, `ItemDaAuraSemAtributo`, `MarcaTeto`).
+
+### 1. Contribuição multiplicada — `Dodge +120%` com a aura valendo 40
+
+- **Causa raiz:** `AurasVivas` devolve TODAS as entradas de `Character.ActionStatuses` que casam com a família, e
+  `ContribuicaoDasAuras` somava por ENTRADA. A lista viva carrega a **MESMA aura repetida**: cada (re)entrada na área
+  do ground effect cria um status NOVO (`GroundEffect.AddGroundEffectedPlayer` l.102/158 do decompilado) e
+  `RemoveGroundEffectedPlayer` (l.174-216) só remove quando `Infinite` — a aura do shrine não é.
+- **Não era stack:** o log do mesmo hover diz `RV-44 soma 'DodgeChance': 'Rogue Aura' Base +40% (stacks=1)`.
+- **Prova mecânica no log do dono** (`Player-prev/Player.log` do perfil, 30/09): a contribuição = 40 × (nº de
+  `Rogue Aura` na lista).
+
+  | log | Rogue Aura na lista viva | aura exibida | total (motor) |
+  |---|---|---|---|
+  | l.3298 | 1 | `+40%` | `+51.9%` |
+  | l.3468 | 2 | `+80%` | `+75%` |
+  | l.3502 | 3 | `+120%` | `+75%` |
+
+- **Por que 120 nunca ia fechar com 75:** o motor percorre TODAS as instâncias (`Character.GetAttributeValueByMethod`,
+  `Character.cs:8494`, ×`TotalStacks` em `Character.cs:8563`) e **corta o total no teto do atributo**
+  (`Character.GetAttribute`, `Character.cs:11871-11878`). No asset, `DodgeChance` tem `HasMax` com **MaxValue = 75**
+  (`resources.assets` @1519604232) e `DamageReduction` **MaxValue = 50** (@1519603860) — é o que explica o total
+  parar em 75 com 2 e com 3 instâncias, e `Damage taken` parar em −50 com dois Guardian (aura 80).
+- **Conserto:** a contribuição passa a contar **cada aura UMA vez** (`AurasUnicas`), que é o número da linha branca do
+  shrine (40) e o que o motor avalia na expressão do asset. As repetições vão para o log (`instancias=[Nome xN]` na
+  âncora) e o teto idem (`RV-46 teto`) — nenhum dos dois vira número. O multiplicador por `TotalStacks` continua
+  (é regra do motor), só que o caso do print tinha 1 stack por instância.
+
+### 2. Aura viva fora da lista — o Dwarven
+
+- **Causa raiz:** os itens saem por ATRIBUTO de personagem e o efeito do Dwarven **não é atributo**: o dump do
+  próprio jogo diz `[Status] 'Dwarven Aura' | efeitos= | nAttrEf=0 | nTrig=1 |
+  trigEf=OnHittingDamaging[cond=Source.IsEnemy(Target)~status=Stunned]`. O valor mora na CHANCE do gatilho
+  (`SkillTriggers[0].ActionStatusChanceEquations[0]`, `SkillTrigger.cs:34`; o motor avalia em `Character.cs:12492/12511`).
+- **Onde o valor está no asset** (`Dwarven Totem Aura Status`, `resources.assets` @1517115056): a fórmula
+  `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))` aparece **2×** — @1517115395 (ao lado da
+  `Description`, = `DescriptionExpressions[0]`) e @1517115647 (dentro do gatilho, ao lado de
+  `Source.IsEnemy(Target)`/`Cell.IsCurrentHex(Target)`). As duas são a MESMA string, e o valor com `Worship` é 40 —
+  igual à linha branca do shrine.
+- **Conserto:** item próprio `Stun chance +40%` (avaliado pelo motor com `Target` = o personagem em foco). Pela
+  mesma regra, o Decay (`Shadow damage per turn N`) e o Flame (`Fire damage to attackers: …`) — as outras duas das
+  **12 que não têm atributo de personagem** (censo: 9/9 têm `AttributeEffects`) — também passam a aparecer.
+- **Regra que fica:** a linha se chama "*Your active shrine auras*" e se apresenta como completa — aura viva que
+  não virar item sai no log com o motivo (`RV-46 AVISO`), nunca em silêncio.
+
+### 3. Contra-prova
+
+`tools/checa_shrines.py` aprendeu o campo `instancias=`, os itens sem atributo e o `RV-46 teto` (a aditividade não
+reprova por resto que varia quando o total está no teto). Contra-prova em `tools/fixtures/shrines-rv46-dedupe.log`:
+o hover do print do dono (mesmas auras, `instancias=[Guardian Aura x2, Rogue Aura x3]`) sai
+`Dodge +40% (total +75%)` e o caso do Dwarven fecha nos 3 bônus (20/24/40). **Nenhuma fórmula de dano, nenhuma
+convenção de formatação (Ceil do RV-45, sinal único do 46acd97) e nenhuma das 12 notas de texto foram tocadas.**

@@ -28,10 +28,10 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | `cobertura/` | mantenedor | O **censo** do que existe para revisar (CSVs) e os relatórios de revisão. Ver §2. |
 
 O repositório tem, na raiz, uma pasta por mod — `BetterCombatText`, `BetterFont`,
-`BetterStats`, `BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL` e
+`BetterStats`, `BetterTooltips`, `RoguelikeDebugger` e
 `RoguelikeSkillTreeVisualizer` (e `RoguelikeBalance`, que ainda não virou mod — `BAL-1`).
 Cada um é um projeto independente, com `DeployToBepInEx` próprio no
-`.csproj`, e os **7** são pacotes Thunderstore completos (`manifest.json`, `README.md`,
+`.csproj`, e os **6** são pacotes Thunderstore completos (`manifest.json`, `README.md`,
 `CHANGELOG.md`, `icon.png`). A descrição de cada mod e o que ele **não** faz está no
 `README.md` da pasta do mod; o que cada um faz em uma linha, a versão no disco e o estado
 de publicação estão na tabela de *Pacote Thunderstore*, mais abaixo. `ReloadProbe`
@@ -121,7 +121,7 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:Er
 ```
 
 Troque pelo mod que você mexeu (`BetterStats/BetterStats.csproj`,
-`BetterFont/BetterFont.csproj`, `RoguelikeQoL/RoguelikeQoL.csproj`,
+`BetterFont/BetterFont.csproj`,
 `RoguelikeDebugger/RoguelikeDebugger.csproj`, `RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj`,
 `BetterCombatText/BetterCombatText.csproj`). Saída esperada: **nada** (o
 `-clp:ErrorsOnly` só imprime erro). Qualquer linha vermelha = **pare aqui**.
@@ -256,8 +256,8 @@ O dia a dia continua em **Debug**: `dotnet build <Mod>/<Mod>.csproj` (sem `-c`) 
 do r2modman. **Nada disso mudou.**
 
 O que passou a existir é o build de **Release** para gerar o artefato que vai para o `dist/`. É o
-mesmo fonte — nenhum arquivo dos 7 mods usa `#if DEBUG` (conferido com
-`grep -rn "#if DEBUG" BetterFont/ BetterStats/ BetterTooltips/ RoguelikeQoL/ RoguelikeDebugger/ RoguelikeSkillTreeVisualizer/ BetterCombatText/`,
+mesmo fonte — nenhum arquivo dos 6 mods usa `#if DEBUG` (conferido com
+`grep -rn "#if DEBUG" BetterFont/ BetterStats/ BetterTooltips/ RoguelikeDebugger/ RoguelikeSkillTreeVisualizer/ BetterCombatText/`,
 30/09/2026: **nenhuma ocorrência**) —
 então muda só otimização/pdb/nome da pasta de saída.
 
@@ -359,7 +359,7 @@ DENTRO da pasta do mod). Nao existe pasta `src/` nem `thunderstore/`: a estrutur
 mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do `.gitignore` e o alvo
 `DeployToBepInEx` dos csproj.
 
-### Os 7 mods do projeto — o que faz, versão no disco e o que está no ar
+### Os 6 mods do projeto — o que faz, versão no disco e o que está no ar
 
 | Mod | O que faz (uma linha) | Versão no disco | Na Thunderstore |
 |---|---|---|---|
@@ -368,7 +368,6 @@ mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do
 | `BetterStats` | Mostra os atributos no formato **`base (combinado)`** na ficha de personagem e na tela de level up. | 1.0.0 | **publicado 1.0.0** (`DefRuivo_StolenRealmMods-BetterStats`, 30/09/2026). |
 | `BetterTooltips` | Conserta tooltips de skill/status que "mentiam por omissão" e acrescenta ao fim a explicação da mecânica. | 0.1.1 | **publicado 0.1.0**; a **0.1.1** (texto de shrine) ainda **não** subiu. |
 | `RoguelikeDebugger` | Ferramenta de **desenvolvimento**: despeja o inventário interno do jogo (skills, status, itens, loot) no `LogOutput.log` — é o dump que gera o censo. | 0.1.0 | **publicado 0.1.0**. |
-| `RoguelikeQoL` | HUD com os modificadores da run (**Treasure Find**, **Gold Find**, **Exp Mod** da batalha), somados da party; vem desligado por padrão. | 0.1.0 | **publicado 0.1.0**. |
 | `RoguelikeSkillTreeVisualizer` | Botão ao lado de *Choose Powerups* que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto. | 0.1.0 | **publicado 0.1.0**; o mod ainda **não foi conferido em jogo** pelo autor (roteiro no `README.md` dele). |
 
 A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `manifest.json` e
@@ -377,8 +376,8 @@ A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `m
 (`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
-**Os parametros que o Thunderstore exige, conferidos um a um nos 7 mods** (contagens medidas com
-`python .github/scripts/valida_pacotes.py`, 30/09/2026: `7 pacotes validados | 0 com problema`):
+**Os parametros que o Thunderstore exige, conferidos um a um nos 6 mods** (contagens medidas com
+`python .github/scripts/valida_pacotes.py`, 30/09/2026: `6 pacotes validados | 0 com problema`):
 
 | parametro | regra | estado |
 |---|---|---|
@@ -386,7 +385,7 @@ Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 | `version_number` | semver MAJOR.MINOR.PATCH, ate 16 chars | OK |
 | `description` | ate 250 chars | OK (139..193) |
 | `website_url` | URL valida | OK |
-| `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 935..124954 bytes — todos abaixo de 1 MB; o mínimo é o placeholder do RoguelikeQoL, que está saindo do projeto) |
+| `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 57013..124954 bytes — todos abaixo de 1 MB) |
 | `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.0` → `BetterFont 1.0.1` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
@@ -407,7 +406,7 @@ O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar c
 namespace do pacote **é o team** e nome de pacote publicado **não se renomeia**, qual dos dois publica
 era uma **decisão a tomar antes do primeiro upload** (`PUB-3`) — e ela foi tomada: quem publica é
 **`DefRuivo_StolenRealmMods`** (registrado no `team` do [`release/mods.json`](../release/mods.json)).
-Os **6** mods do release de 30/09 estão **no ar** sob esse namespace; falta o `BetterCombatText`
+Os mods do release de 30/09 estão **no ar** sob esse namespace; falta o `BetterCombatText`
 (empacotado, `publicar: false`). O nome na URL é `DefRuivo_StolenRealmMods-<Mod>`.
 
 > **Ao conferir na API:** a listagem da comunidade (`/c/stolen-realm/api/v1/package/`) é **cache** e
@@ -493,9 +492,9 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
-sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje com **7** entradas — os
-**6** mods do release de 30/09 com `publicar: true` e **publicados** (BetterFont 1.0.0, BetterStats
-1.0.0, BetterTooltips 0.1.0, RoguelikeDebugger 0.1.0, RoguelikeQoL 0.1.0, RoguelikeSkillTreeVisualizer
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje com **6** entradas — os
+**5** mods do release de 30/09 com `publicar: true` e **publicados** (BetterFont 1.0.0, BetterStats
+1.0.0, BetterTooltips 0.1.0, RoguelikeDebugger 0.1.0, RoguelikeSkillTreeVisualizer
 0.1.0) e o `BetterCombatText` com `publicar: false`, empacotado mas fora do ar; a lista tem de bater
 com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**), o envio é o workflow
 [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)

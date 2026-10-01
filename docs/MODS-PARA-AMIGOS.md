@@ -38,7 +38,6 @@ bash tools/pack-for-friends.sh BetterTooltips BetterFont
 | `BetterFont` | ✅ | fonte serifada (Times New Roman) |
 | `BetterCombatText` | ❌ | **não está** na lista padrão do `tools/pack-for-friends.sh` (linha 24, que empacota `BetterTooltips`, `BetterStats` e `BetterFont`) — o pacote dele existe para a Thunderstore, não para o zip dos amigos |
 | `RoguelikeDebugger` | ❌ | é ferramenta de desenvolvimento — despeja **milhares** de linhas no log; só serve pra nós |
-| `RoguelikeQoL` | ❌ | o HUD foi desabilitado por decisão de projeto (`AtivarHUD=false`) |
 | `RoguelikeSkillTreeVisualizer` | ❌ | **não está** na lista padrão do `tools/pack-for-friends.sh` — o script empacota `BetterTooltips`, `BetterStats` e `BetterFont` (é a lista do próprio script, linha 24) |
 | `ReloadProbe` | ❌ | harness de teste, não é mod |
 
@@ -102,7 +101,7 @@ cima. Nada mais precisa ser feito do lado dele.
 - `lib/` (na raiz do repositório) é **gitignored**: são cópias das DLLs do jogo e do
   BepInEx, usadas só para compilar. Todo mod referencia `..\lib\` — nenhum mod
   depende da pasta de outro mod (isso foi corrigido em 29/09: `BetterStats` e
-  `BetterFont` apontavam para `..\RoguelikeQoL\lib\`).
+  `BetterFont` apontavam para a `lib/` de outro mod).
 - Cada mod é um projeto independente, com `DeployToBepInEx` próprio no `.csproj`
   (copia a DLL para o perfil local depois do build).
 - Depois de compilar, a DLL de cada mod fica em
