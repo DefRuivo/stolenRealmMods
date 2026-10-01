@@ -35,6 +35,15 @@ namespace RoguelikeSkillTreeVisualizer
         private static GameObject _button;
         private static CurrentCharacterUI _triedFor;
 
+        /// <summary>
+        /// NULL-1: instante da proxima reinjecao permitida quando o clone morre com o MESMO HUD vivo
+        /// (uma tentativa a cada 2 s). O `Mirror` roda 10x por segundo — sem este teto, um clone que
+        /// morre a cada quadro viraria 10 injecoes por segundo.
+        /// </summary>
+        private static float _proximaTentativa;
+
+        private const float IntervaloDeReinjecao = 2f;
+
         // Diagnostico: POR QUE o botao esta escondido agora e onde isso ja foi escrito (um mod que
         // injeta UI nao pode falhar em silencio).
         private static string _reason;
@@ -181,9 +190,28 @@ namespace RoguelikeSkillTreeVisualizer
                     return;
                 }
 
-                if (_button == null && _triedFor != ui)
+                if (_button == null)
                 {
-                    // HUD novo (ou o clone foi destruido junto com a cena): uma tentativa por instancia.
+                    // NULL-1: `_button == null` com o operador da Unity significa "o clone FOI
+                    // DESTRUIDO" (fake null) — o campo ESTA preenchido, o objeto e que morreu. Em HUD
+                    // NOVO a tentativa e imediata (uma por instancia, `_triedFor`); com o MESMO HUD
+                    // (o clone morreu por fora, cena/refresh da hierarquia) o mod REINJETA, no maximo
+                    // uma vez a cada 2 s. Antes ele saia daqui CALADO: o gancho disparava, via o clone
+                    // morto e nao deixava rastro nenhum no log — o botao sumia para sempre naquele HUD.
+                    if (_triedFor == ui && Time.realtimeSinceStartup < _proximaTentativa)
+                    {
+                        return;
+                    }
+
+                    _proximaTentativa = Time.realtimeSinceStartup + IntervaloDeReinjecao;
+                    if (_triedFor == ui)
+                    {
+                        // Fail() escreve UMA vez por motivo (nao a cada 0,1 s) e `Ensure` abaixo ou
+                        // devolve o botao ou escreve o motivo proprio da falha.
+                        Fail("o clone do botao foi DESTRUIDO com o mesmo HUD ainda vivo (fake null) " +
+                             "— reinjetando (uma tentativa a cada 2 s)", true);
+                    }
+
                     Ensure(ui);
                     if (_button == null)
                     {
@@ -191,7 +219,7 @@ namespace RoguelikeSkillTreeVisualizer
                     }
                 }
 
-                if (_button == null || _owner != ui)
+                if (_owner != ui)
                 {
                     return;
                 }

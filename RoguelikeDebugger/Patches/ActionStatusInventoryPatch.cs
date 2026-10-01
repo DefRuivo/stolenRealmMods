@@ -21,7 +21,7 @@ namespace RoguelikeDebugger.Patches
         /// <summary>
         /// Os gatilhos de um status (RV-8b-0g + RD-2). `ActionStatusInfo.SkillTriggers` e
         /// `SkillTrigger[]` e `SkillTrigger.GeneralEffects` e `GeneralEffect[]` - array
-        /// CONCRETO (l.45797 do decompilado), entao NESTE caminho o cast nao falha: o que
+        /// CONCRETO (l.46569 do decompilado), entao NESTE caminho o cast nao falha: o que
         /// faltava era o campo sair no dump. Caso aberto que isto fecha: o `Dwarven Aura`,
         /// cujo stun nao esta em nenhuma acao do status.
         ///
@@ -173,6 +173,34 @@ namespace RoguelikeDebugger.Patches
                  + ";gatilho=" + EfeitosInfo.Nome(s.AuraTriggerStatus)
                  + ";nGatilhoOv=" + ov + "]";
         }
+        /// <summary>
+        /// RD-2F: le UM campo sob guarda.
+        ///
+        /// MOTIVO (achado de revisao em 01/10): o requisito era "falha de UM campo nao pode
+        /// truncar o dump", e ele NAO estava cumprido - o `Postfix` tinha um unico try/catch
+        /// em volta do laco INTEIRO, o catch era um `LogWarning`, o `_dumped` ja estava
+        /// marcado quando o laco comecava e nao havia retentativa. Uma excecao em qualquer
+        /// campo (os novos leem arrays de `IEffectInfo` por reflexao) abortava o laco e o
+        /// resto dos statuses sumia do log EM SILENCIO.
+        ///
+        /// AGORA: o campo que estoura vira MARCADOR no proprio campo (`!erro:<Tipo>`) e a
+        /// linha - e todas as seguintes - saem normalmente. O marcador nao pode conter '|'
+        /// nem aspas (regra do censo); o nome do campo vai na mensagem de aviso, para achar
+        /// o culpado sem adivinhar.
+        /// </summary>
+        private static string Campo(string nome, Func<string> ler)
+        {
+            try
+            {
+                return ler();
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogWarning($"[Status] campo '{nome}' falhou ({e.GetType().Name}: {e.Message}) - o campo sai como marcador e o dump SEGUE.");
+                return "!erro:" + e.GetType().Name;
+            }
+        }
+
         private static void Postfix(List<ActionStatusInfo> __result)
         {
             try
@@ -201,56 +229,78 @@ namespace RoguelikeDebugger.Patches
 
                 Plugin.Log.LogInfo($"[Status] Inventário: {__result.Count} status carregados.");
                 EfeitosInfo.Zerar();   // RV-8b-0g: resumo de tipos concretos e por categoria
-                foreach (var s in __result)
+                // RD-2F: iteramos uma COPIA da lista. O jogo popula `__result` (o getter e o funil
+                // dele) e uma Add durante a iteracao derrubaria o laco - a mesma truncagem, por
+                // outro caminho.
+                var lista = new List<ActionStatusInfo>(__result);
+                foreach (var s in lista)
                 {
                     if (s == null)
                     {
                         continue;
                     }
+                    // RD-2F: TODO campo sai por `Campo(...)`: falha de leitura vira MARCADOR no
+                    // proprio campo (`!erro:<Tipo>`) em vez de abortar o laco e truncar o dump
+                    // dali para diante. Era o defeito: um try/catch UNICO em volta do laco, o
+                    // catch em LogWarning, o `_dumped` ja marcado e sem retentativa - o resto dos
+                    // statuses sumia do log em silencio. O `desc` continua por ULTIMO (censo).
+                    var nome = Campo("nome", () => s.Name);
+                    var tipo = Campo("tipo", () => s.StatusType.ToString());
+                    var raridade = Campo("raridade", () => s.Rarity.ToString());
+
                     // Censo (RV-7): descricao COMPLETA (o corte em 90 chars cortava a mecanica).
-                    var desc = s.Description ?? "";
+                    var desc = Campo("desc", () => (s.Description ?? "").Replace("\n", " "));
 
                     // Efeitos de atributo: e o que permite separar DEBUFF de BUFF pelo sinal
                     // do valor (RV-9 revisa debuffs primeiro, por pedido do projeto).
-                    var ef = new System.Text.StringBuilder();
-                    if (s.AttributeEffects != null)
+                    var ef = Campo("efeitos", () =>
                     {
-                        foreach (var e in s.AttributeEffects)
+                        var sb = new System.Text.StringBuilder();
+                        if (s.AttributeEffects != null)
                         {
-                            if (e == null || e.CharacterAttribute == null)
+                            foreach (var e in s.AttributeEffects)
                             {
-                                continue;
+                                if (e == null || e.CharacterAttribute == null)
+                                {
+                                    continue;
+                                }
+                                sb.Append(e.CharacterAttribute.name).Append(':')
+                                  .Append(e.CharacterEffectMethod).Append(':')
+                                  .Append(e.Amount).Append(", ");
                             }
-                            ef.Append(e.CharacterAttribute.name).Append(':')
-                              .Append(e.CharacterEffectMethod).Append(':')
-                              .Append(e.Amount).Append(", ");
                         }
-                    }
+                        return sb.ToString();
+                    });
 
                     // RV-8b-0e: os GeneralEffect.Action NA ORDEM. E ESTA a lista que o `*N`
                     // do texto indexa quando o dano da skill vem de um status
                     // (Tooltip.GetDamageString l.2218 -> l.2233). O `efeitos=` acima e
                     // AttributeEffects - campo DIFERENTE; nao confundir os dois.
-                    var efGerais = new System.Text.StringBuilder();
                     int nGerais = 0;
-                    if (s.Effects != null)
+                    var efGerais = Campo("efeitosDano", () =>
                     {
-                        foreach (var e in s.Effects)
+                        var sb = new System.Text.StringBuilder();
+                        nGerais = 0;
+                        if (s.Effects != null)
                         {
-                            var ge = e as GeneralEffect;
-                            if (ge == null)
+                            foreach (var e in s.Effects)
                             {
-                                continue;
-                            }
-                            nGerais++;   // conta MESMO o de Action vazio: e assim que o tooltip indexa
-                            if (!string.IsNullOrEmpty(ge.Action))
-                            {
-                                efGerais.Append(ge.Action.Replace("\n", " ").Replace("\r", " ")
+                                var ge = e as GeneralEffect;
+                                if (ge == null)
+                                {
+                                    continue;
+                                }
+                                nGerais++;   // conta MESMO o de Action vazio: e assim que o tooltip indexa
+                                if (!string.IsNullOrEmpty(ge.Action))
+                                {
+                                    sb.Append(ge.Action.Replace("\n", " ").Replace("\r", " ")
                                                         .Replace("|", "/").Replace("\"", "'").Trim())
-                                        .Append("; ");
+                                      .Append("; ");
+                                }
                             }
                         }
-                    }
+                        return sb.ToString();
+                    });
 
                     // AURA (29/09): o "within N hexes" dos selos (`Seal of Protection/Might/
                     // Salvation`), do `Bless` e afins NÃO está no alvo da ação — a ação é
@@ -270,17 +320,22 @@ namespace RoguelikeDebugger.Patches
                     // (l.320295, campos EffectTarget / CharacterVariableAttribute / Amount) -
                     // justamente os que o cast antigo descartava. `nEfeitosTot` e o
                     // `Effects.Length` (inclui os de acao vazia e os de tipo nao-GeneralEffect).
-                    var efTipos = EfeitosInfo.Descreve(s.Effects);
+                    var efTipos = Campo("efTipos", () => EfeitosInfo.Descreve(s.Effects));
 
                     // Mesmo tratamento para `AttributeEffects` (CharacterEffectInfo[]):
                     // array de tipo CONCRETO, entao o cast nunca falhou aqui - mas o dump so
                     // publicava nome:metodo:valor e perdia as flags (Infinite,
                     // CalculateOnSecondPass, HideIfNotEquipped, IgnoreTierEffects).
-                    var attrTipos = EfeitosInfo.Descreve(s.AttributeEffects);
+                    var attrTipos = Campo("attrTipos", () => EfeitosInfo.Descreve(s.AttributeEffects));
 
-                    string modelo;
-                    if (s.ModelChangeCharacter != null)
+                    // RD-2F: o bloco inteiro virou lambda de `Campo` - mesma logica, mesmo texto
+                    // de saida (inclusive o " []" de Skills vazio e o " (+N)" do corte em 14).
+                    var modelo = Campo("modelo", () =>
                     {
+                        if (s.ModelChangeCharacter == null)
+                        {
+                            return "-";
+                        }
                         var habs = s.ModelChangeCharacter.Skills;
                         var txt = "";
                         if (habs != null)
@@ -293,33 +348,53 @@ namespace RoguelikeDebugger.Patches
                             }
                             if (habs.Count > lim) txt += "; (+" + (habs.Count - lim) + ")";
                         }
-                        modelo = s.ModelChangeCharacter.name + " [" + txt + "]";
-                    }
-                    else modelo = "-";
+                        return s.ModelChangeCharacter.name + " [" + txt + "]";
+                    });
+
+                    // RD-2F: os campos restantes da linha, TODOS por `Campo(...)` (ver o helper). Os
+                    // que o dump publica como texto explicito ("sim"/"nao"/"Buff"/...) mantem o
+                    // MESMO formato - o marcador `!erro:` so aparece quando a leitura falha.
+                    var aura = Campo("aura", () => s.IsAura ? "sim" : "nao");
+                    var raio = Campo("raio", () => s.AuraRadius.ToString());
+                    var auraAli = Campo("auraAli", () => s.AuraEffectsAllies ? "sim" : "nao");
+                    var auraIni = Campo("auraIni", () => s.AuraEffectsEnemies ? "sim" : "nao");
+                    var beneficio = Campo("beneficio", () => s.IsBeneficial ? "Buff" : (s.IsHarmful ? "Debuff" : "Neutro"));
+                    var dur = Campo("dur", () => s.Duration);
+                    var maxStk = Campo("maxStk", () => s.MaxStacks.ToString());
+                    var nEfeitosTot = Campo("nEfeitosTot", () => EfeitosInfo.Conta(s.Effects).ToString());
+                    var nAttrEf = Campo("nAttrEf", () => EfeitosInfo.Conta(s.AttributeEffects).ToString());
+                    var nTrig = Campo("nTrig", () => EfeitosInfo.Conta(s.SkillTriggers).ToString());
+                    var trigEf = Campo("trigEf", () => TriggersDe(s));
+                    var expr = Campo("expr", () => EfeitosInfo.Junta(s.DescriptionExpressions));
+                    var danoExpr = Campo("danoExpr", () => EfeitosInfo.Junta(s.DamageExpressionOverrides));
+                    var refAcao = Campo("refAcao", () => EfeitosInfo.Nome(s.TooltipDamageInfoRefAction));
+                    var refStatus = Campo("refStatus", () => EfeitosInfo.Nome(s.TooltipDamageInfoRefStatus));
+                    var tick = Campo("tick", () => TickDe(s));
+                    var auraSts = Campo("auraSts", () => AuraDe(s));
 
                     Plugin.Log.LogInfo(
-                        $"[Status] '{s.Name}' | tipo={s.StatusType} | raridade={s.Rarity} | " +
+                        $"[Status] '{nome}' | tipo={tipo} | raridade={raridade} | " +
                         $"efeitos={ef} | efeitosDano={efGerais} | nEfeitosDano={nGerais} | " +
-                        $"aura={(s.IsAura ? "sim" : "nao")} | raio={s.AuraRadius} | " +
-                        $"auraAli={(s.AuraEffectsAllies ? "sim" : "nao")} | auraIni={(s.AuraEffectsEnemies ? "sim" : "nao")} | " +
+                        $"aura={aura} | raio={raio} | " +
+                        $"auraAli={auraAli} | auraIni={auraIni} | " +
                         $"modelo={modelo} | " +
                         // RV-9 (29/09): classificacao buff/debuff do ASSET. NAO existe `BenefitType`
                         // em `ActionStatusInfo` - esse campo e da classe `EventStatus` (status de evento).
                         // O certo aqui e `IsBeneficial`/`IsHarmful`, computados de `SkillTags`
                         // (l.319287/319428/319430). E o que separa buffs de debuffs no censo do RV-9.
-                        $"beneficio={(s.IsBeneficial ? "Buff" : (s.IsHarmful ? "Debuff" : "Neutro"))} | " +
+                        $"beneficio={beneficio} | " +
                         // RV-9: dois campos que travavam itens do lote 1 dos debuffs - os textos
                         // "Stacks up to N times" (o cap mora em `MaxStacks`) e "Lasts N turns" (a
                         // duracao mora em `Duration`). Nenhum dos dois era exportado (l.319149/319141).
-                        $"dur={s.Duration} | maxStk={s.MaxStacks} | " +
+                        $"dur={dur} | maxStk={maxStk} | " +
                         // RV-8b-0g: o dado que o cast antigo perdia, mais os gatilhos do status.
                         // `SkillTriggers` e `SkillTrigger[]` e `SkillTrigger.GeneralEffects` e
-                        // `GeneralEffect[]` (l.45797) - array CONCRETO, entao NESTE caminho o
+                        // `GeneralEffect[]` (l.46569) - array CONCRETO, entao NESTE caminho o
                         // cast nao falha; o que faltava era o campo sair no dump (caso aberto
                         // do `Dwarven Aura`: o stun nao esta na acao, e o suspeito e o gatilho).
-                        $"nEfeitosTot={EfeitosInfo.Conta(s.Effects)} | efTipos={efTipos} | " +
-                        $"nAttrEf={EfeitosInfo.Conta(s.AttributeEffects)} | attrTipos={attrTipos} | " +
-                        $"nTrig={EfeitosInfo.Conta(s.SkillTriggers)} | trigEf={TriggersDe(s)} | " +
+                        $"nEfeitosTot={nEfeitosTot} | efTipos={efTipos} | " +
+                        $"nAttrEf={nAttrEf} | attrTipos={attrTipos} | " +
+                        $"nTrig={nTrig} | trigEf={trigEf} | " +
                         // RD-2: os ganchos de EXPRESSAO e de TEMPO do status, mais as duas
                         // referencias de tooltip. Onde cada um mora no motor (decompilado):
                         //   expr      = DescriptionExpressions              (l.441015) - 138/421 statuses
@@ -333,12 +408,12 @@ namespace RoguelikeDebugger.Patches
                         // ["Mathf.Round(5 * (1 + (Source[\"ShrineEffectBonus\"] / 100)))] e o
                         // `Decay Shrine Aura` o mesmo com base 10 - os numeros que o RV-19
                         // deduziu do decompilado saem agora do dump, lidos do motor.
-                        $"expr={EfeitosInfo.Junta(s.DescriptionExpressions)} | " +
-                        $"danoExpr={EfeitosInfo.Junta(s.DamageExpressionOverrides)} | " +
-                        $"refAcao={EfeitosInfo.Nome(s.TooltipDamageInfoRefAction)} | " +
-                        $"refStatus={EfeitosInfo.Nome(s.TooltipDamageInfoRefStatus)} | " +
-                        $"tick={TickDe(s)} | auraSts={AuraDe(s)} | " +
-                        $"desc=\"{desc.Replace("\n", " ")}\"");
+                        $"expr={expr} | " +
+                        $"danoExpr={danoExpr} | " +
+                        $"refAcao={refAcao} | " +
+                        $"refStatus={refStatus} | " +
+                        $"tick={tick} | auraSts={auraSts} | " +
+                        $"desc=\"{desc}\"");
                 }
 
                 // Prova, no proprio log, de que existe elemento que nao e GeneralEffect -
@@ -347,7 +422,11 @@ namespace RoguelikeDebugger.Patches
             }
             catch (Exception e)
             {
-                Plugin.Log.LogWarning($"[Status] erro no inventário: {e.Message}");
+                // RD-2F: ULTIMO recurso. Todo campo ja passa por `Campo(...)`, entao chegar aqui e
+                // falha FORA de campo (ex.: falta de memoria no meio do laco). Era `LogWarning` e
+                // podia passar batido; agora e ERRO e diz que o dump pode estar incompleto - falha
+                // de campo nao trunca mais o laco, entao e ESTE silencio que nao pode existir.
+                Plugin.Log.LogError($"[Status] o laço do inventário ABORTOU fora de campo ({e.GetType().Name}: {e.Message}) - o dump pode estar incompleto (campo problematico sai como '!erro:Tipo'; falha assim nao e campo).");
             }
         }
     }
