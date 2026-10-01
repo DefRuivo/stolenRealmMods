@@ -64,14 +64,16 @@ LIMITES - O QUE ESTA FERRAMENTA **NAO** PROVA
    O mesmo vale para o `[0]`% do Decay isolado do dano (o log imprime o DANO por turno; a % so e
    isolavel quando MaxHealth = 100).
 4. **O texto do jogo nao e comparado** - as chaves/`TextFixes`/`TextAppends` nao entram aqui.
-5. **A `linha do Decay` NAO loga o tipo de inimigo** (`tipo=`) - ela existe na linha do Flame, nao
-   na do Decay. O esperado do Decay e calculado com a % de `player` (10%), que e o unico caminho do
-   mod para achar o portador (o personagem em foco). Se um dia o receptor do Decay for uma IA, a
-   conta nao bate e a ferramenta acusa ACHADO com esse motivo - o campo que falta esta listado em
-   RELATORIO (o conserto e no mod: `tipo=` na linha do Decay; NAO foi feito nesta rodada).
-6. **As linhas `RV-44 item`/`RV-44 soma` NAO trazem `char=` nem `bonus=`** - elas provam o valor
-   da aura mas NAO sao atribuiveis a um caso (bonus) sozinhas; entram como AVISO/evidencia. Quem
-   ancora o caso e a linha `RV-31 acumulado`. (Conserto sugerido no RELATORIO, nao aplicado.)
+5. **A `linha do Decay` passou a logar o tipo de inimigo (`tipo=`)** — CHK-1 §7.1, CONSERTO APLICADO
+   em 01/10 no `ShrineAuraPatch`: o esperado do Decay usa a % DO TIPO logado (antes era sempre a de
+   `player`, e um portador IA virava ACHADO sem causa atribuivel). O campo e OPCIONAL no parser de
+   proposito: log anterior ao conserto continua sendo lido, cai na % de `player` e a linha do
+   resultado DIZ isso (`[tipo nao logado -> player 10%]`) em vez de fingir que conferiu.
+6. **`RV-44 item`/`RV-44 soma` passaram a trazer `char=` e `bonus=`** — CHK-1 §7.2, CONSERTO APLICADO
+   em 01/10: com os dois campos a evidencia e ATRIBUIVEL a um caso e sai na secao `EVIDENCIA
+   ATRIBUIDA` (com o caso ao lado) em vez de AVISO cego. Sem os campos (log anterior ao conserto)
+   vale o AVISO de antes. Quem ancora o caso em OK/ACHADO continua sendo a linha `RV-31 acumulado`.
+   (As duas marcas sao de LOG: nenhum texto de jogador mudou com elas.)
 7. Ela NAO cobre o caso de bonus +8 (`Omnism I`) e +50 (roll do `Horn of Devotion`): a tabela tem
    os 3 casos exigidos (0, +20, +100). Uma observacao com bonus fora dos 3 sai como AVISO.
 8. Ela nao prova que o numero do Flame e o do PORTADOR em vez do ATACANTE (RV-19 §9(ii)):
@@ -99,8 +101,14 @@ RE_LINHA_STATUS = re.compile(r"^\[[A-Za-z]+\s*:\s*Roguelike Debugger\]\s*\[Statu
 # Ancoras do comparador.
 RE_ACUMULADO = re.compile(
     r"^RV-31 acumulado: auras=\[(?P<auras>[^\]]*)\] char=(?P<char>.+?) bonus=(?P<bonus>-?[0-9.]+) -> (?P<efeito>.+)$")
+# CHK-1 §7.1 (CONSERTO APLICADO no mod): a linha do Decay ganhou `tipo=`. O grupo e OPCIONAL de proposito -
+# o log anterior ao conserto continua sendo lido, so cai na % de `player` e a saida DIZ isso em vez de fingir.
 RE_DECAY = re.compile(
-    r"^RV-34 linha do Decay: (?P<char>.+?) MaxHealth=(?P<mh>[0-9.]+) bonus=(?P<bonus>-?[0-9.]+) -> '(?P<linha>.*)'$")
+    r"^RV-34 linha do Decay: (?P<char>.+?) MaxHealth=(?P<mh>[0-9.]+)"
+    r"(?: tipo=(?P<tipo>[A-Za-z_()]+))? bonus=(?P<bonus>-?[0-9.]+) -> '(?P<linha>.*)'$")
+# CHK-1 §7.2 (CONSERTO APLICADO no mod): `RV-44 item`/`RV-44 soma` ganharam `char=` e `bonus=`, que e o que
+# torna a evidencia ATRIBUIVEL a um caso. Sem os campos, a linha continua caindo no AVISO de antes.
+RE_EVIDENCIA = re.compile(r" char=(?P<char>.+?) bonus=(?P<bonus>-?[0-9.]+)")
 RE_DECAY_DANO = re.compile(r"\((?P<dano>[0-9.]+) damage per turn for you\)")
 RE_FLAME = re.compile(
     r"^RV-34 Flame alvo '(?P<nome>.*?)': MaxHealth=(?P<mh>[0-9.]+) tipo=(?P<tipo>[A-Za-z_()]+)"
@@ -241,7 +249,8 @@ def parseia_acumulado(payload):
 
 
 def coleta(log):
-    obs = {"acumulado": [], "decay": [], "flame": [], "dump": {}, "avisos": [], "nao_lidas": []}
+    obs = {"acumulado": [], "decay": [], "flame": [], "evidencias": [], "dump": {},
+           "avisos": [], "nao_lidas": []}
     for n, linha in enumerate(log.splitlines(), start=1):
         mi = RE_LINHA_SHRINE.match(linha)
         if mi:
@@ -271,6 +280,8 @@ def coleta(log):
                 md = RE_DECAY_DANO.search(m.group("linha"))
                 obs["decay"].append({
                     "char": m.group("char"), "mh": float(m.group("mh")),
+                    # CHK-1 §7.1: `tipo` pode vir None (log anterior ao conserto do mod).
+                    "tipo": m.group("tipo"),
                     "bonus": numero(m.group("bonus")),
                     "dano": float(md.group("dano")) if md else None,
                     "linha": n, "bruto": p,
@@ -285,12 +296,19 @@ def coleta(log):
                     "bonus": numero(m.group("bonus")), "dano": float(m.group("dano")),
                     "linha": n, "bruto": p,
                 })
-            elif p.startswith("RV-44 item "):
-                # Evidencia SEM `char=` e SEM `bonus=`: nao da para atribuir a um caso sem
-                # heuristica. Fica como AVISO (limite 6 do cabecalho).
-                obs["avisos"].append((n, "evidencia `RV-44 item` sem campo bonus/char (nao atribuivel): %r" % p))
-            elif p.startswith("RV-44 soma "):
-                obs["avisos"].append((n, "evidencia `RV-44 soma` sem campo bonus/char (nao atribuivel): %r" % p))
+            elif p.startswith("RV-44 item ") or p.startswith("RV-44 soma "):
+                # CHK-1 §7.2 (conserto aplicado no mod): com `char=` e `bonus=` a evidencia passa a ser
+                # ATRIBUIVEL a um caso e deixa de ser AVISO cego. Sem os campos (log anterior ao
+                # conserto) vale o limite 6 antigo, com o mesmo texto de antes.
+                me = RE_EVIDENCIA.search(p)
+                if me:
+                    obs["evidencias"].append({
+                        "bruto": p, "linha": n, "item": p.startswith("RV-44 item "),
+                        "char": me.group("char"), "bonus": numero(me.group("bonus")),
+                    })
+                else:
+                    obs["avisos"].append((n, "evidencia `%s` sem campo bonus/char (nao atribuivel): %r"
+                                          % (" ".join(p.split(" ")[:2]), p)))
             elif p.startswith("chave '"):
                 # Log do LocalizePatch: mostra o texto final MONTADO, mas com o `[0]` AINDA no lugar
                 # (o pipeline de expressoes roda depois). Nao traz numero de aura resolvido -> nao
@@ -416,19 +434,27 @@ def main(argv=None):
                     resultados.setdefault(chave, []).append(
                         ("AUSENTE", "linha do Decay sem o dano '(N damage per turn for you)': %r" % o["bruto"]))
                     continue
-                esp = float(round_half_even(o["mh"] * (pct_player / 100.0) * (1 + caso_f / 100.0)))
+                # CHK-1 §7.1 (conserto aplicado no mod): com o `tipo=` da marca, o esperado usa a % DO
+                # TIPO (a que o motor usa de verdade). Sem o campo - log anterior ao conserto - cai na
+                # % de `player` e a linha do resultado DIZ isso, como antes.
+                tipo = (o.get("tipo") or "").lower()
+                tipo = tipo if tipo in pct[aura] else None
+                pct_usada = pct[aura][tipo] if tipo else pct_player
+                rotulo_tipo = ("tipo=%s %s%%" % (o["tipo"], fmt(pct_usada))) if tipo \
+                    else "[tipo nao logado -> player %s%%]" % fmt(pct_player)
+                esp = float(round_half_even(o["mh"] * (pct_usada / 100.0) * (1 + caso_f / 100.0)))
                 if abs(o["dano"] - esp) > 1e-9:
                     achados.append(Achado(aura, "(dano/turno)", caso, o["dano"], esp,
-                                          "dano do Decay difere (tipo NAO logado: esperado calculado como player)",
+                                          "dano do Decay difere (%s)" % rotulo_tipo,
                                           o["linha"], o["char"]))
                     resultados.setdefault(chave, []).append(
-                        ("ACHADO", "char=%s MaxHealth=%s dano=%s esperado=%s (player) dif=%+g (log:%d)"
-                         % (o["char"], fmt(o["mh"]), fmt(o["dano"]), fmt(esp),
+                        ("ACHADO", "char=%s MaxHealth=%s dano=%s esperado=%s (%s) dif=%+g (log:%d)"
+                         % (o["char"], fmt(o["mh"]), fmt(o["dano"]), fmt(esp), rotulo_tipo,
                             o["dano"] - esp, o["linha"])))
                 else:
                     resultados.setdefault(chave, []).append(
-                        ("OK", "char=%s MaxHealth=%s dano=%s [tipo nao logado -> player 10%%] (log:%d)"
-                         % (o["char"], fmt(o["mh"]), fmt(o["dano"]), o["linha"])))
+                        ("OK", "char=%s MaxHealth=%s dano=%s [%s] (log:%d)"
+                         % (o["char"], fmt(o["mh"]), fmt(o["dano"]), rotulo_tipo, o["linha"])))
             continue
         # Flame: um item por ALVO na area, cada um com a vida/%%/bonus DELE
         candidatos = [o for o in obs["flame"] if o["bonus"] == caso_f]
@@ -609,6 +635,23 @@ def main(argv=None):
             print("\n-- ADITIVIDADE (resto = total - aura, tem de ser constante por personagem) --")
             for s, txt in adit:
                 print("  %s %s" % (marca(s), txt))
+
+        # CHK-1 §7.2 (conserto aplicado no mod): as linhas `RV-44 item`/`RV-44 soma` que trazem `char=`
+        # e `bonus=` sao ATRIBUIVEIS a um caso e saem aqui com o dono ao lado, em vez de virarem AVISO
+        # cego. Elas NAO decidem OK/ACHADO sozinhas (quem ancora o caso continua sendo o `RV-31
+        # acumulado` do mesmo hover) - o que mudou foi a evidencia ter dono.
+        print("\n-- EVIDENCIA ATRIBUIDA (RV-44 item/soma com char= e bonus=) --")
+        if obs["evidencias"]:
+            por_evid = {}
+            for e in obs["evidencias"]:
+                por_evid.setdefault((e["char"], e["bonus"]), []).append(e)
+            for (char, bonus), lista in sorted(por_evid.items()):
+                print("  [EVID]    caso char=%s bonus=%s: %d linha(s) atribuida(s) (log:%s)"
+                      % (char, fmt(bonus), len(lista),
+                         ", ".join(str(x["linha"]) for x in lista)))
+        else:
+            print("  [AUSENTE] nenhuma linha `RV-44 item`/`RV-44 soma` com `char=`/`bonus=` neste log "
+                  "- ou o build e anterior ao CHK-1 §7.2, ou nao houve hover com aura de shrine viva.")
 
         print("\n-- DUMP DO ROGUELIKEDEBUGGER (fonte independente da base das auras de buff) --")
         for s, txt in dump_res:
