@@ -1,64 +1,75 @@
 # BetterStats
 
-Mod **BepInEx 5** para **Stolen Realm** que mostra os números de stats e atributos na **ficha de personagem** e na **tela de level up**, no formato **`base (combinado)`**. **Não altera gameplay.**
+Shows your attributes as **`base (combined)`** on the character sheet and on the
+level-up screen: the raw value you invested and the final value with powerups, gear and
+skills. **No gameplay change.**
 
 - **GUID:** `com.gumatos.betterstats`
-- **Versão:** 1.0.0
-- **Compatível com:** Stolen Realm **v1.3.1** (versão mais recente do jogo em 30/09/2026).
-- **Dependências:** nenhuma além do BepInEx 5 (que o r2modman já instala no perfil).
+- **Version:** 1.0.1
+- **Works with:** Stolen Realm v1.3.1.
+- **Needs:** BepInEx 5 (r2modman installs it for you).
 
-## O que ele faz
+## What it does
 
-O jogo mostra só um número final de cada atributo (Might, Dexterity, Vitality, Intelligence, Reflex). Isso esconde quanto veio de **pontos investidos** e quanto veio de **powerups, equipamento e skills** — justamente a informação que você precisa na hora de decidir onde investir.
+The game shows one final number per attribute (Might, Dexterity, Vitality, Intelligence,
+Reflex). That hides how much came from **points invested** and how much came from
+**powerups, gear and skills** — the part you need when deciding where to invest.
 
-O mod exibe os dois:
+The mod shows both:
 
 ```text
 Might        12 (18)
              ^^   ^^
-             |    +-- valor FINAL (com powerups, equipamento e skills aplicados)
-             +-- valor PURO (pontos investidos, de character.SavedMap)
+             |    +-- final value (powerups, gear and skills applied)
+             +-- raw value (points invested)
 ```
 
-- Funciona no painel **Attributes** da tela de inventário/personagem (`InventoryManager.UpdateStats`) e na tela de **level up** do roguelike (`RoguelikeManager`).
-- De quebra, **corrige o layout** dessa coluna de valores: ela era alinhada à esquerda num X fixo e o texto vazava para fora do painel.
-- Nenhum número é inventado: o valor puro vem do `SavedMap` do personagem e o combinado dos atributos finais do `Game`. O mod só formata o texto.
+- Works on the **Attributes** panel of the character/inventory screen and on the
+  roguelike **level-up** screen.
+- Also fixes the layout of that value column, which used to overflow the panel.
 
-## O que ele NÃO faz
+## What it does not do
 
-- **Não altera gameplay** — nenhum atributo, dano ou custo muda; o mod só formata o texto exibido.
-- **Não modifica nenhum arquivo do jogo** (nem save) e não deixa resíduo.
-- **Não inventa número**: o valor puro vem do `SavedMap` do personagem e o combinado, dos atributos finais do `Game`.
-- **Não muda outras telas** — a alteração vale para o painel *Attributes* do inventário/personagem e para a tela de level up do roguelike.
+- **No gameplay change** — no attribute, damage or cost changes; it only formats text.
+- **No game file is modified** (nor the save) and nothing is left behind.
+- **No number is invented** — the raw value comes from the character, the combined value
+  from the game's final attributes.
+- **No other screens are changed.**
 
-## Instalar
+## Install
 
-**Pelo r2modman (recomendado):** instale este pacote no perfil do Stolen Realm — o r2modman coloca a DLL em `BepInEx\plugins\BetterStats\`.
+**r2modman (recommended):** install this package in the Stolen Realm profile — the DLL
+goes to `BepInEx\plugins\BetterStats\`.
 
-**Manual:**
+**Manual:** install BepInEx 5 x64 (or press "Start modded" once in r2modman to create
+the folders), then copy the `BetterStats` folder to:
 
-1. Instale o **BepInEx 5 x64** no jogo (ou dê "Start modded" uma vez no r2modman, que cria a pasta).
-2. Copie a pasta `BetterStats` para:
-   ```text
-   %APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\
-   ```
-   Deve ficar: `...\plugins\BetterStats\BetterStats.dll`
-3. Abra o jogo. No `LogOutput.log` deve aparecer:
-   ```text
-   [Info   :Better Stats] Better Stats carregado.
-   ```
+```text
+%APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\
+```
 
-## Como desfazer
+The file must end up as `...\plugins\BetterStats\BetterStats.dll`.
 
-Apague a pasta `BepInEx\plugins\BetterStats\` (ou desabilite o pacote no r2modman) e abra o jogo de novo. O mod não modifica nenhum arquivo do jogo e não deixa resíduo.
+## Uninstall
 
-## Compilar do fonte
+Delete the folder `BepInEx\plugins\BetterStats\` (or untick the package in r2modman) and
+open the game again. No game file was ever changed.
+
+## Build from source
 
 ```powershell
 cd BetterStats
 dotnet build
 ```
 
-Saída: `bin\Debug\netstandard2.1\BetterStats.dll`
+Output: `bin\Debug\netstandard2.1\BetterStats.dll`. The reference DLLs come from the game
+and are **never distributed**.
 
-As DLLs de referência (BepInEx, Unity, `Assembly-CSharp`) vêm de `..\lib\` e **nunca são distribuídas**: a `Assembly-CSharp.dll` é propriedade do jogo.
+---
+
+## Português (BR)
+
+Mostra os atributos como **`base (combinado)`** na ficha de personagem e na tela de level
+up: o valor puro investido e o valor final com powerups, equipamento e skills. Também
+corrige o alinhamento da coluna de valores. **Não altera gameplay.** Instalação,
+desinstalação e build estão nas seções em inglês acima.

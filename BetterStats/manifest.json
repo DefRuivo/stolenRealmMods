@@ -2,7 +2,7 @@
   "name": "BetterStats",
   "version_number": "1.0.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Mostra os numeros de stats e atributos na ficha de personagem e na tela de level up no formato base (combinado). Sem alteracao de gameplay.",
+  "description": "Shows attributes as base (combined) on the character sheet and the level-up screen: the value you invested and the final value with powerups, gear and skills. No gameplay change.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305"
   ],
