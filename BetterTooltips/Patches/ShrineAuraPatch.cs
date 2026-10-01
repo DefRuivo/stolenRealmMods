@@ -309,6 +309,54 @@ namespace BetterTooltips.Patches
     /// ASSINATURA: nada muda no Harmony aqui — este arquivo segue com a assinatura explícita por TIPO
     /// no único patch (`ApplyDescriptionExpressions`, 5 tipos, `ref __2`) e nenhum parâmetro por índice
     /// novo. Todo o trabalho novo é código de leitura, dentro de try/catch.
+    ///
+    /// DWA-2 (30/09) — A DEDUPE DO RV-46 ERA AMPLA DEMAIS: ela é por TIPO DE EFEITO, não por aura.
+    ///
+    /// O dono reportou que `Dwarven Aura` não stacka com mais de um `Dwarven Shrine` no alcance. A
+    /// causa: o RV-46 passou a desduplicar a lista viva ANTES de tudo, e isso está certo para efeito de
+    /// ATRIBUTO, mas o efeito do Dwarven é CHANCE DE GATILHO — e aí o motor NÃO corta a repetição.
+    ///
+    /// O QUE O MOTOR FAZ, POR TIPO (decompilado do build atual; os números de linha são do arquivo
+    /// `Assembly-CSharp.decompiled.cs` do cache):
+    ///
+    ///  (a) EFEITO DE ATRIBUTO DE PERSONAGEM (`ActionStatusInfo.AttributeEffects` com
+    ///      `EffectTarget = Target`): `Character.GetAttributeValueByMethod` percorre a lista de status
+    ///      do personagem inteira (l.37194), casa o efeito pelo ATRIBUTO e soma
+    ///      `valor * TotalStacks` por status (l.37255-37273) — SEM dedupe. Quem corta é o TETO do
+    ///      atributo: `Character.GetAttribute`, l.40571-40578 (`HasMax` → `MaxValue`/`MaxAttribute`),
+    ///      depois do `Mathf.Ceil` (l.40587). Ou seja: as instâncias extras SOMAM no motor e o teto
+    ///      pode engolir essa soma; a CONTRIBUIÇÃO de UMA aura é o número que a linha branca do shrine
+    ///      mostra (`20 * (1 + bônus/100)`) e é o que a linha azul exibe, UMA VEZ por aura — é a regra
+    ///      do RV-46 e ela continua valendo aqui (`AurasUnicas`).
+    ///
+    ///  (b) EFEITO DE GATILHO (status com `SkillTriggers`, sem atributo de personagem): o motor NÃO
+    ///      corta — ele CONTA a repetição, uma vez por INSTÂNCIA viva:
+    ///        - `Character.SkillTriggers` (getter, l.33467) percorre `ActionStatuses` (l.33489) e
+    ///          acrescenta os `SkillTriggers` de CADA status (l.33497-33508). Com o MESMO status vivo
+    ///          N vezes, o MESMO gatilho entra N vezes na lista.
+    ///        - `Character.ProcessSkillTriggers` copia essa lista inteira (l.40948-40952) e percorre
+    ///          TODAS as entradas (l.40953): o único guard que poderia pular a segunda é o cooldown do
+    ///          PRÓPRIO gatilho (l.40956, `TriggerCooldownDict[trigger] > 0f`, alimentado por
+    ///          `trigger.Cooldown` em l.40995). O gatilho do Dwarven tem `Cooldown = 0` no asset
+    ///          (conferido nos bytes: `resources.assets` @1517115748 = `00 00 00 00`, na MESMA posição
+    ///          em que o gatilho do `Quick Hands` tem `00 00 80 3f` = 1.0 — e cujo `cooldownTrig=1` o
+    ///          log do jogo mostra, casando com o "Can only trigger once per turn." do texto dele), e
+    ///          `MaxNumUses` vazio — nada bloqueia a segunda instância.
+    ///        - A chance é rolada POR ENTRADA: `GetRollResult(Burst2Flame.Game.Eval<float>(
+    ///          trigger.ActionStatusChanceEquations[num8]))` (l.41211-41216), com a expressão do asset
+    ///          — a MESMA string da `DescriptionExpressions[0]`. `TotalStacks` NÃO multiplica chance de
+    ///          gatilho (o fator de stacks existe só no caminho de ATRIBUTO, l.37263).
+    ///      Consequência: com DOIS Dwarven Shrines no alcance há DUAS `Dwarven Aura` vivas (cada shrine
+    ///      do mapa tem o PRÓPRIO `Source`: `ConvertToGroundEffect` recebe o character do shrine,
+    ///      l.110814-110822, e o status é criado por ground effect em `GroundEffect.AddGroundEffectedPlayer`,
+    ///      l.116924) e o motor rola a chance DUAS vezes por golpe. Esconder a segunda instância era o
+    ///      defeito; o número NÃO é somado a mão (duas rolagens de 40% não são "80%").
+    ///
+    /// A REGRA TIPADA QUE FICA (nenhum nome de aura no meio): `TipoDoEfeito` lê o ASSET do
+    /// status (`AttributeEffects` → `Atributo`; `SkillTriggers` → `Gatilho`) e `AurasQueContamPorInstancia`
+    /// monta a lista dos itens sem atributo: aura de ATRIBUTO entra UMA vez (RV-46), aura de GATILHO
+    /// entra UMA vez POR INSTÂNCIA. O tipo é logado (`RV-46/DWA-2 tipos de efeito`) e as contagens
+    /// também — a linha continua se apresentando como COMPLETA.
     /// </summary>
     [HarmonyPatch]
     public static class ShrineAuraPatch
@@ -1044,6 +1092,31 @@ namespace BetterTooltips.Patches
                         + " branca do proprio shrine mostra)");
                 }
 
+                // (c2) DWA-2 — A DESDUPE ACIMA E PARA EFEITO DE ATRIBUTO. E o TIPO do efeito (lido do
+                // asset do status, nunca do nome da aura) que diz se a repeticao conta no MOTOR:
+                //   - ATRIBUTO de personagem: o motor SOMA as instancias e o TETO corta (l.37194/37263 +
+                //     l.40571-40578) -> cada aura entra UMA vez (RV-46, e a regra do `Dodge +120%`);
+                //   - GATILHO (`SkillTriggers` sem atributo): o motor monta a lista de gatilhos um POR
+                //     status vivo (l.33489-33508), percorre TODAS as entradas (l.40953-40959) e rola a
+                //     chance de novo em cada uma (l.41211-41216) -> cada INSTANCIA conta, e o item sai
+                //     uma vez por instancia (o motor rola N vezes; nao existe soma de chance).
+                List<string> contamAtributo;
+                List<string> contamGatilho;
+                List<ActionStatus> porInstancia = AurasQueContamPorInstancia(ativas, out contamAtributo,
+                    out contamGatilho);
+                if (contamGatilho.Count > 0)
+                {
+                    Marca($"RV-46/DWA-2 tipo do efeito: atributo=[{string.Join(", ", contamAtributo.ToArray())}]"
+                        + " (1x por aura: o motor soma as instancias e o teto do atributo corta —"
+                        + " l.37194/37263 + l.40571-40578)"
+                        + $" | gatilho=[{string.Join(", ", contamGatilho.ToArray())}]"
+                        + " (1 item por INSTANCIA: o gatilho entra na lista uma vez por status vivo"
+                        + " — l.33489-33508 —, o laco percorre todas as entradas — l.40953-40959 — e a"
+                        + " chance e rolada de novo em cada uma — l.41211-41216; o gatilho do Dwarven tem"
+                        + " Cooldown=0 e MaxNumUses vazio no asset, entao nada bloqueia a repeticao;"
+                        + " TotalStacks NAO multiplica chance de gatilho)");
+                }
+
                 // (d) CONTEÚDO AGREGADO: um item por ATRIBUTO que as auras vivas mexem (a intenção do
                 // RV-20, cujo nome sempre foi no plural). As auras cujo efeito NÃO é atributo de
                 // personagem (Dwarven/Decay/Flame) ganham item próprio logo abaixo (RV-46) — mas a
@@ -1118,7 +1191,10 @@ namespace BetterTooltips.Patches
                 // atributo de personagem (Dwarven = chance de stun, Decay = dano por turno, Flame = dano
                 // em quem ataca) ganham item próprio com o número do asset avaliado pelo motor; o que
                 // não virar item sai no LOG com o motivo.
-                ItensSemAtributo(unicas, receptor, somadas, emFallback, partes);
+                // DWA-2: a lista passada é a TIPADA (`porInstancia`) — aura de GATILHO entra uma vez por
+                // INSTANCIA (o motor avalia o gatilho uma vez por status vivo); aura de atributo/desconhecida
+                // continua entrando UMA vez (RV-46, a mesma `unicas`).
+                ItensSemAtributo(porInstancia, receptor, somadas, emFallback, partes);
 
                 if (partes.Count == 0)
                 {
@@ -1287,6 +1363,158 @@ namespace BetterTooltips.Patches
         }
 
         /// <summary>
+        /// DWA-2 — O TIPO DO EFEITO DA AURA. É ele (e NÃO o nome da aura) que decide se a instância
+        /// repetida na lista viva conta no número exibido, porque é ele que decide o que o MOTOR faz com
+        /// a repetição. Sai do ASSET do próprio status — os mesmos campos que o motor lê.
+        /// </summary>
+        private enum TipoDoEfeitoDaAura
+        {
+            /// <summary>Efeito de ATRIBUTO de personagem (`AttributeEffects` com `EffectTarget = Target`).
+            /// O motor soma TODAS as instâncias (`Character.GetAttributeValueByMethod`, l.37194/37263) e
+            /// CORTA no teto do atributo (`Character.GetAttribute`, l.40571-40578) — a instância extra
+            /// não muda o número final e por isso entra UMA vez na linha (RV-46).</summary>
+            Atributo,
+
+            /// <summary>Efeito de GATILHO (`SkillTriggers`), sem atributo de personagem. O motor monta a
+            /// lista de gatilhos um POR status vivo (`Character.SkillTriggers`, l.33489-33508), percorre
+            /// TODAS as entradas (`ProcessSkillTriggers`, l.40953-40959) e rola a chance de novo em cada
+            /// uma (l.41211-41216) — a repetição CONTA, e a linha conta junto (um item por instância).</summary>
+            Gatilho,
+
+            /// <summary>Nem atributo de personagem, nem gatilho: nada aqui prova o que o motor faz com a
+            /// repetição. Conta UMA vez (conservador) e, sem item, o motivo sai no LOG — nunca calada.</summary>
+            Outro
+        }
+
+        /// <summary>
+        /// DWA-2 — o tipo do efeito pelo ASSET do status: `AttributeEffects` (com o efeito mirando o
+        /// PORTADOR, `EffectTarget.Target` — o mesmo filtro do laço do motor) diz ATRIBUTO; senão,
+        /// `SkillTriggers` diz GATILHO (é o campo que o motor percorre para disparar coisa). Falha de
+        /// leitura cai em `Outro` (conservador: conta uma vez), nunca em exceção.
+        /// </summary>
+        private static TipoDoEfeitoDaAura TipoDoEfeito(ActionStatusInfo info)
+        {
+            if (info == null)
+            {
+                return TipoDoEfeitoDaAura.Outro;
+            }
+            try
+            {
+                CharacterEffectInfo[] efeitos = info.AttributeEffects;
+                if (efeitos != null)
+                {
+                    foreach (CharacterEffectInfo efeito in efeitos)
+                    {
+                        if (efeito != null && efeito.CharacterAttribute != null
+                            && efeito.EffectTarget == EffectTarget.Target)
+                        {
+                            return TipoDoEfeitoDaAura.Atributo;
+                        }
+                    }
+                }
+                if (info.SkillTriggers != null && info.SkillTriggers.Length > 0)
+                {
+                    return TipoDoEfeitoDaAura.Gatilho;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine DWA-2] leitura do tipo de efeito falhou: {ex.GetType().Name}: {ex.Message}");
+            }
+            return TipoDoEfeitoDaAura.Outro;
+        }
+
+        /// <summary>
+        /// DWA-2 — a lista que alimenta os itens das auras SEM atributo de personagem, já TIPADA:
+        ///
+        ///   * aura de ATRIBUTO (ou de tipo desconhecido) entra UMA vez — a desdupe do RV-46, que é a
+        ///     regra do `Dodge +120%`: o motor soma as instâncias e o teto corta, então a instância extra
+        ///     não muda número nenhum;
+        ///   * aura de GATILHO entra UMA vez POR INSTÂNCIA — o motor avalia o gatilho uma vez por status
+        ///     vivo (um item por rolagem de chance). O número de cada item continua sendo o do asset:
+        ///     NADA é somado à mão (duas rolagens de 40% não são 80%).
+        ///
+        /// `deAtributo`/`deGatilho` saem só para o LOG (quais auras caíram em cada tipo; `Nome xN` quando
+        /// o gatilho tem mais de uma instância). Falha de leitura devolve a lista como veio (melhor
+        /// repetir do que esconder aura).
+        /// </summary>
+        private static List<ActionStatus> AurasQueContamPorInstancia(List<ActionStatus> vivas,
+            out List<string> deAtributo, out List<string> deGatilho)
+        {
+            deAtributo = new List<string>();
+            deGatilho = new List<string>();
+            List<ActionStatus> itens = new List<ActionStatus>();
+            if (vivas == null)
+            {
+                return itens;
+            }
+            try
+            {
+                Dictionary<string, int> contagem = new Dictionary<string, int>(StringComparer.Ordinal);
+                Dictionary<string, ActionStatus> primeira = new Dictionary<string, ActionStatus>(StringComparer.Ordinal);
+                Dictionary<string, TipoDoEfeitoDaAura> tipoDaChave = new Dictionary<string, TipoDoEfeitoDaAura>(StringComparer.Ordinal);
+                List<string> ordem = new List<string>();
+                foreach (ActionStatus s in vivas)
+                {
+                    if (s == null || s.ActionStatusInfo == null)
+                    {
+                        continue;
+                    }
+                    TipoDoEfeitoDaAura tipo = TipoDoEfeito(s.ActionStatusInfo);
+                    string chave = ChaveDaAura(s);
+                    int n;
+                    if (!contagem.TryGetValue(chave, out n))
+                    {
+                        contagem[chave] = 1;
+                        ordem.Add(chave);
+                        primeira[chave] = s;
+                        tipoDaChave[chave] = tipo;
+                        // Primeira instância: entra sempre (é o item da aura) — e é aqui que o TIPO é
+                        // registrado no log.
+                        itens.Add(s);
+                        string nome = NomeDaAura(s);
+                        if (tipo == TipoDoEfeitoDaAura.Gatilho)
+                        {
+                            Marca($"DWA-2 '{nome}': efeito de GATILHO (o motor avalia uma vez por status"
+                                + " vivo; a repetição conta) — TotalStacks nao multiplica chance");
+                        }
+                        else
+                        {
+                            deAtributo.Add(nome);
+                            if (tipo == TipoDoEfeitoDaAura.Outro)
+                            {
+                                Marca($"DWA-2 '{nome}': efeito nem atributo de personagem nem gatilho"
+                                    + " — conta UMA vez (nada prova o que o motor faz com a repetição)");
+                            }
+                        }
+                        continue;
+                    }
+                    contagem[chave] = n + 1;
+                    if (tipo == TipoDoEfeitoDaAura.Gatilho)
+                    {
+                        // O motor NÃO corta a repetição de gatilho: a instância extra entra na linha.
+                        itens.Add(s);
+                    }
+                }
+                foreach (string chave in ordem)
+                {
+                    if (contagem[chave] > 1 && tipoDaChave[chave] == TipoDoEfeitoDaAura.Gatilho)
+                    {
+                        deGatilho.Add(NomeDaAura(primeira[chave]) + " x" + contagem[chave]);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine DWA-2] separacao por tipo de efeito falhou (lista devolvida como veio): {ex.GetType().Name}: {ex.Message}");
+                deAtributo.Clear();
+                deGatilho.Clear();
+                return vivas;
+            }
+            return itens;
+        }
+
+        /// <summary>
         /// RV-46 — o TETO do atributo, quando o asset define um (`CharacterAttribute.HasMax`), e o
         /// registro de que o total está batendo nele. O motor corta o valor no teto
         /// (`Character.GetAttribute`, decompilado l.11871-11878) — então, com o total no teto, o
@@ -1351,6 +1579,11 @@ namespace BetterTooltips.Patches
         ///     conhece: um número por ALVO na área, o mesmo cru da linha do próprio Flame (RV-34).
         ///     Item: `Fire damage to attackers: <alvo> <dano>, ...`; sem alvo com o status vivo, o
         ///     número não existe (mesma regra do RV-33) e a aura sai no LOG.
+        ///
+        /// DWA-2 — a lista recebida é a TIPADA (`AurasQueContamPorInstancia`): aura de GATILHO chega
+        /// aqui uma vez POR INSTÂNCIA (o motor avalia o gatilho uma vez por status vivo), então os TRÊS
+        /// itens acima podem sair repetidos quando há mais de um shrine no alcance — cada linha é uma
+        /// rolagem/um proc de verdade. Aura de atributo/desconhecida chega uma vez só (RV-46).
         ///
         /// Quem decide a etiqueta é `RotuloSemAtributo` (tabela pelo texto EXATO do asset, o mesmo
         /// `ShrineKeys` que define a família) — nenhum nome inventado no meio do código. Valor nunca é

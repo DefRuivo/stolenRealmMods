@@ -387,6 +387,40 @@
       "nota": "A outra metade da regra: sem expressao avaliada NAO existe numero - a aura sai no LOG com o motivo (`RV-46 AVISO: a aura viva ... NAO virou item`). Nunca sumir calada."
     },
     {
+      "id": "dwarven-x2",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Dwarven Aura",
+          "instancias": 2,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "DWA-2 (o defeito do dono, 30/09): DOIS Dwarven Shrines no alcance = DUAS `Dwarven Aura` vivas (cada shrine tem o proprio Source). O efeito NAO e atributo de personagem, e GATILHO: o motor monta a lista de gatilhos um por status vivo (`Character.SkillTriggers` l.33489-33508) e percorre todas as entradas (`ProcessSkillTriggers` l.40953-40959), rolando a chance de novo em cada uma (l.41211-41216). Entao a linha tem DOIS itens `Stun chance +40%` - uma rolagem por instancia. NADA de `+80%`: o motor nao soma chance, e numero somado a mao era justamente o defeito do `Dodge +120%` do outro lado."
+    },
+    {
+      "id": "decay-x2",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Decay Shrine Aura",
+          "instancias": 2,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "DWA-2 — a MESMA regra numa aura de gatilho que NAO e o Dwarven (prova de que ela e por TIPO, nao por nome): Decay Shrine Aura e `OnTurnStart`, tambem sem atributo de personagem. Com DOIS shrines no alcance o proc de dano roda duas vezes por turno do portador -> dois itens `Shadow damage per turn 20`."
+    },
+    {
       "id": "decay-so",
       "bonus_id": "worship",
       "maxhealth": 100,

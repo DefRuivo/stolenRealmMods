@@ -3431,6 +3431,32 @@
       ]
     },
     {
+      "id": "dwarven-x2",
+      "bonus": 100,
+      "itens": [
+        "Stun chance +40%",
+        "Stun chance +40%"
+      ],
+      "linha": "Your active shrine auras: Stun chance +40%; Stun chance +40%.",
+      "repeticoes": [
+        "Dwarven Aura x2"
+      ],
+      "avisos": []
+    },
+    {
+      "id": "decay-x2",
+      "bonus": 100,
+      "itens": [
+        "Shadow damage per turn 20",
+        "Shadow damage per turn 20"
+      ],
+      "linha": "Your active shrine auras: Shadow damage per turn 20; Shadow damage per turn 20.",
+      "repeticoes": [
+        "Decay Shrine Aura x2"
+      ],
+      "avisos": []
+    },
+    {
       "id": "decay-so",
       "bonus": 100,
       "itens": [

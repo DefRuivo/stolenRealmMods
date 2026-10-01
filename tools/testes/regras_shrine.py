@@ -356,13 +356,49 @@ def vivas_desduplicadas(cena):
     return unicas, stacks, repeticoes
 
 
+def contagem_de_instancias(cena):
+    """{aura: quantas entradas vivas} - o numero de INSTANCIAS de cada aura na lista do personagem.
+
+    E a contagem que o RV-46 ignorou de PROPOSITO para efeito de atributo (l.1220) e que a DWA-2
+    precisa de volta para efeito de GATILHO (`efeito_de_gatilho`): o motor avalia o gatilho uma vez
+    por status vivo, entao o numero de rolagens E o numero de instancias.
+    """
+    contagem = {}
+    for viva in cena["vivas"]:
+        for _ in range(max(1, int(viva.get("instancias", 1)))):
+            contagem[viva["aura"]] = contagem.get(viva["aura"], 0) + 1
+    return contagem
+
+
+def efeito_de_gatilho(aura):
+    """DWA-2 - o TIPO do efeito da aura NESTA familia (e ele que decide se a repeticao conta).
+
+    As TRES auras SEM atributo de personagem (as que tem rotulo proprio: Dwarven/Decay/Flame) tem o
+    efeito no GATILHO do status - o dump do jogo mostra `nAttrEf=0 | nTrig=1` nas tres - e o motor
+    avalia o gatilho UMA VEZ POR STATUS VIVO: `Character.SkillTriggers` (decompilado l.33489-33508)
+    acrescenta os gatilhos de CADA status vivo e `ProcessSkillTriggers` (l.40953-40959) percorre TODAS
+    as entradas, rolando a chance de novo em cada uma (l.41211-41216). A instancia repetida CONTA -
+    um item por instancia, com o MESMO numero do asset (nada somado a mao: o motor nao soma chance).
+
+    As auras de ATRIBUTO de personagem continuam contando UMA vez (RV-46): o motor soma todas as
+    instancias (`Character.GetAttributeValueByMethod`, l.37194/37263) e CORTA no teto do atributo
+    (`Character.GetAttribute`, l.40571-40578) - a instancia extra nao muda o numero final.
+    """
+    return aura in ROTULO_SEM_ATRIBUTO
+
+
 def agregar(cena, ctx):
     """A linha `Your active shrine auras:` da cena - a transcricao de `AcumuladoShrines`.
 
     Devolve {"itens", "linha", "repeticoes", "avisos"} com a MESMA forma que o
     oraculo em C# gera (a fixture). Regras, com a citacao:
-      * l.1220 `AurasUnicas`  - a mesma aura repetida na lista viva conta UMA vez,
-        e as repeticoes vao para o log (`Nome xN`), nunca para o numero.
+      * l.1220 `AurasUnicas`  - a mesma aura repetida na lista viva conta UMA vez
+        PARA EFEITO DE ATRIBUTO, e as repeticoes vao para o log (`Nome xN`), nunca
+        para o numero.
+      * `efeito_de_gatilho` (DWA-2) - para efeito de GATILHO (Dwarven/Decay/Flame) a
+        instancia repetida CONTA: o motor avalia o gatilho uma vez por status vivo
+        (l.33489-33508 + l.40953-40959/41211-41216) e a linha sai com um item por
+        instancia, cada um com o numero do asset (nada somado a mao).
       * l.1596 `AtributosDasAuras` + l.984 - um item por ATRIBUTO, ordem canonica.
       * l.1682 - a contribuicao e a soma das auras distintas naquele atributo.
       * l.1359/1435/1541 - a aura viva sem atributo de personagem ganha item
@@ -372,6 +408,7 @@ def agregar(cena, ctx):
     """
     bonus = ctx["bonus"][cena["bonus_id"]]
     unicas, stacks, repeticoes = vivas_desduplicadas(cena)
+    instancias = contagem_de_instancias(cena)
 
     # um item por atributo, na ordem canonica (o que nao estiver nela entra depois)
     achados = []
@@ -397,17 +434,23 @@ def agregar(cena, ctx):
     for aura in unicas:
         if aura in somadas:
             continue
+        # DWA-2: o numero de itens desta aura e o numero de INSTANCIAS quando o efeito e de GATILHO
+        # (o motor avalia o gatilho uma vez por status vivo); para efeito de atributo, UMA vez (RV-46).
+        # O texto e o MESMO em cada instancia (cada item e uma rolagem/proc com o valor do asset:
+        # nada somado a mao) e o AVISO, quando existe, sai UMA vez por aura.
+        vezes = instancias[aura] if efeito_de_gatilho(aura) else 1
         rotulo = ctx["rotulos"].get(aura)
         if rotulo is None:
             avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                           " (efeito sem atributo de personagem e sem etiqueta conhecida)" % aura)
             continue
+        texto = None
         if aura == "Dwarven Aura":
             if not any(v["aura"] == aura and v.get("expressao", True) for v in cena["vivas"]):
                 avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                               " (sem expressao de chance avaliada)" % aura)
                 continue
-            itens.append(rotulo + " " + com_sinal(escala(ctx["auras"][aura][""], bonus)) + "%")
+            texto = rotulo + " " + com_sinal(escala(ctx["auras"][aura][""], bonus)) + "%"
         elif aura == "Decay Shrine Aura":
             if float(cena["maxhealth"]) <= 0.0:
                 avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
@@ -415,7 +458,7 @@ def agregar(cena, ctx):
                 continue
             d = dano(cena["maxhealth"], ctx["pct"][(aura, cena["tipo_receptor"])], bonus,
                      ctx["minimo1"][aura])
-            itens.append(rotulo + " " + ("%g" % d))
+            texto = rotulo + " " + ("%g" % d)
         elif aura == "Flame Shrine Aura":
             valores = []
             for alvo in cena["alvos"]:
@@ -428,10 +471,13 @@ def agregar(cena, ctx):
                 avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                               " (nenhum alvo com o status do Flame vivo agora)" % aura)
                 continue
-            itens.append(rotulo + ": " + ", ".join(valores))
+            texto = rotulo + ": " + ", ".join(valores)
         else:
             avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                           " (efeito sem atributo de personagem sem item implementado)" % aura)
+            continue
+        for _ in range(vezes):
+            itens.append(texto)
 
     if not itens:
         avisos.append("RV-46 sem linha: %d aura(s) viva(s) sem nenhum numero provado (nada estimado)"

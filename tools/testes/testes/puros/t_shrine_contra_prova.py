@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""EXCESSO DE SHRINE (TST-2): a PROVA DE FOGO da familia - as 4 iscas da contra-prova.
+"""EXCESSO DE SHRINE (TST-2): a PROVA DE FOGO da familia - as 5 iscas da contra-prova.
 
 POR QUE ESTE TESTE EXISTE
 -------------------------
@@ -25,7 +25,7 @@ META = {
     "nome": "shrine-contra-prova",
     "categoria": "pura",
     "requer": [],
-    "descricao": "as 4 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 4 testes da suite passam",
+    "descricao": "as 5 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 4 testes da suite passam",
 }
 
 # (isca em contra-prova/, o que a saida dela tem de citar, o teste da suite que e o
@@ -39,6 +39,8 @@ PARES = (
      "t_shrine_excesso_agregado.py", "a aura viva sem atributo (Dwarven) fora da lista"),
     ("cp_shrine_fracao_e_porcento.py", "53.4",
      "t_shrine_excesso_formatacao.py", "a fracao do equipamento no lugar do inteiro da ficha"),
+    ("cp_shrine_gatilho_uma_instancia.py", "UMA VEZ POR INSTANCIA",
+     "t_shrine_excesso_agregado.py", "o gatilho repetido contado uma vez (a Dwarven que nao stackava, DWA-2)"),
 )
 
 

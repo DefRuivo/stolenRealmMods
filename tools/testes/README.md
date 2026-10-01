@@ -93,7 +93,7 @@ tools/testes/
 │   │   ├── t_shrine_excesso_agregado.py    TST-2: a linha agregada item por item
 │   │   ├── t_shrine_excesso_dano.py        TST-2: o dano do Flame e do Decay
 │   │   ├── t_shrine_excesso_formatacao.py  TST-2: as bordas de formato
-│   │   └── t_shrine_contra_prova.py        TST-2: a prova de fogo das 4 iscas
+│   │   └── t_shrine_contra_prova.py        TST-2: a prova de fogo das 5 iscas
 │   └── jogo/                      categoria "jogo" - precisa da lib/
 │       └── t_exemplo_referencias_lib.py   EXEMPLO de teste de jogo
 ├── contra-prova/                  A ISCA: testes que TEM de reprovar (cp_*.py)
@@ -102,6 +102,7 @@ tools/testes/
 │   ├── cp_shrine_instancias_dobradas.py  TST-2: o `Dodge +120%` do print do dono
 │   ├── cp_shrine_bonus_somado_a_mao.py   TST-2: as duas tiers somadas (28 no lugar de 20)
 │   ├── cp_shrine_dwarven_sumido.py       TST-2: a aura viva que sumia da lista
+│   ├── cp_shrine_gatilho_uma_instancia.py TST-2: o gatilho repetido contado 1x (a Dwarven que nao stackava, DWA-2)
 │   └── cp_shrine_fracao_e_porcento.py    TST-2: o formato pre-RV-45 (53.4 e dois `%`)
 └── fixtures/                      entradas e saidas esperadas, versionadas
     ├── README.md                  convencao de nome + procedencia
@@ -201,16 +202,16 @@ build/execucao falhou por falta de dependencia -> `arc.NaoRodou`; teste falhou -
 
 ## A familia TST-2 (excesso de shrine)
 
-Quatro testes PUROS + quatro iscas, sobre um dataset UNICO de fixture
+Quatro testes PUROS + cinco iscas, sobre um dataset UNICO de fixture
 (`excesso-shrine`), gerado por um oraculo proprio:
 
 | teste | o que ele trava |
 |---|---|
 | `t_shrine_excesso_bonus.py` | a cadeia do `ShrineEffectBonus` (0/8/20/50/100 + as combinacoes; `Omnism I` + `Omnism II` = 20, nao 28) e a escala das 12 auras |
-| `t_shrine_excesso_agregado.py` | a linha `Your active shrine auras:`: a aura repetida conta 1x (`Dodge +120%` -> `+40%`), auras no mesmo atributo somam, o Dwarven nunca some |
+| `t_shrine_excesso_agregado.py` | a linha `Your active shrine auras:`: a aura repetida conta 1x (`Dodge +120%` -> `+40%`), auras no mesmo atributo somam, o Dwarven nunca some — e, pelo TIPO do efeito (DWA-2), a aura de GATILHO conta por INSTANCIA (`Stun chance +40%; Stun chance +40%` com dois Dwarven), nunca somada a mao |
 | `t_shrine_excesso_dano.py` | o dano do Flame/Decay (minimo 1 so no Flame, vida maxima 3/100, half-to-even, um alvo por item) |
 | `t_shrine_excesso_formatacao.py` | as bordas de formato (Ceil da ficha, `.5`, `-0.4`, inteiro sem `.0`, um `%` por rotulo, U+2212) |
-| `t_shrine_contra_prova.py` | roda as 4 iscas e exige que cada uma reprove PELO MOTIVO CERTO, e que o teste da suite passe |
+| `t_shrine_contra_prova.py` | roda as 5 iscas e exige que cada uma reprove PELO MOTIVO CERTO, e que o teste da suite passe |
 
 **Uma fixture para a familia inteira.** A convencao `<nome-do-teste>.<papel>.<ext>` vale por
 teste; aqui os quatro testes compartilham o caso `excesso-shrine` de proposito: e UM oraculo e UM

@@ -41,6 +41,11 @@
 //   l.1359 ItensSemAtributo (Dwarven/Decay/Flame: item proprio ou o aviso no LOG, nunca sumir)
 //   l.1435 ItemDaAuraSemAtributo (Decay `Mathf.Round`, Flame `Mathf.Max(1, Round(...))`)
 //   l.1541 RotuloSemAtributo (Stun chance / Shadow damage per turn / Fire damage to attackers)
+//   DWA-2  AurasQueContamPorInstancia (o TIPO do efeito decide a repeticao: aura de ATRIBUTO conta
+//                            UMA vez - o motor soma as instancias e o teto corta, RV-46 - e aura de
+//                            GATILHO conta UMA vez POR INSTANCIA - o motor avalia o gatilho uma vez
+//                            por status vivo: `Character.SkillTriggers` l.33489-33508 +
+//                            `ProcessSkillTriggers` l.40953-40959, rolando a chance em l.41211-41216)
 //   l.897  Format            (rotulo por atributo; DamageReduction e ManaCostMod teem sinal invertido)
 //   l.924  ComSinal          ("+" para >=0, "−" U+2212 para negativo)
 //   l.950  InteiroDoJogo     (Mathf.CeilToInt - a grandeza da ficha; NaN/Inf -> 0)
@@ -182,6 +187,19 @@ namespace OraculoExcessoShrine
             { "Decay Shrine Aura", "Shadow damage per turn" },
             { "Flame Shrine Aura", "Fire damage to attackers" },
         };
+
+        // DWA-2 (ShrineAuraPatch.cs `TipoDoEfeito`/`AurasQueContamPorInstancia`): o TIPO DO EFEITO
+        // decide se a instancia repetida conta. Nesta familia, as auras SEM atributo de personagem (as
+        // tres com rotulo proprio) tem o efeito no GATILHO do status - o dump do jogo mostra
+        // `nAttrEf=0 | nTrig=1` nelas - e o motor monta a lista de gatilhos um POR status vivo
+        // (`Character.SkillTriggers`, l.33489-33508), percorre TODAS as entradas (`ProcessSkillTriggers`,
+        // l.40953-40959) e rola a chance de novo em cada uma (l.41211-41216): a instancia repetida
+        // CONTA, e a linha mostra um item por instancia. As auras de ATRIBUTO seguem contando UMA vez (o
+        // motor soma as instancias e o teto do atributo corta - a regra do `Dodge +120%`, RV-46).
+        private static bool EfeitoDeGatilho(string aura)
+        {
+            return RotuloSemAtributo.ContainsKey(aura);
+        }
 
         // ------------------------------------------------- rotulos (transcricao do mod)
 
@@ -400,13 +418,18 @@ namespace OraculoExcessoShrine
                 }
             }
 
-            // (f) ItensSemAtributo (l.1359): nenhuma aura viva sai em silencio.
+            // (f) ItensSemAtributo (l.1359): nenhuma aura viva sai em silencio. DWA-2: a aura de
+            // GATILHO (Dwarven/Decay/Flame) entra UMA vez POR INSTANCIA - o motor avalia o gatilho uma
+            // vez por status vivo - e a de ATRIBUTO/desconhecida continua entrando UMA vez (RV-46).
+            // O TEXTO de cada item e o do asset (nada somado a mao) e o AVISO, quando existe, sai UMA
+            // vez por aura.
             foreach (string a in unicas)
             {
                 if (somadas.Contains(a))
                 {
                     continue;
                 }
+                int vezes = EfeitoDeGatilho(a) ? contagem[a] : 1;
                 AuraInfo info = porAura[a];
                 string rotulo;
                 if (!RotuloSemAtributo.TryGetValue(a, out rotulo))
@@ -415,6 +438,7 @@ namespace OraculoExcessoShrine
                         + " (efeito sem atributo de personagem e sem etiqueta conhecida)");
                     continue;
                 }
+                string item = null;
                 if (string.Equals(a, "Dwarven Aura", StringComparison.Ordinal))
                 {
                     if (!cena.Vivas.Any(v => v.Aura == a && v.Expressao))
@@ -422,7 +446,7 @@ namespace OraculoExcessoShrine
                         avisos.Add("RV-46 AVISO: a aura viva '" + a + "' NAO virou item da linha (sem expressao de chance avaliada)");
                         continue;
                     }
-                    itens.Add(rotulo + " " + ComSinal(Escala(info.Base, bonus)) + "%");
+                    item = rotulo + " " + ComSinal(Escala(info.Base, bonus)) + "%";
                 }
                 else if (string.Equals(a, "Decay Shrine Aura", StringComparison.Ordinal))
                 {
@@ -432,7 +456,7 @@ namespace OraculoExcessoShrine
                         continue;
                     }
                     int dano = Dano(cena.MaxHealth, pct[a][cena.TipoReceptor], bonus, minimo1[a]);
-                    itens.Add(rotulo + " " + dano.ToString("0.#", CultureInfo.InvariantCulture));
+                    item = rotulo + " " + dano.ToString("0.#", CultureInfo.InvariantCulture);
                 }
                 else if (string.Equals(a, "Flame Shrine Aura", StringComparison.Ordinal))
                 {
@@ -453,7 +477,15 @@ namespace OraculoExcessoShrine
                             + " (nenhum alvo com o status do Flame vivo agora)");
                         continue;
                     }
-                    itens.Add(rotulo + ": " + string.Join(", ", valores));
+                    item = rotulo + ": " + string.Join(", ", valores);
+                }
+                if (item == null)
+                {
+                    continue;
+                }
+                for (int i = 0; i < vezes; i++)
+                {
+                    itens.Add(item);
                 }
             }
 
@@ -861,6 +893,33 @@ namespace OraculoExcessoShrine
                     Nota = "A outra metade da regra: sem expressao avaliada NAO existe numero - a aura sai no LOG"
                         + " com o motivo (`RV-46 AVISO: a aura viva ... NAO virou item`). Nunca sumir calada.",
                 },
+                new Cena
+                {
+                    Id = "dwarven-x2", BonusId = "worship", MaxHealth = 100f, TipoReceptor = "player",
+                    Vivas = new List<CenaViva> { v("Dwarven Aura", 2, 1, true) },
+                    Alvos = new List<CenaAlvo>(),
+                    Totais = new Dictionary<string, float>(),
+                    Nota = "DWA-2 (o defeito do dono, 30/09): DOIS Dwarven Shrines no alcance = DUAS "
+                        + "`Dwarven Aura` vivas (cada shrine tem o proprio Source). O efeito NAO e "
+                        + "atributo de personagem, e GATILHO: o motor monta a lista de gatilhos um por "
+                        + "status vivo (`Character.SkillTriggers` l.33489-33508) e percorre todas as "
+                        + "entradas (`ProcessSkillTriggers` l.40953-40959), rolando a chance de novo em "
+                        + "cada uma (l.41211-41216). Entao a linha tem DOIS itens `Stun chance +40%` - "
+                        + "uma rolagem por instancia. NADA de `+80%`: o motor nao soma chance, e numero "
+                        + "somado a mao era justamente o defeito do `Dodge +120%` do outro lado.",
+                },
+                new Cena
+                {
+                    Id = "decay-x2", BonusId = "worship", MaxHealth = 100f, TipoReceptor = "player",
+                    Vivas = new List<CenaViva> { v("Decay Shrine Aura", 2, 1, true) },
+                    Alvos = new List<CenaAlvo>(),
+                    Totais = new Dictionary<string, float>(),
+                    Nota = "DWA-2 — a MESMA regra numa aura de gatilho que NAO e o Dwarven (prova de que "
+                        + "ela e por TIPO, nao por nome): Decay Shrine Aura e `OnTurnStart`, tambem sem "
+                        + "atributo de personagem. Com DOIS shrines no alcance o proc de dano roda duas "
+                        + "vezes por turno do portador -> dois itens `Shadow damage per turn 20`.",
+                },
+
                 new Cena
                 {
                     Id = "decay-so", BonusId = "worship", MaxHealth = 100f, TipoReceptor = "player",
