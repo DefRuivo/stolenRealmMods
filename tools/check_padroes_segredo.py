@@ -89,17 +89,34 @@ def main():
     arqs = subprocess.run(['git', 'ls-files'], cwd=RAIZ,
                           stdout=subprocess.PIPE).stdout.decode('utf-8', 'replace').splitlines()
     achados = []
+    binarios = 0
     for f in arqs:
         if f in ISENTOS:
             continue
         try:
-            s = io.open(os.path.join(RAIZ, f), encoding='utf-8', errors='ignore').read()
+            bruto = io.open(os.path.join(RAIZ, f), 'rb').read()
         except IOError:
             continue
+        s = bruto.decode('utf-8', 'ignore')
+        # A regra de ENTROPIA so vale para TEXTO. Num binario (PNG de screenshot/arte, DLL)
+        # qualquer sequencia de 32+ caracteres base64-like e alta entropia POR NATUREZA: o
+        # heuristico acusava a arte de icone versionada em docs/img/ (falso positivo que travava
+        # o passo 0 do release-check). Os FORMATOS conhecidos (tss_, ghp_, ...) continuam sendo
+        # procurados em TODOS os arquivos, binarios inclusive - o que muda e so o heuristico.
+        eh_texto = b'\x00' not in bruto
+        if eh_texto:
+            try:
+                bruto.decode('utf-8')
+            except UnicodeDecodeError:
+                eh_texto = False
+        if not eh_texto:
+            binarios += 1
         for i, linha in enumerate(s.split(chr(10)), 1):
             for pat, rot in FORMATOS:
                 for m in re.finditer(pat, linha):
                     achados.append('%s:%d  FORMATO  %s' % (f, i, rot))
+            if not eh_texto:
+                continue
             for m in CANDIDATO.finditer(linha):
                 v = m.group(0)
                 if not parece_segredo(v) or len(v) < LIMIAR_COMPRIMENTO:
@@ -107,6 +124,8 @@ def main():
                 achados.append('%s:%d  ENTROPIA %s' % (f, i, mascara(v)))
 
     print('arquivos versionados analisados: %d' % len(arqs))
+    print('  (%d binario(s) fora do heuristico de entropia; os formatos conhecidos foram '
+          'procurados neles tambem)' % binarios)
     print('formatos conhecidos: %d | limiar de entropia: %.1f bits/char | comprimento minimo: %d'
           % (len(FORMATOS), LIMIAR_ENTROPIA, LIMIAR_COMPRIMENTO))
     if achados:

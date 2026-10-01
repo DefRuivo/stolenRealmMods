@@ -71,7 +71,7 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 43 relatórios de revisão
+### `cobertura/revisao/` — 44 relatórios de revisão
 
 O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
 confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
@@ -84,7 +84,7 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
 | **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
-| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 11 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 12 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
@@ -323,6 +323,8 @@ reprova e a release para.
 |---|---|---|
 | `census.py` | Lê o dump de boot do `RoguelikeDebugger` no log e gera os CSVs de `docs/cobertura/` (preserva a coluna `status`). | Manutenção do censo, depois de um ciclo de jogo que produziu o dump. |
 | `censo_status.py` | Cria/mantém o censo de revisão dos **status** (RV-9). | Junto do `census.py`, ao revisar status (buff/debuff). |
+| `gera_shrines_esperado.py` | **CHK-1:** GERA (não digita) `tools/dados/shrines-esperado.csv` e `tools/dados/shrines-percentuais.csv` — as bases das 12 auras de shrine saem do censo (`docs/cobertura/status.csv`, coluna `efeitos`) e do `resources.assets` (Dwarven/Decay/Flame e as % por tipo), cada uma com a citação `arquivo:linha` / `assets@offset`. **FALHA** (exit 1) se uma base não tiver fonte — nunca chuta. `--check` compara a tabela versionada com o que as fontes geram. | Depois de mexer em censo/asset ou quando o `--check` acusar diferença; antes de uma rodada de conferência dos shrines. |
+| `checa_shrines.py` | **CHK-1:** confere o `LogOutput.log` (linhas `[Shrine RV-23]`) e o dump do `RoguelikeDebugger` contra `tools/dados/shrines-esperado.csv`: **OK / ACHADO / AUSENTE / NAO-VER** por aura × caso (0, +20, +100), com observado, esperado e diferença; cross-check da base contra o dump do próprio jogo; checagem de aditividade do `resto` (total − aura). **Lista o que não foi exercitado** — ausência não vira aprovação (exit 0 só com tudo exercitável verde; 1 = achado; 3 = incompleto). | Depois de cada rodada em jogo nos shrines (roteiro no `revisao/CHK-1-shrines-conferencia-mecanica.md`). |
 | `check_fix_keys.py` | Confere as chaves de `TextFixes`/`TextAppends` contra o censo. | **Passo 2 do ritual**; passo 2 do CI. As 4 chaves de UI/loading fora do censo são **aviso**, não erro. |
 | `check_dupes.py` | Chave **duplicada** nas tabelas do `LocalizePatch` (`INC-1`). | **Passo 3 do ritual — TRAVA**; passo 3 do CI. |
 | `check_versoes.py` | **PKG-2 (só olha o repositório, sem build):** confere se a versão de cada mod bate nos **três** lugares — `<Mod>/<Mod>.csproj` (`<Version>`, a fonte), `<Mod>/manifest.json` (`version_number`) e `<Mod>/Plugin.cs` (`[BepInPlugin(...)]`). Importa o parser do `pack-thunderstore.py`, então o gate e o empacotador nunca discordam sobre "qual é a versão". | Medido em 30/09/2026: **não** é chamado pelo `release-check.sh` nem pelos workflows (conferido com `grep`) — roda à mão quando se quer a trava de versão antes de empacotar. |
