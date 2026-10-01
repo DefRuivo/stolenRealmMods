@@ -19,7 +19,14 @@
   - `nTrig` / `trigEf` no `[Status]`: os gatilhos do status (tipo, efeitos, condição, status) — antes não saíam;
   - linha de resumo por categoria, `[Efeitos] resumo (...): total= | porTipo= | naoGeneralEffect=`.
   - `desc=` continua por último e nenhum valor contém `|` ou aspas: o formato antigo não muda.
-- **A versão subiu (0.1.0 → 0.1.1) por causa da correção do aplicador acima:** a 0.1.0 que está no ar carrega o defeito e versão publicada na Thunderstore é imutável. Este dump novo é o mesmo que estava em "Não lançado".
+- **A versão subiu (0.1.0 → 0.1.1) por causa da correção do aplicador acima:** a 0.1.0 que estava no ar carrega o defeito e versão publicada na Thunderstore é imutável. Este dump novo é o mesmo que estava em "Não lançado".
+
+### Dump: ganchos de tempo/aura, gatilho e expressões do status (RD-2)
+
+- Campos novos no `[Status]`, todos antes do `desc=`: `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) e `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`).
+- O `trigEf` do status passou a publicar o **`Targets` de cada `SkillTrigger`** (`~alvos=`) e as ações do gatilho **com os próprios efeitos** (`~acoes=Nome{ef=...}`). É o que fecha a pergunta do proc das auras de shrine: `Flame Shrine Aura` → `TriggerType=1`, `Targets="Cell.IsCurrentHex(Target)"`, `Actions=[Flame Aura Proc]`; `Decay Shrine Aura` → `TriggerType=4`, `Targets="Cell.IsCurrentHex(Source)"`.
+- **A versão NÃO muda** (0.1.1 segue): são campos do mesmo dump ainda não lançado.
+- Medição no build (421 dos 424 `ActionStatusInfo` do asset — 3 não são legíveis pelo leitor offline): `expr` em 138, `refAcao`/`refStatus` em 19/7, `StatusEffectsOnTick` em 6, `auraSts` em 40 (sempre junto de `IsAura=1`) e `TickTargets`/`ActionsOnTick*` em **0** — ou seja, o proc das auras de shrine não passa pelo caminho de tick. Detalhe e `arquivo:linha`: `docs/DEBUGGER.md`.
 
 ## 0.1.0
 
