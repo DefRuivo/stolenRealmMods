@@ -123,8 +123,11 @@ namespace BetterTooltips.Patches
 
         /// <summary>Marcador do bloco (prefixo da linha azul; usado tambem como trava contra duplicata
         /// e pelo log). Mesma familia visual da linha de auras ativas (`LocalizePatch`), que usa o
-        /// marcador irmao "Your active shrine auras:".</summary>
-        private const string Marcador = "Your skills on this status:";
+        /// marcador irmao "Your active shrine auras:" — os DOIS sao o NIVEL 3 da convencao
+        /// (docs/TEXTO-TOOLTIPS.md), na cor azul resolvida por `LocalizePatch.CorDaLinhaDeAuras()`.
+        /// `internal` porque o `LocalizePatch` precisa dele para NAO repintar este bloco com a cor do
+        /// nivel 2 quando a paleta azul nao pudo ser lida.</summary>
+        internal const string Marcador = "Your skills on this status:";
 
         /// <summary>
         /// O bloco (ou null quando nao ha nada provado a mostrar). Uma linha, itens separados por ';',
