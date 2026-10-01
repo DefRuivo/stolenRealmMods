@@ -30,6 +30,14 @@ ATENCAO: buildar Release com o alvo `DeployToBepInEx` ligado sobrescreve a DLL i
 no perfil do r2modman. Por isso quem empacota builda com `-p:DeployToBepInEx=false`, e o
 comando sugerido no erro sempre traz essa flag.
 
+ARTEFATO x FONTE (REL-1)
+------------------------
+Existir em `bin/<Config>/` nao basta: a DLL tem de corresponder a fonte que esta no
+repositorio AGORA. A trava `artefato_esta_atual` recusa o pacote quando a DLL e mais antiga
+que o arquivo de fonte mais novo do mod - o caso medido em 01/10/2026, em que
+`bin/Release/BetterTooltips.dll` ainda carregava o `HarmonyPriority(600)` que uma correcao
+do dia ja tinha removido da fonte. Empacotar aceitaria qualquer coisa que estivesse ali.
+
 VERSAO UNICA (PKG-2)
 --------------------
 A versao autoritativa e o `<Version>` do `.csproj`. Os outros dois lugares que carregam
@@ -66,12 +74,15 @@ USO
     python tools/pack-thunderstore.py --config Debug    # empacota a build de Debug
     python tools/pack-thunderstore.py --gerar-icones    # cria icon.png que faltarem
     python tools/pack-thunderstore.py --listar          # so mostra o que achou
+    python tools/pack-thunderstore.py --so-conferir      # roda o pre-flight (artefato x fonte
+                                                         # incluido) e sai SEM gerar zip
     python tools/pack-thunderstore.py --sincronizar-versao   # espelhos <- <Version>
 
 Rodar da RAIZ do repo (ele tambem funciona de qualquer lugar: acha a raiz sozinho).
 """
 
 import argparse
+import datetime
 import json
 import os
 import re
@@ -342,6 +353,81 @@ def versao_do_csproj(p):
     return achado.group(1).strip() if achado else None
 
 
+# ---------------------------------------------------------------------------
+# REL-1: o artefato tem de CORRESPONDER a fonte, nao so existir
+# ---------------------------------------------------------------------------
+# O modo de falha que esta trava existe para pegar NAO e "a Release ficou velha": e o
+# empacotador aceitar QUALQUER arquivo que esteja em bin/<Config>/. Ele conferia que a DLL
+# existia, nunca se ela correspondia a fonte que esta no repositorio AGORA. Resultado
+# medido (REV-55, 01/10/2026): bin/Release/BetterTooltips.dll era de 30/09 22:52 e ainda
+# carregava o HarmonyPriority(600) do CorDoJogoPostfix que a COR-2 tinha acabado de remover
+# da fonte - empacotar teria entregue o defeito, com a versao nova no manifest.
+#
+# A checagem e a mais simples que separa os dois casos: a DLL tem de ser MAIS NOVA que o
+# arquivo de fonte mais novo que entra na compilacao dela. Editou um .cs e nao reconstruiu?
+# O mtime da fonte fica na frente do mtime da DLL e o pacote e RECUSADO, em vez de sair com
+# um binario que nao tem a edicao.
+#
+# O que ela NAO ve, e por que ainda assim e a certa: um artefato COPIADO de outro lugar
+# entra com mtime novo e passa. Copiar DLL a mao nao e passo do processo - quem builda e o
+# `dotnet build` (scripts/package.ps1, release-check.sh) - e nesse caminho o mtime e sinal
+# fiel. Provar por hash exigiria o empacotador reconstruir (nao pode: precisa da lib/ do
+# jogo e do toolchain) ou o build gravar um fingerprint, bem mais invasivo que o defeito.
+FONTES_COMPILADAS = (".cs", ".csproj")
+PASTAS_QUE_NAO_SAO_FONTE = ("bin", "obj")
+
+
+def fontes_do_mod(pasta):
+    """Arquivos que entram na compilacao do mod: `<Mod>/**/*.cs` e os `.csproj`.
+
+    `bin/` e `obj/` ficam de fora: sao saida do build, e o `obj/` guarda os gerados
+    (`*.AssemblyInfo.cs`) com mtime do PROPRIO build - conta-los faria a checagem se
+    auto-sabotar.
+    """
+    achados = []
+    for base, pastas, arquivos in os.walk(pasta):
+        pastas[:] = [d for d in pastas if d not in PASTAS_QUE_NAO_SAO_FONTE]
+        for arquivo in arquivos:
+            if arquivo.endswith(FONTES_COMPILADAS):
+                achados.append(os.path.join(base, arquivo))
+    return achados
+
+
+def quando(mtime):
+    """mtime legivel (hora local), so para a mensagem de erro."""
+    return datetime.datetime.fromtimestamp(mtime).strftime("%Y-%m-%d %H:%M:%S")
+
+
+def artefato_esta_atual(nome_mod, p, config=CONFIG_PADRAO):
+    """A DLL de `bin/<Config>/` corresponde a fonte que esta no repositorio?
+
+    Levanta `Falha` quando a DLL e MAIS ANTIGA que o arquivo de fonte mais novo do mod -
+    a fonte mudou depois do ultimo build, e o pacote sairia com um binario que nao tem a
+    edicao. Devolve `(mtime_dll, fonte_mais_nova)` quando tudo bate.
+    """
+    mtime_dll = os.path.getmtime(p["dll"])
+    fontes = fontes_do_mod(p["pasta"])
+    if not fontes:
+        return mtime_dll, None
+
+    mais_nova = max(fontes, key=os.path.getmtime)
+    mtime_fonte = os.path.getmtime(mais_nova)
+    if mtime_dll < mtime_fonte:
+        raise Falha(
+            "ARTEFATO VELHO (REL-1): a DLL de bin/%s/ e MAIS ANTIGA que a fonte\n"
+            "      DLL   : %s  (%s)\n"
+            "      FONTE : %s  (%s)\n"
+            "      -> o pacote sairia com um binario SEM a edicao acima. Reconstrua a\n"
+            "         partir da FONTE. NUNCA sem a flag: o alvo DeployToBepInEx do .csproj\n"
+            "         copia a DLL para o perfil do r2modman e o jogo passa a rodar o build.\n"
+            "         dotnet build %s/%s.csproj -c %s -p:DeployToBepInEx=false"
+            % (config,
+               os.path.relpath(p["dll"], RAIZ), quando(mtime_dll),
+               os.path.relpath(mais_nova, RAIZ), quando(mtime_fonte),
+               nome_mod, nome_mod, config))
+    return mtime_dll, mais_nova
+
+
 def versao_do_plugin(nome_mod, p):
     """A versao que o BepInEx registra no log, lida do `Plugin.cs`.
 
@@ -472,6 +558,9 @@ def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
                     "-p:DeployToBepInEx=false"
                     % (os.path.relpath(p["dll"], RAIZ), nome_mod, nome_mod, config))
 
+    # REL-1: existir nao basta - a DLL tem de corresponder a fonte de AGORA.
+    artefato_esta_atual(nome_mod, p, config)
+
     manifesto = ler_manifest(nome_mod, p)
 
     # PKG-2: fonte unica de versao - manifest e Plugin.cs tem que bater com o .csproj
@@ -553,6 +642,10 @@ def main(argv):
     ap.add_argument("--listar-nomes", action="store_true",
                     help="imprime SO os nomes dos mods (um por linha) - para consumir de "
                          "script (scripts/package.ps1); a descoberta de mod fica NUM lugar")
+    ap.add_argument("--so-conferir", action="store_true",
+                    help="roda o pre-flight inteiro (inclusive a trava REL-1, artefato x "
+                         "fonte) de todos os mods e SAI, sem gerar zip nenhum - e a forma "
+                         "de checar o build antes de empacotar sem escrever em dist/")
     ap.add_argument("--sincronizar-versao", action="store_true",
                     help="reescreve manifest.json e Plugin.cs com o <Version> do .csproj "
                          "(PKG-2) e sai, sem empacotar")
@@ -589,6 +682,34 @@ def main(argv):
         print("!! nao existe mod com esse nome: %s" % ", ".join(desconhecidos))
         print("   mods disponiveis: %s" % ", ".join(todos))
         return 2
+
+    # REL-1: o pre-flight tem de poder ser rodado SEM empacotar - e o que permite checar
+    # o build (DLL x fonte) antes de escrever qualquer coisa em dist/.
+    if args.so_conferir:
+        print("Repo : %s" % RAIZ)
+        print("Build: %s  (a DLL vem de <Mod>/bin/%s/%s/)" % (args.config, args.config, TFM))
+        print("Modo : --so-conferir  (pre-flight inteiro, NADA e empacotado)")
+        print()
+        print("== conferindo (artefato x fonte, build %s, versao unica, manifest, icon) =="
+              % args.config)
+        problemas = 0
+        for mod in alvos:
+            try:
+                manifesto, p = verificar(mod, args.config, args.gerar_icones)
+                print("  ok    %-18s v%s  | %s"
+                      % (mod, manifesto["version_number"],
+                         os.path.relpath(p["dll"], RAIZ)))
+            except Falha as erro:
+                problemas += 1
+                print("  FALHA %-18s %s" % (mod, erro))
+        print()
+        if problemas:
+            print(">>> %d mod(s) REPROVADO(S) no pre-flight: empacotar estaria entregando "
+                  "artefato que nao corresponde a fonte." % problemas)
+            return 1
+        print("Pre-flight verde para %d mod(s). Nada foi empacotado (--so-conferir)."
+              % len(alvos))
+        return 0
 
     # PKG-2: so conserta os espelhos da versao e sai (nao empacota nada).
     if args.sincronizar_versao:
