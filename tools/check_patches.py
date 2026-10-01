@@ -4,7 +4,7 @@
 
 POR QUE ESTA FERRAMENTA EXISTE
 ------------------------------
-Uma auditoria a mao dos 8 projetos do repo achou 5 defeitos de ROBUSTEZ que este projeto
+Uma auditoria a mao dos 7 projetos do repo achou 5 defeitos de ROBUSTEZ que este projeto
 paga caro para descobrir - o pior deles derivou em 112 NullReferenceException por frame e
 travou uma batalha do dono: um patch que lia o ARGUMENTO ERRADO por posicao (`ref __3` num
 metodo cuja assinatura tinha mudado). A auditoria levou tempo e foi feita uma vez; aqui ela

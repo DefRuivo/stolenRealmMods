@@ -49,13 +49,6 @@
       "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 0.1.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho, ao conserto A-1 e ao dump de efeitos por tipo concreto; o fonte subiu para 0.1.1 (bump de PATCH), com ICONE NOVO de 256x256 no pacote, e o 0.1.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
     },
     {
-      "nome": "RoguelikeQoL",
-      "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-09-30T22:23:15.919446Z",
-      "motivo": "primeira publicacao liberada pelo dono em 30/09/2026 (PUB-2): pacotes gerados em dist/ e conferidos; PUB-3 resolvido com team DefRuivo_StolenRealmMods. ATENCAO (30/09, depois da publicacao): a 0.1.0 que esta no ar e a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel, o fonte subiu para 0.1.1 (bump de PATCH) e o pacote 0.1.1 esta em dist/ e na Release pack-2026-09-30, aguardando publicacao."
-    },
-    {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
       "versao_publicada": "0.1.0",

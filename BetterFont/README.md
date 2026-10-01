@@ -11,7 +11,8 @@ Mod **BepInEx 5** para **Stolen Realm** que troca a fonte renderizada do jogo po
 
 - Substitui a fonte de **todos os textos TMP** do jogo por um asset serifado — inclusive telas que abrem depois do boot (level up, tooltips, menus de configuração).
 - **Preserva o estilo** (cor de face, contorno e sombra): antes de trocar a fonte, as propriedades de estilo do material que o texto já usava são transportadas para o material **por componente** da fonte nova. Sem isso a troca apagava cor/contorno/sombra — era o defeito da 1.0.0.
-- Textos com **material estilizado** (material próprio do jogo — títulos, números de combate) **não trocam de fonte** por padrão: ficam exatamente como o jogo desenhou. É configurável (ver Configuração).
+- **Preserva o efeito de material de QUALQUER origem** — inclusive o que **outro mod** tenha aplicado naquele texto (contorno/halo, sombra). O texto continua recebendo a serifa e o efeito que já estava nele é reaplicado no material novo. Se o efeito em uso não puder ser reproduzido com fidelidade (textura de face, glow/bevel, shader incompatível), o texto **não é tocado** — melhor não mexer do que entregar meia cópia.
+- Se você preferir o comportamento antigo (texto com material próprio, como os títulos e os números de combate do jogo, fica **100% intocado** e não ganha a serifa), ligue `Estilo/PularTextosEstilizados` — ver Configuração.
 - A **fonte original do jogo entra como fallback** do asset serifado: ícones, glifos e símbolos que a Times New Roman não tem continuam renderizando, sem virar quadradinho.
 - A varredura roda com **tempo real**, então funciona mesmo com `timeScale = 0` (é o caso dos menus do Stolen Realm, onde coroutines e `InvokeRepeating` nunca disparam).
 - O updater é criado de forma **preguiçosa**, na primeira UI viva (gatilho em `OptionsManager.Localize`). Criá-lo no `Awake` do plugin não funciona: o jogo destrói o GameObject na primeira carga de cena.
@@ -31,27 +32,31 @@ Em TextMeshPro, `texto.font = novaFonte` **não troca só o tipo de letra**: o `
 Na 1.0.1 a varredura faz, nesta ordem:
 
 1. **Captura** o material em uso (`fontSharedMaterial`) do componente antes de mexer.
-2. Se o material é **estilizado** e `PularTextosEstilizados = true` (padrão), o texto **não troca de fonte** — visual original 100% intacto.
+2. Se `PularTextosEstilizados = true` (escape, **padrão `false`**), o texto com material próprio **não troca de fonte** — visual original 100% intacto.
 3. Senão, troca a fonte e **copia as propriedades de estilo** para o material **por componente** (`fontMaterial` — instância só daquele texto), sempre testando `HasProperty` antes de cada `Set`:
    - cor de face `_FaceColor`, `_FaceDilate`;
    - contorno `_OutlineWidth`, `_OutlineSoftness`, `_OutlineColor` + keyword `OUTLINE_ON`;
    - sombra `_UnderlayColor`, `_UnderlayOffsetX/Y`, `_UnderlayDilate`, `_UnderlaySoftness` + keyword `UNDERLAY_ON`.
 
-**Não** se copia atlas/textura (`_MainTex`, `_TextureWidth`, `_TextureHeight`, `_GradientScale`, `_ScaleRatio_*`): isso pertence à fonte **nova**. Texturas de face (`_FaceTex`), bevel (`_BumpMap`) e as keywords `GLOW_ON`/`BEVEL_ON` não são transportadas — quando existirem, o log de diagnóstico avisa (é o que fecha dúvida se algum texto ainda parecer diferente).
+Essa cópia é o que faz o **efeito aplicado por outro mod** (ou pelo próprio jogo) sobreviver à troca de fonte: o que estava no material anterior daquele texto é reaplicado no material novo — a mesma regra para qualquer mod, sem um conhecer o outro.
+
+**Não** se copia atlas/textura (`_MainTex`, `_TextureWidth`, `_TextureHeight`, `_GradientScale`, `_ScaleRatio_*`): isso pertence à fonte **nova**. Texturas de face (`_FaceTex`), bevel (`_BumpMap`) e as keywords `GLOW_ON`/`BEVEL_ON` não são transportadas — e quando o efeito em uso depende de um deles (ou de um shader incompatível), o texto **não é tocado** (falha-segura: em dúvida, nada pior que hoje). O log de diagnóstico diz, por texto, o que foi copiado e o que ficou de fora.
 
 ## Configuração (`BepInEx\config\com.gumatos.betterfont.cfg`)
 
 | Seção | Chave | Padrão | O que faz |
 |---|---|---|---|
 | `Estilo` | `PreservarEstilo` | `true` | Copia cor/contorno/sombra do material antigo para o material por componente da fonte nova. |
-| `Estilo` | `PularTextosEstilizados` | `true` | Não troca a fonte de textos com material próprio (estilizado). Estilo intacto — esses textos só não ganham a serifa. `false` = troca a fonte em todos e transporta o estilo por cópia. |
+| `Estilo` | `PularTextosEstilizados` | `false` | `false` (padrão): troca a fonte **também** dos textos com material próprio e **reaplica os efeitos que já estavam nele** — é o que mantém o contorno/sombra aplicado por outro mod. `true`: **escape**, comportamento antigo — não troca a fonte de quem tem material próprio (visual original 100% intacto, sem serifa). |
 | `Diagnostico` | `LogDiagnosticoEstilo` | `false` | Loga, no `LogOutput.log`, um bloco por texto tratado: objeto, fonte, material compartilhado, shader, o que foi copiado e o que **não** pôde ser transportado. |
 
 O `.cfg` é lido no boot do jogo: mude os valores e reabra o jogo.
 
-## Convivência com o BetterCombatText
+## Convivência com outros mods que estilizam texto
 
-O BetterCombatText aplica contorno/halo nos números de dano clonando o material **por componente** e se re-aplica quando o material daquele componente muda. Com os padrões da 1.0.1 os dois não disputam nada: texto já estilizado pelo BetterCombatText é **pulado** pelo BetterFont (`PularTextosEstilizados = true`). Se você puser `false`, o BetterFont troca a fonte desses textos e copia o estilo; nesse caso a ordem de aplicação pode exigir **reabrir/fechar a tela** para o resultado ficar como você quer.
+Vale para **qualquer** mod que aplique efeito de material (contorno/halo, sombra) num texto de combate ou de qualquer tela: o BetterFont troca a fonte daquele texto e **reaplica no material novo os efeitos que já estavam no material anterior** — quem aplicou o efeito continua com ele, e o texto também ganha a serifa. Não há ordem obrigatória entre os mods: se o efeito for aplicado **antes**, o BetterFont o transporta; se for aplicado **depois**, o mod do efeito clona o material já serifado e o mantém. Nenhum dos dois precisa conhecer o outro.
+
+Só quando o efeito **não** puder ser reproduzido com fidelidade (textura de face, glow/bevel, shader incompatível) o BetterFont deixa aquele texto intocado — e o `Estilo/PularTextosEstilizados = true` restaura o comportamento antigo para todos eles.
 
 ## Instalar
 

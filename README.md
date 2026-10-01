@@ -45,7 +45,6 @@ No mod touches the game's content, balance or files: each one is a **separate DL
 | **BetterTooltips** | Makes skill, status and item tooltips **accurate and complete**: it fixes descriptions that "lied by omission" (missing duration, stack limit, range, whether it stacks with the party…) and appends a short **explanation of how the mechanic actually works** at the end of the tooltip, in the game's own special text colour. |
 | **BetterStats** | Shows your attributes as **`base (combined)`** — the raw value you invested and, in brackets, the final value with powerups, gear and skills. Works on the character sheet and on the level-up screen. It also fixes the value column alignment, which used to overflow the panel. |
 | **BetterFont** | Swaps the game font for a **serif** one (Times New Roman; Georgia or Liberation Serif as fallback). The original font stays as a fallback, so icons and symbols keep rendering (no boxes). |
-| **RoguelikeQoL** | Shows a **HUD in the top-left corner** with the current run's modifiers: **Treasure Find**, **Gold Find** and the battle's **Exp Mod**, summed across the whole party. It is **off by default** — see the [FAQ](#faq). |
 | **RoguelikeDebugger** | **NOT a player mod.** It is a **development tool** of ours: instead of improving the screen, it dumps internal game data into the log file (skill, item, affix, powerup and status inventories). It is used to investigate mechanics. If you just want to play, **do not install it** — it fills the log with thousands of lines. |
 
 ## Prerequisites
@@ -162,8 +161,7 @@ to confirm the game opens without mods, then re-enable them one at a time.
 **2. The game opens but no mod shows up.**
 Check, in order: the path must be exactly `...\BepInEx\plugins\<ModName>\<ModName>.dll` (a
 loose DLL in `plugins\` is mistake #1); you must launch through **"Start modded"**; look for the
-`... carregado.` line in the log. **RoguelikeQoL specifically** ships with the HUD **off**: open
-`...\BepInEx\config\com.gumatos.roguelikeqol.cfg` and set `AtivarHUD = false` to `true`.
+`... carregado.` line in the log.
 And if you had the old `BetterTexts`, delete that folder: it was renamed to **BetterTooltips**,
 and having both applies the same fixes twice.
 
@@ -188,7 +186,6 @@ Useful to confirm what loaded in the log:
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
 | RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
 
 ---
@@ -220,7 +217,7 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:Er
 - builds **Debug** *and installs it*: the DLL goes to `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` and
   the target copies it to `...\BepInEx\plugins\<Mod>\<Mod>.dll` in the profile;
 - `-clp:ErrorsOnly` prints **nothing** when it works — any line is a problem, so stop there;
-- swap the project for the mod you touched: `BetterStats`, `BetterFont`, `RoguelikeQoL`,
+- swap the project for the mod you touched: `BetterStats`, `BetterFont`,
   `RoguelikeDebugger` or `RoguelikeSkillTreeVisualizer` (all 6 use the same layout).
 
 To build **Release** (what packages are made of) *without* touching the installed DLL:
@@ -245,7 +242,7 @@ Two packages, for two audiences:
 Both build in **Release** with `-p:DeployToBepInEx=false`, so making a package never overwrites the
 DLL installed in the profile. `python tools/pack-thunderstore.py --listar-nomes` prints the mods the
 packager knows (measured 30/09/2026, in this order): `BetterCombatText`, `BetterFont`, `BetterStats`,
-`BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **7 mods**
+`BetterTooltips`, `RoguelikeDebugger`, `RoguelikeSkillTreeVisualizer` — **6 mods**
 (the count is the one the packager returns; the first is the newest mod).
 
 The Thunderstore zip is **4 files at the package root** (`manifest.json`, `README.md`,
@@ -314,7 +311,6 @@ The step-by-step, the platform rules and the known traps are in
 | **BetterTooltips** | Deixa os tooltips de skills, status e itens **corretos e completos**: conserta descrições que omitiam informação (faltava duração, número de stacks, alcance, se acumula com a party…) e acrescenta, no fim do tooltip, uma **explicação curta de como a mecânica realmente funciona**, na cor de texto especial do próprio jogo. |
 | **BetterStats** | Mostra seus atributos no formato **`base (combinado)`** — o valor puro que você investiu e, entre parênteses, o valor final já com powerups, equipamento e skills. Vale para a ficha de personagem e para a tela de level up. Também corrige o alinhamento da coluna de valores, que vazava para fora do painel. |
 | **BetterFont** | Troca a fonte do jogo por uma **serifada** (Times New Roman; se não existir, Georgia ou Liberation Serif). A fonte original fica como reserva, então ícones e símbolos continuam aparecendo (sem quadradinhos). |
-| **RoguelikeQoL** | Mostra um **HUD no canto superior esquerdo** com os modificadores da run em andamento: **Treasure Find**, **Gold Find** e o **Exp Mod** da batalha atual, somados de toda a party. Vem **desligado por padrão** — veja [como ligar](#perguntas-frequentes). |
 | **RoguelikeDebugger** | **NÃO é um mod de jogador.** É uma **ferramenta de desenvolvimento** nossa: em vez de melhorar a tela, ela despeja dados internos do jogo no arquivo de log (inventários de skills, itens base, afixos, powerups e status). Serve para investigar mecânicas. Se você só quer jogar, **não instale** — ele deixa o log com milhares de linhas. |
 
 Nenhum mod altera `Assembly-CSharp.dll` (o arquivo do jogo): nada nos arquivos do jogo é
@@ -333,7 +329,6 @@ Identificadores internos (úteis para conferir no log):
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
 | RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
 
 ---
@@ -413,8 +408,7 @@ Se você preferir não usar o r2modman, existe o [caminho manual](#instalação-
    ![Pasta plugins com uma pasta por mod](docs/img/bepinex-plugins-estrutura.png)
 
 9. **Sempre inicie o jogo pelo r2modman**, no botão **"Start modded"**. Abrir o jogo direto pela
-   Steam **não** injeta os mods — pode até abrir normal, mas sem mod nenhum carregado. Se você
-   instalou o `RoguelikeQoL` e quiser o HUD ligado, veja o [FAQ](#perguntas-frequentes) antes de abrir.
+   Steam **não** injeta os mods — pode até abrir normal, mas sem mod nenhum carregado.
 
 ---
 
@@ -517,9 +511,6 @@ carregamento (e o motivo aparece logo depois, na mesma linha ou nas seguintes).
   extra** explicando a mecânica, em cor diferente do corpo do texto.
 - **BetterStats**: na ficha de personagem e no level up os atributos aparecem como **`12 (17)`**
   (base e combinado) em vez de só um número.
-- **RoguelikeQoL**: se você ligou o HUD, no canto superior esquerdo da tela aparecem
-  `Treasure Find: +X%` / `Gold Find: +X%` / `Exp Mod: +X%` — só dentro de uma run com personagens
-  no grupo.
 
 ![Tooltips antes e depois](docs/img/ingame-tooltips-antes-depois.png)
 
@@ -575,10 +566,6 @@ Confira na ordem:
 - **O mod carregou?** Abra o `LogOutput.log` e procure a linha `... carregado.`
   (veja [Como saber que funcionou](#como-saber-que-funcionou)). Sem essa linha, o BepInEx não
   encontrou/carregou a DLL.
-- **RoguelikeQoL especificamente**: o HUD vem **desligado**. Abra
-  `...\BepInEx\config\com.gumatos.roguelikeqol.cfg` num editor de texto e mude
-  `AtivarHUD = false` para `AtivarHUD = true`, salve e reabra o jogo. (O arquivo só existe depois
-  que você abriu o jogo pelo menos uma vez com o mod instalado.)
 - **Você tinha a versão antiga do mod de textos.** O `BetterTexts` mudou de nome para
   `BetterTooltips`: se a pasta `BetterTexts` ainda estiver em `plugins\`, **apague-a** antes de usar
   a nova — com as duas instaladas, as mesmas correções são aplicadas duas vezes.
@@ -611,7 +598,6 @@ mantém o projeto.
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeQoL | `com.gumatos.roguelikeqol` | `Roguelike QoL` | 0.1.0 |
 | RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
 
 ---
@@ -642,7 +628,7 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:Er
 - compila em **Debug** *e instala*: a DLL sai em `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` e o
   target copia para `...\BepInEx\plugins\<Mod>\<Mod>.dll` no perfil;
 - `-clp:ErrorsOnly` não imprime **nada** quando dá certo — qualquer linha é problema, pare aí;
-- troque o projeto pelo mod que você mexeu: `BetterStats`, `BetterFont`, `RoguelikeQoL`,
+- troque o projeto pelo mod que você mexeu: `BetterStats`, `BetterFont`,
   `RoguelikeDebugger` ou `RoguelikeSkillTreeVisualizer` (os 6 usam a mesma estrutura).
 
 Para compilar em **Release** (de onde saem os pacotes) **sem** tocar na DLL instalada:
@@ -667,8 +653,8 @@ Dois pacotes, para dois públicos:
 Os dois compilam em **Release** com `-p:DeployToBepInEx=false`, então gerar pacote **nunca**
 sobrescreve a DLL do perfil. `python tools/pack-thunderstore.py --listar-nomes` lista os mods que o
 empacotador conhece (medido em 30/09/2026, nesta ordem): `BetterCombatText`, `BetterFont`,
-`BetterStats`, `BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`,
-`RoguelikeSkillTreeVisualizer` — **7 mods** (a contagem é a que o empacotador devolve; o primeiro
+`BetterStats`, `BetterTooltips`, `RoguelikeDebugger`,
+`RoguelikeSkillTreeVisualizer` — **6 mods** (a contagem é a que o empacotador devolve; o primeiro
 é o mod mais novo).
 
 O zip do Thunderstore são **4 arquivos na raiz do pacote** (`manifest.json`, `README.md`,

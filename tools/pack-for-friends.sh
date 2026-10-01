@@ -17,7 +17,7 @@ cd "$(dirname "$0")/.."
 
 # Mods que fazem sentido para amigos. O RoguelikeDebugger fica de fora de
 # propósito (é ferramenta de desenvolvimento: enche o log com milhares de
-# linhas). O RoguelikeQoL (HUD) também: feature desabilitada por enquanto.
+# linhas).
 if [ "$#" -gt 0 ]; then
   MODS=("$@")
 else

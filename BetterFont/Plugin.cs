@@ -22,10 +22,22 @@ namespace BetterFont
     /// (IL confirmado: TextMeshProUGUI.LoadFontAsset -> m_sharedMaterial = m_fontAsset.material).
     /// Como cor de face, contorno e sombra do jogo vivem NO MATERIAL, a troca de fonte apagava
     /// o estilo — o defeito relatado ("quebra o estilo e a coloração durante o combate").
-    /// Agora: (1) as propriedades de estilo do material ANTIGO são transportadas para o material
-    /// POR COMPONENTE da fonte nova (t.fontMaterial = instância; o compartilhado nunca é
-    /// escrito); (2) por padrão, textos de material ESTILIZADO nem trocam de fonte.
-    /// SEM alteração de gameplay.
+    /// Conserto: as propriedades de estilo do material ANTIGO são transportadas para o material
+    /// POR COMPONENTE da fonte nova (t.fontMaterial = instância; o compartilhado nunca é escrito).
+    ///
+    /// BF-1 (conserto NA CAUSA, genérico e sem acoplar mod nenhum) — o que faltava: quem tem
+    /// material PRÓPRIO (o jogo em combate/títulos, e QUALQUER mod que tenha aplicado efeito
+    /// naquele texto antes) era PULADO, e ficava na fonte original enquanto o resto da interface
+    /// mudava — a interface inconsistente relatada pelo dono. A decisão de pular partia de um
+    /// medo conservador (trocar a fonte apagaria o efeito do outro mod), e o medo era justo
+    /// ANTES da cópia existir. Agora o mod faz o que interessa: TROCA a fonte e REAPLICA no
+    /// material novo os efeitos que já estavam no material anterior daquele texto (contorno,
+    /// sombra/underlay, cor de face e as keywords que os ligam). Nada aqui cita ou conhece outro
+    /// mod: a regra é só "o que estava no material anterior daquele texto, continua lá".
+    /// Reversível por config: PularTextosEstilizados = true restaura o comportamento antigo
+    /// (texto com material próprio fica 100% intocado) e, quando o efeito em uso NÃO pode ser
+    /// reproduzido com fidelidade (textura de face, glow/bevel, shader incompatível), o texto
+    /// NÃO é tocado — falha-segura: em dúvida, nada pior que hoje. SEM alteração de gameplay.
     /// </summary>
     [BepInPlugin("com.gumatos.betterfont", "Better Font", "1.0.1")]
     public class Plugin : BaseUnityPlugin
@@ -51,7 +63,8 @@ namespace BetterFont
             get { return PreservarEstilo == null || PreservarEstilo.Value; }
         }
 
-        /// <summary>Padrao <c>true</c> (nao troca a fonte de material estilizado).</summary>
+        /// <summary>BF-ESTILO/BF-1: ESCAPE do comportamento antigo. Padrao <c>false</c>: a fonte
+        /// e trocada e os efeitos do material anterior sao preservados.</summary>
         internal static bool PularEstilizadosLigado
         {
             get { return PularTextosEstilizados == null || PularTextosEstilizados.Value; }
@@ -82,14 +95,23 @@ namespace BetterFont
                 "estilo do jogo vive no material. false = troca a fonte deixando o material novo como veio " +
                 "(comportamento da 1.0.0, que apagava cor/contorno/sombra).");
 
-            // BF-ESTILO: textos com material estilizado (materiais do jogo em combate, titulos etc.)
-            // ficam fora da troca por padrão — garante estilo intacto onde a cópia poderia não reproduzir bem.
-            PularTextosEstilizados = BindSeguro("Estilo", "PularTextosEstilizados", true,
-                "true = NAO troca a fonte dos textos cujo material e estilizado (material proprio, diferente do " +
-                "material padrao da fonte daquele componente, ou com shader diferente do material da fonte serifada). " +
-                "Nesses textos o visual original fica 100% intacto (so nao ganham a serifa). false = troca a fonte em " +
-                "TODOS os textos e transporta o estilo por copia (PreservarEstilo). Padrao: true (seguro). " +
-                "Para ver o que foi pulado, ligue LogDiagnosticoEstilo.");
+            // BF-1: ESCAPE do comportamento antigo (1.0.1). Default FALSE: a fonte é trocada e os
+            // efeitos que já estavam no material daquele texto são reaplicados no material novo —
+            // é o que faz o texto estilizado por OUTRO mod (ou pelo próprio jogo) receber a
+            // serifa SEM perder contorno/sombra. Quem preferir o comportamento antigo (texto com
+            // material próprio fica 100% intocado, sem serifa) liga esta chave.
+            PularTextosEstilizados = BindSeguro("Estilo", "PularTextosEstilizados", false,
+                "false (padrao) = troca a fonte TAMBEM dos textos cujo material e estilizado (material proprio, " +
+                "diferente do material padrao da fonte daquele componente, ou com shader diferente do material da " +
+                "fonte serifada) e REAPLICA neles os efeitos de material que ja estavam ali (cor de face, contorno " +
+                "_OutlineWidth/_OutlineSoftness/_OutlineColor, sombra _UnderlayColor/_UnderlayOffsetX/Y/_UnderlayDilate/" +
+                "_UnderlaySoftness e as keywords OUTLINE_ON/UNDERLAY_ON), copiando para o material POR COMPONENTE da " +
+                "fonte nova. E o que faz QUALQUER mod que tenha aplicado efeito antes continuar funcionando. Se o " +
+                "efeito em uso NAO puder ser reproduzido com fidelidade (textura de face _FaceTex, bevel _BumpMap, " +
+                "GLOW_ON/BEVEL_ON ou shader incompativel), o texto NAO e tocado — falha-segura. " +
+                "true = ESCAPE, comportamento antigo da 1.0.1: NAO troca a fonte de quem tem material estilizado " +
+                "(o visual original fica 100% intacto, so nao ganha a serifa). Para ver o que foi pulado, ligue " +
+                "LogDiagnosticoEstilo.");
 
             LogDiagnosticoEstilo = BindSeguro("Diagnostico", "LogDiagnosticoEstilo", false,
                 "true = loga um bloco por texto tratado: objeto, fonte, material compartilhado, shader, quais " +
@@ -116,8 +138,8 @@ namespace BetterFont
         /// <c>Config.Bind</c> com guarda: arquivo de config ausente/corrompido (ou chave com tipo
         /// invalido) nao pode derrubar o mod nem impedir o jogo de carregar. Em falha devolve null e
         /// o getter seguro correspondente passa a valer o DEFAULT — o mesmo comportamento de quem
-        /// nao tem arquivo de config nenhum. Mesmo padrao do RSTV (<c>Plugin.BotaoLigado</c>) e do
-        /// BetterCombatText (try/catch no chamador).
+        /// nao tem arquivo de config nenhum. Mesmo padrao dos outros mods do projeto (getter seguro
+        /// no lugar da leitura direta).
         /// </summary>
         private ConfigEntry<T> BindSeguro<T>(string secao, string chave, T padrao, string descricao)
         {
@@ -377,10 +399,14 @@ namespace BetterFont
         /// depois (novas janelas/telas). A fonte original do jogo entra como fallback do asset
         /// serifado, para ícones/símbolos não virarem quadrados.
         ///
-        /// BF-ESTILO: antes de cada troca, o material EM USO é lido (fontSharedMaterial), e as
+        /// BF-ESTILO/BF-1: antes de cada troca, o material EM USO é lido (fontSharedMaterial), e as
         /// propriedades de ESTILO dele são transportadas para o material POR COMPONENTE da fonte
         /// nova (t.fontMaterial) — nunca escrevemos no material compartilhado nem no material do
-        /// font asset. Textos de material estilizado são pulados por padrão (PularTextosEstilizados).
+        /// font asset. Um texto com material PRÓPRIO (o jogo em combate/títulos, ou texto que
+        /// QUALQUER mod já estilizou) também troca de fonte: os efeitos que já estavam no material
+        /// dele viajam junto. O único caso que não é tocado é o de efeito que a cópia não reproduz
+        /// com fidelidade (falha-segura), e o comportamento antigo (texto estilizado 100% intocado)
+        /// continua disponível ligando PularTextosEstilizados.
         /// </summary>
         private void FontSweep()
         {
@@ -404,6 +430,7 @@ namespace BetterFont
 
                 int convertidos = 0;
                 int pulados = 0;
+                int naoPreservaveis = 0;
                 int jaNaSerifa = 0;
 
                 foreach (var t in Resources.FindObjectsOfTypeAll<TMP_Text>())
@@ -423,27 +450,53 @@ namespace BetterFont
 
                     try
                     {
-                        // O material EM USO agora: é ele que carrega a cor/contorno/sombra do jogo.
+                        // O material EM USO agora: é ele que carrega a cor/contorno/sombra do jogo
+                        // — e também o efeito que outro mod possa ter aplicado NESTE texto.
                         Material antigo = t.fontSharedMaterial;
                         TMP_FontAsset fonteAntiga = t.font;
 
+                        // BF-1: "estilizado" = material próprio (o em uso não é o material padrão da
+                        // própria fonte do texto) ou shader diferente do da fonte serifada. É o caso
+                        // do material que outro mod clona POR COMPONENTE para aplicar contorno/halo.
                         string motivoEstilo;
-                        if (Plugin.PularEstilizadosLigado && EhEstilizado(antigo, fonteAntiga, out motivoEstilo))
+                        bool estilizado = EhEstilizado(antigo, fonteAntiga, out motivoEstilo);
+
+                        if (estilizado && Plugin.PularEstilizadosLigado)
                         {
+                            // ESCAPE: comportamento antigo da 1.0.1 — fonte E estilo originais intactos.
                             // Conta/loga o pulo UMA vez por texto (a varredura roda a cada 2s; sem
                             // isto o resumo repetiria para sempre). O texto continua sendo reavaliado
                             // nas passadas seguintes: se o material dele mudar, ele entra na conversão.
                             if (ContarPuloUmaVez(t))
                             {
                                 pulados++;
-                                Diagnostico("PULADO (material estilizado: " + motivoEstilo + ")", t, fonteAntiga, antigo,
+                                Diagnostico("PULADO (escape: material estilizado: " + motivoEstilo + ")", t, fonteAntiga, antigo,
                                     "n/a (texto pulado: fonte e material nao foram tocados)",
                                     "n/a (texto pulado: nada foi transportado)");
                             }
-                            continue; // fonte E estilo originais intactos
+                            continue; // o dono pediu o comportamento antigo: nada aqui e tocado
                         }
 
-                        // A troca de fonte troca o material junto (LoadFontAsset do TMP).
+                        // FALHA-SEGURA do caminho novo: se o efeito EM USO nao pode ser reproduzido
+                        // com fidelidade no material da fonte nova, uma copia parcial sairia PIOR que
+                        // nao mexer. Em duvida, NAO estiliza (e o comportamento de hoje, nao pior).
+                        string motivoNaoPreservavel = null;
+                        if (estilizado && Plugin.PreservarEstiloLigado &&
+                            !EstiloTransportavel(antigo, out motivoNaoPreservavel))
+                        {
+                            if (ContarPuloUmaVez(t))
+                            {
+                                naoPreservaveis++;
+                                Diagnostico("PULADO (efeito nao transportavel: " + motivoNaoPreservavel + ")", t, fonteAntiga, antigo,
+                                    "n/a (texto pulado: fonte e material nao foram tocados)",
+                                    "n/a (texto pulado: nada foi transportado)");
+                            }
+                            continue; // efeito intacto: melhor que uma copia incompleta
+                        }
+
+                        // A troca de fonte troca o material junto (LoadFontAsset do TMP). O efeito
+                        // que estava no material ANTIGO (contorno/sombra/underlay do jogo ou de
+                        // outro mod) e reaplicado logo abaixo, no material daquele componente.
                         t.font = _serifFont;
 
                         string copiados = null;
@@ -456,14 +509,15 @@ namespace BetterFont
                             {
                                 copiados = CopiarEstilo(antigo, novo, out naoTransportados);
                                 // contorno/sombra saem para FORA do glifo: sem recalcular o padding
-                                // o contorno é cortado na borda do mesh (mesma razão do BetterCombatText).
+                                // o contorno é cortado na borda do mesh (o padding sai do material).
                                 t.UpdateMeshPadding();
                                 t.SetVerticesDirty();
                             }
                         }
 
                         convertidos++;
-                        Diagnostico("CONVERTIDO", t, fonteAntiga, antigo, copiados, naoTransportados);
+                        Diagnostico(estilizado ? "CONVERTIDO (efeito do material anterior transportado)" : "CONVERTIDO",
+                            t, fonteAntiga, antigo, copiados, naoTransportados);
                     }
                     catch (System.Exception e)
                     {
@@ -477,12 +531,13 @@ namespace BetterFont
                     Plugin.Log.LogInfo($"Better Font: varredura aplicada ({_seenTexts.Count} textos vistos).");
                 }
 
-                if (convertidos > 0 || pulados > 0)
+                if (convertidos > 0 || pulados > 0 || naoPreservaveis > 0)
                 {
                     Plugin.Log.LogInfo(
                         $"Better Font: varredura — {convertidos} texto(s) convertidos para a serifa" +
-                        (Plugin.PreservarEstiloLigado ? " (estilo transportado por cópia)" : string.Empty) +
-                        $", {pulados} pulado(s) por material estilizado, {jaNaSerifa} já na serifa.");
+                        (Plugin.PreservarEstiloLigado ? " (efeitos do material anterior transportados)" : string.Empty) +
+                        $", {pulados} pulado(s) pelo escape (PularTextosEstilizados ligado), " +
+                        $"{naoPreservaveis} intocado(s) por efeito nao transportavel, {jaNaSerifa} ja na serifa.");
                 }
             }
             catch (System.Exception e)
@@ -521,8 +576,11 @@ namespace BetterFont
 
         /// <summary>
         /// "Estilizado" = o material do componente NÃO é o material padrão da própria fonte dele,
-        /// ou é de um shader diferente do material da fonte serifada (aí a cópia poderia não
-        /// reproduzir a receita do jogo). Nesses casos o padrão é não mexer (ver PularTextosEstilizados).
+        /// ou é de um shader diferente do material da fonte serifada. É o retrato de "alguém mexeu
+        /// no material deste texto" — o jogo (títulos/números de combate) ou QUALQUER mod que tenha
+        /// clonado o material por componente para aplicar efeito. Deixou de significar "não mexer":
+        /// com <c>PularTextosEstilizados</c> ligado é o comportamento antigo (escape); desligado
+        /// (padrão), o texto troca de fonte preservando o efeito (ver <c>EstiloTransportavel</c>).
         /// </summary>
         private bool EhEstilizado(Material antigo, TMP_FontAsset fonteAntiga, out string motivo)
         {
@@ -547,6 +605,91 @@ namespace BetterFont
             }
 
             return false;
+        }
+
+        /// <summary>
+        /// BF-1 — FALHA-SEGURA do caminho que preserva efeito: só se troca a fonte de um texto
+        /// ESTILIZADO se o que está EM USO no material dele puder ser reproduzido com fidelidade no
+        /// material da fonte nova. Uma cópia parcial (ex.: contorno copiado, textura de face do
+        /// efeito perdida) sairia PIOR que não mexer — então, em dúvida, a resposta é NÃO e o texto
+        /// fica exatamente como está (o comportamento de hoje, nunca pior).
+        ///
+        /// Reprova quando: o efeito usa textura de face (<c>_FaceTex</c>) ou bevel (<c>_BumpMap</c>)
+        /// — a cópia NÃO transporta texturas de propósito; o shader tem GLOW_ON/BEVEL_ON ligado (não
+        /// transportados); o material é de um shader DIFERENTE do material da fonte serifada (a
+        /// "receita" do shader pode não existir no novo); ou o shader novo não expõe a propriedade de
+        /// um contorno/sombra que está ativo. Qualquer exceção na conferência também reprova.
+        /// </summary>
+        private bool EstiloTransportavel(Material antigo, out string motivo)
+        {
+            motivo = null;
+            try
+            {
+                if (antigo == null)
+                {
+                    return true;
+                }
+
+                if (antigo.HasProperty("_FaceTex") && antigo.GetTexture("_FaceTex") != null)
+                {
+                    motivo = "_FaceTex (textura de face) em uso — a copia nao transporta textura";
+                    return false;
+                }
+
+                if (antigo.HasProperty("_BumpMap") && antigo.GetTexture("_BumpMap") != null)
+                {
+                    motivo = "_BumpMap (bevel) em uso — a copia nao transporta bevel";
+                    return false;
+                }
+
+                if (antigo.IsKeywordEnabled("GLOW_ON"))
+                {
+                    motivo = "GLOW_ON ligado — glow nao e transportado";
+                    return false;
+                }
+
+                if (antigo.IsKeywordEnabled("BEVEL_ON"))
+                {
+                    motivo = "BEVEL_ON ligado — bevel nao e transportado";
+                    return false;
+                }
+
+                Material padraoNovo = _serifFont != null ? _serifFont.material : null;
+                if (padraoNovo == null)
+                {
+                    motivo = "a fonte serifada ainda nao tem material";
+                    return false;
+                }
+
+                if (antigo.shader != padraoNovo.shader)
+                {
+                    motivo = $"shader '{Nome(antigo.shader)}' != '{Nome(padraoNovo.shader)}' do material da fonte serifada";
+                    return false;
+                }
+
+                bool contornoEmUso = antigo.IsKeywordEnabled("OUTLINE_ON") || ValorAtivo(antigo, "_OutlineWidth");
+                if (contornoEmUso && !padraoNovo.HasProperty("_OutlineWidth"))
+                {
+                    motivo = "contorno em uso e o material novo nao expoe _OutlineWidth (fonte bitmap)";
+                    return false;
+                }
+
+                bool sombraEmUso = antigo.IsKeywordEnabled("UNDERLAY_ON") ||
+                                   (antigo.HasProperty("_UnderlayColor") && antigo.GetColor("_UnderlayColor").a > 0.001f);
+                if (sombraEmUso && !padraoNovo.HasProperty("_UnderlaySoftness"))
+                {
+                    motivo = "sombra em uso e o material novo nao expoe underlay";
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                // Em duvida NAO estilizar: qualquer falha na conferencia reprova o transporte.
+                motivo = "nao deu para conferir o efeito (" + e.GetType().Name + ")";
+                return false;
+            }
         }
 
         /// <summary>
