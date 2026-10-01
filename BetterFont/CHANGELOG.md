@@ -22,9 +22,12 @@
 
 ### Dependência declarada neste manifest
 
-- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterCombatText-0.1.0`**. O BetterCombatText é quem devolve o estilo (contorno/sombra) nos textos de combate que a troca de fonte, sozinha, não preserva — os dois andam juntos.
-- A referência aponta a versão **nova** dos dois lados de propósito: apontar para a 1.0.0 do BetterCombatText faria o gerenciador resolver o MESMO pacote em duas versões (duas DLLs com o mesmo GUID dentro do BepInEx).
-- **Ordem de envio importa:** a Thunderstore valida a dependência no upload resolvendo a referência (`No matching package found for reference`), e os dois pacotes se referenciam — a primeira publicação do par precisa de um dos lados apontando para uma versão que já está no ar (nota de ordem registrada em `release/mods.json`).
+- `dependencies`: `BepInEx-BepInExPack-5.4.2305` — **só**. Este manifest **não** declara o `DefRuivo_StolenRealmMods-BetterCombatText` (era o que ele declarava no pacote antigo deste 1.0.1).
+- **A dependência entre os dois é UMA DIREÇÃO: `BetterCombatText 0.1.0` → `BetterFont 1.0.1`** — o `BetterCombatText` é quem devolve o estilo (contorno/sombra) nos textos de combate que a troca de fonte, sozinha, não preserva, e é ele que declara a referência. O caminho de volta foi removido no commit `ac0210f`.
+- **Por que a mão dupla não sobe (provado no código da Thunderstore):** no upload a plataforma **resolve** cada referência (`DependencyField` usa `PackageReferenceValidator(resolve=True)`) e **recusa** a que não existe, com `No matching package found for reference`. Com os dois lados se referenciando, cada lado apontava para uma versão **inédita** (este `1.0.1` e o `BetterCombatText 0.1.0`, nenhuma das duas no ar) — não havia ordem de envio válida: quem subisse primeiro falhava. Foi por isso que a direção única substituiu a mão dupla, e não por preferência.
+- **Ordem de envio que funciona:** o `BetterFont 1.0.1` (este pacote, sem a dependência de volta) sobe primeiro; depois sobe o `BetterCombatText 0.1.0` declarando o `BetterFont 1.0.1` — a mesma ordem registrada em [`release/mods.json`](../release/mods.json).
+- **Opção do dono (não é plano, não existe hoje):** se quiser o **ciclo** de verdade, com os dois se referenciando, o caminho é um **`BetterFont 1.0.2` depois**, declarando o `BetterCombatText 0.1.0` já publicado.
+- O zip desta 1.0.1 na Release (`pack-2026-09-30`) é o pacote com a **direção única**: o asset antigo (com a mão dupla no manifest) foi substituído em 30/09/2026.
 
 ## 1.0.0
 

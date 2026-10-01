@@ -385,7 +385,7 @@ Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 | `description` | ate 250 chars | OK (139..193) |
 | `website_url` | URL valida | OK |
 | `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 935..124954 bytes — todos abaixo de 1 MB; o mínimo é o placeholder do RoguelikeQoL, que está saindo do projeto) |
-| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` |
+| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.0` → `BetterFont 1.0.1` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
 **A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5

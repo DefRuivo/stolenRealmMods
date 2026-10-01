@@ -244,8 +244,9 @@ Two packages, for two audiences:
 
 Both build in **Release** with `-p:DeployToBepInEx=false`, so making a package never overwrites the
 DLL installed in the profile. `python tools/pack-thunderstore.py --listar-nomes` prints the mods the
-packager knows (measured 30/09/2026, in this order): `BetterFont`, `BetterStats`, `BetterTooltips`,
-`RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **6 mods**.
+packager knows (measured 30/09/2026, in this order): `BetterCombatText`, `BetterFont`, `BetterStats`,
+`BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **7 mods**
+(the count is the one the packager returns; the first is the newest mod).
 
 The Thunderstore zip is **4 files at the package root** (`manifest.json`, `README.md`,
 `CHANGELOG.md`, `icon.png`) plus `plugins/<Mod>/<Mod>.dll`. The packager has a **pre-flight that
@@ -665,8 +666,10 @@ Dois pacotes, para dois públicos:
 
 Os dois compilam em **Release** com `-p:DeployToBepInEx=false`, então gerar pacote **nunca**
 sobrescreve a DLL do perfil. `python tools/pack-thunderstore.py --listar-nomes` lista os mods que o
-empacotador conhece (medido em 30/09/2026, nesta ordem): `BetterFont`, `BetterStats`,
-`BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`, `RoguelikeSkillTreeVisualizer` — **6 mods**.
+empacotador conhece (medido em 30/09/2026, nesta ordem): `BetterCombatText`, `BetterFont`,
+`BetterStats`, `BetterTooltips`, `RoguelikeDebugger`, `RoguelikeQoL`,
+`RoguelikeSkillTreeVisualizer` — **7 mods** (a contagem é a que o empacotador devolve; o primeiro
+é o mod mais novo).
 
 O zip do Thunderstore são **4 arquivos na raiz do pacote** (`manifest.json`, `README.md`,
 `CHANGELOG.md`, `icon.png`) mais `plugins/<Mod>/<Mod>.dll`. O empacotador tem um **pre-flight que

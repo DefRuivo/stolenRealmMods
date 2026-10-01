@@ -26,6 +26,9 @@ Primeira versao — **ainda NAO publicada** (por isso a versao nao sobe: esta e 
 
 ### Dependência declarada neste manifest
 
-- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — é aqui que o estilo dos textos de combate volta; a dependência amarra a versão **nova** dos dois lados para o gerenciador não instalar o mesmo pacote em duas versões (mesmo GUID = erro no BepInEx).
-- **Ordem de envio importa:** a referência é validada no upload (o validador resolve o pacote: `No matching package found for reference`) e os dois pacotes se referenciam entre si — a primeira publicação do par precisa de um dos lados apontando para uma versão já publicada.
+- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — é aqui que o estilo dos textos de combate volta; a referência aponta a versão **nova** para o gerenciador não instalar o mesmo pacote em duas versões (mesmo GUID = erro no BepInEx).
+- **A dependência é UMA DIREÇÃO — `BetterCombatText 0.1.0` → `BetterFont 1.0.1` — e só ela.** O `BetterFont` 1.0.1 declara **apenas** o BepInExPack; quem aponta para a outra ponta é este mod. A mão dupla (os dois se declarando) foi trocada por esta direção única no commit `ac0210f`.
+- **Por que a mão dupla não sobe (provado no código da Thunderstore):** no upload a plataforma **resolve** cada referência (`DependencyField` usa `PackageReferenceValidator(resolve=True)`) e **recusa** a referência que não existe, com `No matching package found for reference`. Com os dois lados se referenciando, cada lado apontava para uma versão **inédita** (o `BetterFont 1.0.1` e este `0.1.0`, nenhuma das duas no ar) — não havia ordem de envio válida: quem subisse primeiro falhava. Não é preferência de estilo, é o upload recusando.
+- **Ordem de envio que funciona:** primeiro o `BetterFont 1.0.1` (sem dependência de volta), depois este `0.1.0` declarando o `BetterFont 1.0.1` — a mesma ordem registrada em [`release/mods.json`](../release/mods.json).
+- **Opção do dono (não é plano, não existe hoje):** se quiser o **ciclo** de verdade, com os dois se referenciando, o caminho é um **`BetterFont 1.0.2` depois**, declarando este `BetterCombatText 0.1.0` já publicado.
 

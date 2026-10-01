@@ -22,7 +22,10 @@ O QUE ELE CONFERE
      `docs/cobertura/revisao/` x a pasta (total do titulo, `Nº` de cada linha, todo relatorio
      citado existe e todo .md da pasta esta citado);
   4. ferramentas: as que existem em `tools/` x as citadas nos docs;
-  5. versao de cada mod: `manifest.json` x `.csproj` x `Plugin.cs` (+ dependencia do Thunderstore);
+  5. versao de cada mod: `manifest.json` x `.csproj` x `Plugin.cs` (+ dependencia do Thunderstore:
+     o conjunto de dependencias e conferido INTEIRO contra o esperado — o BepInExPack canonico e,
+     nos mods que declaram outro mod deste repo, a DIRECAO UNICA registrada em `DEP_EXTRAS`. O
+     caminho de VOLTA e dependencia a mais, portanto REPROVA);
   6. links relativos quebrados nas .md versionadas;
   7. caminhos que a doc cita como parte do repo e que ja sairam dele;
   8. a dependencia do Thunderstore escrita igual em todo lugar.
@@ -305,6 +308,44 @@ def versao_do_plugin(src_pl):
     return '?'
 
 
+CANON_DEP = 'BepInEx-BepInExPack-5.4.2305'
+
+# Dependencias EXTRAS esperadas (alem do BepInExPack), por mod. E a DIRECAO UNICA da dependencia
+# entre mods deste repositorio, a mesma registrada em `release/mods.json` (commit ac0210f):
+#
+#     BetterCombatText 0.1.0 -> BetterFont
+#
+# A MAO DUPLA NAO PASSA nesta regra: um `BetterFont` que declare o `BetterCombatText` vira
+# "dependencia fora do padrao" (dependencia a mais na lista). E o caminho de volta que o upload
+# da Thunderstore recusa (`No matching package found for reference`, `PackageReferenceValidator`),
+# porque nenhum dos dois lados existe no ar antes do primeiro envio - nao ha ordem valida.
+#
+# A versao NAO fica escrita aqui: sai do manifest do mod apontado (a que ele declara HOJE), senao
+# um bump do BetterFont deixaria esta regra velha e ela reprovaria um repo correto.
+DEP_EXTRAS = {
+    'BetterCombatText': [('DefRuivo_StolenRealmMods', 'BetterFont')],
+}
+
+
+def deps_esperadas(mod, versoes):
+    """`[BepInExPack canonico] + extras declaradas do mod`, com a versao lida do alvo."""
+    esperadas = [CANON_DEP]
+    for namespace, pacote in DEP_EXTRAS.get(mod, []):
+        esperadas.append('%s-%s-%s' % (namespace, pacote, versoes.get(pacote, '?')))
+    return esperadas
+
+
+versoes_manifest = {}
+for _m in sorted(os.listdir(RAIZ)):
+    _mp = os.path.join(RAIZ, _m, 'manifest.json')
+    if not os.path.isfile(_mp):
+        continue
+    try:
+        versoes_manifest[_m] = json.load(io.open(_mp, encoding='utf-8')).get('version_number')
+    except ValueError:
+        versoes_manifest[_m] = '?'
+
+
 for mod in sorted(os.listdir(RAIZ)):
     mp = os.path.join(RAIZ, mod, 'manifest.json')
     if not os.path.isfile(mp):
@@ -317,7 +358,8 @@ for mod in sorted(os.listdir(RAIZ)):
     v_cs = re.search(r'<Version>([^<]+)</Version>', csproj)
     v_pl = versao_do_plugin(ler(os.path.join(mod, 'Plugin.cs')))
     dep = man.get('dependencies', [])
-    d_ok = dep == ['BepInEx-BepInExPack-5.4.2305']
+    esperadas = deps_esperadas(mod, versoes_manifest)
+    d_ok = dep == esperadas
     alinha = (v_cs.group(1) if v_cs else '?') == man.get('version_number') == v_pl
     print('   %-30s manifest %-8s csproj %-8s plugin %-8s %s | dep %s' % (
         mod, man.get('version_number'), v_cs.group(1) if v_cs else '?',
@@ -326,7 +368,9 @@ for mod in sorted(os.listdir(RAIZ)):
     if not alinha:
         problemas.append('%s: versao diverge entre manifest/csproj/plugin' % mod)
     if not d_ok:
-        problemas.append('%s: dependencia do Thunderstore fora do padrao' % mod)
+        print('        esperado: %s' % esperadas)
+        problemas.append('%s: dependencia do Thunderstore fora do padrao (esperado %s, achei %s)'
+                         % (mod, esperadas, dep))
 
 # ---------------------------------------------------------------- 6) links relativos
 print()
