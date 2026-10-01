@@ -20,6 +20,13 @@ O QUE ESTE TESTE GARANTE
    apresenta como COMPLETA.
 5. Um item por ATRIBUTO, na ordem canonica (l.984), e a linha inteira fecha na
    ordem dos itens (o comparador de log corta por `; `).
+6. **DWA-2** - a dedupe do RV-46 e POR TIPO DE EFEITO: aura de ATRIBUTO repetida conta
+   UMA vez (o motor soma as instancias e o teto corta), mas aura de GATILHO
+   (`SkillTriggers`; Dwarven/Decay/Flame) conta UMA vez POR INSTANCIA, porque o motor
+   avalia o gatilho uma vez por status vivo (`Character.SkillTriggers` l.33489-33508 +
+   `ProcessSkillTriggers` l.40953-40959, rolando a chance em l.41211-41216). Com DOIS
+   Dwarven Shrines no alcance a linha sai `Stun chance +40%; Stun chance +40%` - duas
+   rolagens de verdade, nunca um `+80%` somado a mao.
 
 DE ONDE VEM O ESPERADO
 ----------------------
@@ -50,6 +57,11 @@ LIGACOES = (
      "a deduplicacao da lista viva (AurasUnicas) saiu de AcumuladoShrines"),
     (r"ContribuicaoDasAuras\(unicas,",
      "a soma passou a usar outra lista que nao a DESDUPLICADA (ContribuicaoDasAuras(unicas,)"),
+    # DWA-2: o outro lado da moeda - os itens das auras SEM atributo tem de sair da lista TIPADA
+    # (aura de gatilho conta por INSTANCIA; aura de atributo continua 1x). Sem esta ligacao, a
+    # desdupe do RV-46 volta a valer para TUDO e a segunda rolagem do Dwarven some em silencio.
+    (r"ItensSemAtributo\(porInstancia,",
+     "os itens sem atributo deixaram de sair da lista TIPADA por efeito (ItensSemAtributo(porInstancia,)"),
 )
 
 
@@ -144,6 +156,37 @@ def corpo():
     arc.exigir(any("Dwarven Aura" in a for a in sem_expr["avisos"]),
                "sem numero, a aura tem de sair no LOG com o motivo - nunca calada")
     arc.exigir(sem_expr["avisos"], "a cena sem item tem de trazer o motivo no log")
+
+    # ------------------------------------------------------------------ DWA-2: DOIS Dwarven no alcance
+    # O defeito do dono (30/09): "a Dwarven Aura nao esta stackando com mais de um shrine no alcance".
+    # O efeito dela NAO e atributo de personagem, e CHANCE DE GATILHO - e o motor avalia o gatilho UMA
+    # VEZ POR STATUS VIVO (`Character.SkillTriggers` decompilado l.33489-33508 + `ProcessSkillTriggers`
+    # l.40953-40959, rolando em l.41211-41216). Entao com DOIS shrines a linha tem DOIS itens, cada um
+    # com o numero do asset: a segunda rolagem conta, e NADA e somado a mao (o motor nao soma chance).
+    dois_dwarven = saidas["dwarven-x2"]
+    arc.igual(dois_dwarven["itens"], ["Stun chance +40%", "Stun chance +40%"],
+              "DWA-2: dois Dwarven Shrines no alcance = duas rolagens de 40% (um item por INSTANCIA)")
+    arc.exigir("80" not in dois_dwarven["linha"],
+               "a chance de gatilho foi SOMADA a mao (%r) - o motor rola duas vezes a mesma chance, "
+               "nao soma: o `+80%%` seria a mentira do outro lado do `Dodge +120%%`"
+               % dois_dwarven["linha"])
+    arc.igual(dois_dwarven["repeticoes"], ["Dwarven Aura x2"],
+              "a repeticao continua registrada no LOG (instancias=[Dwarven Aura x2])")
+    arc.exigir(dois_dwarven["itens"] != dwarven["itens"],
+               "o caso de DOIS shrines nao pode dar o mesmo que o de UM: era exatamente o defeito")
+
+    # A regra e por TIPO de efeito, nao por nome de aura: o Decay (OnTurnStart, tambem sem atributo de
+    # personagem) conta por instancia pelo mesmo caminho.
+    dois_decay = saidas["decay-x2"]
+    arc.igual(dois_decay["itens"], ["Shadow damage per turn 20", "Shadow damage per turn 20"],
+              "DWA-2 e por TIPO: o gatilho do Decay tambem roda uma vez por instancia")
+    arc.igual(dois_decay["repeticoes"], ["Decay Shrine Aura x2"],
+              "o log registra a repeticao do Decay tambem")
+
+    # E o outro lado NAO regrediu: aura de ATRIBUTO repetida continua contando UMA vez (RV-46) - o
+    # `Dodge +40%` do print do dono. Se este par mudasse junto, o conserto teria sido amplo demais.
+    arc.igual(rogue["itens"], ["Dodge +40% (total +57%)"],
+              "a aura de ATRIBUTO repetida 3x continua contando 1x (RV-46 intacto depois do DWA-2)")
 
     # ------------------------------------------------------------------ o resto do print do dono
     # Os TOTAIS das cenas do Fury vem do print do dono (RV-19 §9.1, bonus 0 e 100): o
