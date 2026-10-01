@@ -6,14 +6,19 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado hoje (30/09/2026): o projeto tem 6 mods, com 5 deles publicados na Thunderstore**, sob o
+**Estado hoje (01/10/2026): o projeto tem 6 mods e os SEIS estão publicados na Thunderstore**, sob o
 namespace `DefRuivo_StolenRealmMods` (URL do pacote: `DefRuivo_StolenRealmMods-<Mod>`), e o
-`release/mods.json` **está versionado** com as **6** entradas — os 5 do release de 30/09 com
-`publicar: true` e `versao_publicada`/`publicado_em` preenchidos (1.0.0, 1.0.0, 0.1.0, 0.1.0,
-0.1.0), e o `BetterCombatText` com `publicar: false` (empacotado em
-`dist/gumatos-BetterCombatText-0.1.0.zip`, fora do ar de propósito). `team` =
+`release/mods.json` **está versionado** com as **6** entradas, todas com `publicar: true` e
+`versao_publicada`/`publicado_em` preenchidos. A leva de **01/10/2026** (run `36801937843`, input
+`todos`, aprovada no Environment `thunderstore`) subiu as seis versões que estavam prontas desde
+30/09: **BetterFont 1.0.1** (01:59:31Z), **BetterStats 1.0.1** (01:59:37Z), **BetterTooltips 0.1.1**
+(01:59:44Z), **RoguelikeDebugger 0.1.1** (01:59:51Z), **RoguelikeSkillTreeVisualizer 0.2.0**
+(01:59:57Z) e **BetterCombatText 0.1.0** (02:00:04Z) — horários lidos do **endpoint por pacote** da
+API (o único fresco). Antes dela, o `BetterCombatText` era a única entrada com
+`versao_publicada: null` e o único mod empacotado **fora do ar** (estava com `publicar: false`, o
+motivo de 30/09); hoje não há nenhum mod deste repo fora do ar. `team` =
 `DefRuivo_StolenRealmMods` — `PUB-3` **resolvido**. Isso não é memória: saiu do
-`git show origin/main:release/mods.json` e da API pública
+`release/mods.json` **deste** arquivo versionado e da API pública
 (`https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`) — a listagem da
 comunidade é **cache** e não serve para conferir (ver a nota *Ao conferir na API*, em
 [`README.md`](README.md), § *Publicação — credencial e namespace*). Os dois workflows **já estão no
@@ -34,6 +39,18 @@ projeto; os zips continuam na Release e a versão publicada, no ar). O **título
 velho ("Pacotes dos 6 mods - 30/09/2026" — o zip do `BetterCombatText` entrou depois) e foi corrigido
 para os **7** mods empacotados e os 11 zips. A dependência entre mods é **uma direção** — `BetterCombatText 0.1.0` →
 `BetterFont 1.0.1` — pelo motivo registrado em [`release/mods.json`](../release/mods.json).
+
+**O registro desta leva foi feito À MÃO, e o motivo é o defeito que fecha esta rodada:** no run
+`36801937843` o terceiro job (`Registra a versao publicada em release/mods.json`) confirmou as seis
+versões na API (**passo 4 = success**) e morreu no **passo 5 (`Commit e push do registro`)**. O log
+desse job **não abre** para quem não é admin do repositório (a API do GitHub devolve
+`403 Must have admin rights to Repository`; na UI, "Sign in to view logs"), então a causa é a que a
+**linha do tempo** sustenta: o checkout do run é o commit `cb0d12c` (01:29Z) e a `main` ganhou
+`46fde11` (01:50Z) e `c26128d` (01:51Z) durante a janela de aprovação humana; às 02:04Z o passo 5
+tentou gravar e o `git push origin HEAD:main` foi **recusado por não ser fast-forward** (o passo não
+rebasava). As seis entradas de `release/mods.json` foram escritas nesta rodada à mão, com a data lida
+do endpoint por pacote, e o passo 5 foi consertado — os detalhes e a contra-prova estão em
+*Armadilhas conhecidas*.
 
 O pipeline tem um passo de envio por mod — os 5.1–5.5 mais o **5.6 (`BetterCombatText`)**, na forma
 dos outros (`categories: mods`, `path: envio-BetterCombatText`) — e o input `mod:` do
@@ -75,13 +92,14 @@ Endpoint oficial: <https://thunderstore.io/api/experimental/community/stolen-rea
 **Tools**; `StolenRealmModding-StolenRealmModAPI` e `...-Player_Limit_Mod` = **Mods**;
 `BepInEx-BepInExPack` e `Kesomannen-GaleModManager` estão com **categorias vazias**. Os mods
 publicados em 30/09/2026 ficaram, medido na API experimental: `BetterStats`, `BetterTooltips` e
-`RoguelikeSkillTreeVisualizer` = **Mods**; `RoguelikeDebugger` = **Tools**; e
-`BetterFont` = **vazio** (foi o primeiro a subir, antes de a categoria ser escolhida — categoria é
-vitrine, não trava nada).
+`RoguelikeSkillTreeVisualizer` = **Mods**; `RoguelikeDebugger` = **Tools**; e o
+`BetterFont` subiu **vazio** em 30/09 (foi o primeiro, antes de a categoria ser escolhida), mas a
+listagem dele hoje está **Mods**: o envio da 1.0.1, em 01/10/2026, foi o primeiro dele com
+`categories: mods` — medido de novo na API experimental em 01/10/2026. Categoria é vitrine, não trava nada.
 
 | Mod | Primária | Opcional | Por quê |
 |---|---|---|---|
-| BetterCombatText | **Mods** | Misc | contorno/halo legível no texto de combate (ainda **não** publicado) |
+| BetterCombatText | **Mods** | Misc | contorno/halo legível no texto de combate (**publicado** em 01/10/2026, 0.1.0) |
 | BetterFont | **Mods** | Misc | troca a fonte renderizada da interface |
 | BetterStats | **Mods** | — | mostra números na ficha e no level up |
 | BetterTooltips | **Mods** | — | reescreve o texto dos tooltips |
@@ -205,7 +223,9 @@ revisável no diff:
   travado é pedido explícito, então a resposta é "não" com o porquê, não um run verde.
 - **`versao_publicada` / `publicado_em`** são escritos pelo próprio pipeline (job
   `registra`), **depois** de confirmar na API pública — o pipeline não presume que o envio
-  funcionou, ele lê o resultado. Se a API não mostrar a versão, o registro não acontece.
+  funcionou, ele lê o resultado. Se a API não mostrar a versão, o registro não acontece. (Exceção
+  registrada: a leva de 01/10/2026 foi gravada **à mão** porque o push do job falhou — ver a abertura
+  deste documento e *Armadilhas conhecidas*.)
 - A lista de mods do JSON tem que ser a mesma que o empacotador descobre
   (`python tools/pack-thunderstore.py --listar-nomes`). O gate confere isso a cada run: uma
   segunda lista de mods divergindo é falha, não aviso.
@@ -376,7 +396,7 @@ A árvore completa da API, também sem credencial:
 - **Mod sem passo de envio no `publish.yml` = run vermelho.** O diretório `envio-<Mod>` do passo
   5.0 é genérico (sai do `release/mods.json`), mas o **envio** é um passo por mod (5.1–5.6) e a
   lista do input `mod:` do `workflow_dispatch` é fixa. Liberar um mod que não tem passo (era o caso
-  do `BetterCombatText` até esta rodada) faz o 5.0 criar o diretório, **nenhum** passo enviar e o
+  do `BetterCombatText` até o commit `420a7a4`, que criou o **5.6**; hoje os seis têm passo) faz o 5.0 criar o diretório, **nenhum** passo enviar e o
   passo 6 fechar com `::error::NAO esta no ar: <mod> v<versao>` depois de sondar por até 20 minutos.
   Ao liberar um mod **novo** no gate, acrescente as **três** peças juntas: o passo 5.x
   (`categories:` incluído, `path: envio-<Mod>`), a opção no input `mod:` e — só se o modo automático
@@ -385,15 +405,31 @@ A árvore completa da API, também sem credencial:
   não podia ser liberado. **Corrigido em 30/09/2026:** os mods do projeto têm `manifest.json`,
   `README.md`, `CHANGELOG.md` e `icon.png`, e o `python .github/scripts/valida_pacotes.py` valida os
   **6 pacotes com 0 problemas** — o empacotador não recusa mais nenhum por pacote incompleto.
-  Ele foi liberado no mesmo dia e está **no ar** (0.1.0). O único que segue fora do ar é o
-  `BetterCombatText`: empacotado (o zip 0.1.0 **está** anexado na Release `pack-2026-09-30`), com
-  `publicar: false` no gate — falta o dono liberar. E o envio dele já existe: o **passo 5.6** e a
-  opção no input `mod:`, então virar `publicar: true` basta.
+  Ele foi liberado no mesmo dia e hoje está no ar na **0.2.0** (leva de 01/10/2026). O
+  `BetterCombatText` **também saiu**: estava empacotado (o zip 0.1.0 **está** anexado na Release
+  `pack-2026-09-30`), foi liberado no gate (commit `cb0d12c`) e saiu na mesma leva, 0.1.0. O **passo 5.6** e a
+  opção no input `mod:` já existiam desde o `420a7a4`, e o run `36801937843` provou o encaixe — o passo
+  "5.6 Publica BetterCombatText" deu `success`. **Nenhum mod deste repo está fora do ar.**
 - **O `[skip ci]` no commit do registro** evita disparar a validação inteira de novo por um
   commit que só escreve a versão publicada.
-- **Push do registro pode falhar** (proteção de branch, permissão de escrita). Nesse caso a
-  publicação **já aconteceu**: o run diz isso e deixa o bloco JSON no resumo para commitar à
-  mão — nunca commite uma versão que a API não mostra (o pre-flight da próxima publicação
+- **Push do registro pode falhar — e falhou de verdade** (run `36801937843`, 01/10/2026): nesse caso a
+  publicação **já aconteceu** (os seis envios deram `success`) e o registro ficou fora do
+  repositório até ser reconciliado à mão. O **log do job não abre** para quem não é admin do
+  repositório (`403 Must have admin rights to Repository`; na UI, "Sign in to view logs"), então o
+  diagnóstico é pela **linha do tempo**: a `main` andou entre o checkout do run e o push (foi o que
+  aconteceu — `46fde11` (01:50Z) e `c26128d` (01:51Z) entraram durante a aprovação humana, e o passo 5
+  tentou gravar às 02:04Z). O conserto está no passo 5: ele busca a `main` fresca, **rebase** o commit
+  do registro sobre ela e **repete o push** (5 tentativas, espera crescente, backoff de 3s). Contra-prova
+  em repo descartável (01/10/2026), com o cenário do run reproduzido: o push único foi **recusado**
+  (`! [rejected] HEAD -> main (fetch first)`, exit 1) e o passo consertado entrou na **primeira**
+  tentativa, deixando a `main` com o commit do registro no topo de `c26128d` e só `release/mods.json`
+  tocado; com o remoto recusando o push uma vez (hook), ele insistiu e passou na segunda tentativa.
+  **Dois casos continuam exigindo gente:** (a) a `main` mexeu no próprio `release/mods.json` entre o
+  checkout e o push — aí o rebase conflita **de propósito** e o job falha alto, porque resolver esse
+  arquivo é decisão humana; (b) a mensagem do push é `Permission ... denied` ou `protected branch` —
+  não era corrida, era escrita do `GITHUB_TOKEN` (Settings → Actions → Workflow permissions) ou
+  proteção da branch, e retry/rebase não resolve. E
+  nunca commite uma versão que a API não mostra (o pre-flight da próxima publicação
   recusa).
 
 ## 10) Tarefas relacionadas (ainda abertas)

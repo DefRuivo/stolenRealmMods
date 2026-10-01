@@ -879,6 +879,10 @@ jobs:
   #    404 por atraso de indexacao, e o registro das versoes ficou null ate alguem
   #    reconciliar a mao. Este job nao presume nada: grava APENAS o que o endpoint por
   #    pacote confirmar, commita o que confirmou e CONTINUA falhando (nomeando) o resto.
+  #    SOBREVIVE A BRANCH TER ANDADO: o checkout deste job e o SHA da PUBLICACAO e a aprovacao
+  #    humana pode levar minutos, entao o commit do registro e rebasado sobre a main fresca e o
+  #    push repetido com espera crescente. Sem isso o run 36801937843 fechou VERMELHO com as seis
+  #    versoes publicadas e o registro fora do repositorio (push recusado, nao fast-forward).
   # ==========================================================================
   registra:
     name: Registra a versao publicada em release/mods.json
@@ -891,6 +895,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
+        with:
+          # HISTORIA INTEIRA, de proposito: o checkout deste job fica no SHA do run, e a
+          # aprovacao humana pode levar minutos - foi o que quebrou o run 36801937843 (o
+          # checkout era cb0d12c e a main ganhou dois commits durante a espera). O passo de
+          # push rebasa sobre a main fresca, e o fetch raso padrao (fetch-depth: 1) nao tem
+          # a base de merge para rebasar. Ver "Commit e push do registro".
+          fetch-depth: 0
 
       - name: Python 3.11
         uses: actions/setup-python@v6
@@ -1012,17 +1023,54 @@ jobs:
           MENSAGEM: ${{ steps.atualiza.outputs.mensagem }}
         run: |
           : "${MENSAGEM:=registro de publicacao}"
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           if git diff --quiet -- release/mods.json; then
             echo "release/mods.json ja estava assim - nada a commitar."
             exit 0
           fi
-          git config user.name  "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add release/mods.json
           # [skip ci]: registrar versao nao precisa disparar a validacao de novo.
           git commit -m "release: ${MENSAGEM} na Thunderstore [skip ci]"
-          git push origin HEAD:main
-          echo "registro commitado: $(git rev-parse --short HEAD)"
+
+          # PUSH QUE SOBREVIVE A BRANCH TER ANDADO (run 36801937843, 01/10/2026).
+          # Este job roda no SHA do run, e a aprovacao humana pode levar minutos: naquele run o
+          # checkout era cb0d12c (01:29Z) e a main ganhou 46fde11 (01:50Z) e c26128d (01:51Z)
+          # enquanto o run esperava no Environment. O `git push origin HEAD:main` unico foi
+          # recusado por NAO ser fast-forward, o job fechou vermelho e as SEIS versoes que ja
+          # estavam no ar ficaram fora do registro (reconciliado a mao depois). Conserto: rebasar
+          # o commit do registro sobre a main FRESCA e repetir o push com espera crescente - a
+          # espera cobre a branch andar de novo entre o nosso `fetch` e o nosso `push`.
+          # O rebase nao conflita no caso normal: este commit so mexe em release/mods.json, e o
+          # que a main ganhou durante a espera foi trabalho em outros arquivos.
+          for tentativa in 1 2 3 4 5; do
+            echo "::group::push do registro (tentativa ${tentativa})"
+            git fetch --prune origin main
+            if ! git rebase origin/main; then
+              git rebase --abort
+              echo "::endgroup::"
+              echo "::error::o rebase do registro CONFLITOU: a main mexeu em release/mods.json entre"
+              echo "o checkout do run e agora. A publicacao JA aconteceu (o passo anterior imprimiu o"
+              echo "JSON para commitar a mao). Conflito NESTE arquivo exige decisao humana - ele e o"
+              echo "registro, e as duas versoes podem estar certas em pontos diferentes."
+              exit 1
+            fi
+            if git push origin HEAD:main; then
+              echo "::endgroup::"
+              echo "registro commitado: $(git rev-parse --short HEAD) (tentativa ${tentativa})"
+              exit 0
+            fi
+            echo "::endgroup::"
+            echo "::warning::push recusado na tentativa ${tentativa} - a main andou. Nova tentativa em $((tentativa * 3))s."
+            sleep $((tentativa * 3))
+          done
+
+          echo "::error::o registro nao entrou na main depois de 5 tentativas. A publicacao JA aconteceu"
+          echo "e o JSON do passo anterior esta no resumo deste job para commitar a mao. LEIA a mensagem"
+          echo "do git push acima: se ela diz 'Permission ... denied' ou 'protected branch', NAO era"
+          echo "corrida - e escrita do GITHUB_TOKEN (Settings - Actions - Workflow permissions) ou"
+          echo "protecao da branch main, e o rebase/retry nao resolve isso."
+          exit 1
 
       - name: Registro nao fechou - o que fazer
         if: failure()

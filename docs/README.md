@@ -151,8 +151,8 @@ aceita chave repetida — o `Add` estoura `ArgumentException`, e como as tabelas
 carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `Slam` e
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
-"certa"); por isso o `check_dupes` existe. Saída medida em 30/09/2026 (18:47):
-`TextFixes 98 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
+"certa"); por isso o `check_dupes` existe. Saída medida em 01/10/2026 (12:31):
+`TextFixes 101 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
 (o `tools/audita_docs.py`, passo 7, compara estes dois números com o `LocalizePatch.cs` — é por
 ele que um `TextAppends N entradas` escrito de memória vira CI vermelho). **Limite conhecido
 deste check:** ele só confere a forma `TextFixes N entradas` / `TextAppends N entradas`; contagem
@@ -363,27 +363,27 @@ mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do
 
 | Mod | O que faz (uma linha) | Versão no disco | Na Thunderstore |
 |---|---|---|---|
-| `BetterCombatText` | Contorno/halo suave nos **nomes de inimigos** e nos **rótulos de buff/debuff**, mais o texto do dado nos eventos de rolagem (cada superfície liga/desliga no `.cfg`; não altera gameplay). | 0.1.0 | **empacotado, NÃO publicado** — `dist/gumatos-BetterCombatText-0.1.0.zip` gerado e `publicar: false` no gate; só entra no ar quando o dono liberar. |
-| `BetterFont` | Troca a fonte da interface pela **serifada** (Times New Roman, com Georgia/Liberation Serif de reserva), preservando cor, contorno e sombra dos textos. | 1.0.1 | **publicado 1.0.0** (`DefRuivo_StolenRealmMods-BetterFont`, 30/09/2026); a **1.0.1** (conserto de estilo/cor em combate) ainda **não** subiu. |
-| `BetterStats` | Mostra os atributos no formato **`base (combinado)`** na ficha de personagem e na tela de level up. | 1.0.0 | **publicado 1.0.0** (`DefRuivo_StolenRealmMods-BetterStats`, 30/09/2026). |
-| `BetterTooltips` | Conserta tooltips de skill/status que "mentiam por omissão" e acrescenta ao fim a explicação da mecânica. | 0.1.1 | **publicado 0.1.0**; a **0.1.1** (texto de shrine) ainda **não** subiu. |
-| `RoguelikeDebugger` | Ferramenta de **desenvolvimento**: despeja o inventário interno do jogo (skills, status, itens, loot) no `LogOutput.log` — é o dump que gera o censo. | 0.1.0 | **publicado 0.1.0**. |
-| `RoguelikeSkillTreeVisualizer` | Botão ao lado de *Choose Powerups* que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto. | 0.1.0 | **publicado 0.1.0**; o mod ainda **não foi conferido em jogo** pelo autor (roteiro no `README.md` dele). |
+| `BetterCombatText` | Contorno/halo suave nos **nomes de inimigos** e nos **rótulos de buff/debuff**, mais o texto do dado nos eventos de rolagem (cada superfície liga/desliga no `.cfg`; não altera gameplay). | 0.1.1 | **PUBLICADO 0.1.0** (`DefRuivo_StolenRealmMods-BetterCombatText`, 01/10/2026) — a **0.1.1 no disco não foi publicada**: nenhuma linha de código mudou, ela bumpa a **dependência para o `BetterFont 1.0.2`** (sem isso o gerenciador instala a 1.0.1, cujo portão de material deixava os textos de combate na fonte original) e corrige o README. **Ordem de envio: o `BetterFont 1.0.2` primeiro.** |
+| `BetterFont` | Troca a fonte da interface pela **serifada** (Times New Roman, com Georgia/Liberation Serif de reserva), preservando cor, contorno e sombra dos textos — **inclusive nos textos de combate** (nome do inimigo, número do dado), que usam outra variante de shader. | 1.0.2 | **PUBLICADO 1.0.1** (`DefRuivo_StolenRealmMods-BetterFont`, 01/10/2026) — a 1.0.0, de 30/09, foi substituída na vitrine. A **1.0.2 no disco não foi publicada**: é o BF-2, que conserta o portão de material (variante de shader deixou de ser recusa) e fecha os buracos de propriedade. |
+| `BetterStats` | Mostra os atributos no formato **`base (combinado)`** na ficha de personagem e na tela de level up. | 1.0.1 | **PUBLICADO 1.0.1** (`DefRuivo_StolenRealmMods-BetterStats`, 01/10/2026). |
+| `BetterTooltips` | Conserta tooltips de skill/status que "mentiam por omissão" e acrescenta ao fim a explicação da mecânica. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-BetterTooltips`, 01/10/2026). |
+| `RoguelikeDebugger` | Ferramenta de **desenvolvimento**: despeja o inventário interno do jogo (skills, status, itens, loot) no `LogOutput.log` — é o dump que gera o censo. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-RoguelikeDebugger`, 01/10/2026) — categoria **Tools**. |
+| `RoguelikeSkillTreeVisualizer` | Botão ao lado de *Choose Powerups* que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto. | 0.2.0 | **PUBLICADO 0.2.0** (`DefRuivo_StolenRealmMods-RoguelikeSkillTreeVisualizer`, 01/10/2026); o mod ainda **não foi conferido em jogo** pelo autor (roteiro no `README.md` dele). |
 
 A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `manifest.json` e
 `Plugin.cs`; ver *Fonte única de versão*). O que está no ar é o `versao_publicada` do
-[`release/mods.json`](../release/mods.json), conferido contra a API pública em 30/09/2026
+[`release/mods.json`](../release/mods.json), conferido contra a API pública em 01/10/2026
 (`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
 **Os parametros que o Thunderstore exige, conferidos um a um nos 6 mods** (contagens medidas com
-`python .github/scripts/valida_pacotes.py`, 30/09/2026: `6 pacotes validados | 0 com problema`):
+`python .github/scripts/valida_pacotes.py`, 01/10/2026: `6 pacotes validados | 0 com problema`):
 
 | parametro | regra | estado |
 |---|---|---|
 | `name` | alfanumerico/underscore, ate 128, estavel entre releases | OK |
 | `version_number` | semver MAJOR.MINOR.PATCH, ate 16 chars | OK |
-| `description` | ate 250 chars | OK (139..193) |
+| `description` | ate 250 chars | OK (172..212) |
 | `website_url` | URL valida | OK |
 | `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 57013..124954 bytes — todos abaixo de 1 MB) |
 | `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.0` → `BetterFont 1.0.1` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
@@ -406,15 +406,15 @@ O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar c
 namespace do pacote **é o team** e nome de pacote publicado **não se renomeia**, qual dos dois publica
 era uma **decisão a tomar antes do primeiro upload** (`PUB-3`) — e ela foi tomada: quem publica é
 **`DefRuivo_StolenRealmMods`** (registrado no `team` do [`release/mods.json`](../release/mods.json)).
-Os mods do release de 30/09 estão **no ar** sob esse namespace; falta o `BetterCombatText`
-(empacotado, `publicar: false`). O nome na URL é `DefRuivo_StolenRealmMods-<Mod>`.
+Os **seis** mods do projeto estão **no ar** sob esse namespace — o `BetterCombatText`, o último que
+faltava, saiu na leva de 01/10/2026. O nome na URL é `DefRuivo_StolenRealmMods-<Mod>`.
 
 > **Ao conferir na API:** a listagem da comunidade (`/c/stolen-realm/api/v1/package/`) é **cache** e
 > ainda devolvia os 5 pacotes antigos (`BepInEx-BepInExPack`, `StolenRealmModding-StolenRealmModAPI`,
 > `StolenRealmModding-Player_Limit_Mod`, `ebkr-r2modman`, `Kesomannen-GaleModManager`) depois da
 > publicação, em 30/09/2026. O pacote nosso aparece em
 > `https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/` (o
-> `BetterCombatText` devolve `404 Not found`, que é o esperado enquanto não estiver publicado).
+> `BetterCombatText` também responde `200` desde 01/10/2026 — os seis pacotes estão publicados).
 
 **O token nunca entra no repositório.** Ele é lido, nesta ordem, de `TCLI_AUTH_TOKEN`, de um arquivo
 apontado por `THUNDERSTORE_TOKEN_FILE`, ou de `~/.thunderstore-token` (fora da árvore do git). Duas
@@ -492,10 +492,10 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
-sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje com **6** entradas — os
-**5** mods do release de 30/09 com `publicar: true` e **publicados** (BetterFont 1.0.0, BetterStats
-1.0.0, BetterTooltips 0.1.0, RoguelikeDebugger 0.1.0, RoguelikeSkillTreeVisualizer
-0.1.0) e o `BetterCombatText` com `publicar: false`, empacotado mas fora do ar; a lista tem de bater
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje com **6** entradas, todas
+com `publicar: true` e **publicadas** na leva de 01/10/2026 — BetterFont **1.0.1**, BetterStats
+**1.0.1**, BetterTooltips **0.1.1**, RoguelikeDebugger **0.1.1**, RoguelikeSkillTreeVisualizer **0.2.0**,
+BetterCombatText **0.1.0**); a lista tem de bater
 com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**), o envio é o workflow
 [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
 (**manual**, com aprovação num GitHub Environment) e o envio **local** continua sendo
