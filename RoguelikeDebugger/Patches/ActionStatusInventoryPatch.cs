@@ -19,12 +19,26 @@ namespace RoguelikeDebugger.Patches
         private static int _stableHits;
 
         /// <summary>
-        /// Os gatilhos de um status (RV-8b-0g). `ActionStatusInfo.SkillTriggers` e
+        /// Os gatilhos de um status (RV-8b-0g + RD-2). `ActionStatusInfo.SkillTriggers` e
         /// `SkillTrigger[]` e `SkillTrigger.GeneralEffects` e `GeneralEffect[]` - array
         /// CONCRETO (l.45797 do decompilado), entao NESTE caminho o cast nao falha: o que
         /// faltava era o campo sair no dump. Caso aberto que isto fecha: o `Dwarven Aura`,
         /// cujo stun nao esta em nenhuma acao do status.
-        /// Formato: indice:Tipo[ef=...~cond=...~status=...]; ...
+        ///
+        /// RD-2 - DUAS COISAS QUE FALTAVAM AQUI:
+        /// (a) `SkillTrigger.Targets` (l.46590: `[TextArea] public string Targets;`). A nota
+        ///     antiga do projeto dizia que `SkillTrigger` NAO tinha esse campo; ele existe, e
+        ///     e ELE que fecha a pergunta aberta das auras de shrine (RV-19, secao 7): lido do
+        ///     asset (resources.assets), o `Flame Shrine Aura` (pathID 2543240) tem
+        ///     `SkillTriggers[0].Targets = "Cell.IsCurrentHex(Target)"` com `TriggerType=1` e
+        ///     `Condition="Source.IsEnemy(Target)"`, e o `Decay Shrine Aura` (2543234) tem
+        ///     `"Cell.IsCurrentHex(Source)"` com `TriggerType=4`. Nao passa por `ActionsOnTick`.
+        /// (b) as ACOES do gatilho saem com os PROPRIOS efeitos (`Nome{ef=...}`): acao de
+        ///     gatilho nao e concedida por skill, entao nunca entra no inventario `[Action]` -
+        ///     era por isso que a formula que executa o proc das auras (`Flame Aura Proc` /
+        ///     `Decay Aura Proc`, pathIDs 2544297/2544288) nao existia em lugar nenhum do
+        ///     dump (RV-19, secao 7).
+        /// Formato: indice:Tipo[ef=...~cond=...~status=...~alvos=...~acoes=...~chances=...~cd=...]; ...
         /// </summary>
         private static string TriggersDe(ActionStatusInfo s)
         {
@@ -50,13 +64,114 @@ namespace RoguelikeDebugger.Patches
                         }
                     }
                 }
+                // RD-2: as acoes que o gatilho dispara, com os efeitos delas (a formula mora
+                // no `Effects[]` da ACAO; `Descreve` le o array `IEffectInfo[]` por reflexao e
+                // publica o tipo concreto de cada elemento).
+                var acs = new System.Text.StringBuilder();
+                if (tg.Actions != null)
+                {
+                    foreach (var ac in tg.Actions)
+                    {
+                        if (ac == null)
+                        {
+                            continue;
+                        }
+                        acs.Append(EfeitosInfo.Limpa(ac.name))
+                           .Append("{ef=").Append(EfeitosInfo.Descreve(ac.Effects)).Append("}; ");
+                    }
+                }
                 sb.Append(tg.TriggerType)
                   .Append("[ef=").Append(EfeitosInfo.Descreve(tg.GeneralEffects))
                   .Append("~cond=").Append(EfeitosInfo.Limpa(tg.Condition))
                   .Append("~status=").Append(stt)
+                  // RD-2 (a): o campo que a nota antiga dava como inexistente.
+                  .Append("~alvos=").Append(EfeitosInfo.Limpa(tg.Targets))
+                  .Append("~acoes=").Append(acs.ToString().TrimEnd(' ', ';'))
+                  .Append("~chances=").Append(EfeitosInfo.Junta(tg.ActionChanceEquations))
+                  // O cooldown PROPRIO do gatilho: e ele que vale no caminho de proc.
+                  .Append("~cd=").Append(tg.Cooldown)
                   .Append("]; ");
             }
             return sb.ToString().TrimEnd(' ', ';');
+        }
+
+        /// <summary>
+        /// RD-2: o gancho de TEMPO do status, num campo so (`tick=`). `ApplyAction(ActionStatus)`
+        /// (l.39260-39398) le, nesta ordem: (1) os `Effects` proprios, com `TickTargets` dizendo
+        /// POR CELULA quem leva o dano; (2) `StatusEffectsOnTick` (+Condition +Targets);
+        /// (3) `ActionsOnTick` (+Condition +Targets). Todos os campos vem do `ActionStatusInfo`
+        /// (l.441035/441042/441045/441047/441049/441052/441055/441057/441059).
+        ///
+        /// MEDICAO DESTE BUILD (421 `ActionStatusInfo` de resources.assets, lidos do asset):
+        /// `TickTargets`, `ActionsOnTick`, `ActionsOnTickCondition/Targets` e
+        /// `StatusEffectsOnTickCondition/Targets` estao VAZIOS em 100% deles; so
+        /// `StatusEffectsOnTick` tem caso (`Freeze Earth`, `Ice Storm`, `Faerie Swarm`,
+        /// `Blood Mist`, `Slow Poison Aura`, `The Bad Bloom`). O campo sai assim mesmo: o
+        /// pedido do dono e colher AGORA o que uma funcao futura vai precisar, e o `tick=-`
+        /// de toda linha e a medida - nao a suposicao - de que o proc das auras de shrine
+        /// NAO passa por aqui (ele passa pelo `SkillTriggers[].Targets`, ver `TriggersDe`).
+        /// </summary>
+        private static string TickDe(ActionStatusInfo s)
+        {
+            bool temAlvos = !string.IsNullOrEmpty(s.TickTargets);
+            bool temCond = !string.IsNullOrEmpty(s.ActionsOnTickCondition);
+            bool temAlvoAcoes = !string.IsNullOrEmpty(s.ActionsOnTickTargets);
+            bool temAcoes = s.ActionsOnTick != null && s.ActionsOnTick.Length > 0;
+            bool temStCond = !string.IsNullOrEmpty(s.StatusEffectsOnTickCondition);
+            bool temStAlvos = !string.IsNullOrEmpty(s.StatusEffectsOnTickTargets);
+            bool temSt = s.StatusEffectsOnTick != null && s.StatusEffectsOnTick.Length > 0;
+            if (!(temAlvos || temCond || temAlvoAcoes || temAcoes || temStCond || temStAlvos || temSt))
+            {
+                return "-";
+            }
+
+            var acoes = new System.Text.StringBuilder();
+            if (s.ActionsOnTick != null)
+            {
+                foreach (var ac in s.ActionsOnTick)
+                {
+                    if (ac == null)
+                    {
+                        continue;
+                    }
+                    acoes.Append(EfeitosInfo.Limpa(ac.name))
+                         .Append("{ef=").Append(EfeitosInfo.Descreve(ac.Effects)).Append("}; ");
+                }
+            }
+
+            return "[alvos=" + EfeitosInfo.Limpa(s.TickTargets)
+                 + ";cond=" + EfeitosInfo.Limpa(s.ActionsOnTickCondition)
+                 + ";alvoAcoes=" + EfeitosInfo.Limpa(s.ActionsOnTickTargets)
+                 + ";acoes=" + acoes.ToString().TrimEnd(' ', ';')
+                 + ";proc=" + (s.ActionsOnTickProcTriggers ? "sim" : "nao")
+                 + ";status=" + EfeitosInfo.Nomes(s.StatusEffectsOnTick)
+                 + ";statusCond=" + EfeitosInfo.Limpa(s.StatusEffectsOnTickCondition)
+                 + ";statusAlvos=" + EfeitosInfo.Limpa(s.StatusEffectsOnTickTargets)
+                 + ";nStatusOv=" + (s.StatusEffectsOnTickOverrides == null ? 0 : s.StatusEffectsOnTickOverrides.Length)
+                 + "]";
+        }
+
+        /// <summary>
+        /// RD-2: o par de auras do MOTOR - `AuraSourceStatus` + `AuraTriggerStatus`
+        /// (l.441108/441110) e os overrides do gatilho (l.441112). E a mecanica lida em
+        /// l.41796-41834 (`HasStatus(AuraSourceStatus.name)` / `AuraTriggerStatus`), a mesma
+        /// que os selos e as `Aura of X` usam. MEDICAO DESTE BUILD: preenchido em 40 dos 421
+        /// statuses - e SEMPRE junto de `IsAura=1` (os 40 batem), ou seja `IsAura` e o sinal
+        /// barato do censo de auras.
+        /// ATENCAO: as auras de SHRINE (`Flame/Decay Shrine Aura`) NAO estao nesses 40 - no
+        /// asset elas vem com `IsAura=0` e sem este par; o que elas usam e o gatilho
+        /// (`SkillTriggers[].Targets`), nao a mecanica de aura. Nao confundir as duas.
+        /// </summary>
+        private static string AuraDe(ActionStatusInfo s)
+        {
+            int ov = s.AuraTriggerStatusOverrides == null ? 0 : s.AuraTriggerStatusOverrides.Length;
+            if (s.AuraSourceStatus == null && s.AuraTriggerStatus == null && ov == 0)
+            {
+                return "-";
+            }
+            return "[fonte=" + EfeitosInfo.Nome(s.AuraSourceStatus)
+                 + ";gatilho=" + EfeitosInfo.Nome(s.AuraTriggerStatus)
+                 + ";nGatilhoOv=" + ov + "]";
         }
         private static void Postfix(List<ActionStatusInfo> __result)
         {
@@ -205,6 +320,24 @@ namespace RoguelikeDebugger.Patches
                         $"nEfeitosTot={EfeitosInfo.Conta(s.Effects)} | efTipos={efTipos} | " +
                         $"nAttrEf={EfeitosInfo.Conta(s.AttributeEffects)} | attrTipos={attrTipos} | " +
                         $"nTrig={EfeitosInfo.Conta(s.SkillTriggers)} | trigEf={TriggersDe(s)} | " +
+                        // RD-2: os ganchos de EXPRESSAO e de TEMPO do status, mais as duas
+                        // referencias de tooltip. Onde cada um mora no motor (decompilado):
+                        //   expr      = DescriptionExpressions              (l.441015) - 138/421 statuses
+                        //   danoExpr  = DamageExpressionOverrides           (l.441020) - 1/421
+                        //   refAcao   = TooltipDamageInfoRefAction          (l.441022) - 19/421
+                        //   refStatus = TooltipDamageInfoRefStatus          (l.441024) - 7/421
+                        //   tick      = ActionsOnTick/StatusEffectsOnTick*  (ver TickDe) - 6/421
+                        //   auraSts   = AuraSourceStatus/AuraTriggerStatus  (ver AuraDe)  - 40/421
+                        // `expr` e o que carrega a FORMULA das auras de shrine: no asset, o
+                        // `Flame Shrine Aura` tem DescriptionExpressions =
+                        // ["Mathf.Round(5 * (1 + (Source[\"ShrineEffectBonus\"] / 100)))] e o
+                        // `Decay Shrine Aura` o mesmo com base 10 - os numeros que o RV-19
+                        // deduziu do decompilado saem agora do dump, lidos do motor.
+                        $"expr={EfeitosInfo.Junta(s.DescriptionExpressions)} | " +
+                        $"danoExpr={EfeitosInfo.Junta(s.DamageExpressionOverrides)} | " +
+                        $"refAcao={EfeitosInfo.Nome(s.TooltipDamageInfoRefAction)} | " +
+                        $"refStatus={EfeitosInfo.Nome(s.TooltipDamageInfoRefStatus)} | " +
+                        $"tick={TickDe(s)} | auraSts={AuraDe(s)} | " +
                         $"desc=\"{desc.Replace("\n", " ")}\"");
                 }
 

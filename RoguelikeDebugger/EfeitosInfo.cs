@@ -85,6 +85,57 @@ namespace RoguelikeDebugger
         }
 
         /// <summary>
+        /// RD-2: nomes dos assets de um array CONCRETO de asset do jogo (`ActionInfo[]`,
+        /// `ActionStatusInfo[]`), na ORDEM, separados por "; " e saneados.
+        /// Nao e reflexao: o array e de tipo concreto e o `.name` e o NOME do asset (a chave
+        /// pela qual o dump de acoes e o de status se ligam). Vazio quando o array e null/vazio.
+        /// </summary>
+        public static string Nomes<T>(T[] arr) where T : UnityEngine.Object
+        {
+            if (arr == null || arr.Length == 0)
+            {
+                return "";
+            }
+            var sb = new StringBuilder();
+            foreach (var o in arr)
+            {
+                // `o != null` aqui e o operador da Unity: asset destruido conta como null.
+                if (o != null && !string.IsNullOrEmpty(o.name))
+                {
+                    sb.Append(Limpa(o.name)).Append("; ");
+                }
+            }
+            return sb.ToString().TrimEnd(' ', ';');
+        }
+
+        /// <summary>RD-2: nome de UM asset do jogo (null -> string vazia, nunca "null").</summary>
+        public static string Nome(UnityEngine.Object o)
+        {
+            return o == null ? "" : Limpa(o.name);
+        }
+
+        /// <summary>
+        /// RD-2: junta um array de strings (expressoes de asset), saneando cada uma e
+        /// separando por "; ". Mesma convencao do `Junta` do SkillInventoryPatch.
+        /// </summary>
+        public static string Junta(string[] itens)
+        {
+            if (itens == null || itens.Length == 0)
+            {
+                return "";
+            }
+            var sb = new StringBuilder();
+            foreach (var i in itens)
+            {
+                if (!string.IsNullOrEmpty(i))
+                {
+                    sb.Append(Limpa(i)).Append("; ");
+                }
+            }
+            return sb.ToString().TrimEnd(' ', ';');
+        }
+
+        /// <summary>
         /// Descreve o array NA ORDEM: `indice:TipoConcreto{campo=valor; ...}; ...`.
         /// String vazia quando o array e null ou esta vazio (mesma convencao dos outros campos
         /// vazios do dump). Nunca lanca: um campo que explodir sai como `Nome=&lt;erro&gt;`,

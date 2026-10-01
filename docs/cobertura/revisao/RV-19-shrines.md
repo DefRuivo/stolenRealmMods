@@ -378,6 +378,26 @@ E o dump de AÇÕES (`SkillInventoryPatch`) hoje só cobre ações ligadas a ski
 (`Flame Aura Proc`, `Decay Aura Proc`, `Energy Coil Static Field`, `* Shrine Explosion`) não entram; varrer
 `Game.Instance.Actions` inteiro (ou pelo menos as `* Aura Proc`) com `Effects[].Action` fecharia os dois itens de uma vez.
 
+**RD-2 (01/10/2026) — os dois itens acima ESTÃO FECHADOS, e o item (a) mudou de resposta.** O dump de status passou a
+exportar tudo o que esta lista pedia (ver `docs/DEBUGGER.md`, secao "Backlog auditado — fechado no RD-2", com `arquivo:linha`
+e a medição de quantos statuses preenchem cada campo). Duas leituras de asset fecham o que faltava:
+
+1. **A resposta do item (a) NÃO é `ActionsOnTick`.** Nos 421 `ActionStatusInfo` do build, `ActionsOnTick*` e `TickTargets`
+   estão **vazios em 100%** deles; o `Flame Shrine Aura` e o `Decay Shrine Aura` também vêm com `IsAura=0` e
+   `AuraSourceStatus`/`AuraTriggerStatus` **nulos**. O que dispara o proc é `SkillTriggers[0]`:
+   `Flame` → `TriggerType=1` (`OnGettingHitDamaging`), `Condition="Source.IsEnemy(Target)"`,
+   **`Targets="Cell.IsCurrentHex(Target)"`**, `Actions=[2544297 "Flame Aura Proc"]`;
+   `Decay` → `TriggerType=4`, `Targets="Cell.IsCurrentHex(Source)"`, `Actions=[2544288 "Decay Aura Proc"]`.
+   ⚠ O campo `SkillTrigger.Targets` **existe** (l.46590 do decompilado) — uma versão anterior desta revisão o deu como
+   inexistente. É o campo que o dump passou a publicar (`trigEf=...~alvos=...`). ⚠ Numeração do decompilado **regerado
+   em 01/10** (ilspycmd 8.2.0, 496.253 linhas); as citações antigas desta revisão usam o decompile de 371.804 linhas —
+   o nome do campo é a chave estável para reconferir (ver `docs/DEBUGGER.md`).
+2. **A fórmula sai do status, não só da ação.** `DescriptionExpressions` (l.441015) do `Flame Shrine Aura` =
+   `Mathf.Round(5 * (1 + (Source["ShrineEffectBonus"] / 100)))`; `Decay` = base `10`; `Warrior` = base `20` com `Target[...]`.
+   Esse campo não era exportado pelo dump de status (a ação já tinha o `expr`; o status não).
+3. Os `Effects[]` das ações soltas (`Flame Aura Proc`, `Decay Aura Proc`) agora saem **dentro do gatilho**
+   (`~acoes=Nome{ef=...}` do dump), sem precisar varrer `Game.Instance.Actions`.
+
 Confirmação em jogo — o que o RV-33/RV-34 fecharam e o que sobrou: (i) hover no shrine com/sem `Omnism` — o número do
 `[0]` muda? **Agora muda, por construção** (o prefix preenche os parâmetros: §0.4/§3), mas a conferência VISUAL dessas
 linhas ainda não foi feita — roteiro na §10; (ii) o dano do Decay escala com o bônus? **SIM — MEDIDO em jogo pelo dono
