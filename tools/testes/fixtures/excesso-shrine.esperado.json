@@ -1,0 +1,3511 @@
+{
+  "caso": "excesso-shrine",
+  "procedencia": "oraculo_excesso_shrine (C#) - GERADO, nunca somado a mao",
+  "gerado_por": "tools/testes/fixtures/geradores/oraculo_excesso_shrine",
+  "bonus_total": [
+    {
+      "id": "sem-bonus",
+      "fontes": [],
+      "substituidas": [],
+      "total": 0,
+      "nota": "bonus zero: o valor e a base"
+    },
+    {
+      "id": "omnism1",
+      "fontes": [
+        "Omnism I"
+      ],
+      "substituidas": [],
+      "total": 8,
+      "nota": "Omnism I (+8)"
+    },
+    {
+      "id": "omnism2",
+      "fontes": [
+        "Omnism II"
+      ],
+      "substituidas": [],
+      "total": 20,
+      "nota": "Omnism II (+20) - ela SUBSTITUI a I (§3)"
+    },
+    {
+      "id": "horn-50",
+      "fontes": [
+        "Horn of Devotion (+50)"
+      ],
+      "substituidas": [],
+      "total": 50,
+      "nota": "Horn of Devotion no roll de +50"
+    },
+    {
+      "id": "worship",
+      "fontes": [
+        "Worship"
+      ],
+      "substituidas": [],
+      "total": 100,
+      "nota": "perk Worship (+100)"
+    },
+    {
+      "id": "worship-omnism2",
+      "fontes": [
+        "Worship",
+        "Omnism II"
+      ],
+      "substituidas": [],
+      "total": 120,
+      "nota": "EXCESSO: Worship (+100) + Omnism II (+20) = 120"
+    },
+    {
+      "id": "worship-omnism1",
+      "fontes": [
+        "Worship",
+        "Omnism I"
+      ],
+      "substituidas": [],
+      "total": 108,
+      "nota": "EXCESSO: Worship (+100) + Omnism I (+8) = 108 (a I nao tem quem a substitua aqui)"
+    },
+    {
+      "id": "worship-horn50",
+      "fontes": [
+        "Worship",
+        "Horn of Devotion (+50)"
+      ],
+      "substituidas": [],
+      "total": 150,
+      "nota": "EXCESSO: Worship (+100) + Horn (+50) = 150"
+    },
+    {
+      "id": "worship-horn100",
+      "fontes": [
+        "Worship",
+        "Horn of Devotion (+100)"
+      ],
+      "substituidas": [],
+      "total": 200,
+      "nota": "EXCESSO: Worship (+100) + Horn (+100) = 200"
+    },
+    {
+      "id": "omnism1-omnism2",
+      "fontes": [
+        "Omnism I",
+        "Omnism II"
+      ],
+      "substituidas": [
+        "Omnism I"
+      ],
+      "total": 20,
+      "nota": "EXCESSO: as DUAS tiers - a I e SUBSTITUIDA pela II: total 20, NAO 28 (RV-19 §3)"
+    },
+    {
+      "id": "tres-omnism",
+      "fontes": [
+        "Worship",
+        "Omnism I",
+        "Omnism II"
+      ],
+      "substituidas": [
+        "Omnism I"
+      ],
+      "total": 120,
+      "nota": "EXCESSO: tres fontes, com as duas tiers dentro = 100 + 20"
+    },
+    {
+      "id": "tres-bencaos",
+      "fontes": [
+        "Worship",
+        "Omnism II",
+        "Horn of Devotion (+50)"
+      ],
+      "substituidas": [],
+      "total": 170,
+      "nota": "EXCESSO: tres bencaos acumuladas (Worship + Omnism II + Horn) = 170"
+    },
+    {
+      "id": "tudo",
+      "fontes": [
+        "Worship",
+        "Omnism I",
+        "Omnism II",
+        "Horn of Devotion (+50)"
+      ],
+      "substituidas": [
+        "Omnism I"
+      ],
+      "total": 170,
+      "nota": "EXCESSO: todas as fontes juntas (a I cai pela substituicao) = 170"
+    }
+  ],
+  "conferencia_csv": {
+    "o_que": "cada linha do tools/dados/shrines-esperado.csv (0/8/20/50/100) recalculada por este oracle",
+    "linhas_conferidas": 39,
+    "divergencias": [],
+    "veredito": "0 divergencias: o oracle bate com a tabela gerada do repositorio"
+  },
+  "escala": [
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 0,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 8,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 20,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 50,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 100,
+      "contribuicao": 40
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 108,
+      "contribuicao": 42
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 120,
+      "contribuicao": 44
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 150,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 170,
+      "contribuicao": 54
+    },
+    {
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "base": 20,
+      "bonus": 200,
+      "contribuicao": 60
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 0,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 8,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 20,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 50,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 100,
+      "contribuicao": 40
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 108,
+      "contribuicao": 42
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 120,
+      "contribuicao": 44
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 150,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 170,
+      "contribuicao": 54
+    },
+    {
+      "aura": "Guardian Aura",
+      "atributo": "DamageReduction",
+      "base": 20,
+      "bonus": 200,
+      "contribuicao": 60
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 0,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 8,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 20,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 50,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 100,
+      "contribuicao": 40
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 108,
+      "contribuicao": 42
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 120,
+      "contribuicao": 44
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 150,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 170,
+      "contribuicao": 54
+    },
+    {
+      "aura": "Conqueror Aura",
+      "atributo": "CritChance",
+      "base": 20,
+      "bonus": 200,
+      "contribuicao": 60
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 0,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 8,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 20,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 50,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 100,
+      "contribuicao": 40
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 108,
+      "contribuicao": 42
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 120,
+      "contribuicao": 44
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 150,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 170,
+      "contribuicao": 54
+    },
+    {
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "base": 20,
+      "bonus": 200,
+      "contribuicao": 60
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 0,
+      "contribuicao": 8
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 8,
+      "contribuicao": 9
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 20,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 50,
+      "contribuicao": 12
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 100,
+      "contribuicao": 16
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 108,
+      "contribuicao": 17
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 120,
+      "contribuicao": 18
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 150,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 170,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Reaper Aura",
+      "atributo": "LifeOnHit",
+      "base": 8,
+      "bonus": 200,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 0,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 8,
+      "contribuicao": 11
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 20,
+      "contribuicao": 12
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 50,
+      "contribuicao": 15
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 100,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 108,
+      "contribuicao": 21
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 120,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 150,
+      "contribuicao": 25
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 170,
+      "contribuicao": 27
+    },
+    {
+      "aura": "Seraph Aura",
+      "atributo": "HealthPerTurnPercent",
+      "base": 10,
+      "bonus": 200,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 0,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 8,
+      "contribuicao": 11
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 20,
+      "contribuicao": 12
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 50,
+      "contribuicao": 15
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 100,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 108,
+      "contribuicao": 21
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 120,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 150,
+      "contribuicao": 25
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 170,
+      "contribuicao": 27
+    },
+    {
+      "aura": "Shaman Aura",
+      "atributo": "ManaPerTurnPercent",
+      "base": 10,
+      "bonus": 200,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 0,
+      "contribuicao": -50
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 8,
+      "contribuicao": -54
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 20,
+      "contribuicao": -60
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 50,
+      "contribuicao": -75
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 100,
+      "contribuicao": -100
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 108,
+      "contribuicao": -104
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 120,
+      "contribuicao": -110
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 150,
+      "contribuicao": -125
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 170,
+      "contribuicao": -135
+    },
+    {
+      "aura": "Energy Aura",
+      "atributo": "ManaCostMod",
+      "base": -50,
+      "bonus": 200,
+      "contribuicao": -150
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 0,
+      "contribuicao": 25
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 8,
+      "contribuicao": 27
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 20,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 50,
+      "contribuicao": 38
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 100,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 108,
+      "contribuicao": 52
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 120,
+      "contribuicao": 55
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 150,
+      "contribuicao": 62
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 170,
+      "contribuicao": 68
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageMod",
+      "base": 25,
+      "bonus": 200,
+      "contribuicao": 75
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 0,
+      "contribuicao": -25
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 8,
+      "contribuicao": -27
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 20,
+      "contribuicao": -30
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 50,
+      "contribuicao": -38
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 100,
+      "contribuicao": -50
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 108,
+      "contribuicao": -52
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 120,
+      "contribuicao": -55
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 150,
+      "contribuicao": -62
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 170,
+      "contribuicao": -68
+    },
+    {
+      "aura": "Fury",
+      "atributo": "DamageReduction",
+      "base": -25,
+      "bonus": 200,
+      "contribuicao": -75
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 0,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 8,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 20,
+      "contribuicao": 24
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 50,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 100,
+      "contribuicao": 40
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 108,
+      "contribuicao": 42
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 120,
+      "contribuicao": 44
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 150,
+      "contribuicao": 50
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 170,
+      "contribuicao": 54
+    },
+    {
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "base": 20,
+      "bonus": 200,
+      "contribuicao": 60
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 0,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 8,
+      "contribuicao": 11
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 20,
+      "contribuicao": 12
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 50,
+      "contribuicao": 15
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 100,
+      "contribuicao": 20
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 108,
+      "contribuicao": 21
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 120,
+      "contribuicao": 22
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 150,
+      "contribuicao": 25
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 170,
+      "contribuicao": 27
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "atributo": "",
+      "base": 10,
+      "bonus": 200,
+      "contribuicao": 30
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 0,
+      "contribuicao": 5
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 8,
+      "contribuicao": 5
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 20,
+      "contribuicao": 6
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 50,
+      "contribuicao": 8
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 100,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 108,
+      "contribuicao": 10
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 120,
+      "contribuicao": 11
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 150,
+      "contribuicao": 12
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 170,
+      "contribuicao": 14
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "base": 5,
+      "bonus": 200,
+      "contribuicao": 15
+    }
+  ],
+  "danos": [
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 3
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 5
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 6
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 6
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 7
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 12
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 13
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 8
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 9
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 15
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 16
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 8
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 10
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 16
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 18
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 19
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 22
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 37
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 41
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 24
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 29
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 48
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 53
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 10
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 12
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 20
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 22
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 23
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 28
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 47
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 51
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 30
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 36
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 60
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 66
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 3
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 12
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 14
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 24
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 26
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 28
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 34
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 56
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 62
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 36
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 43
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 72
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 79
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 2
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 3
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 3
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 14
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 17
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 28
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 31
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 33
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 39
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 65
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 72
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 42
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 50
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 84
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 92
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 1
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 5
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 6
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 10
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 11
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 12
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 14
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 23
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 26
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": true,
+      "dano": 15
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": true,
+      "dano": 18
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": true,
+      "dano": 30
+    },
+    {
+      "aura": "Flame Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": true,
+      "dano": 33
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 5
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 6
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 10
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 11
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 12
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 14
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 23
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 26
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 15
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 18
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 30
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "boss",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 33
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 10
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 12
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 20
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 22
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 23
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 28
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 47
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 51
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 30
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 36
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 60
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "champion",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 66
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 3
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 12
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 14
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 24
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 26
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 28
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 34
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 56
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 62
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 36
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 43
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 72
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "elite",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 79
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 3
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 3
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 15
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 18
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 30
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 33
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 35
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 42
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 70
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 77
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 45
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 54
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 90
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "soldier",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 99
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 4
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 4
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 20
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 24
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 40
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 44
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 47
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 56
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 93
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 103
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 60
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 72
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 120
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "fodder",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 132
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 0
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 3,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 1
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 10,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 2
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 10
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 12
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 20
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 100,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 22
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 23
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 28
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 47
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 233,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 51
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 0,
+      "bonus_id": "sem-bonus",
+      "minimo1": false,
+      "dano": 30
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 20,
+      "bonus_id": "omnism2",
+      "minimo1": false,
+      "dano": 36
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 100,
+      "bonus_id": "worship",
+      "minimo1": false,
+      "dano": 60
+    },
+    {
+      "aura": "Decay Shrine Aura",
+      "tipo": "player",
+      "maxhealth": 300,
+      "bonus": 120,
+      "bonus_id": "worship-omnism2",
+      "minimo1": false,
+      "dano": 66
+    }
+  ],
+  "formatacao": [
+    {
+      "id": "inteiro-nao-ganha-ponto",
+      "atributo": "CritChance",
+      "valor": 40,
+      "inteiro": 40,
+      "com_sinal": "+40",
+      "rotulo": "Crit Chance +40%",
+      "total_com_sinal": "+40%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "equipamento-fracionario",
+      "atributo": "DodgeChance",
+      "valor": 53.4,
+      "inteiro": 54,
+      "com_sinal": "+54",
+      "rotulo": "Dodge +54%",
+      "total_com_sinal": "+54%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "fracao-meio",
+      "atributo": "DamageMod",
+      "valor": 0.5,
+      "inteiro": 1,
+      "com_sinal": "+1",
+      "rotulo": "Damage +1%",
+      "total_com_sinal": "+1%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "fracao-negativa",
+      "atributo": "DamageMod",
+      "valor": -0.4,
+      "inteiro": 0,
+      "com_sinal": "+0",
+      "rotulo": "Damage +0%",
+      "total_com_sinal": "+0%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "negativo-inteiro",
+      "atributo": "DamageMod",
+      "valor": -25,
+      "inteiro": -25,
+      "com_sinal": "−25",
+      "rotulo": "Damage −25%",
+      "total_com_sinal": "−25%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "negativo-fracionario",
+      "atributo": "DodgeChance",
+      "valor": -53.4,
+      "inteiro": -53,
+      "com_sinal": "−53",
+      "rotulo": "Dodge −53%",
+      "total_com_sinal": "−53%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "damage-taken-reduz",
+      "atributo": "DamageReduction",
+      "valor": 20,
+      "inteiro": 20,
+      "com_sinal": "+20",
+      "rotulo": "Damage taken −20%",
+      "total_com_sinal": "−20%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "damage-taken-aumenta",
+      "atributo": "DamageReduction",
+      "valor": -30,
+      "inteiro": -30,
+      "com_sinal": "−30",
+      "rotulo": "Damage taken +30%",
+      "total_com_sinal": "+30%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "energy-reduz",
+      "atributo": "ManaCostMod",
+      "valor": -50,
+      "inteiro": -50,
+      "com_sinal": "−50",
+      "rotulo": "Mana Costs reduced by 50%",
+      "total_com_sinal": "−50%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "energy-aumenta",
+      "atributo": "ManaCostMod",
+      "valor": 20,
+      "inteiro": 20,
+      "com_sinal": "+20",
+      "rotulo": "Mana Costs increased by 20%",
+      "total_com_sinal": "+20%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    },
+    {
+      "id": "energia-total-positivo",
+      "atributo": "ManaCostMod",
+      "valor": -100,
+      "inteiro": -100,
+      "com_sinal": "−100",
+      "rotulo": "Mana Costs reduced by 100%",
+      "total_com_sinal": "−100%",
+      "porcento_no_rotulo": 1,
+      "porcento_no_total": 1
+    }
+  ],
+  "agregado": [
+    {
+      "id": "rogue-x3-stacks-1",
+      "bonus": 100,
+      "itens": [
+        "Dodge +40% (total +57%)"
+      ],
+      "linha": "Your active shrine auras: Dodge +40% (total +57%).",
+      "repeticoes": [
+        "Rogue Aura x3"
+      ],
+      "avisos": []
+    },
+    {
+      "id": "fury-so",
+      "bonus": 100,
+      "itens": [
+        "Damage +50% (total +75%)",
+        "Damage taken +50% (total +30%)"
+      ],
+      "linha": "Your active shrine auras: Damage +50% (total +75%); Damage taken +50% (total +30%).",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "warrior-mais-fury",
+      "bonus": 100,
+      "itens": [
+        "Damage +90% (total +115%)",
+        "Damage taken +50% (total +30%)"
+      ],
+      "linha": "Your active shrine auras: Damage +90% (total +115%); Damage taken +50% (total +30%).",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "tres-fontes-mesmo-atributo",
+      "bonus": 100,
+      "itens": [
+        "Damage +90% (total +115%)",
+        "Damage taken +50% (total +30%)"
+      ],
+      "linha": "Your active shrine auras: Damage +90% (total +115%); Damage taken +50% (total +30%).",
+      "repeticoes": [
+        "Warrior Aura x2"
+      ],
+      "avisos": []
+    },
+    {
+      "id": "warrior-stacks-2",
+      "bonus": 100,
+      "itens": [
+        "Damage +80% (total +155%)"
+      ],
+      "linha": "Your active shrine auras: Damage +80% (total +155%).",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "teto-guardian-mais-fury",
+      "bonus": 100,
+      "itens": [
+        "Damage +50% (total +75%)",
+        "Damage taken +10% (total +50%)"
+      ],
+      "linha": "Your active shrine auras: Damage +50% (total +75%); Damage taken +10% (total +50%).",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "dwarven-so",
+      "bonus": 100,
+      "itens": [
+        "Stun chance +40%"
+      ],
+      "linha": "Your active shrine auras: Stun chance +40%.",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "dwarven-sem-expressao",
+      "bonus": 100,
+      "itens": [],
+      "linha": "",
+      "repeticoes": [],
+      "avisos": [
+        "RV-46 AVISO: a aura viva 'Dwarven Aura' NAO virou item da linha (sem expressao de chance avaliada)",
+        "RV-46 sem linha: 1 aura(s) viva(s) sem nenhum numero provado (nada estimado)"
+      ]
+    },
+    {
+      "id": "decay-so",
+      "bonus": 100,
+      "itens": [
+        "Shadow damage per turn 20"
+      ],
+      "linha": "Your active shrine auras: Shadow damage per turn 20.",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "decay-vida-3",
+      "bonus": 0,
+      "itens": [
+        "Shadow damage per turn 0"
+      ],
+      "linha": "Your active shrine auras: Shadow damage per turn 0.",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "flame-varios-alvos",
+      "bonus": 100,
+      "itens": [
+        "Fire damage to attackers: Kobold 10, Chefe 15, Tanque 47, Fodder rasteiro 1"
+      ],
+      "linha": "Your active shrine auras: Fire damage to attackers: Kobold 10, Chefe 15, Tanque 47, Fodder rasteiro 1.",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "flame-sem-alvo",
+      "bonus": 100,
+      "itens": [],
+      "linha": "",
+      "repeticoes": [],
+      "avisos": [
+        "RV-46 AVISO: a aura viva 'Flame Shrine Aura' NAO virou item da linha (nenhum alvo com o status do Flame vivo agora)",
+        "RV-46 sem linha: 1 aura(s) viva(s) sem nenhum numero provado (nada estimado)"
+      ]
+    },
+    {
+      "id": "linha-mista",
+      "bonus": 100,
+      "itens": [
+        "Damage +40% (total +115%)",
+        "Dodge +40% (total +57%)",
+        "Stun chance +40%",
+        "Shadow damage per turn 20",
+        "Fire damage to attackers: Kobold 10, Chefe 15"
+      ],
+      "linha": "Your active shrine auras: Damage +40% (total +115%); Dodge +40% (total +57%); Stun chance +40%; Shadow damage per turn 20; Fire damage to attackers: Kobold 10, Chefe 15.",
+      "repeticoes": [
+        "Rogue Aura x2"
+      ],
+      "avisos": []
+    },
+    {
+      "id": "energia-total-negativo",
+      "bonus": 0,
+      "itens": [
+        "Mana Costs reduced by 50% (total −50%)"
+      ],
+      "linha": "Your active shrine auras: Mana Costs reduced by 50% (total −50%).",
+      "repeticoes": [],
+      "avisos": []
+    },
+    {
+      "id": "energia-total-positivo",
+      "bonus": 100,
+      "itens": [
+        "Mana Costs reduced by 100% (total +20%)"
+      ],
+      "linha": "Your active shrine auras: Mana Costs reduced by 100% (total +20%).",
+      "repeticoes": [],
+      "avisos": []
+    }
+  ]
+}

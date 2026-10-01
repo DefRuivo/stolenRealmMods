@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ORACULO das fixtures de EXCESSO DE SHRINE (tools/testes/fixtures/excesso-shrine.*.json).
+       Projeto de console SEPARADO, fora de qualquer mod: nao referencia lib/, nao entra em
+       pacote, nao e "mod de verdade" (nao tem o target DeployToBepInEx). Existe para provar a
+       PROCEDENCIA dos valores esperados da familia TST-2: eles saem do MESMO caminho de conta
+       que o motor do jogo usa (aritmetica FLOAT + Math.Round ToEven + Mathf.CeilToInt) e as
+       BASES/PERCENTUAIS sao LIDAS de tools/dados/*.csv (GERADOS de docs/cobertura/status.csv e
+       do resources.assets pelo tools/gera_shrines_esperado.py) - nunca digitados aqui.
+
+       Rodar (precisa do SDK dotnet; o valor ja esta versionado nas fixtures, este proyecto so
+       serve para REGERAR e AUDITAR). O comando exato esta no README do tools/testes/. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>oraculo_excesso_shrine</AssemblyName>
+    <RootNamespace>OraculoExcessoShrine</RootNamespace>
+    <!-- Sem BuildServer: evita segurar arquivo em obj/ no Windows. -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+  </PropertyGroup>
+
+</Project>
