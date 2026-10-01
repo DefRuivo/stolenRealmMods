@@ -19,16 +19,21 @@ comunidade é **cache** e não serve para conferir (ver a nota *Ao conferir na A
 [`README.md`](README.md), § *Publicação — credencial e namespace*). Os dois workflows **já estão no
 remoto** — para reconferir, compare **commit com commit** (`git ls-remote origin main` contra
 `git rev-parse HEAD`; **não** compare MD5 de disco com o do publicado, ver adendo em
-[`CI.md`](CI.md)) — então o pipeline está **vivo**, não "só no disco". Os **8** anexos do release de
-30/09 — **7** mods, com o `BetterFont` em duas versões (1.0.0 e 1.0.1) — estão na GitHub Release
+[`CI.md`](CI.md)) — então o pipeline está **vivo**, não "só no disco". Os **11** anexos do release de
+30/09 — os **7** mods, com o `BetterFont`, o `BetterStats`, o `RoguelikeDebugger` e o `RoguelikeQoL`
+em **duas versões** cada (a já publicada e a nova) — estão na GitHub Release
 [`pack-2026-09-30`](https://github.com/DefRuivo/stolenRealmMods/releases/tag/pack-2026-09-30),
 que é o caminho do input `release_tag` do `publish.yml`. Contagem conferida na **API do GitHub**
 (`assets` da Release, 30/09/2026), não na memória: `gumatos-BetterCombatText-0.1.0.zip`,
-`gumatos-BetterFont-1.0.0.zip`, `gumatos-BetterFont-1.0.1.zip`, `gumatos-BetterStats-1.0.0.zip`,
-`gumatos-BetterTooltips-0.1.0.zip`, `gumatos-RoguelikeDebugger-0.1.0.zip`,
-`gumatos-RoguelikeQoL-0.1.0.zip`, `gumatos-RoguelikeSkillTreeVisualizer-0.1.0.zip` — o **título** da
-Release ("Pacotes dos 6 mods - 30/09/2026") é que ficou velho: o zip do `BetterCombatText` entrou
-depois.
+`gumatos-BetterFont-1.0.0.zip`, `gumatos-BetterFont-1.0.1.zip` (asset **substituído** em 30/09/2026: o
+que estava lá trazia a dependência mútua no manifest, e o que está lá declara **só** o BepInExPack),
+`gumatos-BetterStats-1.0.0.zip`, `gumatos-BetterStats-1.0.1.zip`, `gumatos-BetterTooltips-0.1.0.zip`,
+`gumatos-RoguelikeDebugger-0.1.0.zip`, `gumatos-RoguelikeDebugger-0.1.1.zip`,
+`gumatos-RoguelikeQoL-0.1.0.zip`, `gumatos-RoguelikeQoL-0.1.1.zip`,
+`gumatos-RoguelikeSkillTreeVisualizer-0.1.0.zip`. O **título** da Release estava velho ("Pacotes dos
+6 mods - 30/09/2026" — o zip do `BetterCombatText` entrou depois) e foi corrigido para os **7** mods
+empacotados e os 11 zips. A dependência entre mods é **uma direção** — `BetterCombatText 0.1.0` →
+`BetterFont 1.0.1` — pelo motivo registrado em [`release/mods.json`](../release/mods.json).
 
 O pipeline tem um passo de envio por mod — os 5.1–5.6 mais o **5.7 (`BetterCombatText`)**, na forma
 dos outros (`categories: mods`, `path: envio-BetterCombatText`) — e o input `mod:` do
