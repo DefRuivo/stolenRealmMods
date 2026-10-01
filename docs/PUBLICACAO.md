@@ -120,9 +120,11 @@ listagem dele hoje está **Mods**: o envio da 1.0.1, em 01/10/2026, foi o primei
   de envio do workflow levam o input `categories:` (`mods` nos 5.1/5.2/5.3/5.5/5.6 — o 5.6 é o
   `BetterCombatText`; `tools` no 5.4) — não vale mais dizer que "o `publish.yml` nem o `pack-thunderstore.py` têm campo de
   categoria". Quem segue **sem** categoria é o envio **local**: o `tools/publish-thunderstore.sh`
-  manda só `-F "file=@..."` e o `tools/pack-thunderstore.py` não tem campo de categoria. É por isso
-  que o `BetterFont` — o único que subiu **antes** do `420a7a4` — está no ar com `categories: []`,
-  enquanto os cinco seguintes já saíram com a categoria certa. Para ajustar **sem refazer o zip**
+  manda só `-F "file=@..."` e o `tools/pack-thunderstore.py` não tem campo de categoria. Foi por esse
+  caminho que o `BetterFont` 1.0.0 — o único que subiu **antes** do `420a7a4` — saiu **vazio**, e os
+  cinco seguintes já saíram com a categoria certa; hoje a listagem dele está **Mods**, porque a 1.0.1
+  (01/10/2026) foi o primeiro envio dele com `categories: mods` (medido na API — ver *Categorias: as 6
+  que a comunidade `stolen-realm` tem de fato*). Para ajustar **sem refazer o zip**
   existe a API oficial `POST /api/experimental/package-listing/{id}/update/`, cujo corpo **exige**
   `{"categories": ["Mods"]}` (endpoint confere: responde 400/405, não 404) — mas ela **não funciona**
   com o token do CI: ver *Categorias na automação*, abaixo.
@@ -157,8 +159,9 @@ também tem de ser (seção 3). Medido ao vivo, sem adivinhar:
 | `GET .../api/cyberstorm/package/stolen-realm/DefRuivo_StolenRealmMods/BetterFont/permissions/` | `"can_manage_categories": false` |
 
 Consequência: **categoria só entra no momento do envio** (não dá para corrigir depois pela API
-com este token). Para o BetterFont, já publicado com `categories: []`, sobra a UI web logada como
-**pessoa** (não service account) ou esperar a próxima versão. O upload **aceita** categoria —
+com este token). O caso do `BetterFont` já está resolvido — a 1.0.1, enviada em 01/10/2026, foi o
+primeiro envio dele com `categories: mods`; para um pacote que SUBA vazio, sobram a UI web logada
+como **pessoa** (não service account) ou a próxima versão. O upload **aceita** categoria —
 `PackageUploadMetadataSerializer.categories` (legado, slug, e só vale quando a comunidade da
 requisição é a da listagem) e `PackageSubmissionMetadataSerializer.community_categories`
 (`{"stolen-realm": ["mods"]}`).
@@ -384,6 +387,14 @@ A árvore completa da API, também sem credencial:
 - **`repo:` é obrigatório na Action.** Sem esse input o script dela monta
   `tcli publish --repository` com valor vazio e o envio quebra. O valor usado é
   `https://thunderstore.io`.
+- **O `tools/audita_docs.py` NÃO confere categoria (ressalva declarada).** O passo 7 do CI compara
+  contagens, versões, ferramentas citadas, links e caminhos que saíram do repo — ele **não** lê o
+  `categories:` do `publish.yml` nem o slug de categoria de cada mod. Consequência prática: as
+  tabelas de categoria deste documento (e a *Lista aplicada por mod*) são **prosa mantida à mão**;
+  se o envio de um mod sair com categoria diferente da escrita aqui, **nada fica vermelho**. Foi
+  assim que o `BetterFont` 1.0.0 subiu **vazio** em 30/09 com a documentação verde. Quem decide a
+  categoria é o passo de envio (`categories:`) e quem confere é a **API experimental da comunidade**
+  (ver *Categorias: as 6 que a comunidade `stolen-realm` tem de fato*) — nunca o auditor de docs.
 - **`file:` é relativo à raiz do repositório, e o caminho real vira `dist/<file>`.** A Action
   move a raiz do repo para `/dist` e publica `dist/$file` — por isso o valor no YAML começa
   com `dist/` e *não* é engano. Não "conserte" isso.

@@ -47,10 +47,30 @@ lidos pelo asset com UnityPy; nenhum outro arquivo tem status).
 > campos pela API do C# (`s.TickTargets`, `s.SkillTriggers[].Targets`), que nao dessincroniza.
 > O que ficou fora da contagem: os 3 objetos acima.
 
+> **Denominador: o dump NAO tem 421 statuses, tem 600.** Todo `X/421` da tabela abaixo e a passagem
+> OFFLINE do asset (os 424 objetos, os 421 legiveis). O dump de boot imprime **600** — medido no
+> `LogOutput.log` de 01/10: `[Status] Inventário: 600 status carregados.` e 600 linhas `[Status] '`.
+> Os outros **176** (600 − 424) sao **SINTETICOS**: `LoadListActionStatuses` (l.134750-134863) cria um
+> `ActionStatusInfo` em RUNTIME para CADA `EventStatus` (`ScriptableObject.CreateInstance` + copia de
+> `name`/`Description`/`AttributeEffects`/`SkillTriggers`/..., com `Duration = "0"` e `Infinite =
+> true`). Eles saem no dump como qualquer outro (ex.: `Oculus Gem`, `Phoenix Feather` — o tipo
+> `Fortune`), mas **nao tem par** na passagem offline: um `X/421` nao conta esses 176 nem diz o que
+> eles preenchem.
+
+> **O que NUNCA aparece no dump: acao que nao e concedida por skill nem e `Actions` de gatilho de
+> status.** O `[Action]` filtra por skill (a propria linha do boot diz "277 acoes concedidas por
+> skills") e o gatilho de status publica as `Actions` dele DENTRO do gatilho (`~acoes=`, RD-2R). Acao
+> que nao vem por nenhum dos DOIS caminhos continua fora de tudo: a familia `* Shrine Explosion`
+> (RV-19 secao 7 — `Warrior Shrine Explosion`, `Conqueror Shrine Explosion`, ... e os `... Status`)
+> da **0** ocorrencias no log de boot inteiro (453 skills + 277 acoes + 600 statuses + 905 itens). Um
+> `X/421` tambem nao cobre isso.
+
 > **Numeracao das linhas:** os `l.NNNN` desta tabela sao do decompilado **regerado em 01/10** com
-> ilspycmd 8.2.0 (**496.253** linhas). As revisoes antigas (RV-13b, RV-19) citam outro decompile
-> (`Assembly-CSharp.decompiled.cs`, 371.804 linhas, que nao esta mais no cache) — os numeros
-> divergem; o nome do campo e a chave estavel para reconferir.
+> ilspycmd 8.2.0. O arquivo que existe hoje (`%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs`)
+> tem **496.253** linhas — contadas com `wc -l` (e `grep -c ""`, que da o mesmo) em 01/10/2026 — e esse
+> numero muda se o cache for **regerado** (a versao anterior, de 371.804 linhas, nao esta mais no
+> cache): conferir a contagem do arquivo ANTES de citar. As revisoes antigas (RV-13b, RV-19) citam
+> aquele outro decompile — os numeros divergem; o nome do campo e a chave estavel para reconferir.
 
 | campo no dump | campo do motor (decompilado `Assembly-CSharp.decompiled.cs`) | medicao |
 |---|---|---|
@@ -105,6 +125,30 @@ Decisao, com motivo (o pedido previa as duas saidas):
    coluna nao e onde esse dado se usa. Se a frente das auras quiser um `ganchos`, o lugar e
    um imersor, como no item 2.
 
+## O que o dump de status GARANTE (RD-2F): falha de campo nao trunca
+
+Ate 01/10 o `ActionStatusInventoryPatch` tinha **um unico** `try/catch`, em volta do laco dos statuses
+INTEIRO, e o catch era um `LogWarning`: excecao em UM campo abortava o laco, o dump ficava **truncado
+dali para diante** (o `_dumped` ja estava marcado — nao existia segunda passada, nao existia
+retentativa) e o resto dos statuses sumia do log EM SILENCIO. O requisito era o oposto e nao estava
+cumprido. Agora, campo a campo:
+
+- **Todo campo da linha sai por `Campo(nome, leitura)`**
+  (`RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs`). A leitura que estoura vira **marcador no
+  proprio campo** — `!erro:<Tipo>` (ex.: `!erro:NullReferenceException`) — com um `LogWarning`
+  nomeando o campo; a linha daquele status e TODAS as seguintes continuam saindo. O marcador nao tem
+  `|`, aspas nem quebra de linha, entao o parser do censo nao quebra (os blocos que montam texto
+  viraram lambda de `Campo`: `efeitos`, `efeitosDano`, `modelo`).
+- **O laco itera uma COPIA da lista** (`new List<ActionStatusInfo>(__result)`): uma `Add` do jogo
+  durante a iteracao (outro jeito de abortar o laco) nao derruba mais o dump.
+- **O `catch` externo virou `LogError`** e diz que a falha foi FORA de campo, com o tipo e a mensagem:
+  como campo problematico sai com marcador, chegar ali e o outro modo de falha (ex.: memoria) — e o
+  SILENCIO e que nao pode existir.
+
+Consequencia para quem le o dump: uma linha com `!erro:` e dado AUSENTE, nao valor; e o laco NAO deve
+abortar — `[Status]` que para no meio continua sendo defeito, e o erro do catch externo e o que o
+denuncia.
+
 ## Como estender sem quebrar o censo
 
 1. Campo novo entra **antes** do `desc=` na linha (o parser do censo exige `desc` por ultimo).
@@ -116,3 +160,10 @@ Decisao, com motivo (o pedido previa as duas saidas):
    `tools/census.py` — senao ele aparece no **log** mas nao no CSV.
 6. Verificacao: o dump sai no boot (nao precisa entrar em partida). Ler o `LogOutput.log` **na mesma
    sessao** — ele e truncado a cada inicio.
+7. **A DLL do dump so aparece DEPOIS do deploy (ressalva declarada).** Editar o `.cs` de um patch NAO
+   muda o dump: quem roda no jogo e a DLL em
+   `<perfil>\BepInEx\plugins\RoguelikeDebugger\RoguelikeDebugger.dll`, e um `dotnet build` sem o
+   target `DeployToBepInEx` nao a atualiza. O ciclo e `dotnet build` (que copia para o perfil) →
+   abrir o jogo → ler o `LogOutput.log`. Campo novo que "nao aparece no log" quase sempre e uma DLL
+   que nao chegou ao perfil — e o `-p:DeployToBepInEx=false` do empacotador builda **de proposito**
+   sem instalar (por isso o `dotnet build` da publicacao nao serve para testar o dump).
