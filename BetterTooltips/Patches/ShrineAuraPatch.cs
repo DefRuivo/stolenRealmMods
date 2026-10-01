@@ -524,6 +524,8 @@ namespace BetterTooltips.Patches
                         continue;
                     }
                     string nome = string.IsNullOrEmpty(alvo.CharacterName) ? "(sem nome)" : alvo.CharacterName;
+                    // RV-45: o `0.#` NÃO pode imprimir fração — o dano vem de `Mathf.Max(1,
+                    // Mathf.Round(...))` na fórmula do asset (inteiro por construção).
                     partes.Add(nome + " " + dano.ToString("0.#"));
                     // Item 6 da especificação: o log diz DE QUAL ALVO saiu cada número, com a vida máxima,
                     // o tipo e o BÔNUS dele que entraram na conta, para a conferência em jogo.
@@ -768,10 +770,20 @@ namespace BetterTooltips.Patches
                     Marca("RV-34 Decay reserva: formula completa nao avaliada; dano montado a partir da % e do bonus do personagem");
                 }
                 // A linha do jogo termina em ponto: o número entra antes dele, e o `[0]` fica no lugar.
+                // RV-45: o `0.#` aqui NÃO pode imprimir fração — o número vem do `Mathf.Round` da
+                // própria fórmula do asset (ou, na reserva, de `Mathf.Round(MaxHealth x % x fator)`),
+                // ou seja já é inteiro. Conferido: nenhuma conta desta linha passa pelo formatador de
+                // atributo (`InteiroDoJogo`), que é o único lugar onde a fração existia.
                 string linha = ChaveDecay.Substring(0, ChaveDecay.Length - 1)
                     + " (" + dano.ToString("0.#") + " damage per turn for you).";
+                // CHK-1 §7.1 (conserto APLICADO) — O `tipo=` DO PORTADOR ENTROU NA MARCA. O esperado do
+                // Decay e `MaxHealth x % DO TIPO x (1 + bonus)` e a % muda por tipo (player 10%, IA
+                // 5..20 — `FormulaDanoDecay`); sem o campo, a conferencia mecanica so podia calcular
+                // com a % de `player` (o unico caminho pelo qual o mod resolve o receptor) e um
+                // portador IA virava ACHADO sem causa atribuivel. O `TipoDoAlvo` e o MESMO da linha do
+                // Flame (mesma nomenclatura, mesma fonte). Campo de LOG: nenhum texto do jogador muda.
                 Marca($"RV-34 linha do Decay: {naAura.CharacterName} MaxHealth={naAura.MaxHealth.ToString("0.#")}"
-                    + $" bonus={BonusDoReceptor(naAura)} -> '{linha}'");
+                    + $" tipo={TipoDoAlvo(naAura)} bonus={BonusDoReceptor(naAura)} -> '{linha}'");
                 return linha;
             }
             catch (Exception ex)
@@ -811,16 +823,21 @@ namespace BetterTooltips.Patches
         /// soma. Antes só DamageReduction, ManaCostMod e o default tratavam o sinal; os outros montavam
         /// "+" fixo e imprimiriam "+ -20%" com total negativo. O rótulo do total POSITIVO é o
         /// comportamento correto de hoje e NÃO muda.
+        /// RV-45 (01/10) — A GRANDEZA SAI INTEIRA (`InteiroDoJogo`), como na ficha do próprio jogo:
+        /// antes o rótulo do `Damage taken`/`Mana Costs` usava `ToString("0.#")` e imprimia o decimal
+        /// da fração do equipamento. No zero o rótulo lê "+0%" (é a mesma leitura da ficha; a forma
+        /// anterior escolhia o "−" por causa do sinal do float cru).
         /// null = atributo que não está nesta lista; quem chamou usa o nome do próprio jogo.</summary>
         private static string Format(string attr, float v)
         {
+            int n = InteiroDoJogo(v);
             switch (attr)
             {
                 case "DamageReduction":
-                    return v >= 0 ? "Damage taken −" + v.ToString("0.#") + "%" : "Damage taken +" + (-v).ToString("0.#") + "%";
+                    return n > 0 ? "Damage taken −" + n + "%" : "Damage taken +" + Mathf.Abs(n) + "%";
                 case "ManaCostMod":
-                    return v <= 0 ? "Mana Costs reduced by " + Mathf.Abs(v).ToString("0.#") + "%"
-                                  : "Mana Costs increased by " + v.ToString("0.#") + "%";
+                    return n <= 0 ? "Mana Costs reduced by " + Mathf.Abs(n) + "%"
+                                  : "Mana Costs increased by " + n + "%";
                 case "DamageMod": return "Damage " + ComSinal(v) + "%";
                 case "CritChance": return "Crit Chance " + ComSinal(v) + "%";
                 case "DodgeChance": return "Dodge " + ComSinal(v) + "%";
@@ -832,11 +849,41 @@ namespace BetterTooltips.Patches
         }
 
         /// <summary>RV-43 — valor com o SINAL explícito, no MESMO formato do rótulo de atributo
-        /// desconhecido (o `default` do `TextDoEfeito`, l.1152): "+" para total positivo ou ZERO, "−"
-        /// (menos U+2212, o mesmo dos outros rótulos) para negativo.</summary>
+        /// desconhecido (o `default` do `TextDoEfeito`): "+" para total positivo ou ZERO, "−"
+        /// (menos U+2212, o mesmo dos outros rótulos) para negativo.
+        /// RV-45 — sai no INTEIRO da convenção do jogo (`InteiroDoJogo`): o exemplo que originou o
+        /// conserto é o `(total +53.4%)` do print do dono. O texto que o jogo mostra da MESMA grandeza
+        /// é inteiro ("Crit chance increased by 54%"), então a linha azul não pode destoar. O sinal é
+        /// lido DEPOIS do arredondamento (senão `-0.4` viraria "−0").</summary>
         private static string ComSinal(float v)
         {
-            return (v >= 0f ? "+" : "−") + Mathf.Abs(v).ToString("0.#");
+            int n = InteiroDoJogo(v);
+            return (n >= 0 ? "+" : "−") + Mathf.Abs(n);
+        }
+
+        /// <summary>
+        /// RV-45 — O VALOR DE ATRIBUTO NA GRANDEZA QUE O JOGO EXIBE. Descoberta no decompilado:
+        /// `InventoryManager.UpdateStats` (decompilado l.125348-125356) monta o valor do atributo na
+        /// FICHA com `component.text = GUIManager.instance.floatToText(Mathf.Ceil(character[atributo]))`
+        /// e `GUIManager.floatToText` (l.93303-93310) é `f.ToString()` — ou seja: o jogo arredonda PARA
+        /// CIMA (`Mathf.Ceil`) e imprime INTEIRO, mesmo quando o atributo tem fração (equipamento dá
+        /// décimos de crit/dodge). É a MESMA grandeza que a linha azul mostra (o `Character[atributo]`),
+        /// então a linha azul usa a mesma regra da ficha.
+        ///
+        /// O jogo tem uma SEGUNDA convenção na tela de level up (`RoguelikeManager`, l.163759-163764:
+        /// `CurrentRoguelikeSkillSelectingCharacter[atributo].ToString("F0")`, que arredonda ao par) e
+        /// ela NÃO se aplica aqui: o número da linha azul é o da FICHA, e é a ficha que o jogador abre
+        /// para conferir/equipar. Mesmo critério do `BetterStats`, que já aplica `Mathf.Ceil` nos DOIS
+        /// lugares (l.179 e l.335) — precedente aprovado do projeto.
+        ///
+        /// Isto é FORMATO, não conta: nenhuma fórmula do RV-34 muda (as duas auras de perigo continuam
+        /// saindo do interpretador do motor, o Decay com `Mathf.Round` e sem `Max(1)`, o Flame com
+        /// `Max(1, Round(...))` e o fator do `ShrineEffectBonus` em ambos — nenhum deles passa por
+        /// aqui). NaN/infinito (estado corrompido) vira 0 em vez de derrubar a tooltip.
+        /// </summary>
+        private static int InteiroDoJogo(float v)
+        {
+            return (float.IsNaN(v) || float.IsInfinity(v)) ? 0 : Mathf.CeilToInt(v);
         }
 
         /// <summary>
@@ -847,10 +894,14 @@ namespace BetterTooltips.Patches
         /// `ManaCostMod`, cujo total POSITIVO é custo aumentado (RV-43) e o rótulo da frente
         /// (`Mana Costs reduced by 50%` / `increased by 20%`) já diz para que lado a aura empurra.
         /// Não é uma segunda leitura do motor: é o MESMO `Character[atributo]` que já foi lido.
+        /// RV-45 — o inteiro da ficha (`InteiroDoJogo`) é aplicado ao valor CRU do atributo e SÓ DEPOIS
+        /// o sinal é invertido: inverter primeiro arredondaria do lado errado do número
+        /// (`Ceil(-53.4) = -53`, que é o `-53` que a ficha mostra; `-Ceil(53.4) = -54`).
         /// </summary>
         private static string TotalComSinal(string nome, float v)
         {
-            float exibido = string.Equals(nome, "DamageReduction", StringComparison.Ordinal) ? -v : v;
+            int n = InteiroDoJogo(v);
+            float exibido = string.Equals(nome, "DamageReduction", StringComparison.Ordinal) ? -n : n;
             return ComSinal(exibido) + "%";
         }
 
@@ -949,12 +1000,17 @@ namespace BetterTooltips.Patches
                     if (ContribuicaoDasAuras(ativas, atributo, receptor, out contribuicao))
                     {
                         partes.Add(TextDoEfeito(atributo, contribuicao)
-                            + " (total " + TotalComSinal(nome, total) + "%)");
+                            + " (total " + TotalComSinal(nome, total) + ")");
                         // O `resto` (total − contribuição) é o pedaço da ficha que NÃO é aura: é ele que
                         // prova, em jogo, se o total é aditivo — com as duas telas do dono (30/09) o
                         // resto deu +25 (DamageMod) e +20 (DamageReduction) nos DOIS casos.
+                        // CHK-1 §7.2 (conserto APLICADO) — a marca ganhou `char=` e `bonus=`: sem eles a
+                        // evidencia provava o valor da aura mas NAO era atribuivel a um caso (a
+                        // conferencia so tinha a linha `RV-31 acumulado` como ancora). Campo de LOG.
                         Marca($"RV-44 item '{nome}': aura={ComSinal(contribuicao)}% total={ComSinal(total)}%"
-                            + $" resto={ComSinal(total - contribuicao)}% em [{string.Join(", ", NomesDasAuras(ativas).ToArray())}]");
+                            + $" resto={ComSinal(total - contribuicao)}% char={receptor.CharacterName}"
+                            + $" bonus={BonusDoReceptor(receptor)}"
+                            + $" em [{string.Join(", ", NomesDasAuras(ativas).ToArray())}]");
                     }
                     else
                     {
@@ -1176,8 +1232,12 @@ namespace BetterTooltips.Patches
                     }
                     contribuicao += valor * stacks;
                     somou = true;
+                    // CHK-1 §7.2 (conserto APLICADO) — `char=` e `bonus=` na marca: e ela que nomeia a
+                    // aura E o atributo, entao com os dois campos a evidencia fica atribuivel a um caso
+                    // isolado (sem depender da ancora `RV-31 acumulado`). Campo de LOG.
                     Marca($"RV-44 soma '{nome}': '{NomeDaAura(s)}' {efeito.CharacterEffectMethod}"
-                        + $" {ComSinal(valor * stacks)}% (stacks={stacks})");
+                        + $" {ComSinal(valor * stacks)}% (stacks={stacks})"
+                        + $" char={receptor.CharacterName} bonus={BonusDoReceptor(receptor)}");
                 }
             }
             return somou;
@@ -1340,7 +1400,10 @@ namespace BetterTooltips.Patches
             {
                 rotulo = nome;
             }
-            return rotulo + " " + (v >= 0f ? "+" : "−") + Mathf.Abs(v).ToString("0.#") + "%";
+            // RV-45: mesma convenção inteira da ficha (não é só o crit: QUALQUER atributo que o
+            // equipamento deixe quebrado sai inteiro, como o rótulo conhecido acima).
+            int n = InteiroDoJogo(v);
+            return rotulo + " " + (n >= 0 ? "+" : "−") + Mathf.Abs(n) + "%";
         }
     }
 }

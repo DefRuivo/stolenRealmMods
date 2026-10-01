@@ -145,7 +145,7 @@ do dono em jogo: com `Worship` o dano por turno do Decay dobrou, 10% → 20%).
 **Dwarven — RESOLVIDO (RV-24 → RV-22, já aplicado):** o asset do `Dwarven Totem Aura Status` (pid 2543235) **tem** a
 fórmula com `Target`: `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))`, **2×** (`resources.assets`
 @1517115395 e @1517115647 = offset +340 e +592 dentro do status) — reconferido por byte scan em 30/09. A nota em código
-já é a correta: `"Base 20%. The value shown already includes the Shrine Effect Bonus"` (chave
+já é a correta: `"Base 20%; the value shown already includes the Shrine Effect Bonus."` (chave
 `"Your attacks have a [0]% chance to stun the target."` em `BetterTooltips/Patches/LocalizePatch.cs`). O que o usuário
 viu em jogo ("o número não muda com Omnism") se explicava pelo **`Source` vazio do hover**, não pelo efeito — e o
 `Source` vazio é justamente o que o prefix do RV-22/RV-34 corrige.
@@ -285,57 +285,70 @@ interpretaria o token (regra do projeto).
 
 ```csharp
 // RV-19 shrines — famílias de aura de shrine: base + cadeia do Shrine Effect Bonus.
-// ⚠RV-33/RV-34 — as DUAS notas de perigo abaixo foram REESCRITAS em 30/09: a versão ⚠RV-24 (Flame e Decay
-// "Does not scale with the Shrine Effect Bonus") está MORTA. O texto VIVO (copiado do LocalizePatch.cs) é:
-{ "Attackers take Fire Damage.",
-  "\n<color=#C8B090>Raw damage, before damage reduction: the number is the projection of THIS character as the attacker - if this character attacked, the percentage and its own Shrine Effect Bonus multiply its own Max Health, and no armor, resistances or other mitigation is applied. At hover time the game cannot know who will attack, so every character standing in the aura is projected as if it were the attacker. The percentage follows that character's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
-// ⚠RV-43 (01/10) — a nota do Flame acima foi REESCRITA. A versão ⚠RV-34 ("the percentage and the Shrine Effect Bonus
-// of the attacker that triggers the aura ... never the Max Health of the character standing in the aura") está MORTA:
-// contradizia a própria lista por alvo. O texto VIVO (copiado verbatim de `LocalizePatch.cs`, l.936) é o de cima.
-// O que segue ABERTO é só DE QUEM é o bônus/ a vida lida no proc real (§9(ii) — medição do dano de RETORNO).
-{ "Take [0]% of your Max Health in Shadow Damage per turn.",
-  "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armor, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
-{ "Damage increased by [0]%. ",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-{ "Reduces Damage taken by [0]%. ",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-{ "Critical hit chance increased by [0]%.",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-{ "Increases dodge chance by [0]%.",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-{ "Lifesteal increased by [0]%.",
-  "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-{ "Decreases the cost of mana using abilities by [0]%.",
-  "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
-// ⚠RV-24 → RESOLVIDO (RV-22 aplicado): o asset do `Dwarven Totem Aura Status` TEM a fórmula com Target (§2.2), logo
-// ele ESCALA; a observação in-game ("o número não mudava com Omnism") era o `Source` vazio do hover, não o efeito.
-// A nota em CÓDIGO já está corrigida — hoje é literalmente a linha abaixo ("already includes the Shrine Effect Bonus").
-{ "Your attacks have a [0]% chance to stun the target.",
-  "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+// TX-1 (01/10, commit 95ca3f3) — AS 12 NOTAS FORAM ENXUGADAS a pedido do dono ("textos muito grandes não
+// necessariamente são bons"): o VALOR fica em cima (a linha branca do jogo e, no Flame, a lista por alvo colada
+// nela) e a explicação cabe em UMA frase. As redações anteriores — a do ⚠RV-24 ("Does not scale with the Shrine
+// Effect Bonus"), a do ⚠RV-34 ("...never the Max Health of the character standing in the aura") e a do ⚠RV-43
+// (com a tabela de % por tipo) — estão MORTAS e NÃO devem ser citadas.
+// ESTE BLOCO É CÓPIA DE CONFERÊNCIA: cada literal abaixo foi LIDO do `LocalizePatch.cs` vivo em 01/10 (o
+// arquivo:linha vai anotado em cada entrada), e não escrito de memória — foi citar redação que não existia mais
+// que originou a REV-4.
+{ "Attackers take Fire Damage.",                                    // LocalizePatch.cs l.1030-1031
+  "\n<color=#C8B090>The attacker takes this damage in return, based on its own Max Health and not on the health of the one it attacked, before damage reduction.</color>" },
+// (a lista por alvo que aparece nesse tooltip NÃO vive na nota: ela é DINÂMICA, montada por
+// `ShrineAuraPatch.FraseAlvosDoFlame` na linha branca — §9(ii) para o que segue ABERTO, que é só DE QUEM é o
+// bônus/a vida lida no proc real.)
+{ "Take [0]% of your Max Health in Shadow Damage per turn.",         // l.1046-1047
+  "\n<color=#C8B090>Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown, which already includes your own Shrine Effect Bonus, and it can be 0.</color>" },
+{ "Damage increased by [0]%. ",                                     // l.1048-1049 (Warrior)
+  "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Reduces Damage taken by [0]%. ",                                 // l.1050-1051 (Guardian)
+  "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Critical hit chance increased by [0]%.",                          // l.1052-1053 (Conqueror)
+  "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Increases dodge chance by [0]%.",                                 // l.1054-1055 (Rogue)
+  "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Lifesteal increased by [0]%.",                                    // l.1056-1057 (Reaper)
+  "\n<color=#C8B090>Base 8%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Decreases the cost of mana using abilities by [0]%.",             // l.1058-1059 (Energy)
+  "\n<color=#C8B090>Base 50%; the value shown already includes the Shrine Effect Bonus.</color>" },
+{ "Your attacks have a [0]% chance to stun the target.",             // l.1060-1061 (Dwarven)
+  "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
 ```
+
+⚠ as três informações que SAÍRAM da tooltip no TX-1 **continuam no documento** — conferido nesta rodada (01/10):
+
+| saiu da nota | onde vive agora |
+|---|---|
+| **percentuais por tipo de inimigo** (Flame 2,5/8/10/12/14/5%; Decay 5/10/12/15/20/10%) | **§4.3** (tabela completa, com a origem no asset) e **§2.2** (escala por aura) |
+| **fontes do `ShrineEffectBonus`** (`Omnism I` +8, `Omnism II` +20, perk `Worship` +100, `Horn of Devotion` {50,100}) | **§3** (tabela + provas do teste do próprio jogo) |
+| **"Minimum 1"** — que existe **só no Flame** (o Decay pode dar 0) | **§4.3** (cabeçalho da linha do Flame) e **§4.4** |
+
 
 ⚠ todas as 9 chaves foram conferidas: **1 dono cada** no `status.csv` (sem risco de chave compartilhada) e, na data da
 proposta, **nenhuma das 9 existia** em `TextFixes` nem em `TextAppends` (checado por script em `LocalizePatch.cs`,
 30/09). **Hoje as 9 estão APLICADAS** — o `LocalizePatch.cs` é a fonte viva destas notas; onde o texto de lá divergir
 deste bloco, vale o `LocalizePatch.cs`.
 
-⚠RV-24 → ⚠RV-33/RV-34 — o trecho "The value shown already includes the Shrine Effect Bonus" das **10 chaves de aura de
-buff** (as 9 auras + o Dwarven; conferido em `LocalizePatch.cs`) é
+⚠RV-24 → ⚠RV-33/RV-34 — o trecho "the value shown already includes the Shrine Effect Bonus" das **10 chaves de aura de
+buff** (as 9 auras + o Dwarven; conferido em `LocalizePatch.cs`, hoje sem parênteses e com o `;` — l.1049, 1051, 1053,
+1055, 1057, 1059, 1061) é
 verdade no **tooltip do STATUS** e, desde o prefix do RV-22/RV-34, também no **hover do SHRINE** (§0.4/§3). As duas notas
-da família de PERIGO foram reescritas em 30/09 e **a conclusão ⚠RV-24 ("Does not scale") caiu**: o texto vivo é o
-`Raw damage, before damage reduction: ...` do bloco acima, que diz que o fator **JÁ ESTÁ incluído**. O `LocalizePatch.cs`
-é a fonte viva; este bloco é a cópia de conferência.
+da família de PERIGO foram reescritas (⚠RV-33/RV-34 e depois TX-1) e **a conclusão ⚠RV-24 ("Does not scale") caiu**: o
+texto vivo é o `...before damage reduction...` do bloco acima, que diz que o fator **JÁ ESTÁ incluído**. O `LocalizePatch.cs`
+é a fonte viva; este bloco é a cópia de conferência — e é cópia LIDA do arquivo, não de memória.
 
 ### 6.2 Casos especiais (resolvidos — os textos abaixo são os VIVOS no `LocalizePatch.cs`)
 
-1. **Seraph Aura — `"Recover [0]% of maximum health each turn. "`** já tinha `TextFixes` (RV-14: `maximum health` → `max health`). `TextFixes`/`TextAppends` são mutuamente exclusivos → a nota foi **fundida no `TextFixes`**:
-   `"Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>"`
-2. **Shaman Aura — `"Recover [0]% of maximum mana each turn. "`** idem (RV-14):
-   `"Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>"`
+1. **Seraph Aura — `"Recover [0]% of maximum health each turn. "`** já tinha `TextFixes` (RV-14: `maximum health` → `max health`). `TextFixes`/`TextAppends` são mutuamente exclusivos → a nota foi **fundida no `TextFixes`**. Texto VIVO (lido de `LocalizePatch.cs` l.1146-1147 em 01/10):
+   `"Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>"`
+2. **Shaman Aura — `"Recover [0]% of maximum mana each turn. "`** idem (RV-14). Texto VIVO (`LocalizePatch.cs` l.1116-1117):
+   `"Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>"`
 3. **Fury — `"Damage increased by [0]%. Damage taken increased by [0]%. "`**: decisão tomada — o valor foi **estendido**.
    Era a ÚNICA das 9 chaves de aura sem a base e sem a cadeia do bônus, e a frase de cura do RV-9 (que continua
-   verdadeira: o motor soma `DamageMod` à cura) foi mantida. Texto VIVO (RV-43, 01/10):
-   `"\n<color=#C8B090>Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion). Also increases the healing you do by the same percentage.</color>"`
+   verdadeira: o motor soma `DamageMod` à cura) foi mantida. Texto VIVO (`LocalizePatch.cs` l.525-526; enxugado no TX-1,
+   a versão ⚠RV-43 com a cadeia inteira entre parênteses está MORTA):
+   `"\n<color=#C8B090>Base 25% damage and +25% damage taken; the value shown already includes the Shrine Effect Bonus. Also increases the healing you do by the same percentage.</color>"`
    A chave segue só em `TextAppends` (o texto do jogo não mudou) e `check_chave_compartilhada.py --estrito` = 0.
 
 ---

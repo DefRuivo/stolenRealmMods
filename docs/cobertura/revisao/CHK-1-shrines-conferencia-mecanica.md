@@ -345,11 +345,13 @@ o dano de **retorno** do Flame (se o bônus que multiplica é o do atacante ou o
    com `MaxHealth = 100`; o **dano de retorno** do Flame não é medido por hover nenhum.
 4. **A base do Dwarven, do Decay e do Flame não tem segunda fonte em log** — só o asset (o gerador
    cita o offset). O `cross-check` contra o dump do jogo cobre **só** as 9 auras de buff.
-5. **A linha do Decay não loga `tipo=`**: o esperado é calculado com a % de `player` (10%). Se o
-   receptor for IA, a conta não bate e sai ACHADO com esse motivo (é o §7.1).
-6. **`RV-44 item` / `RV-44 soma` não trazem `char=` nem `bonus=`**: provam o valor da aura, mas
-   **não** são atribuíveis a um caso sozinhas — entram como AVISO. Quem ancora o caso é a linha
-   `RV-31 acumulado` (tem `char=`, `bonus=` e `auras=[…]`).
+5. **A `linha do Decay` passou a logar `tipo=`** (CHK-1 §7.1, **aplicado em 01/10**): o esperado usa
+   a % DO TIPO logado. Com log anterior ao conserto (campo ausente) o esperado cai na % de `player`
+   (10%) e a linha do resultado **diz** isso (`[tipo nao logado -> player 10%]`).
+6. **`RV-44 item` / `RV-44 soma` passaram a trazer `char=` e `bonus=`** (CHK-1 §7.2, **aplicado em
+   01/10**): com os dois campos as linhas são **atribuíveis** e saem na seção `EVIDENCIA ATRIBUIDA`,
+   com o caso ao lado. Sem os campos (log antigo) valem como AVISO, como antes. Quem ancora o caso
+   em OK/ACHADO continua sendo a linha `RV-31 acumulado` (tem `char=`, `bonus=` e `auras=[…]`).
 7. Só os **3 casos** da tabela (0/+20/+100): bônus +8 e +50 saem como AVISO.
 8. Ela confere a fórmula do Flame **com `Source = Target` = o alvo projetado** (o que o mod loga);
    **não** prova de quem é o bônus no proc real (RV-19 §9(ii)).
@@ -358,13 +360,19 @@ o dano de **retorno** do Flame (se o bônus que multiplica é o do atacante ou o
 
 ---
 
-## 7. RELATÓRIO — o que falta no log (não foi tocado nesta rodada)
+## 7. RELATÓRIO — o que faltava no log
 
-A rodada pedida trava "**NÃO edite o código de nenhum mod nesta rodada**". Ao construir o
+> **ATUALIZAÇÃO (01/10) — OS DOIS CONSERTOS DE §7.1/§7.2 FORAM APLICADOS** no
+> `BetterTooltips/Patches/ShrineAuraPatch.cs`, e a ferramenta passou a CONSUMIR os campos novos
+> (compatível com log anterior: os grupos são opcionais e o resultado diz quando está no formato
+> antigo). A rodada que aplicou é a mesma do TX-1/`%%`/RV-45 (§7.3/§7.4). O texto original desta seção
+> fica abaixo como registro do que foi medido, com o estado de cada item marcado.
+
+A rodada que produziu este relatório travava "**NÃO edite o código de nenhum mod nesta rodada**". Ao construir o
 comparador, dois campos se mostraram **insuficientes para uma conferência estrita**, e a regra
-seguida foi: não inventar heurística frouxa, não mexer no mod, **marcar `AUSENTE` e relatar**. Fica
-aqui o conserto sugerido, pronto para virar tarefa (é 1 linha cada, sem tocar em fórmula nem em
-texto de jogador):
+seguida foi: não inventar heurística frouxa, não mexer no mod, **marcar `AUSENTE` e relatar**.
+O conserto sugerido veio pronto para virar tarefa (1 linha cada, sem tocar em fórmula nem em
+texto de jogador) — **e foi o que a rodada seguinte fez**.
 
 ### 7.1 `RV-34 linha do Decay` — falta o **tipo de inimigo**
 
@@ -378,6 +386,13 @@ texto de jogador):
   Decay (`BetterTooltips/Patches/ShrineAuraPatch.cs`, o `Marca($"RV-34 linha do Decay: …")`).
   Nenhuma fórmula e nenhum texto do jogador mudam.
 
+**APLICADO (01/10).** O campo está na marca
+(`RV-34 linha do Decay: <char> MaxHealth=… tipo=<tipo> bonus=… -> '<linha>'`) e o comparador usa a % **do
+tipo logado**. Contra-prova medida com o próprio conferidor (fixture com o formato novo, 1 caso IA plantado
+com `MaxHealth=100 tipo=Fodder bonus=20 dano=24`): com o campo → `[OK] … [tipo=Fodder 20%]`; **arrancando o
+` tipo=Fodder` da mesma linha** (o formato antigo) → `[ACHADO] … esperado=12 ([tipo nao logado -> player 10%])
+dif=+12`, exit 1. O campo é opcional no parser: log anterior ao conserto continua legível.
+
 ### 7.2 `RV-44 item` / `RV-44 soma` — faltam **`char=` e `bonus=`**
 
 - Hoje: `RV-44 item 'DamageMod': aura=+25% total=+50% resto=+25% em [Fury]`.
@@ -389,6 +404,12 @@ texto de jogador):
 - **Nota:** hoje isso **não bloqueia** a conferência — `RV-31 acumulado` (mesmo hover) carrega os
   dois campos e o valor por atributo, e é nele que o comparador se ancora.
 
+**APLICADO (01/10).** As duas marcas ganharam os campos (nos itens eles entram antes do `em [auras…]`), e o
+conferidor passou a mostrar a seção `EVIDENCIA ATRIBUIDA`, com o caso (`char=`, `bonus=`) ao lado de cada
+linha — sem mudar quem ancora o OK/ACHADO (o `RV-31 acumulado`). Sem os campos (log anterior) vale o AVISO
+antigo, com o mesmo texto. Contra-prova: fixture com `RV-44 soma 'DodgeChance' … char=ChkRA bonus=100` e
+`RV-44 item 'DodgeChance' … char=ChkRA bonus=100` → `[EVID] caso char=ChkRA bonus=100: 2 linha(s) atribuida(s)`.
+
 ### 7.3 O que **não** é problema (verificado, não suposto)
 
 - **Deduplicação**: o `Marca` do mod deduplica por conteúdo (cada linha sai uma vez por sessão) — o
@@ -397,6 +418,49 @@ texto de jogador):
   `Health per turn`, `Mana per turn`, `Mana Costs reduced by`) vem do `Format`/`TextDoEfeito` do
   mod e é **pinada** no parser: item fora desses rótulos **não** é adivinhado (sai como AVISO).
 - O `−` de `ComSinal` é o U+2212 e o parser aceita U+2212 **e** ASCII `-` nos dois sinais.
+
+### 7.4 ENCONTRADO (01/10) — o marcador saía com **DOIS sinais de porcentagem** (`+53.4%%`)
+
+- **Sintoma (log real da partida do dono):**
+  `RV-31 acumulado: … char=Raven bonus=100 -> Damage +50% (total +75%%); Crit Chance +40% (total +53.4%%)`.
+  O dono vê na tela `(total +53.4%)` com **um** sinal: o marcador de log é que duplicava.
+- **Causa (uma linha, no `AcumuladoShrines`):** o item era montado como
+  `TextDoEfeito(…) + " (total " + TotalComSinal(nome, total) + "%)"` — e `TotalComSinal` **já devolve o
+  `%`**. O literal `"%)"` acrescentava o segundo. Não é "format string": é um sinal a mais no literal.
+  `LocalizePatch`/`Marca` não escapam nem colapsam `%` (varredura: nenhum `Replace("%%", …)` no mod nem
+  no `Assembly-CSharp` decompilado), e não há normalização de `%` em lugar nenhum do pipeline de tooltip.
+- **Por que importa para a conferência:** a linha do `RV-31 acumulado` é CONTRATO do comparador
+  (`checa_shrines.py`, `RE_ITEM`), e o `%%` a quebra — foi assim que a rodada de 30/09 saiu **toda
+  AUSENTE**: o `total=+35.6%%` do item do acumulado não casa com `\(total …%\)$`, o item cai em
+  `nao_parseados` e nenhuma aura fecha. Um marcador diferente do que o jogador vê obrigaria a
+  ferramenta a normalizar — exatamente a fragilidade que se quer eliminar.
+- **Conserto aplicado na MESMA rodada** (`")` em vez de `"%)"`), junto com o do §7.5 — os dois são da
+  mesma família (sinal/formato a mais na linha azul).
+- **Nota de honestidade:** no CÓDIGO a mesma string (`efeito`) alimenta o log (`Marca`) e o tooltip, então
+  o sinal a mais estava nos dois; o que é medível (e o que quebrou a ferramenta) é o LOG. Não há
+  normalizador de `%` no pipeline (varrido no mod e no decompilado), então não se afirma que a tela tenha
+  um mecanismo próprio — o que se garante, com o conserto, é que **log e tela emitem UM sinal**, que é o
+  que o dono vê.
+
+### 7.5 ENCONTRADO (01/10) — a linha azul mostrava **fração** onde o jogo mostra inteiro
+
+- **Sintoma (print do dono):** `Crit Chance +40% (total +53.4%)` — o `+53.4%`; num caso anterior,
+  `Crit Chance +38.7%`. O valor é o do motor e a fração É legítima (equipamento dá décimos de crit),
+  mas a **exibição** divergia do próprio jogo, que mostra inteiro (`Crit chance increased by 54%`).
+- **Convenção do jogo (decompilado `Assembly-CSharp.decompiled.cs`):**
+  `InventoryManager.UpdateStats` l.125348-125356 →
+  `component.text = GUIManager.instance.floatToText(Mathf.Ceil(character[atributoFinal]));`
+  e `GUIManager.floatToText` (l.93303-93310) é `f.ToString()`. Isto é: **`Mathf.Ceil`, inteiro**. Há uma
+  **segunda** convenção na tela de level up (`RoguelikeManager`, l.163759-163764:
+  `…ToString("F0")`, arredonda ao par) — ela **não** se aplica: o número da linha azul é o da FICHA, e o
+  `BetterStats` (aprovado) já aplica `Mathf.Ceil` nos dois lugares (l.179 e l.335).
+- **Conserto:** `RV-45` no `ShrineAuraPatch` (`InteiroDoJogo` + `Format`/`ComSinal`/`TotalComSinal`/
+  `TextDoEfeito`) — vale para a contribuição **e** para o total, em qualquer atributo fracionário
+  (`CritChance`, `DodgeChance`, `ManaCostMod` do Energy etc.), com o `Ceil` aplicado ao valor **cru**
+  (o `-53.4` da ficha sai `-53`, não `-54`). **Nenhuma fórmula mudou** (Decay segue `Round` sem `Max(1)`;
+  Flame segue `Max(1, Round(…))`; o fator do `ShrineEffectBonus` segue vindo do interpretador do motor) —
+  e as duas auras de perigo nem passam por esse formatador (os números delas são inteiros por construção,
+  conferido: a fórmula do asset tem `Mathf.Round`).
 
 ---
 
