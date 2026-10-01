@@ -1,0 +1,66 @@
+[12:55:47] CAP-1 / modo=modado / navegar=true
+[12:55:47] [1/7] encerrando instancia anterior (se houver)...
+  nenhuma instancia rodando.
+[12:55:47] [2/7] arquivando o log anterior (evidencia preservada) e limpando para este boot
+  (nao havia log anterior)
+[12:55:47] [3/7] compilando o probe (instrumento de verificacao)...
+[12:55:48]       instalando o probe no perfil (BepInEx/plugins/CapProbe) — sera removido no fim
+  probe instalado: 45056 bytes
+[12:55:49] [4/7] abrindo COM o perfil: steam -applaunch 1330000 --doorstop-enabled true --doorstop-target-assembly <preloader do perfil>
+[12:55:49]       alvo: C:\Users\Pichau\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\core\BepInEx.Preloader.dll
+[12:55:52] [4b/7] conferindo que o processo do jogo realmente subiu (sem isso a rotina nao prova nada)
+  processo vivo depois de ~1s: Stolen Realm.exe             15936 Console                    1    225.364 K
+  evidencia do lancamento: /c/dev/stolen-realm/scratch/cap1/out/lancamento-modado.txt
+[12:55:52] [5/7] esperando o BepInEx carregar (por ESTADO, nao por sleep cego)...
+  chainloader concluiu depois de ~8s
+  plugins declarados pelo BepInEx: 9 plugins to load
+  mods do pacote vistos no log:
+    Better Combat Text                 5 linha(s)
+    Better Font                        5 linha(s)
+    Better Stats                       5 linha(s)
+    Better Tooltips                    7 linha(s)
+    Roguelike Debugger                 13 linha(s)
+    Roguelike Skill Tree Visualizer    14 linha(s)
+  probe (instrumento): 2 linha(s)
+[12:56:00] [6/7] esperando o probe declarar fase=concluido no JSON (ate 300s)...
+  ATENCAO: o probe nao terminou (fase=''). O JSON parcial (se houver) e a prova do que deu para ler.
+[13:01:05] [7/7] prova do log + artifacts
+  log desta rotina copiado para /c/dev/stolen-realm/scratch/cap1/out/LogOutput-desta-rotina.log
+  prints:
+
+[13:01:05] prova do log (analisa-log.py):
+  arquivo: C:\Users\Pichau\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\LogOutput.log (3100 linhas)
+  veredito: MODADO: BepInEx BepInEx 5.4.23.5 carregou 9 plugin(s); mods do pacote sem nenhuma linha: nenhum
+    BepInEx BepInEx 5.4.23.5 | Unity 2022.3.62.7762112 | 9 plugins declarados
+    plugins:
+      - Script Engine 11.1
+      - Better Combat Text 0.1.0
+      - Better Font 1.0.1
+      - Better Stats 1.0.1
+      - Better Tooltips 0.1.1
+      - CAP-1 Probe (instrumento de verificacao) 1.0.0
+      - Roguelike Debugger 0.1.1
+      - Roguelike QoL 0.1.1
+      - Roguelike Skill Tree Visualizer 0.2.0
+    ganchos Harmony por mod:
+      - Better Font                  Better Font: 1/1
+      - Better Stats                 Better Stats: 2/2
+      - Better Tooltips              BetterTooltips: 4/4
+      - Roguelike Debugger           Roguelike Debugger: 10/10
+      - Roguelike Skill Tree Visualizer RSTV: 10/10
+    mods do pacote: Better Combat Text=35 linha(s) CARREGADO, Better Font=23 linha(s) CARREGADO, Better Stats=9 linha(s) CARREGADO, Better Tooltips=10 linha(s) CARREGADO, Roguelike Debugger=3027 linha(s) CARREGADO, Roguelike Skill Tree Visualizer=15 linha(s) CARREGADO, Roguelike QoL=3 linha(s) CARREGADO
+    nenhum PatchError/Exception no log.
+    BetterFont: fonte serifada de 'C:/Windows/Fonts/times.ttf'
+    SHADER por componente (lido pelo proprio mod em jogo):
+      PlayerInfoWindow.playerName (NOME DO INIMIGO n objeto=Target Name            shader=TextMeshPro/Distance Field Overlay
+      BossHealthbar.BossName (NOME DO INIMIGO na bar objeto=Target Name (1)        shader=TextMeshPro/Distance Field Overlay
+      Tooltip.Title (nome do buff/debuff no tooltip, objeto=Title                  shader=TextMeshPro/Distance Field
+      DiceVisualSetup.DiceNumbers (NUMERO NA FACE DO objeto=2                      shader=TextMeshPro/Distance Field (Surface)
+    shaders distintos: TextMeshPro/Distance Field, TextMeshPro/Distance Field (Surface), TextMeshPro/Distance Field Overlay
+  json: C:\dev\stolen-realm\scratch\cap1\out\log-prova.json
+  Player.log desta execucao: /c/dev/stolen-realm/scratch/cap1/out/Player-log-modado.log
+
+--- FIM DA ROTINA (fase: concluida; codigo: 0) ---
+  jogo FECHADO.
+  probe REMOVIDO do perfil do r2modman (o perfil volta ao estado anterior).
+--- rotina encerrada ---

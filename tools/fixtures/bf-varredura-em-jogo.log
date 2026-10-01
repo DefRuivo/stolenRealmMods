@@ -1,0 +1,49 @@
+# ---------------------------------------------------------------------------
+# PROVA VERSIONADA (BF-2R/BF-3) - linhas COPIADAS VERBATIM do LogOutput.log de sessoes
+# reais do dono, com o mod instalado. NAO e fixture sintetica: e a medicao crua.
+#
+# POR QUE ESTE ARQUIVO EXISTE: a revisao independente da BF-2 mediu que o teto do
+# diagnostico do BetterFont se esgotava ANTES da cena de combate, e a prova disso e a
+# ESCALA de uma varredura - quantos textos TMP a varredura encontra numa passada so, e
+# quantos ela pula pelo escape na config do dono (PularTextosEstilizados=true). Estes sao
+# os numeros reais: as linhas abaixo somam 488, 418, 488 e 640 textos numa varredura
+# (406 e 484 sao os campos "pulados" delas). Antes da BF-2R esses numeros se citavam pelo
+# caminho em scratch/ (que o .gitignore NAO versiona); agora a prova esta AQUI, e o teste
+# `t_bf_diag_orcamento.py` le a contagem DESTE arquivo (nunca digitada).
+#
+# A REGRA DE PROCEDENCIA DESTE ARQUIVO (corrigida - achado 4 da REV-54): cada linha vem de
+# UM boot identificado, e o comentario acima dela diz (a) o BOOT, pelo arquivo arquivado
+# pelo CAP-1 e pela LINHA (contagem de `grep -n` / `sed -n 'Np'`, a mesma de quem confere),
+# (b) a VERSAO do BetterFont daquele boot e (c) a CONFIG (a chave PularTextosEstilizados).
+# O que se confere linha a linha e a IGUALDADE com o arquivo arquivado - e ele vive no
+# worktree de trabalho (`scratch/cap1/out/`), que e gitignored e PODE SER PODADO. Por isso
+# o comentario DIZ que a copia arquivada e corroboracao local, e nao prova versionada: a
+# prova que sobrevive e ESTE arquivo, com a linha verbatim e o boot identificado. Citacao
+# que aponta para arquivo que nao existe mais - como a versao anterior deste cabecalho fazia
+# (132909 e 125050, dois logs que ja nao existiam) - nao se sustenta, e foi substituida.
+#
+# COMO O TESTE LE: soma todos os inteiros da linha 'varredura —' (os campos convertidos +
+# pulados + intocados + revertidos + ja na serifa). O FORMATO do resumo mudou entre a
+# 1.0.1 ("pulado(s) por material estilizado") e a 1.0.2 ("pulado(s) pelo escape
+# (PularTextosEstilizados ligado)"); a SOMA nao depende do formato.
+#
+# CONFERENCIA (01/10, sobre os arquivos que AINDA existem no worktree):
+#   linha 4  == scratch/cap1/out/log-anterior-20261001-134936.log:213  (exato; tambem em
+#               ...-134633.log:212 e ...-133726.log:91)
+#   linha 6  == scratch/cap1/out/log-anterior-20261001-134936.log:3216 (exato; tambem em
+#               ...-134633.log:3215)
+#   linha 8  == scratch/cap1/out/log-anterior-antes-da-rotina.log:80   (exato)
+#   linha 10 == scratch/cap1/out/log-anterior-antes-da-rotina.log:3148 (exato)
+# ---------------------------------------------------------------------------
+# BOOT 134936 (01/10/2026 13:49) - BetterFont 1.0.2 local, PularTextosEstilizados=true, LogDiagnosticoEstilo=true.
+# Copia arquivada (corroboracao local, gitignored): scratch/cap1/out/log-anterior-20261001-134936.log:213
+[Info   :Better Font] Better Font: varredura — 4 texto(s) convertidos para a serifa (efeitos do material anterior transportados), 484 pulado(s) pelo escape (PularTextosEstilizados ligado), 0 intocado(s) por efeito nao transportavel, 0 ja na serifa.
+# BOOT 134936 (01/10/2026 13:49) - BetterFont 1.0.2 local, PularTextosEstilizados=true, LogDiagnosticoEstilo=true.
+# Copia arquivada (corroboracao local, gitignored): scratch/cap1/out/log-anterior-20261001-134936.log:3216
+[Info   :Better Font] Better Font: varredura — 8 texto(s) convertidos para a serifa (efeitos do material anterior transportados), 406 pulado(s) pelo escape (PularTextosEstilizados ligado), 0 intocado(s) por efeito nao transportavel, 4 ja na serifa.
+# BOOT antes-da-rotina (01/10/2026, log do dono ANTES da rotina CAP-1) - BetterFont 1.0.1 (o do pacote publicado), PularTextosEstilizados=true.
+# Copia arquivada (corroboracao local, gitignored): scratch/cap1/out/log-anterior-antes-da-rotina.log:80
+[Info   :Better Font] Better Font: varredura — 4 texto(s) convertidos para a serifa (estilo transportado por cópia), 484 pulado(s) por material estilizado, 0 já na serifa.
+# BOOT antes-da-rotina (01/10/2026, log do dono ANTES da rotina CAP-1) - BetterFont 1.0.1 (o do pacote publicado), PularTextosEstilizados=true.
+# Copia arquivada (corroboracao local, gitignored): scratch/cap1/out/log-anterior-antes-da-rotina.log:3148
+[Info   :Better Font] Better Font: varredura — 4 texto(s) convertidos para a serifa (estilo transportado por cópia), 624 pulado(s) por material estilizado, 12 já na serifa.
