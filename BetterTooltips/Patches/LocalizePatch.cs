@@ -1521,6 +1521,10 @@ namespace BetterTooltips.Patches
         private static readonly HashSet<string> _appliedFixes = new HashSet<string>();
         private static readonly HashSet<string> _appliedAppends = new HashSet<string>();
 
+        /// <summary>BUG-33: rotulos de status que a guarda pulou — log UMA vez por chave, para a
+        /// prova em jogo sair no `LogOutput.log` no mesmo formato das notas aplicadas.</summary>
+        private static readonly HashSet<string> _rotulosDeStatusAvisados = new HashSet<string>();
+
         /// <summary>Marcador de vida: o postfix já recebeu texto em inglês nesta sessão.</summary>
         private static bool _loggedAlive;
 
@@ -1690,6 +1694,54 @@ namespace BetterTooltips.Patches
         // nota de mitigacao nao interessa ao jogador - reportado pelo usuario em 30/09.
         private static readonly Regex ArmorValueSourceRegex = new Regex(@"Armor@?\s+value", RegexOptions.Compiled);
         private static readonly Regex ResistAffixRegex = new Regex(@"\bResistance\w*\b", RegexOptions.Compiled);
+
+        /// <summary>
+        /// BUG-33 (01/10, print do dono) — NOMES de status do PROPRIO JOGO que NAO podem receber
+        /// as notas de mecanica de Armor/Resistencia. Sao ROTULOS, e o rotulo e o texto que o
+        /// FEED DE COMBATE localiza.
+        ///
+        /// O QUE O PRINT MOSTRA NO FEED:
+        ///     Necrodancer applied Increased Armor
+        ///     Armor blocks damage: each 10 Armor reduces damage taken by 1 (capped at 90% of the
+        ///     incoming damage). Armor and Magic Armor do not reduce Shadow damage.
+        /// Esse texto nao existe no jogo: nao esta no Assembly-CSharp (0 ocorrencias de
+        /// "Armor blocks damage") nem em `resources.assets` (0 em UTF-8 e em UTF-16LE). Ele e o
+        /// `BuildArmorNote()` deste arquivo, com os valores lidos em runtime
+        /// (`GlobalSettings.ArmorPerDamagePointReduction` e `maxArmorReductionPercent`).
+        ///
+        /// POR QUE ELE IA PARA O FEED: o feed monta a linha com TEMPLATE + o NOME do status —
+        /// `OptionsManager.Localize(Game.Instance.ActionStatuses[statusIndex].Name)`
+        /// (`Root.SendMessageWindowMessage`, decompilado l.144600; o template
+        /// "[source] applied [status] on [target]" nasce em `ApplyStatus`, l.111812). O funil
+        /// deste patch ve SO O TEXTO, e "Increased Armor" casa a regra de afixo (tem verbo — a
+        /// checagem e `Contains("increased"/"added"/"lowered"/"reduced"/"granted")` — E a palavra
+        /// "Armor"), entao a nota era anexada ao NOME.
+        /// PROVA NO LOG do dono (30/09): `BetterTooltips: explicacao adicionada a
+        /// 'Increased Armor'` — a chave que casou foi o NOME do status.
+        ///
+        /// O QUE **NAO** MUDA: a explicacao continua na DESCRICAO de cada um destes status (texto
+        /// diferente, continua casando a regra), e `Tooltip.ShowActionStatusTooltip` (l.213909)
+        /// monta o CORPO da tooltip com `OptionsManager.Localize(actionStatusInfo.Description)` —
+        /// ou seja, o corpo da tooltip do status segue identico.
+        ///
+        /// ESCOPO MEDIDO (censo `docs/cobertura/status.csv`, que vem do proprio
+        /// `Game.get_ActionStatuses` — a MESMA lista que o feed usa): dos 560 status, 4 nomes
+        /// casam as regras de afixo; NENHUM nome de skill/acao/item/afixo/powerup casa (0 de
+        /// 451 + 276 + 905 + 285 + 79). Estes 4 sao, portanto, o escopo real hoje — se o jogo
+        /// acrescentar um status novo com verbo + "Armor"/"Resistance" no NOME, ele reaparece no
+        /// feed: o censo e a varredura que denunciam.
+        /// </summary>
+        private static readonly HashSet<string> RotulosDeStatusSemNota = new HashSet<string>
+        {
+            // status.csv:248 — descricao: "@Armor@ and @Magic Armor@ increased by [0].  "
+            "Increased Armor",
+            // status.csv:388 — descricao: "All Resistances reduced by 10%"
+            "Reduced Resistances I",
+            // status.csv:389 — descricao: "All Resistances reduced by 20%"
+            "Reduced Resistances II",
+            // status.csv:390 — descricao: "All Resistances reduced by 30%"
+            "Reduced Resistances III",
+        };
 
         private static string BuildArmorNote()
         {
@@ -1991,7 +2043,19 @@ namespace BetterTooltips.Patches
                         bool hasVerb = low.Contains("increased") || low.Contains("added") ||
                             low.Contains("lowered") || low.Contains("reduced") ||
                             low.Contains("granted");
-                        if (hasVerb && ArmorAffixRegex.IsMatch(original) &&
+                        // BUG-33: quando o texto e o NOME de um status (`RotulosDeStatusSemNota`), a
+                        // nota de mecanica NAO entra — o feed de combate localiza esse NOME
+                        // (`Root.SendMessageWindowMessage` l.144600) e a explicacao aparecia colada
+                        // nele. A DESCRICAO do mesmo status e outro texto e continua recebendo a nota,
+                        // que e a que serve ao jogador no corpo da tooltip.
+                        bool ehRotuloDeStatus = RotulosDeStatusSemNota.Contains(original);
+                        if (ehRotuloDeStatus && _rotulosDeStatusAvisados.Add(original))
+                        {
+                            Plugin.Log.LogInfo($"BetterTooltips: nota de mecanica NAO anexada ao NOME de "
+                                + $"status '{original}' (BUG-33: o feed de combate localiza o nome; "
+                                + "a explicacao continua na descricao do status)");
+                        }
+                        if (!ehRotuloDeStatus && hasVerb && ArmorAffixRegex.IsMatch(original) &&
                             !ArmorValueSourceRegex.IsMatch(original) &&
                             !original.Contains("blocks damage"))
                         {
@@ -2007,7 +2071,7 @@ namespace BetterTooltips.Patches
                                 appended = true;
                             }
                         }
-                        else if (hasVerb && ResistAffixRegex.IsMatch(original) &&
+                        else if (!ehRotuloDeStatus && hasVerb && ResistAffixRegex.IsMatch(original) &&
                             !original.Contains("Summon resistance") &&
                             !original.Contains("resistances reduce"))
                         {
