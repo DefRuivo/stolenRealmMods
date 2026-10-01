@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ORACULO das fixtures de soma-aura (tools/testes/fixtures/soma-aura.*.json).
+       Projeto de console SEPARADO, fora de qualquer mod: nao referencia lib/, nao
+       entra em pacote, nao e "mod de verdade" (nao tem o target DeployToBepInEx).
+       So existe para provar a PROCEDENCIA dos valores esperados: eles saem do
+       MESMO caminho de conta que o motor do jogo usa (float + Math.Round),
+       nunca de conta feita a mao ou em Python.
+
+       Rodar (precisa do SDK dotnet; o valor ja esta versionado na fixture, este
+       projeto so serve para REGERAR e AUDITAR). O comando exato esta no README do
+       tools/testes/. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>oraculo_soma_aura</AssemblyName>
+    <RootNamespace>OraculoSomaAura</RootNamespace>
+    <!-- Sem BuildServer: evita segurar arquivo em obj/ no Windows. -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+  </PropertyGroup>
+
+</Project>

@@ -1,0 +1,95 @@
+{
+  "caso": "soma-aura",
+  "procedencia": "oraculo_soma_aura (C#, float + Math.Round ToEven) - GERADO, nunca somado a mao",
+  "gerado_por": "tools/testes/fixtures/geradores/oraculo_soma_aura",
+  "resultados": [
+    {
+      "id": "sem-bonus",
+      "valor": 20
+    },
+    {
+      "id": "omnism1",
+      "valor": 22
+    },
+    {
+      "id": "omnism2",
+      "valor": 24
+    },
+    {
+      "id": "worship",
+      "valor": 40
+    },
+    {
+      "id": "horn-50",
+      "valor": 30
+    },
+    {
+      "id": "horn-100",
+      "valor": 40
+    },
+    {
+      "id": "worship-omnism2",
+      "valor": 44
+    },
+    {
+      "id": "tres-bencaos",
+      "valor": 74
+    },
+    {
+      "id": "reaper",
+      "valor": 10
+    },
+    {
+      "id": "seraph",
+      "valor": 25
+    },
+    {
+      "id": "energia",
+      "valor": 100
+    },
+    {
+      "id": "fury-negativo",
+      "valor": -55
+    },
+    {
+      "id": "fluxo-zero",
+      "valor": 0
+    },
+    {
+      "id": "arredonda-para-1",
+      "valor": 1
+    },
+    {
+      "id": "fracao-negativa",
+      "valor": 0
+    },
+    {
+      "id": "borda-meio-7-5",
+      "valor": 8
+    },
+    {
+      "id": "borda-meio-12-5",
+      "valor": 12
+    },
+    {
+      "id": "borda-meio-37-5",
+      "valor": 38
+    },
+    {
+      "id": "borda-meio-62-5",
+      "valor": 62
+    },
+    {
+      "id": "borda-meio-87-5",
+      "valor": 88
+    },
+    {
+      "id": "flame-sem-bonus",
+      "valor": 5
+    },
+    {
+      "id": "dwarven-totem",
+      "valor": 60
+    }
+  ]
+}
