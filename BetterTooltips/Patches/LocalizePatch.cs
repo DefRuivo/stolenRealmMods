@@ -523,7 +523,7 @@ namespace BetterTooltips.Patches
             // soma DamageMod a cura) - so entrou o que faltava. A chave continua SO em `TextAppends`
             // (o texto original do jogo nao mudou); `check_chave_compartilhada.py --estrito` = 0.
             { "Damage increased by [0]%. Damage taken increased by [0]%. ",
-              "\n<color=#C8B090>Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion). Also increases the healing you do by the same percentage.</color>" },
+              "\n<color=#C8B090>Base 25% damage and +25% damage taken; the value shown already includes the Shrine Effect Bonus. Also increases the healing you do by the same percentage.</color>" },
             // RV-9 buffs: Evolution - \n Also increases the healing you do by the same percentage.
             { "Damage increased by 5% per stack.  Can stack up to 10 times.",
               "\n<color=#C8B090>Also increases the healing you do by the same percentage.</color>" },
@@ -978,6 +978,16 @@ namespace BetterTooltips.Patches
             // RV-19 shrines — familia de auras de shrine: base + cadeia do Shrine Effect Bonus.
             // A chave do Flame nao tem numero no texto: a LINHA recebe o numero DINAMICO no postfix
             // (RV-26) e a NOTA carrega o resto.
+            // TX-1 (01/10) — TODAS as notas desta familia foram ENXUGADAS (pedido do dono, com print):
+            // o VALOR fica EM CIMA (a linha branca do jogo e, no Flame, a lista por alvo colada nela) e a
+            // explicacao cabe em UMA frase. "Textos muito grandes nao necessariamente sao bons".
+            // O QUE SAIU do tooltip e VIVE no documento (docs/cobertura/revisao/RV-19-shrines.md
+            // §2.2/§3/§4.3/§6.1): a tabela de % por tipo de inimigo, a lista de fontes do Shrine Effect
+            // Bonus (Omnism I/II, perk Worship, Horn of Devotion), o "Minimum 1" do Flame e a repeticao
+            // da projecao — tooltip nao e lugar de tabela.
+            // O QUE NAO PODE CAIR e continua em toda nota que fala do dano: (1) o numero do Flame e o
+            // dano de RETORNO de quem ATACA; (2) ele sai da vida maxima DO ATACANTE, nao da de quem
+            // apenas esta na aura; (3) e PRE-REDUCAO de dano.
             // RV-30 (30/09): a lista de fontes do bonus ganhou o PERK do jogo "Worship" ("100% increased
             // effect from Shrines", valor 100 nos assets, ao lado do CharacterInfo T2_Worshiper) porque
             // era exatamente o caso do usuario em jogo: com o perk, a aura sai ×2 e a nota nao explicava
@@ -1011,29 +1021,44 @@ namespace BetterTooltips.Patches
             // ShrineEffectBonus (o do proprio personagem avaliado) e o texto diz, em uma marca curta, que
             // o valor e ANTES DAS REDUCOES DE DANO — pedido explicito do dono do jogo (sem isso o numero
             // parece prometer o dano que aparece na tela e nao bate).
+            // TX-1 (01/10): a nota virou UMA frase ("The attacker takes this damage in return, based on
+            // its own Max Health and not on the health of the one it attacked, before damage reduction.")
+            // e a LISTA por alvo subiu para o comeco do bloco (`FraseAlvosDoFlame`). Os tres fatos
+            // acima estao, palavra por palavra, nessa frase — nenhum numero e nenhuma afirmacao de
+            // mecanica saiu dela; o que saiu foi a TABELA (percentuais por tipo, fontes do bonus,
+            // minimo 1), que ja esta no documento.
             { "Attackers take Fire Damage.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: the number is the projection of THIS character as the attacker - if this character attacked, the percentage and its own Shrine Effect Bonus multiply its own Max Health, and no armor, resistances or other mitigation is applied. At hover time the game cannot know who will attack, so every character standing in the aura is projected as if it were the attacker. The percentage follows that character's own enemy type: 2.5% boss, 8% champion, 10% elite, 12% soldier, 14% fodder, 5% player. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion - with Worship the number doubles. Minimum 1.</color>" },
+              "\n<color=#C8B090>The attacker takes this damage in return, based on its own Max Health and not on the health of the one it attacked, before damage reduction.</color>" },
             // RV-33/RV-34 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target
             // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE) VEZES o ShrineEffectBonus
             // DELE (RV-34: medido em jogo, com Worship dobra). O numero literal sai na linha
             // (LinhaDecayComValor); aqui ficam a escala, a origem do bonus, o fato de nao existir minimo e
             // a marca de que o valor e ANTES DAS REDUCOES DE DANO.
+            // TX-1 (01/10): a nota virou UMA frase ("Raw damage, before damage reduction: your own Max
+            // Health multiplied by the percentage shown, which already includes your own Shrine Effect
+            // Bonus, and it can be 0."). O que saiu foi a TABELA (% por tipo de inimigo e fontes do
+            // bonus — documento RV-19 §3/§4.3). NO DECAY OS TRES FATOS DO FLAME NAO VALEM e afirmar
+            // qualquer um deles seria FALSO: aqui quem leva o dano e quem esta NA AURA (o proc roda no
+            // comeco do turno DELE), a vida maxima lida e a DELE e nao ha atacante nenhum. O que a nota
+            // preserva e a vida maxima DO PORTADOR ("your own Max Health"), o fator do bonus DELE e a
+            // marca de PRE-REDUCAO — sem os dois primeiros o numero pareceria sair da vida de outra
+            // pessoa (erro da familia, corrigido em RV-33/RV-34).
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: your own enemy type's percentage multiplied by your Max Health and by your Shrine Effect Bonus - the percentage and the number shown already include the bonus. Bonus sources: Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion. Your enemy type gives 10% for a player (5% boss, 10% champion, 12% elite, 15% soldier, 20% fodder for an AI carrier); no armor, resistances or other mitigation, and no minimum, so it can be 0.</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown, which already includes your own Shrine Effect Bonus, and it can be 0.</color>" },
             { "Damage increased by [0]%. ",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Reduces Damage taken by [0]%. ",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Critical hit chance increased by [0]%.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Increases dodge chance by [0]%.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Lifesteal increased by [0]%.",
-              "\n<color=#C8B090>Base 8%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 8%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Decreases the cost of mana using abilities by [0]%.",
-              "\n<color=#C8B090>Base 50%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 50%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Your attacks have a [0]% chance to stun the target.",
-              "\n<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -1089,7 +1114,7 @@ namespace BetterTooltips.Patches
             // RV-14 terminologia: Shaman Aura | maximum mana -> max mana
 
             { "Recover [0]% of maximum mana each turn. ",
-              "Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>" },
             // RV-14 terminologia: Curse of the Reaper | max life -> max health
 
             { "Increases @Life Steal@ by 6%. Reduces @Max Life@ by 15%.  <i><color=#808080>\"A thirst so deep, it blurs the lines, Til we're but marionettes of our own designs.\"</i></color>",
@@ -1119,7 +1144,7 @@ namespace BetterTooltips.Patches
               "@Max health@ and @max mana@ lowered by 25%." },
             // RV-14 terminologia: Seraph Aura | maximum health -> max health
             { "Recover [0]% of maximum health each turn. ",
-              "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).</color>" },
+              "Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>" },
             // RV-14 terminologia: Salvation | maximum health -> max health
             { "@Maximum health@ increased by 10% per stack.",
               "@Max health@ increased by 10% per stack." },
@@ -2030,10 +2055,15 @@ namespace BetterTooltips.Patches
                 string alvos = ShrineAuraPatch.FraseAlvosDoFlame(original);
                 if (!string.IsNullOrEmpty(alvos))
                 {
-                    int fim = __result.LastIndexOf("</color>", StringComparison.Ordinal);
-                    __result = fim >= 0
-                        ? __result.Substring(0, fim) + " " + alvos + __result.Substring(fim)
-                        : AnexarNota(__result, "\n<color=#C8B090>" + alvos + "</color>");
+                    // TX-1 (01/10) — VALOR PRIMEIRO: a lista por alvo entra no COMECO do bloco da nota (o
+                    // leitor ve os numeros logo depois da linha branca do jogo), nao no fim. E o MESMO
+                    // bloco de cor (nunca um segundo bloco igual: o `CorEOrdemDoTooltip` move so o
+                    // primeiro e a ordem inverteria). Sem bloco colorido, a frase vira bloco proprio.
+                    const string abreNota = "<color=#C8B090>";
+                    int abre = __result.IndexOf(abreNota, StringComparison.Ordinal);
+                    __result = abre >= 0
+                        ? __result.Insert(abre + abreNota.Length, alvos + " ")
+                        : AnexarNota(__result, "\n" + abreNota + alvos + "</color>");
                 }
             }
 

@@ -484,6 +484,12 @@ namespace BetterTooltips.Patches
         /// ALVO (`Source` = `Target` = o alvo da vez). Não entra redução de dano, resistência nem
         /// modificador posterior — a marca "before damage reduction" está na nota da chave.
         ///
+        /// TX-1 (01/10) — ONDE ESTA FRASE ENTRA: no COMECO do bloco da nota da chave (`LocalizePatch`,
+        /// trecho `original == ShrineAuraPatch.ChaveFlame`), colada na linha branca do jogo — valor
+        /// primeiro, explicacao curta depois. O TEXTO da frase nao mudou: continua dizendo que o numero e
+        /// `raw damage` (PRE-REDUCAO) e que sai da vida maxima E do Shrine Effect Bonus DO PROPRIO
+        /// personagem avaliado como atacante.
+        ///
         /// Devolve "" quando nenhum alvo tem o status vivo, ou em qualquer falha: nenhum número é
         /// inventado e o texto do jogo (com a escala na nota) fica como está.
         /// </summary>
