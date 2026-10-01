@@ -47,7 +47,7 @@ ainda é o que as fontes geram).
 | Energy Aura | ManaCostMod | **−50** (o texto exibe 50) | `docs/cobertura/status.csv:170` |
 | Fury | DamageMod | 25 | `docs/cobertura/status.csv:205` |
 | Fury | DamageReduction | **−25** | `docs/cobertura/status.csv:205` |
-| Dwarven Aura | (stun — sem atributo) | 20 | `resources.assets@1517115364` |
+| Dwarven Aura | (stun — sem atributo; item `Stun chance +N%` desde o RV-46) | 20 | `resources.assets@1517115364` |
 | Decay Shrine Aura | (dano/turno) | 10 | `resources.assets@1517114276` |
 | Flame Shrine Aura | (dano por atacante) | 5 | `resources.assets@1517121008` |
 
@@ -311,8 +311,15 @@ toda AUSENTE, §3.1).
    projetar os alvos (`RV-34 Flame alvo …`). Sem inimigo na área o log registra
    `RV-33 Flame sem alvo: ninguem com o status da aura vivo agora` — **isso não é reprovação**, é
    ausência declarada (a ferramenta mostra `AUSENTE`).
-5. **Dwarven**: o número é chance de stun e **não existe atributo** para ler — não sai número no
-   log. Fica `NAO-VER`: é leitura visual (a nota diz "Base 20% + bônus").
+5. **Dwarven**: o número é chance de stun e **não existe atributo** para ler — mas o valor **existe no
+   asset** e o mod passou a publicá-lo como item próprio da linha azul (**RV-46**, 30/09): o valor sai
+   da **chance do gatilho** do status (`SkillTriggers[0].ActionStatusChanceEquations[0]`, que no asset
+   é a MESMA string da `DescriptionExpressions`, `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))`
+   — `resources.assets` @1517115647), avaliada pelo motor com o personagem em foco. O log ganha
+   `RV-46 item do Dwarven: …` + `RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +40%'` e a
+   ferramenta compara esse item com a coluna `contribuicao_esperada` (20/24/40) — **deixou de ser
+   `NAO-VER`**. Mesmo caminho para o Decay (`Shadow damage per turn N`) e para o Flame
+   (`Fire damage to attackers: …`), que também não têm atributo de personagem.
 
 **(B) Caso `+20` (`Omnism II`, Chaos tier 2):** repetir o passo (A) com o personagem que tem
 `Omnism II` (ela **substitui** a `Omnism I`; o total é 20, não 28 — RV-19 §3).
@@ -326,10 +333,11 @@ tiverem observação; o que faltar aparece na lista de `AUSENTE` e o exit é **3
 Nas duas telas do dono (Fury sem/com `Worship`, Rogue com `Worship`) a ferramenta também confere o
 **total** e o **resto** contra os prints de RV-19 §9.1/§10.5.
 
-**O que a rotina NÃO cobre (dito, não maquiado):** o Dwarven (sem número no log); o `[0]`% do Decay
+**O que a rotina NÃO cobre (dito, não maquiado):** o `[0]`% do Decay
 **isolado do dano** (o log imprime o dano por turno; a % só é isolável quando `MaxHealth = 100`);
 o dano de **retorno** do Flame (se o bônus que multiplica é o do atacante ou o do portador — RV-19
-§9(ii) continua sendo experiência em jogo); e os bônus `+8` e `+50`.
+§9(ii) continua sendo experiência em jogo); e os bônus `+8` e `+50`. (**RV-46**: o Dwarven SAIU desta
+lista — o item próprio dele passou a ser conferido mecanicamente.)
 
 ---
 
@@ -341,8 +349,9 @@ o dano de **retorno** do Flame (se o bônus que multiplica é o do atacante ou o
    sendo o último passo humano.
 2. **As linhas `chave '…' -> resultado final` não servem de prova**: nelas o `[0]` ainda está no
    lugar (o pipeline de expressões roda depois do Localize). Não há, no log, o texto final resolvido.
-3. **Dwarven é permanentemente `NAO-VER`** (não há atributo/número); o `[0]`% do Decay só é isolável
-   com `MaxHealth = 100`; o **dano de retorno** do Flame não é medido por hover nenhum.
+3. **Dwarven deixou de ser `NAO-VER` no RV-46** (o item próprio `Stun chance +N%` é conferido contra a
+   tabela); o `[0]`% do Decay só é isolável com `MaxHealth = 100`; o **dano de retorno** do Flame não é
+   medido por hover nenhum.
 4. **A base do Dwarven, do Decay e do Flame não tem segunda fonte em log** — só o asset (o gerador
    cita o offset). O `cross-check` contra o dump do jogo cobre **só** as 9 auras de buff.
 5. **A `linha do Decay` passou a logar `tipo=`** (CHK-1 §7.1, **aplicado em 01/10**): o esperado usa

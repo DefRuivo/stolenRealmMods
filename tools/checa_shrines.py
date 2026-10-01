@@ -24,7 +24,17 @@ O QUE ELA LE
    * as linhas do `BetterTooltips` com o marcador estavel `[Shrine RV-23]`:
        - `RV-31 acumulado: auras=[...] char=<nome> bonus=<b> -> <item>; <item>` - a ANCORA: traz o
          bonus, o personagem, QUAIS auras estao vivas e, por atributo, a contribuicao das auras e
-         o total do personagem (RV-44);
+         o total do personagem (RV-44). Desde o RV-46 ela traz tambem o campo OPCIONAL
+         `instancias=[Nome xN]` quando a lista viva tinha a MESMA aura repetida (e a prova do defeito
+         da contribuicao multiplicada - o motor soma cada instancia, o mod conta cada aura 1x);
+       - `RV-44 item ...: aura=... total=... resto=... char=... bonus=...` e `RV-44 soma ...` - a
+         contribuicao por aura e por atributo;
+       - `RV-46 teto '<atributo>': MaxValue=... no-teto=sim|nao` - o TETO do atributo no asset
+         (`HasMax`; o motor corta o total nele). E o campo que impede o bloco de ADITIVIDADE de
+         reprovar por um motivo que nao e defeito;
+       - `RV-46 item sem atributo: ...` / `RV-46 AVISO: a aura viva 'X' NAO virou item` - os itens das
+         auras sem atributo de personagem (Dwarven/Decay/Flame) e o aviso de aura viva que nao virou
+         item (a lista se apresenta como completa - isto nunca pode ser silencio);
        - `RV-34 linha do Decay: <char> MaxHealth=<mh> bonus=<b> -> '<linha>'` - o dano por turno;
        - `RV-34 Flame alvo '<nome>': MaxHealth=<mh> tipo=<tipo> bonus=<b> dano=<d>` - o dano por
          atacante projetado, por alvo na area.
@@ -59,10 +69,13 @@ LIMITES - O QUE ESTA FERRAMENTA **NAO** PROVA
 2. **A base do Dwarven, do Decay e do Flame nao esta no dump do Debugger.** O `efeitos` delas e
    vazio de proposito (RV-19 §5) - o cross-check contra o jogo so cobre as 9 auras de buff. As
    bases dessas 3 vem do asset (o gerador cita o offset) e NAO tem segunda fonte em log.
-3. **O Dwarven (stun) nao tem atributo de personagem**: nao existe numero para comparar no log ->
-   fica permanentemente AUSENTE na conferencia mecanica (a leitura e visual: "chance to stun").
-   O mesmo vale para o `[0]`% do Decay isolado do dano (o log imprime o DANO por turno; a % so e
-   isolavel quando MaxHealth = 100).
+3. **O Dwarven (stun) NAO tem atributo de personagem** — RV-46: o mod passou a publicar o item proprio
+   dele na linha azul (`Stun chance +N%`, com a chance vinda do asset: a expressao do gatilho do status
+   e a `DescriptionExpressions` sao a MESMA string) e a ferramenta COMPARA esse item com a coluna
+   `contribuicao_esperada` da tabela (base 20 × fator do bonus). Antes do RV-46 nao havia numero nenhum
+   no log para comparar e o caso saia NAO VERIFICAVEL. O mesmo item existe para o Decay (`Shadow damage
+   per turn N`) e para o Flame (`Fire damage to attackers: ...`), que tambem nao tem atributo; o `[0]`%
+   do Decay isolado do dano continua so isolavel quando MaxHealth = 100.
 4. **O texto do jogo nao e comparado** - as chaves/`TextFixes`/`TextAppends` nao entram aqui.
 5. **A `linha do Decay` passou a logar o tipo de inimigo (`tipo=`)** — CHK-1 §7.1, CONSERTO APLICADO
    em 01/10 no `ShrineAuraPatch`: o esperado do Decay usa a % DO TIPO logado (antes era sempre a de
@@ -99,8 +112,14 @@ RE_LINHA_SHRINE = re.compile(r"^\[[A-Za-z]+\s*:\s*Better Tooltips\]\s*\[Shrine R
 RE_LINHA_STATUS = re.compile(r"^\[[A-Za-z]+\s*:\s*Roguelike Debugger\]\s*\[Status\]\s*'(?P<nome>.*?)'\s*\|(?P<c>.*)$")
 
 # Ancoras do comparador.
+# RV-46 (conserto aplicado no mod): o campo OPCIONAL `instancias=[Nome xN, ...]` so sai quando a lista
+# viva trazia a MESMA aura repetida (o motor soma cada instancia; o mod conta cada aura UMA vez). O
+# grupo e opcional de proposito: log do build antigo continua sendo lido como antes (com as repeticoes
+# dentro do proprio `auras=[...]`).
 RE_ACUMULADO = re.compile(
-    r"^RV-31 acumulado: auras=\[(?P<auras>[^\]]*)\] char=(?P<char>.+?) bonus=(?P<bonus>-?[0-9.]+) -> (?P<efeito>.+)$")
+    r"^RV-31 acumulado: auras=\[(?P<auras>[^\]]*)\]"
+    r"(?: instancias=\[(?P<instancias>[^\]]*)\])?"
+    r" char=(?P<char>.+?) bonus=(?P<bonus>-?[0-9.]+) -> (?P<efeito>.+)$")
 # CHK-1 §7.1 (CONSERTO APLICADO no mod): a linha do Decay ganhou `tipo=`. O grupo e OPCIONAL de proposito -
 # o log anterior ao conserto continua sendo lido, so cai na % de `player` e a saida DIZ isso em vez de fingir.
 RE_DECAY = re.compile(
@@ -121,6 +140,19 @@ RE_ITEM = re.compile(
 RE_ITEM_MANA = re.compile(
     r"^Mana Costs (?P<dir>reduced by|increased by) (?P<v>[0-9.]+)% "
     r"\(total (?P<ts>[+\-\u2212])(?P<tv>[0-9.]+)%\)$")
+
+# RV-46 (conserto aplicado no mod): itens de aura cujo efeito NAO e atributo de personagem. O rotulo e
+# do `RotuloSemAtributo` (ShrineAuraPatch) e o VALOR sai do asset avaliado pelo motor. Sem eles o
+# Dwarven ficava permanentemente NAO VERIFICAVEL (nao havia numero nenhum no log).
+RE_ITEM_STUN = re.compile(r"^Stun chance (?P<s>[+\-\u2212])(?P<v>[0-9.]+)%$")
+RE_ITEM_DECAY = re.compile(r"^Shadow damage per turn (?P<v>[0-9.]+)$")
+RE_ITEM_FLAME = re.compile(r"^Fire damage to attackers: (?P<alvos>.+)$")
+# RV-46 — teto do atributo (`CharacterAttribute.HasMax`/`MaxValue`), so sai quando o atributo tem teto.
+RE_TETO = re.compile(
+    r"^RV-46 teto '(?P<atributo>[^']+)': MaxValue=(?P<max>[0-9.]+) char=(?P<char>.+?)"
+    r" total=(?P<total>[+\-\u2212][0-9.]+)% no-teto=(?P<no_teto>sim|nao)")
+# RV-46 — aura viva que NAO virou item (a lista se apresenta como completa; isto nunca pode ser silencio).
+RE_SEM_ITEM = re.compile(r"^RV-46 AVISO: a aura viva '(?P<aura>[^']+)' NAO virou item da linha")
 
 ROTULO_ATRIBUTO = {
     "Damage": "DamageMod",
@@ -219,7 +251,9 @@ def parseia_acumulado(payload):
         return None, None
     auras = [a.strip() for a in m.group("auras").split(",") if a.strip()]
     auras = [ALIASES.get(a, a) for a in auras]
+    instancias = [x.strip() for x in (m.group("instancias") or "").split(",") if x.strip()]
     itens = []
+    sem_atributo = {}
     nao_parseados = []
     for bruto in m.group("efeito").split("; "):
         bruto = bruto.strip()
@@ -242,15 +276,31 @@ def parseia_acumulado(payload):
             tv = sinal(mm.group("ts")) * float(mm.group("tv"))
             itens.append({"atributo": "ManaCostMod", "contrib": v, "total": tv})
             continue
+        # RV-46: itens de aura cujo efeito nao e atributo de personagem (Dwarven/Decay/Flame). Eles
+        # NAO entram na comparacao por atributo, mas precisam ser LIDOS - senao cairiam em "fora do
+        # formato" e o defeito que o dono achou (aura viva fora da lista) viraria ponto cego.
+        ms = RE_ITEM_STUN.match(bruto)
+        if ms:
+            sem_atributo["Stun chance"] = sinal(ms.group("s")) * float(ms.group("v"))
+            continue
+        md = RE_ITEM_DECAY.match(bruto)
+        if md:
+            sem_atributo["Shadow damage per turn"] = float(md.group("v"))
+            continue
+        mf = RE_ITEM_FLAME.match(bruto)
+        if mf:
+            sem_atributo["Fire damage to attackers"] = mf.group("alvos")
+            continue
         nao_parseados.append(bruto)
     return {"char": m.group("char"), "bonus": numero(m.group("bonus")), "auras": auras,
-            "itens": itens, "nao_parseados": nao_parseados,
+            "instancias": instancias, "itens": itens, "sem_atributo": sem_atributo,
+            "nao_parseados": nao_parseados,
             "pre_rv44": (not itens) and all("(total" not in x for x in nao_parseados)}, None
 
 
 def coleta(log):
     obs = {"acumulado": [], "decay": [], "flame": [], "evidencias": [], "dump": {},
-           "avisos": [], "nao_lidas": []}
+           "tetos": {}, "sem_item": [], "avisos": [], "nao_lidas": []}
     for n, linha in enumerate(log.splitlines(), start=1):
         mi = RE_LINHA_SHRINE.match(linha)
         if mi:
@@ -309,6 +359,35 @@ def coleta(log):
                 else:
                     obs["avisos"].append((n, "evidencia `%s` sem campo bonus/char (nao atribuivel): %r"
                                           % (" ".join(p.split(" ")[:2]), p)))
+            elif p.startswith("RV-46 teto '"):
+                # RV-46: o TETO do atributo (`CharacterAttribute.HasMax`) e se o total esta nele. Com o
+                # total no teto o `resto` do item nao e comparavel - o comparador de aditividade usa
+                # este campo em vez de reprovar por um motivo que nao e defeito.
+                m = RE_TETO.match(p)
+                if not m:
+                    obs["avisos"].append((n, "linha de teto em formato NAO reconhecido: %r" % p))
+                    continue
+                obs["tetos"][(m.group("char"), m.group("atributo"))] = float(m.group("max"))
+            elif p.startswith("RV-46 AVISO: a aura viva '"):
+                # RV-46: aura viva que NAO virou item. A regra do dono e que isto nunca seja silencio -
+                # sai em secao propria do relatorio.
+                m = RE_SEM_ITEM.match(p)
+                if m:
+                    obs["sem_item"].append((n, m.group("aura")))
+                else:
+                    obs["avisos"].append((n, "aviso de aura sem item em formato NAO reconhecido: %r" % p))
+            elif p.startswith("RV-46 "):
+                # RV-46: o item de uma aura sem atributo (Dwarven/Decay/Flame) tambem traz
+                # `char=`/`bonus=` - quando traz, e EVIDENCIA ATRIBUIDA como as do RV-44; quando nao
+                # (diagnostico por alvo do Flame), entra no balde de linhas lidas e nao comparadas.
+                me = RE_EVIDENCIA.search(p)
+                if me:
+                    obs["evidencias"].append({
+                        "bruto": p, "linha": n, "item": True,
+                        "char": me.group("char"), "bonus": numero(me.group("bonus")),
+                    })
+                else:
+                    obs["avisos"].append((n, p))
             elif p.startswith("chave '"):
                 # Log do LocalizePatch: mostra o texto final MONTADO, mas com o `[0]` AINDA no lugar
                 # (o pipeline de expressoes roda depois). Nao traz numero de aura resolvido -> nao
@@ -372,9 +451,33 @@ def main(argv=None):
         if r["tipo"] != "buff":
             continue
         if not atributo:
-            resultados[chave] = [("NVER", "NAO VERIFICAVEL pela ferramenta: o Dwarven nao expoe atributo "
-                                           "de personagem (o efeito e chance de stun) - nenhum numero sai "
-                                           "no log; a prova e a leitura visual na tela")]
+            # RV-46 (CONSERTO APLICADO no mod): o Dwarven PASSOU a ter numero no log — o item proprio
+            # `Stun chance +N%`, com o valor vindo da CHANCE do gatilho do status no asset (a mesma
+            # string da `DescriptionExpressions`), avaliada pelo interpretador do motor. A conferencia
+            # deixa de ser so visual: compara com a coluna `contribuicao_esperada` da tabela (base 20 ×
+            # fator do bonus, a mesma origem das outras).
+            esperado_d = float(r["contribuicao_esperada"])
+            cobertos = 0
+            for o in obs["acumulado"]:
+                if o["bonus"] != caso_f or aura not in o["auras"]:
+                    continue
+                v = o["sem_atributo"].get("Stun chance")
+                if v is None:
+                    continue
+                cobertos += 1
+                if abs(v - esperado_d) > 1e-9:
+                    achados.append(Achado(aura, "(chance de stun)", caso, v, esperado_d,
+                                          "chance de stun do Dwarven difere", o["linha"], o["char"]))
+                    resultados.setdefault(chave, []).append(
+                        ("ACHADO", "char=%s item='Stun chance +%s%%' esperado=%s dif=%+g (log:%d)"
+                         % (o["char"], fmt(v), fmt(esperado_d), v - esperado_d, o["linha"])))
+                else:
+                    resultados.setdefault(chave, []).append(
+                        ("OK", "char=%s item='Stun chance +%s%%' na linha (log:%d)"
+                         % (o["char"], fmt(v), o["linha"])))
+            if cobertos == 0 and chave not in resultados:
+                resultados[chave] = [("AUSENTE", "sem hover do Dwarven com bonus=%s e o item proprio "
+                                                "'Stun chance' na linha (log anterior ao RV-46?)" % caso)]
             continue
         cobertos = 0
         for o in obs["acumulado"]:
@@ -388,31 +491,32 @@ def main(argv=None):
             if item is None:
                 continue
             # soma esperada das auras VIVAS naquele atributo (o valor logado e a soma - RV-44)
+            # RV-46: aura viva SEM linha na tabela para ESTE atributo soma ZERO (ela nao mexe no
+            # atributo). Antes o comparador desistia do hover inteiro ("indeterminado") e o hover do
+            # print do dono — 4 a 5 auras vivas, cada uma mexendo em UM atributo — saia NAO VERIFICAVEL
+            # justamente no caso que o dono olha na tela. As auras contadas 0 saem no TEXTO do
+            # resultado, para a omissao nao virar ponto cego.
             soma = 0.0
-            indeterminado = None
+            sem_linha = []
             for a in o["auras"]:
                 e = esperado_buff(tabela, a, atributo, caso_f)
                 if e is None:
-                    indeterminado = a
-                    break
+                    sem_linha.append(a)
+                    continue
                 soma += e
-            if indeterminado is not None:
-                resultados.setdefault(chave, []).append(
-                    ("AUSENTE", "hover com a aura '%s', que nao tem linha esperada para o atributo '%s'"
-                                % (indeterminado, atributo)))
-                continue
+            nota_zero = (" [contam 0: %s]" % ", ".join(sem_linha)) if sem_linha else ""
             cobertos += 1
             if abs(item["contrib"] - soma) > 1e-9:
                 achados.append(Achado(aura, atributo, caso, item["contrib"], soma,
                                       "contribuicao das auras difere", o["linha"], o["char"]))
                 resultados.setdefault(chave, []).append(
-                    ("ACHADO", "char=%s contrib=%s esperado=%s dif=%+g (log:%d)"
+                    ("ACHADO", "char=%s contrib=%s esperado=%s dif=%+g%s (log:%d)"
                      % (o["char"], fmt(item["contrib"]), fmt(soma),
-                        item["contrib"] - soma, o["linha"])))
+                        item["contrib"] - soma, nota_zero, o["linha"])))
             else:
                 resultados.setdefault(chave, []).append(
-                    ("OK", "char=%s contrib=%s total=%s (log:%d)"
-                     % (o["char"], fmt(item["contrib"]), fmt(item["total"]), o["linha"])))
+                    ("OK", "char=%s contrib=%s total=%s%s (log:%d)"
+                     % (o["char"], fmt(item["contrib"]), fmt(item["total"]), nota_zero, o["linha"])))
         if cobertos == 0 and chave not in resultados:
             resultados[chave] = [("AUSENTE", "sem hover com bonus=%s e a aura viva no log" % caso)]
 
@@ -521,6 +625,11 @@ def main(argv=None):
                                    fmt(it["total"] - it["contrib"]), o["linha"])))
 
     # ------------------------------------------------------------------ aditividade (resto constante)
+    # RV-46: com o TETO do atributo declarado pelo mod (`RV-46 teto`, o HasMax/MaxValue do asset) o
+    # julgamento muda de natureza — `resto = total - aura` deixa de ser "a parte da ficha que nao e aura"
+    # porque o motor CORTA o total no teto (`Character.GetAttribute`, decompilado l.11871-11878). Sem o
+    # teto no log (build anterior) vale a regra antiga — e e ela que pega o defeito do print do dono
+    # (`Dodge +120% (total +75%)`: resto −45, nao constante, impossivel de reconciliar).
     adit = []
     por_chave = {}
     for o in obs["acumulado"]:
@@ -530,16 +639,44 @@ def main(argv=None):
     for (char, atributo), lista in sorted(por_chave.items()):
         if len(lista) < 2:
             continue
-        restos = sorted(set(round(t - c, 6) for _, c, t, _ in lista))
-        if len(restos) > 1:
-            achados.append(Achado("(aditividade)", atributo, "todos", restos[0], restos[0],
-                                  "resto (total - aura) NAO e constante para %s em %s" % (char, atributo),
-                                  lista[0][3], char))
-            adit.append(("ACHADO", "char=%s %s: resto varia entre %s (esperado constante)"
-                         % (char, atributo, ", ".join(fmt(x) for x in restos))))
+        teto = obs["tetos"].get((char, atributo))
+        if teto is None:
+            restos = sorted(set(round(t - c, 6) for _, c, t, _ in lista))
+            if len(restos) > 1:
+                achados.append(Achado("(aditividade)", atributo, "todos", restos[0], restos[0],
+                                      "resto (total - aura) NAO e constante para %s em %s" % (char, atributo),
+                                      lista[0][3], char))
+                adit.append(("ACHADO", "char=%s %s: resto varia entre %s (esperado constante, sem teto "
+                             "declarado no log)" % (char, atributo, ", ".join(fmt(x) for x in restos))))
+            else:
+                adit.append(("OK", "char=%s %s: resto=%s constante em %d bonus"
+                             % (char, atributo, fmt(restos[0]), len(lista))))
+            continue
+        # Com teto declarado: o ACHADO fica para o que e IMPOSSIVEL (total acima do MaxValue do
+        # atributo) e o resto deixa de ser prova — ele depende de TODAS as outras fontes do personagem
+        # (gear/skills/outros status do combate) e o total e cortado no teto.
+        acima = [(b, c, t, l) for (b, c, t, l) in lista if t > teto + 1e-9]
+        if acima:
+            for (_, c, t, l) in acima:
+                achados.append(Achado("(aditividade)", atributo, "todos", t, teto,
+                                      "total ACIMA do MaxValue do atributo (o motor corta)", l, char))
+            adit.append(("ACHADO", "char=%s %s: total %s acima do MaxValue=%s do atributo (impossivel)"
+                         % (char, atributo, fmt(acima[0][2]), fmt(teto))))
+            continue
+        abaixo = [(b, c, t, l) for (b, c, t, l) in lista if t < teto - 1e-9]
+        no_teto = [x for x in lista if abs(x[2] - teto) < 1e-9]
+        restos = sorted(set(round(t - c, 6) for (_, c, t, _) in abaixo))
+        texto_restos = ", ".join(fmt(x) for x in restos) if restos else "(nenhum hover abaixo do teto)"
+        if len(abaixo) >= 2 and len(restos) == 1:
+            adit.append(("OK", "char=%s %s: resto=%s constante em %d hover(s) ABAIXO do teto; %d no teto"
+                         " (MaxValue=%s do atributo, conferido)"
+                         % (char, atributo, fmt(restos[0]), len(abaixo), len(no_teto), fmt(teto))))
         else:
-            adit.append(("OK", "char=%s %s: resto=%s constante em %d bonus"
-                         % (char, atributo, fmt(restos[0]), len(lista))))
+            adit.append(("NVER", "char=%s %s: %d hover(s) ABAIXO do teto (resto=%s) e %d no teto"
+                         " (MaxValue=%s). O resto NAO e prova de defeito neste caso: ele depende de"
+                         " TODAS as outras fontes da ficha/do combate e o total e cortado no teto. O que"
+                         " esta conferido e que o total nao passa do MaxValue do atributo."
+                         % (char, atributo, len(abaixo), texto_restos, len(no_teto), fmt(teto))))
 
     # ------------------------------------------------------------------ cross-check com o dump
     dump_res = []
@@ -652,6 +789,32 @@ def main(argv=None):
         else:
             print("  [AUSENTE] nenhuma linha `RV-44 item`/`RV-44 soma` com `char=`/`bonus=` neste log "
                   "- ou o build e anterior ao CHK-1 §7.2, ou nao houve hover com aura de shrine viva.")
+
+        # RV-46: a linha azul se apresenta como COMPLETA ("Your active shrine auras") — aura viva sem
+        # item tem de aparecer. Este bloco e o lugar dela; vazio = nenhuma aura ficou de fora calada.
+        print("\n-- AURAS VIVAS SEM ITEM (RV-46: a lista se apresenta como completa) --")
+        if obs["sem_item"]:
+            for n, aura in obs["sem_item"]:
+                print("  [AVISO]   log:%d aura viva '%s' NAO virou item da lista (o mod registrou o "
+                      "motivo na mesma linha)" % (n, aura))
+        else:
+            print("  [OK]      nenhuma linha `RV-46 AVISO` neste log (nenhuma aura viva sem item; "
+                  "build anterior ao RV-46 tambem nao emite esta marca)")
+
+        # RV-46: a prova do defeito da contribuicao multiplicada e o campo `instancias=` da ancora —
+        # ele diz QUANTAS vezes a MESMA aura estava viva (o motor soma cada instancia; o mod nao).
+        print("\n-- INSTANCIAS REPETIDAS NA LISTA VIVA (RV-46: o motor soma, o mod conta 1x) --")
+        com_inst = [o for o in obs["acumulado"] if o.get("instancias")]
+        if com_inst:
+            for o in com_inst[:12]:
+                print("  [EVID]    log:%d char=%s bonus=%s: %s (auras distintas=[%s])"
+                      % (o["linha"], o["char"], fmt(o["bonus"]), ", ".join(o["instancias"]),
+                         ", ".join(o["auras"])))
+            if len(com_inst) > 12:
+                print("  [EVID]    (%d linha(s) repetidas omitidas)" % (len(com_inst) - 12))
+        else:
+            print("  [AUSENTE] nenhuma ancora com `instancias=` (nenhuma aura repetida nesta sessao, "
+                  "ou build anterior ao RV-46)")
 
         print("\n-- DUMP DO ROGUELIKEDEBUGGER (fonte independente da base das auras de buff) --")
         for s, txt in dump_res:

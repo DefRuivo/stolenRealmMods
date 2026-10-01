@@ -1,5 +1,39 @@
 # Changelog — BetterTooltips
 
+## Nao publicado — RV-46 (30/09): os dois defeitos da linha azul das auras de shrine
+
+Conserto de **dois defeitos** na linha `Your active shrine auras:`. **Nenhuma formula de dano, nenhuma
+convencao de formatacao (o Ceil do RV-45, o sinal unico do 46acd97) e nenhuma das 12 notas de texto
+mudaram** — o que mudou foi QUAL numero entra em cada item e QUAIS auras viram item.
+
+- **RV-46 — a contribuicao das auras estava MULTIPLICADA (`Dodge +120%` com a aura valendo 40).** Causa
+  provada: `AurasVivas` devolve TODAS as entradas de `Character.ActionStatuses` que casam com a familia e
+  a contribuicao somava por ENTRADA — e a lista viva carrega a **MESMA aura repetida**, porque cada
+  (re)entrada na area do ground effect cria um status NOVO (`GroundEffect.AddGroundEffectedPlayer`) e o
+  motor so remove status `Infinite` (a aura do shrine nao e). No log do jogo do dono (30/09) o mesmo hover
+  mostra a lista com `Rogue Aura` **tres** vezes e `aura=+120%`, com o `RV-44 soma` dizendo `stacks=1` em
+  cada instancia: 3 × 40. **Nao era stack.** Conserto: a contribuicao conta **cada aura UMA vez**
+  (`AurasUnicas`) — 40, que e o numero da linha branca do proprio shrine e o que o motor avalia na
+  expressao do asset. **O total continua o do motor** (`Character[atributo]`): ele para em 75 porque os
+  atributos do jogo tem TETO (`CharacterAttribute.HasMax`; `DodgeChance` **MaxValue 75** e
+  `DamageReduction` **MaxValue 50** no asset) e o motor corta o total ali (`Character.GetAttribute`).
+  As repeticoes e o teto vao para o LOG (`instancias=[Nome xN]`, `RV-46 teto`), nunca para o numero.
+- **RV-46 — aura viva fora da lista: o Dwarven nao aparecia.** Causa: os itens saem por ATRIBUTO de
+  personagem e o efeito do Dwarven **nao e atributo** — o valor mora na **chance do gatilho**
+  (`OnHittingDamaging` -> `Stunned`, `SkillTriggers[].ActionStatusChanceEquations`): no asset
+  (`Dwarven Totem Aura Status`, `resources.assets` @1517115056) a formula
+  `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))` aparece 2× (@1517115395, ao lado da
+  descricao, e @1517115647, dentro do gatilho) e o valor com `Worship` e 40 — o mesmo da linha branca do
+  shrine. Conserto: item proprio **`Stun chance +40%`**, avaliado pelo motor com o personagem em foco.
+  Pela mesma regra entraram as outras duas das 12 auras sem atributo de personagem: Decay
+  (`Shadow damage per turn N`) e Flame (`Fire damage to attackers: …`).
+- **Regra que fica (dono, 30/09):** a linha se chama "Your active shrine auras" e se apresenta como
+  COMPLETA — aura viva que nao virar item sai no LOG com o motivo (`RV-46 AVISO`), nunca em silencio.
+- **Conferencia mecanica:** `tools/checa_shrines.py` passou a ler o campo `instancias=`, os itens sem
+  atributo e o `RV-46 teto`; o caso do **Dwarven deixou de ser `NAO-VER`** (compara o item com a coluna
+  `contribuicao_esperada` da tabela) e o hover com varias auras (o do print do dono) passa a ser
+  conferivel. Contra-prova em `tools/fixtures/shrines-rv46-dedupe.log` (exit 0).
+
 ## 0.1.1
 
 Conserto de **texto/rotulo** nos tooltips de shrine. **Nenhum numero, formula ou logica de calculo mudou** — a auditoria independente confirmou 9/9 dos valores das auras de buff (mais Flame e Decay).
