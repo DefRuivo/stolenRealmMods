@@ -895,13 +895,16 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v5
-        with:
-          # HISTORIA INTEIRA, de proposito: o checkout deste job fica no SHA do run, e a
-          # aprovacao humana pode levar minutos - foi o que quebrou o run 36801937843 (o
-          # checkout era cb0d12c e a main ganhou dois commits durante a espera). O passo de
-          # push rebasa sobre a main fresca, e o fetch raso padrao (fetch-depth: 1) nao tem
-          # a base de merge para rebasar. Ver "Commit e push do registro".
-          fetch-depth: 0
+        # SEM `fetch-depth: 0`. Ele estava aqui com uma justificativa FALSA ("o fetch raso
+        # padrao nao tem a base de merge para rebasar") e a linha e desnecessaria: o teste
+        # com o estado EXATO deste job num clone raso (clone --depth 1 no SHA do run, commit
+        # do registro por cima, main ganhando um commit na espera) faz `git fetch origin main`
+        # + `git rebase origin/main` passarem e o push entrar. O motivo e a topologia: o
+        # checkout deste job esta no SHA do RUN, que e ANCESTRAL da main que andou, entao o
+        # fetch traz so os commits que faltam e a historia se conecta na fronteira shallow -
+        # o merge base do rebase fica calculavel sem a historia inteira. O que conserta o run
+        # 36801937843 (checkout cb0d12c, a main ganhou dois commits durante a espera) e o laco
+        # de rebase + retry do passo "Commit e push do registro", nao a profundidade daqui.
 
       - name: Python 3.11
         uses: actions/setup-python@v6
@@ -1046,13 +1049,30 @@ jobs:
           for tentativa in 1 2 3 4 5; do
             echo "::group::push do registro (tentativa ${tentativa})"
             git fetch --prune origin main
-            if ! git rebase origin/main; then
-              git rebase --abort
+            # FALHA de rebase NAO e CONFLITO: o rebase tambem para por outro motivo
+            # (identidade ausente no commit que ele refaz, autor invalido, indice sujo...) e
+            # tratar os dois casos como "a main mexeu em release/mods.json" manda o
+            # diagnostico para o lado errado. O sinal de CONFLITO sao os CAMINHOS NAO
+            # MESCLADOS no indice (`git ls-files -u`); o diretorio `.git/rebase-merge` NAO
+            # discrimina - medido: um rebase que para por identidade ausente deixa o
+            # `.git/rebase-merge` e o `git ls-files -u` vazio.
+            if ! saida_rebase=$(git rebase origin/main 2>&1); then
+              conflito=nao
+              if [ -n "$(git ls-files -u)" ]; then conflito=sim; fi
+              git rebase --abort >/dev/null 2>&1 || true
+              echo "$saida_rebase"
               echo "::endgroup::"
-              echo "::error::o rebase do registro CONFLITOU: a main mexeu em release/mods.json entre"
-              echo "o checkout do run e agora. A publicacao JA aconteceu (o passo anterior imprimiu o"
-              echo "JSON para commitar a mao). Conflito NESTE arquivo exige decisao humana - ele e o"
-              echo "registro, e as duas versoes podem estar certas em pontos diferentes."
+              if [ "$conflito" = "sim" ]; then
+                echo "::error::o rebase do registro CONFLITOU: a main mexeu em release/mods.json entre"
+                echo "o checkout do run e agora. A publicacao JA aconteceu (o passo anterior imprimiu o"
+                echo "JSON para commitar a mao). Conflito NESTE arquivo exige decisao humana - ele e o"
+                echo "registro, e as duas versoes podem estar certas em pontos diferentes."
+              else
+                echo "::error::o rebase do registro FALHOU e NAO foi conflito (nenhum caminho nao"
+                echo "mesclado no indice): a causa e outra, e a saida do git esta logo acima. NAO era"
+                echo "a main ter andado, entao repetir o push nao resolveria - conserte a causa."
+                echo "A publicacao JA aconteceu; o JSON para commitar a mao esta no resumo do job."
+              fi
               exit 1
             fi
             if git push origin HEAD:main; then
@@ -1061,8 +1081,15 @@ jobs:
               exit 0
             fi
             echo "::endgroup::"
-            echo "::warning::push recusado na tentativa ${tentativa} - a main andou. Nova tentativa em $((tentativa * 3))s."
-            sleep $((tentativa * 3))
+            # A ULTIMA tentativa nao espera: nao existe proxima, e o sleep dela era espera
+            # MORTA - imprimia "Nova tentativa em 15s", dormia 15s e saia 1 logo em seguida
+            # (45s dormidos para 4 tentativas de push de verdade).
+            if [ "$tentativa" -lt 5 ]; then
+              echo "::warning::push recusado na tentativa ${tentativa} - a main andou (ou o push nao e permitido; ver o fim deste passo). Nova tentativa em $((tentativa * 3))s."
+              sleep $((tentativa * 3))
+            else
+              echo "::warning::push recusado na tentativa ${tentativa}, a ultima - nada a esperar."
+            fi
           done
 
           echo "::error::o registro nao entrou na main depois de 5 tentativas. A publicacao JA aconteceu"

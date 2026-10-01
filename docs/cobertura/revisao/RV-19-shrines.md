@@ -388,9 +388,13 @@ e a medição de quantos statuses preenchem cada campo). Duas leituras de asset 
    `Flame` → `TriggerType=1` (`OnGettingHitDamaging`), `Condition="Source.IsEnemy(Target)"`,
    **`Targets="Cell.IsCurrentHex(Target)"`**, `Actions=[2544297 "Flame Aura Proc"]`;
    `Decay` → `TriggerType=4`, `Targets="Cell.IsCurrentHex(Source)"`, `Actions=[2544288 "Decay Aura Proc"]`.
-   ⚠ O campo `SkillTrigger.Targets` **existe** (l.46590 do decompilado) — uma versão anterior desta revisão o deu como
-   inexistente. É o campo que o dump passou a publicar (`trigEf=...~alvos=...`). ⚠ Numeração do decompilado **regerado
-   em 01/10** (ilspycmd 8.2.0, 496.253 linhas); as citações antigas desta revisão usam o decompile de 371.804 linhas —
+   ⚠ O campo `SkillTrigger.Targets` **existe** (l.46590 do decompilado) — quem o dava como inexistente era a versão
+   anterior do `docs/DEBUGGER.md` (commit `8835630`), **não** esta revisão: o §7 já o listava na lista do que faltava no
+   dump (poucas linhas acima, entre `SkillTriggers` (TriggerType/Condition/**Targets**/GeneralEffects)). É o campo que o
+   dump passou a publicar (`trigEf=...~alvos=...`). ⚠ Numeração do decompilado **regerado
+   em 01/10** (ilspycmd 8.2.0; o arquivo que existe hoje, `%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs`,
+   tem **496.253** linhas por `wc -l`/`grep -c ""` em 01/10/2026 — e o numero muda com a **regeração**
+   do cache, então conferir antes de citar); as citações antigas desta revisão usam o decompile de 371.804 linhas —
    o nome do campo é a chave estável para reconferir (ver `docs/DEBUGGER.md`).
 2. **A fórmula sai do status, não só da ação.** `DescriptionExpressions` (l.441015) do `Flame Shrine Aura` =
    `Mathf.Round(5 * (1 + (Source["ShrineEffectBonus"] / 100)))`; `Decay` = base `10`; `Warrior` = base `20` com `Target[...]`.
