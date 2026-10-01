@@ -8,7 +8,7 @@
     <!-- PKG-2: FONTE UNICA DE VERSAO. Este <Version> manda. Os espelhos sao o
          version_number do manifest.json e o literal do [BepInPlugin(...)] no Plugin.cs,
          conferidos por tools/check_versoes.py e tools/pack-thunderstore.py. -->
-    <Version>0.1.0</Version>
+    <Version>0.1.1</Version>
     <Description>Contorno/halo suave e legibilidade para o texto de combate (nomes de inimigos, rotulos de buff/debuff e o texto do dado nos eventos). Sem alteracao de gameplay.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>

@@ -1,8 +1,31 @@
 # Changelog — BetterCombatText
 
+## 0.1.1
+
+**Nenhuma linha de codigo mudou: o que muda e a REFERENCIA e a doc.** O defeito que motivou a
+versao e de interacao, e sem ela o pacote publicado entrega metade do recurso.
+
+- **Dependencia do Thunderstore: `DefRuivo_StolenRealmMods-BetterFont-1.0.1` -> `1.0.2`.** A 1.0.1
+  esta publicada e e imutavel, e o portao de material dela **recusava o material dos textos de
+  combate** (variante de shader diferente: os alvos usam `TextMeshPro/Distance Field Overlay` e
+  `Distance Field (Surface)`; a fonte serifada sai com `Mobile/Distance Field`) — com os dois mods
+  ligados, os textos de combate ficavam na **fonte original**. O conserto e o **BetterFont 1.0.2**
+  (variante diferente virou copia best-effort, propriedade por propriedade com `HasProperty`). Sem
+  bumpar esta referencia, o gerenciador instalaria a 1.0.1 ao lado deste mod e o defeito continuaria
+  em campo. A regra `DEP_EXTRAS` do `tools/audita_docs.py` exige exatamente isto: quem declara outro
+  mod deste repo aponta a versao que ele tem HOJE no manifest.
+- **Ordem de envio (nao inverter):** primeiro o **BetterFont 1.0.2**; depois este **0.1.1**. O upload
+  da Thunderstore **resolve** cada referencia (`PackageReferenceValidator(resolve=True)`) e recusa a
+  que nao existe com `No matching package found for reference` — a versao declarada aqui precisa
+  estar no ar antes.
+- **Doc corrigida:** o README (secao "Together with BetterFont" e o resumo em portugues) afirmava que
+  os textos de combate "podem manter a fonte original" com os dois mods ligados. Isso descrevia o
+  comportamento da 1.0.1 do BetterFont, nao o desta versao: com o **BetterFont 1.0.2** o texto de
+  combate fica com **a serifa e o halo/sombra**.
+
 ## 0.1.0
 
-Primeira versao — **ainda NAO publicada** (por isso a versao nao sobe: esta e a primeira build candidata).
+Primeira versao publicada.
 
 - **Aplicador de ganchos corrigido antes da primeira publicacao**: o filtro de classe de gancho copiado do RoguelikeSkillTreeVisualizer exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no metodo** e este mod declara os **9 ganchos pela convencao de nome** do Harmony (metodo `Postfix`) — teria pulado os 9 em silencio. O filtro agora exige so `[HarmonyPatch]` **no TIPO** (o mesmo conjunto que o `PatchAll()` processava) e os ganchos sao aplicados **um a um**, com log por gancho e resumo com a contagem real.
 - **Diagnostico de arranque mais barato**: a varredura de cena passou de 2s para 5s e **para no primeiro alvo que aparece em cena** (chave propria no `.cfg`), em vez de varrer todas as superficies sempre.
@@ -20,7 +43,7 @@ Primeira versao — **ainda NAO publicada** (por isso a versao nao sobe: esta e 
 - **Diagnostico de arranque executado no jogo**: o que esta confirmado e **viabilidade tecnica**, lida do proprio diagnostico — todos os alvos TMP usam variantes `TextMeshPro/Distance Field` (`Overlay`, `(Surface)`, `Distance Field`) com `_OutlineWidth` presente (halo suave viavel); o numero do dado e `TextMeshPro` (140 faces em 7 `DiceVisualSetup`, 0 `TextMesh` legado); e os rotulos de stack sao `UnityEngine.UI.Text` legado (124 `StatusIcon`).
 - **Efeito visual: NAO CONFIRMADO** — depende do dono ver em jogo (abrir um combate/evento e olhar). O diagnostico prova que o halo e possivel, nao que ele aparece nem que ficou bom; nao ha log de antes/depois nem captura no repositorio.
 - **Com o mod DESLIGADO (`Ativar = false`) o jogo roda original**: e um early-return no `Awake` — nenhum gancho e aplicado (no log aparece so a linha de "DESLIGADO no config") e nenhum alvo e tocado.
-- **Convivência com o BetterFont**: com os dois ligados, os textos de combate tendem a manter a **fonte original** enquanto o resto da UI fica serifada — o BetterFont pula texto com material estilizado (`PularTextosEstilizados = true`) e este mod clona o material por componente. Cosmetico, nada quebra; detalhe no README.
+- **Convivência com o BetterFont**: com os dois ligados, os textos de combate ganham a **serifa e o efeito** (halo/sombra) a partir do **BetterFont 1.0.2** — variante de shader diferente não é mais recusa lá. Na **1.0.1** eles ficavam com a **fonte original** (o portão do BetterFont recusava o material dos textos de combate; era o defeito que o BF-2 consertou). O BetterFont troca a fonte e reaplica no material por componente o efeito que já estava naquele texto; quando esse efeito não pode ser reproduzido (textura de face, bevel, glow), aquele texto fica **intocado** — a escolha segura, não um defeito, e o motivo sai nomeado no log do BetterFont. Cosmetico, nada quebra.
 - **Desligar tudo em 1 linha**: `Ativar = false` na secao `1. Geral` — nenhum patch e aplicado e o jogo roda original.
 - **Sem alteracao de gameplay** e sem tocar em arquivo do jogo. Nada de Bard/musica.
 

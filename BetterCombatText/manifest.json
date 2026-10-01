@@ -1,11 +1,11 @@
 {
   "name": "BetterCombatText",
-  "version_number": "0.1.0",
+  "version_number": "0.1.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Contorno/halo suave (preto a 10%) nos nomes de inimigos e nos rotulos de buff/debuff em combate, mais o texto do dado nos eventos. Cada superficie liga/desliga no .cfg. Sem mudanca de gameplay.",
+  "description": "Outlines combat text: enemy names, buff/debuff labels and the dice numbers in roll events. Each surface toggles in the .cfg. No gameplay change; the visual result is not yet verified in game.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305",
-    "DefRuivo_StolenRealmMods-BetterFont-1.0.1"
+    "DefRuivo_StolenRealmMods-BetterFont-1.0.2"
   ],
   "extra": {
     "author": "gumatos"
