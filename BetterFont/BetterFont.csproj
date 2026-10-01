@@ -11,7 +11,7 @@
          [BepInPlugin(...)] no Plugin.cs. Depois de subir a versao aqui, rode o
          empacotador com a opcao de sincronizar versao (ver docs/README.md, secao
          "Fonte unica de versao"). -->
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Description>Troca a fonte do jogo por uma serifada (Times New Roman ou similar) preservando a estilizacao (cor, contorno, sombra) dos textos.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
