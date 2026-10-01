@@ -1,0 +1,180 @@
+{
+  "caso": "soma-aura",
+  "procedencia": "oraculo_soma_aura (C#, float + Math.Round ToEven): o mesmo caminho de conta do motor",
+  "formula": "Mathf.Round(BASE * (1 + bonus/100)), fator e produto em float",
+  "fonte_vocabulario": "docs/PLANO-DE-TESTES.md (EXCESSO DE SHRINE / BORDAS)",
+  "auditoria_float_vs_double": {
+    "o_que": "para todo par (base do censo x bonus alcancavel), float (motor) e double (implementacao natural em Python) dao o mesmo inteiro",
+    "bases": [
+      -25,
+      0,
+      5,
+      8,
+      10,
+      20,
+      25,
+      50
+    ],
+    "fontes_de_bonus": [
+      8,
+      20,
+      50,
+      100
+    ],
+    "bonus_alcancaveis": [
+      0,
+      8,
+      20,
+      28,
+      50,
+      58,
+      70,
+      78,
+      100,
+      108,
+      120,
+      128,
+      150,
+      158,
+      170,
+      178
+    ],
+    "pares_conferidos": 128,
+    "divergencias": [],
+    "veredito": "0 divergencias: a conta em double basta para este dominio"
+  },
+  "cenarios": [
+    {
+      "id": "sem-bonus",
+      "base": 20,
+      "bonus": 0,
+      "nota": "bonus zero: o valor e a base"
+    },
+    {
+      "id": "omnism1",
+      "base": 20,
+      "bonus": 8,
+      "nota": "Omnism I (+8)"
+    },
+    {
+      "id": "omnism2",
+      "base": 20,
+      "bonus": 20,
+      "nota": "Omnism II (+20)"
+    },
+    {
+      "id": "worship",
+      "base": 20,
+      "bonus": 100,
+      "nota": "Worship (+100) sozinho"
+    },
+    {
+      "id": "horn-50",
+      "base": 20,
+      "bonus": 50,
+      "nota": "Horn of Devotion, anel +50"
+    },
+    {
+      "id": "horn-100",
+      "base": 20,
+      "bonus": 100,
+      "nota": "Horn of Devotion, anel +100"
+    },
+    {
+      "id": "worship-omnism2",
+      "base": 20,
+      "bonus": 120,
+      "nota": "EXCESSO DE SHRINE: Worship (+100) + Omnism II (+20). O defeito plantado soma 20+20=40 a mao; o motor da 44"
+    },
+    {
+      "id": "tres-bencaos",
+      "base": 20,
+      "bonus": 270,
+      "nota": "EXCESSO DE SHRINE: Worship + os dois Horn + Omnism II"
+    },
+    {
+      "id": "reaper",
+      "base": 8,
+      "bonus": 20,
+      "nota": "Reaper: base 8 (a menor base) + Omnism II"
+    },
+    {
+      "id": "seraph",
+      "base": 10,
+      "bonus": 150,
+      "nota": "Seraph: base 10 + os dois Horn"
+    },
+    {
+      "id": "energia",
+      "base": 50,
+      "bonus": 100,
+      "nota": "Energy: base 50 (a maior) + Worship"
+    },
+    {
+      "id": "fury-negativo",
+      "base": -25,
+      "bonus": 120,
+      "nota": "BORDAS: Fury tem base NEGATIVA (-25) + Worship + Omnism II"
+    },
+    {
+      "id": "fluxo-zero",
+      "base": 0,
+      "bonus": 120,
+      "nota": "BORDAS: base zero -> total zero, com bonus alto"
+    },
+    {
+      "id": "arredonda-para-1",
+      "base": 20,
+      "bonus": -95,
+      "nota": "BORDAS: bonus negativo -> 20*0.05 = 1 (nao 0)"
+    },
+    {
+      "id": "fracao-negativa",
+      "base": 20,
+      "bonus": -102,
+      "nota": "BORDAS: 20*(-0.02) = -0.4 -> 0 (nao -1)"
+    },
+    {
+      "id": "borda-meio-7-5",
+      "base": 5,
+      "bonus": 50,
+      "nota": "BORDAS: 5*1.5 = 7.5 -> ToEven -> 8"
+    },
+    {
+      "id": "borda-meio-12-5",
+      "base": 5,
+      "bonus": 150,
+      "nota": "BORDAS: 5*2.5 = 12.5 -> ToEven -> 12 (o 'normal' seria 13)"
+    },
+    {
+      "id": "borda-meio-37-5",
+      "base": 25,
+      "bonus": 50,
+      "nota": "BORDAS: 25*1.5 = 37.5 -> ToEven -> 38"
+    },
+    {
+      "id": "borda-meio-62-5",
+      "base": 25,
+      "bonus": 150,
+      "nota": "BORDAS: 25*2.5 = 62.5 -> ToEven -> 62 (o 'normal' seria 63)"
+    },
+    {
+      "id": "borda-meio-87-5",
+      "base": 25,
+      "bonus": 250,
+      "nota": "BORDAS: 25*3.5 = 87.5 -> ToEven -> 88"
+    },
+    {
+      "id": "flame-sem-bonus",
+      "base": 5,
+      "bonus": 0,
+      "nota": "Flame: base 5 sem bonus -> 5"
+    },
+    {
+      "id": "dwarven-totem",
+      "base": 20,
+      "bonus": 200,
+      "nota": "Dwarven (Totem). ATENCAO: em jogo o Dwarven NAO escala (excecao conhecida, verificada 30/09) - aqui e so a formula que o asset declara"
+    }
+  ]
+}
