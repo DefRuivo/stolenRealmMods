@@ -1,0 +1,578 @@
+{
+  "caso": "excesso-shrine",
+  "procedencia": "oraculo_excesso_shrine (C#): aritmetica FLOAT + Math.Round ToEven + Mathf.CeilToInt, o caminho de conta do motor; bases/percentuais LIDOS de tools/dados/shrines-esperado.csv e shrines-percentuais.csv (GERADOS de docs/cobertura/status.csv e do resources.assets por tools/gera_shrines_esperado.py)",
+  "fontes": {
+    "bases": "tools/dados/shrines-esperado.csv (gerado por tools/gera_shrines_esperado.py; cada linha cita docs/cobertura/status.csv:<linha> ou resources.assets@<offset>)",
+    "percentuais": "tools/dados/shrines-percentuais.csv (as acoes Flame/Decay Aura Proc)",
+    "regra_da_escala": "docs/cobertura/revisao/RV-19-shrines.md §2.2: Mathf.Round(BASE * (1 + bonus/100)), half-to-even",
+    "fontes_do_bonus": "RV-19 §3: Omnism I +8, Omnism II +20 (que SUBSTITUI a I), Horn of Devotion {50,100}, Worship +100",
+    "dano": "RV-19 §4.2/§4.3: Flame Max(1, Round(vida * %do tipo * fator)), Decay Round(vida * %do tipo * fator) sem minimo",
+    "linha_agregada": "BetterTooltips/Patches/ShrineAuraPatch.cs (a fonte viva das regras; os itens sao a transcricao citada no cabecalho do oraculo)"
+  },
+  "bonus": [
+    {
+      "id": "sem-bonus",
+      "fontes": [],
+      "nota": "bonus zero: o valor e a base"
+    },
+    {
+      "id": "omnism1",
+      "fontes": [
+        "Omnism I"
+      ],
+      "nota": "Omnism I (+8)"
+    },
+    {
+      "id": "omnism2",
+      "fontes": [
+        "Omnism II"
+      ],
+      "nota": "Omnism II (+20) - ela SUBSTITUI a I (§3)"
+    },
+    {
+      "id": "horn-50",
+      "fontes": [
+        "Horn of Devotion (+50)"
+      ],
+      "nota": "Horn of Devotion no roll de +50"
+    },
+    {
+      "id": "worship",
+      "fontes": [
+        "Worship"
+      ],
+      "nota": "perk Worship (+100)"
+    },
+    {
+      "id": "worship-omnism2",
+      "fontes": [
+        "Worship",
+        "Omnism II"
+      ],
+      "nota": "EXCESSO: Worship (+100) + Omnism II (+20) = 120"
+    },
+    {
+      "id": "worship-omnism1",
+      "fontes": [
+        "Worship",
+        "Omnism I"
+      ],
+      "nota": "EXCESSO: Worship (+100) + Omnism I (+8) = 108 (a I nao tem quem a substitua aqui)"
+    },
+    {
+      "id": "worship-horn50",
+      "fontes": [
+        "Worship",
+        "Horn of Devotion (+50)"
+      ],
+      "nota": "EXCESSO: Worship (+100) + Horn (+50) = 150"
+    },
+    {
+      "id": "worship-horn100",
+      "fontes": [
+        "Worship",
+        "Horn of Devotion (+100)"
+      ],
+      "nota": "EXCESSO: Worship (+100) + Horn (+100) = 200"
+    },
+    {
+      "id": "omnism1-omnism2",
+      "fontes": [
+        "Omnism I",
+        "Omnism II"
+      ],
+      "nota": "EXCESSO: as DUAS tiers - a I e SUBSTITUIDA pela II: total 20, NAO 28 (RV-19 §3)"
+    },
+    {
+      "id": "tres-omnism",
+      "fontes": [
+        "Worship",
+        "Omnism I",
+        "Omnism II"
+      ],
+      "nota": "EXCESSO: tres fontes, com as duas tiers dentro = 100 + 20"
+    },
+    {
+      "id": "tres-bencaos",
+      "fontes": [
+        "Worship",
+        "Omnism II",
+        "Horn of Devotion (+50)"
+      ],
+      "nota": "EXCESSO: tres bencaos acumuladas (Worship + Omnism II + Horn) = 170"
+    },
+    {
+      "id": "tudo",
+      "fontes": [
+        "Worship",
+        "Omnism I",
+        "Omnism II",
+        "Horn of Devotion (+50)"
+      ],
+      "nota": "EXCESSO: todas as fontes juntas (a I cai pela substituicao) = 170"
+    }
+  ],
+  "eixo_bonus": [
+    0,
+    8,
+    20,
+    50,
+    100,
+    108,
+    120,
+    150,
+    170,
+    200
+  ],
+  "danos_eixo": {
+    "tipos": [
+      "boss",
+      "champion",
+      "elite",
+      "soldier",
+      "fodder",
+      "player"
+    ],
+    "maxhealth": [
+      3,
+      10,
+      100,
+      233,
+      300
+    ],
+    "bonus_ids": [
+      "sem-bonus",
+      "omnism2",
+      "worship",
+      "worship-omnism2"
+    ]
+  },
+  "formatacao": [
+    {
+      "id": "inteiro-nao-ganha-ponto",
+      "atributo": "CritChance",
+      "valor": 40,
+      "nota": "inteiro: o texto NAO pode ganhar .0"
+    },
+    {
+      "id": "equipamento-fracionario",
+      "atributo": "DodgeChance",
+      "valor": 53.4,
+      "nota": "valor fracionario do equipamento: a convencao do jogo e Mathf.Ceil (54)"
+    },
+    {
+      "id": "fracao-meio",
+      "atributo": "DamageMod",
+      "valor": 0.5,
+      "nota": "BORDA .5 exato: Ceil(0.5) = 1"
+    },
+    {
+      "id": "fracao-negativa",
+      "atributo": "DamageMod",
+      "valor": -0.4,
+      "nota": "BORDA -0.4: Ceil(-0.4) = 0 -> o sinal e lido DEPOIS (\"+0%\")"
+    },
+    {
+      "id": "negativo-inteiro",
+      "atributo": "DamageMod",
+      "valor": -25,
+      "nota": "negativo inteiro: sinal U+2212"
+    },
+    {
+      "id": "negativo-fracionario",
+      "atributo": "DodgeChance",
+      "valor": -53.4,
+      "nota": "Ceil(-53.4) = -53 (a ficha mostra -53; inverter antes daria -54)"
+    },
+    {
+      "id": "damage-taken-reduz",
+      "atributo": "DamageReduction",
+      "valor": 20,
+      "nota": "DamageReduction positivo REDUZ o dano tomado: rotulo invertido"
+    },
+    {
+      "id": "damage-taken-aumenta",
+      "atributo": "DamageReduction",
+      "valor": -30,
+      "nota": "DamageReduction negativo AUMENTA o dano tomado (o total do print do dono)"
+    },
+    {
+      "id": "energy-reduz",
+      "atributo": "ManaCostMod",
+      "valor": -50,
+      "nota": "Energy Coil: o EFEITO e -50 (o texto do jogo mostra +50)"
+    },
+    {
+      "id": "energy-aumenta",
+      "atributo": "ManaCostMod",
+      "valor": 20,
+      "nota": "RV-43: total POSITIVO de ManaCostMod e custo AUMENTADO"
+    },
+    {
+      "id": "energia-total-positivo",
+      "atributo": "ManaCostMod",
+      "valor": -100,
+      "nota": "a aura empurra -100 mas o resto da ficha e +120 -> total +20 (RV-43)"
+    }
+  ],
+  "agregado": [
+    {
+      "id": "rogue-x3-stacks-1",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Rogue Aura",
+          "instancias": 3,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DodgeChance": 57
+      },
+      "nota": "O DEFEITO DO PRINT DO DONO: a MESMA aura 3x na lista viva (cada (re)entrada na area cria um status novo). A contribuicao conta a aura UMA vez (RV-46): Dodge +40% (o numero da linha branca do shrine), NAO +120%."
+    },
+    {
+      "id": "fury-so",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Fury",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DamageMod": 75,
+        "DamageReduction": -30
+      },
+      "nota": "ACEITE do dono (RV-19 §9.1, print com Worship): um item por atributo do MESMO status (Fury mexe em DamageMod e DamageReduction); total = resto + contribuicao."
+    },
+    {
+      "id": "warrior-mais-fury",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Warrior Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Fury",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DamageMod": 115,
+        "DamageReduction": -30
+      },
+      "nota": "DUAS AURAS NO MESMO ATRIBUTO (Warrior + Fury em DamageMod): as contribuicoes SOMAM (40 + 50 = 90) e o item continua UM (nao se repete). O total 115 e DERIVADO (75 do print com o Fury + 40 do Warrior, com o resto 25 constante de RV-19 §9.1/§9.2) - NAO ha print do dono com as duas auras na mesma area; o que o teste trava aqui e a CONTRIBUICAO e o resto constante."
+    },
+    {
+      "id": "tres-fontes-mesmo-atributo",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Warrior Aura",
+          "instancias": 2,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Fury",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DamageMod": 115,
+        "DamageReduction": -30
+      },
+      "nota": "TRES ENTRADAS VIVAS no mesmo atributo (Warrior x2 + Fury): a deduplicacao (RV-46) deixa Warrior + Fury e o item soma 90 uma vez so; a repeticao vai para o log."
+    },
+    {
+      "id": "warrior-stacks-2",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Warrior Aura",
+          "instancias": 1,
+          "stacks": 2,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DamageMod": 155
+      },
+      "nota": "STACKS DO MESMO STATUS (TotalStacks = 2): o motor multiplica o valor pelo numero de stacks (Character.cs l.37263; ShrineAuraPatch l.1733) - aqui a contribuicao E 40 x 2 = 80, o contrario do caso da aura repetida (que e a mesma aura, nao mais efeito)."
+    },
+    {
+      "id": "teto-guardian-mais-fury",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Guardian Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Fury",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "DamageMod": 75,
+        "DamageReduction": -50
+      },
+      "nota": "O TOTAL NO TETO DO ATRIBUTO (e a contribuicao liquida das DUAS auras): o motor CORTA o total no teto (`HasMax`/`MaxValue`; RV-46/commit bc394e7: DamageReduction MaxValue=50, asset @1519603860). Guardian empurra +40 (dano tomado -40) e Fury empurra -50: a contribuicao LIQUIDA e -10 e o TOTAL fica no teto (-50, que o rotulo le '+50%'). O item tem de trazer a conta das duas auras e o total do motor - nao confundir com o defeito do `Dodge +120%`, que era a MESMA aura contada por ENTRADA da lista viva (e dava um numero impossivel: 120 com o atributo teto 75)."
+    },
+    {
+      "id": "dwarven-so",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Dwarven Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "O DWARVEN SUMIDO: aura viva SEM atributo de personagem e sem NENHUMA outra aura na linha. Antes do RV-46 a linha saia vazia; hoje ela tem de trazer o item proprio (`Stun chance +40%`) - a lista se apresenta como completa."
+    },
+    {
+      "id": "dwarven-sem-expressao",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Dwarven Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": false
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "A outra metade da regra: sem expressao avaliada NAO existe numero - a aura sai no LOG com o motivo (`RV-46 AVISO: a aura viva ... NAO virou item`). Nunca sumir calada."
+    },
+    {
+      "id": "decay-so",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Decay Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "Decay sozinho (sem atributo): o item proprio vem do asset avaliado pelo motor - com vida maxima 100 e bonus 100 a % do player (10%) DOBRA: 10 -> 20."
+    },
+    {
+      "id": "decay-vida-3",
+      "bonus_id": "sem-bonus",
+      "maxhealth": 3,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Decay Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "BORDA do Decay: vida maxima 3 sem bonus -> 3 x 10% = 0.3 -> Round -> 0. O Decay NAO tem minimo (a nota viva diz \"it can be 0\"): o item tem de sair com 0, nao sumir. O MESMO 3 no Flame (matriz dos danos) da 1 pelo Mathf.Max(1, ...) - os dois juntos isolam o minimo de um so."
+    },
+    {
+      "id": "flame-varios-alvos",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Flame Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [
+        {
+          "nome": "Kobold",
+          "maxhealth": 100,
+          "tipo": "player",
+          "bonus_id": "worship"
+        },
+        {
+          "nome": "Chefe",
+          "maxhealth": 300,
+          "tipo": "boss",
+          "bonus_id": "worship"
+        },
+        {
+          "nome": "Tanque",
+          "maxhealth": 233,
+          "tipo": "elite",
+          "bonus_id": "worship"
+        },
+        {
+          "nome": "Fodder rasteiro",
+          "maxhealth": 3,
+          "tipo": "fodder",
+          "bonus_id": "sem-bonus"
+        }
+      ],
+      "totais": {},
+      "nota": "FLAME COM VARIOS ALVOS: um item por alvo, com a vida maxima, a % do tipo e o bonus DELE (o hover nao sabe quem vai atacar - a lista e uma projecao). O alvo com vida 3 e bonus 0 isola o MINIMO 1 do Flame (3 x 14% = 0.42 -> Round 0 -> Max(1, ...) = 1)."
+    },
+    {
+      "id": "flame-sem-alvo",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Flame Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {},
+      "nota": "FLAME SEM ALVO NA AURA: nao existe UM numero (o dano e de quem ataca). A aura nao entra na linha e o LOG diz por que - silencio nunca."
+    },
+    {
+      "id": "linha-mista",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Warrior Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Rogue Aura",
+          "instancias": 2,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Dwarven Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Decay Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        },
+        {
+          "aura": "Flame Shrine Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [
+        {
+          "nome": "Kobold",
+          "maxhealth": 100,
+          "tipo": "player",
+          "bonus_id": "worship"
+        },
+        {
+          "nome": "Chefe",
+          "maxhealth": 300,
+          "tipo": "boss",
+          "bonus_id": "worship"
+        }
+      ],
+      "totais": {
+        "DamageMod": 115,
+        "DodgeChance": 57
+      },
+      "nota": "A LINHA COMPLETA (bonus 100): dois itens de atributo (DamageMod e DodgeChance, na ordem canonica) + os tres itens sem atributo (Dwarven/Decay/Flame), com a Rogue repetida contada UMA vez. Nenhuma aura viva pode ficar de fora."
+    },
+    {
+      "id": "energia-total-negativo",
+      "bonus_id": "sem-bonus",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Energy Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "ManaCostMod": -50
+      },
+      "nota": "BORDA: a aura do Energy empurra o custo para BAIXO (-50) - o item tem de ler 'Mana Costs reduced by 50%' com o total NEGATIVO no parenteses."
+    },
+    {
+      "id": "energia-total-positivo",
+      "bonus_id": "worship",
+      "maxhealth": 100,
+      "tipo_receptor": "player",
+      "vivas": [
+        {
+          "aura": "Energy Aura",
+          "instancias": 1,
+          "stacks": 1,
+          "expressao": true
+        }
+      ],
+      "alvos": [],
+      "totais": {
+        "ManaCostMod": 20
+      },
+      "nota": "RV-43: a aura empurra -100 e o resto da ficha e +120 -> total +20. A aura reduz o custo, o TOTAL e positivo (custo aumentado) - o item diz os dois sem se contradizer."
+    }
+  ]
+}

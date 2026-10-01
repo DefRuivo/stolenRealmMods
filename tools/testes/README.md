@@ -83,16 +83,26 @@ tools/testes/
 ├── roda_testes.py                 o RUNNER (um comando roda tudo)
 ├── roda.sh                        atalho: escolhe python/python3 e chama o runner
 ├── arcabouco.py                   biblioteca comum: asserts, fixtures, requisitos, META
+├── regras_shrine.py               TST-2: as regras do excesso de shrine (biblioteca da familia)
 ├── README.md                      este contrato
 ├── testes/                        A SUITE (descoberta: t_*.py dentro daqui)
 │   ├── puros/                     categoria "pura" - roda sem o jogo
 │   │   ├── t_exemplo_soma_aura.py     EXEMPLO de teste puro (usa fixture)
-│   │   └── t_prova_de_fogo.py         o teste QUE TESTA O RUNNER
+│   │   ├── t_prova_de_fogo.py         o teste QUE TESTA O RUNNER
+│   │   ├── t_shrine_excesso_bonus.py       TST-2: a cadeia do ShrineEffectBonus
+│   │   ├── t_shrine_excesso_agregado.py    TST-2: a linha agregada item por item
+│   │   ├── t_shrine_excesso_dano.py        TST-2: o dano do Flame e do Decay
+│   │   ├── t_shrine_excesso_formatacao.py  TST-2: as bordas de formato
+│   │   └── t_shrine_contra_prova.py        TST-2: a prova de fogo das 4 iscas
 │   └── jogo/                      categoria "jogo" - precisa da lib/
 │       └── t_exemplo_referencias_lib.py   EXEMPLO de teste de jogo
 ├── contra-prova/                  A ISCA: testes que TEM de reprovar (cp_*.py)
 │   ├── cp_defeito_soma_aura.py        o defeito plantado  -> REPROVA
-│   └── cp_corrigido_soma_aura.py      o mesmo teste, sem o defeito -> PASSA
+│   ├── cp_corrigido_soma_aura.py      o mesmo teste, sem o defeito -> PASSA
+│   ├── cp_shrine_instancias_dobradas.py  TST-2: o `Dodge +120%` do print do dono
+│   ├── cp_shrine_bonus_somado_a_mao.py   TST-2: as duas tiers somadas (28 no lugar de 20)
+│   ├── cp_shrine_dwarven_sumido.py       TST-2: a aura viva que sumia da lista
+│   └── cp_shrine_fracao_e_porcento.py    TST-2: o formato pre-RV-45 (53.4 e dois `%`)
 └── fixtures/                      entradas e saidas esperadas, versionadas
     ├── README.md                  convencao de nome + procedencia
     ├── soma-aura.entrada.json
@@ -186,6 +196,54 @@ nao vira um segundo runner com outra convencao de saida. Traduza o resultado:
 build/execucao falhou por falta de dependencia -> `arc.NaoRodou`; teste falhou ->
 `arc.Falhou`. Um projeto de teste xunit **nao** deve ser descoberto pelo runner
 (nao tem META) - deixe-o em `testes/jogo/<nome>/` como apoio, nao como `t_*.py`.
+
+---
+
+## A familia TST-2 (excesso de shrine)
+
+Quatro testes PUROS + quatro iscas, sobre um dataset UNICO de fixture
+(`excesso-shrine`), gerado por um oraculo proprio:
+
+| teste | o que ele trava |
+|---|---|
+| `t_shrine_excesso_bonus.py` | a cadeia do `ShrineEffectBonus` (0/8/20/50/100 + as combinacoes; `Omnism I` + `Omnism II` = 20, nao 28) e a escala das 12 auras |
+| `t_shrine_excesso_agregado.py` | a linha `Your active shrine auras:`: a aura repetida conta 1x (`Dodge +120%` -> `+40%`), auras no mesmo atributo somam, o Dwarven nunca some |
+| `t_shrine_excesso_dano.py` | o dano do Flame/Decay (minimo 1 so no Flame, vida maxima 3/100, half-to-even, um alvo por item) |
+| `t_shrine_excesso_formatacao.py` | as bordas de formato (Ceil da ficha, `.5`, `-0.4`, inteiro sem `.0`, um `%` por rotulo, U+2212) |
+| `t_shrine_contra_prova.py` | roda as 4 iscas e exige que cada uma reprove PELO MOTIVO CERTO, e que o teste da suite passe |
+
+**Uma fixture para a familia inteira.** A convencao `<nome-do-teste>.<papel>.<ext>` vale por
+teste; aqui os quatro testes compartilham o caso `excesso-shrine` de proposito: e UM oraculo e UM
+par entrada/esperado para a mesma familia (bonus, agregado, dano e formato sao o mesmo material
+olhado por angulos diferentes). Um caso por teste seriam quatro fixtures com o mesmo conteudo.
+
+**As regras vivem em `regras_shrine.py`** (biblioteca da familia, ao lado do `arcabouco.py`).
+Ela transcreve a conta (`float` + `Math.Round` ToEven + `Mathf.CeilToInt`) e as regras da linha
+citando `BetterTooltips/Patches/ShrineAuraPatch.cs` `arquivo:linha`, e LE as bases/percentuais de
+`tools/dados/*.csv` (nunca digita). Os testes fazem `import regras_shrine as reg` - o PYTHONPATH do
+subprocesso ja aponta para `tools/testes`.
+
+**De onde vem o esperado:** da fixture, gerada pelo oraculo em C#
+`tools/testes/fixtures/geradores/oraculo_excesso_shrine`, que confere a propria conta contra a
+tabela gerada do repositorio (`tools/dados/shrines-esperado.csv`) e FALHA se divergir:
+
+```bash
+dotnet run --project tools/testes/fixtures/geradores/oraculo_excesso_shrine -- tools/testes/fixtures
+```
+
+O teste da linha agregada ainda confere o modelo contra a **medicao em jogo**: o log versionado
+`tools/fixtures/shrines-rv46-dedupe.log` (produzido pelo jogo com o mod instalado) tem o Dwarven
+(20/24/40), o item do print do dono (`Dodge +40% (total +57%)`) e o hover com a lista viva repetida
+(`instancias=[Guardian Aura x2, Rogue Aura x3]` -> `Dodge +40%`, nao +120%). Medicao em jogo vence
+leitura de asset (RV-19 §0.5).
+
+**O que esta familia NAO prova (o limite dela).** Os testes sao de LOGICA PURA: eles exercitam o
+MODELO das regras (o Python de `regras_shrine.py`) contra o oraculo em C#, e ainda LEEM o
+`ShrineAuraPatch.cs` para conferir os literais dos rotulos e as duas ligacoes da deduplicacao
+(`AurasUnicas` -> `ContribuicaoDasAuras(unicas, ...)`). Eles NAO executam o C# do mod (isso exigiria
+a `lib/` do jogo e um harness por test); a ligacao entre as duas pontas e a leitura citada por
+`arquivo:linha`. Quando a medicao em jogo contradisser o codigo, a medicao vence (RV-19 §0.5) e a
+fixture e o modelo precisam de nova revisao.
 
 ---
 
