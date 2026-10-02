@@ -402,8 +402,22 @@ namespace BetterFont
         /// Com a chave do dono ligada a varredura pula ~484 numa passada (log do dono: 484 e 624 —
         /// <c>tools/fixtures/bf-varredura-em-jogo.log</c>); sem teto próprio o de 300 se esgotava
         /// antes da linha de combate, que nessa config E um pulado.
+        /// FIX-6/FIX-8 — de onde sai o número, e o que NÃO se sustenta. O teto se dimensiona pelo
+        /// log VERSIONADO (<c>tools/fixtures/bf-varredura-em-jogo.log</c>): a maior varredura medida
+        /// tem 640 textos, 12 já na serifa e 624 pulados. Como o texto que já está na serifa NÃO
+        /// chega ao escape, a base certa é 640 − 12 = 628 e a fração de pulo é 624/628 = 0,9936 (não
+        /// 624/640). O FIX-6 subiu o teto de 700 a 900 projetando uma varredura de 793 objetos ×
+        /// 0,975 = 773 pulados — número que só existia em log NÃO versionado (scratch/). A FIX-8
+        /// refutou a projeção: aquela varredura de 793 fechou 353 convertidos + 61 intocados + 379
+        /// já na serifa = 793 EXATO, com ZERO pulados; e, mesmo tomando o total como base, só
+        /// 793 − 379 = 414 textos chegam ao escape, que a 0,9936 projetam ~411 pulados — muito
+        /// abaixo de 700. Pelo log versionado o maior pulo de uma cena é 624, então o teto só precisa
+        /// passar de 624: o antigo 700 JÁ cobria e o 900 NÃO é necessário. Ele fica em 900 como FOLGA
+        /// DELIBERADA de limite de log (logar mais não custa nada) — nunca porque "o 700 estava
+        /// apertado", premissa que caiu. Conferido em
+        /// <c>tools/testes/regras_bf.maior_pulado_medido()</c> e no teste do orçamento.
         /// </summary>
-        internal const int TetoDiagEscape = 700;
+        internal const int TetoDiagEscape = 900;
 
         /// <summary>
         /// BF-3 — as TRÊS categorias de linha do diagnóstico, ditas por quem chama (nunca tiradas do

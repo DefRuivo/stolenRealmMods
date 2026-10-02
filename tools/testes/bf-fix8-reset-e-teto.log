@@ -1,0 +1,122 @@
+PROVA DE REPROVACAO - BetterFont / FIX-8 (a classe do reset do orcamento + a conta do teto)
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO REPROVANDO.
+Cada rodada abaixo e fisica: a variante e PLANTADA em BetterFont/Plugin.cs, o teste e
+executado (`python tools/testes/testes/puros/t_bf_diag_orcamento.py`), o fonte e
+RESTAURADO byte a byte (sha256 conferido) e o teste roda de novo.
+
+Fonte: BetterFont/Plugin.cs
+sha256 de partida: 4b95850094fd5f3c3f57ea2d704382cceea5606fa266dbabcf41ec39cab21863 (82719 bytes)
+Plantadeira: as funcoes `fonte_com_o_*` de tools/testes/regras_bf.py, aplicadas EM MEMORIA
+             sobre a leitura do fonte vivo e escritas no arquivo so para a rodada fisica.
+O que a rodada prova: as variantes mantem TODOS os tokens do zeramento (a comparacao de
+cena, os tres `= 0;`, a contagem de `return;`) e a checagem EXECUTA o Codigo efetivo
+(regras_bf.falhas_do_comportamento -> MaquinaDoDiagnostico), decidindo ALCANCE + ORDEM.
+==============================================================================
+
+### D-original: reset so na PRIMEIRA cena (`if (_diagCena != null)`)
+plantadeira: regras_bf.fonte_com_o_reset_so_na_primeira_cena
+o que ela faz: o guarda existe, os tres `= 0;` existem - mas o corpo so roda na 1a cena
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### reset INALCANCAVEL no comeco do metodo (`if (true) { return; }`)
+plantadeira: regras_bf.fonte_com_o_reset_inalcancavel
+o que ela faz: nenhum token do zero e tocado; o `return` sai antes de qualquer zero
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### cena lida DENTRO DE UM COMENTARIO (variavel `cena` fixa) - variante (A) da REV-56
+plantadeira: regras_bf.fonte_com_a_cena_fixa_no_comentario
+o que ela faz: `GetActiveScene()` continua no texto, mas so no comentario: o reset so roda na 1a cena
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### FIX-8 (1): o bloco de ZERAMENTO dentro de um `if (false)`
+plantadeira: regras_bf.fonte_com_o_zeramento_em_if_falso
+o que ela faz: os tres `= 0;` continuam escritos e com a mesma grafia - e nunca executam
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### FIX-8 (2): `_diagCena = cena;` ANTES do guarda `if (cena == _diagCena)`
+plantadeira: regras_bf.fonte_com_a_cena_gravada_antes_do_guarda
+o que ela faz: com a cena ja gravada o guarda fica SEMPRE verdadeiro: o corpo (com os zeros) nunca roda
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### FIX-8 (3): a chamada do reset DESLOCADA para depois do uso do contador
+plantadeira: regras_bf.fonte_com_o_reset_depois_do_uso
+o que ela faz: o reset existe e roda, mas o 1o texto de cada cena e julgado contra o orcamento da cena anterior
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+A CONTA DO TETO DO ESCAPE, refeita com numero que existe em ARQUIVO VERSIONADO
+(tools/fixtures/bf-varredura-em-jogo.log - 4 varreduras, linhas de resumo verbatim):
+
+  varredura 1: 488 textos = 4 convertidos + 484 pulados + 0 intocados + 0 ja na serifa
+  varredura 2: 418 textos = 8 convertidos + 406 pulados + 0 intocados + 4 ja na serifa
+  varredura 3: 488 textos = 4 convertidos + 484 pulados + 0 intocados + 0 ja na serifa
+  varredura 4: 640 textos = 4 convertidos + 624 pulados + 0 intocados + 12 ja na serifa
+
+  maiores: total=640   ja na serifa=12   pulados=624
+  a BASE do pulo nao e o total: quem ja esta na serifa nao chega ao escape
+    `if (t.font == _serifFont) { jaNaSerifa++; continue; }` VEM ANTES do escape
+  candidatos ao escape = 640 - 12 = 628
+  fracao de pulo       = 624/628 = 0.9936   (nao 624/640 = 0.975)
+  maior pulo MEDIDO de UMA cena = 624
+
+  a projecao do FIX-6 era 793 x 0,975 = 773. As duas pernas caem:
+    (a) o 793 NAO esta em arquivo versionado (so em scratch/, gitignored);
+    (b) ela fechou 353 convertidos + 61 intocados + 379 ja na serifa = 793 EXATO, ZERO pulados;
+        mesmo tomando o total como base, so 793 - 379 = 414 chegam ao escape, que a
+        fracao certa (0.9936) projetam ~411 pulados - MUITO abaixo dos 700 antigos.
+
+  CONCLUSAO: o teto so precisa passar do maior pulo MEDIDO numa cena (624).
+  O antigo 700 JA cobria (624 < 700): a premissa de que 'o 700 estava apertado' CAI, e o
+  900 NAO e necessario - ele fica como FOLGA DELIBERADA de limite de log (nao custa logar mais).
+  TetoDiagEscape no fonte: 900 (rotina=120, efeito=300)
+
+------------------------------------------------------------------------------
+RESULTADO: as 6 variantes reprovaram com o defeito plantado e o teste voltou a PASSOU com o fonte restaurado.
