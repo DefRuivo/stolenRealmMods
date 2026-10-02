@@ -19,6 +19,9 @@ import os
 import re
 import sys
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tabelas as _tab  # noqa: E402  o parser UNICO das tabelas do LocalizePatch.cs
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 FONTE = os.path.join(RAIZ, "BetterTooltips", "Patches", "LocalizePatch.cs")
 COB = os.path.join(RAIZ, "docs", "cobertura")
@@ -36,44 +39,42 @@ def desescapa(s):
 def le_tabela(txt, nome):
     """[(secao, justificativa, chave, valor)] de uma tabela do fonte.
 
-    Delimita a entrada pela LINHA que e so '{' e pela que comeca com '}' - nunca
-    quebrando o bloco por '{', porque varios textos do jogo contem tokens como
-    '{STA=Bleeding}' e partiriam a entrada ao meio. Foi o que fez a primeira versao
-    contar 18 correcoes quando existem dezenas.
-    """
-    i = txt.find(nome + " = new Dictionary<string, string>")
-    if i < 0:
-        return []
-    j = txt.find("};", i)
-    bloco = txt[i:j]
+    FONTE UNICA para LER a tabela: `tools/tabelas.py` (entradas de verdade, pulando
+    comentario de LINHA e de BLOCO em cada passo). A `secao` continua vindo do cabecalho
+    `// ----` mais recente ANTES da entrada (so os do proprio bloco), e a justificativa
+    e o comentario escrito junto dela — inclusive o que fica DENTRO do `{`, antes da
+    chave (o formato 'chave em linha propria').
 
-    entradas, secao, comentarios, literais = [], "", [], []
-    for linha in bloco.splitlines():
-        s = linha.strip()
-        # Comentarios valem para a PROXIMA entrada (secao = cabecalho de bloco).
-        if s.startswith("// ----"):
-            secao = s.strip("/- ").strip()
-            continue
-        if s.startswith("//"):
-            comentarios.append(s.lstrip("/").strip())
-            continue
-        # Cada linha que abre com '{' INICIA uma entrada - inclusive o '{' do proprio
-        # dicionario, que so serve para zerar o buffer. Ignorar isso fazia o '{' do
-        # dicionario engolir todas as entradas de uma vez (o appends zerava).
-        if s.startswith("{"):
-            literais = []
-        for m in LITERAL.finditer(s):
-            literais.append(desescapa(m.group(1)))
-        # Fecha a entrada quando o FIM da linha e '}' ou '},'. Nao basta "contem '}'":
-        # os textos tem tokens como {STA=Bleeding}, que fechariam a entrada no meio. E
-        # nao basta "comeca com '}'": a entrada pode ter o valor e o fechamento na mesma
-        # linha ('"valor" },'), que foi como 4 entradas minhas sumiram do livro.
-        fim = s.rstrip()
-        if fim.endswith("}") or fim.endswith("},"):
-            if len(literais) >= 2:
-                entradas.append((secao, " ".join(comentarios), literais[0], literais[1]))
-            comentarios, literais = [], []
-    return entradas
+    O desescape e o `desescapa` LOCAL de proposito: ele e o contrato de renderizacao
+    deste livro, que ja saiu assim em releases anteriores.
+    """
+    bloco, k = _tab.bloco(txt, nome)
+    base = txt[:k].count(_tab.NL) + 1
+    secoes, pos = [], 0
+    while True:
+        j = bloco.find('// ----', pos)
+        if j < 0:
+            break
+        fim = bloco.find(_tab.NL, j)
+        linha = bloco[:j].count(_tab.NL) + base
+        secoes.append((linha, bloco[j:len(bloco) if fim < 0 else fim].strip('/- ').strip()))
+        pos = j + 7
+    out = []
+    for linha, just, chave, valor in _tab.entradas(bloco, base):
+        secao = ''
+        for n, nome_secao in secoes:
+            if n <= linha:
+                secao = nome_secao
+            else:
+                break
+        # O cabecalho de secao (`// ---- NOME ----`) tambem e um comentario `//` e vem
+        # junto na justificativa; ele JA e a coluna de secao, entao sai do texto da
+        # justificativa (senao o nome do bloco apareceria repetido linha a linha).
+        if secao:
+            just = re.sub(r'----\s*' + re.escape(secao) + r'\s*----', '', just)
+        just = just.strip()
+        out.append((secao, just, desescapa(chave), desescapa(valor)))
+    return out
 
 
 def indice_censo():

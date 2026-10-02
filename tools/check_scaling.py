@@ -20,6 +20,9 @@ import re
 import sys
 from collections import Counter, defaultdict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tabelas as _tab  # noqa: E402  o parser UNICO das tabelas do LocalizePatch.cs
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COB = os.path.join(RAIZ, "docs", "cobertura")
 SAIDA = os.path.join(COB, "revisao", "escala.md")
@@ -56,15 +59,24 @@ def carrega(nome):
 def chaves_do_mod():
     """
     Textos que o mod JA corrige/explica. O censo e o estado ANTES do mod, entao sem
-    isto o relatorio acusaria para sempre o que ja esta resolvido. Pega a PRIMEIRA
-    string de cada entrada (chave), nos dois formatos que convivem no fonte.
+    isto o relatorio acusaria para sempre o que ja esta resolvido. Pega o TEXTO de
+    chave de cada entrada das duas tabelas.
+
+    FONTE UNICA: `tools/tabelas.py` (o regex local pulava so o comentario de LINHA
+    logo apos o `{` e casava chave fantasma dentro de comentario: 302 no lugar de 298).
+
+    A DIFERENCA DE -4 E GANHO, NAO PERDA DE COBERTURA (conferido pelo PARSER-1R). O regex
+    varria o arquivo INTEIRO e colhia 4 chaves de inicializadores FORA dos blocos
+    `TextFixes`/`TextAppends` — `Armor increased by 5%`, `Increased Armor`,
+    `Elemental resistance reduced by 5% per stack` e `Life Steal`. DUAS delas casam com o
+    censo, entao a lista antiga de "ja resolvido pelo mod" tinha 2 casos FALSOS: o parser
+    unico le exatamente as 298 entradas de verdade (o regex via 302) e a contagem passou a
+    ser MAIS ESTRITA. Nao ha cobertura perdida — so fantasma removido.
     """
     if not os.path.isfile(FONTE_MOD):
         return set()
     with open(FONTE_MOD, encoding="utf-8") as fh:
-        txt = fh.read()
-    return {m.group(1).replace('\\"', '"').replace("\\n", "\n").replace("\\\\", "\\")
-            for m in re.finditer(r'\{\s*(?://[^\n]*\n\s*)*"((?:[^"\\]|\\.)*)"\s*,', txt)}
+        return _tab.chaves(fh.read())
 
 
 def lista(txt):
@@ -114,6 +126,11 @@ def main():
     L = ["# Escala — o que a tooltip não diz (RV-8b-2i)\n",
          "> Gerado por `python tools/check_scaling.py%s`. Le as fórmulas de cada skill e "
          "cruza com as palavras do texto.\n" % ((" " + filtro) if filtro else ""),
+         "\n> Desde o PARSER-1 (01/10) a lista \"já resolvido pelo mod\" lê o parser ÚNICO "
+         "(`tools/tabelas.py`). O regex antigo varria o arquivo inteiro e colhia 4 chaves "
+         "FANTASMA de inicializadores fora dos blocos (302 no lugar de 298); DUAS casavam "
+         "com o censo, ou seja a lista antiga tinha 2 casos FALSOS. A contagem caiu para o "
+         "número real: é MAIS ESTRITO — ganho, não perda.\n",
          "\n## Fontes de escala encontradas\n",
          "| fonte | skills que usam | precisa estar no texto? |",
          "|---|---:|---|"]

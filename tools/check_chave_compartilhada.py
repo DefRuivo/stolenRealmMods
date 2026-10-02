@@ -95,6 +95,9 @@ import re
 import sys
 from collections import Counter, defaultdict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tabelas as _tab  # noqa: E402  o parser UNICO das tabelas do LocalizePatch.cs
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COBERTURA = os.path.join(RAIZ, 'docs', 'cobertura')
 FONTE = os.path.join(RAIZ, 'BetterTooltips', 'Patches', 'LocalizePatch.cs')
@@ -107,133 +110,34 @@ MAX_DONOS_IMPRESSOS = 12   # nos prints do terminal; o relatorio em .md lista to
 
 
 # ---------------------------------------------------------------------------
-# parser do LocalizePatch.cs
+# parser do LocalizePatch.cs — FONTE UNICA: tools/tabelas.py
 # ---------------------------------------------------------------------------
+# O leitor vive em `tools/tabelas.py` (pula comentario de LINHA e de BLOCO em todo
+# passo). Aqui ficam so apelidos, para os consumidores desta ferramenta — e o
+# `check_dupes.py`, que a importa — nao mudarem de contrato.
 def bloco(fonte, nome):
-    """Texto do dicionario `nome` (do `{` de abertura ate o `}` que fecha)."""
-    k = fonte.index('%s = new Dictionary' % nome)
-    k = fonte.index('{', k)
-    i = k + 1
-    d = 1
-    while i < len(fonte) and d > 0:
-        c = fonte[i]
-        # Comentario pode ter aspas soltas em prosa: pular a linha inteira, senao o
-        # scanner acha que comecou uma string e perde um `{`/`}` no caminho.
-        if fonte.startswith('//', i):
-            i = fonte.find(NL, i)
-            if i < 0:
-                break
-            continue
-        if c == Q:
-            i += 1
-            while i < len(fonte):
-                if fonte[i] == BS:
-                    i += 2
-                    continue
-                if fonte[i] == Q:
-                    i += 1
-                    break
-                i += 1
-            continue
-        if c == '{':
-            d += 1
-        elif c == '}':
-            d -= 1
-        i += 1
-    return fonte[k:i], k
+    """Texto do dicionario `nome` (do `{` de abertura ate o `}` que fecha) e a posicao."""
+    return _tab.bloco(fonte, nome)
 
 
 def le_string(t, i):
     """Le uma string C# a partir da aspa em t[i]. Devolve (conteudo, proximo_indice)."""
-    i += 1
-    buf = []
-    while i < len(t):
-        c = t[i]
-        if c == BS:
-            buf.append(t[i:i + 2])   # guarda a sequencia de escape como esta
-            i += 2
-            continue
-        if c == Q:
-            return ''.join(buf), i + 1
-        buf.append(c)
-        i += 1
-    return None, i
+    return _tab.le_string(t, i)
 
 
 def pula_brancos(t, j, comentario):
-    """Pula espacos/quebras de linha e comentarios `//` a partir de t[j].
-
-    Comentario pode ter aspas soltas em prosa: e por isso que a leitura pula a linha
-    inteira. Devolve o novo indice e vai acumulando as linhas de comentario vistas.
-    """
-    while j < len(t):
-        c = t[j]
-        if c in ' \t\r\n':
-            j += 1
-            continue
-        if t.startswith('//', j):
-            fim = t.find(NL, j)
-            if fim < 0:
-                return len(t)
-            comentario.append(t[j:fim].strip())
-            j = fim
-            continue
-        break
-    return j
+    """Pula espacos/quebras e comentarios `//`/`/* */`, acumulando o texto em `comentario`."""
+    return _tab.pula_brancos_e_comentarios(t, j, comentario)
 
 
 def entradas(texto, nl_antes_do_bloco):
-    """Pares (linha, comentario, chave, valor) na ordem do arquivo - aceita os DOIS formatos.
+    """Pares (linha, comentario, chave, valor) na ordem do arquivo — aceita os DOIS formatos
+    e pula os DOIS tipos de comentario.
 
-    Formato 1: `{ "chave", "valor" },` na mesma linha.
-    Formato 2: `{` / `// comentario` / `"chave",` / `"valor"` / `},` quebrado em
-    varias linhas - o comentario pode estar DENTRO das chaves, antes da chave; a
-    primeira versao (como a do check_notas_redundantes.py) perdia essas entradas em
-    silencio (71 de 86 do TextFixes). Por isso aqui se pula brancos/comentarios em
-    cada passo, e nao so depois do `{`.
-
-    `nl_antes_do_bloco` = numero de quebras de linha no arquivo ANTES do bloco, para
-    a linha absoluta sair certa (a versao consultada usava o indice de caractere do
-    bloco como offset, o que devolvia l.68018 - numero inutil para o relatorio).
+    `nl_antes_do_bloco` = quebras de linha antes do bloco: a linha sai 1-based no arquivo
+    (o parser compartilhado soma +1, a mesma conta que a versao local fazia).
     """
-    out = []
-    i = 0
-    comentario = []
-    while i < len(texto):
-        c = texto[i]
-        if c == Q:
-            _, i = le_string(texto, i)
-            continue
-        if texto.startswith('//', i):
-            fim = texto.find(NL, i)
-            if fim < 0:
-                break
-            comentario.append(texto[i:fim].strip())
-            i = fim
-            continue
-        if c == '{':
-            comentario_entrada = list(comentario)
-            j = pula_brancos(texto, i + 1, comentario_entrada)
-            if j < len(texto) and texto[j] == Q:
-                chave, j2 = le_string(texto, j)
-                if chave is not None:
-                    m = pula_brancos(texto, j2, comentario_entrada)
-                    if m < len(texto) and texto[m] == ',':
-                        m = pula_brancos(texto, m + 1, comentario_entrada)
-                        if m < len(texto) and texto[m] == Q:
-                            valor, m2 = le_string(texto, m)
-                            if valor is not None:
-                                linha = texto[:i].count(NL) + nl_antes_do_bloco + 1
-                                out.append((linha, ' '.join(comentario_entrada)[:160],
-                                            chave, valor))
-                                comentario = []
-                                i = m2
-                                continue
-            comentario = comentario_entrada
-        if c not in ' \t\r':
-            comentario = []
-        i += 1
-    return out
+    return _tab.entradas(texto, nl_antes_do_bloco + 1)
 
 
 def desescapa(s):
