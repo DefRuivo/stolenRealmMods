@@ -30,7 +30,21 @@ implementador de `IEffectInfo`, ele sai no dump sem recompilar*.
 Foi esse desenho que consertou um defeito real: o dump antigo fazia `e as GeneralEffect` sobre
 `IEffectInfo[]` — interface **vazia** com duas implementacoes — e todo elemento do segundo tipo
 (`CharacterVariableEffectInfo`) desaparecia **com o tipo junto**, o que impedia ate de saber que o
-dado faltava. Era a causa das duas ultimas entradas "indeterminado" do censo.
+dado faltava.
+
+> **CORRECAO (DOC-8, 01/10) — o veredito do censo esta certo; a causa que esta frase dava estava
+> errada.** O paragrafo acima dizia que aquele defeito era *a causa* das duas ultimas entradas
+> `indeterminado`. **As duas que RESTAM nao sao aquelas.** O censo fecha com **2** `indeterminado`
+> — `Champion of Blood` e `Frenzy` (`docs/cobertura/status.csv`) — e as duas seguem, no dump de
+> boot, `nEfeitosTot=0` / `efTipos=` / `nTrig=0`, com **0** gatilho e **0** `descExpr` na passagem
+> offline dos 421 assets. O motivo de continuarem abertas e o da secao 7 (RV-13c) §7.5 do
+> `docs/cobertura/revisao/RV-13b-fechamento.md`: o numero mora **fora do status**, em campo de
+> efeito serializado por **referencia de interface** — `ActionStatusInfo.Effects` / `ActionInfo.Effects`
+> (`IEffectInfo[]`) — que o node de typetree gerado **nao inclui** (no `Champion of Blood`, o
+> `CharacterInfo` do invocado carrega o elo) — **nao** o cast `as GeneralEffect`. O historico de como
+> as duas chegaram la fica registrado: nasceram `indeterminado` no RV-13, o RV-13b §4.3 manteve 16
+> com o motivo nomeado no lugar da duvida, e o RV-13c §7 leu o asset e fechou 14 — sobraram estas
+> duas.
 
 ## Backlog auditado — fechado no RD-2 (01/10)
 
@@ -56,6 +70,15 @@ lidos pelo asset com UnityPy; nenhum outro arquivo tem status).
 > true`). Eles saem no dump como qualquer outro (ex.: `Oculus Gem`, `Phoenix Feather` — o tipo
 > `Fortune`), mas **nao tem par** na passagem offline: um `X/421` nao conta esses 176 nem diz o que
 > eles preenchem.
+>
+> **Terceiro denominador (DOC-8, 01/10): o censo dedupa para 560.** As 600 linhas `[Status]` do boot
+> viram **560** entradas em `docs/cobertura/status.csv`, por (nome, descricao) — 73 linhas caem em
+> pares repetidos. E de 560 que saem as 2.280 do RV-13 (5 arquivos). Ou seja, os tres numeros medem
+> coisas diferentes — **600** (dump de boot, com os 176 sinteticos: `LoadListActionStatuses` recria
+> `ActionStatusInfo` para cada `EventStatus`), **424/421** (objetos no asset / legiveis offline pelo
+> UnityPy) e **560** (censo dedupado) — e **nao** se converte um no outro. Nao re-derivar o censo dos
+> 421 nem procurar os 2.280 entre os 600 (detalhe no §8.2 item 4 do
+> `docs/cobertura/revisao/RV-13b-fechamento.md`).
 
 > **O que NUNCA aparece no dump: acao que nao e concedida por skill nem e `Actions` de gatilho de
 > status.** O `[Action]` filtra por skill (a propria linha do boot diz "277 acoes concedidas por
@@ -80,6 +103,19 @@ lidos pelo asset com UnityPy; nenhum outro arquivo tem status).
 | `tick=` | `TickTargets` (l.441035), `ActionsOnTickCondition` (441042), `ActionsOnTickTargets` (441045), `ActionsOnTick` (441047), `ActionsOnTickProcTriggers` (441049), `StatusEffectsOnTickCondition` (441052), `StatusEffectsOnTickTargets` (441055), `StatusEffectsOnTick` (441057), `StatusEffectsOnTickOverrides` (441059) | so `StatusEffectsOnTick`: 6/421 (`Freeze Earth`, `Ice Storm`, `Faerie Swarm`, `Blood Mist`, `Slow Poison Aura`, `The Bad Bloom`). Os outros campos: **0/421** — o `tick=-` de toda linha e a medida de que o proc das auras de shrine NAO passa por aqui |
 | `auraSts=` | `AuraSourceStatus` / `AuraTriggerStatus` / `AuraTriggerStatusOverrides` (l.441108/441110/441112) | 40/421 — sempre junto de `IsAura=1` (os 40 batem; `IsAura` e o sinal barato do censo de auras). As auras de SHRINE **nao** estao nesses 40 |
 | `trigEf=...~alvos=` | `SkillTrigger.Targets` (l.46590) | 39/421 statuses tem gatilho |
+
+> **RESSALVA (DOC-8, 01/10) — nenhum destes campos novos esta no log de boot ainda.** O que esta
+> tabela mede e o **fonte** e a passagem **offline do asset** — nao o dump que roda hoje. A DLL que
+> o perfil carrega e de **30/09 21:22** (md5 `28b7959a8e77411b0c88ad8cdfbcbc32`), anterior ao RD-2R:
+> as **600** linhas `[Status]` do `LogOutput.log` de 01/10 saem no formato antigo
+> (`… | nEfeitosTot=0 | efTipos= | nAttrEf=… | attrTipos=… | nTrig=0 | trigEf= | desc="…"`) e **nao**
+> tem `expr=`, `danoExpr=`, `tick=`, `auraSts=`, `~alvos=` nem `~acoes=`. (O `expr=` / `danoExpr=` que
+> o log de 01/10 mostra e o das linhas `[Skill]`/`[Action]` — 453 + 287 = 740 ocorrencias —, nao
+> dos status.) Ou seja: **campo novo nao aparece no log enquanto a DLL nao for deployada e o jogo
+> bootar** — propagar um campo novo para os CSVs de `docs/cobertura/` exigiria esse ciclo
+> (deploy + boot), o que e **decisao do dono**, nao desta rodada. Nao procurar `expr=`/`tick=`/
+> `~alvos=` nas linhas `[Status]` do boot de hoje: ainda nao estao no ar (medicao e conflito
+> completos no §8.2 item 1 do `docs/cobertura/revisao/RV-13b-fechamento.md`).
 
 **CORRECAO DE UM FATO ERRADO DA VERSAO ANTERIOR DESTE DOC:** ele dizia que `SkillTrigger` NAO
 tinha campo `Targets`, e a instrucao era "nao invente". O campo existe — `[TextArea] public
