@@ -1,0 +1,318 @@
+PROVA DE REPROVACAO - BetterFont (TST-7)
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada linha abaixo e uma rodada LITERAL: o defeito foi plantado no
+BetterFont/Plugin.cs, o teste foi executado (`python <teste>`, o mesmo caminho do
+runner), e DEPOIS o fonte foi restaurado byte a byte e o teste rodou de novo.
+
+Fonte original: BetterFont/Plugin.cs
+sha256 original: 4b95850094fd5f3c3f57ea2d704382cceea5606fa266dbabcf41ec39cab21863 (82719 bytes, CRLF)
+Plantadeira: as funcoes `defeito_*` de tools/testes/regras_bf_estilo.py
+             e as `fonte_com_o_*` de tools/testes/regras_bf.py (familia BF-2)
+Cobertura: as 13 rodadas do TST-7 (decisao, falha-segura, preservacao, defaults,
+           acoplamento, nao-regride) + as 12 da familia BF-2/BF-2R (portao de
+           material, 2, e orcamento do diagnostico, 10) - a suite do BetterFont
+           inteira.
+==============================================================================
+
+### decisao-escape-como-gate
+teste:  tools/testes/testes/puros/t_bf_decisao_texto.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_decisao_texto.py
+    RESULTADO|REPROVOU|bf-decisao-texto|a decisao do `FontSweep` regrediu em 1 ponto(s): o portao nao esta preso a `efeitoPresente &&`: ele volta a olhar a classificacao do texto (o defeito do BF-1) em vez do EFEITO no material
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_decisao_texto.py
+    RESULTADO|PASSOU|bf-decisao-texto|TST-7: a decisao por texto (converter-com-transporte/convert-simples/nao-tocar/escape) e o escape ligado/desligado, como funcao pura sobre o fonte vivo
+------------------------------------------------------------------------------
+
+### decisao-escape-sem-continue
+teste:  tools/testes/testes/puros/t_bf_decisao_texto.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_decisao_texto.py
+    RESULTADO|REPROVOU|bf-decisao-texto|a decisao do `FontSweep` regrediu em 1 ponto(s): o ramo do ESCAPE nao da `continue`: o texto pulado seria tocado
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_decisao_texto.py
+    RESULTADO|PASSOU|bf-decisao-texto|TST-7: a decisao por texto (converter-com-transporte/convert-simples/nao-tocar/escape) e o escape ligado/desligado, como funcao pura sobre o fonte vivo
+------------------------------------------------------------------------------
+
+### falha-segura-recusa-por-shader
+teste:  tools/testes/testes/puros/t_bf_falha_segura.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|REPROVOU|bf-falha-segura|a falha-segura do fonte regrediu em 1 ponto(s): a falha-segura voltou a RECUSAR por variante de shader (`if (antigo.shader != padraoNovo.shader)`): e o defeito do BF-1 - os textos de combate ficam na fonte original
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|PASSOU|bf-falha-segura|TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa
+------------------------------------------------------------------------------
+
+### falha-segura-sem-glow
+teste:  tools/testes/testes/puros/t_bf_falha_segura.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|REPROVOU|bf-falha-segura|a falha-segura do fonte regrediu em 1 ponto(s): a falha-segura nao barra por GLOW_ON: o texto com esse efeito seria trocado e perderia o efeito (copia parcial, pior que nao mexer)
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|PASSOU|bf-falha-segura|TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa
+------------------------------------------------------------------------------
+
+### falha-segura-facetex-sem-textura-de-efeito
+teste:  tools/testes/testes/puros/t_bf_falha_segura.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|REPROVOU|bf-falha-segura|a falha-segura do fonte regrediu em 1 ponto(s): _FaceTex nao passa por TexturaDeEfeito: o default embutido do shader volta a contar como efeito e a falha-segura recusa todo material de SDF
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_falha_segura.py
+    RESULTADO|PASSOU|bf-falha-segura|TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa
+------------------------------------------------------------------------------
+
+### preservacao-copia-gradient-scale
+teste:  tools/testes/testes/puros/t_bf_preservacao.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_preservacao.py
+    RESULTADO|REPROVOU|bf-preservacao|a copia passou a transportar o que pertence a FONTE NOVA / a um efeito irreproduzivel: _GradientScale
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_preservacao.py
+    RESULTADO|PASSOU|bf-preservacao|TST-7: as duas listas do BetterFont - o que CopiarEstilo transporta (cores, contorno, sombra, offsets e as keywords OUTLINE_ON/UNDERLAY_ON) e o que NAO pode transportar (atlas, _GradientScale, _FaceTex, _BumpMap, GLOW_ON, BEVEL_ON)
+------------------------------------------------------------------------------
+
+### preservacao-sem-underlay-on
+teste:  tools/testes/testes/puros/t_bf_preservacao.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_preservacao.py
+    RESULTADO|REPROVOU|bf-preservacao|a keyword `UNDERLAY_ON` deixou de ser LIGADA: sem ela contorno/sombra NAO aparecem no shader (copiar o valor nao basta)
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_preservacao.py
+    RESULTADO|PASSOU|bf-preservacao|TST-7: as duas listas do BetterFont - o que CopiarEstilo transporta (cores, contorno, sombra, offsets e as keywords OUTLINE_ON/UNDERLAY_ON) e o que NAO pode transportar (atlas, _GradientScale, _FaceTex, _BumpMap, GLOW_ON, BEVEL_ON)
+------------------------------------------------------------------------------
+
+### defaults-escape-true
+teste:  tools/testes/testes/puros/t_bf_defaults.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|REPROVOU|bf-defaults|BetterFont/Plugin.cs:136 - default de PularTextosEstilizados: esperado False, obtido True
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|PASSOU|bf-defaults|TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros
+------------------------------------------------------------------------------
+
+### defaults-preservar-false
+teste:  tools/testes/testes/puros/t_bf_defaults.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|REPROVOU|bf-defaults|BetterFont/Plugin.cs:122 - default de PreservarEstilo: esperado True, obtido False
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|PASSOU|bf-defaults|TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros
+------------------------------------------------------------------------------
+
+### defaults-getter-inseguro
+teste:  tools/testes/testes/puros/t_bf_defaults.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|REPROVOU|bf-defaults|BetterFont/Plugin.cs - getter de PularTextosEstilizados sem entrada de config: esperado True, obtido False
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_defaults.py
+    RESULTADO|PASSOU|bf-defaults|TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros
+------------------------------------------------------------------------------
+
+### sem-acoplamento-cita-outro-mod
+teste:  tools/testes/testes/puros/t_bf_sem_acoplamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_sem_acoplamento.py
+    RESULTADO|REPROVOU|bf-sem-acoplamento|o CODIGO do BetterFont cita outro mod: ['BetterCombatText', 'DefRuivo_StolenRealmMods-BetterCombatText'] (o invariante 3 proibe; a copia de estilo tem de valer para QUALQUER mod, nao para um caso especifico)
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_sem_acoplamento.py
+    RESULTADO|PASSOU|bf-sem-acoplamento|TST-7: invariante 3 - o codigo do BetterFont (fonte e DLL) nao cita nome/GUID do outro mod; e o detector nao e vazio
+------------------------------------------------------------------------------
+
+### nao-regride-sem-padding
+teste:  tools/testes/testes/puros/t_bf_nao_regride.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_nao_regride.py
+    RESULTADO|REPROVOU|bf-nao-regride|o caminho de sucesso regrediu: o caminho de sucesso nao chama o recalculo do padding depois de trocar a fonte
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_nao_regride.py
+    RESULTADO|PASSOU|bf-nao-regride|TST-7: nao regride o que o dono aprovou - a troca de fonte dos textos NORMAIS (com padding), o fallback da fonte original, o resumo da varredura e zero mudanca de gameplay
+------------------------------------------------------------------------------
+
+### nao-regride-sem-fallback
+teste:  tools/testes/testes/puros/t_bf_nao_regride.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_nao_regride.py
+    RESULTADO|REPROVOU|bf-nao-regride|o que o dono aprovou regrediu em 1 ponto(s): `RegistrarFallback` nao adiciona a fonte original do texto ao fallback
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_nao_regride.py
+    RESULTADO|PASSOU|bf-nao-regride|TST-7: nao regride o que o dono aprovou - a troca de fonte dos textos NORMAIS (com padding), o fallback da fonte original, o resumo da varredura e zero mudanca de gameplay
+------------------------------------------------------------------------------
+
+### gate-material-recusa-por-shader (BF-1)
+teste:  tools/testes/testes/puros/t_bf_gate_material.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_gate_material.py
+    RESULTADO|REPROVOU|bf-gate-material|o fonte do BetterFont regrediu em 2 ponto(s): o gate voltou a RECUSAR por variante de shader (o defeito do BF-1) | o gate tem motivo de recusa por shader no fonte (o defeito do BF-1)
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_gate_material.py
+    RESULTADO|PASSOU|bf-gate-material|BF-2: variante de shader nao e recusa, gate pelo efeito no material, fonte+estilo juntos e buracos fechados
+------------------------------------------------------------------------------
+
+### gate-material-portao-pela-classificacao
+teste:  tools/testes/testes/puros/t_bf_gate_material.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_gate_material.py
+    RESULTADO|REPROVOU|bf-gate-material|o fonte do BetterFont regrediu em 1 ponto(s): a chamada do portao nao esta presa ao efeito presente no material
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_gate_material.py
+    RESULTADO|PASSOU|bf-gate-material|BF-2: variante de shader nao e recusa, gate pelo efeito no material, fonte+estilo juntos e buracos fechados
+------------------------------------------------------------------------------
+
+### diag-orcamento-o-orcamento-da-bf2
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 5 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | Diagnostico nao zera o orcamento por cena (o teto volta a ser da SESSAO) | um call site de Diagnostico classifica a linha pelo CONTEUDO dela (IsNullOrEmpty(copiados/registros)) - e o defeito da BF-2
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-escape-como-efeito
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 2 ponto(s): o texto PULADO pelo escape sai como `TipoLinhaDiag.Efeito` (avaliado da expressao do proprio call site) e nao como `TipoLinhaDiag.Escape`, que e o tipo guardado por TetoDiagEscape: o pulo volta a disputar o orcamento de EFEITO - pular nao e 'de efeito' | o texto pulado pelo escape nao e marcado como PULADO (TipoLinhaDiag.Escape): volta a contar como linha de EFEITO e o teto de 300 se esgota antes da linha de combate na config do dono (PularTextosEstilizados ligado)
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-reset-so-na-primeira-cena
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-reset-inalcancavel
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-cena-fixa-no-comentario (REV-56A)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-escape-incrementa-efeito (REV-56B)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 1 ponto(s): o contador do tipo `Escape` NAO corta (enchi 305 linhas em `cena-A`): o teto do tipo nao esta ligado ao contador que ele incrementa
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-corte-do-escape-no-teto-de-efeito (REV-56C)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 1 ponto(s): numa cena MISTA (365 textos de EFEITO - o teto de efeito JA esgotado - + os 624 pulos medidos, na MESMA cena) a linha de COMBATE nao sai: o corte do texto PULADO pelo escape esta preso ao orcamento de EFEITO, que a propria varredura esgota - o pulo tem de ter o teto dele
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-zeramento-em-if-falso (FIX-8-1)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-cena-gravada-antes-do-guarda (FIX-8-2)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+### diag-orcamento-reset-depois-do-uso (FIX-8-3)
+teste:  tools/testes/testes/puros/t_bf_diag_orcamento.py
+
+COM O DEFEITO PLANTADO em BetterFont/Plugin.cs -> exit 1
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|REPROVOU|bf-diag-orcamento|o fonte do BetterFont regrediu em 3 ponto(s): o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Rotina` foi cheio ate o CORTE na cena 'cena-A' (120 linha(s), teto=120) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Efeito` foi cheio ate o CORTE na cena 'cena-A' (300 linha(s), teto=300) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui | o ZERAMENTO NAO e ALCANCADO a cada troca de cena (ou nao acontece ANTES do contador ser usado): executando o CODIGO EFETIVO do fonte, o contador do tipo `Escape` foi cheio ate o CORTE na cena 'cena-A' (900 linha(s), teto=900) e UMA linha do MESMO tipo na cena 'cena-B' NAO saiu - o orcamento voltou a ser o da SESSAO. Nao e leitura de token: o `if (false)` em volta do zeramento, o guarda que ficou sempre verdadeiro por a cena ser gravada antes dele e a chamada do reset depois do uso caem TODOS aqui
+
+DEFEITO REMOVIDO (fonte restaurado, sha256 4b95850094fd) -> exit 0
+    $ python tools/testes/testes/puros/t_bf_diag_orcamento.py
+    RESULTADO|PASSOU|bf-diag-orcamento|BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos
+------------------------------------------------------------------------------
+
+RESULTADO: todas as rodadas reprovaram com o defeito e passaram sem ele
