@@ -490,12 +490,18 @@ def corpo_da_contra_prova_da_linha_antes_do_range(liberadas):
 # Os arquivos onde o decompilado do TIPO `Tooltip` pode estar (o controle EXTERNO da leitura).
 # `scratch/` NAO e versionado: numa maquina sem ele o controle externo nao roda e o interno (que
 # roda sempre) e quem segura a leitura na linha.
+#
+# ATENCAO — o "cache do decompilado integral" (`%LOCALAPPDATA%\hermes\cache\...\
+# Assembly-CSharp.decompiled.cs`) NAO entra aqui de proposito. Ele e o decompilado do ASSEMBLY
+# INTEIRO, e o `Tooltip` vive nele por volta da linha 334.000 — NAO na l.1243 do extrato por TIPO
+# de onde saem os numeros da fixture. Como o controle exige o `trecho` LITERALMENTE na LINHA
+# declarada, incluir o cache fazia o teste reprovar POR MOTIVO ERRADO em qualquer maquina que
+# tenha o cache e nao o `scratch/` (o caso de um clone/worktree nesta maquina: medido, exit 1 com
+# "o trecho da l.1243 nao esta literalmente nessa linha de nenhum dos arquivos"). Fonte do tipo
+# errado nao e fonte: o `SR_DECOMPILADO` (env) e o extrato em `scratch/rv22/` continuam valendo.
 _CAMINHOS_DO_DECOMPILADO = (
     ("SR_DECOMPILADO", os.environ.get("SR_DECOMPILADO")),
     ("scratch/rv22/tooltip.cs", os.path.join(arc.raiz_do_repo(), "scratch", "rv22", "tooltip.cs")),
-    ("cache do decompilado integral",
-     os.path.join(os.environ.get("LOCALAPPDATA", ""), "hermes", "cache", "scratch", "cs",
-                  "Assembly-CSharp.decompiled.cs")),
 )
 
 
