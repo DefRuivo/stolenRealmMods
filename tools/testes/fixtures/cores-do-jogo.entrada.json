@@ -1,0 +1,160 @@
+{
+  "procedencia": "Leitura DATADA do proprio jogo (COR-2, 2026-10-01 13:39:20): os campos de cor saem do PREFAB serializado (UnityPy + TypeTreeGenerator sobre Stolen Realm_Data, componente Assembly-CSharp::Tooltip e Assembly-CSharp::GUIManager), nao de print e nao de olho. As linhas de `log_de_runtime` sao copiadas do LogOutput de uma sessao de 01/10 feita COM a DLL do perfil (scratch/cap1/out/log-anterior-antes-da-rotina.log). RESSALVA (FIX-4, 01/10): essa sessao rodou com a DLL do PERFIL, que e a build PRE-conserto do COR-2 — NAO e a build nova. Nada nesta fixture prova o conserto; ela prova o comportamento da build ANTIGA (a ORDEM DOS GANCHOS — ver §7 do docs/TEXTO-TOOLTIPS.md).",
+  "controle_da_leitura": "O leitor foi VALIDADO contra o runtime: o `coldColor` lido do prefab (#00D7FF) e EXATAMENTE o que o log da sessao imprime ao ler o mesmo campo em jogo. Sem esse controle, um hex lido do asset seria so um numero.",
+  "fonte_fixture": "scratch/cor2/le_cores_do_tooltip.py + le_guimanager_cores.py",
+  "data_da_leitura": "2026-10-01 13:39:20",
+  "metodo": "UnityPy (TypeTreeGenerator com as DLLs de Managed/) -> Color floats -> round(canal*255) por canal, a MESMA conta do ColorUtility.ToHtmlStringRGB",
+  "tooltip": {
+    "componentes": [
+      {
+        "arquivo": "level1",
+        "path_id": 15581,
+        "m_Name": "",
+        "cores": {
+          "specialDescColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "skillStatusColor": {
+            "r": 0.7960785031318665,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTextColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTitleColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          }
+        }
+      },
+      {
+        "arquivo": "level1",
+        "path_id": 15605,
+        "m_Name": "",
+        "cores": {
+          "specialDescColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "skillStatusColor": {
+            "r": 0.7960785031318665,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTextColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTitleColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          }
+        }
+      },
+      {
+        "arquivo": "resources.assets",
+        "path_id": 2591822,
+        "m_Name": "",
+        "cores": {
+          "specialDescColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "skillStatusColor": {
+            "r": 0.7960785031318665,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTextColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          },
+          "specialTitleColor": {
+            "r": 0.7960784435272217,
+            "g": 0.7019608020782471,
+            "b": 0.5882353186607361,
+            "a": 1.0,
+            "hex": "#CBB396"
+          }
+        }
+      }
+    ],
+    "campos_no_valor_do_jogo": {
+      "specialDescColor": "bloco \"Special\" do tooltip de ITEM (tooltip.cs:1855/1951) - campo DECLARADO para o nivel 2",
+      "skillStatusColor": "blocos de STATUS anexados ao tooltip (tooltip.cs:656/686) - campo DECLARADO para o nivel 3 (azul)",
+      "specialTextColor": "realces inline ({STA=} e @atributo@, tooltip.cs:608/634/644)",
+      "specialTitleColor": "titulo do bloco \"Special\""
+    }
+  },
+  "guimanager": {
+    "cores": {
+      "physicalColor": "#FFFFFF",
+      "fireColor": "#FF5353",
+      "coldColor": "#00D7FF",
+      "lightningColor": "#EFFF00",
+      "shadowColor": "#F000FF",
+      "healingColor": "#6BFF6F",
+      "manaColor": "#66A8FF",
+      "highlightedColor": "#CBB396",
+      "positiveColor": "#64FF6A",
+      "neutralColor": "#F4FF00",
+      "negativeColor": "#FF5353"
+    },
+    "campos_no_valor_do_jogo": {
+      "coldColor": "azul do dano Cold (GUIManager.cs:242) - elo 2 do nivel 3",
+      "manaColor": "azul da Mana (GUIManager.cs:250) - elo 3 do nivel 3",
+      "highlightedColor": "#CBB396: a MESMA cor quente da paleta de UI"
+    }
+  },
+  "log_de_runtime": {
+    "arquivo": "scratch/cap1/out/log-anterior-antes-da-rotina.log",
+    "quando": "2026-10-01 (sessao COM a DLL do perfil do r2modman — a build PRE-conserto do COR-2; NAO e a build nova)",
+    "dll_da_sessao": "perfil do r2modman, build PRE-conserto do COR-2 — ver a RESSALVA em `procedencia`",
+    "azul_lido": [
+      "BetterTooltips: azul da paleta lido em GUIManager.coldColor (cor do dano Cold) = #00D7FF"
+    ],
+    "showtooltip": [
+      "BetterTooltips: ShowTooltip interceptado, blocos movidos para o fim (nota #C8B090, auras ativas #00D7FF)"
+    ],
+    "linha_da_leitura_do_nivel_2": [],
+    "linha_de_falha_da_leitura_do_nivel_2": [],
+    "achado": "A linha que o gancho da cor imprime ao LER o campo do nivel 2 NAO existe em log nenhum (0 ocorrencias), nem de erro: o gancho nunca viu um marcador. O unico azul lido em runtime e o `coldColor` = #00D7FF, e o texto final do tooltip ainda carrega o `#C8B090` literal - a cor nunca foi trocada. A explicacao esta na ORDEM DOS GANCHOS (docs/TEXTO-TOOLTIPS.md §7)."
+  },
+  "marcador_no_codigo": {
+    "hex": "#C8B090",
+    "procedencia": "medicao por PIXEL do bloco de descricao do jogo em 29/09 (BT-9c, KANBAN.md:47-50, a descricao do Heat). O valor do CAMPO lido do prefab em 01/10 e #CBB396: o marcador e o valor de reserva, a cor final e a do campo lido em runtime."
+  }
+}

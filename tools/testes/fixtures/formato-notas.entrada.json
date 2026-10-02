@@ -1,0 +1,121 @@
+{
+  "procedencia": "Leitura DATADA do caminho de MONTAGEM da tooltip (BANCADA-1, 01/10): os trechos abaixo sao COPIADOS do decompilado do TIPO `Tooltip` do Assembly-CSharp.dll do build atual (v1.3.1, Steam AppID 1330000). O arquivo POR TIPO usado como fonte - e cujos numeros de linha sao os que o KANBAN/docs citam - e `scratch/rv22/tooltip.cs`, nesta maquina ao lado deste commit (`scratch/` esta FORA do git: a fixture e a copia versionada). A copia INTEGRAL de referencia e `%LOCALAPPDATA%\\hermes\\cache\\scratch\\cs\\Assembly-CSharp.decompiled.cs`, classe `Tooltip`: os MESMOS trechos, deslocados pelo tamanho do arquivo (l.334328 = ShowActionStatusTooltip, l.334576 = ShowGroundEffectTooltip, l.334665 = ShowSkillTooltip).",
+  "data_da_leitura": "2026-10-01",
+  "fonte_fixture": "scratch/bancada1/gera_fixture.py (a ferramenta que extraiu os trechos, conferiu cada um na LINHA declarada e escreveu esta fixture; `scratch/` nao e versionado)",
+  "metodo": "ilspycmd v8.2.0.7535, `-t Tooltip`, sobre `<jogo>/Stolen Realm_Data/Managed/Assembly-CSharp.dll`. O numero de quebras NAO e digitado a mao: sai da contagem dos escapes `\\n` do campo `ramo_que_roda` de cada linha (o ramo do ternario que EXECUTA), e o `ramo_que_roda` tem de estar contido no `trecho` literal - os dois vieram do mesmo decompilado.",
+  "controle_da_leitura": "Cada `trecho` e conferido LITERALMENTE contra o decompilado do tipo, na LINHA declarada (e, quando o cache existe nesta maquina, tambem contra a copia integral): um trecho inventado - ou deslocado para outra linha - NAO passa. O proprio teste faz essa conferencia quando um dos dois arquivos esta acessivel; a conferencia interna (`ramo_que_roda` dentro do `trecho`, e a contagem das quebras do ramo) roda sempre.",
+  "caminhos": {
+    "skill": {
+      "metodo": "Tooltip.ShowSkillTooltip(SkillInfo skill, Character character, bool showCanLevelDetail, bool fromLink = false, bool showTierData = false)",
+      "onde": "por_tipo l.1308-1575 (integral l.334665-334931)",
+      "linhas": [
+        {
+          "linha": 1470,
+          "trecho": "original += \"\\n\";",
+          "ramo_que_roda": "original += \"\\n\";",
+          "onde": "dentro de `if (skill.ActionsGranted != null && skill.ActionsGranted.Length != 0)` - a quebra que ABRE o bloco de custos",
+          "quebras": 1
+        },
+        {
+          "linha": 1536,
+          "trecho": "original = ((actionInfo2.ActionType != 0) ? (original + \"\\n\" + OptionsManager.Localize(\"AP Cost: None\")) : (original + \"\\n\" + OptionsManager.Localize(\"AP Cost: 1\")));",
+          "ramo_que_roda": "(original + \"\\n\" + OptionsManager.Localize(\"AP Cost: 1\"))",
+          "onde": "a linha do `AP Cost` - o ramo do ternario que roda numa skill ATIVA normal (`ActionType == 0`)",
+          "quebras": 1
+        }
+      ],
+      "linhas_seguintes": [
+        {
+          "linha": 1551,
+          "trecho": "original = original + \"\\n\" + GetLocalizedDurationText(isInfinite: false, duration2);",
+          "onde": "a duracao do ground effect, quando o efeito tem um"
+        },
+        {
+          "linha": 1556,
+          "trecho": "original = original + \"\\n\" + GetLocalizedDurationText(isInfinite: false, duration3);",
+          "onde": "a duracao do efeito periodico"
+        },
+        {
+          "linha": 1558,
+          "trecho": "original = original + \"\\n\" + OptionsManager.Localize(\"Range: [range value]\").Replace(\"[range value]\", newValue);",
+          "onde": "o alcance"
+        },
+        {
+          "linha": 1561,
+          "trecho": "original = original + \"\\n\" + OptionsManager.Localize(\"Blast Radius: [blast radius value]\").Replace(\"[blast radius value]\", newValue2);",
+          "onde": "o raio de explosao, quando o alvo tem blast"
+        },
+        {
+          "linha": 1565,
+          "trecho": "original = ((num2 <= 0) ? (original + \"\\n\" + OptionsManager.Localize(\"Mana Cost: None\")) : (original + \"\\n\" + OptionsManager.Localize(\"Mana Cost: [mana cost value]\").Replace(\"[mana cost value]\", num2.ToString())));",
+          "onde": "o custo de mana"
+        },
+        {
+          "linha": 1572,
+          "trecho": "original = ((!(num3 > 0f)) ? (original + \"\\n\" + OptionsManager.Localize(\"Cooldown: None\")) : (original + \"\\n\" + OptionsManager.Localize(\"Cooldown: [cooldown value]\").Replace(\"[cooldown value]\", num3.ToString(\"F0\"))));",
+          "onde": "o cooldown"
+        }
+      ],
+      "custo_no_texto": [
+        "AP Cost: 1",
+        "AP Cost: None",
+        "Range: ",
+        "Blast Radius: ",
+        "Mana Cost: ",
+        "Cooldown: "
+      ],
+      "sem_custo": "skill PASSIVA (sem `ActionsGranted`) nao entra no bloco: nao ha `AP Cost` nem nenhuma linha de custo",
+      "nota": "o caminho que o jogador ve tem DUAS quebras entre a descricao e o `AP Cost` (uma da l.1470, outra da l.1536) = UMA LINHA EM BRANCO antes do bloco de custos; as linhas SEGUINTES (duracao, alcance, blast, mana, cooldown) vao com UMA quebra cada. A linha em branco do `AP Cost` e do JOGO: ela existe na tooltip vanilla, sem mod nenhum. BANCADA-2 (01/10): o checador so libera a linha em branco antes da PRIMEIRA linha de custo de cada caminho — o `AP Cost` aqui (as DUAS entradas `AP Cost: 1`/`AP Cost: None` sao os ramos da MESMA linha, a l.1536); uma linha em branco antes de `Range`/`Blast Radius`/`Mana Cost`/`Cooldown` e a sobra ORFA de um bloco e REPROVA (o jogo NUNCA escreve essa forma)."
+    },
+    "ground_effect": {
+      "metodo": "Tooltip.ShowGroundEffectTooltip(List<GroundEffectNetworkInfo>)",
+      "onde": "por_tipo l.1219-1304 (integral l.334576-334661)",
+      "linhas": [
+        {
+          "linha": 1243,
+          "trecho": "text = text + \"<color=#CBB396>\" + (string.IsNullOrWhiteSpace(text2) ? OptionsManager.Localize(groundEffectInfo.Name) : OptionsManager.Localize(text2)) + \"[Stacks]</color>\\n\";",
+          "onde": "o TITULO do ground effect (na cor do jogo, `#CBB396`), com UMA quebra depois"
+        },
+        {
+          "linha": 1244,
+          "trecho": "text = text + \"<size=\" + num + \">\";",
+          "onde": "a ABERTURA do `<size>` (`num = Description.fontSize * 0.9f`, l.1228) - o ground effect inteiro vai dentro dele"
+        },
+        {
+          "linha": 1254,
+          "trecho": "text += OptionsManager.Localize(\"\\nTurns Remaining: <color=#CBB396>[turn value]</color>\").Replace(\"[turn value]\", GUIManager.instance.floatToText(groundEffectNetworkInfo.GetTurnsRemainingByTeamTurn()));",
+          "onde": "o `Turns Remaining` - UMA quebra, nunca uma linha em branco"
+        },
+        {
+          "linha": 1278,
+          "trecho": "0 => text + \"\\n<color=#\" + ColorUtility.ToHtmlStringRGB(GUIManager.instance.positiveColor) + \">\" + OptionsManager.Localize(\"Friendly\") + \"</color>\",",
+          "onde": "a linha de TIME (Friendly/Enemy/Neutral) - UMA quebra"
+        },
+        {
+          "linha": 1291,
+          "trecho": "text += \"</size>\";",
+          "onde": "o fecho do `<size>`"
+        }
+      ],
+      "custo_no_texto": [],
+      "nota": "NAO ha `AP Cost` nem `Range` neste caminho - e o da tooltip de SHRINE (quem chama e o hover do ground effect). O corpo e: linha de TITULO na cor do jogo + `<size>` + descricao (+ `Turns Remaining`, + linha de TIME), e as partes sao separadas por UMA quebra cada; a UNICA linha em branco daqui e a que separa ground effects DISTINTOS (o dicionario e reescrito com `\\n\\n` entre eles, l.1298)."
+    },
+    "status": {
+      "metodo": "Tooltip.ShowActionStatusTooltip(ActionStatusInfo, Character, Character, Item, PersistentDurationType, string, float, bool, string, ActionStatus)",
+      "onde": "por_tipo l.971-1022 (integral l.334328-334379)",
+      "linhas": [
+        {
+          "linha": 1013,
+          "trecho": "text + \"\\n\\n\" + OptionsManager.Localize(\"Duration Type\") + \": <color=#CBB396>\"",
+          "ramo_que_roda": "text + \"\\n\\n\" + OptionsManager.Localize(\"Duration Type\") + \": <color=#CBB396>\"",
+          "onde": "a linha `Duration Type` - as DUAS quebras (uma LINHA EM BRANCO) antes dela; o texto inteiro sai `Trim()`ado logo depois (l.1015)",
+          "quebras": 2
+        }
+      ],
+      "custo_no_texto": [
+        "Duration Type"
+      ],
+      "nota": "aqui a linha em branco antes do bloco de metadados e EXPLICITA no codigo (`text + \"\\n\\n\" + ...`) - a MESMA separacao do `AP Cost` da skill, escrita de uma vez so. BANCADA-2 (01/10): o `Duration Type` e a PRIMEIRA (e unica) linha de custo/metadados deste caminho — e SO ele pode vir depois da linha em branco."
+    }
+  }
+}

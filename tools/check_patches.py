@@ -22,6 +22,8 @@ As 5 regras, todas lidas dos .cs:
   2. ASSINATURA   - todo `[HarmonyPatch]` tem de ter assinatura por TIPO no bloco do patch
                     (`new Type[] { ... }` / `new[] { typeof(...) }` / `nameof(...)`), nunca
                     "o primeiro metodo chamado X". Heuristica: `typeof(`/`nameof(` no bloco.
+                    O BLOCO e recortado por CASAMENTO DE CHAVES (`tools/testes/recorte.py`,
+                    literal-aware, FALHA ALTA) - nunca por uma janela de caracteres.
   3. TRY/CATCH    - todo metodo de patch (Prefix/Postfix) tem de estar protegido: `try` no
                     proprio corpo, ou delegacao a um metodo do MESMO arquivo que tem `try`.
                     Sem isso, uma excecao no gancho quente (por frame, por hover) inunda o
@@ -241,6 +243,27 @@ def relativo(caminho):
     return os.path.relpath(caminho, RAIZ).replace("\\", "/")
 
 
+DIR_TESTES = os.path.join(RAIZ, "tools", "testes")
+
+
+def carregar_recorte():
+    """O recorte ESTRUTURAL de fonte: `tools/testes/recorte.py` (a fonte unica do repo).
+
+    Reusa o MESMO casamento de chaves literal-aware dos testes, em vez de uma contagem de
+    chaves paralela que devolve `None` em silencio. Devolve `(recorte, arcabouco)`.
+
+    O `recorte.py` faz `import arcabouco`, entao `tools/testes/` entra no `sys.path` antes do
+    import (o mesmo diretorio que o runner de testes usa via PYTHONPATH). Este script NAO tem
+    fallback de janela de caracteres de proposito: sem o recorte ele prefere "nao consegui
+    verificar" (exit 2) a medir distancia.
+    """
+    if DIR_TESTES not in sys.path:
+        sys.path.insert(0, DIR_TESTES)
+    import arcabouco
+    import recorte
+    return recorte, arcabouco
+
+
 # ---------------------------------------------------------------------------
 # as 5 regras
 # ---------------------------------------------------------------------------
@@ -296,15 +319,37 @@ def regra1_posicional(cs):
     return reprovam, avisos
 
 
-def regra2_assinatura(cs):
+def trecho_do_patch(codigo, pos, rec, arc):
+    """O trecho que DECIDE a regra 2: do `[HarmonyPatch` ate o `}` que casa com o bloco da
+    declaracao anotada — recorte ESTRUTURAL (`tools/testes/recorte.py`), nunca uma janela.
+
+    A versao antiga, quando nao achava o bloco balanceado, recuava para uma FATIA FIXA de 2000
+    caracteres a partir de `pos` — um recorte de DISTANCIA, que decide pelo tamanho do trecho e
+    nao pela estrutura: passava a deixar passar um `typeof(` ALHEIO que caisse dentro dos 2000
+    e a perder a assinatura legitima que caise depois dos 2000. Aqui o bloco sai por
+    casamento de chaves (literal-aware) e, quando as chaves NAO fecham, `rec.bloco_apos`
+    FALHA ALTO (`arc.Falhou`): o consumidor trata a falha como REPROVA, entao nao ha caminho
+    de "afrouxar o numero" para o verde.
+    """
+    bloco = rec.bloco_apos(codigo, pos)          # falha alto se as chaves nao fecham
+    fim = codigo.index(bloco, pos) + len(bloco)  # o bloco comeca no 1o `{` em/depois de `pos`
+    return codigo[pos:fim]
+
+
+def regra2_assinatura(cs, rec, arc):
     """(reprovam, total) de classes de patch sem assinatura por TIPO."""
     reprovam, total = [], 0
     for caminho, codigo, _, _ in cs:
         for m in re.finditer(r"\[HarmonyPatch\b", codigo):
             total += 1
             ln = linha_de(codigo, m.start())
-            bloco = bloco_chaves(codigo, m.start())
-            trecho = codigo[m.start():bloco[1]] if bloco else codigo[m.start():m.start() + 2000]
+            try:
+                trecho = trecho_do_patch(codigo, m.start(), rec, arc)
+            except arc.Falhou as erro:
+                reprovam.append((caminho, ln, "[HarmonyPatch]",
+                                 "nao consegui recortar o bloco do patch por casamento de "
+                                 "chaves (nenhuma janela de caracteres entra no lugar): %s" % erro))
+                continue
             if not re.search(r"\b(typeof|nameof)\s*\(", trecho):
                 reprovam.append((caminho, ln, "[HarmonyPatch]",
                                  "sem assinatura por TIPO (nenhum typeof/nameof no bloco)"))
@@ -462,6 +507,15 @@ def main():
         print("  %s: %s" % (type(erro).__name__, erro))
         return 2
 
+    try:
+        rec, arc = carregar_recorte()
+    except Exception as erro:  # noqa: BLE001 - sem o recorte estrutural nao se verifica
+        print("nao consegui carregar o recorte estrutural (tools/testes/recorte.py + arcabouco):")
+        print("  %s: %s" % (type(erro).__name__, erro))
+        print("  o check_patches NAO tem fallback de janela de caracteres de proposito: sem o")
+        print("  recorte estrutural ele prefere 'nao conseguiu verificar' (exit 2) a medir distancia.")
+        return 2
+
     pastas = []
     for entrada in sorted(os.listdir(RAIZ)):
         pasta = os.path.join(RAIZ, entrada)
@@ -516,7 +570,7 @@ def main():
           % (len(r1_reprovam), len(r1_avisos)))
 
     # ---- 2. assinatura por tipo ------------------------------------------
-    r2_reprovam, r2_total = regra2_assinatura(cs)
+    r2_reprovam, r2_total = regra2_assinatura(cs, rec, arc)
     print("== REGRA 2: assinatura por TIPO em todo [HarmonyPatch] (typeof/nameof) ==")
     for caminho, ln, token, det in r2_reprovam:
         print("  REPROVA %s:%d  %s  (%s)" % (relativo(caminho), ln, token, det))
