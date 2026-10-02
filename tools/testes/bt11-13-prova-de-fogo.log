@@ -1,0 +1,89 @@
+PROVA-DE-FOGO BT-16 — Hunger / Berserker's Blood / atributos em % para a suite VERSIONADA
+
+O QUE ESTE LOG REGISTRA
+-----------------------
+Os tres testes novos da suite (tools/testes/testes/puros/t_bt11_hunger.py,
+t_bt12_berserkers_blood.py, t_bt13_atributo_percentual.py) foram MOSTRADOS REPROVANDO contra
+defeitos plantados, como manda a regra do projeto (docs/PLANO-DE-TESTES.md: "todo teste tem de
+ser mostrado reprovando").
+
+COMO FOI FEITO
+--------------
+Cada defeito foi plantado NA FONTE REAL do repositorio (BetterTooltips/Patches/HungerPatch.cs,
+BerserkersBloodPatch.cs, AtributoPercentualPatch.cs) — ou na FIXTURE da tabela do BT-12
+(tools/testes/fixtures/bt12-berserkers-blood.entrada.json), no caso da isca D do BT-12.
+O driver (scratch/bt16/prova_de_fogo.py, gitignored) planta, roda o teste, exige exit 1
+(REPROVOU) e RESTAURA o arquivo a partir do snapshot em memoria, lendo/escrevendo em BYTES (sem
+traducao de fim de linha). O sha256 e conferido antes e depois de cada isca.
+
+ACHADO DESTA RODADA (o motivo de a prova de fogo existir)
+---------------------------------------------------------
+As DUAS primeiras rodadas das iscas BT-11 B (valor constante) e BT-11 D (formato sem o ponto
+final) PASSARAM — o t_bt11_hunger.py ainda nao as pegava. O teste foi endurecido: passou a
+checar a CONTA `sacrificio = vida * pct / 100f` e a ausencia de literal em `sacrificio`, e exigiu
+que os DOIS ramos de retorno de `InsereValorNaLinha` fechem em `+ ".";`. Na rodada final as 13
+iscas reprovaram — o log abaixo e o dessa rodada.
+
+sha256 dos quatro arquivos (inicio = fim; a rodada ja restaurou tudo, `sha256sum -c` OK):
+e9c65b48638b218117c4efa484e16e3a3703c90b40962c574bffac883d9eb3ab *BetterTooltips/Patches/HungerPatch.cs
+a1f29b557c48907fd462333cecc6ce6e59c3f9ceb5f76d4361fd453469eb4f54 *BetterTooltips/Patches/BerserkersBloodPatch.cs
+4eda1b84f179cafec8b4be051bf83c7faeaf651a36e434dc145732590404723d *BetterTooltips/Patches/AtributoPercentualPatch.cs
+35bf1cee1b5714eecd18f59e11f699b4bcb42e5e10d6f7ce556f4ae3c3a129dd *tools/testes/fixtures/bt12-berserkers-blood.entrada.json
+
+SAIDA DA RODADA (verbatim)
+--------------------------
+PROVA-DE-FOGO BT-16 — cada defeito e plantado na fonte/fixture REAL e restaurado byte a byte
+
+[OK] BT-11 isca A: a % foi DIGITADA
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=e9c65b48638b2181
+      RESULTADO|REPROVOU|bt11-hunger|a % nao sai de `PercentualDaSkill(skill)`
+
+[OK] BT-11 isca B: o valor virou CONSTANTE
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=e9c65b48638b2181
+      RESULTADO|REPROVOU|bt11-hunger|a conta nao e `sacrificio = vida * pct / 100f` (a mesma do efeito do asset)
+
+[OK] BT-11 isca C: a ancora pediu a PRIMEIRA %
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=e9c65b48638b2181
+      RESULTADO|REPROVOU|bt11-hunger|a % lida nao e a ULTIMA antes da ancora (`LastIndexOf('%', ancora)`)
+
+[OK] BT-11 isca D: o formato perdeu o ponto final
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=e9c65b48638b2181
+      RESULTADO|REPROVOU|bt11-hunger|um ramo de retorno nao fecha o formato com o ponto final: 'return corpo.Substring(0, corpo.Length - 1) + sufixo;'
+
+[OK] BT-12 isca A: o fator foi DIGITADO
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=a1f29b557c48907f
+      RESULTADO|REPROVOU|bt12-berserkers-blood|ha um literal NAO-NULO atribuido a `fator` — o fator foi DIGITADO
+
+[OK] BT-12 isca B: a vida perdida foi ESCRITA
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=a1f29b557c48907f
+      RESULTADO|REPROVOU|bt12-berserkers-blood|a 'vida perdida' nao sai de `personagem.HealthRatioInverse` (a FRACAO do motor)
+
+[OK] BT-12 isca C: a ancora virou CAMPO TROCADO
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=a1f29b557c48907f
+      RESULTADO|REPROVOU|bt12-berserkers-blood|a ancora nao e a propriedade `HealthRatioInverse` (a que a formula do asset le)
+
+[OK] BT-12 isca D (FIXTURE): um valor esperado da tabela divergiu
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=35bf1cee1b5714ee
+      RESULTADO|REPROVOU|bt12-berserkers-blood|a variante EQUIVALENTE (o fator vem da EXPRESSAO (nao ha 100 digitado no mod)) nao foi lida: 'Source.HealthRatioInverse * 50' -> 50.0 (esperado 51)
+
+[OK] BT-13 isca A: a % foi DIGITADA
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=4eda1b84f179cafe
+      RESULTADO|REPROVOU|bt13-atributo-percentual|a % nao sai de `efeito.TryGetConstantAmount` (a API do MOTOR sobre o Amount do asset)
+
+[OK] BT-13 isca B: o atributo atual virou CONSTANTE
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=4eda1b84f179cafe
+      RESULTADO|REPROVOU|bt13-atributo-percentual|o valor nao sai do indexador do MOTOR (`personagem[atributo.name]`, valor FINAL)
+
+[OK] BT-13 isca C: a soma das % foi DIGITADA
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=4eda1b84f179cafe
+      RESULTADO|REPROVOU|bt13-atributo-percentual|a soma das % nao sai do MOTOR (`GetAttributeValueByMethod`)
+
+[OK] BT-13 isca D: a familia virou LISTA DIGITADA
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=4eda1b84f179cafe
+      RESULTADO|REPROVOU|bt13-atributo-percentual|o fonte CITA nome de skill da familia (lista digitada): ["Light's Brilliance"]
+
+[OK] BT-13 isca E: a conta virou a INGENUA (pct por cento do final)
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=4eda1b84f179cafe
+      RESULTADO|REPROVOU|bt13-atributo-percentual|a conta nao e `atual * pct / denominador`
+
+RESULTADO: TODAS as iscas reprovaram e TUDO foi restaurado

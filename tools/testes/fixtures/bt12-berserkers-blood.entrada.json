@@ -1,0 +1,154 @@
+{
+  "_o_que_e": "BT-12A: a TABELA DE CASOS da ancora do fator do `Beserker's Blood`. Uma fonte so, lida por DOIS verificadores: `verifica.py` (o espelho em Python) e `parser_csharp.py` (que COMPILA e RODA o parser de verdade, extraido do .cs).",
+  "_regra": "equivalentes = a MESMA conta escrita de outro jeito: o parser TEM de ler o fator (e o fator sai da EXPRESSAO, nao do teste). recusadas = forma que NAO e a mesma conta: o parser TEM de recusar (a linha do jogo fica intacta).",
+  "equivalentes": [
+    {
+      "formula": "Source.HealthRatioInverse * 100",
+      "fator": 100,
+      "por": "a forma do DUMP (referencia) — scratch/cap1/fnt1/B-pular-false-diag-on/LogOutput-desta-rotina.log:607"
+    },
+    {
+      "formula": "100 * Source.HealthRatioInverse",
+      "fator": 100,
+      "por": "ordem dos fatores trocada"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 100f",
+      "fator": 100,
+      "por": "sufixo `f` no numero"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 100F",
+      "fator": 100,
+      "por": "sufixo `F` maiusculo"
+    },
+    {
+      "formula": "100f * Source.HealthRatioInverse",
+      "fator": 100,
+      "por": "ordem trocada + sufixo"
+    },
+    {
+      "formula": "(Source.HealthRatioInverse * 100)",
+      "fator": 100,
+      "por": "parenteses em volta da expressao inteira"
+    },
+    {
+      "formula": "( Source.HealthRatioInverse * 100 )",
+      "fator": 100,
+      "por": "parenteses + espaco"
+    },
+    {
+      "formula": "(Source.HealthRatioInverse) * 100",
+      "fator": 100,
+      "por": "parenteses em volta do termo"
+    },
+    {
+      "formula": "100 * (Source.HealthRatioInverse)",
+      "fator": 100,
+      "por": "parenteses em volta do termo, ordem trocada"
+    },
+    {
+      "formula": "Source.HealthRatioInverse*100",
+      "fator": 100,
+      "por": "sem espaco"
+    },
+    {
+      "formula": "Source . HealthRatioInverse * 100",
+      "fator": 100,
+      "por": "espaco no acesso (o jogo nao escreve, mas e equivalente)"
+    },
+    {
+      "formula": "Mathf.Round(HealthRatioInverse,1) * 100",
+      "fator": 100,
+      "por": "embrulho Mathf.Round: le o FATOR e ignora o arredondamento (BT-12R mediu; ver o comentario no .cs)"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 50",
+      "fator": 50,
+      "por": "o fator vem da EXPRESSAO (nao ha 100 digitado no mod)"
+    },
+    {
+      "formula": "50f * Source.HealthRatioInverse",
+      "fator": 50,
+      "por": "fator 50, ordem trocada + sufixo"
+    },
+    {
+      "formula": "(Source.HealthRatioInverse * 25)",
+      "fator": 25,
+      "por": "fator 25, com parenteses"
+    },
+    {
+      "formula": "100.0 * Source.HealthRatioInverse",
+      "fator": 100,
+      "por": "decimal explicito"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 100.0",
+      "fator": 100,
+      "por": "decimal explicito"
+    }
+  ],
+  "recusadas": [
+    {
+      "formula": "Source.HealthRatio * 100",
+      "por": "CAMPO TROCADO: `HealthRatio` (sem o `Inverse`) — nao ha o termo da ancora"
+    },
+    {
+      "formula": "Source.SavedMap * 100",
+      "por": "usa o `SavedMap` (os pontos investidos), nao a propriedade do motor"
+    },
+    {
+      "formula": "Source.SavedMap[\"HealthRatioInverse\"] * 100",
+      "por": "o termo so aparece como TEXTO de indice — nao e a referencia"
+    },
+    {
+      "formula": "Source.HealthRatioInverseValue * 100",
+      "por": "`HealthRatioInverseValue` NAO e a propriedade (o termo esta colado num sufixo)"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * Source.DamageMod",
+      "por": "multiplica por OUTRO campo, nao por uma constante"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * DamageMod",
+      "por": "multiplica por outro campo (sem `Source.`)"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 100 + 5",
+      "por": "a forma COMPLEXA do dump: tem uma soma depois — ler `100` seria ler pela metade"
+    },
+    {
+      "formula": "Source.HealthRatioInverse + 100",
+      "por": "soma em vez de multiplicacao"
+    },
+    {
+      "formula": "Source.HealthRatioInverse / 100",
+      "por": "divisao em vez de multiplicacao"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * 100 * 2",
+      "por": "DUAS multiplicacoes — nao e um fator constante unico"
+    },
+    {
+      "formula": "Source.HealthRatioInverse * HealthRatioInverse",
+      "por": "multiplica o termo por ele mesmo, nao por uma constante"
+    },
+    {
+      "formula": "Mathf.Max(1, Source.HealthRatioInverse) * 100",
+      "por": "embrulho que MUDA o valor (poe piso em 1) — nao e equivalente"
+    },
+    {
+      "formula": "-Source.HealthRatioInverse * 100",
+      "por": "negacao do termo (o fator tem de ser positivo)"
+    },
+    {
+      "formula": "Source.HealthRatioInverse",
+      "por": "sem multiplicacao (o termo sozinho nao e um fator)"
+    },
+    {
+      "formula": "100",
+      "por": "sem o termo da ancora"
+    }
+  ],
+  "_procedencia": "BT-12A montou esta tabela em scratch/bt12/casos_ancora.json (GITIGNORED). BT-16 a traz para o repo VERSIONADO como a fixture do teste t_bt12_berserkers_blood.py: a MESMA tabela, agora fonte de verdade. Ela era lida por DOIS verificadores (o espelho em Python e o parser_csharp.py, que COMPILA o .cs de verdade); aqui o teste puro roda o espelho em Python e le o FONTE por recorte estrutural, para rodar no CI sem o jogo e sem dotnet."
+}

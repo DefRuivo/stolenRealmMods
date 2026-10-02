@@ -1,0 +1,22 @@
+BT-10T — prova fisica do teste puro t_bt10_reaper_toll.py
+fonte alvo: BetterTooltips/Patches/ReaperTollPatch.cs
+sha256 ANTES:   44eef54edbe80846961f87169dd681aa0491940ebe650ed1e698d7df944f03fa
+
+(1) PROCEDENCIA — numero fixo onde deveria ler o ASSET
+  exit do teste: 1  (REPROVOU (esperado))
+  linha do runner: RESULTADO|REPROVOU|bt10-reaper-toll|o ReaperTollPatch regrediu em 2 ponto(s): - PROCEDENCIA: a % tem de ser LIDA (`float pct = PercentualDaSkill(skill);`); um numero fixo onde deveria ler o asset e exatamente o defeito que este teste pega - PROCEDENCIA: ha um literal numerico atribuido a `pct` no lugar da leitura do asset
+  sha256 DEPOIS: 44eef54edbe80846961f87169dd681aa0491940ebe650ed1e698d7df944f03fa  ->  RESTAUROU BYTE A BYTE
+
+(2) FAIL-SAFE — guarda de vida removida
+  exit do teste: 1  (REPROVOU (esperado))
+  linha do runner: RESULTADO|REPROVOU|bt10-reaper-toll|o ReaperTollPatch regrediu em 1 ponto(s): - FAIL-SAFE: sem vida maxima (`vida <= 0f`) o patch tem de sair sem escrever
+  sha256 DEPOIS: 44eef54edbe80846961f87169dd681aa0491940ebe650ed1e698d7df944f03fa  ->  RESTAUROU BYTE A BYTE
+
+(3) FORMATO (BT-10F) — o `(` do sufixo depois do ponto
+  exit do teste: 1  (REPROVOU (esperado))
+  linha do runner: RESULTADO|REPROVOU|bt10-reaper-toll|o ReaperTollPatch regrediu em 1 ponto(s): - FORMATO: o sufixo tem de ABRIR com `" (<color=#"` — o `(` colado no espaco, NUNCA depois do ponto (e o `. (` do defeito da BT-10F)
+  sha256 DEPOIS: 44eef54edbe80846961f87169dd681aa0491940ebe650ed1e698d7df944f03fa  ->  RESTAUROU BYTE A BYTE
+
+sha256 FINAL:   44eef54edbe80846961f87169dd681aa0491940ebe650ed1e698d7df944f03fa  ->  identico ao original
+
+VEREDITO: cada defeito REPROVOU o teste e o fonte voltou byte a byte
