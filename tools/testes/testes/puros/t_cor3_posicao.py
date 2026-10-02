@@ -24,7 +24,9 @@ de 01/10 14:41 — a build instalada por acidente):
 A CORRECAO (COR-3): a NOSSA nota passou a ser achada pelo CONTEUDO (`_conteudosDeNota` /
 `TirarNotaDoMod`), nunca pela cor. O que este teste faz:
 
-  1. TRAVA ESTRUTURAL no fonte: o registro por conteudo existe, e o `CorEOrdemDoTooltip` nao tem
+  1. TRAVA ESTRUTURAL no fonte: o registro por conteudo existe, a ORDEM (registrar ANTES de ler/
+     trocar a cor, DENTRO do `ComACorDoJogo`) e conferida por CASAMENTO DE CHAVES — nunca por uma
+     janela de 200 caracteres entre as duas linhas (FORMATO-4) —, e o `CorEOrdemDoTooltip` nao tem
      mais a extracao por cor (a linha exata que estava no build do dono);
   2. DEFEITO REPRODUZIDO (a isca, com o material REAL das tabelas do mod): com a regra ANTIGA,
      pelo menos DUAS tooltips de skill com dano mandam o VALOR DE DANO para o fundo — e o mesmo
@@ -33,6 +35,12 @@ A CORRECAO (COR-3): a NOSSA nota passou a ser achada pelo CONTEUDO (`_conteudosD
      do motor fica na linha branca onde o jogo o escreveu, e a linha azul do nivel 3 continua por
      ULTIMO.
 
+FORMATO-4: a conferencia da ORDEM (o registro antes da leitura da cor) e provada NOS DOIS SENTIDOS,
+em COPIA EM MEMORIA (o arquivo do repositorio nao e tocado): (a) uma edicao INOFENSIVA entre as duas
+linhas — um local a mais, com mais de 200 caracteres — NAO quebra o recorte estrutural, enquanto a
+JANELA ANTIGA (`[\\s\\S]{0,200}?`) teria estourado nela; (b) o DEFEITO REAL (o registro DEPOIS da
+leitura da cor) continua sendo pego.
+
 A prova so vale porque as duas metades rodam sobre o MESMO texto: o da isca e o do conserto saem
 do mesmo `monta_a_descricao`, e a unica diferenca e a funcao de extracao (a regra antiga x a do
 COR-3).
@@ -40,6 +48,7 @@ COR-3).
 import re
 
 import arcabouco as arc
+import recorte as rec
 import regras_cor as reg
 
 META = {
@@ -58,6 +67,14 @@ AURA_AZUL = "Your active shrine auras: Dodge +40% (total +57%)."
 # A linha de auras entra no texto JA COLORIDA por quem a escreve (`CorDaLinhaDeAuras()`, nivel 3).
 AURA_AZUL_COLORIDA = "<color=" + reg.cor_da_linha_azul() + ">" + AURA_AZUL + "</color>"
 
+# FORMATO-4: a ORDEM do registro da nota, conferida por CASAMENTO DE CHAVES (nunca por janela).
+ASSINATURA_DO_COM_A_COR = "internal static string ComACorDoJogo(string texto)"
+REGISTRO_DO_BLOCO = "RegistrarBlocosDeNota(texto);"
+LEITURA_DA_COR = "_corEspecialDoJogo == null"
+# A janela que a trava usava (`[\s\S]{0,200}?` entre as duas linhas). So existe aqui, na prova, para
+# DEMONSTRAR por que ela nao serve — em nenhum caminho de checagem.
+JANELA_ANTIGA = 200
+
 
 def _fonte():
     return reg.fonte_do_mod()
@@ -67,6 +84,68 @@ def _sem_comentarios(fonte):
     """O codigo sem os comentarios: a bancada CITA o desenho antigo nos comentarios, e citacao nao e
     codigo (mesma regra do `t_cores_niveis`)."""
     return re.sub(r"//[^\n]*", "", fonte)
+
+
+def _ordem_do_registro(fonte):
+    """(ok, motivo) — o registro da nota vem ANTES da leitura/troca da cor, DENTRO do `ComACorDoJogo`.
+
+    FORMATO-4: o recorte do metodo e por CASAMENTO DE CHAVES (`recorte.corpo_do_metodo`, sobre o
+    codigo efetivo), nunca por uma janela de 200 caracteres entre as duas linhas. A janela media
+    DISTANCIA: uma edicao INOFENSIVA (um local a mais, um comentario mais longo) empurrava a segunda
+    linha para fora dela e a trava reprovava por motivo ALHEIO ao defeito.
+    """
+    corpo_do_metodo = rec.corpo_do_metodo(rec.codigo_efetivo(fonte), ASSINATURA_DO_COM_A_COR)
+    i_registro = corpo_do_metodo.find(REGISTRO_DO_BLOCO)
+    i_leitura = corpo_do_metodo.find(LEITURA_DA_COR)
+    if i_registro < 0:
+        return False, "o `ComACorDoJogo` nao chama `%s`" % REGISTRO_DO_BLOCO
+    if i_leitura < 0:
+        return False, "o `ComACorDoJogo` nao le a cor (`%s`)" % LEITURA_DA_COR
+    if i_registro > i_leitura:
+        return False, ("o registro acontece DEPOIS da leitura/troca da cor (registro em %d, leitura "
+                       "em %d)" % (i_registro, i_leitura))
+    return True, None
+
+
+def _o_recorte_e_estrutural(fonte):
+    """FORMATO-4 — a ordem do registro provada NOS DOIS SENTIDOS, em COPIA EM MEMORIA.
+
+    (1) uma edicao INOFENSIVA de mais de `JANELA_ANTIGA` caracteres entre as duas linhas NAO pode
+        quebrar o recorte estrutural — e a JANELA ANTIGA (`[\\s\\S]{0,200}?`) teria estourado nela;
+    (2) o DEFEITO REAL (o registro DEPOIS da leitura da cor) tem de continuar sendo pego.
+    """
+    # (1) O RETOQUE: um local a mais logo depois do registro, sem tocar marcador nenhum conferido.
+    retoque = (
+        "\n            string _rastroDoRegistro = \"retoque inofensivo do FORMATO-4: um local a mais"
+        " que nao carrega nenhum marcador conferido pela trava de ordem; ele so ocupa espaco, para"
+        " provar que a janela de caracteres nao alcanca mais as duas linhas\";"
+        "\n            int _tamanhoDoRastro = _rastroDoRegistro.Length;"
+        "\n            string _outroRastro = _rastroDoRegistro + \"::\" + _tamanhoDoRastro.ToString();"
+        "\n            string _somaDosRastros = _outroRastro + _rastroDoRegistro;"
+    )
+    arc.exigir(len(retoque) > JANELA_ANTIGA,
+               "o retoque inofensivo encolheu (%d <= %d): a prova (1) nao demonstraria nada"
+               % (len(retoque), JANELA_ANTIGA))
+    retocado = fonte.replace(REGISTRO_DO_BLOCO, REGISTRO_DO_BLOCO + retoque, 1)
+    arc.exigir(retocado != fonte, "o retoque nao achou o registro — a prova nao plantou nada")
+    ok, motivo = _ordem_do_registro(retocado)
+    arc.exigir(ok, "o retoque INOFENSIVO derrubou o recorte estrutural da ordem: %s" % motivo)
+    arc.exigir(not re.search(r"RegistrarBlocosDeNota\(texto\);\s*\n[\s\S]{0,%d}?_corEspecialDoJogo"
+                             r"\s*==\s*null" % JANELA_ANTIGA, retocado),
+               "a janela de %d aguentou o retoque — sem isso a prova nao demonstra que o conserto "
+               "era necessario" % JANELA_ANTIGA)
+
+    # (2) O DEFEITO REAL: o registro passa para DEPOIS do bloco que le a cor.
+    i_registro = fonte.index(REGISTRO_DO_BLOCO)
+    sem_o_registro = fonte[:i_registro] + fonte[i_registro + len(REGISTRO_DO_BLOCO):]
+    ancora = "if (string.IsNullOrEmpty(_corEspecialDoJogo))"
+    i_ancora = sem_o_registro.index(ancora)
+    defeito = (sem_o_registro[:i_ancora] + REGISTRO_DO_BLOCO + "\n            "
+               + sem_o_registro[i_ancora:])
+    ok_defeito, motivo_defeito = _ordem_do_registro(defeito)
+    arc.exigir(not ok_defeito,
+               "o DEFEITO REAL (registro DEPOIS de ler a cor) PASSOU pelo recorte estrutural: %s"
+               % motivo_defeito)
 
 
 def _cenario(chave, nota, dano=None, expressao=None, aura=None):
@@ -110,15 +189,17 @@ def corpo():
                "o registro `_conteudosDeNota` (a identidade das NOSSAS notas) sumiu do LocalizePatch.cs")
     arc.exigir(re.search(r"private\s+static\s+void\s+RegistrarBlocosDeNota\s*\(", fonte),
                "o `RegistrarBlocosDeNota` (quem alimenta o registro) sumiu do LocalizePatch.cs")
-    arc.exigir(re.search(r"RegistrarBlocosDeNota\(texto\);\s*\n[\s\S]{0,200}?_corEspecialDoJogo\s*==\s*null",
-                         fonte),
+    ok_ordem, motivo_ordem = _ordem_do_registro(fonte)
+    arc.exigir(ok_ordem,
                "o registro tem de acontecer DENTRO do `ComACorDoJogo` e ANTES da leitura/troca da cor "
-               "(senao a nota nao esta registrada quando a cor e resolvida)")
+               "(senao a nota nao esta registrada quando a cor e resolvida): %s" % motivo_ordem)
     arc.exigir(re.search(r"bool\s+achouNota\s*=\s*TirarNotaDoMod\(ref\s+description,\s*out\s+nota\);", codigo),
                "o `CorEOrdemDoTooltip` tem de achar a nota pelo CONTEUDO (`TirarNotaDoMod`)")
     arc.exigir(not re.search(r"TirarBloco\(ref\s+description,\s*corNota,\s*false,\s*null,\s*out\s+nota\)", codigo),
                "a extracao por COR voltou ao `CorEOrdemDoTooltip`: `TirarBloco(ref description, corNota, "
                "false, null, out nota)` e exatamente a linha do build em que o valor de dano ia para o fundo")
+    # FORMATO-4: a ordem e estrutural — provada nos dois sentidos, em copia em memoria.
+    _o_recorte_e_estrutural(fonte)
 
     # --------------------------------------------------- 2. O MATERIAL (real)
     pares = reg.pares_de_skill_com_dano()
