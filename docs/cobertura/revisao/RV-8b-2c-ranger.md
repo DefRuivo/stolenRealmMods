@@ -38,7 +38,7 @@ propriedades da **ação** (quantos alvos, quanto movimento, escala por hex).
 |---|---|---|---|
 | `Rally` | movimento **+3** | **+2** | o efeito é nos aliados (não entra no `attr` do caster) |
 | `Volley` | até **5** alvos | até **3** | é um limite de alvos da ação |
-| `Marked Prey` | "**Attacks** now apply…" | "**Basic attacks** now apply…" | a wiki diz básico, a tooltip diz qualquer ataque; o gatilho está no `SkillTrigger`, que o dump não traz |
+| `Marked Prey` | "**Attacks** now apply…" | "**Basic attacks** now apply…" | a wiki diz básico, a tooltip diz qualquer ataque; o gatilho está no `SkillTrigger`, que o dump **não trazia à época** — o RD-2R passou a publicar `SkillTriggers[].Targets` (`~alvos=`, ver `docs/DEBUGGER.md`), então dá para reconferir hoje |
 
 O `Marked Prey` é o mais relevante dos três: se o gatilho for só ataque básico, a
 tooltip **promete mais do que o jogo faz** — que é justamente o defeito que este RV

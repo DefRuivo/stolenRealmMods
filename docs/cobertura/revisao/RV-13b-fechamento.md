@@ -59,8 +59,8 @@ o `resources.assets` (fórmula/descrição do próprio objeto), o cache de expre
 
 | entrada | prova | estado |
 |---|---|---|
-| `Berserker's Rage` | `LocalizePatch.cs` l.1047 já troca `max life` → `max health` (RV-14, regra da maioria) | **já aplicado** no mod |
-| `Immortal Night` | `LocalizePatch.cs` l.1075 troca `@Maximum health@` → `@Max health@` na variante **"…per stack."** (a variante sem "per stack" é a `Soul Fracture`, l.1066) | **já aplicado** no mod |
+| `Berserker's Rage` | `LocalizePatch.cs` — entrada do `TextFixes` sob o comentário `RV-14 terminologia: Berserker's Rage` (**l.1470**) já troca `max life` → `max health` (RV-14, regra da maioria) | **já aplicado** no mod |
+| `Immortal Night` | `LocalizePatch.cs` — entrada do `TextFixes` sob o comentário `RV-14 terminologia: Immortal Night` (**l.1498**) troca `@Maximum health@` → `@Max health@` na variante **"…per stack."** (a variante sem "per stack" é a `Soul Fracture`, **l.1489**) | **já aplicado** no mod |
 | `Raise Skeletal Lackey` (variante "Max Health, Damage, Armor, and Dodge Chance reduced by 50%.") | o efeito do asset tem **5** atributos: `MaxHealth:Multiplicative:.5, DamageMod:Multiplicative:.5, Armor:Multiplicative:.5, DodgeChance:Multiplicative:.5, **MagicArmor:Multiplicative:.5**, ModelScaleMultiplier:Set:-40`. O texto lista 4 e **omite o Magic Armor** — a omissão muda a leitura de quem leva o debuff (duas mitigações caem, não uma). `Multiplicative:.5` = −50% está provado pelo irmão `Transcendence` ("Reduces @Max Health@ by {50,35}%" = `MaxHealth:Multiplicative:{.5,.65}`, já `revisado`) | **PENDENTE no mod** (§5) |
 | `Warrior's Blade` | `DamageMod:Base:50`; o texto é "Damage increased **50%.**" — falta o `by`. Os irmãos de efeito idêntico escrevem com a preposição: `Destructive` ("Damage increased **by** 50% ", `revisado`), `Empowered Blood` ("Increases damage dealt **by** 50%.", `revisado`). O RV-19 §2 confirma que este status é o `Warrior Shrine Explosion` (+50%, valor fixo) | **PENDENTE no mod** (§5) |
 
@@ -224,7 +224,7 @@ Conferências antes de commitar: **1 dono cada** (checado agora — `status.csv`
 linha com cada texto, então não há risco de chave compartilhada / BUG-32), e **nenhuma das duas
 chaves existe hoje** em `TextFixes` nem em `TextAppends` (varredura do `LocalizePatch.cs`).
 As outras duas `corrigido` (`Berserker's Rage`, `Immortal Night`) **já têm a entrada no mod** —
-RV-14, linhas 1047 e 1075 — e só faltava o veredito no CSV.
+RV-14, linhas 1470 e 1498 — e só faltava o veredito no CSV.
 
 > As 5 promoções de §4.1 e as 3 que só tiveram o motivo refinado **não** pedem edição de texto: o
 > texto delas é verdadeiro. O que o RV-19 §6.1 propõe (notas para a família de shrines, incluindo
@@ -440,3 +440,83 @@ RV-14, RV-19, BUG-32-chaves-compartilhadas), `BetterTooltips/Patches/LocalizePat
 **§7 (RV-13c):** `resources.assets` lido por **typetree gerado** dos `.dll` de
 `Stolen Realm_Data/Managed/` (UnityPy 1.25.3 + TypeTreeGeneratorAPI 0.10) e os scripts de bancada em
 `%LOCALAPPDATA%\hermes\cache\scratch\rv13c\`.*
+
+---
+
+## 8. Reverificação (01/10/2026) — os 5 CSVs × o dump estendido (RD-2R)
+
+> **Rodada somente-leitura nos CSVs.** O que o cartão `t_2ce8a190` (RV-13b) pedia — propagar os
+> vereditos de RV-9..RV-12 para as 5 categorias — **já está no disco** e é o que esta seção confere
+> contra o dump de hoje. Nenhum campo de descrição foi tocado e **nenhum veredito foi alterado**;
+> os conflitos achados ficam registrados aqui (§8.2), não "arrumados".
+
+**Medido agora** (`csv` do Python, os 5 arquivos de `docs/cobertura/`) — `pendente` = **0** em todos:
+
+| arquivo | entradas | revisado | corrigido | sem-explicacao | intocavel | indeterminado | pendente |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| `skills.csv` | 451 | 309 | 102 | 9 | 31 | 0 | **0** |
+| `status.csv` | 560 | 517 | 20 | 21 | 0 | 2 | **0** |
+| `itens.csv` | 905 | 782 | 9 | 113 | 0 | 1 | **0** |
+| `afixos.csv` | 285 | 277 | 8 | 0 | 0 | 0 | **0** |
+| `powerups.csv` | 79 | 79 | 0 | 0 | 0 | 0 | **0** |
+| **TOTAL** | **2.280** | **1.964** | **139** | **143** | **31** | **3** | **0** |
+
+`status.csv` bate com o §7 (517/20/21/2) e as duas colunas de revisão seguem idênticas
+(`status == revisao` em 0 divergências). **Cruzamento com as fontes** (scripts em
+`%LOCALAPPDATA%\hermes\cache\scratch\`): 905/905, 285/285 e 79/79 casaram 1:1 com
+`scratch/rv10-12-vereditos.json` (`nota`→`revisado`) e 560/560 com `rv9-buffs-vereditos.json`
+(393 buffs) + os 133 debuffs + a fila `?`/`Neutro` (34) — **0 divergência**. E as **descrições** dos
+5 CSVs continuam **iguais às do `LogOutput.log`** (0 diferenças por multiconjunto): a propagação
+tocou só a coluna `status`.
+
+### 8.1 O instrumento (o que NÃO foi rodado, e por quê)
+
+`census.py` reescreve o `status.csv` com o header de **9** colunas (nome…status); as extras de hoje
+(**13** colunas: `revisao`, `beneficio`, `dur`, `maxStk`) **não sobrevivem** a uma rodada dele. Por
+isso **nada foi rodado**: `census.py`, `censo_status.py` e `importa_beneficio.py` **não** foram
+executados nesta rodada. Se algum campo novo do dump tiver de virar coluna, o caminho do projeto é
+um **imersor** no lugar (`importa_beneficio.py` é o modelo; `censo_status.py` preserva as colunas
+existentes e só acrescenta `revisao`) — **nunca** mexer no header do `census.py`.
+
+### 8.2 Conflitos registrados (não resolvidos aqui)
+
+1. **Os campos novos do RD-2R não estão no artefato que o censo lê.** A DLL do perfil
+   (`…\plugins\RoguelikeDebugger\RoguelikeDebugger.dll`) é de **30/09 21:22** (md5 `28b7959a…`);
+   os builds do repo com os campos novos são de **01/10** (`bin/Debug` 13:38, `bin/Release` 14:55).
+   O `LogOutput.log` de 01/10 (600 `[Status]`) **não tem** `expr=`, `tick=`, `auraSts=`, `~alvos=`
+   nem `~acoes=` — só o formato antigo (`nTrig=… | trigEf=…~cond=~status=`). Ou seja: os dados novos
+   existem no **fonte** e no log sintético de bancada, **não** no log de boot. Propagar campo novo
+   para CSV hoje exigiria deploy + boot (fora do escopo desta tarefa).
+2. **`docs/DEBUGGER.md` atribui ao `EfeitosInfo` o fecho das "duas últimas entradas `indeterminado`"
+   — as duas que restam não são aquelas.** `Champion of Blood` e `Frenzy` seguem `nEfeitosTot=0` /
+   `efTipos=` / `nTrig=0` no dump e `0` gatilho e `0` `descExpr` na passagem offline dos 421 assets.
+   O motivo de continuarem abertas é o do §7.5 (o número mora no `CharacterInfo` / em
+   `ActionInfo.Effects`, fora do status), **não** o cast `as GeneralEffect`. O veredito
+   `indeterminado` está certo; a narrativa causal do doc é que conflita.
+3. **A evidência de RV-9 para as auras de shrine citou `ActionsOnTick`; o RD-2R mediu `0/421` e
+   provou `SkillTriggers[].Targets`.** `Decay Shrine Aura`, `Flame Shrine Aura` e `Dwarven Aura`
+   seguem `revisado` (o texto é verdadeiro) — o que envelheceu é a **evidência** gravada no JSON/
+   workfile ("o proc mora em `ActionsOnTick`, campo que o dump não exporta"): o proc é
+   `SkillTriggers[0]` (`Flame` `OnGettingHitDamaging` + `Cell.IsCurrentHex(Target)`; `Decay`
+   `TriggerType=4` + `Cell.IsCurrentHex(Source)`). Não usar "provado por `ActionsOnTick`" para
+   reconferir. Mesmo caso de `RV-8b-2c-ranger.md` ("o gatilho está no `SkillTrigger`, que o dump não
+   traz"): com o `~alvos=` o dump passou a trazer.
+4. **Denominadores diferentes (600 × 424 × 421).** O dump imprime **600** statuses; 424 são objetos
+   de asset (421 legíveis offline) e ~176 são **sintéticos** criados no boot a partir de `EventStatus`
+   (`LoadListActionStatuses`). O censo dedupa para **560** por (nome, descrição) e os 2.280 do RV-13
+   saem daí. Os `X/421` do `DEBUGGER.md`/RV-19 e as contagens do RV-13 partem de bases diferentes —
+   não re-derivar o censo dos 421.
+5. **A família `* Shrine Explosion` (ações) continua fora do dump.** Os *statuses* irmãos
+   (`Warrior's Blade`, `Guardian Shield`, `Marked for Death`, `Might of the Conqueror`, `Frenzy`)
+   **estão** no censo e com veredito; nenhum veredito depende da ação que não sai. `acoes.csv` e
+   `invocacoes.csv` (corpora de apoio, 0 descrições não-vazias) seguem `pendente` — fora do "X de X",
+   como o RV-13 §7.4 já declarava.
+
+**Travas no fim desta rodada:** `tools/testes/roda_testes.py` → **20/20, VERDE (exit 0)`;
+`check_dupes`, `check_fix_keys` (298 chaves · 294 no censo · 4 fora), `check_notas_redundantes`,
+`check_chave_compartilhada --estrito`, `audita_docs`, `checa_citacoes` → **exit 0**.
+
+*md5 dos 5 CSVs nesta rodada (para provar que não foram tocados):*
+`skills b8ea3ba3552db6fd585ed6617c92f0ec` · `status 6717cc883680a1a2e9f0de0d1dd123fb` ·
+`itens 0d60e284c3add6bf5c10274bac325fb3` · `afixos e320797deb8d709b231bfc415bfd78b6` ·
+`powerups 529aa4f6ce4abac864ee0be04a2d7476`.

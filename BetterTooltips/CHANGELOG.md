@@ -1,6 +1,11 @@
 # Changelog — BetterTooltips
 
-## Nao publicado — RV-46 (30/09): os dois defeitos da linha azul das auras de shrine
+## RV-46 (30/09) — os dois defeitos da linha azul das auras de shrine (saiu na **0.1.1**, no ar desde 01/10)
+
+> **Historico do titulo:** esta secao nasceu como "Nao publicado" (bc394e7, 30/09) — e o RV-46 era mesmo
+> inedito quando a nota foi escrita; o que envelheceu foi o titulo. O RV-46 foi empacotado dentro da
+> **0.1.1** (publicada em 01/10/2026, substituindo a 0.1.0) e o zip publicado carrega este changelog
+> verbatim, com `AurasUnicas`, `RV-46` e `instancias=` na DLL.
 
 Conserto de **dois defeitos** na linha `Your active shrine auras:`. **Nenhuma formula de dano, nenhuma
 convencao de formatacao (o Ceil do RV-45, o sinal unico do 46acd97) e nenhuma das 12 notas de texto
@@ -36,7 +41,7 @@ mudaram** — o que mudou foi QUAL numero entra em cada item e QUAIS auras viram
 
 ## 0.1.1
 
-Conserto de **texto/rotulo** nos tooltips de shrine. **Nenhum numero, formula ou logica de calculo mudou** — a auditoria independente confirmou 9/9 dos valores das auras de buff (mais Flame e Decay).
+Conserto de **texto/rotulo** nos tooltips de shrine (RV-43). **Nenhum numero, formula ou logica de calculo mudou NESTES consertos de texto** — a auditoria independente confirmou 9/9 dos valores das auras de buff (mais Flame e Decay). **A 0.1.1 que está no ar leva mais que rotulo:** o RV-44 (bullet abaixo) e o RV-46 (secao acima) entraram nesta MESMA versao e mudaram QUAL numero entra na linha — a versao nao subiu de novo; a frase "nada de calculo mudou" envelheceu e vale só para os consertos de texto.
 
 - **RV-43 — a nota do `Fury` era a unica das 9 auras de shrine sem a base e sem a cadeia do bonus.** Causa: a chave `Damage increased by [0]%. Damage taken increased by [0]%. ` estava em `TextAppends` com a nota antiga do `RV-9` (so a frase de cura) — nao dizia que e aura de shrine, nao dava a base e nao citava o *Shrine Effect Bonus*. Conserto: a nota passou a `Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).` e a **frase de cura ficou** (nao era falsa: o motor soma `DamageMod` a cura) — a nota agora tambem cobre o shrine. A base 25/25 sai do asset (`status.csv:205`: `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"]/100))` e o `DamageReduction` espelhado em -25). A chave continua **so** em `TextAppends`: o texto original do jogo nao mudou, entao nada migrou para `TextFixes` (a mesma chave nas duas tabelas derruba o mod — INC-1; `check_chave_compartilhada.py --estrito` = 0).
 - **RV-43 — o rotulo de `ManaCostMod` (Energy Coil) quebrava com total POSITIVO.** Causa: `Format` fazia `"Mana Costs reduced by " + (-v)`, assumindo total negativo. Existem fontes POSITIVAS reais do mesmo atributo — `Forbidden Power` `ManaCostMod:Base:50` (`status.csv:191`) e `Fuel for the Flames I/II` +20/+30 (`skills.csv:178-179`): um personagem de Fire com +70 dentro do Energy Coil (-50) tem total **+20** e a linha imprimia `Mana Costs reduced by -20%`. Conserto: total <= 0 = `Mana Costs reduced by |v|`; total > 0 = `Mana Costs increased by v`.

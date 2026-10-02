@@ -47,8 +47,9 @@ Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.dec
    `.Level` é atribuído, l.155836) → `ShrineEffectBonus` = 0, e o `[0]` saía sempre na base. **Estado de hoje:** o prefix
    do mod (RV-22/RV-34) preenche os parâmetros VAZIOS com o personagem avaliado e troca o `Source` quando ele é
    *exatamente* esse personagem vazio — o `[0]` passa a sair com o bônus REAL, inclusive nas duas auras de perigo. O que
-   **continua** em aberto (seção 7) é só **qual campo do status dispara a ação** (`ActionsOnTick`? `SkillTriggers`?
-   mecânica de aura?) — o dump de status não expõe esses campos.
+   **estava** em aberto (seção 7) era só **qual campo do status dispara a ação** (`ActionsOnTick`? `SkillTriggers`?
+   mecânica de aura?) — **RESPONDIDO no RD-2 (01/10): é `SkillTriggers[0].Targets`**, e o dump de status passou a
+   expor o campo (`~alvos=`); a evidência antiga que citava `ActionsOnTick` envelheceu (seção 7, ressalva do DOC-8).
 5. **Provas dos consertos RV-33/RV-34** (a MEDIÇÃO em jogo vence a leitura de asset — hierarquia de fontes do projeto):
    - **medição do dono do jogo (30/09):** com o perk `Worship` (+100 em `ShrineEffectBonus`, um **PERK DO PERSONAGEM**) o
      dano por turno do Decay **DOBRA** — 10% → 20%. Logo o fator vale 2 e quem ele lê é o personagem **na aura**.
@@ -401,6 +402,17 @@ e a medição de quantos statuses preenchem cada campo). Duas leituras de asset 
    Esse campo não era exportado pelo dump de status (a ação já tinha o `expr`; o status não).
 3. Os `Effects[]` das ações soltas (`Flame Aura Proc`, `Decay Aura Proc`) agora saem **dentro do gatilho**
    (`~acoes=Nome{ef=...}` do dump), sem precisar varrer `Game.Instance.Actions`.
+
+> **A EVIDÊNCIA DO RV-9 ENVELHECEU (DOC-8, 01/10).** A nota das auras de shrine gravada no workfile
+> de RV-9 (`%LOCALAPPDATA%\hermes\cache\scratch\rv9-buffs-vereditos.json`) registrava que "o dano por
+> turno mora em `ActionsOnTick`, que o bloco não exporta". O RD-2R mediu `ActionsOnTick*` e
+> `TickTargets` em **0 dos 421** assets e provou que o proc é `SkillTriggers[0].Targets`
+> (`Flame` = `Cell.IsCurrentHex(Target)`; `Decay` = `Cell.IsCurrentHex(Source)` — item 1 acima). Os
+> vereditos `revisado` de `Decay Shrine Aura`, `Flame Shrine Aura` e `Dwarven Aura` seguem **válidos**
+> — o texto do jogo é verdadeiro; o que **não serve mais para reconferir é a evidência gravada**:
+> não usar "provado por `ActionsOnTick`". Mesmo caso de
+> `docs/cobertura/revisao/RV-8b-2c-ranger.md` ("o gatilho está no `SkillTrigger`, que o dump não
+> traz"): com o `~alvos=` o dump passou a trazer.
 
 Confirmação em jogo — o que o RV-33/RV-34 fecharam e o que sobrou: (i) hover no shrine com/sem `Omnism` — o número do
 `[0]` muda? **Agora muda, por construção** (o prefix preenche os parâmetros: §0.4/§3), mas a conferência VISUAL dessas
