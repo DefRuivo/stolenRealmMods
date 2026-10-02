@@ -28,6 +28,9 @@ import re
 import sys
 from collections import Counter, defaultdict
 
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tabelas as _tab  # noqa: E402  o parser UNICO das tabelas do LocalizePatch.cs
+
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COB = os.path.join(RAIZ, "docs", "cobertura")
 SAIDA = os.path.join(COB, "revisao", "omissoes.md")
@@ -79,14 +82,24 @@ def chaves_do_mod():
     Textos que o mod JA corrige/explica. O censo e o estado ANTES do mod: sem isto a
     varredura acusa para sempre o que ja esta resolvido (os Nature Summoning, por ex.,
     ja tem a lista de bichos na tooltip).
+
+    FONTE UNICA: `tools/tabelas.py`. O regex que vivia aqui pulava so o comentario de
+    LINHA logo apos o `{` — nao via a chave com comentario de BLOCO e ainda casava
+    `{ "texto",` dentro de comentario (chave fantasma: 302 no lugar de 298).
+
+    A DIFERENCA DE -4 E GANHO, NAO PERDA DE COBERTURA (conferido pelo PARSER-1R). O regex
+    varria o arquivo INTEIRO e colhia 4 chaves de inicializadores FORA dos blocos
+    `TextFixes`/`TextAppends` — `Armor increased by 5%`, `Increased Armor`,
+    `Elemental resistance reduced by 5% per stack` e `Life Steal`. DUAS delas casam com o
+    censo, entao o relatorio antigo tinha 2 "ja cobertas" FALSAS: o parser unico le
+    exatamente as 298 entradas de verdade (o regex via 302) e a contagem passou a ser
+    MAIS ESTRITA. Nao ha cobertura perdida — so fantasma removido.
     """
     fonte = os.path.join(RAIZ, "BetterTooltips", "Patches", "LocalizePatch.cs")
     if not os.path.isfile(fonte):
         return set()
     with io.open(fonte, encoding="utf-8") as fh:
-        txt = fh.read()
-    return {m.group(1).replace('\\"', '"').replace("\\n", "\n").replace("\\\\", "\\")
-            for m in re.finditer(r'\{\s*(?://[^\n]*\n\s*)*"((?:[^"\\]|\\.)*)"\s*,', txt)}
+        return _tab.chaves(fh.read())
 
 
 def main():
@@ -193,7 +206,12 @@ def main():
     L = ["# Omissoes — o que a tooltip deixa de fora (regra do usuario, 29/09)\n",
          "> Gerado por `tools/check_omissao.py%s`. Le o dump de boot e compara o que o "
          "codigo FAZ com o que o texto DIZ. Texto certo pela metade tambem e defeito.\n"
-         % ((" " + filtro) if filtro else "")]
+         % ((" " + filtro) if filtro else ""),
+         "> Desde o PARSER-1 (01/10) a lista \"o que o mod ja cobre\" le o parser UNICO "
+         "(`tools/tabelas.py`). O regex antigo varria o arquivo inteiro e colhia 4 chaves "
+         "FANTASMA de inicializadores fora dos blocos (302 no lugar de 298); DUAS casavam "
+         "com o censo, ou seja o relatorio antigo tinha 2 \"ja cobertas\" FALSAS. A "
+         "contagem caiu para o numero real: e MAIS ESTRITO — ganho, nao perda.\n"]
     for classe in sorted(achados):
         itens = achados[classe]
         L.append("\n## %s — %d\n" % (classe, len(itens)))

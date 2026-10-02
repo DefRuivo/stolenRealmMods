@@ -18,30 +18,27 @@ Uso: python tools/check_fix_keys.py
 import csv
 import glob
 import os
-import re
 import sys
+
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+import tabelas as _tab  # noqa: E402  o parser UNICO das tabelas do LocalizePatch.cs
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 COBERTURA = os.path.join(RAIZ, "docs", "cobertura")
 FONTE = os.path.join(RAIZ, "BetterTooltips", "Patches", "LocalizePatch.cs")
 DICIONARIOS = ["TextFixes", "TextAppends"]
 
-# par chave/valor: "chave", "valor"  (com escapes no meio)
-PAR = re.compile(r'"((?:[^"\\]|\\.)*)"\s*,\s*"((?:[^"\\]|\\.)*)"')
-
-
-def desescapa(s):
-    return s.replace('\\"', '"').replace("\\n", "\n").replace("\\\\", "\\")
-
 
 def blocos(txt):
+    """Palavra mantida por compatibilidade: as chaves agora saem do parser unico.
+
+    O regex que vivia aqui (`"chave", "valor"`, sem olhar comentario) achava par de
+    strings em QUALQUER lugar — inclusive dentro de comentario — e podia nao ver a
+    entrada. O parser de `tools/tabelas.py` le a tabela de verdade.
+    """
     for nome in DICIONARIOS:
-        i = txt.find(nome + " = new Dictionary<string, string>")
-        if i < 0:
-            continue
-        j = txt.find("};", i)
-        if j > i:
-            yield nome, txt[i:j]
+        for chave, _valor in _tab.pares(txt, nome):
+            yield nome, chave
 
 
 def main():
@@ -59,10 +56,7 @@ def main():
                     if v:
                         universo.add(v)
 
-    chaves = []
-    for nome, bloco in blocos(txt):
-        for m in PAR.finditer(bloco):
-            chaves.append((nome, desescapa(m.group(1))))
+    chaves = list(blocos(txt))
 
     ok = [(n, k) for n, k in chaves if k in universo]
     nao = [(n, k) for n, k in chaves if k not in universo]

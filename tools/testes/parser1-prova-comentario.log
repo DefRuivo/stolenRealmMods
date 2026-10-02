@@ -1,0 +1,7 @@
+leitura ANTIGA (regex de regras_cor._entradas): ['sem comentario *0']
+leitura NOVA   (tools/tabelas.py, parser unico) : ['sem comentario *0', 'com linha *0', 'com bloco [0]']
+fonte real TextFixes    antigo=86  unico=101  (perdidas pelo antigo: 15)
+fonte real TextAppends  antigo=197  unico=197  (perdidas pelo antigo: 0)
+fonte real TOTAL  antigo=283  unico=298  (perdidas pelo antigo: 15)
+as 4 copias (regras_cor, check_notas_redundantes, check_chave_compartilhada, check_fix_keys) concordam com o parser unico em ('TextFixes', 'TextAppends')
+RESULTADO|PASSOU|parser-comentario-na-chave|PARSER-1: o parser VE a chave com comentario de LINHA e de BLOCO entre a abertura e a chave (o regex antigo nao via) e todas as copias usam tabelas.py

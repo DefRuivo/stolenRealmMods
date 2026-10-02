@@ -34,9 +34,11 @@ ENTRADA = **um item do dicionario**, isto e, o par `{ "chave", "valor" }`. Essa 
 contagem OFICIAL do projeto - a mesma que o `tools/check_chave_compartilhada.py`
 publica - e a unica que a documentacao pode citar.
 
-Este arquivo NAO tem parser proprio: importa `bloco()`/`entradas()` do
-`check_chave_compartilhada.py`, para a definicao de "entrada" morar num lugar so (se
-o import falhar o script nao roda, em vez de medir com outra definicao).
+O parser UNICO e `tools/tabelas.py` (a fonte da verdade: `bloco()`/`entradas()`, que
+pulam comentario de LINHA e de BLOCO). Este arquivo NAO le com implementacao propria:
+importa `bloco()`/`entradas()` do `check_chave_compartilhada.py`, que e um WRAPPER
+migrado sobre o `tabelas.py` (o import direto historicamente vem daqui; o contrato nao
+mudou). Se o import falhar o script nao roda, em vez de medir com outra definicao.
 
 Motivo (caso real, 30/09/2026): os dois scripts mediam o MESMO `LocalizePatch.cs` e
 discordavam - o `check_dupes` dizia *TextFixes 119 entradas*, o
@@ -60,7 +62,9 @@ import sys
 from collections import Counter
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-import check_chave_compartilhada as tabelas     # noqa: E402  parser UNICO do LocalizePatch.cs
+# Wrapper migrado sobre o parser UNICO (`tools/tabelas.py`): a definicao de "entrada"
+# mora LA, nao aqui. O import passa pelo `check_chave_compartilhada` por contrato historico.
+import check_chave_compartilhada as tabelas     # noqa: E402
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 ARQ = os.path.join(RAIZ, 'BetterTooltips', 'Patches', 'LocalizePatch.cs')

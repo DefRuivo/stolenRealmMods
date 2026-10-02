@@ -3,6 +3,9 @@
 > Gerado por `python tools/check_scaling.py`. Le as fórmulas de cada skill e cruza com as palavras do texto.
 
 
+> Desde o PARSER-1 (01/10) a lista "já resolvido pelo mod" lê o parser ÚNICO (`tools/tabelas.py`). O regex antigo varria o arquivo inteiro e colhia 4 chaves FANTASMA de inicializadores fora dos blocos (302 no lugar de 298); DUAS casavam com o censo, ou seja a lista antiga tinha 2 casos FALSOS. A contagem caiu para o número real: é MAIS ESTRITO — ganho, não perda.
+
+
 ## Fontes de escala encontradas
 
 | fonte | skills que usam | precisa estar no texto? |

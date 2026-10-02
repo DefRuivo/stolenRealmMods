@@ -10,8 +10,8 @@
 
 | | quantas |
 |---|---:|
-| Correções de texto exato (`TextFixes`) | 98 |
-| Explicações adicionadas (`TextAppends`) | 195 |
+| Correções de texto exato (`TextFixes`) | 101 |
+| Explicações adicionadas (`TextAppends`) | 197 |
 | Regras gerais (não são tabela) | 1 |
 
 ## Regra geral — normalização de espaços
@@ -174,6 +174,14 @@ O texto original vem do asset do jogo; o substituto é o que o jogador passa a l
 |---|---|---|---|
 | status Raise Skeletal Lackey | Max Health, Damage, Armor, and Dodge Chance reduced by 50%. | Max Health, Damage, Armor, Magic Armor, and Dodge Chance reduced by 50%. | RV-13b: Raise Skeletal Lackey \| o efeito do asset reduz CINCO coisas (`MaxHealth:Multiplicative:.5, DamageMod:Multiplicative:.5, Armor:Multiplicative:.5, DodgeChance:Multiplicative:.5, MagicArmor:Multiplicative:.5`) e o texto listava quatro: sem o Magic Armor, quem le le UMA mitigacao caindo quando caem DUAS. `Multiplicative:.5` = -50% e |
 | status Warrior's Blade | Damage increased 50%. | Damage increased by 50%. | RV-13b: Warrior's Blade \| a familia de efeito identico escreve com a preposicao - `Destructive` ("Damage increased by 50% ", ja `revisado`) e `Empowered Blood` ("Increases damage dealt by 50%.", ja `revisado`) - e esta entrada perdeu o `by`. Mesmo efeito (`DamageMod:Base:50`, o status `Warrior Shrine Explosion`, RV-19 §2). |
+
+**ENC-1 (01/10): encantamento de elemento nao e so para ATAQUE, e para HIT**
+
+| onde | antes | depois | fonte |
+|---|---|---|---|
+| skill Enchant Fire (Fire) | Enchants the target's weapon to add *0 fire damage to attacks.  | Enchants the target's weapon to add *0 fire damage to hits, including spells.  | O texto dizia "add *0 <elemento> damage to attacks" e a mecanica e mais larga. FONTE DA VERDADE (asset + motor, nao prosa): - o gatilho do status do encantamento (`resources.assets`: `COLD_Status_EnchantCold`, `FIRE_Status_EnchantFire`, `LIGHTNING_Status_EnchantLightning` e os dois irmas `Status_EnchantHoly`/`Status_EnchantShadow`) tem Tr |
+| skill Enchant Cold (Cold) | Enchants the target's weapon to add *0 cold damage to attacks.  | Enchants the target's weapon to add *0 cold damage to hits, including spells.  | ↑ *mesma fonte da linha acima* |
+| skill Enchant Lightning (Lightning) | Enchants the target's weapon to add *0 lightning damage to attacks.  | Enchants the target's weapon to add *0 lightning damage to hits, including spells.  | ↑ *mesma fonte da linha acima* |
 
 ## Explicações adicionadas (`TextAppends`)
 
@@ -404,6 +412,8 @@ Aqui o texto original é **mantido** e ganha um parágrafo no fim, com a mecâni
 | status Reaper Aura | Lifesteal increased by [0]%. | <br><color=#C8B090>Base 8%; the value shown already includes the Shrine Effect Bonus.</color> | ↑ *mesma fonte da linha acima* |
 | status Energy Aura | Decreases the cost of mana using abilities by [0]%. | <br><color=#C8B090>Base 50%; the value shown already includes the Shrine Effect Bonus.</color> | ↑ *mesma fonte da linha acima* |
 | status Dwarven Aura | Your attacks have a [0]% chance to stun the target. | <br><color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color> | ↑ *mesma fonte da linha acima* |
+| skill Two-Handed Mastery (Warrior) | While a two handed weapon is equipped all damage is increased by 20%.  | <br><color=#C8B090>Counts 2H Axe, 2H Sword, 2H Mace, Polearm, Bow, 2H Gun, and Staff.</color> | ARM-1 (01/10) — AS DUAS FAMILIAS DE ARMA do pedido do dono. OS TIPOS SAEM DO FILTRO DO MOTOR (nao de memoria), e o filtro e o MESMO que a skill le: * DUAS MAOS   — `WeaponInfo.IsTwoHanded` (scratch/sac1/WeaponInfo.cs:21-31) devolve true para EquipmentType Axe_2H, Sword_2H, Mace_2H, Polearm, Bow, Gun_2H e Staff; e exatamente esse `IsTwoHan |
+| skill Dual-Wield Mastery (Warrior) | While dual-wielding, @dodge chance@ increased by 5%, @critical hit chance@ increased by 5%, and @critical hit damage@ is increased by 20%. | <br><color=#C8B090>Counts two one-handed weapons: 1H Sword, 1H Axe, 1H Mace, 1H Gun, Wand, Fist weapons, or Unarmed.</color> | ↑ *mesma fonte da linha acima* |
 
 ---
 
