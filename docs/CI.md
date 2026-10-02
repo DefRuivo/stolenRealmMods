@@ -96,6 +96,7 @@ A ordem vai do mais barato/mais grave para o mais caro.
 | 5 | `python tools/check_chave_compartilhada.py --estrito` | **a mesma chave** em `TextFixes` **e** em `TextAppends`: o lookup é `if/else if` na mesma chave, então a entrada de `TextAppends` **nunca roda** e a nota não existe em jogo, sem erro no log (BUG-32). As *suspeitas* (texto usado por 2+ donos) seguem **aviso que não reprova**, nos dois modos |
 | 6 | `python .github/scripts/valida_pacotes.py` | manifest, ícone, README e CHANGELOG de cada pacote |
 | 7 | `python tools/audita_docs.py` | auditoria das docs contra o disco: contagens, versões, ferramentas citadas, links e caminhos que saíram do repo (promovido de `scratch/` em 30/09/2026) |
+| 8 | `python tools/checa_citacoes.py` | **citação `arquivo:linha`** da doc apontando para arquivo que não existe ou linha fora do arquivo (irmão estreito do `audita_docs`; a terceira citação quebrada do dia, achado 5 da REV-56) |
 
 Nenhum passo instala dependência: todos usam só a biblioteca padrão do Python
 (`csv`, `json`, `re`, `struct`, `zlib`, `subprocess`).
@@ -112,6 +113,7 @@ python tools/check_notas_redundantes.py
 python tools/check_chave_compartilhada.py --estrito
 python .github/scripts/valida_pacotes.py
 python tools/audita_docs.py
+python tools/checa_citacoes.py
 ```
 
 O passo 5 roda **com** `--estrito` aqui e no CI (o modo do `release-check.sh`): sem a flag o
@@ -127,7 +129,43 @@ for s in check_segredos check_fix_keys check_dupes check_notas_redundantes \
 python tools/check_chave_compartilhada.py --estrito   # a flag que o loop nao passa
 python .github/scripts/valida_pacotes.py
 python tools/audita_docs.py
+python tools/checa_citacoes.py
 ```
+
+## A chamada pronta para o `validate.yml` (CI-4)
+
+O `tools/checa_citacoes.py` é o **passo 10** do [`validate.yml`](../.github/workflows/validate.yml),
+logo depois da auditoria dos docs (passo 9) — é o mesmo tipo de trava (leitura do repositório, sem
+build e sem DLL) e o mais barato dos três últimos. **O bloco abaixo ainda NÃO está no arquivo que
+roda no GitHub:** o `validate.yml` está fora do repositório para quem tem este PAT (falta o escopo
+`workflow`), então não dá para enviá-lo por aqui. O que ficou pronto é a chamada — cole-a no
+`.github/workflows/validate.yml` depois do passo 9, num PAT com escopo `workflow`:
+
+```yaml
+      # 10. Checagem de CITACOES (tools/checa_citacoes.py): toda citacao `arquivo:linha` da doc
+      #     aponta para um arquivo que existe e para uma linha DENTRO dele? O dia teve tres provas
+      #     versionadas citando linha que nao existe (a varredura em jogo, a fixture de cores e o
+      #     documento da varredura do fake null, este ultimo citando 348/361/386 num arquivo de 252).
+      #     A ferramenta e o irmao estreito do `audita_docs.py` (passo 9): duas perguntas so, as duas
+      #     checaveis a maquina - arquivo existe? linha esta dentro? NAO julga se a linha certa foi
+      #     citada (isso e leitura humana). Sai 1 apontando `documento:linha`, e o texto da doc que
+      #     quebrou - nao a ferramenta.
+      - name: "10. Citacoes da doc (tools/checa_citacoes.py)"
+        run: |
+          if [ -f tools/checa_citacoes.py ]; then
+            python tools/checa_citacoes.py
+          else
+            echo "tools/checa_citacoes.py nao esta no repo - passo pulado de proposito."
+            echo "Ele e versionado em tools/ hoje; se sumiu, foi remocao."
+          fi
+```
+
+Antes de ligar qualquer check novo vale a regra da seção abaixo (passos 2 e 3): rode a ferramenta
+**hoje** e confirme o código de saída. Em 01/10/2026 o `checa_citacoes.py` sai `0` na árvore atual
+(83 citações/menções em 65 documentos, 0 pendências) e sai `1` quando uma citação quebrada é
+plantada — uma isca de cópia que citava uma **linha fora do arquivo** (99999 num fonte de 1616
+linhas) e um **caminho de `.cs` que não existe no repositório** reprovou pelo motivo certo,
+apontando o documento e a linha.
 
 ## Armadilhas conhecidas
 
