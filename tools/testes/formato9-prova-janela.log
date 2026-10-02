@@ -1,0 +1,20 @@
+asset: E:/SteamLibrary/steamapps/common/Stolen Realm/Stolen Realm_Data/resources.assets
+
+=== 1. AS 3 JANELAS: ANTES (HEAD) x DEPOIS ===
+  Dwarven Aura         janela=1517115056..1517116232     agora=20 Target @1517115364              antes=20 Target @1517115364              IGUAL
+  Decay Shrine Aura    janela=1517113960..1517115056     agora=10 Source @1517114276              antes=10 Source @1517114276              IGUAL
+  Flame Shrine Aura    janela=1517120720..1517121808     agora=5 Source @1517121008               antes=5 Source @1517121008               IGUAL
+  --check: exit 0 | OK: a tabela versionada bate com as fontes (39 linhas de esperado, 12 percentuais).
+
+=== 2. O CASO SILENCIOSO DA FORMATO-7 (janela do Decay deslocada) ===
+  janela: 1517114277..1517116000  (1 byte a frente da formula do Decay @1517114276)
+  ANTES: PASSOU EM SILENCIO -> base=20 eixo=Target resources.assets@1517115364
+  DEPOIS: SystemExit -> FALHA: a base de 'Decay Shrine Aura' NAO e unica em resources.assets na janela documentada (1517114277..1517116000, RV-19 §8): 2 ocorrencia(s) de `Mathf.Round(`, 2 na forma da expressao, nenhuma formula do eixo 'Source' (2 na forma da expressao sao de OUTRO eixo). A formula do eixo tem de ser UNICA - o gerador NAO devolve a primeira em silencio. O install mudou? -> confira o offset em docs/cobertura/revisao/RV-19-shrines.md §8 e atualize aqui; o gerador NAO chuta a base.
+
+=== 3. O TESTE DA SUITE, MOSTRADO REPROVANDO ===
+  teste como esta: exit 0 | RESULTADO|PASSOU|formato9-janela-aura|FORMATO-9: a base da aura no asset exige UMA formula do eixo documentado na janela (0 ou >1 base distinta -> SystemExit); a 1a nao vence em silencio
+  teste com a REGRA ANTIGA reinjetada: exit 1 | RESULTADO|REPROVOU|formato9-janela-aura|a janela (3900, 4200) do eixo 'Source' NAO falhou alto — devolveu uma base em silencio
+  restaurado: sha256 IDENTICO dentro (fe3e3e9df788 -> fe3e3e9df788)
+  teste restaurado: exit 0 | RESULTADO|PASSOU|formato9-janela-aura|FORMATO-9: a base da aura no asset exige UMA formula do eixo documentado na janela (0 ou >1 base distinta -> SystemExit); a 1a nao vence em silencio
+
+FORMATO-9: as 3 janelas dao os MESMOS numeros e citacoes (--check verde); a janela deslocada que devolvia o Dwarven em silencio agora FALHA ALTO; o teste da suite reprova com a regra antiga e volta a passar restaurado byte a byte.

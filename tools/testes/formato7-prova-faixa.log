@@ -1,0 +1,17 @@
+=== 1. EQUIVALENCIA NO FONTE REAL (C:\dev\stolen-realm\BetterTooltips\Patches\ShrineAuraPatch.cs, ancora em 30589) ===
+  [sem edicao]
+    comprimento: texto=97795  faixa=97795  |  iguais? True  |  termina em `}`? True
+    acha a assinatura por TIPO pelos DOIS caminhos? True
+  [retoque inofensivo de 2200]
+    comprimento: texto=100027  faixa=100027  |  iguais? True  |  termina em `}`? True
+    acha a assinatura por TIPO pelos DOIS caminhos? True
+=== 2. O FURO DA RECONSTRUCAO POR TEXTO (copia do bloco num literal) ===
+  bloco='{ a(); }'  |  faixa=(24, 31) (fim do bloco de verdade)  |  index por texto=12 (a COPIA)
+    trecho por texto = 'if (x) log("{ a(); }'
+    trecho por faixa = 'if (x) log("{ a(); }"); { a(); }'
+=== 3. FALHA ALTA (chaves que nao fecham) ===
+  bloco_apos             -> FALHOU ALTO: as chaves abertas em 23 NAO fecham — o fonte foi cortado?
+  faixa_bloco_apos       -> FALHOU ALTO: as chaves abertas em 23 NAO fecham — o fonte foi cortado?
+  consumidor por texto   -> FALHOU ALTO: as chaves abertas em 23 NAO fecham — o fonte foi cortado?
+  consumidor por faixa   -> FALHOU ALTO: as chaves abertas em 23 NAO fecham — o fonte foi cortado?
+FORMATO-7: texto e faixa dao o mesmo recorte; a faixa fecha o furo da copia no literal; as duas falham alto — nos dois sentidos.

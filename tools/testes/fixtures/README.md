@@ -96,6 +96,36 @@ O oraculo existe para auditar e regerar.
 |------|---------|----------|------------|
 | `soma-aura` | `soma-aura.entrada.json` | `soma-aura.esperado.json` | `geradores/oraculo_soma_aura` (C#, float + Math.Round) |
 | `excesso-shrine` | `excesso-shrine.entrada.json` | `excesso-shrine.esperado.json` | `geradores/oraculo_excesso_shrine` (C#, float + Math.Round + Mathf.CeilToInt) |
+| `cores-do-jogo` | `cores-do-jogo.entrada.json` | (so entrada: sao LEITURAS do jogo, sem saida calculada) | `scratch/cor2/le_cores_do_tooltip.py` + `le_guimanager_cores.py` (UnityPy sobre o prefab do jogo) |
+
+### `cores-do-jogo.entrada.json` — as CORES dos tres niveis (COR-2, 01/10)
+
+Nao e um par entrada/esperado: sao as **leituras datadas** que a convencao de cores
+(`docs/TEXTO-TOOLTIPS.md` §7) cita. Os valores saem do **prefab serializado do jogo**
+(`Assembly-CSharp::Tooltip` e `Assembly-CSharp::GUIManager`, via UnityPy + TypeTreeGenerator
+com as DLLs de `Managed/`), convertidos com a mesma conta do `ColorUtility.ToHtmlStringRGB`.
+Nada foi digitado a mao, e nada veio de print.
+
+* **O CONTROLE da leitura** (campo `controle_da_leitura`): o mesmo leitor devolve
+  `GUIManager.coldColor` = `#00D7FF`, que e **exatamente** o que o log de uma sessao real
+  imprime ao ler o campo em jogo. Sem essa igualdade, um hex lido do asset seria numero solto.
+* `log_de_runtime` guarda as linhas copiadas do LogOutput de 01/10 (sessao COM a DLL do
+  perfil): o azul lido, o texto final ainda com o marcador, e as **0** ocorrencias da linha
+  que o gancho da cor imprimiria se tivesse visto um marcador — a prova empirica do defeito
+  de ordem dos ganchos.
+* **RESSALVA (FIX-4):** essa sessao rodou com a DLL do perfil, que e a build **PRE-conserto** do
+  COR-2 — **nao** e a build nova. Ela prova o comportamento da build ANTIGA (o defeito); **nao**
+  prova o conserto. A propria fixture declara isso em `procedencia`/`dll_da_sessao`, e
+  `t_cores_niveis.py` exige a declaracao — para a ressalva nao sumir em silencio.
+* Quem consome: `tools/testes/testes/puros/t_cores_niveis.py` (via `regras_cor.py`).
+
+Regenerar (mexe no arquivo versionado — rode e revise o `git diff`):
+
+```bash
+python scratch/cor2/le_cores_do_tooltip.py "$(date '+%Y-%m-%d %H:%M:%S')"
+python scratch/cor2/le_guimanager_cores.py
+python scratch/cor2/gera_fixture_cores.py
+```
 
 Ao adicionar uma familia nova, acrescente a linha nesta tabela e o campo
 `procedencia` no arquivo - a lista e o que permite auditar a fixture depois sem

@@ -1,0 +1,65 @@
+FORMATO-8 - a prova dos casadores de chave locais (regras_bf.corpo / regras_bct.corpo+_bloco_de).
+
+Gerado por: python tools/testes/formato8-prova-casadores.py
+Reproduzivel: rode o comando acima (le as fontes vivas, NAO toca arquivo).
+
+O QUE ESTAVA ERRADO: os dois casadores contavam { e } crus (cego a literal de string) e
+devolviam None em silencio quando as chaves nao fechavam. O recorte.py e o oposto
+(literal-aware, FALHA ALTO) e ja era a implementacao canonica. A duplicacao era deliberada
+enquanto os dois modulos estavam ocupados; agora os DOIS delegam.
+
+==============================================================================
+ PARTE 1 - a prova NA MAO, nos dois sentidos (fonte vivo, sem tocar arquivo)
+==============================================================================
+
+[1] LITERAL - chave DENTRO de um literal de string nao pode quebrar o recorte
+    o CASADOR ANTIGO devolveu: '{\n        string s = "}'
+      contem 'depois' e 'Alvo2' (o que vem DEPOIS do literal)? False
+    regras_bf   (delegado) devolveu 72 chars, contem 'depois'/'Alvo2'? True
+    regras_bct  (delegado) devolveu 72 chars, contem 'depois'/'Alvo2'? True
+
+[2] SEM FECHAMENTO - metodo com chaves que nao fecham tem de FALHAR ALTO
+    o CASADOR ANTIGO devolveu: None  <- SILENCIO (indistinguivel de 'nao achei')
+      regras_bf.corpo: FALHOU ALTO -> as chaves abertas em 45 NAO fecham — o fonte foi cortado?
+      regras_bct.corpo: FALHOU ALTO -> as chaves abertas em 45 NAO fecham — o fonte foi cortado?
+      regras_bct._bloco_de: FALHOU ALTO -> as chaves abertas em 45 NAO fecham — o fonte foi cortado?
+
+[3] O FONTE VIVO - o recorte delegado e BYTE A BYTE o do recorte.py (veredito igual)
+    regras_bf                  private bool EstiloTransportavel(          2869 chars | byte a byte igual? True
+    regras_bf                  private static bool TemEfeitoNoMaterial(   1357 chars | byte a byte igual? True
+    regras_bf                  private static bool TexturaDeEfeito(       1125 chars | byte a byte igual? True
+    regras_bf                  private static string CopiarEstilo(        6973 chars | byte a byte igual? True
+    regras_bf                  private static void ReverterTexto(         602 chars | byte a byte igual? True
+    regras_bf                  private void Diagnostico(                  3575 chars | byte a byte igual? True
+    regras_bf                  private void FontSweep()                   11199 chars | byte a byte igual? True
+    regras_bf                  private void OrcamentoDoDiagnosticoPorCena() 711 chars | byte a byte igual? True
+    regras_bct:TextStyler.cs   internal static void AplicarTmp(           4743 chars | byte a byte igual? True
+    regras_bct:TextStyler.cs   private static void AplicarTamanho(        322 chars | byte a byte igual? True
+    regras_bct:TextStyler.cs   internal static void AplicarTextoLegado(   3710 chars | byte a byte igual? True
+    regras_bct:Plugin.cs       private static int AplicarPatches()        2210 chars | byte a byte igual? True
+    regras_bct:Plugin.cs       private static bool EhClasseDeGancho(      454 chars | byte a byte igual? True
+    (o hash do `corpo` do BetterFont/FontSweep: 117946314c885dfb)
+
+==============================================================================
+ FORMATO-8: 3 de 3 secoes provadas -> OK
+   (chave em literal de string nao quebra; metodo sem fechamento FALHA ALTO; o
+    recorte do fonte vivo e byte a byte o do recorte.py - veredito inalterado)
+==============================================================================
+
+==============================================================================
+ PARTE 2 - a RODADA FISICA (o casador antigo plantado de volta, o teste reprovando,
+           o arquivo restaurado byte a byte)
+==============================================================================
+---- COM O CASADOR ANTIGO PLANTADO ----
+[REPROVOU] formato8-casadores-locais [regras_bf] o `}` DENTRO do literal fechou o bloco cedo: 'depois' ficou de fora ('{\n string s = "}')
+ VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+exit code do runner: 1
+restaurado tools/testes/regras_bf.py        OK 
+restaurado tools/testes/regras_bct.py       OK 
+FORMATO-8: rodada fisica OK - o teste REPROVA com o casador antigo e o fonte voltou byte a byte
+
+==============================================================================
+ VEREDITO
+==============================================================================
+ - o teste permanente t_formato8_casadores_locais passa (e REPROVA com o casador antigo);
+ - roda_testes.py --puros: 38/38 VERDE (os 37 de antes + o novo); --contra-prova: 15 ok.
