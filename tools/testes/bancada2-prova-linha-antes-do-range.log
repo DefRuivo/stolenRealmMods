@@ -1,0 +1,21 @@
+BANCADA-2 — a linha em branco antes de uma linha de custo SEGUINTE (que o jogo NUNCA escreve)
+leitura : tools/testes/fixtures/formato-notas.entrada.json (trechos do decompilado do Tooltip)
+data    : 2026-10-01
+
+conjunto do BANCADA-1 (bloco INTEIRO liberado): ('AP Cost: 1', 'AP Cost: None', 'Range: ', 'Blast Radius: ', 'Mana Cost: ', 'Cooldown: ', 'Duration Type')
+conjunto do BANCADA-2 (so a PRIMEIRA de cada caminho): ('AP Cost: 1', 'AP Cost: None', 'Duration Type')
+
+forma plantada                                       | ANTES (BANCADA-1)  | DEPOIS (BANCADA-2)
+------------------------------------------------------------------------------------------------------------
+descricao, branco, AP Cost, BRANCO, Range            | PASSA (0 defeito)  | REPROVA
+descricao, branco, AP Cost, BRANCO, Blast Radius     | PASSA (0 defeito)  | REPROVA
+descricao, branco, AP Cost, BRANCO, Mana Cost        | PASSA (0 defeito)  | REPROVA
+descricao, branco, AP Cost, BRANCO, Cooldown         | PASSA (0 defeito)  | REPROVA
+
+a forma legitima (a que o jogo escreve) continua passando nos DOIS:
+  'D\n\nAP Cost: 1\nRange: Melee' -> antes=0 defeito depois=0 defeito
+
+detalhe do defeito VISTO depois (a linha antes do Range):
+  - linha em branco ORFA (nao separa nenhum bloco nosso): 'D\n\nAP Cost: 1\n\nRange: Melee'
+
+controle da lista `custo_no_texto` (escrita a mao): 7 entrada(s) conferida(s) contra o `trecho`

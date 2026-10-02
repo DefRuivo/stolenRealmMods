@@ -1,0 +1,25 @@
+FontSweep=11232 chars | o call site do PULADO(escape) esta em i=3978
+recorte estrutural = 408 chars (a janela media 900):
+{
+                                pulados++;
+                                Diagnostico("PULADO (escape: material estilizado: " + motivoEstilo + ")", t, fonteAntiga, antigo,
+                                    "n/a (texto pulado: fonte e material nao foram tocados)",
+                                    "n/a (texto pulado: nada foi transportado)", null, TipoLinhaDiag.Escape);
+                            }
+[0] OK: o menor bloco `{...}` que contem o call site traz o argumento TipoLinhaDiag.Escape
+
+[1] retoque inofensivo de 1077 chars entre o marcador e o argumento:
+      janela de 900 acha TipoLinhaDiag.Escape?  False
+      recorte estrutural acha?                 True
+[1] OK: o retoque inofensivo NAO quebra o recorte estrutural e ESTOURA a janela de 900
+
+[2] defeito 'argumento trocado para TipoLinhaDiag.Efeito' -> o recorte estrutural PEGA? True
+[2] defeito 'argumento removido (null)' -> o recorte estrutural PEGA? True
+[2] OK: os dois defeitos reais continuam sendo pegos
+
+PATCH PRONTO para tools/testes/regras_bf.py:343 (arquivo do FIX-8 - reportado, nao tocado):
+  -    janela = sweep2[i_escape:i_escape + 900]
+  -    if "TipoLinhaDiag.Escape" not in janela:
+  +    bloco = rec.bloco_que_contem(sweep2, i_escape)
+  +    if "TipoLinhaDiag.Escape" not in bloco:
+  (+ `import recorte as rec` no topo; rec.bloco_que_contem FALHA ALTO se nao houver bloco)

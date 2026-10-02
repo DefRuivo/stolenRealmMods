@@ -1,0 +1,77 @@
+
+[0] O FONTE VIVO (o alvo da migracao)
+    FontSweep = 11199 chars | call site em i=3945
+    recorte estrutural = 408 chars | contem TipoLinhaDiag.Escape? True
+    a janela ANTIGA de 900 chars caberia? True
+    falhas_da_fonte(fonte vivo) = []
+
+[1] RETOQUE INOFENSIVO (1077 chars entre o marcador e o argumento)
+      a JANELA ANTIGA de 900 acha TipoLinhaDiag.Escape?      False   <- se False, a janela QUEBRA por edicao inofensiva
+      o RECORTE ESTRUTURAL acha?        True   <- o recorte NAO quebra
+      falhas_da_fonte(fonte retocado) = []
+      OK: o retoque inofensivo NAO reprova e ESTOURA a janela de 900
+
+[2] OS DEFEITOS REAIS continuam sendo pegos
+    [o argumento trocado (TipoLinhaDiag.Efeito)]
+        o recorte estrutural PEGA (bloco sem TipoLinhaDiag.Escape)?  True
+        falhas_da_fonte = 2
+            - o texto PULADO pelo escape sai como `TipoLinhaDiag.Efeito` (avaliado da expressao do proprio call site) e nao como `TipoLinhaDiag.Escape`, que e o tipo guardado por TetoDiagEscape: o pulo volta a disputar o orcamento de EFEITO - pular nao e 'de efeito'
+            - o texto pulado pelo escape nao e marcado como PULADO (TipoLinhaDiag.Escape): volta a contar como linha de EFEITO e o teto de 300 se esgota antes da linha de combate na config do dono (PularTextosEstilizados ligado)
+    [o argumento REMOVIDO (null)]
+        o recorte estrutural PEGA (bloco sem TipoLinhaDiag.Escape)?  True
+        falhas_da_fonte = 2
+            - o texto PULADO pelo escape sai como `TipoLinhaDiag.None` (avaliado da expressao do proprio call site) e nao como `TipoLinhaDiag.Escape`, que e o tipo guardado por TetoDiagEscape: o pulo volta a disputar o orcamento de EFEITO - pular nao e 'de efeito'
+            - o texto pulado pelo escape nao e marcado como PULADO (TipoLinhaDiag.Escape): volta a contar como linha de EFEITO e o teto de 300 se esgota antes da linha de combate na config do dono (PularTextosEstilizados ligado)
+    OK: os dois defeitos reais continuam sendo pegos
+
+==============================================================================
+ FORMATO-5: 3 de 3 secoes provadas -> OK
+   (o call site e recortado por CASAMENTO DE CHAVES, nunca por janela de caracteres)
+==============================================================================
+
+=== [3] VARREDURA DE NOVO (metodo da FORMATO-4, secao 0) - depois do patch ===
+  [A][PROVA] tools/testes/formato5-prova-regras-bf-343.py:12
+  [A][PROVA] tools/testes/formato5-prova-regras-bf-343.py:61
+  [A][REGRA] tools/testes/regras_bf.py:930
+  [A][REGRA] tools/testes/regras_bf.py:950
+  [A][REGRA] tools/testes/regras_bf.py:1244
+  [A][REGRA] tools/testes/regras_bf.py:1251
+  [A][REGRA] tools/testes/regras_bf.py:1265
+  [A][REGRA] tools/testes/regras_bf.py:1330
+  [A][REGRA] tools/testes/regras_formato.py:139
+  [A][REGRA] tools/testes/regras_formato.py:187
+  [A][REGRA] tools/testes/regras_formato.py:191
+  [A][REGRA] tools/testes/regras_formato.py:203
+  [A][REGRA] tools/testes/regras_formato.py:323
+  [A][REGRA] tools/testes/regras_nivel3.py:267
+  [A][REGRA] tools/testes/regras_nivel3.py:280
+  [A][REGRA] tools/testes/regras_nivel3.py:283
+  [A][REGRA] tools/testes/regras_nivel3.py:286
+  [A][PROVA] tools/testes/contra-prova/cp_rel_artefato_velho_aceito.py:52
+  [A][PROVA] tools/testes/contra-prova/cp_rel_artefato_velho_recusado.py:51
+  [A][PROVA] tools/testes/testes/puros/t_bct_regra_de_ouro.py:99
+  [B][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:41
+  [B][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:74
+  [B][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:114
+  [A][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:224
+  [A][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:236
+  [A][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:244
+  [A][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:252
+  [A][PROVA] tools/testes/testes/puros/t_cor3_posicao.py:286
+  [A][PROVA] tools/testes/testes/puros/t_formato_notas.py:158
+  [A][PROVA] tools/testes/testes/puros/t_nivel3_sinergia.py:203
+  [A][PROVA] tools/testes/testes/puros/t_nivel3_sinergia.py:371
+  [B][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:25
+  [A][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:76
+  [A][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:87
+  [A][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:154
+  [A][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:188
+  [A][PROVA] tools/testes/testes/puros/t_recorte_estrutural.py:219
+  [A][PROVA] tools/testes/testes/puros/t_trava_artefato_fonte.py:65
+  [A][PROVA] tools/testes/testes/puros/t_trava_cor_notas_fundidas.py:92
+  [A][PROVA] tools/testes/testes/puros/t_trava_cor_notas_fundidas.py:100
+  [A][PROVA] tools/testes/testes/puros/t_trava_cor_notas_fundidas.py:152
+  TOTAL = 41 | em caminho de CHECAGEM (regras_*.py) = 15
+  os 15 sao TODOS cortes de CONTEXTO para mensagem de erro ([:30] [:40] [:48] [:34] [:60])
+  regras_bf.py:343 (a janela VIVA da FORMATO-4) ainda existe? False
+  JANELA VIVA em tools/testes = 0
