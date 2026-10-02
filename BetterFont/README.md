@@ -98,11 +98,14 @@ changed.
 
 ```powershell
 cd BetterFont
-dotnet build
+dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterFont.dll`. The reference DLLs come from the game
-and are **never distributed**.
+and are **never distributed**. The flag keeps the build local: **without it the
+`DeployToBepInEx` target also copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterFont\` on the machine that built it** — a bare
+`dotnet build` installs.
 
 ---
 

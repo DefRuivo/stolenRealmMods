@@ -76,9 +76,11 @@
     </Reference>
   </ItemGroup>
 
-  <!-- Deploy automatico: copia a DLL para o perfil do r2modman depois do build.
-       PKG-5: para PULAR o deploy passe -p:DeployToBepInEx=false na linha de comando. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
+  <!-- DEPLOY-2: OPT-IN EXPLICITO. O deploy NAO acontece por omissao.
+       O padrao (DeployToBepInEx=false) e definido na RAIZ em Directory.Build.props:
+       um `dotnet build` comum NAO copia nada para o perfil do r2modman. Para
+       INSTALAR de proposito, peca pelo nome: dotnet build -p:DeployToBepInEx=true -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
     <PropertyGroup>
       <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
     </PropertyGroup>
