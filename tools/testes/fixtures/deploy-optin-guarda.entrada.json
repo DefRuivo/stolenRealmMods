@@ -1,0 +1,58 @@
+{
+  "casos": [
+    {
+      "nome": "optin_valido_linha_unica",
+      "esperado": "aceita",
+      "motivo": "Condition de opt-in certa numa linha so — o caso normal dos 6 mods",
+      "xml": "<Project>\n  <Target Name=\"DeployToBepInEx\" AfterTargets=\"Build\" Condition=\"'$(DeployToBepInEx)' == 'true'\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "optin_valido_multilinha_condition_linha2",
+      "esperado": "aceita",
+      "motivo": "FURO A (lado que reprovava falso): tag multi-linha com a Condition VALIDA na 2a linha",
+      "xml": "<Project>\n  <Target Name=\"DeployToBepInEx\" AfterTargets=\"Build\"\n          Condition=\"'$(DeployToBepInEx)' == 'true'\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "furoA_multilinha_sem_condition",
+      "esperado": "reprova",
+      "motivo": "FURO A (lado que passava falso): tag multi-linha SEM Condition nenhuma",
+      "xml": "<Project>\n  <Target\n      Name=\"DeployToBepInEx\"\n      AfterTargets=\"Build\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "condition_antiga_neq_false",
+      "esperado": "reprova",
+      "motivo": "a Condition ANTIGA (\"!= 'false'\") que fazia o build cru instalar — nao e opt-in",
+      "xml": "<Project>\n  <Target Name=\"DeployToBepInEx\" AfterTargets=\"Build\" Condition=\"'$(DeployToBepInEx)' != 'false'\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "furoB_alvo_outro_nome_sem_condition",
+      "esperado": "reprova",
+      "motivo": "FURO B: alvo com OUTRO nome (DeployToScripts, como o do ReloadProbe) sem opt-in",
+      "xml": "<Project>\n  <Target Name=\"DeployToScripts\" AfterTargets=\"Build\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\scripts\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "furoB_alvo_outro_nome_com_optin",
+      "esperado": "aceita",
+      "motivo": "FURO B consertado: o MESMO alvo de outro nome, agora com o opt-in — nao pode reprovar",
+      "xml": "<Project>\n  <Target Name=\"DeployToScripts\" AfterTargets=\"Build\" Condition=\"'$(DeployToBepInEx)' == 'true'\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\scripts\\X\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "destino_escondido_em_propriedade",
+      "esperado": "reprova",
+      "motivo": "o destino do perfil vem de uma propriedade: a guarda tem de seguir a referencia",
+      "xml": "<Project>\n  <PropertyGroup>\n    <PerfilDir>$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\</PerfilDir>\n  </PropertyGroup>\n  <Target Name=\"Publica\" AfterTargets=\"Build\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(PerfilDir)\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "alvo_local_sem_perfil",
+      "esperado": "aceita",
+      "motivo": "Copy local (para a saida do repo) NAO e deploy: nao pode reprovar por falta de opt-in",
+      "xml": "<Project>\n  <Target Name=\"CopiaLocal\" AfterTargets=\"Build\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(OutputPath)extra\\\\\" />\n  </Target>\n</Project>\n"
+    },
+    {
+      "nome": "optin_com_valor_false",
+      "esperado": "reprova",
+      "motivo": "Condition de opt-in mas com valor false: o alvo nunca instalaria — nao serve",
+      "xml": "<Project>\n  <Target Name=\"DeployToBepInEx\" AfterTargets=\"Build\" Condition=\"'$(DeployToBepInEx)' == 'false'\">\n    <Copy SourceFiles=\"$(TargetPath)\" DestinationFolder=\"$(USERPROFILE)\\AppData\\Roaming\\r2modmanPlus-local\\StolenRealm\\profiles\\Default\\BepInEx\\plugins\\X\\\\\" />\n  </Target>\n</Project>\n"
+    }
+  ]
+}

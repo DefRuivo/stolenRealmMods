@@ -83,11 +83,14 @@ Uninstalling leaves nothing behind and does not affect your save.
 
 ```powershell
 cd RoguelikeSkillTreeVisualizer
-dotnet build
+dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\RoguelikeSkillTreeVisualizer.dll`. The reference DLLs
-come from the game and are **never distributed**.
+come from the game and are **never distributed**. The flag keeps the build local: **without it
+the `DeployToBepInEx` target also copies the DLL into
+`<r2modman profile>\BepInEx\plugins\RoguelikeSkillTreeVisualizer\` on the machine that built
+it** — a bare `dotnet build` installs.
 
 ---
 

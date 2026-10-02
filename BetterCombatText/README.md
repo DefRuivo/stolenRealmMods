@@ -5,7 +5,7 @@ at 10% alpha**) on enemy names and buff/debuff labels, plus the **dice text** in
 events. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettercombattext`
-- **Version:** 0.1.0
+- **Version:** 0.1.1
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 and **BetterFont**.
 
@@ -89,11 +89,14 @@ ever changed. (Without uninstalling: `Ativar = false` in the `.cfg`.)
 
 ```powershell
 cd BetterCombatText
-dotnet build
+dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterCombatText.dll`. The reference DLLs come from the
-game and are **never distributed**.
+game and are **never distributed**. The flag keeps the build local: **without it the
+`DeployToBepInEx` target also copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterCombatText\` on the machine that built it** — a bare
+`dotnet build` installs.
 
 ---
 

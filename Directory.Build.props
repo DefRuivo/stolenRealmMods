@@ -1,0 +1,26 @@
+<Project>
+  <!-- ===================================================================== -->
+  <!-- DEPLOY-2: OPT-IN EXPLICITO DE DEPLOY (raiz do repo)                   -->
+  <!-- ===================================================================== -->
+  <!-- REGRA: quem NAO pediu para instalar, NAO instala.                     -->
+  <!--                                                                       -->
+  <!-- Este e o UNICO lugar que define o padrao do deploy dos alvos          -->
+  <!-- DeployToBepInEx/DeployToScripts dos .csproj: ele comeca DESLIGADO.    -->
+  <!--                                                                       -->
+  <!--   dotnet build <Mod>.csproj            => NAO copia nada p/ o perfil  -->
+  <!--   dotnet build <Mod>.csproj -c Release => NAO copia nada p/ o perfil  -->
+  <!--   dotnet build <Mod>.csproj -p:DeployToBepInEx=true => COPIA          -->
+  <!--                                                                       -->
+  <!-- O modo explicito do tools/release-check.sh (opcao instalar-no-perfil) -->
+  <!-- passa justamente -p:DeployToBepInEx=true. Todo alvo de deploy dos     -->
+  <!-- .csproj exige Condition="'$(DeployToBepInEx)' == 'true'"; sem o       -->
+  <!-- "=true" explicito o alvo NAO roda.                                    -->
+  <!--                                                                       -->
+  <!-- Antes deste arquivo a Condition era "'$(DeployToBepInEx)' !=         -->
+  <!-- 'false'": num build comum a propriedade vinha VAZIA, a condicao era   -->
+  <!-- VERDADEIRA e o alvo RODAVA: o build cru instalava no perfil.          -->
+  <!-- ===================================================================== -->
+  <PropertyGroup>
+    <DeployToBepInEx Condition="'$(DeployToBepInEx)' == ''">false</DeployToBepInEx>
+  </PropertyGroup>
+</Project>

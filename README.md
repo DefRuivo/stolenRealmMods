@@ -79,8 +79,9 @@ No mod touches the game's content, balance or files: each one is a **separate DL
 
    Where do those DLLs come from? Either the ready-made package (see
    [Packaging](#packaging) / [Publishing](#publishing) below) or by
-   compiling from source: `dotnet build` inside each mod folder produces
-   `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`.
+   compiling from source: `dotnet build -p:DeployToBepInEx=false` inside each mod folder produces
+   `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`. **The flag keeps the build local** — without it the
+   `DeployToBepInEx` target also installs the DLL into this machine's r2modman profile.
 
    ⚠️ **The DLL cannot sit loose in `plugins\`** — it must be inside the mod's folder. And because
    BepInEx scans that folder **recursively**, **never** keep DLL copies/backups
@@ -204,18 +205,21 @@ a `lib/` folder at the repository root with the *game's* assemblies (`Assembly-C
 **gitignored** and holds game-owned files, so it is never committed — see
 [docs/AMBIENTE.md](docs/AMBIENTE.md) for the validated versions and paths.
 
-> **Close the game before building.** The build copies the DLL into the r2modman profile (the
-> `DeployToBepInEx` target); that copy fails while the file is in use.
+> **Close the game before building.** A build **without** `-p:DeployToBepInEx=false` runs the
+> `DeployToBepInEx` target, which copies the DLL into the r2modman profile; that copy fails while
+> the file is in use.
 
 ### Building
 
 ```bash
 cd C:/dev/stolen-realm
-LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:ErrorsOnly
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
 ```
 
-- builds **Debug** *and installs it*: the DLL goes to `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` and
-  the target copies it to `...\BepInEx\plugins\<Mod>\<Mod>.dll` in the profile;
+- builds **Debug**: the DLL goes to `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll`. The
+  `-p:DeployToBepInEx=false` is what keeps this build **local** — **without it the
+  `DeployToBepInEx` target runs and copies the DLL to `...\BepInEx\plugins\<Mod>\<Mod>.dll` in the
+  r2modman profile**, i.e. installs it on the machine that built;
 - `-clp:ErrorsOnly` prints **nothing** when it works — any line is a problem, so stop there;
 - swap the project for the mod you touched: `BetterStats`, `BetterFont`,
   `RoguelikeDebugger` or `RoguelikeSkillTreeVisualizer` (all 6 use the same layout).
@@ -398,8 +402,10 @@ Se você preferir não usar o r2modman, existe o [caminho manual](#instalação-
    - **Pacote pronto** (3 mods de jogador): o zip `dist\StolenRealm-Mods-<data>.zip`, gerado no
      repositório com `bash tools/pack-for-friends.sh`. Dentro dele já vem a pasta `BepInEx\plugins`
      com a estrutura acima;
-   - **Compilando do código** (quem for mexer no código): `dotnet build` dentro da pasta de cada mod
-     gera `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`.
+   - **Compilando do código** (quem for mexer no código): `dotnet build -p:DeployToBepInEx=false`
+     dentro da pasta de cada mod gera `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll`. **A flag mantém o
+     build local** — sem ela o target `DeployToBepInEx` também instala a DLL no perfil do r2modman
+     desta máquina.
 
    ⚠️ **A DLL não pode ficar solta em `plugins\`** — ela tem que estar dentro da pasta do mod.
    E, como o BepInEx varre a pasta **recursivamente**, **nunca** guarde cópias/backups de DLL
@@ -615,18 +621,21 @@ pasta `lib/` na raiz com as *assemblies do jogo* (`Assembly-CSharp.dll`, `BepInE
 `UnityEngine*`, `0Harmony.dll`, `Sirenix.*` — 15 DLLs). Essa pasta é **gitignored** (arquivo do jogo
 nunca entra no repositório) — versões e caminhos validados em [docs/AMBIENTE.md](docs/AMBIENTE.md).
 
-> **Feche o jogo antes de compilar.** O build copia a DLL para o perfil do r2modman (target
-> `DeployToBepInEx`) e a cópia falha com o arquivo em uso.
+> **Feche o jogo antes de compilar.** Um build **sem** `-p:DeployToBepInEx=false` roda o target
+> `DeployToBepInEx`, que copia a DLL para o perfil do r2modman; essa cópia falha com o arquivo em
+> uso.
 
 ### Compilando
 
 ```bash
 cd C:/dev/stolen-realm
-LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:ErrorsOnly
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
 ```
 
-- compila em **Debug** *e instala*: a DLL sai em `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` e o
-  target copia para `...\BepInEx\plugins\<Mod>\<Mod>.dll` no perfil;
+- compila em **Debug**: a DLL sai em `<Mod>/bin/Debug/netstandard2.1/<Mod>.dll`. A
+  `-p:DeployToBepInEx=false` é o que mantém este build **local** — **sem ela o target
+  `DeployToBepInEx` roda e copia a DLL para `...\BepInEx\plugins\<Mod>\<Mod>.dll` no perfil do
+  r2modman**, ou seja, instala na máquina que compilou;
 - `-clp:ErrorsOnly` não imprime **nada** quando dá certo — qualquer linha é problema, pare aí;
 - troque o projeto pelo mod que você mexeu: `BetterStats`, `BetterFont`,
   `RoguelikeDebugger` ou `RoguelikeSkillTreeVisualizer` (os 6 usam a mesma estrutura).

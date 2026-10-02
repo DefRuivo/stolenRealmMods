@@ -79,13 +79,15 @@
     </Reference>
   </ItemGroup>
 
-  <!-- Deploy automático: copia a DLL para o perfil do r2modman após o build.
-       Escotilha para buildar SEM mexer no perfil do jogo (útil com o jogo aberto):
-           dotnet build -p:DeployToBepInEx=false
-       PKG-6: a propriedade passou a ser a MESMA dos outros 5 mods (antes era `SkipDeploy`),
-       para quem empacota (tools/pack-for-friends.sh, scripts/package.ps1) passar uma flag
-       só para todos. Sem a propriedade, o comportamento de sempre: copia. -->
-  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' != 'false'">
+  <!-- DEPLOY-2: OPT-IN EXPLICITO. O deploy NAO acontece por omissao.
+       O padrao (DeployToBepInEx=false) e definido na RAIZ em Directory.Build.props:
+       um `dotnet build` comum NAO copia nada para o perfil do r2modman. Para
+       INSTALAR de proposito, peca pelo nome: dotnet build -p:DeployToBepInEx=true
+       (PKG-6: a propriedade e a MESMA dos outros mods — antes era `SkipDeploy` —
+       para quem empacota (tools/pack-for-friends.sh, scripts/package.ps1) passar uma
+       flag so para todos; esses empacotadores passam `=false`, que com o opt-in e o
+       padrao de qualquer forma.) -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
     <PropertyGroup>
       <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
     </PropertyGroup>

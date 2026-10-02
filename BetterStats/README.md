@@ -59,11 +59,14 @@ open the game again. No game file was ever changed.
 
 ```powershell
 cd BetterStats
-dotnet build
+dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterStats.dll`. The reference DLLs come from the game
-and are **never distributed**.
+and are **never distributed**. The flag keeps the build local: **without it the
+`DeployToBepInEx` target also copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterStats\` on the machine that built it** — a bare
+`dotnet build` installs.
 
 ---
 

@@ -315,6 +315,42 @@ com `--go`). Ele roda a trava de segredo e o `tools/release-check.sh` antes de q
 e lê o token de `TCLI_AUTH_TOKEN` / `THUNDERSTORE_TOKEN_FILE` / `~/.thunderstore-token` —
 **nunca** de dentro do repositório (se o arquivo estiver dentro, ele recusa).
 
+### 5.1) A verificação de release não escreve mais no perfil (REL-3)
+
+O `tools/release-check.sh` **passo 3 (BUILD)** compilava com `dotnet build "$p"`, **sem** a flag
+`-p:DeployToBepInEx=false`. Como cada `.csproj` traz o alvo `DeployToBepInEx`, esse build
+**copiava a DLL para o perfil do dono** — foi por esse caminho que uma DLL de build chegou ao
+perfil com o jogo aberto e o jogo travou o arquivo. O caminho do empacotamento
+(`tools/pack-for-friends.sh`, `scripts/package.ps1`, `tools/pack-thunderstore.py`) já usava a
+flag; o de **verificação**, não.
+
+O que vale hoje, e é decisão de desenho — **um script de verificação não tem efeito colateral no
+ambiente do dono**:
+
+- **O fluxo normal não instala e não abre o jogo.** `bash tools/release-check.sh` compila os
+  `.csproj` **sempre** com `-p:DeployToBepInEx=false`: o alvo `DeployToBepInEx` não roda e nada
+  é escrito no perfil. O **passo 8 (CICLO)** também saiu do fluxo normal — ele abre o jogo e só
+  prova alguma coisa sobre o código novo com a DLL **no perfil**, então aparece no resumo como
+  `[PEND.] 8. CICLO`, nunca como verde.
+- **Guarda nova contra a flag que não protege.** Antes de buildar, o passo 3 confere que o
+  `<Target ... DeployToBepInEx ...>` de cada `.csproj` descoberto tem a
+  `Condition="'$(DeployToBepInEx)' != 'false'"`. Projeto que a ignore **reprova o passo e não é
+  buildado** — sem isso, `-p:DeployToBepInEx=false` não desligaria deploy nenhum e o build
+  instalaria no perfil. A guarda do empacotador (artefato velho) é outra coisa e continua onde
+  está: ela pega DLL desatualizada em `bin/`, não a **origem** do artefato que foi para o perfil.
+- **O ciclo em jogo virou modo explícito:**
+  `bash tools/release-check.sh --instalar-no-perfil`. Ele **encerra o jogo**, compila **sem** a
+  flag (é isso que instala no perfil), **abre** o jogo e lê o `LogOutput.log` — e imprime, em
+  voz alta e antes de fazer, exatamente esses três efeitos. Não é um passo numerado do fluxo
+  normal, e não há caminho do fluxo normal que leve a ele.
+- **`tools/publish-thunderstore.sh` continua chamando o release-check no fluxo normal**, então
+  publicar nunca instala no perfil do dono.
+
+Custo declarado: o gate automatizado **deixou de cobrir** o ciclo em jogo
+(`TypeInitializationException`, `ArgumentException`, linhas `[Error`). Essa prova agora mora no
+modo explícito, e o resumo do fluxo normal diz isso na cara (`[PEND.] 8. CICLO`). O modo
+explícito termina dizendo que as DLLs **foram** copiadas para o perfil.
+
 ## 6) O que o pipeline verifica sozinho
 
 | # | Verificação | Recusa quando |

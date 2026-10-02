@@ -6,7 +6,27 @@
 # APROVADO ou REPROVADO, apontando qual passo falhou.
 #
 # Uso (da raiz do repo ou de qualquer subpasta):
-#     bash tools/release-check.sh
+#     bash tools/release-check.sh                        # FLUXO NORMAL (nao escreve nada)
+#     bash tools/release-check.sh --instalar-no-perfil    # MODO EXPLICITO (instala + ciclo)
+#
+# DEPLOY-2 (01/10/2026) — O DEPLOY E OPT-IN: quem nao pediu, nao instala.
+#   O padrao do deploy mora na RAIZ (Directory.Build.props): DeployToBepInEx=false.
+#   Todo alvo de deploy dos .csproj (DeployToBepInEx, DeployToScripts) exige
+#   Condition="'$(DeployToBepInEx)' == 'true'". Num `dotnet build` comum a propriedade
+#   fica VAZIA -> a condicao e FALSA -> o alvo NAO roda: nenhuma DLL chega ao perfil.
+#   Isso vale para o build cru, para o `-c Release` e para o passo 3 deste script.
+#
+# REL-3 (01/10/2026) — HISTORICO. O conserto anterior so mexia no script: compilar com
+#   -p:DeployToBepInEx=false sobre uma Condition "'$(DeployToBepInEx)' != 'false'".
+#   Como num build comum a propriedade vinha VAZIA, a condicao era VERDADEIRA e o alvo
+#   RODAVA: a flag nao desligava nada e o build cru instalava no perfil (foi assim que a
+#   DLL das 14:41 chegou la com o jogo aberto). A revisao DEPLOY-1R refutou aquela
+#   entrega e DEPLOY-2 fechou o defeito de verdade: (1) opt-in nos .csproj via
+#   Directory.Build.props; (2) os dois furaos da guarda (Condition lida como XML, alvos
+#   de QUALQUER nome); (3) o alvo DeployToScripts do ReloadProbe, que escrevia no perfil
+#   com nome proprio e sem Condition, passou a respeitar o MESMO opt-in. O ciclo em jogo
+#   segue no modo explicito --instalar-no-perfil, que agora instala passando
+#   -p:DeployToBepInEx=true.
 #
 # Passos:
 #   0. SEGREDOS   — tools/check_segredos.py (nenhum token versionado)
@@ -26,7 +46,10 @@
 #                   COMPILA sem um aviso sequer, entao nem o build nem o ciclo
 #                   denunciam — foi um `ref __3` no argumento errado que encheu o log
 #                   com 112 NullReferenceException por frame e travou uma batalha.
-#   3. BUILD      — dotnet build de todos os <Mod>/<Mod>.csproj (0 erros CS)
+#   3. BUILD      — dotnet build de todos os <Mod>/<Mod>.csproj SEM o opt-in
+#                   (0 erros CS; NAO instala no perfil). Antes de buildar, a guarda
+#                   tools/check_deploy_optin.py confere que TODO alvo de deploy dos
+#                   .csproj escreve no perfil SO com -p:DeployToBepInEx=true.
 #   4. CHAVES     — tools/check_fix_keys.py (chave dos textos existe no censo)
 #   5. DUPLICADAS — tools/check_dupes.py    (trava INC-1: chave repetida derruba
 #                   o mod INTEIRO com TypeInitializationException)
@@ -36,9 +59,11 @@
 #                   TextAppends nunca roda e a nota nao existe em jogo, em
 #                   silencio. As SUSPEITAS de texto compartilhado NESTA MESMA
 #                   ferramenta seguem aviso: dependem de decisao humana.)
-#   8. CICLO      — scratch/test-cycle.sh (abre/fecha o jogo) + analise do
-#                   LogOutput.log: 0 TypeInitializationException,
-#                   0 ArgumentException, 0 linhas '[Error'
+#   8. CICLO      — SO no modo --instalar-no-perfil: scratch/test-cycle.sh
+#                   (abre/fecha o jogo) + analise do LogOutput.log: 0
+#                   TypeInitializationException, 0 ArgumentException, 0 '[Error'.
+#                   No fluxo normal este passo NAO RODA: ele abre o jogo e so
+#                   prova algo com a DLL nova NO PERFIL.
 #   9. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
 #
 # O mesmo miolo de repositorio roda no CI (.github/workflows/validate.yml), na
@@ -50,8 +75,10 @@
 #     Por isso os passos 0, 1 e 2 ABORTAM na hora (exit 1); do 3 em diante tudo
 #     acumula e chega ao RESUMO FINAL, mesmo reprovado.
 #   * Nunca toca Assembly-CSharp.dll; backup de DLL nunca vai para plugins/.
-#   * O <Mod>.csproj tem o Target DeployToBepInEx: buildar JA INSTALA a DLL no
-#     perfil do r2modman (por isso o preparo fecha o jogo antes do build).
+#   * DEPLOY-2: buildar SEM -p:DeployToBepInEx=true NAO instala — o padrao e false
+#     (Directory.Build.props) e os alvos exigem "== 'true'". O passo 3 ainda passa
+#     -p:DeployToBepInEx=false (cinto e suspensorio) e o UNICO caminho que pede o
+#     opt-in e o modo explicito --instalar-no-perfil (que anuncia antes de fazer).
 # =============================================================================
 set -u
 
@@ -75,11 +102,28 @@ PLUGINS_DIR="$(cygpath -u "$PERFIL")/plugins"
 SEGUNDOS_CICLO="${SEGUNDOS_CICLO:-12}"
 PADRAO_CICLO="${PADRAO_CICLO:-Better Tooltips carregado}"
 
+# ------------------------------- modo de operacao ----------------------------
+# REL-3: por padrao este script NAO ESCREVE NADA no ambiente do dono. O unico
+# caminho que instala a DLL no perfil do r2modman (e abre o jogo) e o modo
+# explicito abaixo, e ele tem de ser pedido PELO NOME. Nao ha passo numerado do
+# fluxo normal que leve a ele.
+INSTALAR_NO_PERFIL=0
+for arg in "$@"; do
+  case "$arg" in
+    --instalar-no-perfil) INSTALAR_NO_PERFIL=1 ;;
+    --help|-h) sed -n '2,80p' "${BASH_SOURCE[0]}" | sed 's/^#\s\?//'; exit 0 ;;
+    *) echo "opcao desconhecida: $arg"
+       echo "uso: bash tools/release-check.sh [--instalar-no-perfil]"
+       exit 2 ;;
+  esac
+done
+
 # --------------------------- acumulador de falhas ----------------------------
 CHECKS=()   # "STATUS|NOME|DETALHE"
 FALHAS=()
-passo_ok()   { CHECKS+=("OK|$1|$2"); }
-passo_fail() { CHECKS+=("FALHA|$1|$2"); FALHAS+=("$1"); }
+passo_ok()       { CHECKS+=("OK|$1|$2"); }
+passo_fail()     { CHECKS+=("FALHA|$1|$2"); FALHAS+=("$1"); }
+passo_pendente() { CHECKS+=("PENDENTE|$1|$2"); }   # nao rodou: nao reprova, mas nao se disfarca de OK
 
 TMPD="$(mktemp -d 2>/dev/null || echo "${TMPDIR:-/tmp}/release-check.$$")"
 mkdir -p "$TMPD"
@@ -94,17 +138,46 @@ echo " raiz do repo : $RAIZ"
 echo " jogo         : E:\\SteamLibrary\\steamapps\\common\\Stolen Realm (AppID $APPID)"
 echo " log BepInEx  : $LOG"
 echo " python       : $($PYTHON --version 2>&1)"
+if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+  echo " MODO         : --instalar-no-perfil  *** VAI ESCREVER NO PERFIL DO DONO ***"
+else
+  echo " MODO         : fluxo normal (verificacao SEM escrever no perfil do dono)"
+fi
 linha
 
+# ------------------------- anuncio do modo explicito -------------------------
+# REL-3: o modo que instala DIZ EM VOZ ALTA o que vai fazer, antes de fazer.
+if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+  echo
+  echo "##############################################################################"
+  echo "#  MODO EXPLICITO: --instalar-no-perfil"
+  echo "#"
+  echo "#  ESTE MODO ESCREVE NO AMBIENTE DO DONO. Ele vai:"
+  echo "#    1. ENCERRAR o jogo (taskkill \"Stolen Realm.exe\") se estiver aberto;"
+  echo "#    2. compilar COM -p:DeployToBepInEx=true (o opt-in que faz os alvos"
+  echo "#       DeployToBepInEx (plugins) e DeployToScripts (scripts) COPIAREM para o perfil):"
+  echo "#         $(cygpath -u "$PLUGINS_DIR")/<Mod>/"
+  echo "#    3. ABRIR o jogo (ciclo) e ler o LogOutput.log."
+  echo "#"
+  echo "#  O fluxo normal (sem esta opcao) nao faz NADA disso: o passo 3 builda SEM"
+  echo "#  o opt-in e o passo 8 nao roda."
+  echo "##############################################################################"
+  echo
+fi
+
 # =============================== PREPARO =====================================
-# O build copia a DLL para plugins\ (Target DeployToBepInEx). Com o jogo aberto
-# a copia falha (arquivo em uso) e o build "passa" no compilador mas nao instala.
+# REL-3: so o modo explicito precisa fechar o jogo — so ele escreve no perfil.
+# No fluxo normal o jogo do dono NUNCA e encerrado por este script.
 echo
-echo "== PREPARO: garantir que o jogo esta fechado antes do build/deploy =="
-if taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1; then
-  echo "   instancia anterior do jogo encerrada"
+if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+  echo "== PREPARO (modo explicito): o jogo sera encerrado para a DLL poder ser copiada =="
+  if taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1; then
+    echo "   instancia anterior do jogo encerrada"
+  else
+    echo "   nenhuma instancia rodando"
+  fi
 else
-  echo "   nenhuma instancia rodando"
+  echo "== PREPARO: dispensado — o fluxo normal NAO instala nada (o jogo pode ficar aberto) =="
 fi
 
 # ================================ 0. SEGREDOS ================================
@@ -123,7 +196,7 @@ fi
 # <Version> do .csproj (fonte), no version_number do manifest.json e no Plugin.cs
 # (o [BepInPlugin(...)] ou a const Version). ABORTA NA HORA, como o passo 0:
 # versao divergente faz o log do BepInEx mentir sobre a build carregada, entao o
-# build abaixo (que JA INSTALA a DLL no perfil) e o ciclo testariam codigo novo
+# build abaixo e o ciclo (quando o modo explicito instala) testariam codigo novo
 # achando que e o velho - e o pacote sairia com versao errada.
 echo
 echo "== PASSO 1/9 — VERSOES (check_versoes.py: csproj = manifest = Plugin.cs) =="
@@ -181,8 +254,16 @@ else
 fi
 
 # ================================= 3. BUILD ==================================
+# DEPLOY-2: o build DESTE passo nao escreve no perfil do dono. O deploy e OPT-IN
+# (Directory.Build.props define DeployToBepInEx=false; cada alvo de deploy exige
+# Condition="'$(DeployToBepInEx)' == 'true'"). Aqui buildamos SEM o opt-in e ainda
+# passamos -p:DeployToBepInEx=false por cinto e suspensorio. Antes de buildar, a
+# guarda tools/check_deploy_optin.py le os .csproj como XML e reprova qualquer alvo
+# que escreva no perfil sem o opt-in — de QUALQUER nome e em QUALQUER numero de
+# linhas. Um projeto que ignore o opt-in nao e buildado. So o modo explicito
+# --instalar-no-perfil pede -p:DeployToBepInEx=true — e isso esta anunciado la em cima.
 echo
-echo "== PASSO 3/9 — BUILD (todos os .csproj de mod na raiz) =="
+echo "== PASSO 3/9 — BUILD (0 erros CS; SEM escrever no perfil) =="
 
 mapfile -t PROJETOS < <(find . -maxdepth 2 -name '*.csproj' \
                           -not -path '*/bin/*' -not -path '*/obj/*' \
@@ -192,29 +273,96 @@ if [ "${#PROJETOS[@]}" -eq 0 ]; then
   echo "   ERRO: nenhum .csproj encontrado na raiz do repo"
 else
   echo "   projetos descobertos: ${#PROJETOS[@]} -> ${PROJETOS[*]}"
-  ERROS_TOTAL=0
-  PROJS_FALHOS=0
-  DETALHES_BUILD=""
-  for p in "${PROJETOS[@]}"; do
-    nome="$(basename "$p" .csproj)"
-    out="$TMPD/build-$nome.log"
-    ( LC_ALL=C dotnet build "$p" --nologo -v q -clp:ErrorsOnly >"$out" 2>&1 )
-    rc=$?
-    ncs=$(grep -ac 'error CS' "$out" || true); ncs=${ncs:-0}
-    if [ "$ncs" -gt 0 ] || [ "$rc" -ne 0 ]; then
-      printf '   [FALHA] %-18s %s erro(s) CS (exit %s)\n' "$nome" "$ncs" "$rc"
-      grep -aE 'error [A-Z]+[0-9]+' "$out" | head -10 | sed 's/^/           /'
-      PROJS_FALHOS=$((PROJS_FALHOS + 1))
-    else
-      printf '   [ ok  ] %-18s 0 erro(s) CS (exit 0, deploy do csproj executado)\n' "$nome"
-    fi
-    ERROS_TOTAL=$((ERROS_TOTAL + ncs))
-    DETALHES_BUILD="$DETALHES_BUILD $nome=$ncs"
-  done
-  if [ "$PROJS_FALHOS" -eq 0 ]; then
-    passo_ok "3. BUILD" "${#PROJETOS[@]} projetos, $ERROS_TOTAL erros CS"
+
+  # DEPLOY-2: o padrao do opt-in mora na RAIZ (Directory.Build.props). Sem o arquivo a
+  # propriedade ficaria vazia e o alvo (Condition "== 'true'") nao rodaria de qualquer
+  # forma, mas o contrato tem de estar DECLARADO — a ausencia e reportada, nao silenciada.
+  if [ -f Directory.Build.props ]; then
+    echo "   padrao do opt-in: Directory.Build.props presente (DeployToBepInEx=false)"
   else
-    passo_fail "3. BUILD" "$PROJS_FALHOS/${#PROJETOS[@]} projeto(s) com falha, $ERROS_TOTAL erros CS"
+    echo "   AVISO: Directory.Build.props ausente na raiz — o padrao do opt-in nao esta declarado"
+  fi
+
+  # DEPLOY-2: o opt-in e o que instala. No modo explicito ele e pedido pelo nome.
+  FLAG_DEPLOY="-p:DeployToBepInEx=false"
+  if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+    FLAG_DEPLOY="-p:DeployToBepInEx=true"
+    echo "   deploy no perfil: SIM — modo --instalar-no-perfil (opt-in -p:DeployToBepInEx=true)"
+  else
+    echo "   deploy no perfil: NAO — fluxo normal (opt-in ausente; -p:DeployToBepInEx=false)"
+  fi
+
+  # A GUARDA (DEPLOY-2): nenhum alvo de deploy pode escrever no perfil sem o opt-in.
+  # Le os .csproj como XML DE VERDADE, nao a primeira linha da tag:
+  #   - furo A fechado: tag multi-linha e Condition em outra linha sao lidas certo;
+  #   - furo B fechado: vale para alvos de QUALQUER nome (DeployToBepInEx,
+  #     DeployToScripts, ...), desde que escrevam no perfil.
+  SAIDA_DEPLOY="$($PYTHON tools/check_deploy_optin.py 2>&1)"; rc_deploy=$?
+  printf '%s\n' "$SAIDA_DEPLOY" | sed 's/^/   /'
+
+  if [ "$rc_deploy" -ne 0 ]; then
+    passo_fail "3. BUILD" "alvo de deploy SEM o opt-in explicito — NADA foi buildado"
+    echo "   [FALHA] a guarda achou alvo(s) que escrevem no perfil do r2modman e nao"
+    echo "   exigem o opt-in (Condition com DeployToBepInEx == 'true'). Com a Condition"
+    echo "   antiga (\"!= 'false'\") a propriedade vinha VAZIA num build comum, a condicao"
+    echo "   era VERDADEIRA e o build cru COPIAVA a DLL para o perfil (REL-3/DEPLOY-1R)."
+    echo "   Nada foi buildado: conserte o .csproj e rode de novo."
+  else
+    ERROS_TOTAL=0
+    PROJS_FALHOS=0
+    DETALHES_BUILD=""
+
+    # DEPLOY-2: em vez de AFIRMAR que o perfil ficou intacto, MEDE. Fotografa o
+    # perfil antes do build e confere depois: se um byte mudar num build SEM opt-in,
+    # o passo REPROVA — a mensagem para de poder mentir.
+    SNAP_PERFIL_ANTES=""
+    if [ "$INSTALAR_NO_PERFIL" -eq 0 ]; then
+      SNAP_PERFIL_ANTES="$(find "$(cygpath -u "$PERFIL")" -type f -printf '%P|%s|%T@\n' 2>/dev/null | sort)"
+    fi
+
+    for p in "${PROJETOS[@]}"; do
+      nome="$(basename "$p" .csproj)"
+      out="$TMPD/build-$nome.log"
+      # shellcheck disable=SC2086  # FLAG_DEPLOY e uma lista de flags, nao um caminho
+      ( LC_ALL=C dotnet build "$p" $FLAG_DEPLOY --nologo -v q -clp:ErrorsOnly >"$out" 2>&1 )
+      rc=$?
+      ncs=$(grep -ac 'error CS' "$out" || true); ncs=${ncs:-0}
+      if [ "$ncs" -gt 0 ] || [ "$rc" -ne 0 ]; then
+        printf '   [FALHA] %-18s %s erro(s) CS (exit %s)\n' "$nome" "$ncs" "$rc"
+        grep -aE 'error [A-Z]+[0-9]+' "$out" | head -10 | sed 's/^/           /'
+        PROJS_FALHOS=$((PROJS_FALHOS + 1))
+      elif [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+        printf '   [ ok  ] %-18s 0 erro(s) CS (exit 0, opt-in: DLL COPIADA para o perfil)\n' "$nome"
+      else
+        printf '   [ ok  ] %-18s 0 erro(s) CS (exit 0, sem opt-in: nenhum alvo de deploy roda)\n' "$nome"
+      fi
+      ERROS_TOTAL=$((ERROS_TOTAL + ncs))
+      DETALHES_BUILD="$DETALHES_BUILD $nome=$ncs"
+    done
+
+    # Medicao pos-build: o perfil tinha de ficar IDENTICO num build SEM opt-in.
+    PERFIL_MUDOU=""
+    if [ "$INSTALAR_NO_PERFIL" -eq 0 ]; then
+      SNAP_PERFIL_DEPOIS="$(find "$(cygpath -u "$PERFIL")" -type f -printf '%P|%s|%T@\n' 2>/dev/null | sort)"
+      if [ "$SNAP_PERFIL_DEPOIS" != "$SNAP_PERFIL_ANTES" ]; then
+        PERFIL_MUDOU="sim"
+        echo "   [FALHA] o perfil do dono MUDOU durante um build SEM opt-in:"
+        diff <(printf '%s\n' "$SNAP_PERFIL_ANTES") <(printf '%s\n' "$SNAP_PERFIL_DEPOIS") \
+          | sed 's/^/             /'
+      fi
+    fi
+
+    if [ -n "$PERFIL_MUDOU" ]; then
+      passo_fail "3. BUILD" "build sem opt-in ESCREVEU no perfil do dono — investigue antes de seguir"
+    elif [ "$PROJS_FALHOS" -eq 0 ]; then
+      if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+        passo_ok "3. BUILD" "${#PROJETOS[@]} projetos, $ERROS_TOTAL erros CS (opt-in: DLLs instaladas no perfil)"
+      else
+        passo_ok "3. BUILD" "${#PROJETOS[@]} projetos, $ERROS_TOTAL erros CS (perfil medido intacto; nenhum alvo de deploy rodou)"
+      fi
+    else
+      passo_fail "3. BUILD" "$PROJS_FALHOS/${#PROJETOS[@]} projeto(s) com falha, $ERROS_TOTAL erros CS"
+    fi
   fi
 fi
 
@@ -309,8 +457,21 @@ else
 fi
 
 # ============================== 8. CICLO =====================================
+# REL-3: este passo ABRE o jogo do dono e so prova alguma coisa sobre ESTE codigo
+# com a DLL recem-buildada NO PERFIL. As duas coisas sao efeito colateral no
+# ambiente dele — por isso o ciclo NAO e um passo do fluxo normal: ele roda
+# apenas no modo explicito --instalar-no-perfil, que instalou a DLL no passo 3 e
+# anunciou isso em voz alta antes de comecar.
 echo
 echo "== PASSO 8/9 — CICLO DO JOGO + ANALISE DO LOG =="
+if [ "$INSTALAR_NO_PERFIL" -eq 0 ]; then
+  echo "   NAO RODA no fluxo normal. O ciclo abre o jogo e, para provar algo sobre este"
+  echo "   codigo, exige a DLL recem-buildada NO PERFIL — as duas coisas agem no ambiente"
+  echo "   do dono. O fluxo normal nao fez nem uma nem outra (o passo 3 nao instalou)."
+  echo "   Para instalar a DLL no perfil e rodar o ciclo de verdade, de proposito:"
+  echo "     bash tools/release-check.sh --instalar-no-perfil"
+  passo_pendente "8. CICLO" "NAO RODOU no fluxo normal (abre o jogo e exige a DLL no perfil) — use --instalar-no-perfil"
+else
 echo "   $ bash scratch/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
 SAIDA_CICLO="$(bash scratch/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
 printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
@@ -353,8 +514,9 @@ else
   fi
 fi
 
-# garante que o jogo ficou fechado
+# garante que o jogo ficou fechado — so importa se ESTE modo abriu o jogo
 taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1 || true
+fi
 
 # ============================== 9. HUMANO ====================================
 echo
@@ -388,6 +550,8 @@ for c in "${CHECKS[@]}"; do
   st="${c%%|*}"; resto="${c#*|}"; nome="${resto%%|*}"; det="${resto#*|}"
   if [ "$st" = "OK" ]; then
     printf '  [ OK ]   %-14s %s\n' "$nome" "$det"
+  elif [ "$st" = "PENDENTE" ]; then
+    printf '  [PEND.]  %-14s %s\n' "$nome" "$det"
   else
     printf '  [FALHA]  %-14s %s\n' "$nome" "$det"
   fi
@@ -395,16 +559,30 @@ done
 printf '  [HUMANO] %-14s %s\n' "9. HUMANO" "conferencia visual em jogo (ver itens 5.1-5.5 acima) — sempre pendente"
 echo
 if [ "${#FALHAS[@]}" -eq 0 ]; then
-  echo "  CONCLUSAO: APROVADO (verificacao automatizada: segredos, versoes, patches, build, chaves, duplicadas, notas, chave compartilhada, ciclo)"
+  if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+    echo "  CONCLUSAO: APROVADO na automacao (segredos, versoes, patches, build, chaves, duplicadas, notas, chave compartilhada, ciclo em jogo)"
+    echo "             MODO --instalar-no-perfil: as DLLs FORAM COPIADAS para o perfil do dono"
+    echo "             (opt-in -p:DeployToBepInEx=true, pedido pelo nome) e o jogo foi aberto e fechado."
+  else
+    echo "  CONCLUSAO: APROVADO na automacao (segredos, versoes, patches, build, chaves, duplicadas, notas, chave compartilhada)"
+    echo "             O perfil do dono NAO foi tocado: o passo 3 rodou SEM o opt-in"
+    echo "             (-p:DeployToBepInEx=false), a guarda confirmou que todo alvo de deploy"
+    echo "             exige -p:DeployToBepInEx=true e o perfil foi MEDIDO antes/depois (identico)."
+    echo "             8. CICLO NAO RODOU (nao reprova, mas nao conta como aprovado): ele abre o"
+    echo "             jogo e exige a DLL nova NO PERFIL. Para essa prova: --instalar-no-perfil."
+  fi
   echo "             LEMBRETE: o release so esta COMPLETO depois dos passos humanos 5.1-5.5."
-  echo "             Nada foi instalado a mao: o build dos .csproj ja deployou as DLLs."
   RC=0
 else
   echo "  CONCLUSAO: REPROVADO — passo(s) com falha: ${FALHAS[*]}"
   for f in "${FALHAS[@]}"; do
     case "$f" in
       "2. PATCHES")    echo "             >> BLOQUEIO TRV-1: um gancho aceita argumento por POSICAO — corrija antes de instalar." ;;
-      "3. BUILD")      echo "             >> build quebrou: a DLL antiga continua em plugins/ — o ciclo testou codigo velho." ;;
+      "3. BUILD")      if [ "$INSTALAR_NO_PERFIL" -eq 1 ]; then
+                         echo "             >> build quebrou no modo explicito: confira em plugins/ qual DLL ficou velha."
+                       else
+                         echo "             >> build quebrou: NADA foi instalado no perfil (o fluxo normal nao instala)."
+                       fi ;;
       "4. CHAVES")     echo "             >> revisar a saida do check_fix_keys.py acima (chave fora do censo falha em silencio)." ;;
       "5. DUPLICADAS") echo "             >> BLOQUEIO INC-1: nao instale nem distribua nada ate as duplicadas sumirem." ;;
       "7. COMPARTILH.") echo "             >> BLOQUEIO BUG-32: chave nas DUAS tabelas = entrada de TextAppends morta." ;;
