@@ -1,0 +1,222 @@
+PROVA DE REPROVACAO - BetterCombatText (TST-8)
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada bloco abaixo e uma rodada LITERAL: o defeito foi plantado no
+fonte do mod, o teste foi executado pelo RUNNER (`python
+tools/testes/roda_testes.py --teste <arquivo>`, o MESMO caminho da suite), e DEPOIS
+o fonte foi restaurado byte a byte (sha256 conferido antes e depois) e o teste
+rodou de novo.
+
+Plantadeira: as funcoes `defeito_*` de tools/testes/regras_bct.py
+Cobertura  : os 9 cenarios do TST-8 - material/IL, idempotencia, defaults,
+             desligar, caminho legado, diagnostico, precondicao do shader,
+             aplicador (contra-prova do check_patches) e convivencia.
+sha256 Plugin.cs                ac364b3d9f7aea15a2947c4aeafe1b169c6f08da5f2f60bfbdc34e24318d30ce (9439 bytes, LF)
+sha256 Patches.cs               c66eb24fced182c6fcbb71e812735e611675207f4b6c96ec8e832c4fef6df18b (12185 bytes, LF)
+sha256 DiagnosticoArranque.cs   786097919fc8c42988f434ab7cb6a290e891bce2545c062b0cd4c8eaebce2c2f (12001 bytes, LF)
+sha256 Configuracao.cs          60c66feb73fb78a8e3fe8b7ac98ee25932f51603681b353bc6bf814b2ec7dbd1 (14745 bytes, LF)
+sha256 TextStyler.cs            3775005d83801226513e3d37b62465fa9c194c9e55d1945b5ed5b925d301c107 (18971 bytes, LF)
+==============================================================================
+
+### regra-de-ouro-escreve-no-compartilhado
+cenario: a REGRA DE OURO (o material compartilhado)
+teste:   tools/testes/testes/puros/t_bct_regra_de_ouro.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_escreve_no_compartilhado) -> exit 1
+    [REPROVOU] bct-regra-de-ouro a regra de ouro caiu no fonte: `AplicarTmp` ATRIBUI a `fontSharedMaterial`: e o material COMPARTILHADO, o mesmo objeto de todo texto daquela fonte - escrever nele muda a UI toda | `AplicarTmp` nao usa o getter `tmp.fontMaterial` (a COPIA por componente): sem ele nao ha instancia por componente nenhuma | o TextStyler ATRIBUI a `fontSharedMaterial` em algum ponto (fora de comentario): a copia por componente deixou de ser a unica via
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-regra-de-ouro TST-8/1: o material e sempre a copia por componente - o IL da DLL do pacote nao referencia setter de material e o fonte so le o compartilhado
+------------------------------------------------------------------------------
+
+### idempotencia-sem-guarda
+cenario: a IDEMPOTENCIA (o guarda por InstanceID)
+teste:   tools/testes/testes/puros/t_bct_idempotencia.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_sem_guarda_idempotencia) -> exit 1
+    [REPROVOU] bct-idempotencia a idempotencia caiu: `AplicarTmp` nao consulta `MateriaisInstanciados`: sem o registro por InstanceID a rotina re-instancia o material e re-aplica o efeito a cada postfix (a cada escrita do texto) - o efeito NAO e idempotente | o guarda de `AplicarTmp` nao compara o material registrado com o material em uso: ele nao reconhece 'o texto ja esta tratado' | o caminho de idempotencia de `AplicarTmp` esta incompleto (consulta, instancia ou registro sumiu)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-idempotencia TST-8/2: aplicar duas vezes no mesmo componente nao acumula (registro por InstanceID no TMP e no legado, e o piso no tamanho original)
+------------------------------------------------------------------------------
+
+### idempotencia-tamanho-acumula
+cenario: a IDEMPOTENCIA (o piso no tamanho original)
+teste:   tools/testes/testes/puros/t_bct_idempotencia.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_tamanho_acumula) -> exit 1
+    [REPROVOU] bct-idempotencia a idempotencia caiu: `AplicarTamanho` nao parte do original (`= original + extra`): acumula
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-idempotencia TST-8/2: aplicar duas vezes no mesmo componente nao acumula (registro por InstanceID no TMP e no legado, e o piso no tamanho original)
+------------------------------------------------------------------------------
+
+### default-tooltip-ligado
+cenario: OS DEFAULTS (o tooltip de status)
+teste:   tools/testes/testes/puros/t_bct_defaults.py
+
+COM O DEFEITO PLANTADO em Configuracao.cs (defeito_default_tooltip_ligado) -> exit 1
+    [REPROVOU] bct-defaults os defaults regrediram: Configuracao.cs:129 - o default de '6. Tooltip de status (nome do buff/debuff)' > Ativar mudou: esperado False, obtido True
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 60c66feb73fb78a8) -> exit 0
+    [PASSOU ] bct-defaults TST-8/3: tooltip de status DESLIGADO (Title/Description sao compartilhados com skill/item/powerup), eventos/dado LIGADO, chave mestra LIGADA; com arquivo:linha
+------------------------------------------------------------------------------
+
+### default-eventos-desligado
+cenario: OS DEFAULTS (o grupo de eventos/dado)
+teste:   tools/testes/testes/puros/t_bct_defaults.py
+
+COM O DEFEITO PLANTADO em Configuracao.cs (defeito_default_eventos_desligado) -> exit 1
+    [REPROVOU] bct-defaults os defaults regrediram: Configuracao.cs:84 - o default de '4. Eventos (texto do dado)' > Ativar mudou: esperado True, obtido False
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 60c66feb73fb78a8) -> exit 0
+    [PASSOU ] bct-defaults TST-8/3: tooltip de status DESLIGADO (Title/Description sao compartilhados com skill/item/powerup), eventos/dado LIGADO, chave mestra LIGADA; com arquivo:linha
+------------------------------------------------------------------------------
+
+### desligar-gancho-sem-guarda
+cenario: DESLIGAR E INERTE (a chave mestra)
+teste:   tools/testes/testes/puros/t_bct_desligar.py
+
+COM O DEFEITO PLANTADO em Patches.cs (defeito_gancho_sem_guarda) -> exit 1
+    [REPROVOU] bct-desligar-inerte com Ativar=false o mod NAO ficaria inerte: o gancho PatchNomeDoChefe.Postfix nao e inerte com `Ativar=false`: o postfix roda (e muda a tela) mesmo com o mod desligado
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 c66eb24fced182c6) -> exit 0
+    [PASSOU ] bct-desligar-inerte TST-8/4: com Ativar=false nenhum gancho age - Awake sai antes de aplicar e todo postfix e guardado (direto ou por delegacao)
+------------------------------------------------------------------------------
+
+### legado-pede-material-sdf
+cenario: O CAMINHO LEGADO (UI.Text)
+teste:   tools/testes/testes/puros/t_bct_caminho_legado.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_legado_usa_material) -> exit 1
+    [REPROVOU] bct-caminho-legado o caminho legado regrediu: o caminho legado usa `fontMaterial`: UI.Text e fonte BITMAP (sem distance field), nao existe contorno suave nem material SDF ali - esse caminho tem de ser o contorno DURO | o caminho legado usa `_OutlineWidth`: UI.Text e fonte BITMAP (sem distance field), nao existe contorno suave nem material SDF ali - esse caminho tem de ser o contorno DURO
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-caminho-legado TST-8/5: UI.Text legado recebe contorno DURO (Outline/Shadow) e o mod nao tenta material de distance field nos rotulos de status
+------------------------------------------------------------------------------
+
+### diagnostico-intervalo-2s
+cenario: O DIAGNOSTICO DE ARRANQUE (o intervalo)
+teste:   tools/testes/testes/puros/t_bct_diagnostico.py
+
+COM O DEFEITO PLANTADO em DiagnosticoArranque.cs (defeito_diagnostico_2s) -> exit 1
+    [REPROVOU] bct-diagnostico as constantes do diagnostico lidas do fonte (espera, intervalo, desistir): esperado (20.0, 5.0, 240.0), obtido (20.0, 2.0, 240.0)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 786097919fc8c429) -> exit 0
+    [PASSOU ] bct-diagnostico TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado
+------------------------------------------------------------------------------
+
+### diagnostico-sem-parada
+cenario: O DIAGNOSTICO DE ARRANQUE (a parada)
+teste:   tools/testes/testes/puros/t_bct_diagnostico.py
+
+COM O DEFEITO PLANTADO em DiagnosticoArranque.cs (defeito_diagnostico_sem_parada) -> exit 1
+    [REPROVOU] bct-diagnostico o diagnostico regrediu: `Tentar` nao encerra a varredura (`_feito = true;`) entre a checagem de alvo em cena e o `Rodar()`: a varredura continua a cada intervalo, para sempre, que e o defeito de desempenho medido (~110 varreduras por arranque)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 786097919fc8c429) -> exit 0
+    [PASSOU ] bct-diagnostico TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado
+------------------------------------------------------------------------------
+
+### diagnostico-ignora-config
+cenario: O DIAGNOSTICO DE ARRANQUE (a chave)
+teste:   tools/testes/testes/puros/t_bct_diagnostico.py
+
+COM O DEFEITO PLANTADO em DiagnosticoArranque.cs (defeito_diagnostico_ignora_config) -> exit 1
+    [REPROVOU] bct-diagnostico o diagnostico regrediu: `Tentar` nao le a chave de config que desliga a varredura (`DiagnosticoNoArranque`): o custo da varredura nao teria como ser zerado
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 786097919fc8c429) -> exit 0
+    [PASSOU ] bct-diagnostico TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado
+------------------------------------------------------------------------------
+
+### precondicao-nao-confere
+cenario: A PRECONDICAO DO SHADER
+teste:   tools/testes/testes/puros/t_bct_precondicao_shader.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_precondicao_nao_confere) -> exit 1
+    [REPROVOU] bct-precondicao-shader a precondicao regrediu: `AplicarTmp` nao poe o halo (_OutlineWidth) dentro de `if (ehDistanceField)`: o efeito seria aplicado sem a precondicao confirmada (o material nao tem a propriedade e a escrita nao faz nada, em silencio)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-precondicao-shader TST-8/7: o efeito confirma a precondicao do shader (HasProperty _OutlineWidth/_UnderlaySoftness) antes de aplicar, em vez de confiar por nome/variante
+------------------------------------------------------------------------------
+
+### precondicao-por-nome
+cenario: A PRECONDICAO DO SHADER
+teste:   tools/testes/testes/puros/t_bct_precondicao_shader.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_precondicao_por_nome) -> exit 1
+    [REPROVOU] bct-precondicao-shader a precondicao regrediu: `AplicarTmp` nao confirma `HasProperty("_OutlineWidth")` antes do halo: ele voltaria a PRESUMIR que o material tem o efeito (o texto ficaria mudo, ou o halo nao aparece, sem o mod dizer por que) | `AplicarTmp` decide pelo NOME do shader: as superficies alvo usam variantes diferentes (Distance Field, Distance Field Overlay, Distance Field (Surface) - medido em jogo) e o nome nao diz se o EFEITO existe
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-precondicao-shader TST-8/7: o efeito confirma a precondicao do shader (HasProperty _OutlineWidth/_UnderlaySoftness) antes de aplicar, em vez de confiar por nome/variante
+------------------------------------------------------------------------------
+
+### aplicador-filtro-exige-atributo
+cenario: O APLICADOR (a contra-prova do check_patches)
+teste:   tools/testes/testes/puros/t_bct_aplicador.py
+
+COM O DEFEITO PLANTADO em Plugin.cs (defeito_filtro_exige_atributo) -> exit 1
+    [REPROVOU] bct-aplicador o aplicador regrediu: o filtro passou a EXIGIR `HarmonyPostfix` no METODO: os ganchos declarados pela CONVENCAO DE NOME do Harmony (metodo `Postfix`) ficariam de fora, em silencio - foi o defeito dos 4 mods inertes
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 ac364b3d9f7aea15) -> exit 0
+    [PASSOU ] bct-aplicador TST-8/8: o mod aplica gancho a gancho com contagem real (sem PatchAll) e o filtro so aceita [HarmonyPatch] no TIPO - e a contra-prova da trava check_patches (filtro que exige atributo TEM de reprovar)
+------------------------------------------------------------------------------
+
+### acopla-betterfont-no-codigo
+cenario: A CONVIVENCIA COM O BetterFont
+teste:   tools/testes/testes/puros/t_bct_sem_acoplamento.py
+
+COM O DEFEITO PLANTADO em TextStyler.cs (defeito_acopla_betterfont) -> exit 1
+    [REPROVOU] bct-sem-acoplamento o CODIGO do BCT cita o outro mod em TextStyler.cs: ['BetterFont', 'betterfont', 'com.gumatos.betterfont'] (o invariante 3 proibe; a copia por componente vale para qualquer mod, nao para um caso especifico)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 3775005d83801226) -> exit 0
+    [PASSOU ] bct-sem-acoplamento TST-8/9: do lado do BCT, o codigo e a DLL nao citam o BetterFont (nem escrevem no material dele) - a ligacao e so o material por componente da frente
+------------------------------------------------------------------------------
+
+### regra-de-ouro-il (a DLL do pacote)
+cenario: a REGRA DE OURO (as referencias do IL)
+comando: $ python tools/testes/regras_bct.py
+origem:  pacote dist\gumatos-BetterCombatText-0.1.0.zip!plugins/BetterCombatText/BetterCombatText.dll
+sha256 da DLL: 32aba269ca24a178d0e846f8211b8339a0e1173906eb1a6245fca96f6faa6802
+    referencias (MemberRef): 142 | AssemblyRef: netstandard, BepInEx, UnityEngine.CoreModule, Assembly-CSharp, Unity.TextMeshPro, UnityEngine.TextRenderingModule, 0Harmony, UnityEngine.UI
+    SETTER de material entre as referencias: NENHUM
+    controle positivo (referencias que a DLL TEM): ['get_fontSharedMaterial', 'get_fontMaterial', 'SetMaterialDirty', 'set_fontSize', 'set_fontStyle', 'set_effectColor', 'set_effectDistance', 'HasProperty', 'GetInstanceID', 'SetColor', 'SetFloat', 'EnableKeyword']
+DEFEITO PLANTADO NO IL (get_ -> set_, mesmos bytes): setters=['set_fontSharedMaterial']
+    checagem com o defeito: o leitor de IL nao achou 1 referencia(s) que a DLL TEM (get_fontSharedMaterial): o controle positivo falhou - sem ele, 'nao achei o setter' seria vacuidade | a REGRA DE OURO caiu: a DLL referencia SETTER(ES) de material (set_fontSharedMaterial). No TMP o setter escreve no MATERIAL COMPARTILHADO - a UI inteira mudaria. O mod tem de escrever so na COPIA por componente devolvida pelo getter `fontMaterial`
+DEFEITO REMOVIDO (os bytes originais da DLL): falhas=nenhuma
+------------------------------------------------------------------------------
+
+ACHADOS (o que os testes acharam e NAO consertam: o produto desta tarefa sao testes)
+==============================================================================
+
+A1. Plugin.cs cita o outro mod num COMENTARIO (nao e dependencia).
+    BetterCombatText/Plugin.cs:101 - o exemplo do padrao gancho-a-gancho do
+    repositorio lista `(BetterTooltips, RoguelikeSkillTreeVisualizer, BetterFont,
+    RoguelikeQoL, ...)`. E documentacao: nao vai ao assembly e a DLL nao referencia
+    nada do outro mod (0 TypeRef/AssemblyRef/MemberRef). O `BetterFont/Plugin.cs`
+    nao tem NENHUMA mencao, nem em comentario. Se o invariante 3 for lido como
+    'zero mencao no ARQUIVO', este comentario o fere - a decisao e do dono.
+    Prova: `python tools/testes/roda_testes.py --teste .../t_bct_sem_acoplamento.py`
+    (passa, e REPORTANDO a mencao em comentario).
+
+A2. O log do mod diz 'clonamos por cima' uma instancia de outro mod, mas o IL do
+    TMP NAO clona nesse caso.
+    BetterCombatText/TextStyler.cs:316 - `ja era instancia de outro mod - clonamos
+    por cima`. O getter que o mod usa e `TMP_Text.fontMaterial` ->
+    `TextMeshProUGUI.GetMaterial(mat)` (decompilado em scratch/tmp_ugui.cs:713):
+    `if (m_fontMaterial == null || m_fontMaterial.GetInstanceID() != mat.GetInstanceID())
+    m_fontMaterial = CreateMaterialInstance(mat);` - ou seja, se o material em uso JA
+    e uma instancia (de outro mod), o getter DEVOLVE ESSA instancia e o BCT escreve
+    nela, em vez de clonar por cima. Nao espalha para a UI (o material e por
+    componente) e a combinacao serifa+halo e o que se quer - mas a FRASE nao
+    descreve o que o codigo faz. (O IL do BCT confirma que o mod nao constroi material
+    proprio: nenhuma referencia a `CreateMaterialInstance` nem ao `.ctor` de Material.)
+
+A3. A dependencia de PACOTE no BetterFont. `manifest.json` declara
+    `DefRuivo_StolenRealmMods-BetterFont-1.0.2` e o README diz 'Needs: BepInEx 5 and
+    BetterFont'. O CODIGO nao depende (0 referencia no IL): e escolha de
+    empacotamento para entregar a combinacao serifa + halo. Observacao, nao defeito.
+
+A4. Deriva de versao na doc: `BetterCombatText/README.md` diz 'Version: 0.1.0'
+    enquanto `manifest.json` e `Plugin.cs` dizem 0.1.1 (o pacote em dist/ e o 0.1.0).
+    Achado de doc, fora do escopo dos testes.
+==============================================================================

@@ -12,9 +12,11 @@ namespace BetterCombatText
     /// <para><b>REGRA DE OURO (por que o material tem de ser instanciado):</b> no TextMeshPro o
     /// material da fonte e COMPARTILHADO por todos os textos que usam aquela fonte. Mexer nele
     /// muda a interface inteira. O caminho seguro e <c>TMP_Text.fontMaterial</c>, que devolve uma
-    /// COPIA por componente (confirmado no IL: <c>TextMeshProUGUI.GetMaterial()</c> chama
+    /// COPIA por componente (confirmado no IL: <c>TextMeshProUGUI.GetMaterial(mat)</c> chama
     /// <c>CreateMaterialInstance()</c> -> <c>new Material(source)</c> e grava a copia em
-    /// <c>m_sharedMaterial</c> daquele componente apenas). <c>fontSharedMaterial</c> JAMAIS e
+    /// <c>m_sharedMaterial</c> daquele componente apenas — mas so quando o componente AINDA nao tem
+    /// instancia propria: com o MESMO InstanceID o TMP REUSA a instancia existente (que pode ser de
+    /// outro mod) em vez de clonar; o caso e descrito em <c>DetalharAlvo</c>). <c>fontSharedMaterial</c> JAMAIS e
     /// alterado aqui — ele e so lido, para saber em quem estamos.</para>
     ///
     /// <para><b>Falha-segura:</b> todo caminho tem try/catch; componente nulo, material nulo,
@@ -309,11 +311,19 @@ namespace BetterCombatText
             {
                 string nomeFonte = tmp.font != null ? tmp.font.name : "(nula)";
                 string nomeMaterialOriginal = compartilhadoAntes != null ? compartilhadoAntes.name : "(nulo)";
+                // Se o material em uso ja e uma instancia (nome com "(Instance)") e nao e a nossa
+                // (a nossa ja teria saido no guarda acima), e instancia de outro mod — e o TMP
+                // NAO clona por cima. O getter `fontMaterial` (TMP_Text) chama
+                // `TextMeshProUGUI.GetMaterial(mat)`, e o IL dele so cria copia quando
+                // `m_fontMaterial == null || m_fontMaterial.GetInstanceID() != mat.GetInstanceID()`;
+                // com o MESMO InstanceID ele REUSA `m_fontMaterial` (`m_sharedMaterial = m_fontMaterial`,
+                // sem `CreateMaterialInstance`) e devolve essa instancia. Escrevemos NELA, sem clonar.
+                // Nao espalha, porque a instancia e por componente.
                 bool jaEraInstancia = nomeMaterialOriginal.Contains("(Instance)");
                 Plugin.Log.LogInfo(
                     $"[{superficie}] alvo: objeto='{Nome(tmp)}', componente={tmp.GetType().Name}, " +
-                    $"fonte TMP='{nomeFonte}', material compartilhado antes de clonar='{nomeMaterialOriginal}'" +
-                    $"{(jaEraInstancia ? " (ja era instancia de outro mod — clonamos por cima)" : " (compartilhado do prefab)")}, " +
+                    $"fonte TMP='{nomeFonte}', material compartilhado lido antes do tratamento='{nomeMaterialOriginal}'" +
+                    $"{(jaEraInstancia ? " (ja era instancia por componente de outro mod — o TextMeshProUGUI.GetMaterial so cria copia quando m_fontMaterial e nulo ou tem InstanceID diferente; com o MESMO InstanceID ele REUSA a instancia existente, sem CreateMaterialInstance, e escrevemos NELA, sem clonar)" : " (compartilhado do prefab)")}, " +
                     $"shader='{nomeShader}', tem _OutlineWidth (distance field/SDF)={df}");
             }
             catch (Exception e)
