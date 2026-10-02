@@ -50,10 +50,18 @@ namespace BetterTooltips.Patches
     ///   4. a frase do valor vem por ATRIBUTO AFETADO (nunca por skill/status), com a procedencia
     ///      citada na tabela; atributo fora da tabela cai no nome do motor.
     ///
-    /// Por que esta linha NAO e a de auras de shrine (`ShrineAuraPatch`) e nao a substitui: as auras
-    /// leem `Target["ShrineEffectBonus"]` — o atributo da propria vitima — e o numero delas JA aparece
-    /// na linha branca do shrine (o `[0]` da descricao, que o prefix do RV-22/RV-34 corrige). Aqui so
-    /// entra leitura do **Source**, que a tooltip do status NAO mostra em lugar nenhum.
+    /// Por que esta linha NAO e a de auras de shrine (`ShrineAuraPatch`) e nao a substitui: as NOVE
+    /// auras de buff leem `Target["ShrineEffectBonus"]` nos `AttributeEffects` do status — o atributo
+    /// da propria vitima — e o numero delas JA aparece na linha branca do shrine (o `[0]` da descricao,
+    /// que o prefix do RV-22/RV-34 corrige). Aqui so entra leitura do **Source**, que a tooltip do
+    /// status NAO mostra em lugar nenhum.
+    ///
+    /// NIV3-1R (01/10) — A RESSALVA QUE FALTAVA NA FRASE ACIMA. "As auras leem `Target[...]`" vale
+    /// para as 9 com `AttributeEffects` (as de buff). **Flame e Decay tambem leem
+    /// `Source["ShrineEffectBonus"]`**, so que na FORMULA DE DANO do proprio action (`* Aura Proc`) —
+    /// FORA do `AttributeEffects`, que e o UNICO lugar que o indice deste patch varre. A distincao
+    /// importa para quem for reusar a frase: o criterio do indice e o `AttributeEffects`, nao "aura
+    /// de shrine" em geral.
     ///
     /// SEGURANCA (a licao do incidente de 30/09): a assinatura real do alvo e
     ///   ApplyDescriptionExpressions(string text, string[] expressions,
@@ -259,8 +267,10 @@ namespace BetterTooltips.Patches
         /// e a direcao "a skill de quem aplicou muda o que o status faz no alvo".
         ///
         /// Fica de FORA, de proposito, o que nao se pode atribuir a uma skill:
-        ///   * `Target["X"]` — leitura do atributo do PROPRIO portador (as auras de shrine leem
-        ///     `Target["ShrineEffectBonus"]` assim, e o numero delas ja sai na descricao/linha de auras);
+        ///   * `Target["X"]` — leitura do atributo do PROPRIO portador (as 9 auras de buff leem
+        ///     `Target["ShrineEffectBonus"]` assim, e o numero delas ja sai na descricao/linha de auras;
+        ///     NIV3-1R: Flame e Decay, que leem `Source["ShrineEffectBonus"]`, o fazem na FORMULA DE
+        ///     DANO do action — fora do `AttributeEffects`, logo fora do alcance deste indice);
         ///   * `Amount` com `{...}` — o motor substitui essas faixas por `BracketedValues` ANTES de
         ///     avaliar (l.37220-37230); sem reproduzir isso a avaliacao sairia errada, entao o efeito
         ///     fica fora (silencio) — nada de numero estimado;

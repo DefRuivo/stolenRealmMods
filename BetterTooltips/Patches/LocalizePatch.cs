@@ -138,6 +138,30 @@ namespace BetterTooltips.Patches
             /// resolve pela lista de 13 tipos, entao nome e posicao ficam amarrados.
             /// O corpo roda a cada hover (gancho QUENTE): qualquer falha e registrada UMA vez por motivo
             /// e o texto do jogo sai INTACTO.
+            ///
+            /// NIV3-1 (01/10) — OS DOIS BLOCOS DE NIVEL 3. O bloco `Your skills on this status`
+            /// (sinergia status x skill) e escrito pelo `StatusSkillSynergyPatch` no postfix de
+            /// `Tooltip.ApplyDescriptionExpressions`, que roda ANTES deste prefixo (mesmo corpo:
+            /// `ShowActionStatusTooltip` -> `ApplyDescriptionExpressions` -> `ShowTooltip`, decompilado
+            /// l.334360/334377) — e o laco das notas NAO o alcancava, porque o `_conteudosDeNota` o
+            /// exclui de proposito (`EhBlocoDoNivel3`) e a extracao da linha de auras exige o marcador
+            /// `Your active shrine auras`. Resultado: numa tooltip com NOTA e sinergia, a nota era
+            /// remanejada para o FIM e ficava DEPOIS da linha azul, que deixava de ser a ultima coisa do
+            /// tooltip (§9.1). Aqui ele passa a ser recolhido como a linha de auras — pelo MARCADOR DE
+            /// TEXTO dele, nunca pela cor (§8.3), com o mesmo `TirarBloco` — e devolvido no fim, na ordem
+            /// do texto de origem (as notas primeiro, ele depois). Quando os DOIS blocos de nivel 3
+            /// existem, a linha de auras continua por ULTIMO (a ordem aprovada pelo dono); hoje eles nao
+            /// coexistem porque o INDICE do `StatusSkillSynergyPatch` olha o `AttributeEffects` do status,
+            /// unico lugar onde ele procura `Source["X"]`: ali as 9 auras de buff leem
+            /// `Target["ShrineEffectBonus"]` e nenhuma entra no indice. Flame e Decay tambem leem
+            /// `Source["ShrineEffectBonus"]`, mas na FORMULA DE DANO do proprio action (a acao
+            /// `* Aura Proc`), fora do `AttributeEffects` — fora do alcance do indice. A impossibilidade
+            /// e, portanto, DO INDICE (dado); a ORDEM e da CONSTRUCAO do codigo, que monta a cauda como
+            /// `sinergia + "\n\n" + aura` — dois argumentos diferentes (ver §9.1).
+            /// A extracao leva junto o separador do bloco (`InicioDoSeparador`) e a
+            /// remontagem devolve a LINHA EM BRANCO do `AnexarNota`: o patch anexa com uma quebra CRUA, e
+            /// §9.1 exige a linha em branco em todo bloco do mod (era o segundo defeito do caminho,
+            /// invisivel enquanto o prefixo nem mexia no bloco).
             private static void Prefix(ref string description)
             {
                 // Snapshot: o corpo abaixo remove blocos coloridos pelo caminho; se algo lancar no meio,
@@ -152,6 +176,11 @@ namespace BetterTooltips.Patches
                     string corNota = string.IsNullOrEmpty(_corEspecialDoJogo) ? MarcadorCorDeExplicacao : _corEspecialDoJogo;
                     string corAura = CorDaLinhaDeAuras();
                     bool mesmaCor = string.Equals(corNota, corAura, StringComparison.OrdinalIgnoreCase);
+
+                    // NIV3-1: o bloco do nivel 3 da SINERGIA e recolhido aqui, pelo MARCADOR, antes do
+                    // laco das notas — como a linha de auras (ver o doc deste metodo).
+                    string sinergia;
+                    bool achouSinergia = TirarBloco(ref description, corAura, mesmaCor, StatusSkillSynergyPatch.Marcador, out sinergia);
 
                     // Se as cores coincidirem (a leitura da paleta falhou e a linha caiu na cor das notas),
                     // a ULTIMA ocorrencia e a linha de auras — ela e a ultima coisa anexada ao texto.
@@ -182,7 +211,7 @@ namespace BetterTooltips.Patches
                         achouNota = TirarNotaDoMod(ref description, out nota);
                     }
 
-                    if (!achouAura && notas.Count == 0)
+                    if (!achouAura && !achouSinergia && notas.Count == 0)
                     {
                         if (!_diagnosticadoCor)
                         {
@@ -198,6 +227,9 @@ namespace BetterTooltips.Patches
                         Plugin.Log.LogInfo("BetterTooltips: ShowTooltip interceptado, blocos movidos para o fim (nota #"
                             + corNota + ", auras ativas #" + corAura + ")");
                     }
+
+                    // NIV3-1: a cauda do nivel 3 — a sinergia na frente, a linha de auras por ULTIMO.
+                    if (achouSinergia) aura = string.IsNullOrEmpty(aura) ? sinergia : sinergia + "\n\n" + aura;
 
                     string corpo = description.TrimEnd();
                     foreach (string blocoNota in notas)
@@ -367,7 +399,7 @@ namespace BetterTooltips.Patches
         /// (bancada do decompilado: `scratch/rv22/tooltip.cs:1854-1855` e `1950-1951`).
         ///
         /// PROVA DE QUE NAO E A COR DOS NOMES DE STATUS: quem colore os nomes de status/atributo
-        /// e `specialTextColor` (`tooltip.cs:608`/`627`, o token `{STA=}` e o `@atributo@`), um
+        /// e `specialTextColor` (`scratch/rv22/tooltip.cs:608`/`634`/`644` — usamos a copia de `rv22`, a mesma ja citada acima; ha uma 2a copia do decompilado em `scratch/tooltip.cs`, identica nestas tres linhas — o token `{STA=}` e o `@atributo@`), um
         /// campo DIFERENTE. A escolha por `specialDescColor` foi medida em 29/09 (BT-9) contra
         /// print do proprio jogo: o bloco de descricao anexado sai bege, nao no azul de status.
         ///
@@ -1344,6 +1376,35 @@ namespace BetterTooltips.Patches
               "\n<color=#C8B090>Base 50%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Your attacks have a [0]% chance to stun the target.",
               "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
+
+            // ARM-1 (01/10) — AS DUAS FAMILIAS DE ARMA do pedido do dono.
+            // OS TIPOS SAEM DO FILTRO DO MOTOR (nao de memoria), e o filtro e o MESMO que a skill le:
+            //   * DUAS MAOS   — `WeaponInfo.IsTwoHanded` (scratch/sac1/WeaponInfo.cs:21-31) devolve
+            //     true para EquipmentType Axe_2H, Sword_2H, Mace_2H, Polearm, Bow, Gun_2H e Staff;
+            //     e exatamente esse `IsTwoHanded` que `Character.WieldingTwoHanded`
+            //     (scratch/sac1/Character.cs:3947-3958) le, a condicao da skill
+            //     (`DamageMod:Base:Source.WieldingTwoHanded ? 20 : 0`, skills-detalhe.csv:435).
+            //   * DUAS DE UMA MAO — `WeaponInfo.AllowDualWield` (scratch/sac1/WeaponInfo.cs:42-71)
+            //     aceita Sword_1H/Axe_1H/Mace_1H (entre si), Gun_1H com Gun_1H, Wand com Wand e
+            //     FistWeapon/Unarmed; `Character.IsDualWielding` (scratch/sac1/Character.cs:3931-3949)
+            //     e a condicao da skill (`DodgeChance:Base:Source.IsDualWielding ? 5 : 0`,
+            //     skills-detalhe.csv:119).
+            // A LISTA NAO FOI LEMBRADA: os 14 tipos do filtro (7 de duas maos, 7 de uma mao) foram
+            // lidos do proprio asset (resources.assets, guid 695dce37…), onde vive o `EquipmentType`
+            // de cada arma — e a UNICA prova das contagens POR TIPO. O censo (docs/cobertura/itens.csv)
+            // NAO as sustenta: as colunas sao nome/tipo/raridade/lvlMin/descricao/status, e o `tipo` e
+            // a CATEGORIA de item (Weapon), nao o EquipmentType. Do CSV sai so o total de armas
+            // (Weapon: 301) — nunca a quebra por tipo, nem que a Knuckle Dagger e o item Unarmed.
+            // Contagem gravada a mao estala em silencio num patch do jogo; para conferir, releia o
+            // asset pelo guid 695dce37.
+            // TEXTO CURTO (regra do dono): a lista E o valor; nenhuma frase de enfeite.
+            // "se ja nao houver": as DUAS descricoes do jogo nao dizem os tipos — a de duas maos so
+            // diz "a two handed weapon" e a de dual-wield so diz "while dual-wielding". As que JA
+            // diziam (Courage of the Ymir, Honor of the Ymir, Strength of the Ymir) NAO foram tocadas.
+            { "While a two handed weapon is equipped all damage is increased by 20%. ",
+              "\n<color=#C8B090>Counts 2H Axe, 2H Sword, 2H Mace, Polearm, Bow, 2H Gun, and Staff.</color>" },
+            { "While dual-wielding, @dodge chance@ increased by 5%, @critical hit chance@ increased by 5%, and @critical hit damage@ is increased by 20%.",
+              "\n<color=#C8B090>Counts two one-handed weapons: 1H Sword, 1H Axe, 1H Mace, 1H Gun, Wand, Fist weapons, or Unarmed.</color>" },
         };
 
         // Primeiras correções reais de texto — apenas digitação/espaçamento observados
@@ -1814,14 +1875,14 @@ namespace BetterTooltips.Patches
             //   - a Condition do MESMO gatilho e
             //     `(ActionProperties.IsAttackPowerBased || ActionProperties.IsSpellPowerBased) &&
             //     Source.IsEnemy(Target)`: cai em qualquer dano que o personagem encantado cause a um
-            //     INIMIGO cuja fonte seja Attack Power OU Spell Power (`ActionProperties.cs:69/85`,
+            //     INIMIGO cuja fonte seja Attack Power OU Spell Power (`scratch/sac1/ActionProperties.cs:69/85`,
             //     `ActionInfo.IsAttackPowerBased => BenefitType == BenefitType.AttackPower`,
-            //     `ActionInfo.cs:728/730`).
+            //     `scratch/sac1/Burst2Flame/ActionInfo.cs:728/730`).
             //   - o disparo do motor e `source.ProcessSkillTriggers(target, properties,
             //     TriggerType.OnHittingDamaging, ...)`, um por tipo de dano, DENTRO do loop de dano de
             //     `ApplyAction` (`scratch/sac1/Character.cs:11348-11373`) — vale para ataque corpo a
             //     corpo, ranged e SPELL. NAO vale para dano de retorno: essas acoes sao aplicadas com
-            //     `procSkillTriggers: false` (`Character.cs:11302-11318`).
+            //     `procSkillTriggers: false` (`scratch/sac1/Character.cs:11302-11318`).
             // Assim "hits" (a palavra do enum) + "including spells" (o caso que o dono citou) — em uma
             // linha, sem enumeracao. A lista completa do que conta como hit fica no relatorio da ENC-1.
             { "Enchants the target's weapon to add *0 fire damage to attacks. ",
@@ -2492,6 +2553,101 @@ namespace BetterTooltips.Patches
                     __result = fim >= 0
                         ? __result.Substring(0, fim) + " " + sustenance + __result.Substring(fim)
                         : AnexarNota(__result, "\n<color=#" + MarcadorCorDeExplicacao + ">" + sustenance + "</color>");
+                }
+            }
+
+            // BT-10 (01/10) — o VALOR ABSOLUTO da cura do `Reaper's Toll` NA LINHA BRANCA, ao lado
+            // do percentual que o jogo ja mostra: `Every enemy that dies heals you for 10% of your
+            // max health (23.3 health for you).` O numero sai do MOTOR em runtime (a vida maxima
+            // FINAL do personagem em foco x a % lida da descricao do ASSET da skill), na cor do
+            // valor dinamico do motor (`#CBB396`, o literal do `[N]`/`*N`) — ver a classe
+            // `ReaperTollPatch` para a procedencia completa. A explicacao do calculo vai no nivel 2
+            // (a nota do mod), como manda docs/TEXTO-TOOLTIPS.md §1. Sem personagem ou sem leitura,
+            // a linha do jogo fica INTACTA (nenhum numero inventado).
+            {
+                string linhaComValor;
+                string notaDoCalculo;
+                if (ReaperTollPatch.TentaMontar(original, __result, out linhaComValor, out notaDoCalculo))
+                {
+                    __result = linhaComValor;
+                    if (!string.IsNullOrEmpty(notaDoCalculo))
+                    {
+                        __result = AnexarNota(__result, NotaDeExplicacao(notaDoCalculo));
+                    }
+                }
+            }
+
+            // BT-11 (01/10) — o VALOR ABSOLUTO da vida maxima que a passiva `Hunger` sacrifica NA
+            // LINHA BRANCA, ao lado do percentual que o jogo ja mostra: `... Sacrifices 10% max
+            // health per turn (23.3 health per turn for you).` O numero sai do MOTOR em runtime (a
+            // vida maxima FINAL do personagem em foco x a % do SACRIFICIO lida da descricao do ASSET
+            // da skill), na cor do valor dinamico do motor (`#CBB396`, o literal do `[N]`/`*N`) — ver
+            // a classe `HungerPatch` para a procedencia completa. A explicacao do calculo vai no
+            // nivel 2 (a nota do mod), como manda docs/TEXTO-TOOLTIPS.md §1. Sem personagem ou sem
+            // leitura, a linha do jogo fica INTACTA (nenhum numero inventado).
+            {
+                string linhaComValor;
+                string notaDoCalculo;
+                if (HungerPatch.TentaMontar(original, __result, out linhaComValor, out notaDoCalculo))
+                {
+                    __result = linhaComValor;
+                    if (!string.IsNullOrEmpty(notaDoCalculo))
+                    {
+                        __result = AnexarNota(__result, NotaDeExplicacao(notaDoCalculo));
+                    }
+                }
+            }
+
+            // BT-12 (01/10) — o BONUS DE DANO CALCULADO da passiva `Beserker's Blood` NA LINHA
+            // BRANCA, ao lado da REGRA ("por cada 1% de vida faltando") que o jogo ja mostra:
+            // `... gain 1% increased damage (23.3% increased damage right now).` O numero sai do
+            // MOTOR em runtime (a FRACAO de vida que falta no personagem em foco x o FATOR lido da
+            // propria FORMULA do asset da skill, `Source.HealthRatioInverse * 100`), na cor do
+            // valor dinamico do motor (`#CBB396`, o literal do `[N]`/`*N`) — ver a classe
+            // `BerserkersBloodPatch` para a procedencia completa e para a definicao de "vida
+            // perdida" (o motor NAO guarda campo dela: calcula `1 - vida atual / vida maxima`).
+            // A explicacao do calculo vai no nivel 2 (a nota do mod), como manda
+            // docs/TEXTO-TOOLTIPS.md §1. Sem personagem ou sem leitura, a linha do jogo fica
+            // INTACTA (nenhum numero inventado).
+            {
+                string linhaComValor;
+                string notaDoCalculo;
+                if (BerserkersBloodPatch.TentaMontar(original, __result, out linhaComValor, out notaDoCalculo))
+                {
+                    __result = linhaComValor;
+                    if (!string.IsNullOrEmpty(notaDoCalculo))
+                    {
+                        __result = AnexarNota(__result, NotaDeExplicacao(notaDoCalculo));
+                    }
+                }
+            }
+
+            // BT-13 (01/10) — o VALOR ABSOLUTO que as skills de ATRIBUTO EM PORCENTAGEM concedem NA
+            // LINHA BRANCA, ao lado do percentual que o jogo ja mostra: `Increase Intelligence by 20%
+            // (+20 Intelligence).` Vale para a FAMILIA inteira (sete skills, nove efeitos: os cinco
+            // `Light's *` a 20% e os dois T4 do Monk, `Strength` e `Speed`, a 15% em dois atributos
+            // cada) — a lista NAO esta digitada: `AtributoPercentualPatch` monta o indice do asset
+            // carregado, a partir de TODO efeito com metodo `Percentage` sobre um dos cinco atributos
+            // primarios do motor (`Game.Instance.LevelableCharacterAttributes`).
+            //
+            // O NUMERO NAO E "X% do que esta na tela". O motor MULTIPLICA o subtotal que existia antes
+            // das porcentagens (`CalculateAttribute`, scratch/sac1/Character.cs:41383-41390) e a ficha
+            // EXIBE o valor ja multiplicado — entao `20% de 120 = 24` seria falso; o que o motor
+            // acrescenta e `final * pct / (100 + SOMA das %)`, que da 20 tanto com a skill aprendida
+            // quanto so espiada na arvore. A procedencia completa (arquivo:linha, incluindo o teste do
+            // PROPRIO jogo que assere `depois = antes * 1.20`) esta no cabecalho da classe
+            // `AtributoPercentualPatch`. Sem personagem em foco, sem asset ou sem % constante, a linha
+            // do jogo fica INTACTA (nenhum numero inventado).
+            {
+                string linhaComValor;
+                string notaDoCalculo;
+                if (AtributoPercentualPatch.TentaMontar(original, __result, out linhaComValor, out notaDoCalculo))
+                {
+                    __result = linhaComValor;
+                    if (!string.IsNullOrEmpty(notaDoCalculo))
+                    {
+                        __result = AnexarNota(__result, NotaDeExplicacao(notaDoCalculo));
+                    }
                 }
             }
 

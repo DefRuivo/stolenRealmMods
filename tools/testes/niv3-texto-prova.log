@@ -1,0 +1,28 @@
+sha256(real, ANTES)                a43f314f34b84eef17594582b0fe1f3aad2f8a60740877ee129c2169377bab51
+sha256(copia original)             a43f314f34b84eef17594582b0fe1f3aad2f8a60740877ee129c2169377bab51
+
+=== A) A COPIA SEM DEFEITO: o teste tem de PASSAR ===
+NIV3-2 fechado: a linha de nivel 3 e composta DA FONTE (marcador 'Your skills on this status:', juncao de skills ' + ', juncao de itens '; ') e bate com a linha de log do jogo ('Frostbite I −2% damage per stack'); o caso positivo usa '+' e o negativo usa o U+2212. O plantio em memoria REPROVOU nos DOIS defeitos: a inversao (o sinal NEGATIVO do `ComSinal` tem de ser o menos U+2212, nao o hifen ASCII '-' (o valor de `Frostbite I` e -2): veio '+': esperado '−', obtido '+') e o hifen ASCII (o sinal NEGATIVO do `ComSinal` tem de ser o menos U+2212, nao o hifen ASCII '-' (o valor de `Frostbite I` e -2): veio '-': esperado '−', obtido '-')
+RESULTADO|PASSOU|nivel3-texto|NIV3-2: o TEXTO da linha de nivel 3 (sinergia) preso pela FONTE — o prefixo, a juncao de skills/itens e o SINAL nos dois casos (U+2212 no negativo, nao hifen); o sinal invertido e o hifen REPROVAM
+exit = 0
+
+=== B) O SINAL INVERTIDO (o defeito da DOC-17) ===
+sha256(copia PLANTADA)             e4be28c9322258398d363a839f7538b06582d70e501a3e39322c1704df55ec4b
+difere do original? True
+RESULTADO|REPROVOU|nivel3-texto|o sinal NEGATIVO do `ComSinal` tem de ser o menos U+2212, nao o hifen ASCII '-' (o valor de `Frostbite I` e -2): veio '+': esperado '−', obtido '+'
+exit = 1
+
+=== C) O HIFEN ASCII no lugar do U+2212 ===
+sha256(copia PLANTADA)             a1e8ce69179955c5c223ed787975697d360aa8520a70c85b839c8c814674d964
+difere do original? True
+RESULTADO|REPROVOU|nivel3-texto|o sinal NEGATIVO do `ComSinal` tem de ser o menos U+2212, nao o hifen ASCII '-' (o valor de `Frostbite I` e -2): veio '-': esperado '−', obtido '-'
+exit = 1
+
+=== D) RESTAURACAO BYTE A BYTE E CONFERENCIA ===
+sha256(copia RESTAURADA)           a43f314f34b84eef17594582b0fe1f3aad2f8a60740877ee129c2169377bab51
+sha256(real, DEPOIS)               a43f314f34b84eef17594582b0fe1f3aad2f8a60740877ee129c2169377bab51
+
+copia restaurada == copia original?  True
+real antes == real depois?            True
+
+REPROVOU nos dois defeitos e voltou byte a byte; o arquivo do repo nunca mudou.

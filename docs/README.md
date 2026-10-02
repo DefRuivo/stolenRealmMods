@@ -18,6 +18,7 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 |---|---|---|
 | `README.md` | mantenedor | **Este índice** + o ritual de build. |
 | `PROCESSO-REVISAO.md` | mantenedor | O **padrão de revisão do projeto**: toda tarefa executada gera uma revisão **independente** (feita por quem não escreveu a mudança, com prova: commit, arquivos e saída das ferramentas) **antes** de qualquer validação ou aprovação humana. |
+| `TEXTO-TOOLTIPS.md` | mantenedor | A **convenção de texto e cor das tooltips**: os **três níveis** (branco = descrição curta com os valores dinâmicos; tom mais escuro = explicação de termos e cálculos; azul = acúmulo das auras de shrine e efeitos provenientes de skills), a **procedência declarada de cada cor** (campo de cor do próprio jogo lido em runtime — cor sem procedência é número inventado) e o teste de comprimento do nível 2 medido pelo `tools/check_notas_redundantes.py`. |
 | `CI.md` | mantenedor | Os **dois workflows** de GitHub Actions: `validate.yml` (só **valida**, a cada `push`/PR na `main`) e `publish.yml` (**manual**, com gate humano), os 7 passos do CI na ordem, como rodar tudo na mão e as armadilhas. |
 | `PUBLICACAO.md` | mantenedor | Publicação na Thunderstore: as regras da plataforma, o gate versionado `release/mods.json`, o Environment `thunderstore`, o passo a passo de um release e as armadilhas. |
 | `AMBIENTE.md` | mantenedor | Ambiente reproduzível: versões validadas (BepInEx, Unity, .NET, Python), caminhos do jogo e do perfil do r2modman, a decisão sobre a `StolenRealmModAPI` e a regra de backup de DLL. |
@@ -117,8 +118,12 @@ que são os que **travam** a release.
 
 ```bash
 cd C:/dev/stolen-realm
-LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj --nologo -v q -clp:ErrorsOnly
+LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
 ```
+
+A `-p:DeployToBepInEx=false` é o que mantém este passo **local**: **sem ela o target
+`DeployToBepInEx` roda e copia a DLL para o perfil do r2modman** (`plugins\<Mod>\`) — é isso que
+instala, e é por que um `dotnet build` comum escreve no ambiente do dono.
 
 Troque pelo mod que você mexeu (`BetterStats/BetterStats.csproj`,
 `BetterFont/BetterFont.csproj`,
@@ -151,8 +156,9 @@ aceita chave repetida — o `Add` estoura `ArgumentException`, e como as tabelas
 carrega e o mod todo morre** (não se perde só a entrada nova). Aconteceu com `Slam` e
 `Crushing Slam`, que têm o **texto idêntico** e viraram duas chaves iguais. O
 `check_fix_keys` **não pega** esse caso (com chave repetida a contagem continua
-"certa"); por isso o `check_dupes` existe. Saída medida em 01/10/2026 (12:31):
-`TextFixes 101 entradas | duplicadas: nenhuma` e `TextAppends 195 entradas | duplicadas: nenhuma`
+"certa"); por isso o `check_dupes` existe. Saída medida em 01/10/2026 (14:36), depois do lote
+ARM-1 (as duas notas de família de arma):
+`TextFixes 101 entradas | duplicadas: nenhuma` e `TextAppends 197 entradas | duplicadas: nenhuma`
 (o `tools/audita_docs.py`, passo 7, compara estes dois números com o `LocalizePatch.cs` — é por
 ele que um `TextAppends N entradas` escrito de memória vira CI vermelho). **Limite conhecido
 deste check:** ele só confere a forma `TextFixes N entradas` / `TextAppends N entradas`; contagem
@@ -174,13 +180,13 @@ famílias: **nota == chave** (duplicado na tela), **nota inteiramente contida na
 em texto onde Armor é **fonte** de dano e não mitigação (casos `Battle Ready` e `Diamond
 Ice`, barrados no código por `ArmorValueSourceRegex`).
 
-Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 30/09/2026 (17:21):
-**195 notas analisadas, 0 casos** (as duas notas redundantes que existiam — `Blind` e `Sleep` —
-foram removidas). O número é o que o `check_notas_redundantes.py` imprime
-(`notas analisadas ......... 195`) e o que o próprio relatório declara. Ele acompanha as tabelas do
-`LocalizePatch.cs`: um `206 notas` que estava escrito aqui era divergência contra a ferramenta —
-**quem manda é a ferramenta**, e o valor já mudou de novo (205 → 195) quando o lote de terminologia
-do RV-14 moveu entradas de `TextAppends` para `TextFixes`.
+Relatório: `docs/cobertura/revisao/RV-15-notas-redundantes.md`. Estado em 01/10/2026 (ARM-1):
+**197 notas analisadas, 0 casos** — e a mesma saída passa a valer como trava da **cor do nível
+2** (nota sem o marcador `#C8B090` sai como caso) e como **medida de comprimento** (as notas com
+quebra de linha interna são listadas; comprimento não reprova — quem decide encurtar é o dono,
+ver `TEXTO-TOOLTIPS.md` §4). **Quem manda é a ferramenta** — o número em prosa sempre foi
+divergência quando não bateu com o que ela imprime (o valor mudou 205 → 195 quando o lote de
+terminologia do RV-14 moveu entradas de `TextAppends` para `TextFixes`).
 
 ### Passo 5 — `check_chave_compartilhada --estrito`: **TRAVA OBRIGATÓRIA** (`BUG-32`)
 
@@ -209,7 +215,10 @@ detector sem tocar no `LocalizePatch.cs`: `--estrito --fonte OUTRO.cs`.
 
 ### Passo 6 — instalar a DLL no perfil do r2modman
 
-O build já traz o target `DeployToBepInEx` (INFRA-1) que copia a DLL sozinho. Se
+**Este passo escreve no ambiente do dono.** O destino é `BepInEx\plugins\<Mod>\` dentro do
+perfil do r2modman (`%APPDATA%\r2modmanPlus-local\...`). O build já traz o target
+`DeployToBepInEx` (INFRA-1) que copia a DLL sozinho **por padrão** — é justamente isso que os
+passos anteriores desligam com `-p:DeployToBepInEx=false` para não instalar sem querer. Se
 precisar fazer na mão (ou para conferir que a cópia aconteceu):
 
 ```bash
@@ -327,15 +336,16 @@ reprova e a release para.
 | `checa_shrines.py` | **CHK-1:** confere o `LogOutput.log` (linhas `[Shrine RV-23]`) e o dump do `RoguelikeDebugger` contra `tools/dados/shrines-esperado.csv`: **OK / ACHADO / AUSENTE / NAO-VER** por aura × caso (0, +20, +100), com observado, esperado e diferença; cross-check da base contra o dump do próprio jogo; checagem de aditividade do `resto` (total − aura). **Lista o que não foi exercitado** — ausência não vira aprovação (exit 0 só com tudo exercitável verde; 1 = achado; 3 = incompleto). | Depois de cada rodada em jogo nos shrines (roteiro no `revisao/CHK-1-shrines-conferencia-mecanica.md`). |
 | `check_fix_keys.py` | Confere as chaves de `TextFixes`/`TextAppends` contra o censo. | **Passo 2 do ritual**; passo 2 do CI. As 4 chaves de UI/loading fora do censo são **aviso**, não erro. |
 | `check_dupes.py` | Chave **duplicada** nas tabelas do `LocalizePatch` (`INC-1`). | **Passo 3 do ritual — TRAVA**; passo 3 do CI. |
+| `tabelas.py` | O **parser único** das tabelas `TextFixes`/`TextAppends` do `LocalizePatch.cs`: `bloco()` (acha o dicionário pelo `NOME = new Dictionary` e casa as chaves de fechamento) e `entradas()` (lê os pares) pulando comentário de **linha** (`//`) e de **bloco** (`/* */`) em todo passo. É a **fonte da verdade** da contagem oficial — os leitores que aparecem nesta tabela são **wrappers/consumidores** dele (`check_chave_compartilhada`, `check_dupes`, `check_notas_redundantes`, `check_fix_keys`, `check_omissao`, `check_scaling`, `review_ledger`, `regras_cor`), e o `t_parser_comentario_na_chave.py` cross-verifica os oito. | Não roda sozinho: é **importado**. `python tools/tabelas.py` roda a prova local (as entradas com comentário de linha e de bloco TÊM de ser vistas). |
 | `check_versoes.py` | **PKG-2 (só olha o repositório, sem build):** confere se a versão de cada mod bate nos **três** lugares — `<Mod>/<Mod>.csproj` (`<Version>`, a fonte), `<Mod>/manifest.json` (`version_number`) e `<Mod>/Plugin.cs` (`[BepInPlugin(...)]`). Importa o parser do `pack-thunderstore.py`, então o gate e o empacotador nunca discordam sobre "qual é a versão". | Medido em 30/09/2026: **não** é chamado pelo `release-check.sh` nem pelos workflows (conferido com `grep`) — roda à mão quando se quer a trava de versão antes de empacotar. |
 | `verify_tree.py` | Bancada por árvore: junta o texto da skill com o código (`attr`, `expr`, `danoExpr`, ações, status) → `docs/cobertura/revisao/ficha-<arvore>.md`. | Revisão de uma árvore de skills (gera a ficha). |
 | `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. | Revisão de conteúdo das skills (RV-8b). |
 | `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. | Revisão da gramática de texto (RV-8a). |
-| `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? | Revisão de conteúdo, quando a dúvida é "falta informação". |
-| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Mede **195** notas e sai com exit 1 se achar caso. | **Passo 4 do ritual**; passo 4 do CI. **Regenera** `docs/cobertura/revisao/RV-15-notas-redundantes.md` a cada execução. |
+| `check_omissao.py` | A tooltip omite algo que muda a decisão do jogador? → `revisao/omissoes.md`. Desde o PARSER-1 (01/10) a coluna "o que o mod já cobre" lê o parser único (`tools/tabelas.py`): o regex antigo varria o arquivo inteiro e colhia **4 chaves fantasma** de inicializadores fora dos blocos (`Armor increased by 5%`, `Increased Armor`, `Elemental resistance reduced by 5% per stack`, `Life Steal`), **duas delas casando com o censo** — o relatório antigo tinha 2 "já cobertas" **falsas**. O total caiu de 302 para **298** (as entradas reais das duas tabelas): a mudança é para **mais estrito** e é ganho, não perda de cobertura. | Revisão de conteúdo, quando a dúvida é "falta informação". |
+| `check_notas_redundantes.py` | A nota **repete** o que o texto já diz? (RV-15: `nota == chave` — duplicado na tela; nota contida na chave; nota que ecoa ≥ 6 palavras; e a família contextual — nota de Armor em texto onde Armor é *fonte* de dano). Mede **197** notas e sai com exit 1 se achar caso. Desde o COR-1 (01/10) confere também a **cor do nível 2**; **desde o COR-2 (01/10) a cobertura é fechada**: confere **toda cor de todo valor** de `TextAppends` e de `TextFixes` (em **qualquer** formato — a primeira versão só olhava `\n\n<color=#…>` e ignorava 10 das 21 entradas com cor, incluindo **duas das 12 notas de shrine**), com a regra “cor que o **jogo já escrevia na chave** é legítima” (o `#808080` de citação) e o critério “**explicação E efeito**” (correção + nota no mesmo valor); o parser passou a ler as entradas com **comentário dentro do `{`** (o formato “chave em linha própria”); e **mede o comprimento** das notas (as com quebra interna saem listadas; comprimento não reprova — ver `TEXTO-TOOLTIPS.md` §4). A cor é aplicada **pelo gancho das notas** (§7), então a ordem de gancho não decide nada. | **Passo 4 do ritual**; passo 4 do CI. **Regenera** `docs/cobertura/revisao/RV-15-notas-redundantes.md` a cada execução (`--fonte OUTRO.cs` confere outra fonte e **não** regrava o relatório — é o que a isca em `tools/testes/contra-prova/` usa). |
 | `preserva_curado.py` | Guarda do trecho **curado a mão** dos relatórios que a ferramenta reescreve: relê a parte escrita à mão (marcador `<!-- fim-gerado -->`) e a regrava **idêntica**, abortando com `CuradoPerdido` se ela sumir. Não é chamado pelo CI: é **importado** pelo `check_notas_redundantes.py` e pelo `check_terminologia.py`. | Junto desses dois checks (a guarda roda dentro deles) e às mãos quando se quer conferir a preservação sem rodar a varredura. |
-| `check_chave_compartilhada.py` | Varredura de **chave compartilhada** (BUG-32) contra o censo: (a) **a mesma chave nas duas tabelas** — `TextFixes` executa e `TextAppends` nunca roda, a nota não existe em jogo sem erro no log → **exit 1 com `--estrito`** (**passo 5 do ritual, trava**); (b) **suspeitas** (texto com nota usado por 2+ entidades) → aviso que **não** reprova, decisão humana. `--fonte OUTRO.cs` aponta o parser para outro fonte (teste do detector). É também o **parser único** do `LocalizePatch.cs` (o `check_dupes.py` o importa): a contagem oficial de `TextFixes`/`TextAppends` sai daqui. | **Passo 5 do ritual — TRAVA** (`BUG-32`); passo 5 do CI. Os dois chamam `--estrito`. |
-| `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. | Revisão de conteúdo, quando a dúvida é "escala sem dizer". |
+| `check_chave_compartilhada.py` | Varredura de **chave compartilhada** (BUG-32) contra o censo: (a) **a mesma chave nas duas tabelas** — `TextFixes` executa e `TextAppends` nunca roda, a nota não existe em jogo sem erro no log → **exit 1 com `--estrito`** (**passo 5 do ritual, trava**); (b) **suspeitas** (texto com nota usado por 2+ entidades) → aviso que **não** reprova, decisão humana. `--fonte OUTRO.cs` aponta o parser para outro fonte (teste do detector). O **parser único** do `LocalizePatch.cs` é o `tools/tabelas.py` (a fonte da verdade); este script é um **wrapper** migrado sobre ele (o `check_dupes.py` o importa por contrato histórico) e a contagem oficial de `TextFixes`/`TextAppends` sai do `tabelas.py` — todos os leitores chegam à mesma definição. | **Passo 5 do ritual — TRAVA** (`BUG-32`); passo 5 do CI. Os dois chamam `--estrito`. |
+| `check_scaling.py` | A skill escala com algo que a tooltip não diz? → `revisao/escala.md`. Desde o PARSER-1 (01/10) a lista "já resolvido pelo mod" lê o parser único (`tools/tabelas.py`): o regex antigo varria o arquivo inteiro e colhia 4 chaves fantasma (duas casando com o censo), então o relatório antigo tinha 2 "já cobertas" **falsas**; o total caiu de 302 para **298** e a mudança é para **mais estrito** (ganho, não perda de cobertura). | Revisão de conteúdo, quando a dúvida é "escala sem dizer". |
 | `check_status_numeros.py` | Os números da descrição do status existem nos efeitos? (RV-9) | Revisão de status (RV-9). |
 | `check_terminologia.py` | Consistência de **termos** no jogo inteiro (RV-14, regra da maioria). | Revisão de terminologia (RV-14). |
 | `analisa_conferir.py` | Desmonta os itens "conferir" de uma ficha: o que o código diz sobre aquele número. | Ao fechar uma ficha, para resolver cada "conferir". |

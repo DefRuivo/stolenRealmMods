@@ -1,0 +1,83 @@
+PROVA-DE-FOGO BT-12F — o FORMATO do `Beserker's Blood` e a trava que faltava no teste VERSIONADO
+
+O QUE ESTE LOG REGISTRA
+-----------------------
+A BT-12F (01/10) alinhou o `BerserkersBloodPatch.InsereValorNaLinha` ao formato da familia (a
+frase do jogo TERMINA no ponto; o mod CORTA o ponto e SOLDA o parenteses no fim, fechando de novo
+em `).`) — antes, o parenteses entrava DEPOIS do ponto (`... gain 1% increased damage. (<cor>23.3
+</cor>% increased damage right now)`), a assinatura do defeito que a BT-10F ja tinha consertado no
+Reaper's Toll. O teste versionado `tools/testes/testes/puros/t_bt12_berserkers_blood.py` cobria so
+o CALL SITE e a ancora do fator: NENHUMA checagem prendia o SUFIXO/FORMATO. Este log mostra a
+trava NOVA sendo vista REPROVANDO contra o formato ANTIGO, como manda a regra do projeto
+(docs/PLANO-DE-TESTES.md: "todo teste tem de ser mostrado reprovando").
+
+COMO FOI FEITO
+--------------
+O defeito foi plantado NA FONTE REAL do repositorio (BetterTooltips/Patches/BerserkersBloodPatch.cs)
+e o teste VERSIONADO foi rodado; exigiu-se exit 1 (REPROVOU) e RESTAUROU-SE o arquivo byte a byte a
+partir do snapshot em memoria, com sha256 conferido ANTES e DEPOIS. Leitura/escrita em BYTES (sem
+traducao de fim de linha). O driver e `scratch/bt12/prova_de_fogo_formato.py` (gitignored, como os
+outros de `scratch/`); o teste e o fonte do repo sao os versionados.
+
+sha256 dos arquivos envolvidos (inicio = fim; a rodada restaurou tudo):
+8c77af894fb13695a469fdd373ad040d5c07af47a5ddf4acb9fe3d2bb87f6342 *BetterTooltips/Patches/BerserkersBloodPatch.cs
+fdbb60b72392ca982be3a863eb671250ed35d871604f60808cfe083c4e04a45c *tools/testes/testes/puros/t_bt12_berserkers_blood.py
+35bf1cee1b5714eecd18f59e11f699b4bcb42e5e10d6f7ce556f4ae3c3a129dd *tools/testes/fixtures/bt12-berserkers-blood.entrada.json
+
+SAIDA DA RODADA (verbatim)
+--------------------------
+$ python scratch/bt12/prova_de_fogo_formato.py
+PROVA-DE-FOGO BT-12F — o defeito e plantado na fonte REAL e restaurado byte a byte
+
+[OK] BT-12F isca A: o FORMATO ANTIGO inteiro (a linha do jogo + o sufixo, sem cortar o ponto)
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=8c77af894fb13695
+      RESULTADO|REPROVOU|bt12-berserkers-blood|o recorte de `private static string InsereValorNaLinha(string linhaDoJogo, string valor)` parou antes do fim do metodo: faltou 'sufixo + "."' (tem de ser o corpo inteiro por casamento de chaves, nunca uma janela)
+
+[OK] BT-12F isca B: o PONTO NO MEIO (o `(` do sufixo DEPOIS do ponto)
+      exit=1 (1 = REPROVOU, o esperado) | restaurado byte a byte=True | sha256=8c77af894fb13695
+      RESULTADO|REPROVOU|bt12-berserkers-blood|o sufixo nao abre com `" (<color=#"` — o `(` tem de vir colado no espaco, nunca depois do ponto (o `. (` e a assinatura do defeito da BT-12F)
+
+RESULTADO: TODAS as iscas reprovaram e TUDO foi restaurado
+
+------------------------------------------------------------------------------------------------
+PROVA-DE-FOGO da bancada da BT-12 (scratch/bt12/iscas_rodar.py) — agora com a isca F (o FORMATO
+ANTIGO). O item 6 do `verifica.py` passou a LER o formato do FONTE (o sufixo abre com `" (<color=#"`
+e os DOIS ramos de retorno fecham em `+ "."`), entao a isca F e pega por ele.
+
+$ python scratch/bt12/iscas_rodar.py
+PROVA-DE-FOGO do verifica.py / parser_csharp.py (o fonte do repo nao e tocado)
+---- isca A_fator_digitado.cs (verifica.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] o fator sai de `FatorDaFormula(skill)` — o efeito de atributo do asset carregado
+   [FALHA] o codigo NAO atribui nenhum literal NAO-NULO a `fator` (o fator nao esta digitado)
+   BT-12 verificacao: REPROVOU (2 falha(s))
+---- isca B_bonus_constante.cs (verifica.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] a conta e `bonus = razaoPerdida * fator` — a MESMA da formula do asset
+   BT-12 verificacao: REPROVOU (1 falha(s))
+---- isca C_fracao_constante.cs (verifica.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] o fonte le `razaoPerdida = personagem.HealthRatioInverse` (a FRACAO que falta, do MOTOR)
+   BT-12 verificacao: REPROVOU (1 falha(s))
+---- isca D_numero_nao_conferido.cs (verifica.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] um lado e REFERENCIA a HealthRatioInverse, o outro e UM numero constante — o resto recusa
+   BT-12 verificacao: REPROVOU (1 falha(s))
+---- isca E_ancora_afrouxada.cs (parser_csharp.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] "Source.SavedMap["HealthRatioInverse"] * 100" -> LEU 100
+   [FALHA] "Source.HealthRatioInverseValue * 100" -> LEU 100
+   [FALHA] "Mathf.Max(1, Source.HealthRatioInverse) * 100" -> LEU 100
+   [FALHA] "-Source.HealthRatioInverse * 100" -> LEU 100
+   PARSER C#: REPROVOU (4 falha(s))
+---- isca F_formato_ponto_no_meio.cs (verifica.py; exit 1; 1 = REPROVOU, que e o esperado) ----
+   [FALHA] o sufixo abre com `" (<color=#"` — o `(` colado no espaco, nunca depois do ponto
+   [FALHA] o sufixo NAO abre com `". (<color=#"` — o parenteses nao ficou DEPOIS do ponto
+   BT-12 verificacao: REPROVOU (2 falha(s))
+
+RESULTADO: A_fator_digitado.cs reprovou=True | B_bonus_constante.cs reprovou=True | C_fracao_constante.cs reprovou=True | D_numero_nao_conferido.cs reprovou=True | E_ancora_afrouxada.cs reprovou=True | F_formato_ponto_no_meio.cs reprovou=True -> PROVA-DE-FOGO OK
+
+------------------------------------------------------------------------------------------------
+A LINHA MONTADA pelo patch consertado (do teste VERSIONADO, verbatim):
+
+For every 1% of health missing, gain 1% increased damage (<color=#CBB396>23.3</color>% increased damage right now).
+
+— que e o formato que o comentario do `LocalizePatch.cs` (linha ~2603) ja esperava
+"... gain 1% increased damage (23.3% increased damage right now)." e o que a secao 3 do
+docs/TEXTO-TOOLTIPS.md descreve (a frase do jogo termina no ponto; o mod corta o ponto e solda o
+parenteses no fim).
