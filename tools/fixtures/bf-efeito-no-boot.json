@@ -1,0 +1,31 @@
+{"o_que": "Quantos textos TMP do boot real tem EFEITO no material (contorno/sombra/glow) - a MEDICAO que a BF-3 exige no lugar do '5' digitado no teste.",
+  "por_que_existe": "A revisao independente da BF-2R mostrou que o teste assumia 'efeitos_no_boot = 5' sem medir. O numero que decide o teto de EFEITO e a QUANTIDADE REAL de textos com efeito num boot, e ela e muito maior que 5: o teto de 300 e alcancado num boot de verdade, e por isso o orcamento tem de ser POR CENA (BF-2R) e o pulado pelo escape tem de ter teto PROPRIO (BF-3).",
+  "universo_de_textos": 488,
+  "com_efeito_no_material": 365,
+  "com_efeito_no_material_e_piso": true,
+  "convertidos_com_marca_de_efeito": 256,
+  "intocados_por_efeito_nao_transportavel": 109,
+  "convertidos_sem_marca_de_efeito_no_log": 0,
+  "omitidos_pelo_teto_de_efeito": 123,
+  "derivacao": "Da varredura completa do boot: '379 texto(s) convertidos ... 109 intocado(s) por efeito nao transportavel' (379 + 109 = 488, o universo). Os 109 intocados entram TODOS pelo ramo que exige efeito presente no material ('PULADO (efeito do material nao transportavel: ... GLOW_ON ...)') -> 109 com efeito, garantidos. Das 379 conversoes, o diagnostico daquele boot traz 256 linhas 'CONVERTIDO (efeito do material anterior transportado)' (material COM efeito) e ZERO linhas 'CONVERTIDO' sem a marca. Logo 256 + 109 = 365 com efeito COMPROVADO, e 488 - 365 = 123 textos cuja classificacao NAO esta no log.",
+  "correcao_da_derivacao_original": "CORRIGIDA no FIX-6 (achado 3 da REV-56). A versao anterior chamava os 123 de 'sem_efeito_no_material', derivando-os de 379 - 256 = 123 e afirmando que 'as outras 123 saem como CONVERTIDO (material sem efeito)'. O LOG CITADO DESMENTE: na janela da cena GameSceneNew ha ZERO linhas CONVERTIDO sem a marca de efeito, NENHUM aviso de corte de rotina, e o corte de EFEITO foi atingido em EXATAMENTE 300 linhas ('limite de 300 linhas de efeito atingido - restante omitido', depois de 254 'CONVERTIDO (efeito ...)' + 46 'PULADO (efeito do material nao transportavel)' = 300). Ou seja: os 123 nao sairam como CONVERTIDO - foram OMITIDOS pelo teto de efeito, e nao se sabe se tem efeito. O numero sobrevive como PISO do lado do 'com efeito' (365), nunca como 'sem efeito'.",
+  "conferencia": "256 + 109 = 365 (com efeito, PISO) e 379 + 109 = 488 (universo DAQUELE instante: a varredura fecha 379 convertidos + 109 intocados com 0 'ja na serifa', ou seja, foi a primeira passada completa; o proprio probe da CAP-1 mediu total_tmp_text = 488 no mesmo boot). O teto de efeito da cena GameSceneNew bate EXATAMENTE em 300 linhas de efeito - e o log diz que o restante foi omitido.",
+  "limite_da_medicao": "E um PISO: 'com_efeito_no_material' = 365 e o minimo COMPROVADO (os 123 omitidos pelo teto podem ter efeito tambem). E isto - a escala REAL de textos com efeito num boot - que o teste do teto de EFEITO usa; o dimensionamento do TetoDiagEscape NAO sai daqui (ver 'relacao_com_o_teto' e 'varredura_posterior').",
+  "varredura_posterior": {
+    "textos": 793,
+    "convertidos": 353,
+    "intocados": 61,
+    "ja_na_serifa": 379,
+    "fonte": "scratch/cap1/out/LogOutput-desta-rotina.log:3401 (verbatim: '353 texto(s) convertidos ... 61 intocado(s) por efeito nao transportavel ... 379 ja na serifa') - NAO versionada: a copia arquivada vive em scratch/, que o .gitignore ignora.",
+    "situacao_no_fix8": "REFUTADA como base de projecao de pulados. Esta varredura NAO foi feita com o escape ligado: 353 convertidos + 61 intocados + 379 ja na serifa = 793 EXATO, com ZERO pulados. E, mesmo tomando o total como base, so 793 - 379 = 414 textos chegam ao escape (o que ja esta na serifa nao passa por ele) - e a fracao de pulo versionada (624/628 = 0,9936) daria ~411 pulados, MUITO abaixo dos 700 antigos. A projecao do FIX-6 (793 x 0,975 = 773) usava denominador errado (o total, nao os candidatos) e um numero que NAO esta em arquivo versionado.",
+    "por_que_ficou_registrada": "Sobrevive aqui como procedencia do que foi MEDIDO em jogo (a escala cresce: a primeira passada ve 488, a seguinte 793 objetos) - nunca como conta do teto. O teto do escape usa o log VERSIONADO (tools/fixtures/bf-varredura-em-jogo.log): maior varredura 640 textos, 12 ja na serifa, 624 pulados -> 628 candidatos, 624/628 = 0,9936."
+  },
+  "fonte_medida": {
+    "arquivo": "scratch/cap1/out/LogOutput-desta-rotina.log",
+    "boot": "01/10/2026 13:47-13:52, rotina CAP-1 (mesma sessao do capprobe.json)",
+    "mod_medido": "BetterFont 1.0.2 local (rodada D do FNT-1), PularTextosEstilizados=false, LogDiagnosticoEstilo=true",
+    "nota_de_worktree": "scratch/ e gitignored - o arquivo acima e a copia que a rotina deixa; as linhas cruas de resumo da varredura estao versionadas, verbatim, em tools/fixtures/bf-varredura-em-jogo.log."
+  },
+  "relacao_com_o_teto": "365 textos com efeito (PISO) > 300 (TetoDiagEfeito): num boot real o teto de EFEITO E alcancado (o log traz 'limite de 300 linhas de efeito atingido'). E o que prova que o orcamento precisa ser POR CENA e que a linha que interessa nao pode depender de sobrar orcamento de efeito. Ja o TETO DO ESCAPE NAO sai daqui: pelo log VERSIONADO o maior pulo de uma cena e 624 (640 textos, 12 ja na serifa -> 628 candidatos, 624/628 = 0,9936), entao o teto so precisa passar de 624 - o antigo 700 ja cobria e o 900 NAO e necessario (fica como folga de limite de log).",
+  "quem_le": "tools/testes/regras_bf.py:textos_com_efeito_no_boot() -> tools/testes/testes/puros/t_bf_diag_orcamento.py. A conta do TETO DO ESCAPE sai de regras_bf.maior_pulado_medido()/candidatos_ao_escape()/fracao_de_pulo_da_maior_varredura(), lida do log VERSIONADO tools/fixtures/bf-varredura-em-jogo.log."
+}

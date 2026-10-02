@@ -63,6 +63,16 @@ LIMITES (o que este gerador NAO prova)
 3. `total_esperado` so existe onde ha print do dono no repositorio. Os demais totais dependem do
    personagem e NAO sao gerados (o conferidor cobra so a parcela das auras e a aditividade).
 4. Nada aqui olha o texto que o jogador ve: a leitura visual final continua sendo do dono.
+5. A BASE das 3 auras lidas do asset sai de uma JANELA DE OFFSET documentada (RV-19 §8), lida nos
+   BYTES de `resources.assets` — um blob serializado, onde nao ha estrutura de chaves para casar
+   (o unico recorte estrutural do projeto casa `{`/`}` de C#). A janela e o RECORDE do status e a
+   formula do EIXO documentado da aura (`Target` no Dwarven; `Source` no Decay e no Flame) tem de
+   ser UNICA nela: 0 formulas do eixo ou >1 base DISTINTA -> `SystemExit` nomeando o range e quantas
+   achou (a "primeira" nunca vence em silencio). Copias IDENTICAS da mesma formula contam como UMA
+   (o RV-19 §8 documenta a MESMA string 2x no Dwarven) — o que o gerador recusa e a AMBIGUIDADE.
+   A leitura continua NAO estrutural (nao le a string length-prefixed do Odin em `offset - 4` nem
+   ancora pelo nome do status): a FORMATO-9 julgou o conserto barato suficiente. A medicao que
+   motivou isto esta no relatorio `tools/FORMATO-7-faixa-e-janela-binaria.md` §2.
 """
 
 import argparse
@@ -99,11 +109,23 @@ AURAS_CSV = [
 ]
 
 # 3 auras cuja base NAO esta no censo (coluna `efeitos` vazia) - lidas do asset.
-# (nome, tipo, janela documentada (ini, fim) em RV-19 §8, nota)
+# (nome, tipo, eixo esperado, janela (ini, fim) = RECORDE do status, nota)
+#
+# EIXO: e DOCUMENTADO (RV-19 §5/§8: o Dwarven usa `Target`, o Decay e o Flame usam `Source`) e e
+# ele que liga a formula ao dono. O gerador exige UMA base DISTINTA desse eixo na janela; uma
+# formula do OUTRO eixo que caia ali nao conta como candidata.
+#
+# FIM DA JANELA: o offset do PROXIMO status da familia em RV-19 §8, NAO uma folga escolhida a mao
+# (Dwarven -> Energy Coil @1517116232; Decay -> Dwarven @1517115056; Flame -> Goblin Battle Standard
+# @1517121808). Com fins largos a janela varria o status VIZINHO e a 1a formula que casava vencia
+# em SILENCIO (o defeito latente medido pela FORMATO-7). O INICIO continua o status documentado.
 AURAS_ASSET = [
-    ("Dwarven Aura", "buff", (1517115056, 1517117400), "stun: nao ha atributo de personagem para ler"),
-    ("Decay Shrine Aura", "perigo", (1517113960, 1517116000), "dano por turno (acao `Decay Aura Proc`)"),
-    ("Flame Shrine Aura", "perigo", (1517120720, 1517123000), "dano de retalicao (acao `Flame Aura Proc`)"),
+    ("Dwarven Aura", "buff", "Target", (1517115056, 1517116232),
+     "stun: nao ha atributo de personagem para ler"),
+    ("Decay Shrine Aura", "perigo", "Source", (1517113960, 1517115056),
+     "dano por turno (acao `Decay Aura Proc`)"),
+    ("Flame Shrine Aura", "perigo", "Source", (1517120720, 1517121808),
+     "dano de retalicao (acao `Flame Aura Proc`)"),
 ]
 
 # Acoes com a formula do dano no campo `Effects[0].Action` (janela UTF-16, RV-19 §8).
@@ -212,8 +234,19 @@ def bases_do_censo(aura, caminho_csv=None):
                      % (aura, caminho))
 
 
-def bases_do_asset(asset, aura, janela):
-    """Le a base da EXPRESSAO do status dentro da janela documentada (status em ASCII/UTF-8)."""
+def bases_do_asset(asset, aura, eixo_esperado, janela):
+    """Le a base da EXPRESSAO do status dentro da janela documentada (status em ASCII/UTF-8).
+
+    CONTRATO (FORMATO-9): a janela e o RECORDE do status (RV-19 §8) e a formula do EIXO documentado
+    da aura tem de ser UNICA nela. Sao coletadas TODAS as formulas da janela e o resultado so sai
+    se houver EXATAMENTE UMA base DISTINTA do eixo esperado:
+      * 0 formulas do eixo  -> SystemExit nomeando o range e quantas achou (nem uma, nem outra aura);
+      * >1 base DISTINTA    -> SystemExit nomeando o range e as bases (a "primeira" NAO vence);
+      * copias IDENTICAS    -> contam como UMA (o RV-19 §8 documenta a MESMA string 2x no Dwarven:
+                               o que o gerador recusa e a AMBIGUIDADE, nunca a repeticao do mesmo).
+    Nunca devolve a primeira em silencio e nunca chuta: e a diferenca entre "fonte ausente/mudou"
+    (falha alta) e "aceitar a formula de OUTRA aura sem dizer nada" (o defeito latente da FORMATO-7).
+    """
     if not asset:
         raise SystemExit(
             "FALHA: a base de '%s' mora no resources.assets (o censo nao le esse campo) e nenhum install "
@@ -221,20 +254,35 @@ def bases_do_asset(asset, aura, janela):
             "  -> sem a fonte, o gerador FALHA em vez de chutar." % aura)
     ini, fim = janela
     bruto = ler_janela(asset, ini, fim)
+    vistas, casam = [], []           # casam: (base, eixo, offset absoluto)
     pos = bruto.find(b"Mathf.Round(")
-    vistos = 0
     while pos >= 0:
-        vistos += 1
+        vistas.append(ini + pos)
         txt = bruto[pos:pos + 120].split(b"\x00", 1)[0].decode("latin-1", errors="replace")
         m = RE_FORMULA_STATUS.search(txt)
         if m:
-            return float(m.group(1)), m.group(2), "resources.assets@%d" % (ini + pos)
+            casam.append((float(m.group(1)), m.group(2), ini + pos))
         pos = bruto.find(b"Mathf.Round(", pos + 1)
-    raise SystemExit(
-        "FALHA: a base de '%s' NAO foi encontrada em resources.assets na janela documentada (%d..%d, "
-        "RV-19 §8) [%d ocorrencias de `Mathf.Round(` vistas, nenhuma com o fator]. O install mudou? "
-        "-> confira o offset em %s §8 e atualize aqui; o gerador NAO chuta a base."
-        % (aura, ini, fim, vistos, RV19))
+
+    do_eixo = [(b, off) for b, e, off in casam if e == eixo_esperado]
+    distintas = sorted({b for b, _ in do_eixo})
+    if len(distintas) != 1:
+        if not do_eixo:
+            motivo = ("nenhuma formula do eixo '%s' (%d na forma da expressao sao de OUTRO eixo)"
+                      % (eixo_esperado, len(casam)))
+        else:
+            motivo = ("%d bases DISTINTAS do eixo '%s': %s"
+                      % (len(distintas), eixo_esperado,
+                         ", ".join("%g" % d for d in distintas)))
+        raise SystemExit(
+            "FALHA: a base de '%s' NAO e unica em resources.assets na janela documentada "
+            "(%d..%d, RV-19 §8): %d ocorrencia(s) de `Mathf.Round(`, %d na forma da expressao, "
+            "%s. A formula do eixo tem de ser UNICA - o gerador NAO devolve a primeira em silencio. "
+            "O install mudou? -> confira o offset em %s §8 e atualize aqui; o gerador NAO chuta a base."
+            % (aura, ini, fim, len(vistas), len(casam), motivo, RV19))
+    base = distintas[0]
+    off = next(off for b, off in do_eixo if b == base)
+    return base, eixo_esperado, "resources.assets@%d" % off
 
 
 def percentuais_das_acoes(asset):
@@ -286,8 +334,8 @@ def monta_tabelas(asset, caminho_csv=None):
         for atributo, base, eixo, fonte in bases_do_censo(aura, caminho_csv):
             registros.append({"aura": aura, "atributo": atributo, "tipo": "buff", "base": base,
                               "eixo": eixo, "fonte_base": fonte, "nota": ""})
-    for aura, tipo, janela, nota in AURAS_ASSET:
-        base, eixo, fonte = bases_do_asset(asset, aura, janela)
+    for aura, tipo, eixo_esperado, janela, nota in AURAS_ASSET:
+        base, eixo, fonte = bases_do_asset(asset, aura, eixo_esperado, janela)
         registros.append({"aura": aura, "atributo": "", "tipo": tipo, "base": base,
                           "eixo": eixo, "fonte_base": fonte, "nota": nota})
 

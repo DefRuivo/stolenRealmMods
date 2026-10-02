@@ -159,10 +159,14 @@ for d in docs:
         nums_docs.add(int(m2.group(1)))
 print('   numeros de contagem citados nos docs: %s' % sorted(nums_docs))
 # Cada `TextFixes N entradas` / `TextAppends N entradas` escrito na doc tem de casar com o
-# parser - e a doc que se conserta, nao o numero.
+# parser - e a doc que se conserta, nao o numero. O gap entre o nome da tabela e o numero NAO
+# tem teto de caracteres (`[^\d\n]*`, nunca um teto de 8): a ancora e a LINHA (`\n` fora) e a
+# palavra `entradas`, nao uma distancia. Com o teto, reformatar a doc (um espaco a mais, um
+# "tem"/"com") parava de casar e a checagem sumia em SILENCIO — o caminho curto seria afrouxar
+# o numero, a familia que a FORMATO-6 varreu.
 for d in docs:
     for i, l in enumerate(ler(d).splitlines(), 1):
-        for m2 in re.finditer(r'(TextFixes|TextAppends)[^\d\n]{0,8}(\d+)\s*entradas', l):
+        for m2 in re.finditer(r'(TextFixes|TextAppends)[^\d\n]*(\d+)\s*entradas', l):
             tabela, n = m2.group(1), m2.group(2)
             if tabela in vivas and n != vivas[tabela]:
                 print('   VER %s:%d diz "%s %s entradas" e o LocalizePatch tem %s'
@@ -184,7 +188,9 @@ rel = sorted(f for f in os.listdir(os.path.join(RAIZ, PASTA_REV)) if f.endswith(
 linhas = ler(ARQ_INDICE).splitlines()
 cab = None
 for i, l in enumerate(linhas):
-    m2 = re.search(r'`%s`[^\d\n]{0,6}(\d+)' % re.escape(REL_REV), l)
+    # O gap entre o caminho e o total: ancora na LINHA (e no `\n`), sem teto de caracteres -
+    # um teto de 6 quebrava por reformatacao do titulo (a familia que a FORMATO-6 varreu).
+    m2 = re.search(r'`%s`[^\d\n]*(\d+)' % re.escape(REL_REV), l)
     if m2:
         cab = (i, int(m2.group(1)))
         break
@@ -401,7 +407,10 @@ PROIBIDOS = [
     ('ReloadProbe', 'projeto de bancada, fora do repo', False),
 ]
 # O proprio texto EXPLICA que aquilo nao esta no repo / nao deve ser instalado.
-EXPLICA = (r'fora\b[^.\n]{0,24}git', r'n[ãa]o\s+versionad', r'gitignored', r'fora\s+do\s+reposit',
+# O gap de `fora ... git` e ancorado na FRASE (`[^.\n]`, sem teto de caracteres): com um teto
+# de 24, uma frase reescrita com mais palavras parava de casar e a linha virava problema
+# falso - a mesma familia de janela que a FORMATO-6 varreu.
+EXPLICA = (r'fora\b[^.\n]*git', r'n[ãa]o\s+versionad', r'gitignored', r'fora\s+do\s+reposit',
            r's[óo]\s+na\s+m[áa]quina', r'n[ãa]o\s+instale', r'n[ãa]o\s+[ée]\s+mod', r'❌',
            r'harness', r'removid', r'n[ãa]o\s+est[áa]\s+mais', r'apagad', r'saiu\s+do\s+repo')
 
