@@ -2164,8 +2164,13 @@ namespace BetterTooltips.Patches
         /// avaliado (medido em jogo: com `Worship` o dano dobra), então quem chama passa o personagem
         /// nas duas posições. Antes desta revisão o `Source` era o `Root.WorldCharacter` (o personagem
         /// VAZIO do shrine) — era isso que fazia o fator valer 1 e o número sair na base.
+        ///
+        /// BT-20 (02/10) — vira `internal` para o `ConvercaoAtributoPatch` REUSAR o MESMO avaliador (a
+        /// conversao `Source["Stat"] * N` das skills de Armor/Magic Armor é a mesma forma de expressão
+        /// do motor): um caminho só para "avaliar fórmula do asset com o personagem em foco", em vez de
+        /// um segundo interpretador. O comportamento e identico.
         /// </summary>
-        private static bool ValorDaExpressao(string expressao, Character gameTarget, Character gameSource, out float valor)
+        internal static bool ValorDaExpressao(string expressao, Character gameTarget, Character gameSource, out float valor)
         {
             valor = 0f;
             if (string.IsNullOrEmpty(expressao))

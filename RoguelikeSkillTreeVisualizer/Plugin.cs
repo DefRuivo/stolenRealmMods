@@ -45,7 +45,7 @@ namespace RoguelikeSkillTreeVisualizer
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.3.0";
+        public const string Version = "0.3.1";
 
         internal static ManualLogSource Log { get; private set; }
 
@@ -81,6 +81,12 @@ namespace RoguelikeSkillTreeVisualizer
         internal static ConfigEntry<KeyCode> TeclaAtalhoSkillTree { get; private set; }
 
         /// <summary>
+        /// RSTV-20: opcao de config PROPRIA do botao no CABECALHO do modal "Remove Skill Trees".
+        /// Padrao <c>true</c> (ligado). Desligar aqui nao mexe nos outros botoes.
+        /// </summary>
+        internal static ConfigEntry<bool> AtivarBotaoNaRemocao { get; private set; }
+
+        /// <summary>
         /// Forma SEGURA de consultar a opcao: se por algum motivo o config nao pode ser lido/criado,
         /// o mod continua com o comportamento de sempre (botao ligado) em vez de morrer no boot.
         /// </summary>
@@ -99,6 +105,12 @@ namespace RoguelikeSkillTreeVisualizer
         internal static bool AtalhoLigado
         {
             get { return AtalhoSkillTree == null || AtalhoSkillTree.Value; }
+        }
+
+        /// <summary>Mesma regra para o botao do modal "Remove Skill Trees": config ilegivel = LIGADO.</summary>
+        internal static bool RemocaoBotaoLigado
+        {
+            get { return AtivarBotaoNaRemocao == null || AtivarBotaoNaRemocao.Value; }
         }
 
         /// <summary>A tecla do atalho; sem config, o padrao do mod e <c>KeyCode.F10</c>.</summary>
@@ -146,6 +158,14 @@ namespace RoguelikeSkillTreeVisualizer
                     "A tecla do atalho da skill tree. Padrao: F10. Aceita qualquer KeyCode do Unity " +
                     "(F9, K, Mouse4, ...). Nao usa a acao 10 nativa, entao NAO abre a janela vanilla " +
                     "de skill tree junto.");
+
+                AtivarBotaoNaRemocao = Config.Bind(
+                    "Geral",
+                    "AtivarBotaoNaRemocao",
+                    true,
+                    "Injeta o botao 'Skills' no CABECALHO do modal 'Remove Skill Trees' (canto superior " +
+                    "direito do titulo), que abre a arvore read-only do personagem do proprio modal. " +
+                    "Padrao: true. Com false o mod nao cria esse botao (os outros nao mudam).");
             }
             catch (Exception e)
             {
@@ -165,7 +185,10 @@ namespace RoguelikeSkillTreeVisualizer
                         (RunBotaoLigado ? "HABILITADO" : "DESABILITADO") +
                         " (AtivarBotaoNaRun=" + RunBotaoLigado + "); portao 4 sempre ativo no botao da run; " +
                         "atalho " + (AtalhoLigado ? ("LIGADO na tecla " + TeclaAtalho) : "DESABILITADO") +
-                        " (RSTV-11a: guards do KeybindManager replicados; sem acao nativa).");
+                        " (RSTV-11a: guards do KeybindManager replicados; sem acao nativa); " +
+                        "botao 'Skills' do modal 'Remove Skill Trees' " +
+                        (RemocaoBotaoLigado ? "HABILITADO" : "DESABILITADO") +
+                        " (AtivarBotaoNaRemocao=" + RemocaoBotaoLigado + ").");
         }
 
         /// <summary>

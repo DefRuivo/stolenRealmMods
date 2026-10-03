@@ -11,7 +11,11 @@ namespace RoguelikeSkillTreeVisualizer
     {
         PartyScreen,
         Run,
-        Inventario
+        Inventario,
+
+        /// <summary>RSTV-20: o botao do CABECALHO do modal "Remove Skill Trees" — a sessao nasce para
+        /// o personagem do proprio modal.</summary>
+        RemocaoDeArvores
     }
 
     /// <summary>

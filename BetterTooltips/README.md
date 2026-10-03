@@ -4,7 +4,7 @@ Rewrites the game's skill and status tooltips so they stop **leaving out what ma
 and fixes small text defects. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettertooltips`
-- **Version:** 0.1.2
+- **Version:** 0.1.3
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 

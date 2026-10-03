@@ -1,5 +1,9 @@
 # Changelog — RoguelikeSkillTreeVisualizer
 
+## 0.3.1 — botão "Skills" no modal Remove Skill Trees (RSTV-20)
+
+Novo botão **Skills** no canto superior direito do modal **Remove Skill Trees** (Party Select), abrindo o visualizador de skill tree em read-only para o personagem do modal.
+
 ## 0.3.0 — aba "All Skill Trees" + botão/atalho + escala/posição nativa (RSTV-13..19)
 
 **RSTV-13 — o botao `Skills` do HUD volta a APARECER passeando no MAPA-MUNDO.** O `RunTargets.GateOk`

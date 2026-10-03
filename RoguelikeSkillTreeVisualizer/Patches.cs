@@ -657,4 +657,45 @@ namespace RoguelikeSkillTreeVisualizer
             }
         }
     }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-20 — o botao no CABECALHO do modal "Remove Skill Trees"
+    //
+    // Ancora: `RoguelikeSkillTreeRemovalWindow.Open(Character)` (l.170723, PUBLICO) — o metodo que o
+    // jogo chama a cada abertura do modal (`CharacterChoiceManager.OpenSkillTreeRemovalWindow`,
+    // l.328674, e o `CharacterChoiceItem`, l.328374). Ele roda de novo a cada re-abertura sobre a
+    // MESMA janela; por isso `RemovalWindowSkillsButton.Ensure` e IDEMPOTENTE por instancia (acha o
+    // clone por NOME e so reafirma rotulo/estado — nunca cria um segundo botao).
+    //
+    // NAO usar o `Update()` privado do modal (l.170686, roda todo quadro e mexe no Style/portrait):
+    // o gancho de abertura e o `Open`, e o alvo e lido do `CurrentCharacter` na hora do clique.
+    //
+    // Assinatura declarada por TIPO + `nameof` (nunca por indice `__N`), como os outros ganchos.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(RoguelikeSkillTreeRemovalWindow), nameof(RoguelikeSkillTreeRemovalWindow.Open), new[] { typeof(Character) })]
+    internal static class RoguelikeSkillTreeRemovalWindowOpenPatch
+    {
+        private static bool _firstCallLogged;
+
+        [HarmonyPostfix]
+        private static void Postfix(RoguelikeSkillTreeRemovalWindow __instance)
+        {
+            try
+            {
+                if (!_firstCallLogged)
+                {
+                    _firstCallLogged = true;
+                    Plugin.Log.LogInfo("RSTV-20: gancho do modal 'Remove Skill Trees' ATIVO " +
+                                       "(RoguelikeSkillTreeRemovalWindow.Open).");
+                }
+
+                RstvHost.Ensure();
+                RemovalWindowSkillsButton.Ensure(__instance);
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha no postfix de RoguelikeSkillTreeRemovalWindow.Open: " + e);
+            }
+        }
+    }
 }

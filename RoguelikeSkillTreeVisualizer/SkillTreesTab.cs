@@ -151,6 +151,13 @@ namespace RoguelikeSkillTreeVisualizer
         private static ReadOnlyContext _contextoPendente = ReadOnlyContext.Inventario;
         private static string _ultimoAviso;
 
+        /// <summary>
+        /// RSTV-20: o personagem pedido EXPLICITAMENTE pelo interlocutor que abriu a visualizacao
+        /// (hoje: o modal "Remove Skill Trees"). Consumido UMA vez por `IniciarSessaoReadOnly`; o
+        /// clique manual na aba continua resolvendo pelo `RunTargets`.
+        /// </summary>
+        private static Character _alvoDoPedido;
+
         private static Vector2? _underlineOriginal;
         private static bool _underlineAjustado;
 
@@ -416,6 +423,11 @@ namespace RoguelikeSkillTreeVisualizer
                 // (o onClick, disparado pelo `SelectButtonAndInvoke`) quem chama
                 // `IniciarSessaoReadOnly`. Guardar o contexto aqui deixa o log fiel.
                 _contextoPendente = contexto;
+                // RSTV-20: guarda o ALVO do pedido. O clique nao conhece o personagem (l.1443 do
+                // doc: "quem da a vida a sessao e a aba") e o `IniciarSessaoReadOnly` resolveria pelo
+                // `RunTargets` — para o modal "Remove Skill Trees" isso poderia ser OUTRO personagem.
+                // O alvo do pedido e consumido UMA vez na abertura da sessao.
+                _alvoDoPedido = alvo;
                 Ensure(menu);
 
                 if (_mgr == null || _aba == null)
@@ -493,13 +505,29 @@ namespace RoguelikeSkillTreeVisualizer
 
             Character alvo = null;
             string motivo = null;
-            try
+
+            // RSTV-20: quem ABRIU a visualizacao pode ter um alvo EXPLICITO (o personagem do modal
+            // "Remove Skill Trees", que nao e necessariamente o `CurrentlySelectedCharacter`). O
+            // pedido e consumido UMA vez, aqui — o clique manual na aba (SelecionarEMostrar) segue
+            // caindo no `RunTargets.Resolve` de sempre.
+            Character pedido = _alvoDoPedido;
+            _alvoDoPedido = null;
+
+            if (pedido != null)
             {
-                alvo = RunTargets.Resolve(out motivo);
+                alvo = pedido;
+                motivo = "alvo explicito do pedido (" + pedido.CharacterName + ")";
             }
-            catch (Exception e)
+            else
             {
-                motivo = e.GetType().Name + ": " + e.Message;
+                try
+                {
+                    alvo = RunTargets.Resolve(out motivo);
+                }
+                catch (Exception e)
+                {
+                    motivo = e.GetType().Name + ": " + e.Message;
+                }
             }
 
             if (alvo == null)
