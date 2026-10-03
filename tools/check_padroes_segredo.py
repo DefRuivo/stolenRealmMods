@@ -48,6 +48,8 @@ def parece_segredo(v):
     """
     if any(c in v for c in '/@:<>') or chr(92) in v:   # caminho, URL, e-mail, separador
         return False
+    if re.search(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}', v):
+        return False                                     # UUID (Guid de asset/objeto do jogo)
     if re.fullmatch(r'[0-9a-fA-F]+', v):                 # hash hex (commit, md5, pid de asset)
         return False
     if re.fullmatch(r'[A-Za-z]+', v):                    # so letras = identificador/palavra

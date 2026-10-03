@@ -72,7 +72,7 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 45 relatórios de revisão
+### `cobertura/revisao/` — 48 relatórios de revisão
 
 O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
 confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
@@ -85,7 +85,7 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
 | **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
-| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RSTV-5-confirmacao-prefab.md` (confirmação do INDETERMINADO do RSTV-3 — o X do prefab), `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 13 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BT-18-passivas-inimigo.md`, `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RSTV-5-confirmacao-prefab.md` (confirmação do INDETERMINADO do RSTV-3 — o X do prefab), `RSTV-10-confirmacao-prefab.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md`, `RV-35-40-shrines-conferencia.md` | 16 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
