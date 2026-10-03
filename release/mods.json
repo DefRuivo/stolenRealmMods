@@ -65,8 +65,8 @@
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.3.0",
-      "publicado_em": "2026-10-02T22:46:46.861419Z",
+      "versao_publicada": "0.3.1",
+      "publicado_em": "2026-10-03T22:58:48.088877Z",
       "motivo": "PUBLICAR 0.3.1 (substitui a 0.3.0, no ar desde 02/10/2026). A 0.3.1 adiciona o botao 'Skills' no modal Remove Skill Trees (RSTV-20), abrindo o viewer read-only do personagem do modal. UI/UX (posicao do botao no cabecalho) revisada em revisao independente, conferencia visual pendente."
     }
   ]
