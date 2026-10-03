@@ -10,13 +10,13 @@ namespace RoguelikeSkillTreeVisualizer
     /// do postfix de `CharacterChoiceManager.OpenCharacterChoiceManager` — cena viva, comprovada.
     ///
     /// Trabalho do Update (timeScale na UI e 0: nada de coroutine com WaitForSeconds):
-    ///   1. terminar a abertura da skill tree quando a instancia nativa chega (SkillTreeReadOnly.Tick) —
-    ///      e, a cada frame, as guardas de ciclo de vida da sessao;
+    ///   1. o CICLO DE VIDA da aba "All Skill Trees" (RSTV-16) — a sessao read-only nasce e morre com
+    ///      a aba selecionada (SkillTreesTab.Tick), lendo o proprio sistema de abas do inventario;
     ///   2. manter o clone do botao da tela Select Party em sincronia com o original (visibilidade e
     ///      interactable) — 0,2 s;
     ///   3. o mesmo para o botao da RUN, que alem disso reavalia o PORTAO 4
     ///      (`RunTargets.GateOk`) — 0,1 s, porque o estado que o portao olha (mira, turno, animacao)
-    ///      muda rapido. O Update do proprio HUD (`CurrentCharacterUI.UIUpdate`, l.209655) roda todo
+    ///      muda rapido. O Update do proprio HUD (`CurrentCharacterUI.UIUpdate`, l.330080) roda todo
     ///      frame e mexe no `endTurnButton` — nao e lugar para o mod.
     /// </summary>
     internal class RstvHost : MonoBehaviour
@@ -44,7 +44,12 @@ namespace RoguelikeSkillTreeVisualizer
         {
             try
             {
-                SkillTreeReadOnly.Tick();
+                SkillTreesTab.Tick();
+
+                // RSTV-14: o botao DENTRO da janela do level-up segue o CICLO DE VIDA da janela —
+                // some nos estagios que nao sao de skills (antes ele "voava" sobre o estagio de
+                // atributos) e volta (re-ancorado) quando o estagio de skills retorna.
+                LevelUpWindowButton.Refresh();
 
                 if (Time.realtimeSinceStartup >= _nextRunMirror)
                 {

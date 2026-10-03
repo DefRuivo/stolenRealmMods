@@ -1,0 +1,46 @@
+PROVA DE REPROVACAO - BCT-3 (sombra VISIVEL: o FUNDO manda) - BetterCombatText
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada bloco abaixo e uma rodada LITERAL: o defeito foi plantado no
+FONTE VIVO, o teste foi executado pelo RUNNER
+(`python tools/testes/roda_testes.py --teste <arquivo>`, o MESMO caminho da
+suite) e DEPOIS o fonte foi restaurado byte a byte (sha256 conferido).
+
+Teste   : tools/testes/testes/puros/t_bct_sombra_visivel_fundo_escuro.py
+Plantadeira: as funcoes `defeito_*` de tools/testes/regras_bct.py
+sha256 Configuracao.cs (com o conserto) 848ba20ca09f15b8cc1d4635ccc7e52f8ecb3ae878ad1c24b737cf45dd57be9d
+sha256 TextStyler.cs   (com o conserto) e831eb4cdc5d923057692f814a5f18b7565dadd44c2b3c78c92b02faa6ea7f01
+==============================================================================
+
+### RED INICIAL (o teste escrito ANTES do conserto: o fonte ainda nao tinha o FUNDO)
+    [REPROVOU] bct-sombra-visivel-fundo-escuro a sombra visivel caiu: Configuracao.cs nao tem o
+    enum `FundoSombra` | Configuracao.cs nao tem o parser do config (`FundoSombraDe`) |
+    Configuracao.cs nao tem a decisao pela VISIBILIDADE (`UsaSombraClara`) | ... | `AplicarTmp`
+    nao escolhe o balde da sombra pelo FUNDO (`UsaSombraClara(tmp.color, cfg.Fundo)`) |
+    `AplicarTextoLegado` nao escolhe o balde da sombra pelo FUNDO   -> exit 1
+
+------------------------------------------------------------------------------
+### nodo-nomes-escuro -> auto (a superficie dos NOMES volta ao BCT-2)
+cenario: o fundo das NOMES deixa de ser declarado (a sombra volta a ser escolhida pela LETRA)
+
+COM O DEFEITO PLANTADO em Configuracao.cs (nodo-nomes-escuro) -> exit 1
+    [REPROVOU] bct-sombra-visivel-fundo-escuro a sombra visivel caiu: `Nomes` nao declara `fundo: "escuro"`: com o fundo errado a sombra sai invisivel (ou muda o que o dono ja aprovou nas outras superficies)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 848ba20ca09f15b8cc1d4635ccc7e52f8ecb3ae878ad1c24b737cf45dd57be9d) -> exit 0
+    [PASSOU ] bct-sombra-visivel-fundo-escuro BCT-3: a sombra do texto de combate e escolhida pelo CONTRASTE COM O FUNDO (fundo escuro -> #CBB396), nao pela luminancia da letra - e o nome do inimigo (letra clara) deixa de ficar com sombra #000000 invisivel sobre o campo escuro
+------------------------------------------------------------------------------
+
+### nodo-regra-ignora-fundo (a regra deixa de ligar FUNDO ESCURO a sombra clara)
+cenario: `UsaSombraClara` responde sombra ESCURA num fundo ESCURO (o defeito relatado)
+
+COM O DEFEITO PLANTADO em Configuracao.cs (nodo-regra-ignora-fundo) -> exit 1
+    [REPROVOU] bct-sombra-visivel-fundo-escuro a sombra visivel caiu: `UsaSombraClara` nao liga FUNDO ESCURO -> sombra clara (`case FundoSombra.Escuro: return true;`): e o ramo que conserta o defeito relatado (preto sobre escuro nao aparece)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 848ba20ca09f15b8cc1d4635ccc7e52f8ecb3ae878ad1c24b737cf45dd57be9d) -> exit 0
+    [PASSOU ] bct-sombra-visivel-fundo-escuro BCT-3: a sombra do texto de combate e escolhida pelo CONTRASTE COM O FUNDO (fundo escuro -> #CBB396), nao pela luminancia da letra - e o nome do inimigo (letra clara) deixa de ficar com sombra #000000 invisivel sobre o campo escuro
+------------------------------------------------------------------------------
+
+VEREDITO: cada defeito plantado REPROVA (exit 1) e o fonte restaurado PASSA
+(exit 0). O teste nao e decoracao.

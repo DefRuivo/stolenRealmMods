@@ -221,9 +221,12 @@ namespace BetterCombatText
         {
             var mat = alvo.fontSharedMaterial;
             bool df = mat != null && mat.HasProperty("_OutlineWidth");
+            Color cor = alvo.color;
             Plugin.Log.LogInfo(
                 $"Better Combat Text: {rotulo} -> objeto='{alvo.gameObject.name}', tipo={alvo.GetType().Name}, " +
                 $"fonte='{(alvo.font != null ? alvo.font.name : "(nula)")}', " +
+                $"cor da LETRA='#{ColorUtility.ToHtmlStringRGB(cor)}' " +
+                $"(alfa={cor.a:0.###}, luminancia={Configuracao.Luminancia(cor):0.###}), " +
                 $"material compartilhado='{(mat != null ? mat.name : "(nulo)")}', " +
                 $"shader='{(mat != null && mat.shader != null ? mat.shader.name : "(nulo)")}', " +
                 $"distance field (tem _OutlineWidth)={df}");

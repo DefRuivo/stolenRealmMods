@@ -7,18 +7,18 @@ O QUE ESTE TESTE GARANTE
 1. **A contribuicao cabe na conta do MOTOR** - o defeito do print do dono: com a
    MESMA aura 3x na lista viva a linha saiu `Dodge +120%` com a aura valendo 40.
    Cada aura viva entra UMA vez (RV-46/`AurasUnicas`, `ShrineAuraPatch.cs`
-   l.1220): `Dodge +40% (total +57%)`. A repeticao vai para o LOG (`Rogue Aura x3`),
+   1296 · `AurasUnicas()`): `Dodge +40% (total +57%)`. A repeticao vai para o LOG (`Rogue Aura x3`),
    nunca para o numero.
 2. **Duas auras no mesmo atributo SOMAM e o item nao se repete** (Warrior + Fury em
-   `DamageMod` = 40 + 50 = 90, num item so) - `ContribuicaoDasAuras`, l.1682.
+   `DamageMod` = 40 + 50 = 90, num item so) - 1915 · `ContribuicaoDasAuras()`.
 3. **STACKS do mesmo status sao outra coisa**: `TotalStacks = 2` multiplica o valor
    (o motor soma `val + parsed2 * stacks`, decompilado l.37263; `ShrineAuraPatch.cs`
-   l.1733) - `Damage +80%`, ao contrario da aura repetida (que continua contando 1x).
+   1966 · `ContribuicaoDasAuras()`) - `Damage +80%`, ao contrario da aura repetida (que continua contando 1x).
 4. **Nenhuma aura viva some calada**: o Dwarven (aura viva SEM atributo de
    personagem) tem item proprio (`Stun chance +40%`) ou sai no LOG com o motivo
    (`RV-46 AVISO: a aura viva 'Dwarven Aura' NAO virou item`). A linha se
    apresenta como COMPLETA.
-5. Um item por ATRIBUTO, na ordem canonica (l.984), e a linha inteira fecha na
+5. Um item por ATRIBUTO, na ordem canonica (1032 · `OrdemDosAtributos`), e a linha inteira fecha na
    ordem dos itens (o comparador de log corta por `; `).
 6. **DWA-2** - a dedupe do RV-46 e POR TIPO DE EFEITO: aura de ATRIBUTO repetida conta
    UMA vez (o motor soma as instancias e o teto corta), mas aura de GATILHO
@@ -221,9 +221,9 @@ def corpo():
     mista = saidas["linha-mista"]
     arc.igual(len(mista["itens"]), 5, "a linha mista tem 5 itens (2 de atributo + 3 sem atributo)")
     arc.igual([i.split(" ")[0] for i in mista["itens"][:2]], ["Damage", "Dodge"],
-              "a ordem dos itens de atributo e a canonica (OrdemDosAtributos, l.984)")
+              "a ordem dos itens de atributo e a canonica (1032 · `OrdemDosAtributos`)")
     arc.exigir(mista["linha"].startswith("Your active shrine auras: "),
-               "a linha comeca pelo marcador estavel do mod (MarcadorLinhaDeAuras, l.977)")
+               "a linha comeca pelo marcador estavel do mod (1025 · `MarcadorLinhaDeAuras`)")
     arc.exigir(mista["linha"].endswith("."), "os itens terminam em '%': o fecho e sempre o ponto (l.1145)")
     arc.igual(mista["repeticoes"], ["Rogue Aura x2"], "a Rogue repetida conta 1x tambem na linha mista")
 

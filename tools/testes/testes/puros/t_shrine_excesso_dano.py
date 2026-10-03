@@ -7,7 +7,7 @@ O QUE ESTE TESTE GARANTE
 1. A formula das duas acoes e a do asset, com o fator do `ShrineEffectBonus`:
    `Flame`: `Mathf.Max(1,  Mathf.Round((MaxHealth * %do tipo) * (1 + bonus/100)))`;
    `Decay`: a MESMA conta SEM o `Maxf.Max(1,` - o Decay pode dar 0, o Flame nao
-   (RV-19 §4.2/§4.3; `ShrineAuraPatch.cs` l.689/721).
+   (RV-19 §4.2/§4.3; `ShrineAuraPatch.cs` 737 · `FormulaDanoFlameCru` / 769 · `FormulaDanoDecay`).
 2. Com **vida maxima 100** o numero ISOLA a porcentagem do tipo
    (RV-19 §10: Decay 10% -> 10 no bonus 0 e 20 no bonus 100; Flame 5% -> 5 e 10).
 3. **Decay com vida maxima 3 da 0** (3 x 10% = 0.3 -> Round -> 0, SEM minimo) e o

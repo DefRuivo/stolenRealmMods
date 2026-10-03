@@ -1,0 +1,37 @@
+PROVA DE REPROVACAO - BCT-2 (sombra ADAPTATIVA) - BetterCombatText
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada bloco abaixo e uma rodada LITERAL: o defeito foi plantado no
+FONTE VIVO (TextStyler.cs), o teste foi executado pelo RUNNER
+(`python tools/testes/roda_testes.py --teste <arquivo>`, o MESMO caminho da
+suite) e DEPOIS o fonte foi restaurado byte a byte (sha256 conferido).
+
+Teste   : tools/testes/testes/puros/t_bct_sombra_adaptativa.py
+Plantadeira: as funcoes `defeito_*` de tools/testes/regras_bct.py
+sha256 TextStyler.cs   609f65a9644c7e727cb7fb4114c196582d00b4c8d0cfbd901dbe3a114b586c76
+sha256 Configuracao.cs 7ac0983aeabf94e0df052ab67cecb979b8ab3be154c254490efedbe272a6539e
+==============================================================================
+
+### sombra-fixa-ignora-luminancia
+cenario: a sombra FIXA que ignora a luminancia (a regra antiga)
+
+COM O DEFEITO PLANTADO em TextStyler.cs (sombra-fixa-ignora-luminancia) -> exit 1
+    [REPROVOU] bct-sombra-adaptativa a sombra adaptativa caiu: `AplicarTmp` nao escolhe a sombra PELA cor da letra (`cfg.CorSombraPara(tmp.color)`): voltaria a sombra FIXA
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 609f65a9644c7e72) -> exit 0
+    [PASSOU ] bct-sombra-adaptativa BCT-2: sombra ADAPTATIVA (cor -> luminancia -> balde -> hex): letra escura ganha #CBB396, letra clara ganha #000000, inclusive no REUSO do componente sem re-instancia
+------------------------------------------------------------------------------
+
+### reavaliacao-ausente
+cenario: a REAVALIACAO sem re-instancia arrancada
+
+COM O DEFEITO PLANTADO em TextStyler.cs (reavaliacao-ausente) -> exit 1
+    [REPROVOU] bct-sombra-adaptativa a sombra adaptativa caiu: `AplicarTmp` nao reavalia a sombra no ramo 'ja e o nosso material' (`ReavaliarSombraTmp(tmp, cfg, nosso)`): um texto REUSADO ficaria com a sombra da primeira cor | a reavaliacao de `AplicarTmp` nao esta no ramo do guarda por InstanceID: ou ela nao existe, ou roda fora do 'ja e o nosso' (re-avaliaria sempre)
+
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 609f65a9644c7e72) -> exit 0
+    [PASSOU ] bct-sombra-adaptativa BCT-2: sombra ADAPTATIVA (cor -> luminancia -> balde -> hex): letra escura ganha #CBB396, letra clara ganha #000000, inclusive no REUSO do componente sem re-instancia
+------------------------------------------------------------------------------
+
+VEREDITO: o defeito plantado REPROVA (exit 1) e o fonte restaurado PASSA
+(exit 0). O teste nao e decoracao.
+

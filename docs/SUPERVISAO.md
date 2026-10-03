@@ -61,6 +61,54 @@ comportamento. **Encerrar sem revisão é entregar sem garantia.**
 
 ---
 
+## DEFINITION OF DONE (DoD) — o que fecha uma tarefa de mod
+
+Uma tarefa de mod **não fecha** quando o código fica pronto. Ela fecha quando as **quatro condições** valem juntas:
+
+| # | condição | quem prova |
+|---|---|---|
+| 1 | **Verificação humana em jogo** confirmando que tudo funcionou como esperado | o dono, jogando |
+| 2 | **Nenhuma alteração pendente** para aquele mod — nada em aberto, nenhuma decisão em suspenso, nenhum trabalho pela metade | o supervisor |
+| 3 | **Entrega da nova versão na Thunderstore**, com sucesso, aprovada pelo humano | a publicação |
+| 4 | **Revisão de UI/UX** — alteração que mexe em UI/UX (botão, posicionamento, janela, sombra, contraste, fonte, hierarquia visual) foi avaliada como **design** (colocação, contraste, layout, hierarquia, sobreposição de janelas), não só como código | o agente + o dono em jogo |
+
+Consequências diretas, e são elas que mudam o dia a dia:
+
+- **"Entregue + revisado" não é DONE.** É o *meio* do caminho. Enquanto a versão não está no ar, a tarefa está **em
+  validação** — não concluída.
+- **Publicar é parte do trabalho**, não uma etapa opcional lá na frente. A aprovação humana continua sendo o portão
+  obrigatório; depois dela, a publicação **faz parte do fechamento**.
+- **A verificação humana em jogo é também a prova de carregamento** que faltava para publicar: o dono abrir o jogo e
+  ver o efeito **é** a evidência end-to-end.
+- **Versão na Thunderstore é imutável.** Cada entrega exige versão **nova** — nunca reenviar a mesma.
+- **Alteração de UI/UX exige revisão de design.** Mexer em botão, posicionamento, janela, sombra, contraste, fonte ou
+  hierarquia visual não é só código: o design é avaliado (colocação, contraste, layout, hierarquia, sobreposição de
+  janelas) pelo agente e confirmado pelo dono em jogo — "compila e abre" não é revisão de UI/UX.
+- No Kanban, a tarefa só vira `done` **depois** da publicação. Travada na validação do dono, ela é `blocked`/aguardando
+  decisão, com a pergunta exata registrada.
+
+No resumo de encerramento, o DoD de cada mod aparece em três colunas: **validado em jogo? · pendências? · versão no ar?**
+
+---
+
+## PRIORIZAÇÃO POR MOD — a régua que decide a vaga
+
+O DoD diz **quando** um mod fecha; esta régua diz **onde** pôr os agentes enquanto isso:
+
+| situação do mod | ação |
+|---|---|
+| **mod específico não tem mais tarefa** | **solicitar aprovação humana e entregar a NOVA VERSÃO** (publicar). O fim das tarefas de um mod é o **gatilho da entrega** — não um motivo para inventar tarefa nova. |
+| **mod específico ainda tem tarefa** | **focar nele até matar TODAS as tarefas daquele mod**, antes de olhar para outro mod. |
+| **nenhuma alteração pendente em mod nenhum** | **focar nas documentações** (e em teste/ferramenta). |
+
+Consequências:
+
+- A unidade de decisão é o **mod**, não a tarefa solta. O Kanban responde, por mod: *ainda tem tarefa?* — se sim, executa; se não, vira entrega.
+- "Matar todas as tarefas" de um mod inclui as **decisões do dono daquele mod**: uma decisão pendente conta como tarefa pendente, e o papel do agente é **trazê-la à tona**, não contorná-la.
+- Docs/teste/ferramenta entram **depois** de esgotar os mods — nunca antes, e nunca disputando a vaga de um mod com trabalho real.
+
+---
+
 ## PROVA: MEDIR O EFEITO, NÃO O SINAL
 
 - **Todo teste tem de ser MOSTRADO REPROVANDO.** Plante o defeito, rode, veja falhar; remova, veja passar. Teste que
@@ -105,7 +153,8 @@ prove que o resultado dela é o mesmo de antes — **exceto** a diferença que v
 
 ## PROIBIDO
 
-- **publicar no Thunderstore sem aprovação humana** (nem empacotar como se fosse publicar);
+- **publicar no Thunderstore sem aprovação humana** — e, **aprovado, publicar é obrigatório**: é a terceira condição
+  do DoD, não um extra. (Empacotar sem intenção de publicar também não: o pacote é o artefato da entrega.)
 - **deploy no perfil do r2modman** — o perfil é do dono; só com leva verificada e decisão dele;
 - **credential, token ou PAT em arquivo, log, `.git/config`, sessão ou resumo** — sempre `[REDACTED]`;
 - **`Assembly-CSharp.dll`**: nunca modificar; sempre plugin separado;

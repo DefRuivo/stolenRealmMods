@@ -218,6 +218,13 @@ jobs:
               linhas.append('| %s | %s | %s | %s |' % (
                   m.get('nome'), 'sim' if m.get('publicar') else 'NAO',
                   m.get('versao_publicada') or '-', m.get('motivo') or ''))
+          # PKG-5: a ORDEM de envio mora em `ordem_de_envio` deste arquivo (o gate le este
+          # arquivo, entao a ordem viaja junto da liberacao). A dependencia publica ANTES do
+          # dependente - a Thunderstore recusa no upload a referencia a versao inedita.
+          ordem = (dados.get('ordem_de_envio') or {}).get('ordem') or []
+          if ordem:
+              linhas += ['', '**Ordem de envio (dependencia ANTES do dependente):** '
+                         + ' -> '.join(ordem)]
           if os.environ.get('GITHUB_STEP_SUMMARY'):
               with open(os.environ['GITHUB_STEP_SUMMARY'], 'a', encoding='utf-8') as fh:
                   fh.write('\n'.join(linhas) + '\n')

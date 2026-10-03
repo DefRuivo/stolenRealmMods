@@ -1,0 +1,71 @@
+==============================================================================
+ ARCABOUCO DE TESTES - tools/testes
+ raiz do repositorio: C:\dev\stolen-realm
+ descoberta:         C:\dev\stolen-realm\tools\testes\contra-prova
+ modo:               prova de fogo (--contra-prova)
+==============================================================================
+
+--- LOGICA PURA (roda sem o jogo, e o que roda no CI) ---------------------
+[PROVA OK] contra-prova-bf-diag-orcamento               isca: os dez defeitos do orcamento foram pegos pelas checagens (esperado) - o orcamento da BF-2 (sessao + classificacao pelo conteudo): 5 checagem(ns) | o pulado pelo escape contado como EFEITO: 2 checagem(ns) | o reset so na PRIMEIRA cena (`if (_diagCena != null)`): 3 checagem(ns) | o reset INALCANCAVEL (`if (true) return`): 3 checagem(ns) | (A) a cena lida vira COMENTARIO e `cena` fica FIXA (reset so na 1a cena): 3 checagem(ns) | (B) o ramo do escape volta a incrementar o contador de EFEITO: 1 checagem(ns) | (C) o corte do escape passa a depender TAMBEM do TETO DE EFEITO: 1 checagem(ns) | FIX-8 (1) o bloco de ZERAMENTO dentro de um `if (false)`: 3 checagem(ns) | FIX-8 (2) `_diagCena = cena` ANTES do guarda (guarda sempre verdadeiro): 3 checagem(ns) | FIX-8 (3) o reset CHAMADO depois do uso do contador: 3 checagem(ns)
+[PROVA OK] contra-prova-bf-gate-shader                  isca: os dois defeitos do BF-1 foram pegos pelas checagens (esperado) - shader: o gate voltou a RECUSAR por variante de shader (o defeito do BF-1) | gate: a chamada do portao nao esta presa ao efeito presente no material
+[PROVA OK] contra-prova-cor-comentario-bloco            DEIXA PASSAR a troca de cor numa entrada com COMENTARIO DE BLOCO dentro da chave (formato `{ /* ... */ "chave" }`): plantei #C0FFEE em "Raise a Undead Wizard to fight by your side.", e a trava saiu com exit 1; saida: ...... 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Raise a Undead Wizard to fight by your side. — cor que nao e a do nivel 2 nem do jogo (l.1660): #C0FFEE
+[PASSOU ] contra-prova-cor-comentario-bloco-ok         mesmo teste sem o defeito: a trava PEGA a troca numa entrada com COMENTARIO DE BLOCO dentro da chave
+[PROVA OK] contra-prova-cor-nota-fundida                DEIXA PASSAR a troca de cor numa nota FUNDIDA de SHRINE (formato de UMA quebra): plantei #C0FFEE em 'Recover [0]% of maximum mana each turn.' e a trava saiu com exit 1; saida: o ........ 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Recover [0]% of maximum mana each turn. — cor que nao e a do nivel 2 nem do jogo (l.1462): #C0FFEE
+[PASSOU ] contra-prova-cor-nota-fundida-ok             mesmo teste sem o defeito: a trava PEGA a troca de cor na nota fundida
+[PASSOU ] contra-prova-corrigido                       o mesmo teste com o valor vindo do motor: tem de PASSAR
+[PROVA OK] contra-prova-defeito                         worship-omnism2 (base 20, bonus 120): esperado 40, obtido 44
+[PROVA OK] contra-prova-formato-linha-antes-do-range    o checador ACEITOU a linha em branco antes do `Range` — uma forma que o JOGO nunca escreve: ele so escreve a linha em branco antes da PRIMEIRA linha de custo de cada caminho — o texto plantado passou limpo: 'D\n\nAP Cost: 1\n\nRange: Melee'
+[PASSOU ] contra-prova-formato-linha-antes-do-range-ok o MESMO teste da isca com a regra de HOJE (so a PRIMEIRA linha de custo de cada caminho): o checador VE a linha em branco antes do `Range`
+[PROVA OK] contra-prova-formato-notas                   o formato SAIA QUEBRADO (linha em branco orfa e/ou 2a nota antes do AP Cost): a regra 'antiga' quebrou 5 caso(s) (esperado 0) — skill com dano (TextAppends) -> DUAS linhas em branco seguidas (o defeito do RV-17(a)); shrine com valor + linha azul do nivel 3 -> linha em branco ORFA (nao separa nenhum bloco nosso): 'by <color=#CBB396>40</color>%.\n\nTurns Remaining: <color=#CBB'
+[PASSOU ] contra-prova-formato-notas-ok                o MESMO teste da isca com a regra de HOJE (todas as notas, a linha em branco inteira): o formato fecha
+[PROVA OK] contra-prova-formato-quebra-do-jogo          a BANCADA nao reproduz o JOGO: os custos sao juntados com outro numero de quebras que o `ShowSkillTooltip` escreve (l.1470 + l.1536) — eu esperava o texto do jogo. JOGO: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\n\nAP Cost: 1\nRange: Melee\n\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>' BANCADA: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\nAP Cost: 1\nRange: Melee\n\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>'
+[PASSOU ] contra-prova-formato-quebra-do-jogo-ok       o MESMO teste da isca com a regra de HOJE (as quebras da LEITURA do decompilado): a bancada reproduz o jogo
+[PROVA OK] contra-prova-nivel3-sinergia                 a linha azul do nivel 3 (sinergia) deixa de ser a ULTIMA coisa do tooltip: a NOTA e devolvida pelo prefixo DEPOIS dela: a regra 'sem-sinergia' quebrou 2 caso(s) (esperado 0) — Chilled -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip; Poisoned -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip
+[PASSOU ] contra-prova-nivel3-sinergia-ok              o MESMO teste da isca com a regra do NIV3-1 (a sinergia recolhida pelo marcador): o formato fecha
+[PROVA OK] contra-prova-rel-artefato-velho-isca         o pre-flight ACEITOU a DLL mais antiga que a fonte - empacotar entregaria um binario sem a edicao (o defeito do REL-1)
+[PASSOU ] contra-prova-rel-artefato-velho-conserto     mesmo teste com a trava ligada: o pre-flight RECUSA a DLL mais antiga que a fonte
+[PROVA OK] contra-prova-rstv11-atalho-sem-guard         isca: o 'atalho sem guard de chat' foi pego pelo fonte e pelo modelo (esperado) - fonte: o guard de foco de texto/chat (l.133374) saiu do Liberado (trecho 'if (FocoDeTexto())')
+[PROVA OK] contra-prova-rstv11-zorder-preso-no-hud      isca: o 'z-order preso no CurrentCharacterUI desligado' foi pego pelo fonte e pelo modelo (esperado) - fonte: o ramo do level-up nao devolve o transform do RoguelikeManager (`return rok.transform;`)
+[PROVA OK] contra-prova-rstv8-levelup-escondido         isca: o 'esconder no level-up' foi pego pelo fonte e pelo modelo (esperado) - fonte: o portao voltou a esconder por `RoguelikeManager.IsNotNullAndIsActive` (o manager CARREGADO nao e o level-up aberto — o defeito do RSTV-8)
+[PROVA OK] contra-prova-rstv9-botao-no-hud-desligado    isca: o 'botao preso sob o HUD desligado' foi pego pelo fonte e pelo modelo (esperado) - fonte: HomeInLevelUp NAO re-parenteia o clone para a janela (`SetParent(destino, ...)`) — o botao continua sob o HUD, que o jogo DESLIGA no level-up: nao renderiza
+[PROVA OK] contra-prova-shrine-bonus                    Omnism I + Omnism II: o motor desconta a I (20), o defeito soma as duas (28): esperado 20, obtido 28
+[PROVA OK] contra-prova-shrine-dwarven                  a cena so tem o Dwarven vivo: a linha TEM de trazer o item proprio `Stun chance`: esperado ['Stun chance +40%'], obtido []
+[PROVA OK] contra-prova-shrine-formato                  a borda do equipamento (53.4): a convencao do Ceil do jogo da 54 e UM sinal de %: esperado 'Dodge +54%', obtido 'Dodge +53.4%%'
+[PROVA OK] contra-prova-shrine-gatilho-uma-instancia    o Dwarven com DOIS shrines: o motor rola a chance UMA VEZ POR INSTANCIA - a lista tem de trazer DOIS itens: esperado ['Stun chance +40%', 'Stun chance +40%'], obtido ['Stun chance +40%']
+[PROVA OK] contra-prova-shrine-instancias               rogue-x3 (o DEFEITO DO PRINT): a aura repetida 3x na lista viva: esperado 'Dodge +40% (total +57%)', obtido 'Dodge +120% (total +57%)'
+
+==============================================================================
+ RESUMO
+   rodaram:    27
+   passaram:   8
+   reprovaram: 0
+   nao rodaram:0
+   prova de fogo: 19 ok, 0 falhou
+
+ VEREDITO: VERDE (exit 0)
+==============================================================================
+
+
+================================================================================
+PARTE 3 - MOSTRADO REPROVANDO NO FONTE VIVO (nao so na copia em memoria)
+================================================================================
+Os dois defeitos foram plantados NO ARQUIVO REAL, um teste por vez rodado, e o arquivo
+restaurado byte a byte depois (sha256 conferido):
+
+  1) SkillTreeShortcut.cs: `if (FocoDeTexto())` -> `if (false && FocoDeTexto())`
+     [REPROVOU] rstv11-atalho-f10
+        o atalho regrediu em 1 ponto(s): o guard de foco de texto/chat (l.133374)
+        saiu do Liberado (trecho 'if (FocoDeTexto())')
+        VEREDITO: REPROVADO (exit 1)
+
+  2) SkillTreeReadOnly.cs: `return rok.transform;` -> `return hud.transform;`
+     [REPROVOU] rstv11-zorder-levelup
+        o z-order da arvore regrediu em 1 ponto(s): o ramo do level-up nao devolve o
+        transform do RoguelikeManager (`return rok.transform;`)
+        VEREDITO: REPROVADO (exit 1)
+
+  Restaurado (sha256 antes == depois):
+        SkillTreeShortcut.cs   673c95df27773b50   RESTAURADO OK
+        SkillTreeReadOnly.cs   1829610386ec0a23   RESTAURADO OK
+
+  Com o fonte restaurado, os DOIS testes voltam a PASSOU (exit 0).

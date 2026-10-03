@@ -25,16 +25,18 @@ pasta do jogo tem `MonoBleedingEdge\`; e o BepInEx 5 carrega pelo doorstop
 mods são DLLs .NET gerenciadas (`netstandard2.1`), compiladas contra
 `Assembly-CSharp.dll` — em IL2CPP não haveria esse assembly gerenciado para referenciar.
 
-### Plugins que carregam no perfil `Default` (6)
+### Plugins que carregam no perfil `Default` (8)
 
 | Plugin | Origem |
 |---|---|
+| `Roguelike Classes Mod 0.1.1` | terceiro |
 | `Script Engine 11.1` | terceiro (Thunderstore) — carrega, mas o hot-reload não funciona neste jogo (decisão: parado) |
-| `Better Font 1.0.0` | projeto |
-| `Better Stats 1.0.0` | projeto |
-| `Better Tooltips 0.1.0` | projeto |
-| `Roguelike Debugger 0.1.0` | projeto (ferramenta de dev — despeja o dump que alimenta o censo) |
-| `Roguelike QoL 0.1.0` | projeto (HUD **desabilitado**: `AtivarHUD=false`) |
+| `Better Combat Text 0.1.1` | projeto (depende do `Better Font`) |
+| `Better Font 1.0.2` | projeto |
+| `Better Stats 1.0.1` | projeto |
+| `Better Tooltips 0.1.1` | projeto |
+| `Roguelike Debugger 0.1.1` | projeto (ferramenta de dev — despeja o dump que alimenta o censo) |
+| `Roguelike Skill Tree Visualizer 0.2.0` | projeto |
 
 ---
 

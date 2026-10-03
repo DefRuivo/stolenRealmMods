@@ -4,7 +4,7 @@ Adds a **`Skills`** button that opens the game's **native skill tree**, read-onl
 character you chose. **No skill point is spent. No gameplay change.**
 
 - **GUID:** `com.gumatos.roguelikeskilltreevisualizer`
-- **Version:** 0.2.0
+- **Version:** 0.3.0
 - **Works with:** Stolen Realm v1.3.1 (Roguelike mode only).
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 - **Status:** implemented; **not yet checked in game** by the author.

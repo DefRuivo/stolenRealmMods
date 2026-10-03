@@ -22,6 +22,13 @@ does not get an outline.
 | Dice text in roll events | soft outline/halo + shadow |
 | Health number (extra, **off** by default) | soft outline/halo |
 
+The **shadow color follows the background**, because a shadow only shows when it contrasts
+with what is behind it: on a dark background (the battlefield) it is the light `#CBB396`;
+on a light background it is `#000000`. That is the `Fundo` key per surface — the enemy
+names ship with `Fundo = escuro`, and the BCT-2 rule (shadow by the **letter's** brightness)
+is kept when a surface leaves `Fundo = auto`. Without this, a bright enemy name on the dark
+battlefield got a black shadow — invisible.
+
 ## What it does not do
 
 - **The visual effect is not confirmed.** A startup diagnostic proved the effect is
@@ -58,11 +65,16 @@ File: `BepInEx\config\com.gumatos.bettercombattext.cfg` (edit in Notepad).
 - **Softer or harder halo:** `SuavidadeContorno` — high = soft, `0` = hard.
 - **Soft shadow:** `Sombra` + `SombraOffsetX` / `SombraOffsetY` / `SombraSuavidade` /
   `AlfaSombra`.
+- **Shadow colour (`Fundo`):** the background behind the text — `escuro` (dark: shadow is the
+  light `#CBB396`), `claro` (light: shadow is `#000000`) or `auto` (follow the letter's
+  brightness). Enemy names default to `escuro`.
 - **Font size:** `TamanhoFonteExtra` — `0` = leave the size alone (default).
 - **Dice only:** section `4. Eventos (texto do dado)` > `Ativar = false`.
 - Added on start: `1. Geral` > `DiagnosticoNoArranque` (default `true`) checks the scene
   every 5s (from 20s in, giving up at 240s) and logs the font/material/shader of the
-  targets as soon as one appears in the scene — read-only, nothing is changed.
+  targets as soon as one appears in the scene — read-only, nothing is changed. Since BCT-3 it
+  also logs the **letter colour** of each target (`#RRGGBB`, alpha, luminance) and the shadow
+  colour that ended up in the material.
 - Changed the `.cfg`? **Restart the game** — the values are read on start.
 
 ## Install
@@ -105,6 +117,13 @@ game and are **never distributed**. The flag keeps the build local: **without it
 Deixa o **texto de combate** mais legível: um **contorno/halo** (padrão **preto a 10%**)
 nos nomes de inimigos e nos rótulos de buff/debuff, mais o **texto do dado** nos eventos
 de rolagem. Cada superfície liga/desliga no `.cfg`. **Não altera gameplay.**
+
+A **cor da sombra segue o FUNDO** (chave `Fundo` por superfície), porque a sombra só aparece
+quando contrasta com o que está atrás dela: no fundo escuro do campo de batalha ela é a clara
+`#CBB396` — o preto `#000000` sumia ali (era o defeito relatado: "não vejo sombra nos nomes").
+Os nomes de inimigo já saem com `Fundo = escuro`; quem deixa `auto` mantém a regra antiga
+(pela luminância da letra). O diagnóstico de arranque agora imprime a **cor da letra** de cada
+alvo e a cor de sombra que ficou no material.
 
 Dois pontos honestos: o **efeito visual ainda não foi confirmado** (ninguém olhou a tela
 com o mod ligado), e os **rótulos de buff/debuff não ganham halo suave** (são o texto

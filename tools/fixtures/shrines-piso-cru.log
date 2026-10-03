@@ -1,0 +1,33 @@
+# ===========================================================================
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real.  (MAN-2 / REV-47, 02/10)
+# ---------------------------------------------------------------------------
+# Prova, no formato EXATO do `Marca` (ShrineAuraPatch), as DUAS marcas de LOG que o
+# marcador passou a emitir - e que antes nao existiam:
+#
+#   RV-46 teto '<atributo>': MaxValue=... total=...% cru=...% no-teto=...
+#       -> o campo `cru=` (valor ANTES do corte) foi acrescentado ao teto que ja existia;
+#   RV-46 piso '<atributo>': MinValue=... total=...% cru=...% no-piso=...
+#       -> a linha do PISO, que NAO existia: `MarcaTeto`/`TetoDoAtributo` so olhavam o `HasMax`,
+#          entao um atributo so de piso (`ManaCostMod`) nunca gerava linha nenhuma e o piso nao
+#          podia nem ser provado nem negado pelo log.
+#
+# DE ONDE VEM CADA NUMERO (nao digitado a mao: asset do jogo, lido no mesmo ponto que o mod le):
+#   * DamageReduction -> `HasMax` com MaxValue=50 (resources.assets @1519603860, RV-46);
+#     com DOIS `Guardian Aura` vivos (2 instancias; o MOTOR soma cada uma: 2 x 40 = 80 -
+#     o ITEM da linha azul conta a aura UMA vez, RV-46) + resto 10 do personagem -> CRU 90,
+#     CORTADO no MaxValue -> total 50. E o caso do cartao MAN-2: o cru (90) so podia ser
+#     INFERIDO da soma por instancia; agora ele e MEDIDO e sai no log.
+#   * ManaCostMod -> `HasMin` com MinValue=-75 (resources.assets @1519616544, o float logo depois
+#     do bool `HasMin` do objeto) e `HasMax` AUSENTE. A `Energy Aura` (base -50) empurra -50/-60/
+#     -100 nos bonus 0/20/100; no bonus 100 o CRU -100 e CORTADO no piso -> total -75.
+# Os dois limites (`HasMax`/`HasMin`) sao lidos em runtime do proprio `CharacterAttribute`; a
+# fixture so reproduz o que o build novo logaria.
+# ===========================================================================
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 teto 'DamageReduction': MaxValue=50 char=Man2Guard total=+50% cru=+90% no-teto=sim (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Guardian Aura] instancias=[Guardian Aura x2] char=Man2Guard bonus=100 -> Damage taken −40% (total −50%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 piso 'ManaCostMod': MinValue=-75 char=Man2Energy total=−50% cru=−50% no-piso=nao (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:11879-11882)
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 piso 'ManaCostMod': MinValue=-75 char=Man2Energy total=−60% cru=−60% no-piso=nao (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:11879-11882)
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 piso 'ManaCostMod': MinValue=-75 char=Man2Energy total=−75% cru=−100% no-piso=sim (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:11879-11882)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=Man2Energy bonus=0 -> Mana Costs reduced by 50% (total −50%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=Man2Energy bonus=20 -> Mana Costs reduced by 60% (total −60%)
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Energy Aura] char=Man2Energy bonus=100 -> Mana Costs reduced by 100% (total −75%)

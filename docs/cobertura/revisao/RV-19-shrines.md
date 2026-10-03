@@ -294,26 +294,26 @@ interpretaria o token (regra do projeto).
 // ESTE BLOCO É CÓPIA DE CONFERÊNCIA: cada literal abaixo foi LIDO do `LocalizePatch.cs` vivo em 01/10 (o
 // arquivo:linha vai anotado em cada entrada), e não escrito de memória — foi citar redação que não existia mais
 // que originou a REV-4.
-{ "Attackers take Fire Damage.",                                    // LocalizePatch.cs l.1030-1031
+{ "Attackers take Fire Damage.",                                    // LocalizePatch.cs 1347-1348 · TextAppends
   "\n<color=#C8B090>The attacker takes this damage in return, based on its own Max Health and not on the health of the one it attacked, before damage reduction.</color>" },
 // (a lista por alvo que aparece nesse tooltip NÃO vive na nota: ela é DINÂMICA, montada por
 // `ShrineAuraPatch.FraseAlvosDoFlame` na linha branca — §9(ii) para o que segue ABERTO, que é só DE QUEM é o
 // bônus/a vida lida no proc real.)
-{ "Take [0]% of your Max Health in Shadow Damage per turn.",         // l.1046-1047
+{ "Take [0]% of your Max Health in Shadow Damage per turn.",         // 1363-1364
   "\n<color=#C8B090>Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown, which already includes your own Shrine Effect Bonus, and it can be 0.</color>" },
-{ "Damage increased by [0]%. ",                                     // l.1048-1049 (Warrior)
+{ "Damage increased by [0]%. ",                                     // 1365-1366 (Warrior)
   "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Reduces Damage taken by [0]%. ",                                 // l.1050-1051 (Guardian)
+{ "Reduces Damage taken by [0]%. ",                                 // 1367-1368 (Guardian)
   "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Critical hit chance increased by [0]%.",                          // l.1052-1053 (Conqueror)
+{ "Critical hit chance increased by [0]%.",                          // 1369-1370 (Conqueror)
   "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Increases dodge chance by [0]%.",                                 // l.1054-1055 (Rogue)
+{ "Increases dodge chance by [0]%.",                                 // 1371-1372 (Rogue)
   "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Lifesteal increased by [0]%.",                                    // l.1056-1057 (Reaper)
+{ "Lifesteal increased by [0]%.",                                    // 1373-1374 (Reaper)
   "\n<color=#C8B090>Base 8%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Decreases the cost of mana using abilities by [0]%.",             // l.1058-1059 (Energy)
+{ "Decreases the cost of mana using abilities by [0]%.",             // 1375-1376 (Energy)
   "\n<color=#C8B090>Base 50%; the value shown already includes the Shrine Effect Bonus.</color>" },
-{ "Your attacks have a [0]% chance to stun the target.",             // l.1060-1061 (Dwarven)
+{ "Your attacks have a [0]% chance to stun the target.",             // 1377-1378 (Dwarven)
   "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
 ```
 
@@ -332,8 +332,8 @@ proposta, **nenhuma das 9 existia** em `TextFixes` nem em `TextAppends` (checado
 deste bloco, vale o `LocalizePatch.cs`.
 
 ⚠RV-24 → ⚠RV-33/RV-34 — o trecho "the value shown already includes the Shrine Effect Bonus" das **10 chaves de aura de
-buff** (as 9 auras + o Dwarven; conferido em `LocalizePatch.cs`, hoje sem parênteses e com o `;` — l.1049, 1051, 1053,
-1055, 1057, 1059, 1061) é
+buff** (as 9 auras + o Dwarven; conferido em `LocalizePatch.cs`, hoje sem parênteses e com o `;` — 1366, 1368, 1370,
+1372, 1374, 1376, 1378) é
 verdade no **tooltip do STATUS** e, desde o prefix do RV-22/RV-34, também no **hover do SHRINE** (§0.4/§3). As duas notas
 da família de PERIGO foram reescritas (⚠RV-33/RV-34 e depois TX-1) e **a conclusão ⚠RV-24 ("Does not scale") caiu**: o
 texto vivo é o `...before damage reduction...` do bloco acima, que diz que o fator **JÁ ESTÁ incluído**. O `LocalizePatch.cs`
@@ -341,13 +341,13 @@ texto vivo é o `...before damage reduction...` do bloco acima, que diz que o fa
 
 ### 6.2 Casos especiais (resolvidos — os textos abaixo são os VIVOS no `LocalizePatch.cs`)
 
-1. **Seraph Aura — `"Recover [0]% of maximum health each turn. "`** já tinha `TextFixes` (RV-14: `maximum health` → `max health`). `TextFixes`/`TextAppends` são mutuamente exclusivos → a nota foi **fundida no `TextFixes`**. Texto VIVO (lido de `LocalizePatch.cs` l.1146-1147 em 01/10):
+1. **Seraph Aura — `"Recover [0]% of maximum health each turn. "`** já tinha `TextFixes` (RV-14: `maximum health` → `max health`). `TextFixes`/`TextAppends` são mutuamente exclusivos → a nota foi **fundida no `TextFixes`**. Texto VIVO (lido de `LocalizePatch.cs` 1492-1493 · TextFixes em 01/10):
    `"Recover [0]% of max health each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>"`
-2. **Shaman Aura — `"Recover [0]% of maximum mana each turn. "`** idem (RV-14). Texto VIVO (`LocalizePatch.cs` l.1116-1117):
+2. **Shaman Aura — `"Recover [0]% of maximum mana each turn. "`** idem (RV-14). Texto VIVO (`LocalizePatch.cs` 1462-1463 · TextFixes):
    `"Recover [0]% of max mana each turn. \n<color=#C8B090>Base 10%; the value shown already includes the Shrine Effect Bonus.</color>"`
 3. **Fury — `"Damage increased by [0]%. Damage taken increased by [0]%. "`**: decisão tomada — o valor foi **estendido**.
    Era a ÚNICA das 9 chaves de aura sem a base e sem a cadeia do bônus, e a frase de cura do RV-9 (que continua
-   verdadeira: o motor soma `DamageMod` à cura) foi mantida. Texto VIVO (`LocalizePatch.cs` l.525-526; enxugado no TX-1,
+   verdadeira: o motor soma `DamageMod` à cura) foi mantida. Texto VIVO (`LocalizePatch.cs` 842-843 · TextAppends; enxugado no TX-1,
    a versão ⚠RV-43 com a cadeia inteira entre parênteses está MORTA):
    `"\n<color=#C8B090>Base 25% damage and +25% damage taken; the value shown already includes the Shrine Effect Bonus. Also increases the healing you do by the same percentage.</color>"`
    A chave segue só em `TextAppends` (o texto do jogo não mudou) e `check_chave_compartilhada.py --estrito` = 0.

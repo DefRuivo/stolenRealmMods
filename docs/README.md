@@ -72,7 +72,7 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 44 relatórios de revisão
+### `cobertura/revisao/` — 45 relatórios de revisão
 
 O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
 confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
@@ -85,7 +85,7 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
 | **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
-| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 12 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RSTV-5-confirmacao-prefab.md` (confirmação do INDETERMINADO do RSTV-3 — o X do prefab), `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md` | 13 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
@@ -240,7 +240,7 @@ bash scratch/test-cycle.sh 12 "padrão1|padrão2"
 O script encerra a instância anterior, limpa o `LogOutput.log`, lança o jogo pela Steam
 com o doorstop do perfil, espera o plugin carregar, filtra o log pelo padrão que você
 passou e fecha o jogo. O segundo argumento é um `grep -E` — ex.:
-`bash scratch/test-cycle.sh 20 "QoL fonte|Better Tooltips"`.
+`bash scratch/test-cycle.sh 20 "Better Font carregado|Better Tooltips carregado"`.
 
 **Critério de aprovação — no `LogOutput.log` do perfil:**
 
@@ -337,7 +337,8 @@ reprova e a release para.
 | `check_fix_keys.py` | Confere as chaves de `TextFixes`/`TextAppends` contra o censo. | **Passo 2 do ritual**; passo 2 do CI. As 4 chaves de UI/loading fora do censo são **aviso**, não erro. |
 | `check_dupes.py` | Chave **duplicada** nas tabelas do `LocalizePatch` (`INC-1`). | **Passo 3 do ritual — TRAVA**; passo 3 do CI. |
 | `tabelas.py` | O **parser único** das tabelas `TextFixes`/`TextAppends` do `LocalizePatch.cs`: `bloco()` (acha o dicionário pelo `NOME = new Dictionary` e casa as chaves de fechamento) e `entradas()` (lê os pares) pulando comentário de **linha** (`//`) e de **bloco** (`/* */`) em todo passo. É a **fonte da verdade** da contagem oficial — os leitores que aparecem nesta tabela são **wrappers/consumidores** dele (`check_chave_compartilhada`, `check_dupes`, `check_notas_redundantes`, `check_fix_keys`, `check_omissao`, `check_scaling`, `review_ledger`, `regras_cor`), e o `t_parser_comentario_na_chave.py` cross-verifica os oito. | Não roda sozinho: é **importado**. `python tools/tabelas.py` roda a prova local (as entradas com comentário de linha e de bloco TÊM de ser vistas). |
-| `check_versoes.py` | **PKG-2 (só olha o repositório, sem build):** confere se a versão de cada mod bate nos **três** lugares — `<Mod>/<Mod>.csproj` (`<Version>`, a fonte), `<Mod>/manifest.json` (`version_number`) e `<Mod>/Plugin.cs` (`[BepInPlugin(...)]`). Importa o parser do `pack-thunderstore.py`, então o gate e o empacotador nunca discordam sobre "qual é a versão". | Medido em 30/09/2026: **não** é chamado pelo `release-check.sh` nem pelos workflows (conferido com `grep`) — roda à mão quando se quer a trava de versão antes de empacotar. |
+| `check_versoes.py` | **PKG-2 (só olha o repositório, sem build):** confere se a versão de cada mod bate nos **quatro** lugares — `<Mod>/<Mod>.csproj` (`<Version>`, a fonte), `<Mod>/manifest.json` (`version_number`), `<Mod>/Plugin.cs` (`[BepInPlugin(...)]`) e `<Mod>/README.md` (`- **Version:**`). Importa o parser do `pack-thunderstore.py`, então o gate e o empacotador nunca discordam sobre "qual é a versão". | **Passo 1 do `release-check.sh`** (aborta na hora, como segredos e patches) e **passo 2 do CI** (`validate.yml`); também roda à mão quando se quer a trava de versão antes de empacotar. |
+| `check_dependencias.py` | **PKG-5:** toda dependência de cada `manifest.json` tem de **resolver** — a versão referida já está publicada (`--api`, endpoint por versão, fresco, sem token) ou sai no **mesmo lote** com a dependência **antes** do dependente (`--local`, sem rede, lê `release/mods.json`); calcula a **ordem de envio** e reprova **mão dupla entre versões inéditas** (ciclo). É a regra que o `.github/scripts/valida_pacotes.py` importa (regra 8), então o push já a confere. | Antes de liberar/publicar um lote de mods com dependência entre si; no push, dentro do passo 6 do CI. |
 | `verify_tree.py` | Bancada por árvore: junta o texto da skill com o código (`attr`, `expr`, `danoExpr`, ações, status) → `docs/cobertura/revisao/ficha-<arvore>.md`. | Revisão de uma árvore de skills (gera a ficha). |
 | `audit_tooltips.py` | Auditoria de conteúdo das skills (RV-8b) → `docs/cobertura/auditoria-tooltips.md`. | Revisão de conteúdo das skills (RV-8b). |
 | `scan_tokens.py` | Varredura da gramática de texto (RV-8a) → `docs/cobertura/alerta-tokens.md`. | Revisão da gramática de texto (RV-8a). |
@@ -352,11 +353,11 @@ reprova e a release para.
 | `review_ledger.py` | Gera `docs/cobertura/revisao/ANTES-E-DEPOIS.md` a partir do fonte do mod. | Ao fechar um lote de correções (o livro de correções). |
 | `importa_beneficio.py` | Traz a classificação buff/debuff do log para o `status.csv`. | Ao atualizar a coluna `beneficio` do `status.csv`. |
 | `pack-for-friends.sh` | Compila (**Release**, com `-p:DeployToBepInEx=false` para não tocar na DLL do perfil) e empacota os mods distribuíveis em `dist/`. Configuração: `CONFIG` (padrão `Release`). | Distribuição para amigos (ver [`MODS-PARA-AMIGOS.md`](MODS-PARA-AMIGOS.md)). |
-| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. | Empacotar para publicação; `--sincronizar-versao <Mod>` depois de subir o `<Version>` do `.csproj`. |
-| `check_segredos.py` | **Trava de segredo:** varre os arquivos **versionados** procurando credencial (token do Thunderstore, PAT do GitHub, chave privada) e, em seguida, chama o `check_padroes_segredo.py`. Exit 1 e o release para. | **Passo 0 do `release-check.sh`** (o único que **aborta na hora**) e **passo 1 do CI**; também roda dentro do `publish-thunderstore.sh` e do job de publicação. |
+| `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs` × `README.md`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. | Empacotar para publicação; `--sincronizar-versao <Mod>` depois de subir o `<Version>` do `.csproj`. |
+| `check_segredos.py` | **Trava de segredo:** varre os arquivos **versionados** procurando credencial (token do Thunderstore, PAT do GitHub, chave privada) e, em seguida, chama o `check_padroes_segredo.py`. Exit 1 e o release para. | **Passo 0 do `release-check.sh`** e **passo 1 do CI**; também roda dentro do `publish-thunderstore.sh` e do job de publicação. |
 | `check_padroes_segredo.py` | O **motor genérico** de credencial: formatos conhecidos (GitHub, Thunderstore, Slack, OpenAI, AWS, Google, GitLab, npm, PEM) **+** string longa de alta entropia, para pegar o que ainda não tem nome. Não guarda valor de token — só formato e medida. | Rodado **pelo** `check_segredos.py` (por isso é parte do passo 0 do `release-check` e do passo 1 do CI). Direto, só para a varredura mais ampla à mão. |
 | `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. | Publicação local, quando o envio sai pela mão (ver [`PUBLICACAO.md`](PUBLICACAO.md)); é o caminho enquanto não se usa o `publish.yml`. |
-| `release-check.sh` | **A trava de release:** roda os passos automatizados 0–6 (segredos → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito` → ciclo do jogo) e imprime o **passo 7, humano** (conferência visual em jogo, não automatizável); no fim diz APROVADO/REPROVADO e lista quem falhou. **Não** para no primeiro erro — só o passo 0 (segredos) aborta na hora; os outros acumulam para o relatório. Duas travas objetivas: duplicadas (`INC-1`) e chave nas duas tabelas (`BUG-32`). | Antes de **qualquer** release ou empacotamento (e é chamada pelo `publish-thunderstore.sh`). |
+| `release-check.sh` | **A trava de release:** roda os passos automatizados 0–7 (segredos → versões → patches → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito`), o passo 8 (**ciclo do jogo**, só no modo explícito `--instalar-no-perfil`) e imprime o **passo 9, humano** (conferência visual em jogo, não automatizável); no fim diz APROVADO/REPROVADO e lista quem falhou. **Não** para no primeiro erro — os passos 0 (segredos), 1 (versões) e 2 (patches TRV-1) **abortam na hora**; os outros acumulam para o relatório. Travas objetivas: duplicadas (`INC-1`), chave nas duas tabelas (`BUG-32`) e versão única (`PKG-2`). | Antes de **qualquer** release ou empacotamento (e é chamada pelo `publish-thunderstore.sh`). |
 | `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/plugin), ferramentas citadas x existentes em `tools/`, links relativos, caminhos que saíram do repo e a dependência do Thunderstore. Sai `exit 1` quando alguma afirmação não bate — é o **passo 7 do CI**. Descobre a raiz do repo a partir do próprio arquivo (roda de qualquer diretório) e **marca** os falsos positivos que já conhece (referência histórica ao `BetterTexts`, tabela que diz "não instale", a linha que explica que o `KANBAN.md` não é versionado, script de bancada em `scratch/`) em vez de reprovar. | **Passo 7 do CI**; depois de mexer em qualquer doc (é ele que confere contagem, versão, ferramenta e link). |
 
 ---
@@ -396,7 +397,7 @@ Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 | `description` | ate 250 chars | OK (172..212) |
 | `website_url` | URL valida | OK |
 | `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 57013..124954 bytes — todos abaixo de 1 MB) |
-| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.0` → `BetterFont 1.0.1` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
+| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.1` → `BetterFont 1.0.2` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
 **A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5
@@ -446,7 +447,7 @@ do ciclo do jogo em publicação automatizada: `PULAR_RELEASE_CHECK=1`, use com 
 
 ### Fonte única de versão (PKG-2)
 
-A versão tem **uma** fonte e dois espelhos conferidos automaticamente — o Thunderstore recusa
+A versão tem **uma** fonte e três espelhos conferidos automaticamente — o Thunderstore recusa
 versão repetida, e pacote com versão divergente é publicado errado sem ninguém perceber:
 
 | arquivo | papel |
@@ -454,8 +455,9 @@ versão repetida, e pacote com versão divergente é publicado errado sem ningu�
 | `<Mod>/<Mod>.csproj` — `<Version>` | **FONTE** (autoritativa) |
 | `<Mod>/manifest.json` — `version_number` | espelho — o que o Thunderstore lê |
 | `<Mod>/Plugin.cs` — `[BepInPlugin(..., "x.y.z")]` | espelho — o que o log do BepInEx mostra |
+| `<Mod>/README.md` — `- **Version:** x.y.z` | espelho — o que o usuário lê |
 
-O pre-flight do `tools/pack-thunderstore.py` compara os três **antes de zipar**: se divergir,
+O pre-flight do `tools/pack-thunderstore.py` compara os quatro **antes de zipar**: se divergir,
 nenhum pacote é gerado e a mensagem mostra qual está fora (seta `DIVERGE`) com o comando que
 resolve. O `Plugin.cs` é lido nos dois formatos que o repo usa: literal no atributo (os mods mais
 antigos) ou `public const string Version = "x.y.z"` usada como último argumento
@@ -463,15 +465,15 @@ antigos) ou `public const string Version = "x.y.z"` usada como último argumento
 para não criar uma segunda regra de leitura.
 
 **Subir a versão, na prática:** edite o `<Version>` do `.csproj` e rode **uma** vez
-`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` — ele reescreve o `manifest.json`
-e o `Plugin.cs` **só quando divergem** (se já batiam, os dois arquivos ficam byte-a-byte iguais) e
+`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` — ele reescreve o `manifest.json`, o `Plugin.cs`
+e o `README.md` **só quando divergem** (se já batiam, os três arquivos ficam byte-a-byte iguais) e
 não empacota nada. Depois é só empacotar.
 
 > **Por que os espelhos não viraram código gerado** (a alternativa era um `VersaoMod.g.cs` escrito
 > pelo MSBuild a partir do `<Version>`): o `tools/audita_docs.py`, passo 7 do CI, lê o literal
 > **de dentro do `Plugin.cs`** — com a constante gerada em outro arquivo a auditoria perde o par e
 > reprova. Com o pre-flight no empacotamento + o sincronizador, a divergência não chega ao zip nem
-> ao site, e a edição manual por release caiu de três arquivos para um.
+> ao site, e a edição manual por release caiu de quatro arquivos para um.
 
 ### Empacotar no Windows: `scripts/package.ps1` (PKG-3)
 
@@ -512,5 +514,5 @@ com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**), o e
 `bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só sobe com `--go`). Os dois
 workflows já estão no remoto — factual verificado em 30/09/2026, ver [`CI.md`](CI.md). A versão nao pode
 repetir uma ja publicada — a **PKG-2** resolveu isso: a versão tem uma fonte (o `<Version>` do
-`.csproj`) e o empacotamento **recusa** pacote quando `manifest.json` ou `Plugin.cs` divergem dela
+`.csproj`) e o empacotamento **recusa** pacote quando `manifest.json`, `Plugin.cs` ou `README.md` divergem dela
 (ver § *Fonte única de versão*).

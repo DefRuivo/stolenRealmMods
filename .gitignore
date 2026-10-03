@@ -1,6 +1,7 @@
 bin/
 obj/
 lib/
+NuGet/
 .vs/
 *.user
 # PKG-5: dist/ guarda os pacotes .zip gerados (artefato de build) — o CONTEUDO segue

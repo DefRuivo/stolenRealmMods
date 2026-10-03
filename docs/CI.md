@@ -94,7 +94,7 @@ A ordem vai do mais barato/mais grave para o mais caro.
 | 3 | `python tools/check_dupes.py` | chave **duplicada** → `ArgumentException` derruba o `LocalizePatch` inteiro (INC-1) |
 | 4 | `python tools/check_notas_redundantes.py` | nota que repete o próprio texto (RV-15) |
 | 5 | `python tools/check_chave_compartilhada.py --estrito` | **a mesma chave** em `TextFixes` **e** em `TextAppends`: o lookup é `if/else if` na mesma chave, então a entrada de `TextAppends` **nunca roda** e a nota não existe em jogo, sem erro no log (BUG-32). As *suspeitas* (texto usado por 2+ donos) seguem **aviso que não reprova**, nos dois modos |
-| 6 | `python .github/scripts/valida_pacotes.py` | manifest, ícone, README e CHANGELOG de cada pacote |
+| 6 | `python .github/scripts/valida_pacotes.py` | manifest, ícone, README e CHANGELOG de cada pacote — **e que toda dependência resolve** (regra 8, PKG-5; ver `tools/check_dependencias.py`) |
 | 7 | `python tools/audita_docs.py` | auditoria das docs contra o disco: contagens, versões, ferramentas citadas, links e caminhos que saíram do repo (promovido de `scratch/` em 30/09/2026) |
 | 8 | `python tools/checa_citacoes.py` | **citação `arquivo:linha`** da doc apontando para arquivo que não existe ou linha fora do arquivo (irmão estreito do `audita_docs`; a terceira citação quebrada do dia, achado 5 da REV-56) |
 

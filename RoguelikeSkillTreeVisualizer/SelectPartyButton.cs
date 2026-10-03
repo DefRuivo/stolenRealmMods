@@ -9,11 +9,11 @@ namespace RoguelikeSkillTreeVisualizer
 {
     /// <summary>
     /// RSTV-2a: o botao quadrado a DIREITA do "Choose Powerups" (`CharacterChoiceManager.roguelikePowerupButton`,
-    /// l.208096), na MESMA linha.
+    /// l.328521), na MESMA linha.
     ///
     /// Como: clonar o proprio botao nativo (mesmo sprite/estados/prefab — `Instantiate`, l.53 da analise),
     /// inserir como IRMAO logo apos ele e compensar a largura da linha pelo que foi adicionado. Assim
-    /// nem a linha cresce, nem o `Accept Party` (l.208130) muda de tamanho.
+    /// nem a linha cresce, nem o `Accept Party` (l.328555) muda de tamanho.
     ///
     /// O sprite/tamanho/ancora vivem no prefab (`resources.assets`), que nao foi aberto: por isso tudo
     /// aqui e medido em runtime e logado (linha antes -> depois), para conferir em jogo.
@@ -125,7 +125,9 @@ namespace RoguelikeSkillTreeVisualizer
                 Button button = clone.GetComponent<Button>();
                 if (button != null)
                 {
-                    button.onClick.RemoveAllListeners();
+                    // RSTV-12: mesma classe de defeito dos clones da run — limpa tambem o listener
+                    // PERSISTENTE (serializado) do botao molde, nao so o de runtime.
+                    ClearClickListeners(button);
                     button.onClick.AddListener(new UnityAction(OnClick));
                     button.interactable = PartyTargets.Resolve() != null;
                 }
@@ -150,7 +152,7 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
-        /// O `Update()` do jogo (l.208236) liga/desliga o `roguelikePowerupButton` conforme
+        /// O `Update()` do jogo (l.328661) liga/desliga o `roguelikePowerupButton` conforme
         /// `Root.PlayingRoguelike`. O nosso clone precisa seguir o original (nada de botao orfao no
         /// Select Party da campanha) e ficar desabilitado quando a party LOCAL esta vazia.
         /// </summary>
@@ -263,8 +265,8 @@ namespace RoguelikeSkillTreeVisualizer
                 }
 
                 Plugin.Log.LogInfo("RSTV-2: clique no botao '" + Label + "' -> '" + target.CharacterName +
-                                   "' (nivel " + target.Level + ").");
-                SkillTreeReadOnly.Open(target);
+                                   "' (nivel " + target.Level + ") na aba 'All Skill Trees' do inventario.");
+                SkillTreesTab.Abrir(target, ReadOnlyContext.PartyScreen);
             }
             catch (Exception e)
             {
@@ -489,6 +491,36 @@ namespace RoguelikeSkillTreeVisualizer
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// RSTV-12: limpa TODOS os listeners de clique do botao — inclusive os PERSISTENTES
+        /// (serializados no prefab) que o `RemoveAllListeners()` NAO remove.
+        ///
+        /// POR QUE `RemoveAllListeners()` NAO BASTA (lido do `UnityEngine.CoreModule.dll` DESTE build,
+        /// `UnityEngine.Events.InvokableCallList`/`UnityEventBase`):
+        ///  - o `UnityEvent` guarda DUAS listas: `m_PersistentCalls` (os listeners gravados no prefab
+        ///    — o `ButtonPressedPing` do Ping Button e o `ConfirmLevelUpSelection` do AcceptButton) e
+        ///    `m_RuntimeCalls` (os de script, como o nosso);
+        ///  - `UnityEventBase.RemoveAllListeners()` chama apenas `m_Calls.Clear()`, e esse `Clear()`
+        ///    esvazia SO a `m_RuntimeCalls` — a lista persistente continua na instancia;
+        ///  - pior: `InvokableCallList.PrepareInvoke()` concatena as PERSISTENTES **antes** das de
+        ///    runtime. O listener do jogo roda PRIMEIRO e, se ele lancar (o `ConfirmLevelUpSelection`
+        ///    estoura `NullReferenceException` num clone), o `UnityEvent.Invoke()` ABORTA a varredura
+        ///    e o NOSSO listener nem chega a rodar — foi exatamente o stack do log de 02/10.
+        ///
+        /// Trocar a INSTANCIA do evento (`new Button.ButtonClickedEvent()`) descarta junto a lista
+        /// persistente serializada (a instancia nova nasce sem nenhuma) — e e a partir dela que o
+        /// listener do mod e instalado. `Button.onClick` tem setter publico (IL deste build).
+        /// </summary>
+        internal static void ClearClickListeners(Button button)
+        {
+            if (button == null)
+            {
+                return;
+            }
+
+            button.onClick = new Button.ButtonClickedEvent();
         }
     }
 }

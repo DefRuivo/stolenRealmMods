@@ -4,6 +4,19 @@
   "como_usar": "Para liberar um mod: vire \"publicar\" para true e explique em \"motivo\". Um mod com publicar:false NAO e publicado pelo pipeline, nem se for escolhido a mao no disparo (o workflow falha de proposito e mostra este motivo).",
   "comunidade": "stolen-realm",
   "team": "DefRuivo_StolenRealmMods",
+  "ordem_de_envio": {
+    "sobre": "A Thunderstore NAO aceita dependencia para versao inexistente: no upload, o PackageReferenceValidator(resolve=True) procura cada 'namespace-nome-versao' e recusa o pacote com 'No matching package found for reference'. Entao, no mesmo lote, quem declara a dependencia tem de ser enviado DEPOIS de quem a produz. Esta lista e a ordem que o gate deste arquivo le e o passo de envio deve seguir.",
+    "regra": "Dependencia publica ANTES do dependente; mao dupla entre versoes ineditas nao tem ordem valida (reprovada). Conferido por `python tools/check_dependencias.py --api` (versao fresca na API publica por pacote) ou `--local` (este arquivo, offline).",
+    "ordem": [
+      "BetterFont",
+      "BetterStats",
+      "BetterTooltips",
+      "RoguelikeDebugger",
+      "RoguelikeSkillTreeVisualizer",
+      "BetterCombatText"
+    ],
+    "caso_de_hoje": "BetterCombatText 0.1.1 declara DefRuivo_StolenRealmMods-BetterFont-1.0.2; a 1.0.2 ainda NAO esta no ar (a ultima publicada do BetterFont e a 1.0.1), entao o BetterFont 1.0.2 tem de subir ANTES do BetterCombatText 0.1.1 - e o que a ordem acima garante."
+  },
   "team_pendente": "PUB-3 RESOLVIDO em 30/09/2026: o team que publica e DefRuivo_StolenRealmMods (namespace da URL do pacote, definitivo - nao se renomeia depois). O namespace vem do TOKEN usado no envio, nao do zip; confira que o token e de service account DESTE team antes de enviar.",
   "registro": "As datas de \"publicado_em\" saem do endpoint POR PACOTE da Thunderstore (o unico fresco; a listagem da comunidade e cache de CDN e nao serve para conferir), nunca da memoria. AS SEIS ENTRADAS DESTA LEVA FORAM GRAVADAS A MAO em 01/10/2026: o job `registra` do run 36801937843 confirmou as seis na API (passo 4 = success) e falhou no passo 5 (`Commit e push do registro`). O log desse job NAO esta acessivel - a API do GitHub responde 403 'Must have admin rights to Repository' sem credencial de admin e a UI diz 'Sign in to view logs' -, entao a causa e a que a linha do tempo sustenta: o checkout do run e o commit cb0d12c (01:29Z) e a main recebeu 46fde11 (01:50Z) e c26128d (01:51Z) enquanto o run esperava a aprovacao humana; o passo 5 tentou gravar as 02:04Z e `git push origin HEAD:main` foi recusado por NAO ser fast-forward, porque o passo nunca rebasava. Conserto, no mesmo commit que gravou estas entradas: o job passou a buscar a main fresca, rebasar o commit do registro sobre ela e repetir o push com espera crescente (o trecho antes/depois esta em .github/workflows/publish.yml, no passo 'Commit e push do registro'). Os motivos anteriores desta leva - sha256 dos zips, contagem de assets da Release pack-2026-09-30 - ficam no historico do git; este arquivo guarda o estado de hoje.",
   "esquema_de_um_mod": {
@@ -19,14 +32,14 @@
       "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-10-01T02:00:04.251384Z",
-      "motivo": "PUBLICADO na leva de 01/10/2026 (run 36801937843, input 'todos', aprovacao humana no Environment thunderstore): 0.1.0 no ar desde 2026-10-01T02:00:04Z, lido do endpoint por pacote. Era a UNICA entrada com versao_publicada null e o primeiro mod cujo envio exigiu passo proprio no pipeline (o 5.6). ORDEM DO PIPELINE, NAO INVERTER: o manifest deste 0.1.0 declara BepInEx-BepInExPack-5.4.2305 + DefRuivo_StolenRealmMods-BetterFont-1.0.1, e o upload da Thunderstore RESOLVE a referencia (PackageReferenceValidator(resolve=True)), recusando a que nao existe com 'No matching package found for reference' - por isso o passo 5.1 publica o BetterFont 1.0.1 ANTES do passo 5.6 deste mod."
+      "motivo": "PUBLICAR 0.1.1 (substitui a 0.1.0, no ar desde 01/10/2026). A 0.1.1 leva o contorno preto duro/opaco no nome do inimigo (UI/UX: _OutlineWidth 0.22, softness 0.05, alfa 0.95) + sombra adaptativa por contraste com a fonte. Revisado pelo dono em jogo. Depende de BetterFont-1.0.2 (sobe DEPOIS do BetterFont)."
     },
     {
       "nome": "BetterFont",
       "publicar": true,
       "versao_publicada": "1.0.1",
       "publicado_em": "2026-10-01T01:59:31.637789Z",
-      "motivo": "PUBLICADO: 1.0.1 no ar desde 2026-10-01T01:59:31Z (run 36801937843), substituindo a 1.0.0 na vitrine (a plataforma mostra a maior versao, nao a mais recente). A 1.0.0 subiu SEM categoria (foi o primeiro envio, antes do commit 420a7a4); esta 1.0.1 saiu COM categoria 'Mods', conferida na API experimental, e com o aplicador de ganchos corrigido (BF-1). DEPENDENCIA EM UMA DIRECAO SO, registrada aqui: quem declara a outra ponta e o BetterCombatText 0.1.0 (-> BetterFont 1.0.1); este mod declara SOMENTE BepInEx-BepInExPack-5.4.2305. A mao dupla foi descartada por FATO (commit ac0210f), nao por preferencia: o upload resolve cada referencia e recusa a inexistente, e naquela rodada os dois lados apontavam para versoes ineditas - nao havia ordem de envio valida."
+      "motivo": "PUBLICAR 1.0.2 (substitui a 1.0.1, no ar desde 01/10/2026). A 1.0.2 leva o transporte de estilo entre VARIANTES de shader (BF-1) e a sombra fantasma corrigida (SombraDesenhada, BF-5). Categoria 'Mods'. Ordem: sobe ANTES do BetterCombatText 0.1.1 (que depende de BetterFont-1.0.2)."
     },
     {
       "nome": "BetterStats",
@@ -52,9 +65,9 @@
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.2.0",
-      "publicado_em": "2026-10-01T01:59:57.384587Z",
-      "motivo": "PUBLICADO: 0.2.0 no ar desde 2026-10-01T01:59:57Z (run 36801937843), substituindo a 0.1.0. O 0.2.0 leva o botao 'Skills' na tela Select Party e no HUD da run. AVISO REGISTRADO (tools/check_patches.py): os 10 ganchos deste mod tem atributo, mas o filtro EhClasseDeGancho dele exige atributo no metodo e nao cita os nomes Prefix/Postfix - um gancho futuro escrito por convencao de nome seria ignorado em silencio."
+      "versao_publicada": "0.3.0",
+      "publicado_em": "2026-10-02T22:46:46.861419Z",
+      "motivo": "PUBLICADO: 0.3.0 no ar desde 2026-10-02T22:46:46Z (envio local via API experimental). Categoria 'Mods' preservada. Substitui a 0.2.0. A 0.3.0 troca o botao pela ABA 'All Skill Trees' no inventario (fileira das 11 classes clonadas do SkillTreeTab nativo + arvore read-only em escala e posicao nativas - nos dentro do container x1.7 do Skill Item Container), adiciona o atalho F10 configuravel, o roteamento de clique via ClearClickListeners e corrige os portoes do botao (mapa/combate/level-up) e a abertura pelo caminho nativo OpenSkillTreeMenu. UI/UX (escala dos nos e posicao da arvore) revisada pelo dono em jogo."
     }
   ]
 }

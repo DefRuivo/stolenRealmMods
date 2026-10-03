@@ -1,0 +1,67 @@
+PROVA DE FOGO — MAN-2 (PISO invisivel + VALOR CRU ausente)
+teste: tools/testes/testes/puros/t_shrine_piso_cru.py
+
+-- LINHA DE BASE (fonte consertado)
+   exit=0 (esperado 0)   VEREDITO: VERDE (exit 0)
+
+-- ISCA 1 (ShrineAuraPatch.cs): o marcador deixa de olhar HasMin (o piso volta a ser invisivel)
+   exit=1 (esperado 1)   sha256 antes==depois: True
+   VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+   [REPROVOU] shrine-piso-cru o marcador deixou de olhar o PISO do atributo (`CharacterAttribute.HasMin`) (procurei 'atributo.HasMin' no CODIGO de ShrineAuraPatch.cs)
+
+-- ISCA 2 (ShrineAuraPatch.cs): o campo cru= sai do marcador (o total volta a sair so cortado)
+   exit=1 (esperado 1)   sha256 antes==depois: True
+   VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+   [REPROVOU] shrine-piso-cru o campo `cru=` saiu do marcador (o total volta a sair so cortado) (procurei '" cru=" + ComSinal(cru)' no CODIGO de ShrineAuraPatch.cs)
+
+-- ISCA 3 (ShrineAuraPatch.cs): o cru deixa de ser MEDIDO pelo motor (sai do SavedMap)
+   exit=1 (esperado 1)   sha256 antes==depois: True
+   VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+   [REPROVOU] shrine-piso-cru o cru deixou de partir do `SavedMap` (a base do personagem) (procurei 'receptor.SavedMap[atributo.Guid]' no CODIGO de ShrineAuraPatch.cs)
+
+-- ISCA 4 (checa_shrines.py): o conferidor deixa de ler a linha do PISO
+   exit=1 (esperado 1)   sha256 antes==depois: True
+   VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+   [REPROVOU] shrine-piso-cru o PISO do ManaCostMod lido do log (MinValue=-75, resources.assets @1519616544): esperado -75.0, obtido None
+
+-- ISCA 5 (checa_shrines.py): o RE_TETO perde o grupo cru (o corte volta a ser invisivel)
+   exit=1 (esperado 1)   sha256 antes==depois: True
+   VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+   [REPROVOU] shrine-piso-cru o TETO do DamageReduction lido do log (MaxValue=50, resources.assets @1519603860): esperado 50.0, obtido None
+
+RESULTADO: OK — as 5 iscas REPROVARAM pelo motivo certo e os dois arquivos voltaram byte a byte (sha256)
+sha256 final:
+  a31c61a52cdb4282  BetterTooltips\Patches\ShrineAuraPatch.cs
+  3421e597ede375aa  tools\checa_shrines.py
+  28a656febd92c054  tools\testes\testes\puros\t_shrine_piso_cru.py
+  641a5a775d5b7f54  tools\fixtures\shrines-piso-cru.log
+
+--------------------------------------------------------------------------------
+NOTA DE ATRIBUICAO (leitura concorrente no mesmo worktree)
+--------------------------------------------------------------------------------
+Durante a rodada, `tools/pack-thunderstore.py` e `tools/check_versoes.py` foram editados por OUTRA
+frente (a que levou o `- **Version:**` do README do mod ao pre-flight: PKG-3). A suite ficou com
+`t_trava_artefato_fonte` VERMELHO por causa disso, e nao do MAN-2 - provado rodando o MESMO caso
+("build em dia") contra a versao do packer do HEAD, num diretorio temporario, sem tocar no
+repositorio:
+
+    packer do HEAD  -> build em dia PASSOU? True
+    packer de trabalho (com a checagem PKG-3 nova) -> REPROVA (o plantio nao tinha a linha)
+
+`tools/testes/regras_rel.monta_mod` (o plantio do caso) passou a escrever o espelho
+`- **Version:** <versao>` no README do mod plantado - e o complemento do PKG-3, sem o qual o
+proprio plantio "em dia" do teste REPROVA. Sem essa linha, a suite fica VERMELHA para todo mundo.
+
+ESTADO FINAL DA RODADA (02/10)
+  python tools/testes/roda_testes.py --puros          -> 45 rodaram, 45 passaram, 0 reprovaram (. VERDE, exit 0)
+  python tools/testes/roda_testes.py --contra-prova   -> 15 iscas ok, 0 falhou (. VERDE, exit 0)
+  python tools/checa_shrines.py --log tools/fixtures/shrines-rv46-dedupe.log  -> exit 0 (mesmo veredito de antes;
+      so a redacao da ADITIVIDADE mudou e a secao LIMITES DO ATRIBUTO NO LOG entrou)
+  python tools/checa_shrines.py --log tools/fixtures/shrines-piso-cru.log     -> le MinValue=-75 e cru=-100 (piso)
+      e MaxValue=50 e cru=90 (teto); exit 3 (cobertura incompleta - fixture pequena, nao reprovacao)
+  dotnet build BetterTooltips/BetterTooltips.csproj -p:DeployToBepInEx=false  -> 0 Erro(s)
+  travas: check_patches, check_dupes, check_segredos, check_fix_keys, check_notas_redundantes,
+          check_deploy_optin, check_chave_compartilhada --estrito, audita_docs, check_versoes,
+          checa_citacoes, gera_shrines_esperado --check  -> todos exit 0
+  perfil do r2modman: NAO tocado (BetterTooltips.dll segue de 10-01 23:44:19)
+

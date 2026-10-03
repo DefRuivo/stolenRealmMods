@@ -163,8 +163,9 @@ namespace BetterFont
 
             // NÃO criar o updater aqui! Este Awake roda durante o chainloader do BepInEx, ANTES
             // de existir cena — a Unity DESTRÓI na primeira carga de cena qualquer GameObject
-            // criado ali (mesma causa raiz do HUD do RoguelikeQoL, confirmada 29/09), e o updater
-            // nunca chegava a receber Update. A criação é PREGUIÇOSA: no primeiro Localize da UI.
+            // criado ali (mesma causa raiz do HUD do RoguelikeQoL — mod retirado do projeto,
+            // causa confirmada em 29/09), e o updater nunca chegava a receber Update. A criação é
+            // PREGUIÇOSA: no primeiro Localize da UI.
             AplicarPatches();
 
             Logger.LogInfo("Better Font: o updater sera criado de forma PREGUICOSA no primeiro " +
@@ -726,7 +727,8 @@ namespace BetterFont
                     Plugin.Log.LogInfo(
                         $"Better Font: varredura — {convertidos} texto(s) convertidos para a serifa" +
                         (Plugin.PreservarEstiloLigado ? " (efeitos do material anterior transportados)" : string.Empty) +
-                        $", {pulados} pulado(s) pelo escape (PularTextosEstilizados ligado), " +
+                        $", {pulados} pulado(s) pelo escape (PularTextosEstilizados " +
+                        (Plugin.PularEstilizadosLigado ? "ligado" : "desligado") + "), " +
                         $"{naoPreservaveis} intocado(s) por efeito nao transportavel, " +
                         $"{revertidos} revertido(s) por falha ao aplicar (nada ficou pela metade), {jaNaSerifa} ja na serifa.");
                 }
@@ -881,9 +883,9 @@ namespace BetterFont
                     return false;
                 }
 
-                bool sombraEmUso = antigo.IsKeywordEnabled("UNDERLAY_ON") ||
-                                   antigo.IsKeywordEnabled("UNDERLAY_INNER") ||
-                                   (antigo.HasProperty("_UnderlayColor") && antigo.GetColor("_UnderlayColor").a > 0.001f);
+                // BF-5: a sombra INERTE (cor com alfa, mas keyword desligada e offset/dilate 0) NAO
+                // conta como "sombra em uso" — o material novo nao perde nada que o jogo desenhasse.
+                bool sombraEmUso = SombraDesenhada(antigo);
                 if (sombraEmUso && !padraoNovo.HasProperty("_UnderlaySoftness"))
                 {
                     motivo = "sombra em uso e o material novo nao expoe underlay";
@@ -932,11 +934,9 @@ namespace BetterFont
                 {
                     return true;
                 }
-                if (m.IsKeywordEnabled("UNDERLAY_ON") || m.IsKeywordEnabled("UNDERLAY_INNER"))
-                {
-                    return true;
-                }
-                if (m.HasProperty("_UnderlayColor") && m.GetColor("_UnderlayColor").a > 0.001f)
+                // BF-5: sombra INERTE (cor com alfa, keyword desligada, offset/dilate 0) NAO e efeito:
+                // o jogo nunca a desenha, entao nao ha efeito a proteger.
+                if (SombraDesenhada(m))
                 {
                     return true;
                 }
@@ -1068,9 +1068,11 @@ namespace BetterFont
 
             // Keywords: elas é que LIGAM o contorno/sombra no shader — copiar só o valor não basta.
             bool contornoAtivo = antigo.IsKeywordEnabled("OUTLINE_ON") || ValorAtivo(antigo, "_OutlineWidth");
-            bool sombraAtiva = antigo.IsKeywordEnabled("UNDERLAY_ON") ||
-                               antigo.IsKeywordEnabled("UNDERLAY_INNER") ||
-                               (antigo.HasProperty("_UnderlayColor") && antigo.GetColor("_UnderlayColor").a > 0.001f);
+            // BF-5: a sombra so esta ATIVA se o shader a DESENHA — keyword ligada ou deslocamento/
+            // expansao (offset/dilate) != 0. A cor `_UnderlayColor` sozinha (o prefab do jogo traz
+            // preto alfa 0.5 com UNDERLAY_ON DESLIGADO) e sombra INERTE; acender o UNDERLAY_ON por
+            // ela inventa a "sombra muito grossa" que o jogo nunca renderizou.
+            bool sombraAtiva = SombraDesenhada(antigo);
 
             if (contornoAtivo && novo.HasProperty("_OutlineWidth"))
             {
@@ -1189,6 +1191,46 @@ namespace BetterFont
         private static bool ValorAtivo(Material m, string prop)
         {
             return m.HasProperty(prop) && m.GetFloat(prop) > 0.0001f;
+        }
+
+        /// <summary>
+        /// BF-5: a sombra esta DESENHADA? A cor `_UnderlayColor` com alfa > 0 NAO prova nada por si:
+        /// o material da fonte do jogo pode trazer preto alfa 0.5 com a keyword UNDERLAY_ON
+        /// DESLIGADA e offset/dilate zero — uma sombra INERTE que o shader nao renderiza (o
+        /// 'SectionLabelText' do 'Select Attributes' e exatamente esse caso). Decide pelo que faz a
+        /// sombra APARECER: a keyword (UNDERLAY_ON/UNDERLAY_INNER) ligada, ou a geometria da sombra
+        /// (_UnderlayOffsetX/_UnderlayOffsetY/_UnderlayDilate) diferente de zero.
+        /// </summary>
+        private static bool SombraDesenhada(Material m)
+        {
+            try
+            {
+                if (m == null)
+                {
+                    return false;
+                }
+                if (m.IsKeywordEnabled("UNDERLAY_ON") || m.IsKeywordEnabled("UNDERLAY_INNER"))
+                {
+                    return true;
+                }
+                if (m.HasProperty("_UnderlayOffsetX") && Mathf.Abs(m.GetFloat("_UnderlayOffsetX")) > 0.0001f)
+                {
+                    return true;
+                }
+                if (m.HasProperty("_UnderlayOffsetY") && Mathf.Abs(m.GetFloat("_UnderlayOffsetY")) > 0.0001f)
+                {
+                    return true;
+                }
+                if (m.HasProperty("_UnderlayDilate") && Mathf.Abs(m.GetFloat("_UnderlayDilate")) > 0.0001f)
+                {
+                    return true;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         /// <summary>

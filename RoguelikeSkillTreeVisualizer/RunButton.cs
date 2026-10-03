@@ -10,8 +10,8 @@ namespace RoguelikeSkillTreeVisualizer
 {
     /// <summary>
     /// RSTV-5: o MESMO botao quadrado `Skills` da tela Select Party, agora no HUD da RUN, ancorado no
-    /// **Ping Button** (o botao de apontar o hex) — `CurrentCharacterUI.pingBtn`, l.209464, handler
-    /// `ButtonPressedPing()` l.210027. Hierarquia: GUI Manager -> In Game GUI -> Ping Button; irmaos na
+    /// **Ping Button** (o botao de apontar o hex) — `CurrentCharacterUI.pingBtn`, l.329889, handler
+    /// `ButtonPressedPing()` l.330452. Hierarquia: GUI Manager -> In Game GUI -> Ping Button; irmaos na
     /// mesma linha: End Turn Button, End Turn Button Backup, Flee Button, Ping Button, Resume Turn Button.
     ///
     /// Como: clonar o proprio botao nativo (`Instantiate`, mesmo sprite/estados/prefab), inserir como
@@ -20,7 +20,7 @@ namespace RoguelikeSkillTreeVisualizer
     /// com `childForceExpandWidth`, com grupo que controla a largura e sem layout group).
     ///
     /// O que este arquivo NAO faz de proposito:
-    ///   - nao mexe no Update do HUD (`CurrentCharacterUI.UIUpdate`, l.209655, roda todo frame e mexe em
+    ///   - nao mexe no Update do HUD (`CurrentCharacterUI.UIUpdate`, l.330080, roda todo frame e mexe em
     ///     `endTurnButton`/`fleeBattleButton`): quem chama `Mirror()` e o `RstvHost.Update` do mod;
     ///   - nao abre a janela sem o portao 4 fechado (`RunTargets.GateOk`) — quando nao pode abrir, o
     ///     botao fica escondido/desabilitado e o MOTIVO vai para o log ("RSTV DIAG: ...").
@@ -45,13 +45,30 @@ namespace RoguelikeSkillTreeVisualizer
         private const float IntervaloDeReinjecao = 2f;
 
         // Diagnostico: POR QUE o botao esta escondido agora e onde isso ja foi escrito (um mod que
-        // injeta UI nao pode falhar em silencio).
+        // injeta UI nao pode falhar em silencio). `_reasonLogged` guarda o ultimo motivo que foi
+        // EFETIVAMENTE logado: o mesmo motivo nao se repete (mais em `Hide`/`Fail`). `_nextReasonLog`
+        // so throttla o log de EXCECAO do `Mirror` — o log de motivo e por MUDANCA, nao por tempo.
         private static string _reason;
         private static string _reasonLogged;
         private static float _nextReasonLog;
 
+        // O aviso de "clone sem rotulo" (em `EnsureLabel`) so pode repetir se a injecao se repetir;
+        // guarda se ele ja foi dado e se rearma quando um rotulo volta a ser montado.
+        private static bool _rotuloSemMoldeLogado;
+
+        // ---------------------------------------------------------------------------------------
+        // RSTV-11b: o level-up NAO usa mais este botao
+        //
+        // A RSTV-9 re-parenteava o clone do HUD para dentro do `SkillSelectWindow` enquanto a janela
+        // abria. O prefab (RSTV-10) mostrou que o `SkillSelectWindow` e TELA CHEIA (o "canto" caia no
+        // canto da tela, nao do painel) e que ele e o proprio GO ligado/desligado no level-up. O
+        // level-up passou a ter um botao PROPRIO, filho direto da janela (`LevelUpWindowButton`,
+        // RSTV-11b). A casa deste clone volta a ser SEMPRE a linha do Ping Button: o `Mirror` nao
+        // muda mais de casa — so segue o original e o portao 4 (RSTV-5), intocado.
+        // ---------------------------------------------------------------------------------------
+
         /// <summary>Idempotente por instancia de `CurrentCharacterUI` (o HUD e criado de novo a cada
-        /// estado que precisa dele: l.132940 e l.133228 criam a instancia e chamam `InitSingleton`).</summary>
+        /// estado que precisa dele: l.136635 e l.136923 criam a instancia e chamam `InitSingleton`).</summary>
         internal static void Ensure(CurrentCharacterUI ui)
         {
             try
@@ -84,7 +101,7 @@ namespace RoguelikeSkillTreeVisualizer
             Button original = ui.pingBtn;
             if (original == null)
             {
-                Fail("o botao nativo ancora (CurrentCharacterUI.pingBtn / 'Ping Button', l.209464) nao existe neste HUD", true);
+                Fail("o botao nativo ancora (CurrentCharacterUI.pingBtn / 'Ping Button', l.329889) nao existe neste HUD", true);
                 return;
             }
 
@@ -97,6 +114,14 @@ namespace RoguelikeSkillTreeVisualizer
             if (_owner == ui && _button != null)
             {
                 return;
+            }
+
+            // Um clone VIVO de outro HUD (o HUD foi recriado) viraria um SEGUNDO botao: some com o
+            // antigo antes de criar o novo — o botao continua unico.
+            if (_button != null && _owner != ui)
+            {
+                UnityEngine.Object.Destroy(_button);
+                _button = null;
             }
 
             Transform parent = original.transform.parent;
@@ -152,8 +177,11 @@ namespace RoguelikeSkillTreeVisualizer
             Button button = clone.GetComponent<Button>();
             if (button != null)
             {
-                button.onClick.RemoveAllListeners();
-                button.onClick.AddListener(new UnityAction(OnClick));
+                // RSTV-12: o Ping Button tem onClick SERIALIZADO (`ButtonPressedPing`); o
+                // `RemoveAllListeners()` sozinho NAO o remove (limpa apenas a lista de runtime) e ele
+                // roda ANTES do nosso. Troca a instancia do evento para descartar a lista persistente.
+                SelectPartyButton.ClearClickListeners(button);
+                button.onClick.AddListener(new UnityAction(OpenForTarget));
                 button.interactable = false;
             }
 
@@ -171,8 +199,10 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
-        /// Mantem o botao em sincronia com o original (visibilidade e interactable) E com o portao 4.
-        /// Chamado pelo `RstvHost.Update` do mod (nunca pelo Update do HUD).
+        /// Mantem o botao em sincronia com o original (visibilidade e interactable), com o portao 4
+        /// E com o portao 4 (RSTV-5). A CASA do clone e SEMPRE a linha do Ping Button (RSTV-11b: o
+        /// level-up nao muda mais o botao de lugar — quem atende o level-up e o `LevelUpWindowButton`,
+        /// filho da propria janela). Chamado pelo `RstvHost.Update` do mod (nunca pelo Update do HUD).
         /// </summary>
         internal static void Mirror()
         {
@@ -246,9 +276,9 @@ namespace RoguelikeSkillTreeVisualizer
                     return;
                 }
 
-                // Visivel quando o original esta visivel E o portao permite; interativo quando o alvo existe.
                 if (_button.activeSelf != original.gameObject.activeSelf)
                 {
+                    // Segue o original (contrato da RSTV-5).
                     _button.SetActive(original.gameObject.activeSelf);
                 }
 
@@ -278,9 +308,22 @@ namespace RoguelikeSkillTreeVisualizer
             }
         }
 
+        // ---------------------------------------------------------------------------------------
+        // RSTV-11b: a CASA do botao deixou de existir
+        //
+        // O `CaptureHome`/`HomeInLevelUp`/`HomeInRow` da RSTV-9 (e os campos `_home*` e as constantes
+        // `LadoMinimoLevelUp`/`MargemLevelUp`) foram REMOVIDOS: o level-up passou a ser atendido por um
+        // botao proprio, filho direto da janela (`LevelUpWindowButton`). Este clone vive SEMPRE na
+        // linha do Ping Button — o `Mirror` acima so segue o original e o portao 4.
+        // ---------------------------------------------------------------------------------------
+
         /// <summary>
-        /// Esconde/desabilita o botao e escreve no log POR QUE (uma linha por motivo, no maximo uma a
-        /// cada 5 s, para nao inundar o LogOutput.log a 10x por segundo).
+        /// Esconde/desabilita o botao e escreve no log POR QUE. Avisa UMA vez por MOTIVO: guarda o
+        /// ultimo motivo logado (`_reasonLogged`) e so volta a escrever quando o motivo MUDA — a
+        /// mesma estrategia do `AvisoUma` do BetterCombatText. Sem isso, um estado estavel fora da
+        /// whitelist (ex.: ChoosingCharacter) re-loga o texto identico a cada janela de 5 s: numa
+        /// sessao isso rendeu 275 linhas iguais. O botao continua escondido do mesmo jeito — muda so
+        /// a frequencia do log.
         /// </summary>
         private static void Hide(string motivo, bool aviso)
         {
@@ -307,14 +350,12 @@ namespace RoguelikeSkillTreeVisualizer
                 // o clone pode ter sido destruido junto com a cena; o log abaixo ainda vale
             }
 
-            bool jaLogado = _reasonLogged == motivo && Time.realtimeSinceStartup < _nextReasonLog;
-            if (jaLogado)
+            if (_reasonLogged == motivo)
             {
                 return;
             }
 
             _reasonLogged = motivo;
-            _nextReasonLog = Time.realtimeSinceStartup + 5f;
 
             string linha = "RSTV DIAG: botao '" + Label + "' do HUD escondido — " + motivo + ".";
             if (aviso)
@@ -346,7 +387,16 @@ namespace RoguelikeSkillTreeVisualizer
             }
         }
 
-        private static void OnClick()
+        /// <summary>
+        /// RSTV-11b/RSTV-16: o corpo UNICO de abertura da visualizacao read-only — o portao 4 ja
+        /// validado (`RunTargets.GateOk`) -> o alvo resolvido na hora (`RunTargets.Resolve`, nunca
+        /// cacheado) -> `SkillTreesTab.Abrir(alvo, Run)` (a aba "All Skill Trees" do inventario, que
+        /// aposentou a janela separada). Extraido do antigo `OnClick` para ser REUSADO por tres
+        /// interlocutores, sem duplicar a logica: o botao do HUD (`RunButton`), o botao DENTRO da janela
+        /// do level-up (`LevelUpWindowButton`) e o atalho de teclado (`SkillTreeShortcut`). Idempotente
+        /// e sem estado: se o portao recusar ou nao houver alvo, so loga o motivo e nao abre nada.
+        /// </summary>
+        internal static void OpenForTarget()
         {
             try
             {
@@ -354,24 +404,24 @@ namespace RoguelikeSkillTreeVisualizer
                 if (!RunTargets.GateOk(out motivo))
                 {
                     // RECUSA: reavalia na hora (o portao tambem esconde o botao; aqui e a rede final).
-                    Plugin.Log.LogWarning("RSTV-5: clique RECUSADO — " + motivo + ". Nada foi aberto.");
+                    Plugin.Log.LogWarning("RSTV-5: abertura RECUSADA — " + motivo + ". Nada foi aberto.");
                     return;
                 }
 
                 Character alvo = RunTargets.Resolve(out motivo);
                 if (alvo == null)
                 {
-                    Plugin.Log.LogWarning("RSTV-5: clique sem alvo — " + motivo + ".");
+                    Plugin.Log.LogWarning("RSTV-5: abertura sem alvo — " + motivo + ".");
                     return;
                 }
 
-                Plugin.Log.LogInfo("RSTV-5: clique no botao '" + Label + "' do HUD -> '" + alvo.CharacterName +
-                                   "' (nivel " + alvo.Level + ").");
-                SkillTreeReadOnly.Open(alvo, ReadOnlyContext.Run);
+                Plugin.Log.LogInfo("RSTV-16: abrindo a visualizacao read-only -> '" + alvo.CharacterName +
+                                   "' (nivel " + alvo.Level + ") na aba 'All Skill Trees' do inventario.");
+                SkillTreesTab.Abrir(alvo, ReadOnlyContext.Run);
             }
             catch (Exception e)
             {
-                Plugin.Log.LogError("RSTV: falha no clique do botao da run: " + e);
+                Plugin.Log.LogError("RSTV: falha ao abrir a skill tree da run: " + e);
             }
         }
 
@@ -449,12 +499,19 @@ namespace RoguelikeSkillTreeVisualizer
                 if (label != null)
                 {
                     label.text = OptionsManager.Localize(Label);
+                    _rotuloSemMoldeLogado = false;
                     return;
                 }
 
                 TextMeshProUGUI doador = FindLabelDonor(ui);
                 if (doador == null)
                 {
+                    if (_rotuloSemMoldeLogado)
+                    {
+                        return;
+                    }
+
+                    _rotuloSemMoldeLogado = true;
                     Plugin.Log.LogWarning("RSTV DIAG: o clone do botao da run ficou SEM rotulo — nao ha " +
                                           "TextMeshProUGUI nem no Ping Button nem em nenhum botao do HUD para servir de molde.");
                     return;
@@ -489,6 +546,7 @@ namespace RoguelikeSkillTreeVisualizer
 
                 Plugin.Log.LogInfo("RSTV-5: o Ping Button nao tem texto — o rotulo '" + Label + "' foi criado a " +
                                    "partir do molde '" + doador.gameObject.name + "' (mesma fonte/estilo do jogo).");
+                _rotuloSemMoldeLogado = false;
             }
             catch (Exception e)
             {

@@ -1,0 +1,30 @@
+== sha256 ANTES ==
+2d6bf39e715177a91009bb7e9d15599de2ca131a2df2b3bf12470a236f5dd395 *RoguelikeSkillTreeVisualizer/RunButton.cs
+cd698c2853ff7b0395ed8c82ec08cddb07858b1618bd23f7e8948d2a44d3e66f *RoguelikeSkillTreeVisualizer/LevelUpWindowButton.cs
+DEFEITO plantado em RoguelikeSkillTreeVisualizer/RunButton.cs (limpeza antiga)
+DEFEITO plantado em RoguelikeSkillTreeVisualizer/LevelUpWindowButton.cs (limpeza antiga)
+== TESTE DA SUITE COM O DEFEITO PLANTADO (tem de REPROVAR) ==
+==============================================================================
+ ARCABOUCO DE TESTES - tools/testes
+ raiz do repositorio: C:\dev\stolen-realm
+ descoberta:         C:\dev\stolen-realm\tools\testes\testes\puros
+ modo:               teste unico: tools\testes\testes\puros\t_rstv12_onclick_roteamento.py
+==============================================================================
+
+--- LOGICA PURA (roda sem o jogo, e o que roda no CI) ---------------------
+[REPROVOU] rstv12-onclick-roteamento o roteamento do clique regrediu em 6 ponto(s): RunButton nao chama `ClearClickListeners(button)` — o onClick SERIALIZADO do prefab (persistente) sobrevive no clone | RunButton usa `RemoveAllListeners()`: ele esvazia so a lista de runtime e NAO o listener persistente do prefab (RSTV-12 exige a troca da instancia do evento) | LevelUpWindowButton nao chama `ClearClickListeners(button)` — o onClick SERIALIZADO do prefab (persistente) sobrevive no clone | LevelUpWindowButton usa `RemoveAllListeners()`: ele esvazia so a lista de runtime e NAO o listener persistente do prefab (RSTV-12 exige a troca da instancia do evento) | LevelUpWindowButton.cs ainda usa `RemoveAllListeners()` no codigo efetivo — a classe do defeito nao esta fechada (RSTV-12) | RunButton.cs ainda usa `RemoveAllListeners()` no codigo efetivo — a classe do defeito nao esta fechada (RSTV-12)
+
+==============================================================================
+ RESUMO
+   rodaram:    1
+   passaram:   0
+   reprovaram: 1
+   nao rodaram:0
+
+ VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+==============================================================================
+exit=1
+== RESTAURANDO ==
+== sha256 DEPOIS (tem de bater com o ANTES) ==
+2d6bf39e715177a91009bb7e9d15599de2ca131a2df2b3bf12470a236f5dd395 *RoguelikeSkillTreeVisualizer/RunButton.cs
+cd698c2853ff7b0395ed8c82ec08cddb07858b1618bd23f7e8948d2a44d3e66f *RoguelikeSkillTreeVisualizer/LevelUpWindowButton.cs

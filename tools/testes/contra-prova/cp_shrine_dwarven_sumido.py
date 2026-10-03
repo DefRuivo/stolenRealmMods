@@ -7,8 +7,8 @@ O DEFEITO (o comportamento anterior ao RV-46): so as auras cujo efeito e um
 atributo de PERSONAGEM viravam item. O `Dwarven Aura` (chance de stun) nao tem
 atributo, entao uma area so com ele mostrava a linha `Your active shrine auras:`
 VAZIA - a lista se apresentava como completa e a aura viva sumia calada (regra do
-dono, 30/09: nenhuma aura viva pode sair em silencio, `ShrineAuraPatch.cs` l.1359
-e l.1435).
+dono, 30/09: nenhuma aura viva pode sair em silencio, `ShrineAuraPatch.cs` 1592 · `ItensSemAtributo()`
+e 1668 · `ItemDaAuraSemAtributo()`).
 
 Este arquivo tem de sair REPROVOU (exit 1). O "conserto" e o teste da suite,
 `testes/puros/t_shrine_excesso_agregado.py` (cena `dwarven-so`).

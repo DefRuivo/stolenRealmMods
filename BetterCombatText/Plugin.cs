@@ -98,7 +98,7 @@ namespace BetterCombatText
 
         /// <summary>
         /// Aplica os ganchos UM A UM, em vez de <c>PatchAll()</c> — e o modelo do repositorio
-        /// (BetterTooltips, RoguelikeSkillTreeVisualizer, BetterFont, RoguelikeQoL, ...).
+        /// (BetterTooltips, RoguelikeSkillTreeVisualizer, BetterFont, ...).
         ///
         /// <para><c>PatchAll()</c> e tudo-ou-nada: se UM gancho so falhasse (tipo ou assinatura que
         /// mudou numa versao do jogo), a excecao subia dali e os outros oito nunca eram aplicados —

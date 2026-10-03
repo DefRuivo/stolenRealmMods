@@ -139,7 +139,10 @@ namespace BetterTooltips.Patches
 
         /// <summary>
         /// O bloco (ou null quando nao ha nada provado a mostrar). Uma linha, itens separados por ';',
-        /// terminada em ponto: valor primeiro, o nome da skill que o causa depois — nunca texto longo.
+        /// terminada em ponto: o NOME vem PRIMEIRO, o valor DEPOIS — a skill que o causa (ou, sem
+        /// skill, o nome do atributo pelo motor) abre o item, e o valor com sinal segue colado, ex.:
+        /// "Frostbite I −2% damage per stack". Mesma ordem do irmao aprovado da linha de auras
+        /// ("Dodge +40%"); nunca texto longo.
         /// </summary>
         private static string Bloco(StatusComSinergia alvo, Character dono, GameFunctionParameters parametros)
         {
@@ -388,11 +391,20 @@ namespace BetterTooltips.Patches
         /// <summary>
         /// As skills que o personagem TEM e que concedem um dos atributos que a expressao le.
         ///
-        /// Casar por NOME de atributo em `SkillInfo.AttributeEffects` e o que o motor faz
-        /// (`CharacterEffectInfo.Matches`, l.319887: compara atributo + metodo + segunda passada) —
-        /// ele NAO olha `EffectTarget`, e por isso o filtro aqui tambem nao olha: o dump do proprio
-        /// jogo mostra `Frostbite I` com `EffectTarget=Source` e `Frozen Core` com `EffectTarget=Target`,
-        /// e o teste de integracao afirma o valor nos DOIS casos NO CASTER (l.183874/184138).
+        /// CHL-2 (nit registrado aqui, SO comentario): este casamento e MAIS FROUXO que o do motor,
+        /// nao um espelho exato. O filtro abaixo casa SO pelo NOME do atributo
+        /// (`e.CharacterAttribute.name`), enquanto o `Matches` do motor (`CharacterEffect.Matches`,
+        /// l.44712-44719; espelho de `CharacterEffectInfo.Matches`) exige os TRES de uma vez: o mesmo
+        /// `CharacterAttribute` (por referencia), o mesmo `CharacterEffectMethod`
+        /// E a mesma segunda passada (`SecondPass == secondPass`). Metodo e segunda passada NAO sao
+        /// comparados aqui de proposito: o rotulo e uma ATRIBUICAO (qual skill concede o atributo),
+        /// nao a avaliacao do proprio efeito — casar a skill por um efeito de mesmo atributo e
+        /// metodo/passada diferentes e aceitavel, mas nunca se leia esta funcao como o `Matches`.
+        ///
+        /// `EffectTarget` e indiferente nos DOIS: o `Matches` do motor NAO olha o alvo, e por isso o
+        /// filtro aqui tambem nao olha — o dump do proprio jogo mostra `Frostbite I` com
+        /// `EffectTarget=Source` e `Frozen Core` com `EffectTarget=Target`, e o teste de integracao
+        /// afirma o valor nos DOIS casos NO CASTER (l.183874/184138).
         ///
         /// `Character.Skills` cobre os dois caminhos do motor (l.32847: para IA e `CharacterInfo.Skills`,
         /// para o jogador e a lista aprendida, alimentada por `AddSkill`). `SkillsAndAI[].Skill` entra
