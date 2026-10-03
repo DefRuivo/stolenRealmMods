@@ -9,10 +9,10 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2a — injecao do botao
     //
-    // Ancora: `CharacterChoiceManager.OpenCharacterChoiceManager()` (l.208278) — o gancho publico e
-    // idempotente por abertura de tela (a tela e resetada antes por ResetCharacterChoice, l.208219).
-    // NAO usar o `Update()` da tela (l.208231) como gancho: ele roda todo frame e ja mexe em
-    // `acceptBtn` (l.208235) e `roguelikePowerupButton` (l.208236).
+    // Ancora: `CharacterChoiceManager.OpenCharacterChoiceManager()` (l.328703) — o gancho publico e
+    // idempotente por abertura de tela (a tela e resetada antes por ResetCharacterChoice, l.328644).
+    // NAO usar o `Update()` da tela (l.328656) como gancho: ele roda todo frame e ja mexe em
+    // `acceptBtn` (l.328660) e `roguelikePowerupButton` (l.328661).
     //
     // Assinatura declarada por TIPO (array vazio = metodo sem parametros). Nunca por indice (__1/__2):
     // foi um `ref` amarrado no slot errado que derrubou o jogo com 112 NullReferenceException.
@@ -46,10 +46,10 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2b — rastreio de "o ultimo personagem que EU adicionei a party"
     //
-    // Ancora: `CharacterChoiceManager.ToggleSelectedCharacter(int)` (l.208425). Entrada na party:
-    // `character.SelectedForBattle = true` + `ControllerPlayerId` (l.208470-208471); saida:
-    // `SelectedForBattle = false` (l.208434). O jogo NAO guarda ordem de adicao (l.140373/140418),
-    // entao a ordem e registrada AQUI. So personagens `Owned` entram (l.32261) — regra do README:
+    // Ancora: `CharacterChoiceManager.ToggleSelectedCharacter(int)` (l.328850). Entrada na party:
+    // `character.SelectedForBattle = true` + `ControllerPlayerId` (l.328895-328896); saida:
+    // `SelectedForBattle = false` (l.328859). O jogo NAO guarda ordem de adicao (l.145277/145322),
+    // entao a ordem e registrada AQUI. So personagens `Owned` entram (l.33151) — regra do README:
     // cada jogador usa os seus, e o que outro jogador adiciona nao muda o meu contexto.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(CharacterChoiceManager), nameof(CharacterChoiceManager.ToggleSelectedCharacter), new[] { typeof(int) })]
@@ -118,11 +118,18 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2d (1/4) — o caminho principal que persiste (o outro e `ResetSkillPoints`, 5/5 abaixo)
     //
-    // `AcceptSkillChanges` (l.172494) e quem escreve no personagem (RemoveSkills/AddSkills,
-    // l.172525-172526) e tambem quem FECHA a janela (SetActive(false), l.172533) + toca o som.
+    // `AcceptSkillChanges` (l.177650) e quem escreve no personagem (RemoveSkills/AddSkills,
+    // l.177681-177682) e tambem quem FECHA a janela (SetActive(false), l.177686-177689) + toca o som.
     // Por isso NAO se usa Prefix devolvendo false: isso deixaria a janela presa. O prefixo devolve
     // o estado interno ao snapshot do personagem ANTES do original rodar — assim o original calcula
     // uma lista de remocao VAZIA e nao encontra nada para adicionar, executando so o fechamento.
+    //
+    // RSTV-5 / INDETERMINADO da RSTV-3 (CONFIRMADO lendo o prefab): o X (`closeButton`) e o `Accept
+    // Button` do `Skill Tree Window` (path_id 490739) sao UnityEvent serializados que chamam ESTE
+    // metodo — `AcceptSkillChanges(closeMenu: true)` (m_Mode=Bool / m_BoolArgument=1, lidos do raw
+    // dos MonoBehaviour 2763658 e 2641390). A string `CloseSkillTreeMenu` NAO existe em nenhum asset
+    // do jogo, entao o X NAO passa por `CharacterMenusManager.Instance` (sem NRE por instancia nula).
+    // Prova: `docs/cobertura/revisao/RSTV-5-confirmacao-prefab.md`.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.AcceptSkillChanges), new[] { typeof(bool) })]
     internal static class SkillTreeManagerAcceptSkillChangesPatch
@@ -154,7 +161,7 @@ namespace RoguelikeSkillTreeVisualizer
 
                 // `AcceptSkillChanges` calcula o que remover como
                 // `GameLogic.CurrentlySelectedCharacter.SkillsFromPoints` MENOS `SkillsOnEnter`
-                // (l.172518-172525) e depois adiciona `SkillsToAdd`. Aqui `SkillsOnEnter` vira a UNIAO
+                // (l.177674-177681) e depois adiciona `SkillsToAdd`. Aqui `SkillsOnEnter` vira a UNIAO
                 // das skills do alvo com as do personagem que o jogo tem como selecionado — assim a
                 // lista de remocao fica vazia e nada e adicionado, seja qual for o personagem que o
                 // jogo use nessa conta. Garantia: zero escrita, em qualquer estado.
@@ -199,10 +206,10 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2d (2/5) — rede de seguranca do estado interno
     //
-    // `Initialize` (l.172380) e publico e o jogo pode chama-lo de novo se
-    // `GameLogic.CurrentlySelectedCharacter` mudar com a arvore aberta (l.108162-108164), o que
+    // `Initialize` (l.177536) e publico e o jogo pode chama-lo de novo se
+    // `GameLogic.CurrentlySelectedCharacter` mudar com a arvore aberta (l.110071-110073), o que
     // trocaria o contexto exibido e o numero de pontos. Com a sessao ativa, reafirmamos o snapshot
-    // do personagem alvo e 0 pontos (o gate do clique e `CanLevel`, l.322961).
+    // do personagem alvo e 0 pontos (o gate do clique e `CanLevel`, l.444990).
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.Initialize), new[] { typeof(List<SkillInfo>), typeof(int), typeof(bool) })]
     internal static class SkillTreeManagerInitializePatch
@@ -261,9 +268,9 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2d (3/5) — tirar o UNICO gate de escrita que ja existe no jogo
     //
-    // `RespecButton.SetActive(active)` (l.172867) e o gate de permissao de escrita pronto do jogo
+    // `RespecButton.SetActive(active)` (l.178023) e o gate de permissao de escrita pronto do jogo
     // (active = !creatingMode && character != null && AllMyCharacters.Contains(character),
-    // l.172824). Sem ele nao ha como entrar em `BeginRespec` (l.172663), que e o que habilita
+    // l.177980). Sem ele nao ha como entrar em `BeginRespec` (l.177819), que e o que habilita
     // desaprender (`UnlearnCommittedSkill`).
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.RefreshRespecFooter), new Type[0])]
@@ -290,10 +297,10 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2d (4/5) — clique no no da arvore
     //
-    // `SkillTreeItem.ToggleAddToSkillToAddList()` (l.171967) e a UNICA via de clique (compra,
+    // `SkillTreeItem.ToggleAddToSkillToAddList()` (l.177123) e a UNICA via de clique (compra,
     // descompra, desaprender). Em read-only o clique e bloqueado por inteiro; hover, zoom, abas e
-    // tooltips (l.171780 / l.171992) continuam funcionando. Com `unspentPoints = 0` o proprio
-    // `CanLevel` (l.322961) ja negaria a compra — este prefixo e a garantia extra.
+    // tooltips (l.176936 / l.177148) continuam funcionando. Com `unspentPoints = 0` o proprio
+    // `CanLevel` (l.444990) ja negaria a compra — este prefixo e a garantia extra.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeItem), nameof(SkillTreeItem.ToggleAddToSkillToAddList), new Type[0])]
     internal static class SkillTreeItemTogglePatch
@@ -303,10 +310,15 @@ namespace RoguelikeSkillTreeVisualizer
         [HarmonyPrefix]
         private static bool Prefix(SkillTreeItem __instance)
         {
+            // RSTV-16: o read-only NAO e mais "automatico pela guarda de null do SkillTreeItem" — a
+            // `SkillTreeManager` e PRE-CARREGADA (l.136586-136596) e `Instance` NAO e nulo. Quem barra
+            // e a SESSAO (`ReadOnlySession.Active`, mantida viva enquanto a aba esta visivel) e o
+            // estado da propria aba (`SkillTreesTab.Aberto`). A higienizacao do `AcceptSkillChanges`
+            // continua sendo a segunda camada.
             bool readOnly;
             try
             {
-                readOnly = ReadOnlySession.Active;
+                readOnly = ReadOnlySession.Active || SkillTreesTab.Aberto;
             }
             catch (Exception)
             {
@@ -347,13 +359,13 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-2d (5/5) — o OUTRO caminho que persiste, e o unico que NAO passa por AcceptSkillChanges
     //
-    // `ResetSkillPoints()` (l.173274) e publico, sem parametro e sem guarda nenhuma (nem
+    // `ResetSkillPoints()` (l.178430) e publico, sem parametro e sem guarda nenhuma (nem
     // `creatingMode`, nem `InRespecMode`): e o candidato natural ao `resetButton` serializado
-    // (l.172057, ao lado de `acceptButton`/`closeButton`, cujo onClick tambem so existe no prefab).
+    // (l.177213, ao lado de `acceptButton`/`closeButton`, cujo onClick tambem so existe no prefab).
     // Ele chama `Character.ResetSkills()`, que ZERA `SavedMap[...]` de TODAS as skills do
-    // personagem e ENFILEIRA o save dele (l.37474-37480) — nao passa pelo `AcceptSkillChanges`,
+    // personagem e ENFILEIRA o save dele (l.38366-38372) — nao passa pelo `AcceptSkillChanges`,
     // entao a higienizacao de la nao cobriria esse clique. Em read-only ele e bloqueado aqui.
-    // Fechar a janela NAO passa por este metodo (ver `OnDisable`, l.172897), entao bloquear nao
+    // Fechar a janela NAO passa por este metodo (ver `OnDisable`, l.178053), entao bloquear nao
     // prende a UI.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.ResetSkillPoints), new Type[0])]
@@ -381,7 +393,7 @@ namespace RoguelikeSkillTreeVisualizer
             {
                 // SEGURANCA — o lado seguro aqui e MANTER o bloqueio (nunca liberar o original).
                 // `ResetSkillPoints()` ZERA o SavedMap de TODAS as skills do personagem e
-                // ENFILEIRA o save dele (l.37474-37480): e irreversivel. Se nao der para saber se
+                // ENFILEIRA o save dele (l.38366-38372): e irreversivel. Se nao der para saber se
                 // a sessao e read-only (a leitura de `ReadOnlySession.Active` lancou), rodar o
                 // original poderia apagar a arvore durante uma VISUALIZACAO — perda grande e sem
                 // volta. Bloqueando, o pior caso e o jogador nao resetar os pontos nesta chamada,
@@ -396,9 +408,44 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
-    // Fechamento da janela nativa (botao fechar, Esc do interceptor, troca de personagem).
-    // `OnDisable` roda no `SetActive(false)` que o proprio `AcceptSkillChanges` faz (l.172533): e o
-    // sinal exato de que a sessao read-only acabou. `OnDisable` e privado — patch por nome.
+    // RSTV-16 — a injecao/reinjecao da aba "All Skill Trees" no inventario
+    //
+    // Ancora: `CharacterMenusManager.OpenWindow()` (override l.49371-49375 — chamado pelo proprio jogo
+    // sempre que o menu de personagem abre; e o `base.OpenWindow()` + `OpenMenuManager()` que ligam o
+    // menu-pai). O `Ensure` e IDEMPOTENTE por nome: se a aba ja esta no array publico `MenuTabs` (ou
+    // como filho da barra), e no-op. NAO se usa o `Initialize()` do MenuTabManager aqui: ele dispara
+    // `SelectFirstActiveButton` (l.140669) e trocaria a aba selecionada.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(CharacterMenusManager), nameof(CharacterMenusManager.OpenWindow), new Type[0])]
+    internal static class CharacterMenusManagerOpenWindowPatch
+    {
+        private static bool _firstCallLogged;
+
+        [HarmonyPostfix]
+        private static void Postfix(CharacterMenusManager __instance)
+        {
+            try
+            {
+                if (!_firstCallLogged)
+                {
+                    _firstCallLogged = true;
+                    Plugin.Log.LogInfo("RSTV-16: gancho da aba do inventario ATIVO (CharacterMenusManager.OpenWindow).");
+                }
+
+                RstvHost.Ensure();
+                SkillTreesTab.Ensure(__instance);
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV-16: falha no postfix de CharacterMenusManager.OpenWindow: " + e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // Fechamento da janela nativa da CAMPANHA (botao fechar, Esc, troca de personagem).
+    // `OnDisable` roda no `SetActive(false)` que o proprio `AcceptSkillChanges` faz (l.177689): e o
+    // sinal de que a sessao read-only acabou quando a arvore de campanha sai de cena.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(SkillTreeManager), "OnDisable", new Type[0])]
     internal static class SkillTreeManagerOnDisablePatch
@@ -421,15 +468,49 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     // ---------------------------------------------------------------------------------------------
+    // RSTV-15 — o fechamento da arvore do ROGUELIKE (o sinal do ciclo de vida)
+    //
+    // A `SkillTreeManagerRoguelike` (l.178449) NAO tem `OnDisable` proprio — quem a DESLIGA e
+    // `CharacterMenusManager.CloseSkillTreeMenu()` (l.49264, `SetActive(false)` em l.49272). O
+    // `CloseSkillTreeMenu` e chamado por `CloseMenuManager` (l.49364, o caminho do Esc/aba/CloseWindow)
+    // e por `OpenCharacterMenu`/`OpenFortuneMenu` (l.49160/49307): em TODOS eles a nossa janela sai de
+    // cena. E o sinal EXATO de que a sessao read-only acabou — sem ele, o `Tick` so descobriria o
+    // fechamento pela rede de seguranca (tolerancia de 8 s), deixando o modo read-only preso.
+    //
+    // NAO e um metodo de ABERTURA: `OpenSkillTreeMenu` (l.49217) fecha inventario/fortuna
+    // (`CloseCharacterMenu`/`CloseFortuneMenu`, l.49228-49229), NUNCA a arvore — abrir a arvore nao
+    // passa por aqui.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(CharacterMenusManager), nameof(CharacterMenusManager.CloseSkillTreeMenu), new Type[0])]
+    internal static class CharacterMenusManagerCloseSkillTreePatch
+    {
+        [HarmonyPostfix]
+        private static void Postfix()
+        {
+            try
+            {
+                if (ReadOnlySession.Active)
+                {
+                    ReadOnlySession.End();
+                }
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha no postfix de CharacterMenusManager.CloseSkillTreeMenu: " + e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
     // RSTV-5 (1/3) — injecao do botao no HUD da run
     //
-    // Ancora: `CurrentCharacterUI.InitSingleton()` (l.209626, PUBLICO e chamado pelo proprio jogo
-    // assim que o prefab do HUD e instanciado — l.132940 e l.133228: `CurrentCharacterUI.Instance =
+    // Ancora: `CurrentCharacterUI.InitSingleton()` (l.330051, PUBLICO e chamado pelo proprio jogo
+    // assim que o prefab do HUD e instanciado — l.136635 e l.136923: `CurrentCharacterUI.Instance =
     // ...GetComponent<CurrentCharacterUI>(); CurrentCharacterUI.Instance.InitSingleton();`). E
     // idempotente por instancia (o botao so e criado uma vez por HUD).
     //
-    // NAO usar o `Update()`/`UIUpdate()` do HUD (l.209655): roda todo frame e mexe em
-    // `endTurnButton` (l.209761) e `fleeBattleButton` (l.209758). Quem chama `RunButton.Mirror()` e o
+    // NAO usar o `Update()`/`UIUpdate()` do HUD (l.330080): roda todo frame e mexe em
+    // `endTurnButton` (l.330186) e `fleeBattleButton` (l.330183). Quem chama `RunButton.Mirror()` e o
     // `RstvHost.Update` do mod.
     // ---------------------------------------------------------------------------------------------
     [HarmonyPatch(typeof(CurrentCharacterUI), nameof(CurrentCharacterUI.InitSingleton), new Type[0])]
@@ -461,9 +542,9 @@ namespace RoguelikeSkillTreeVisualizer
     // ---------------------------------------------------------------------------------------------
     // RSTV-5 (2/3 / blindagem 5) — o clique do hex no branch de ACAO nao checa PointerOverUIObject
     //
-    // `PlayerMovement.ProcessLeftMouseClick(HexCell)` (l.153277) e o caminho do clique no hex (chamado
-    // de `ProcessUpdateInputs`, l.153024, que so checa `GUIManager.InMenus`). O branch de MOVIMENTO
-    // respeita `PointerOverUIObject` (l.153342), mas o de ACAO NAO: l.153393-153397 so chama
+    // `PlayerMovement.ProcessLeftMouseClick(HexCell)` (l.158281) e o caminho do clique no hex (chamado
+    // de `ProcessUpdateInputs`, l.158003, que so checa `GUIManager.InMenus`). O branch de MOVIMENTO
+    // respeita `PointerOverUIObject` (l.158288), mas o de ACAO NAO: l.158397-158400 so chama
     // `ExecuteAction(cell, CurrentAction)`. Com a arvore aberta, um clique que atravessasse a janela
     // executaria a acao. O prefixo abaixo consome o clique enquanto a sessao read-only esta ativa.
     //
@@ -505,6 +586,75 @@ namespace RoguelikeSkillTreeVisualizer
             }
 
             return false;
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-11a (PARTE 1) — o ATALHO de teclado (proposta D)
+    //
+    // Ancora: `KeybindManager.Update` (l.133297 — PRIVADO e SEM parametro; a assinatura e declarada
+    // por TIPO com array vazio, como os outros ganchos por nome). O POSTFIX roda INCLUSIVE nos
+    // `return` cedo do jogo (l.133335 desabilitado/remap, l.133374 foco de texto/EventWindow, l.133449
+    // janela de UI aberta) — por ISSO quem decide se a tecla pode agir e o handler
+    // (`SkillTreeShortcut`), que replica esses guards; aqui nao ha guarda nenhuma de proposito, o
+    // gancho e so a borda.
+    //
+    // NAO confundir com a acao 10 nativa: `VirtualInput.GetButtonDownAndSwitchToPlayerCharacter(10)`
+    // (l.133500) chama `CharacterMenusManager.ToggleSkillTreeMenu` e abriria a janela vanilla junto.
+    // A tecla do mod e lida CRUA (`Input.GetKeyDown`), config no `Plugin` — padrao F10.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(KeybindManager), "Update", new Type[0])]
+    internal static class KeybindManagerUpdatePatch
+    {
+        [HarmonyPostfix]
+        private static void Postfix(KeybindManager __instance)
+        {
+            try
+            {
+                SkillTreeShortcut.Handle(__instance);
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha no gancho do atalho (KeybindManager.Update): " + e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-11b — o botao DENTRO da janela do level-up (proposta C)
+    //
+    // Ancora: `RoguelikeManager.OpenSkillSelectWindow(CharacterLevelUpInfo, bool)` (l.168921, PUBLICO)
+    // — o metodo que MONTA e LIGA a janela do level-up (`SkillSelectWindow.SetActive(true)`,
+    // l.168941). Ele roda uma vez por abertura da janela, inclusive a cada personagem da fila
+    // (`ConfirmLevelUpSelection`, l.168998, reabre para `CharactersWaitingForLevelUp[0]`) sobre o
+    // MESMO `SkillSelectWindow`. Por isso o `Ensure` e IDEMPOTENTE POR JANELA: a 2a chamada e no-op.
+    //
+    // O botao e filho DIRETO do `SkillSelectWindow` [680553] e NAO de `Content` [680573]: o Content
+    // tem `VerticalLayoutGroup` + `ContentSizeFitter`, e um filho ali reflui o painel inteiro
+    // (RSTV-10, secao 4). O `SkillSelectWindow` nao tem LayoutGroup.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(RoguelikeManager), nameof(RoguelikeManager.OpenSkillSelectWindow), new[] { typeof(CharacterLevelUpInfo), typeof(bool) })]
+    internal static class RoguelikeManagerOpenSkillSelectWindowPatch
+    {
+        private static bool _firstCallLogged;
+
+        [HarmonyPostfix]
+        private static void Postfix(RoguelikeManager __instance)
+        {
+            try
+            {
+                if (!_firstCallLogged)
+                {
+                    _firstCallLogged = true;
+                    Plugin.Log.LogInfo("RSTV-11b: gancho da janela do level-up ATIVO (RoguelikeManager.OpenSkillSelectWindow).");
+                }
+
+                LevelUpWindowButton.Ensure(__instance);
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha no postfix de OpenSkillSelectWindow: " + e);
+            }
         }
     }
 }

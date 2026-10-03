@@ -29,9 +29,14 @@ O QUE ELA LE
          da contribuicao multiplicada - o motor soma cada instancia, o mod conta cada aura 1x);
        - `RV-44 item ...: aura=... total=... resto=... char=... bonus=...` e `RV-44 soma ...` - a
          contribuicao por aura e por atributo;
-       - `RV-46 teto '<atributo>': MaxValue=... no-teto=sim|nao` - o TETO do atributo no asset
+       - `RV-46 teto '<atributo>': MaxValue=... total=... no-teto=sim|nao` - o TETO do atributo no asset
          (`HasMax`; o motor corta o total nele). E o campo que impede o bloco de ADITIVIDADE de
-         reprovar por um motivo que nao e defeito;
+         reprovar por um motivo que nao e defeito. Desde o MAN-2/REV-47 (02/10) a linha traz o campo
+         OPCIONAL `cru=` (o valor ANTES do corte, medido pelo motor) ao lado do `total` cortado;
+       - `RV-46 piso '<atributo>': MinValue=... total=... no-piso=sim|nao [cru=...]` - MAN-2/REV-47: o
+         PISO do atributo (`HasMin`/`MinValue`), o par do teto. Antes o marcador so olhava o `HasMax` e
+         um atributo SO de piso (`ManaCostMod`) nao gerava linha nenhuma: pelo log nao dava para provar
+         NEM negar o piso. O bloco de ADITIVIDADE passou a usar os dois limites;
        - `RV-46 item sem atributo: ...` / `RV-46 AVISO: a aura viva 'X' NAO virou item` - os itens das
          auras sem atributo de personagem (Dwarven/Decay/Flame) e o aviso de aura viva que nao virou
          item (a lista se apresenta como completa - isto nunca pode ser silencio);
@@ -92,6 +97,12 @@ LIMITES - O QUE ESTA FERRAMENTA **NAO** PROVA
 8. Ela nao prova que o numero do Flame e o do PORTADOR em vez do ATACANTE (RV-19 §9(ii)):
    ela confere a formula contra o dano logado com `Source = Target = o alvo projetado`. A medicao
    do dano de RETORNO com `Worship` continua sendo uma experiencia em jogo.
+9. **Os LIMITES do atributo (`RV-46 teto`/`RV-46 piso`) e o `cru` de cada hover so entram no relatorio**
+   (secao `LIMITES DO ATRIBUTO NO LOG`) **e no julgamento da ADITIVIDADE** — a ferramenta nao confere o
+   VALOR do `MaxValue`/`MinValue` contra o asset (ele e publicado pelo mod, lido do proprio asset em
+   runtime) nem cobra que todo atributo com limite tenha a linha: um log de build anterior ao
+   RV-46/MAN-2 cai na regra antiga, e a secao DIZ isso (`[AUSENTE]`).
+
 """
 
 import argparse
@@ -148,9 +159,20 @@ RE_ITEM_STUN = re.compile(r"^Stun chance (?P<s>[+\-\u2212])(?P<v>[0-9.]+)%$")
 RE_ITEM_DECAY = re.compile(r"^Shadow damage per turn (?P<v>[0-9.]+)$")
 RE_ITEM_FLAME = re.compile(r"^Fire damage to attackers: (?P<alvos>.+)$")
 # RV-46 — teto do atributo (`CharacterAttribute.HasMax`/`MaxValue`), so sai quando o atributo tem teto.
+# MAN-2/REV-47 (02/10): ganhou o campo OPCIONAL `cru=` (o valor ANTES do corte, medido pelo motor) entre
+# o `total` e o `no-teto` — o grupo e opcional de proposito, para o log de um build anterior continuar
+# sendo lido como antes.
 RE_TETO = re.compile(
     r"^RV-46 teto '(?P<atributo>[^']+)': MaxValue=(?P<max>[0-9.]+) char=(?P<char>.+?)"
-    r" total=(?P<total>[+\-\u2212][0-9.]+)% no-teto=(?P<no_teto>sim|nao)")
+    r" total=(?P<total>[+\-\u2212][0-9.]+)%(?: cru=(?P<cru>[+\-\u2212][0-9.]+)%)?"
+    r" no-teto=(?P<no_teto>sim|nao)")
+# MAN-2/REV-47 — PISO do atributo (`CharacterAttribute.HasMin`/`MinValue`); antes o marcador so olhava o
+# `HasMax` e um atributo so de piso (ManaCostMod) NAO gerava linha nenhuma (o piso nao podia nem ser
+# provado nem negado pelo log). Mesmo desenho do teto, com o `cru=` opcional no mesmo lugar.
+RE_PISO = re.compile(
+    r"^RV-46 piso '(?P<atributo>[^']+)': MinValue=(?P<min>[+\-\u2212]?[0-9.]+) char=(?P<char>.+?)"
+    r" total=(?P<total>[+\-\u2212][0-9.]+)%(?: cru=(?P<cru>[+\-\u2212][0-9.]+)%)?"
+    r" no-piso=(?P<no_piso>sim|nao)")
 # RV-46 — aura viva que NAO virou item (a lista se apresenta como completa; isto nunca pode ser silencio).
 RE_SEM_ITEM = re.compile(r"^RV-46 AVISO: a aura viva '(?P<aura>[^']+)' NAO virou item da linha")
 
@@ -300,7 +322,7 @@ def parseia_acumulado(payload):
 
 def coleta(log):
     obs = {"acumulado": [], "decay": [], "flame": [], "evidencias": [], "dump": {},
-           "tetos": {}, "sem_item": [], "avisos": [], "nao_lidas": []}
+           "tetos": {}, "pisos": {}, "cru": {}, "sem_item": [], "avisos": [], "nao_lidas": []}
     for n, linha in enumerate(log.splitlines(), start=1):
         mi = RE_LINHA_SHRINE.match(linha)
         if mi:
@@ -363,11 +385,28 @@ def coleta(log):
                 # RV-46: o TETO do atributo (`CharacterAttribute.HasMax`) e se o total esta nele. Com o
                 # total no teto o `resto` do item nao e comparavel - o comparador de aditividade usa
                 # este campo em vez de reprovar por um motivo que nao e defeito.
+                # MAN-2/REV-47: o campo OPCIONAL `cru=` (o valor ANTES do corte, medido pelo motor) e
+                # registrado ao lado para deixar o corte VISIVEL na conta.
                 m = RE_TETO.match(p)
                 if not m:
                     obs["avisos"].append((n, "linha de teto em formato NAO reconhecido: %r" % p))
                     continue
-                obs["tetos"][(m.group("char"), m.group("atributo"))] = float(m.group("max"))
+                chave = (m.group("char"), m.group("atributo"))
+                obs["tetos"][chave] = float(m.group("max"))
+                if m.group("cru"):
+                    obs["cru"][chave] = numero(m.group("cru"))
+            elif p.startswith("RV-46 piso '"):
+                # MAN-2/REV-47: o PISO do atributo (`CharacterAttribute.HasMin`/`MinValue`) - o par do
+                # teto. Antes o marcador so olhava o `HasMax` e um atributo so de piso (ManaCostMod) NAO
+                # gerava linha nenhuma: pelo log nao dava para provar NEM negar o piso.
+                m = RE_PISO.match(p)
+                if not m:
+                    obs["avisos"].append((n, "linha de piso em formato NAO reconhecido: %r" % p))
+                    continue
+                chave = (m.group("char"), m.group("atributo"))
+                obs["pisos"][chave] = numero(m.group("min"))
+                if m.group("cru"):
+                    obs["cru"][chave] = numero(m.group("cru"))
             elif p.startswith("RV-46 AVISO: a aura viva '"):
                 # RV-46: aura viva que NAO virou item. A regra do dono e que isto nunca seja silencio -
                 # sai em secao propria do relatorio.
@@ -640,7 +679,8 @@ def main(argv=None):
         if len(lista) < 2:
             continue
         teto = obs["tetos"].get((char, atributo))
-        if teto is None:
+        piso = obs["pisos"].get((char, atributo))
+        if teto is None and piso is None:
             restos = sorted(set(round(t - c, 6) for _, c, t, _ in lista))
             if len(restos) > 1:
                 achados.append(Achado("(aditividade)", atributo, "todos", restos[0], restos[0],
@@ -652,31 +692,46 @@ def main(argv=None):
                 adit.append(("OK", "char=%s %s: resto=%s constante em %d bonus"
                              % (char, atributo, fmt(restos[0]), len(lista))))
             continue
-        # Com teto declarado: o ACHADO fica para o que e IMPOSSIVEL (total acima do MaxValue do
-        # atributo) e o resto deixa de ser prova — ele depende de TODAS as outras fontes do personagem
-        # (gear/skills/outros status do combate) e o total e cortado no teto.
-        acima = [(b, c, t, l) for (b, c, t, l) in lista if t > teto + 1e-9]
-        if acima:
-            for (_, c, t, l) in acima:
-                achados.append(Achado("(aditividade)", atributo, "todos", t, teto,
-                                      "total ACIMA do MaxValue do atributo (o motor corta)", l, char))
-            adit.append(("ACHADO", "char=%s %s: total %s acima do MaxValue=%s do atributo (impossivel)"
-                         % (char, atributo, fmt(acima[0][2]), fmt(teto))))
+        # MAN-2/REV-47: o PISO entrou na MESMA regra do teto. Antes o marcador so publicava o teto
+        # (`HasMax`), entao um atributo SO de piso (`ManaCostMod`: `HasMin` no asset) nunca declarava
+        # limite nenhum e este bloco caia na regra antiga; com a linha `RV-46 piso` no log, o julgamento
+        # passa a ser o dos LIMITES declarados - o ACHADO fica para o que e IMPOSSIVEL (total fora dos
+        # limites) e o resto so e prova nos hovers ESTRITAMENTE dentro deles (com o total cortado, ele
+        # deixa de ser "a parte da ficha que nao e aura").
+        def viola(t):
+            return ((teto is not None and t > teto + 1e-9)
+                    or (piso is not None and t < piso - 1e-9))
+
+        def no_limite(t):
+            return ((teto is not None and abs(t - teto) < 1e-9)
+                    or (piso is not None and abs(t - piso) < 1e-9))
+
+        limites_txt = " e ".join(x for x in (
+            ("MaxValue=%s" % fmt(teto)) if teto is not None else "",
+            ("MinValue=%s" % fmt(piso)) if piso is not None else "") if x)
+        fora = [(b, c, t, l) for (b, c, t, l) in lista if viola(t)]
+        if fora:
+            for (_, c, t, l) in fora:
+                achados.append(Achado("(aditividade)", atributo, "todos", t,
+                                      teto if teto is not None else piso,
+                                      "total FORA do limite do atributo (o motor corta)", l, char))
+            adit.append(("ACHADO", "char=%s %s: total %s fora do limite do atributo (%s) (impossivel)"
+                         % (char, atributo, fmt(fora[0][2]), limites_txt)))
             continue
-        abaixo = [(b, c, t, l) for (b, c, t, l) in lista if t < teto - 1e-9]
-        no_teto = [x for x in lista if abs(x[2] - teto) < 1e-9]
-        restos = sorted(set(round(t - c, 6) for (_, c, t, _) in abaixo))
-        texto_restos = ", ".join(fmt(x) for x in restos) if restos else "(nenhum hover abaixo do teto)"
-        if len(abaixo) >= 2 and len(restos) == 1:
-            adit.append(("OK", "char=%s %s: resto=%s constante em %d hover(s) ABAIXO do teto; %d no teto"
-                         " (MaxValue=%s do atributo, conferido)"
-                         % (char, atributo, fmt(restos[0]), len(abaixo), len(no_teto), fmt(teto))))
+        dentro = [(b, c, t, l) for (b, c, t, l) in lista if not no_limite(t)]
+        no_lim = [x for x in lista if no_limite(x[2])]
+        restos = sorted(set(round(t - c, 6) for (_, c, t, _) in dentro))
+        texto_restos = ", ".join(fmt(x) for x in restos) if restos else "(nenhum hover dentro dos limites)"
+        if len(dentro) >= 2 and len(restos) == 1:
+            adit.append(("OK", "char=%s %s: resto=%s constante em %d hover(s) DENTRO dos limites;"
+                         " %d no limite (%s, conferido)"
+                         % (char, atributo, fmt(restos[0]), len(dentro), len(no_lim), limites_txt)))
         else:
-            adit.append(("NVER", "char=%s %s: %d hover(s) ABAIXO do teto (resto=%s) e %d no teto"
-                         " (MaxValue=%s). O resto NAO e prova de defeito neste caso: ele depende de"
-                         " TODAS as outras fontes da ficha/do combate e o total e cortado no teto. O que"
-                         " esta conferido e que o total nao passa do MaxValue do atributo."
-                         % (char, atributo, len(abaixo), texto_restos, len(no_teto), fmt(teto))))
+            adit.append(("NVER", "char=%s %s: %d hover(s) DENTRO dos limites (resto=%s) e %d no limite"
+                         " (%s). O resto NAO e prova de defeito neste caso: ele depende de TODAS as"
+                         " outras fontes da ficha/do combate e o total e cortado no limite. O que esta"
+                         " conferido e que o total nao passa do limite do atributo."
+                         % (char, atributo, len(dentro), texto_restos, len(no_lim), limites_txt)))
 
     # ------------------------------------------------------------------ cross-check com o dump
     dump_res = []
@@ -772,6 +827,25 @@ def main(argv=None):
             print("\n-- ADITIVIDADE (resto = total - aura, tem de ser constante por personagem) --")
             for s, txt in adit:
                 print("  %s %s" % (marca(s), txt))
+
+        # MAN-2/REV-47: os LIMITES do atributo publicados pelo marcador (`RV-46 teto`/`RV-46 piso`) com o
+        # VALOR CRU ao lado do total cortado - e aqui que o corte fica VISIVEL na conta (o piso do
+        # `ManaCostMod`, que antes nao gerava linha nenhuma, aparece com o valor lido do asset).
+        print("\n-- LIMITES DO ATRIBUTO NO LOG (teto/piso do asset; `cru` = valor ANTES do corte) --")
+        chaves_lim = sorted(set(obs["tetos"]) | set(obs["pisos"]))
+        if chaves_lim:
+            for chave in chaves_lim:
+                partes_lim = []
+                if chave in obs["tetos"]:
+                    partes_lim.append("MaxValue=%s" % fmt(obs["tetos"][chave]))
+                if chave in obs["pisos"]:
+                    partes_lim.append("MinValue=%s" % fmt(obs["pisos"][chave]))
+                cru = obs["cru"].get(chave)
+                partes_lim.append("cru=%s" % (fmt(cru) if cru is not None else "(nao no log)"))
+                print("  [LIM]     char=%s %s: %s" % (chave[0], chave[1], ", ".join(partes_lim)))
+        else:
+            print("  [AUSENTE] nenhuma linha `RV-46 teto`/`RV-46 piso` neste log (build anterior ao "
+                  "RV-46/MAN-2, ou nenhum atributo do hover tinha limite)")
 
         # CHK-1 §7.2 (conserto aplicado no mod): as linhas `RV-44 item`/`RV-44 soma` que trazem `char=`
         # e `bonus=` sao ATRIBUIVEIS a um caso e saem aqui com o dono ao lado, em vez de virarem AVISO

@@ -1,0 +1,19 @@
+==============================================================================
+ ARCABOUCO DE TESTES - tools/testes
+ raiz do repositorio: C:\dev\stolen-realm
+ descoberta:         C:\dev\stolen-realm\tools\testes\testes\puros
+ modo:               teste unico: tools\testes\testes\puros\t_rstv19_posicao_nos.py
+==============================================================================
+
+--- LOGICA PURA (roda sem o jogo, e o que roda no CI) ---------------------
+[REPROVOU] rstv19-posicao-nos a posicao do container regrediu em 1 ponto(s): GarantirContainerDeNos poe o container CRU em relacao ao centro da AREA (o (0, 26.7) do nativo) — sem compensar que a area fica ~64.25u ABAIXO do centro da janela: os nos caem no rodape e sao cortados (RSTV-19)
+
+==============================================================================
+ RESUMO
+   rodaram:    1
+   passaram:   0
+   reprovaram: 1
+   nao rodaram:0
+
+ VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+==============================================================================

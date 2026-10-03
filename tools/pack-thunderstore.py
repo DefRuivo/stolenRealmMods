@@ -38,14 +38,15 @@ que o arquivo de fonte mais novo do mod - o caso medido em 01/10/2026, em que
 `bin/Release/BetterTooltips.dll` ainda carregava o `HarmonyPriority(600)` que uma correcao
 do dia ja tinha removido da fonte. Empacotar aceitaria qualquer coisa que estivesse ali.
 
-VERSAO UNICA (PKG-2)
---------------------
-A versao autoritativa e o `<Version>` do `.csproj`. Os outros dois lugares que carregam
+VERSAO UNICA (PKG-2 / PKG-3)
+----------------------------
+A versao autoritativa e o `<Version>` do `.csproj`. Os outros TRES lugares que carregam
 versao sao ESPELHOS e sao conferidos aqui, no pre-flight, antes de zipar qualquer coisa:
 
     <Mod>/<Mod>.csproj   <Version>0.1.0</Version>       <- FONTE
     <Mod>/manifest.json  "version_number": "0.1.0"      <- espelho (Thunderstore)
     <Mod>/Plugin.cs      [BepInPlugin(..., "0.1.0")]    <- espelho (BepInEx, o log)
+    <Mod>/README.md      - **Version:** 0.1.0           <- espelho (PKG-3: o usuario le)
 
 Divergiu qualquer espelho -> NENHUM pacote e gerado, e a mensagem diz exatamente qual
 arquivo/linha consertar. `--sincronizar-versao` reescreve os espelhos a partir do
@@ -353,6 +354,28 @@ def versao_do_csproj(p):
     return achado.group(1).strip() if achado else None
 
 
+# PKG-3: o QUARTO lugar que carrega a versao e o README do mod. Ele nao entra na
+# compilacao nem como metadado do pacote (vai como texto), entao ficava fora da trava e
+# podia envelhecer sozinho - o usuario leria a versao errada no que instalou. O padrao e o
+# que os SEIS READMEs ja usam, nao um formato novo:
+#
+#     - **Version:** 0.1.0
+PADRAO_VERSAO_README = re.compile(r"^- \*\*Version:\*\*\s+(\S+)\s*$", re.MULTILINE)
+
+
+def versao_do_readme(p):
+    """A versao declarada na linha `- **Version:** x.y.z` do README do mod.
+
+    Devolve a string crua, ou None se o README (ou a linha) nao existir. Nao valida
+    semver nem compara com a fonte: quem faz isso e `conferir_versoes`, que tem a fonte.
+    """
+    if not os.path.isfile(p["readme"]):
+        return None
+    with open(p["readme"], encoding="utf-8", errors="replace") as fh:
+        achado = PADRAO_VERSAO_README.search(fh.read())
+    return achado.group(1) if achado else None
+
+
 # ---------------------------------------------------------------------------
 # REL-1: o artefato tem de CORRESPONDER a fonte, nao so existir
 # ---------------------------------------------------------------------------
@@ -475,22 +498,29 @@ def conferir_versoes(nome_mod, p, manifesto):
 
     no_manifest = manifesto["version_number"]
     no_plugin, const = versao_do_plugin(nome_mod, p)
+    no_readme = versao_do_readme(p)
     if no_plugin is None:
         raise Falha("PKG-2: nao achei a versao em %s/Plugin.cs (esperava o literal no "
                     "[BepInPlugin(\"guid\", \"nome\", \"x.y.z\")] ou uma const Version)"
                     % nome_mod)
-    if no_manifest != fonte or no_plugin != fonte:
+    if no_readme is None:
+        raise Falha("PKG-3: nao achei a versao em %s/README.md (esperava a linha "
+                    "\"- **Version:** x.y.z\", a que os READMEs ja usam)" % nome_mod)
+    if no_manifest != fonte or no_plugin != fonte or no_readme != fonte:
         raise Falha(
-            "PKG-2: VERSAO DIVERGE (o .csproj e a fonte)\n"
+            "PKG-2/PKG-3: VERSAO DIVERGE (o .csproj e a fonte)\n"
             "      %s/%s.csproj      <Version>%s</Version>  <- FONTE\n"
             "      %s/manifest.json  \"version_number\": \"%s\"%s\n"
             "      %s/Plugin.cs      %s \"%s\"%s\n"
+            "      %s/README.md      - **Version:** %s%s\n"
             "      -> conserte o(s) DIVERGE, ou rode de uma vez:\n"
             "         python tools/pack-thunderstore.py --sincronizar-versao %s"
             % (nome_mod, nome_mod, fonte,
                nome_mod, no_manifest, "  <-- DIVERGE" if no_manifest != fonte else "",
                nome_mod, ("const %s =" % const) if const else "[BepInPlugin(...)]",
-               no_plugin, "  <-- DIVERGE" if no_plugin != fonte else "", nome_mod))
+               no_plugin, "  <-- DIVERGE" if no_plugin != fonte else "",
+               nome_mod, no_readme, "  <-- DIVERGE" if no_readme != fonte else "",
+               nome_mod))
     return fonte
 
 
@@ -499,7 +529,7 @@ def conferir_versoes(nome_mod, p, manifesto):
 # ---------------------------------------------------------------------------
 
 def sincronizar_versao(nome_mod):
-    """Reescreve manifest.json e Plugin.cs com o `<Version>` do .csproj.
+    """Reescreve manifest.json, Plugin.cs e README.md com o `<Version>` do .csproj.
 
     Mexe SO na versao e SO quando diverge (o arquivo fica byte-a-byte igual se ja estava
     certo). Devolve a lista de mudancas feitas, em texto.
@@ -542,6 +572,20 @@ def sincronizar_versao(nome_mod):
                 mudancas.append("Plugin.cs: %s %s -> %s"
                                 % ("const %s" % const if const else "[BepInPlugin]",
                                    versao_plugin, fonte))
+
+    # --- README.md: troca SO o valor da linha `- **Version:**`, nada mais ---------
+    # O dono edita os textos do README; a sync nao encosta em mais nada. newline=""
+    # preserva o fim de linha - o arquivo fica byte-a-byte igual quando ja batia.
+    if os.path.isfile(p["readme"]):
+        with open(p["readme"], encoding="utf-8", newline="") as fh:
+            texto = fh.read()
+        achado = PADRAO_VERSAO_README.search(texto)
+        if achado and achado.group(1) != fonte:
+            novo = texto[:achado.start(1)] + fonte + texto[achado.end(1):]
+            with open(p["readme"], "w", encoding="utf-8", newline="") as fh:
+                fh.write(novo)
+            mudancas.append("README.md: - **Version:** %s -> %s"
+                            % (achado.group(1), fonte))
     return fonte, mudancas
 
 
@@ -711,9 +755,9 @@ def main(argv):
               % len(alvos))
         return 0
 
-    # PKG-2: so conserta os espelhos da versao e sai (nao empacota nada).
+    # PKG-2/PKG-3: so conserta os espelhos da versao e sai (nao empacota nada).
     if args.sincronizar_versao:
-        print("== PKG-2: sincronizando a versao a partir do <Version> do .csproj ==")
+        print("== PKG-2/PKG-3: sincronizando a versao a partir do <Version> do .csproj ==")
         problemas = 0
         for mod in alvos:
             try:
@@ -727,7 +771,7 @@ def main(argv):
                 for m in mudancas:
                     print("        %s" % m)
             else:
-                print("  ok    %-18s v%s (manifest e Plugin.cs ja batiam)"
+                print("  ok    %-18s v%s (manifest, Plugin.cs e README ja batiam)"
                       % (mod, fonte))
         print()
         if problemas:

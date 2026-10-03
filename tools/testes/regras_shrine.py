@@ -76,7 +76,7 @@ RESTO_DO_PRINT = {
     "DamageReduction": 20.0,
 }
 
-# ShrineAuraPatch.cs l.1545/1549/1553 (`RotuloSemAtributo`): a etiqueta das auras
+# ShrineAuraPatch.cs 1774 · `RotuloSemAtributo()`: a etiqueta das auras
 # cujo efeito NAO e atributo de personagem. A chave no mod e o texto exato da
 # descricao do status; aqui o nome da aura da tabela gerada e 1:1 com ela.
 ROTULO_SEM_ATRIBUTO = {
@@ -85,7 +85,7 @@ ROTULO_SEM_ATRIBUTO = {
     "Flame Shrine Aura": "Fire damage to attackers",
 }
 
-# A mesma familia da linha viva: ShrineAuraPatch.cs l.319-335 (`ShrineKeys`) e o
+# A mesma familia da linha viva: ShrineAuraPatch.cs 367 · `ShrineKeys` e o
 # §2 do RV-19 (as 12 auras: 9 de buff + as 3 sem atributo).
 AURAS_DA_FAMILIA = (
     "Warrior Aura", "Guardian Aura", "Conqueror Aura", "Rogue Aura", "Reaper Aura",
@@ -95,14 +95,14 @@ AURAS_DA_FAMILIA = (
 
 # ------------------------------------------------------------------ a linha (formato)
 
-# ShrineAuraPatch.cs l.984 (`OrdemDosAtributos`): a ordem canonica dos itens da
+# ShrineAuraPatch.cs 1032 · `OrdemDosAtributos`: a ordem canonica dos itens da
 # linha azul. Um atributo fora desta lista entra depois, na ordem de encontro.
 ORDEM_DOS_ATRIBUTOS = (
     "DamageMod", "DamageReduction", "CritChance", "DodgeChance",
     "LifeOnHit", "HealthPerTurnPercent", "ManaPerTurnPercent", "ManaCostMod",
 )
 
-SINAL_NEGATIVO = "\u2212"  # menos U+2212, o do mod (ShrineAuraPatch.cs l.927)
+SINAL_NEGATIVO = "\u2212"  # menos U+2212, o do mod (ShrineAuraPatch.cs 972 · `ComSinal()`)
 
 
 # ------------------------------------------------------------------ a conta (motor)
@@ -121,7 +121,7 @@ def escala(base, bonus):
 
 
 def inteiro_do_jogo(v):
-    """`Mathf.CeilToInt` - a convencao da FICHA (ShrineAuraPatch.cs l.950 `InteiroDoJogo`).
+    """`Mathf.CeilToInt` - a convencao da FICHA (ShrineAuraPatch.cs 998 · `InteiroDoJogo()`).
 
     O jogo monta o numero do atributo com `Mathf.Ceil(character[atributo])` +
     `floatToText` (decompilado l.125348-125356 e l.93303-93310): a linha azul usa a
@@ -136,7 +136,7 @@ def inteiro_do_jogo(v):
 
 
 def com_sinal(v):
-    """ShrineAuraPatch.cs l.924 (`ComSinal`): "+" para >= 0, U+2212 para negativo.
+    """ShrineAuraPatch.cs 972 · `ComSinal()`: "+" para >= 0, U+2212 para negativo.
 
     O sinal e lido DEPOIS do arredondamento: `-0.4` sai "+0", nunca "-0".
     """
@@ -145,7 +145,7 @@ def com_sinal(v):
 
 
 def total_com_sinal(nome, v):
-    """ShrineAuraPatch.cs l.967 (`TotalComSinal`): o total do parenteses do item.
+    """ShrineAuraPatch.cs 1015 · `TotalComSinal()`: o total do parenteses do item.
 
     `DamageReduction` positivo REDUZ o dano tomado, entao o valor sai invertido (o
     inteiro da ficha e aplicado ANTES da inversao - RV-45).
@@ -156,7 +156,7 @@ def total_com_sinal(nome, v):
 
 
 def formatar(atributo, v):
-    """ShrineAuraPatch.cs l.897 (`Format`): o rotulo do atributo. None = desconhecido."""
+    """ShrineAuraPatch.cs 945 · `Format()`: o rotulo do atributo. None = desconhecido."""
     n = inteiro_do_jogo(v)
     if atributo == "DamageReduction":
         return "Damage taken " + (SINAL_NEGATIVO + str(n) if n > 0 else "+" + str(abs(n))) + "%"
@@ -178,7 +178,7 @@ def formatar(atributo, v):
 
 
 def item(atributo, contribuicao, total):
-    """RV-44 (ShrineAuraPatch.cs l.1087): `<o que as auras entregam> (total <o total>)`."""
+    """RV-44 (ShrineAuraPatch.cs 1160 · `AcumuladoShrines()`): `<o que as auras entregam> (total <o total>)`."""
     return formatar(atributo, contribuicao) + " (total " + total_com_sinal(atributo, total) + ")"
 
 
@@ -315,11 +315,11 @@ def por_id(lista):
 
 
 def contribuicao_do_motor(unicas, atributo, bonus, stacks, ctx):
-    """RV-44 (ShrineAuraPatch.cs l.1682 `ContribuicaoDasAuras`): a soma, aura por aura.
+    """RV-44 (ShrineAuraPatch.cs 1915 · `ContribuicaoDasAuras()`): a soma, aura por aura.
 
     A soma e sobre as auras VIVAS JA DESDUPLICADAS (RV-46) - o motor soma o
     `AttributeEffects` de cada status e o status repetido na lista e a MESMA aura,
-    nao uma segunda contribuicao. `stacks` multiplica (l.1733, `TotalStacks` do
+    nao uma segunda contribuicao. `stacks` multiplica (1966 · `ContribuicaoDasAuras()`, `TotalStacks` do
     motor, decompilado l.37263: um status vivo tem no minimo 1 stack).
     """
     total = 0
@@ -334,13 +334,13 @@ def contribuicao_do_motor(unicas, atributo, bonus, stacks, ctx):
 
 
 def vivas_desduplicadas(cena):
-    """As auras VIVAS unicas (`AurasUnicas`, l.1220) + os stacks + as repeticoes para o log.
+    """As auras VIVAS unicas (1296 · `AurasUnicas()`) + os stacks + as repeticoes para o log.
 
     Cada `instancias` da cena e UMA entrada da lista viva do personagem (cada
     (re)entrada na area do ground effect cria um status NOVO - cabecalho do mod,
-    l.1203-1210). A MESMA aura repetida conta UMA vez; as repeticoes voltam como
+    1296 · `AurasUnicas()`). A MESMA aura repetida conta UMA vez; as repeticoes voltam como
     `Nome xN` (vao para o LOG, nunca para o numero). `stacks` e o `TotalStacks` do
-    status (o motor multiplica o valor por ele - l.1733).
+    status (o motor multiplica o valor por ele - 1966 · `ContribuicaoDasAuras()`).
     """
     unicas, contagem, stacks = [], {}, {}
     for viva in cena["vivas"]:
@@ -359,7 +359,7 @@ def vivas_desduplicadas(cena):
 def contagem_de_instancias(cena):
     """{aura: quantas entradas vivas} - o numero de INSTANCIAS de cada aura na lista do personagem.
 
-    E a contagem que o RV-46 ignorou de PROPOSITO para efeito de atributo (l.1220) e que a DWA-2
+    E a contagem que o RV-46 ignorou de PROPOSITO para efeito de atributo (1296 · `AurasUnicas()`) e que a DWA-2
     precisa de volta para efeito de GATILHO (`efeito_de_gatilho`): o motor avalia o gatilho uma vez
     por status vivo, entao o numero de rolagens E o numero de instancias.
     """
@@ -392,19 +392,19 @@ def agregar(cena, ctx):
 
     Devolve {"itens", "linha", "repeticoes", "avisos"} com a MESMA forma que o
     oraculo em C# gera (a fixture). Regras, com a citacao:
-      * l.1220 `AurasUnicas`  - a mesma aura repetida na lista viva conta UMA vez
+      * 1296 · `AurasUnicas()`  - a mesma aura repetida na lista viva conta UMA vez
         PARA EFEITO DE ATRIBUTO, e as repeticoes vao para o log (`Nome xN`), nunca
         para o numero.
       * `efeito_de_gatilho` (DWA-2) - para efeito de GATILHO (Dwarven/Decay/Flame) a
         instancia repetida CONTA: o motor avalia o gatilho uma vez por status vivo
         (l.33489-33508 + l.40953-40959/41211-41216) e a linha sai com um item por
         instancia, cada um com o numero do asset (nada somado a mao).
-      * l.1596 `AtributosDasAuras` + l.984 - um item por ATRIBUTO, ordem canonica.
-      * l.1682 - a contribuicao e a soma das auras distintas naquele atributo.
-      * l.1359/1435/1541 - a aura viva sem atributo de personagem ganha item
+      * 1829 · `AtributosDasAuras()` + 1032 · `OrdemDosAtributos` - um item por ATRIBUTO, ordem canonica.
+      * 1915 · `ContribuicaoDasAuras()` - a contribuicao e a soma das auras distintas naquele atributo.
+      * 1592 · `ItensSemAtributo()`, 1668 · `ItemDaAuraSemAtributo()` e 1774 · `RotuloSemAtributo()` - a aura viva sem atributo de personagem ganha item
         proprio; o que nao virar item sai no LOG com o motivo (a lista se
         apresenta como COMPLETA: nenhuma aura viva pode sumir calada).
-      * l.1123 - sem nenhum item, a linha nao sai e o log diz por que.
+      * 1199 · `AcumuladoShrines()` - sem nenhum item, a linha nao sai e o log diz por que.
     """
     bonus = ctx["bonus"][cena["bonus_id"]]
     unicas, stacks, repeticoes = vivas_desduplicadas(cena)

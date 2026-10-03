@@ -6,8 +6,8 @@ DEFEITO DE FORMATO plantado (o formato anterior ao RV-45).
 O DEFEITO: o numero saia do float CRU, formatado com `ToString("0.#")` - a fracao
 do equipamento aparecia na tela (`(total +53.4%)`, o print do dono) e o rotulo
 ficava `+53.4%%` quando a etiqueta ja terminava em `%`. A convencao do jogo e a da
-FICHA (`Mathf.Ceil` + inteiro, `ShrineAuraPatch.cs` l.950 `InteiroDoJogo`) e o
-sinal e lido DEPOIS do arredondamento (l.924 `ComSinal`).
+FICHA (`Mathf.Ceil` + inteiro, `ShrineAuraPatch.cs` 998 · `InteiroDoJogo()`) e o
+sinal e lido DEPOIS do arredondamento (972 · `ComSinal()`).
 
 Os dois defeitos do plano aparecem juntos aqui: "valor fracionario do equipamento
 (convencao do Ceil do jogo)" e "UM sinal de porcentagem (nunca dois)".

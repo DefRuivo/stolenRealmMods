@@ -12,7 +12,7 @@ somava a contribuicao de CADA ENTRADA da lista viva. Cada (re)entrada na area do
 ground effect cria um status NOVO, entao a MESMA aura aparecia 3x e a linha saiu
 `Dodge +120%` - com a aura valendo 40 (o numero que a linha branca do shrine
 mostra). A conta certa usa a lista DESDUPLICADA (AurasUnicas, ShrineAuraPatch.cs
-l.1220): `Dodge +40% (total +57%)`.
+1296 · `AurasUnicas()`): `Dodge +40% (total +57%)`.
 
 Este arquivo tem de sair REPROVOU (exit 1). O "conserto" e o teste da suite,
 `testes/puros/t_shrine_excesso_agregado.py`, que e o mesmo cenario sem o defeito.

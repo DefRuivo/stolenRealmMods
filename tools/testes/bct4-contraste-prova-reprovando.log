@@ -1,0 +1,71 @@
+PROVA DE REPROVACAO - BCT-4 (contraste com a LETRA) + R2 (sem vazamento no level-up)
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada bloco e uma rodada LITERAL: o defeito foi plantado no FONTE
+VIVO, o teste foi executado pelo RUNNER (`python tools/testes/roda_testes.py
+--teste <arquivo>`, o MESMO caminho da suite) e DEPOIS o fonte foi restaurado
+byte a byte (sha256 conferido).
+==============================================================================
+
+sha256(originais):
+  Configuracao.cs      8c12b26ea729fb7dbb96aca5e02ac54130465c4a615a6b555d49935b12a58802
+  Patches.cs           c66eb24fced182c6fcbb71e812735e611675207f4b6c96ec8e832c4fef6df18b
+  Plugin.cs            77a5f63eeadeb98c17b2c592d9390a44c88a5131dd2e8bbc8856021747cba6af
+  DiagnosticoArranque.cs 3d66d78b2623aa90ddc46445ce44796a494fd2f507ab577de4136d762ca3c1d5
+  TextStyler.cs        0b5a0742e0cd92e84727583852afd6ddf9e7a1c52368c35137f838a13e325b6b
+
+### VERDE (sem defeito)  t_bct_sem_vazamento_no_levelup.py -> exit 0
+    [PASSOU ] bct-sem-vazamento-no-levelup R2: o BCT fica nas 7 superficies dele e NAO patcheia nem cita a janela do level-up (RoguelikeManager/SectionLabelText) - a sombra do 'Select Attributes' e do BetterFont (underlay inerte com o keyword desligado), nao do BCT
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### VERDE (sem defeito)  t_bct_sombra_contraste_letra.py -> exit 0
+    [PASSOU ] bct-sombra-contraste-letra BCT-4: a sombra contrasta com a LETRA (diferenca de luminancia >= ContrasteMinimo) em toda a paleta e em todo Fundo - o #CBB396 (a cor da propria letra do inimigo) deixa de ser a sombra clara; a sombra clara e o branco #FFFFFF
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### VERDE (sem defeito)  t_bct_sombra_visivel_fundo_escuro.py -> exit 0
+    [PASSOU ] bct-sombra-visivel-fundo-escuro BCT-3/BCT-4: o FUNDO manda a POLARIDADE da sombra e a LETRA manda a LEI do contraste - a letra bege #CBB396 (o nome do inimigo) em fundo escuro ganha a sombra CLARA BRANCA (#FFFFFF), nunca o proprio #CBB396
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### a guarda que VIRA o balde arrancada (a sombra pode sair da cor da letra)
+COM O DEFEITO PLANTADO em BetterCombatText/Configuracao.cs (VIRA o balde) -> exit 1
+    [REPROVOU] bct-sombra-contraste-letra a lei do contraste caiu: `UsaSombraClara` nao VIRA o balde quando a cor escolhida nao contrasta com a LETRA: a letra #CBB396 em fundo escuro continuaria ganhando sombra #CBB396 (a MESMA cor - o defeito relatado)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 8c12b26ea729fb7d) -> exit 0
+    [PASSOU ] bct-sombra-contraste-letra BCT-4: a sombra contrasta com a LETRA (diferenca de luminancia >= ContrasteMinimo) em toda a paleta e em todo Fundo - o #CBB396 (a cor da propria letra do inimigo) deixa de ser a sombra clara; a sombra clara e o branco #FFFFFF
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### a sombra clara de volta no #CBB396 (a cor da propria letra)
+COM O DEFEITO PLANTADO em BetterCombatText/Configuracao.cs (CorSombraClara) -> exit 1
+    [REPROVOU] bct-sombra-contraste-letra a lei do contraste caiu: o default de `CorSombraClara` nao e o branco #FFFFFF: com o #CBB396 (a PROPRIA cor da letra do inimigo) a sombra clara volta a ficar igual a letra
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 8c12b26ea729fb7d) -> exit 0
+    [PASSOU ] bct-sombra-contraste-letra BCT-4: a sombra contrasta com a LETRA (diferenca de luminancia >= ContrasteMinimo) em toda a paleta e em todo Fundo - o #CBB396 (a cor da propria letra do inimigo) deixa de ser a sombra clara; a sombra clara e o branco #FFFFFF
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### a regra deixa de ligar FUNDO ESCURO a sombra clara
+COM O DEFEITO PLANTADO em BetterCombatText/Configuracao.cs (FUNDO ESCURO) -> exit 1
+    [REPROVOU] bct-sombra-visivel-fundo-escuro a sombra visivel caiu: `UsaSombraClara` nao liga FUNDO ESCURO -> sombra CLARA (`case FundoSombra.Escuro: usarClara = true;`): e o ramo que conserta o defeito relatado (preto sobre escuro nao aparece)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 8c12b26ea729fb7d) -> exit 0
+    [PASSOU ] bct-sombra-visivel-fundo-escuro BCT-3/BCT-4: o FUNDO manda a POLARIDADE da sombra e a LETRA manda a LEI do contraste - a letra bege #CBB396 (o nome do inimigo) em fundo escuro ganha a sombra CLARA BRANCA (#FFFFFF), nunca o proprio #CBB396
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### o fundo das NOMES volta em auto (a regra do BCT-2)
+COM O DEFEITO PLANTADO em BetterCombatText/Configuracao.cs (Nomes) -> exit 1
+    [REPROVOU] bct-sombra-visivel-fundo-escuro a sombra visivel caiu: `Nomes` nao declara `fundo: "escuro"`: com o fundo errado a sombra sai invisivel (ou muda o que o dono ja aprovou nas outras superficies)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 8c12b26ea729fb7d) -> exit 0
+    [PASSOU ] bct-sombra-visivel-fundo-escuro BCT-3/BCT-4: o FUNDO manda a POLARIDADE da sombra e a LETRA manda a LEI do contraste - a letra bege #CBB396 (o nome do inimigo) em fundo escuro ganha a sombra CLARA BRANCA (#FFFFFF), nunca o proprio #CBB396
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+### um gancho na JANELA DO LEVEL-UP (RoguelikeManager)
+COM O DEFEITO PLANTADO em BetterCombatText/Patches.cs (RoguelikeManager) -> exit 1
+    [REPROVOU] bct-sem-vazamento-no-levelup o BCT NAO pode tocar 'RoguelikeManager' (janela do level-up)
+     VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 c66eb24fced182c6) -> exit 0
+    [PASSOU ] bct-sem-vazamento-no-levelup R2: o BCT fica nas 7 superficies dele e NAO patcheia nem cita a janela do level-up (RoguelikeManager/SectionLabelText) - a sombra do 'Select Attributes' e do BetterFont (underlay inerte com o keyword desligado), nao do BCT
+     VEREDITO: VERDE (exit 0)
+------------------------------------------------------------------------------
+
+VEREDITO: cada defeito plantado REPROVA (exit 1) e o fonte restaurado PASSA (exit 0).
+O teste nao e decoracao.

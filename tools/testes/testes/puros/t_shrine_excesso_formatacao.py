@@ -5,7 +5,7 @@
 O QUE ESTE TESTE GARANTE
 ------------------------
 A grandeza do numero e a da FICHA do jogo: `Mathf.Ceil` + inteiro
-(`ShrineAuraPatch.cs` l.950 `InteiroDoJogo`, transcrevendo o decompilado
+(`ShrineAuraPatch.cs` 998 · `InteiroDoJogo()`, transcrevendo o decompilado
 l.125348-125356 + l.93303-93310). Disso saem as bordas que o dono pediu:
 
 1. **valor fracionario do equipamento** (`53.4`, o print do dono): sai `+54`, nunca
@@ -13,14 +13,14 @@ l.125348-125356 + l.93303-93310). Disso saem as bordas que o dono pediu:
 2. **inteiro nao ganha `.0`**: `40` sai `+40`.
 3. **`.5` exato**: `Ceil(0.5) = 1`.
 4. **`-0.4`**: o ceil e 0 e o SINAL E LIDO DEPOIS do arredondamento -> `+0%`,
-   nunca `-0` (l.924).
+   nunca `-0` (972 · `ComSinal()`).
 5. **negativo fracionario**: `Ceil(-53.4) = -53` (inverter antes daria -54 - RV-45).
 6. **UM sinal de porcentagem, nunca dois**: cada rotulo tem exatamente um `%` (e o
    total do parenteses, outro).
 7. **`DamageReduction` e `ManaCostMod` tem o sinal do TEXTO invertido em relacao ao
-   atributo** (l.897): `DamageReduction` +20 vira `Damage taken −20%`; `ManaCostMod`
+   atributo** (945 · `Format()`): `DamageReduction` +20 vira `Damage taken −20%`; `ManaCostMod`
    -50 vira `Mana Costs reduced by 50%`, e um total POSITIVO e custo AUMENTADO (RV-43).
-8. O sinal de menos e o U+2212 do mod (l.927) - nao um hifen ASCII.
+8. O sinal de menos e o U+2212 do mod (972 · `ComSinal()` - nao um hifen ASCII.
 
 DE ONDE VEM O ESPERADO
 ----------------------
@@ -45,12 +45,12 @@ META = {
 # expectativa precisa de nova revisao - em vez de continuar "verde" contra um texto
 # que nao existe mais.
 LITERAIS_DA_FONTE = (
-    ('"Damage taken \u2212"', "o rotulo do DamageReduction invertido (l.903)"),
-    ('"Mana Costs reduced by "', "o rotulo do ManaCostMod reduzido (l.905)"),
-    ('"Mana Costs increased by "', "o rotulo do ManaCostMod aumentado (l.906)"),
-    ('"Dodge "', "o rotulo do DodgeChance (l.909)"),
-    ("Mathf.CeilToInt(v)", "a convencao inteira da ficha (InteiroDoJogo, l.952)"),
-    ('n >= 0 ? "+" : "\u2212"', "o sinal explicito com o menos U+2212 (ComSinal, l.927)"),
+    ('"Damage taken \u2212"', "o rotulo do DamageReduction invertido (951 · `Format()`)"),
+    ('"Mana Costs reduced by "', "o rotulo do ManaCostMod reduzido (953 · `Format()`)"),
+    ('"Mana Costs increased by "', "o rotulo do ManaCostMod aumentado (954 · `Format()`)"),
+    ('"Dodge "', "o rotulo do DodgeChance (957 · `Format()`)"),
+    ("Mathf.CeilToInt(v)", "a convencao inteira da ficha (998 · `InteiroDoJogo()`)"),
+    ('n >= 0 ? "+" : "\u2212"', "o sinal explicito com o menos U+2212 (972 · `ComSinal()`)"),
 )
 
 

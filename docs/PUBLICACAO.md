@@ -199,15 +199,48 @@ decidir mandar categoria por lá precisa passar `community_categories` no metada
 | Regra | Consequência prática |
 |---|---|
 | **Versão é imutável.** Depois de aceita, não se edita nada — nem o README. | Qualquer mudança, inclusive de texto, exige uma **versão nova**. Não existe "consertei o README". |
-| **Atualizar = subir `version_number` e reenviar.** | O `<Version>` do `.csproj` é a fonte (PKG-2); `manifest.json` e `Plugin.cs` são espelhos conferidos. |
+| **Atualizar = subir `version_number` e reenviar.** | O `<Version>` do `.csproj` é a fonte (PKG-2); `manifest.json`, `Plugin.cs` e `README.md` são espelhos conferidos. |
 | **O `name` do pacote não muda.** | Trocar o `name` cria um pacote **NOVO** (o antigo continua no ar com os downloads). |
 | **O TEAM não muda.** | Publicar no mesmo `name` por outro team também cria pacote novo. O team **vem do token**, não do zip: `namespace` no workflow é informativo, quem decide é o token. |
 | **Versão é SemVer `X.Y.Z`, comparada por parte.** | `1.0.10 > 1.0.1`. A plataforma exibe sempre a **maior** versão, independente da data do upload — publicar uma versão menor "some" da vitrine. |
 | Nome do pacote tem que bater com a pasta dos plugins. | Já coberto pelo pre-flight do empacotador e pelo passo 6 do [CI de validação](CI.md). |
+| **A dependência tem de RESOLVER no upload.** Cada item de `dependencies` é `namespace-nome-versão` e a versão referida tem de **existir publicada** — não há intervalo (`>=`), nem resolução por proximidade, nem "envio conjunto" da plataforma. | Referência a versão inédita **recusa o pacote inteiro** (`PackageReferenceValidator(resolve=True)` → `No matching package found for reference`). No mesmo lote, quem produz a dependência sobe **antes** de quem a declara; **mão dupla entre versões inéditas não tem ordem válida** e é recusada. Quem confere é o `tools/check_dependencias.py` (ver §6). |
 
 O que o pipeline lê da plataforma é a **API pública da comunidade**:
 `https://thunderstore.io/c/stolen-realm/api/v1/package/` → por pacote, a lista de
 `versions[].version_number` publicada. Ela é a única prova de "esta versão já existe".
+
+### A ordem de envio (PKG-5)
+
+A Thunderstore **não aceita envio conjunto**: cada upload resolve, na hora, **cada** item de
+`dependencies` contra o que já está no ar. Se o `BetterCombatText 0.1.1` declara
+`DefRuivo_StolenRealmMods-BetterFont-1.0.2` e a `1.0.2` ainda não subiu, o envio do
+`BetterCombatText` é **recusado** — por isso a dependência publica **antes** do dependente.
+
+A ordem do lote mora em [`release/mods.json`](../release/mods.json), no campo
+**`ordem_de_envio`** (que o gate do `publish.yml` lê e imprime no resumo do run); a lista
+canônica de `mods` continua sendo a do gate, e o empacotador é a fonte de "o que é um mod".
+Quem calcula e confere a ordem é o [`tools/check_dependencias.py`](../tools/check_dependencias.py):
+
+- **`--local`** (sem rede, determinístico): lê o `versao_publicada` de cada mod neste arquivo —
+  é o modo do CI, encaixado no `valida_pacotes.py` (regra 8);
+- **`--api`** (fresco): pergunta a **API pública por versão exata**
+  (`/api/experimental/package/<team>/<mod>/<versão>/`), o mesmo endpoint do pre-flight, com
+  `User-Agent` próprio e retry (a API responde `403` ao `User-Agent` padrão do `urllib`).
+  É leitura pública, sem token.
+
+Ordem vigente (dependência antes do dependente):
+
+```
+BetterFont -> BetterStats -> BetterTooltips -> RoguelikeDebugger
+           -> RoguelikeSkillTreeVisualizer -> BetterCombatText
+```
+
+O caso de hoje: o `BetterCombatText 0.1.1` depende do **`BetterFont 1.0.2`**, que ainda **não
+está no ar** (a última publicada do `BetterFont` é a `1.0.1`, medida na API em `/package/
+DefRuivo_StolenRealmMods/BetterFont/`). Logo, o **`BetterFont 1.0.2` sobe ANTES do
+`BetterCombatText 0.1.1`**. As duas pontas em versão inédita (mão dupla) **não passariam** —
+a REV-10 mapeou esse caso e o `tools/check_dependencias.py` o reprova como ciclo.
 
 ## 2) O gate do que pode sair: `release/mods.json`
 
@@ -232,6 +265,10 @@ revisável no diff:
 - A lista de mods do JSON tem que ser a mesma que o empacotador descobre
   (`python tools/pack-thunderstore.py --listar-nomes`). O gate confere isso a cada run: uma
   segunda lista de mods divergindo é falha, não aviso.
+- **`ordem_de_envio`** registra a ordem do lote — dependência **antes** do dependente — e o
+  caso de hoje. O gate lê o campo e o imprime no resumo do run (ver *A ordem de envio
+  (PKG-5)*, §1). Quem confere de verdade é o `tools/check_dependencias.py` (regra 8 do
+  `valida_pacotes.py` no push; `--api` no release).
 
 Para liberar um mod: vire `publicar` para `true`, escreva o `motivo` e commite. A decisão
 fica no histórico.
@@ -283,13 +320,13 @@ Tudo da raiz do repositório, na máquina com o jogo instalado.
 
 ```bash
 # 1) A versão é o <Version> do .csproj (fonte). Suba a versão lá primeiro.
-#    Depois espelhe nos dois lugares que carregam versão:
+#    Depois espelhe nos três lugares que carregam versão:
 python tools/pack-thunderstore.py --sincronizar-versao
 
 # 2) Compile Release SEM instalar no perfil (a flag é obrigatória: sem ela o build
 #    sobrescreve a DLL do r2modman antes de empacotar) e empacote:
 dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=false
-python tools/pack-thunderstore.py BetterTooltips     # pre-flight dos 3 lugares da versão + zip
+python tools/pack-thunderstore.py BetterTooltips     # pre-flight dos 4 lugares da versão + zip
 
 # 3) Prove que a versão ainda não existe (a plataforma é imutável):
 curl -s https://thunderstore.io/c/stolen-realm/api/v1/package/ | grep -o 'gumatos-BetterTooltips[^"]*'
@@ -366,6 +403,14 @@ explícito termina dizendo que as DLLs **foram** copiadas para o perfil.
 Se qualquer passo falhar, **nada é enviado** e o log diz o arquivo e o comando do conserto.
 O pre-flight roda **depois** da aprovação mas **antes** de qualquer envio — aprovar acorda o
 job, não publica nada.
+
+A **resolução das dependências** (PKG-5) é a exceção que este pre-flight *não* refaz: ela é
+conferida **antes**, no push, pela regra 8 do `valida_pacotes.py` (modo offline, contra o
+`release/mods.json`) e, na hora de liberar, por `python tools/check_dependencias.py --api`
+(versão fresca na API). O motivo de não entrar no pre-flight: o conferidor raciocina sobre o
+**lote** inteiro (dependência antes do dependente), e o pre-flight também roda em disparo de
+**um** mod só — ali a ordem do lote não se aplica e o veredito poderia mentir. A ordem vigente
+está em `release/mods.json` (`ordem_de_envio`) e o gate a imprime.
 
 ## 7) Modo automático (desligado) e o runner self-hosted
 
@@ -495,7 +540,8 @@ A árvore completa da API, também sem credencial:
 | [`release/mods.json`](../release/mods.json) | o gate versionado: quem pode sair e o que já saiu |
 | [`tools/pack-thunderstore.py`](../tools/pack-thunderstore.py) | gera o `.zip` que o pipeline transporta (pre-flight de versão única/ícone/DLL) e dá a lista de mods (`--listar-nomes`) |
 | [`tools/publish-thunderstore.sh`](../tools/publish-thunderstore.sh) | publicação pela linha de comando (**dry-run** por padrão; `--go` envia) |
-| [`.github/scripts/valida_pacotes.py`](../.github/scripts/valida_pacotes.py) | o que o CI confere do pacote **sem** DLL: manifest, ícone 256x256, README e CHANGELOG |
+| [`.github/scripts/valida_pacotes.py`](../.github/scripts/valida_pacotes.py) | o que o CI confere do pacote **sem** DLL: manifest, ícone 256x256, README e CHANGELOG — **e a resolução das dependências** (regra 8, PKG-5) |
+| [`tools/check_dependencias.py`](../tools/check_dependencias.py) | **PKG-5:** toda dependência (de cada manifest) resolve contra o que está publicado (`--api`) ou contra o lote/`release/mods.json` (`--local`); calcula a **ordem de envio** e reprova mão dupla entre versões inéditas. A regra que o `valida_pacotes.py` importa |
 | [`.github/scripts/`](../.github/scripts) | a pasta das ferramentas que só existem para o CI |
 | este documento | o processo, os comandos e as armadilhas |
 | [docs/CI.md](CI.md) | onde a validação e a publicação se encontram |

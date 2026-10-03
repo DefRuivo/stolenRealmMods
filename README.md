@@ -122,9 +122,9 @@ Open it with Notepad and search for `carregado.` — there must be **one line pe
 
 ```text
 [Message:   BepInEx] BepInEx 5.4.23.5 - Stolen Realm
-[Info   :   BepInEx] Loading [Better Font 1.0.0]
+[Info   :   BepInEx] Loading [Better Font 1.0.2]
 [Info   :Better Font] Better Font carregado.
-[Info   :   BepInEx] Loading [Better Tooltips 0.1.0]
+[Info   :   BepInEx] Loading [Better Tooltips 0.1.1]
 [Info   :Better Tooltips] Better Tooltips carregado.
 [Message:   BepInEx] Chainloader startup complete
 ```
@@ -148,7 +148,7 @@ Nothing in the game is changed, so uninstalling is just deleting files.
    `winhttp.dll` and `doorstop_config.ini` from the game folder. No need to reinstall or verify
    files through Steam.
 
-The `BepInEx\config\` folder keeps mod settings (e.g. `com.gumatos.roguelikeqol.cfg`). It is
+The `BepInEx\config\` folder keeps mod settings (e.g. `com.gumatos.betterfont.cfg`). It is
 harmless and only read if the mod is installed.
 
 ## FAQ
@@ -184,10 +184,10 @@ Useful to confirm what loaded in the log:
 
 | Mod | GUID (BepInEx internal name) | Name in the log | Version |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
 
 ---
 
@@ -253,11 +253,11 @@ The Thunderstore zip is **4 files at the package root** (`manifest.json`, `READM
 `CHANGELOG.md`, `icon.png`) plus `plugins/<Mod>/<Mod>.dll`. The packager has a **pre-flight that
 aborts instead of producing a broken zip**: missing manifest/README/CHANGELOG, an icon that is not
 a real 256×256 PNG, a DLL that was not built in the requested configuration, or a version that
-disagrees between `.csproj`, `manifest.json` and `Plugin.cs`.
+disagrees between `.csproj`, `manifest.json`, `Plugin.cs` and `README.md`.
 
-The version has **one source** — the `<Version>` in `<Mod>/<Mod>.csproj` — and two mirrors checked
+The version has **one source** — the `<Version>` in `<Mod>/<Mod>.csproj` — and three mirrors checked
 automatically. To bump it: edit the `.csproj`, then run **once**
-`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` (it rewrites the two mirrors only
+`python tools/pack-thunderstore.py --sincronizar-versao <Mod>` (it rewrites the three mirrors only
 when they disagree) and package.
 
 ### Testing
@@ -330,10 +330,10 @@ Identificadores internos (úteis para conferir no log):
 
 | Mod | GUID (nome interno do BepInEx) | Nome no log | Versão |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
 
 ---
 
@@ -495,11 +495,11 @@ mod instalado** — este é o formato exato:
 
 ```text
 [Message:   BepInEx] BepInEx 5.4.23.5 - Stolen Realm
-[Info   :   BepInEx] Loading [Better Font 1.0.0]
+[Info   :   BepInEx] Loading [Better Font 1.0.2]
 [Info   :Better Font] Better Font carregado.
-[Info   :   BepInEx] Loading [Better Stats 1.0.0]
+[Info   :   BepInEx] Loading [Better Stats 1.0.1]
 [Info   :Better Stats] Better Stats carregado.
-[Info   :   BepInEx] Loading [Better Tooltips 0.1.0]
+[Info   :   BepInEx] Loading [Better Tooltips 0.1.1]
 [Info   :Better Tooltips] Better Tooltips carregado.
 [Message:   BepInEx] Chainloader startup complete
 ```
@@ -545,7 +545,7 @@ Nada no jogo original é alterado, então desinstalar é só apagar arquivos.
 4. O jogo não precisa ser reinstalado em nenhum caso.
 
 **O que pode sobrar:** a pasta `BepInEx\config\` guarda as configurações dos mods (ex.:
-`com.gumatos.roguelikeqol.cfg`). Ela é inofensiva e só é lida se o mod estiver instalado. Se
+`com.gumatos.betterfont.cfg`). Ela é inofensiva e só é lida se o mod estiver instalado. Se
 apagar e reinstalar, os mods voltam no padrão.
 
 ---
@@ -601,10 +601,10 @@ mantém o projeto.
 
 | Mod | GUID (nome interno do BepInEx) | Nome no log | Versão |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.0 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.0 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.0 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.0 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
 
 ---
 
@@ -670,9 +670,9 @@ O zip do Thunderstore são **4 arquivos na raiz do pacote** (`manifest.json`, `R
 `CHANGELOG.md`, `icon.png`) mais `plugins/<Mod>/<Mod>.dll`. O empacotador tem um **pre-flight que
 aborta em vez de gerar zip quebrado**: falta de manifest/README/CHANGELOG, ícone que não é PNG
 256×256 de verdade, DLL de configuração errada ou versão divergente entre `.csproj`,
-`manifest.json` e `Plugin.cs`.
+`manifest.json`, `Plugin.cs` e `README.md`.
 
-A versão tem **uma fonte** — o `<Version>` do `<Mod>/<Mod>.csproj` — e dois espelhos conferidos
+A versão tem **uma fonte** — o `<Version>` do `<Mod>/<Mod>.csproj` — e três espelhos conferidos
 automaticamente. Para subir: edite o `.csproj` e rode **uma** vez
 `python tools/pack-thunderstore.py --sincronizar-versao <Mod>` (ele reescreve os espelhos só quando
 divergem) e empacote.

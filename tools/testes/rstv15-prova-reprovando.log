@@ -1,0 +1,8 @@
+########## executado DIRETO (PYTHONPATH=tools/testes): tools/testes/contra-prova/cp_rstv15_abre_campanha.py
+RESULTADO|REPROVOU|contra-prova-rstv15-abre-campanha|isca: a janela da campanha carregada a mao foi pega pelo fonte e pelo modelo (esperado) - fonte: OpenInternal nao abre pelo caminho NATIVO (`CharacterMenusManager.OpenSkillTreeMenu`) — a escolha da janela, a ativacao do menu-pai e o fechamento do inventario sao do JOGO (l.49217-49262)
+exit=1
+
+########## executado DIRETO (PYTHONPATH=tools/testes): tools/testes/contra-prova/cp_rstv15_flapping_whitelist.py
+RESULTADO|REPROVOU|contra-prova-rstv15-flapping-whitelist|isca: o fechamento por whitelist foi pego pelo fonte e pelo modelo (esperado) - fonte: LifecycleBlock voltou a fechar por `StateAllowed` — a whitelist de GUIState fecha a arvore no FRAME SEGUINTE quando o menu do level-up suspende a run (o flapping que o arbitro apontou)
+exit=1
+

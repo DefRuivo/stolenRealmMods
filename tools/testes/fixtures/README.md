@@ -97,6 +97,9 @@ O oraculo existe para auditar e regerar.
 | `soma-aura` | `soma-aura.entrada.json` | `soma-aura.esperado.json` | `geradores/oraculo_soma_aura` (C#, float + Math.Round) |
 | `excesso-shrine` | `excesso-shrine.entrada.json` | `excesso-shrine.esperado.json` | `geradores/oraculo_excesso_shrine` (C#, float + Math.Round + Mathf.CeilToInt) |
 | `cores-do-jogo` | `cores-do-jogo.entrada.json` | (so entrada: sao LEITURAS do jogo, sem saida calculada) | `scratch/cor2/le_cores_do_tooltip.py` + `le_guimanager_cores.py` (UnityPy sobre o prefab do jogo) |
+| `bt12-berserkers-blood` | `bt12-berserkers-blood.entrada.json` | (so entrada: a TABELA DE CASOS da ancora do fator; o esperado e a leitura do parser) | formas EQUIVALENTES/RECUSADAS da formula do asset - a de referencia vem do dump do asset (`scratch/` nao e versionado); BT-12A |
+| `deploy-optin-guarda` | `deploy-optin-guarda.entrada.json` | (so entrada: os casos de XML do opt-in de deploy; o veredito e o da trava) | os `Directory.Build.props` dos 6 mods + as iscas do FURO A/B, escritos a mao; DEPLOY-2 |
+| `formato-notas` | `formato-notas.entrada.json` | (so entrada: sao LEITURAS do decompilado do `Tooltip`, sem saida calculada) | `scratch/bancada1/gera_fixture.py` (ilspycmd sobre a `Assembly-CSharp.dll` v1.3.1; `scratch/` nao e versionado); BANCADA-1/FORMATO |
 
 ### `cores-do-jogo.entrada.json` — as CORES dos tres niveis (COR-2, 01/10)
 

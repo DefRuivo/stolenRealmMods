@@ -1,25 +1,30 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""check_versoes.py - PKG-2: a versao dos 6 mods tem de bater nos TRES lugares.
+"""check_versoes.py - PKG-2/PKG-3: a versao dos 6 mods tem de bater nos QUATRO lugares.
 
 POR QUE ESTA FERRAMENTA EXISTE
 ------------------------------
-Sao tres arquivos que carregam a MESMA versao de um mod:
+Sao quatro arquivos que carregam a MESMA versao de um mod:
 
     <Mod>/<Mod>.csproj   <Version>0.1.0</Version>        <- FONTE (o <Version> manda)
     <Mod>/manifest.json  "version_number": "0.1.0"      <- espelho (Thunderstore)
     <Mod>/Plugin.cs      [BepInPlugin(..., "0.1.0")]    <- espelho (BepInEx, o log)
+    <Mod>/README.md      - **Version:** 0.1.0           <- espelho (PKG-3: o usuario le)
 
-Os dois espelhos DIVERGIREM e o defeito que mais quebra pacote: o Thunderstore recusa
+Os espelhos DIVERGIREM e o defeito que mais quebra pacote: o Thunderstore recusa
 versao ja publicada (o upload falha), e o log do BepInEx passa a mentir sobre qual build
 esta carregada - o teste de ciclo roda codigo novo achando que e o velho. So que o
 `pack-thunderstore.py` ja conferia isso na hora de EMPACOTAR, no fim do caminho; faltava a
 trava que reprova ANTES, so olhando o repositorio (sem build, sem DLL).
 
-Este arquivo NAO tem parser proprio: importa `versao_do_csproj`/`versao_do_plugin` do
-`pack-thunderstore.py`, para a definicao de "versao" morar num lugar so (mesma regra do
-check_dupes -> check_chave_compartilhada). Assim o gate de release e o empacotador nunca
-discordam sobre o que e a versao de um mod.
+O README entrou depois (PKG-3): ele nao e metadado do pacote, e o texto que o usuario le
+- ficava fora da trava e podia envelhecer sozinho num bump. Confere-se a linha que os
+SEIS READMEs ja usam (`- **Version:** x.y.z`), nao um formato novo.
+
+Este arquivo NAO tem parser proprio: importa `versao_do_csproj`/`versao_do_plugin`/
+`versao_do_readme` do `pack-thunderstore.py`, para a definicao de "versao" morar num lugar
+so (mesma regra do check_dupes -> check_chave_compartilhada). Assim o gate de release e o
+empacotador nunca discordam sobre o que e a versao de um mod.
 
 USO
 ---
@@ -80,6 +85,7 @@ def main():
         fonte = pt.versao_do_csproj(p)
         no_manifest = versao_do_manifest(p["manifest"])
         no_plugin, const = pt.versao_do_plugin(nome, p)
+        no_readme = pt.versao_do_readme(p)
 
         # marca DIVERGE so ao lado do valor que nao bate com a fonte
         marca = lambda v: "  <-- DIVERGE" if (fonte and v is not None and v != fonte) else ""
@@ -95,29 +101,36 @@ def main():
         print("  %-46s %s%s"
               % (rotulo, no_plugin or "(ausente)",
                  marca(no_plugin) + marca_falta(no_plugin)))
+        print("  %-46s %s%s"
+              % ("README.md  - **Version:**", no_readme or "(ausente)",
+                 marca(no_readme) + marca_falta(no_readme)))
 
-        if fonte is None or no_plugin is None:
+        if fonte is None or no_plugin is None or no_readme is None:
             sem_versao.append(nome)
-        elif not SEMVER.match(fonte) or no_manifest != fonte or no_plugin != fonte:
+        elif (not SEMVER.match(fonte) or no_manifest != fonte
+              or no_plugin != fonte or no_readme != fonte):
             divergentes.append(nome)
         print()
 
     if sem_versao:
         print(">>> %d mod(s) sem versao num lugar obrigatorio: %s"
               % (len(sem_versao), ", ".join(sem_versao)))
-        print("    A versao tem de existir no <Version> do .csproj E no Plugin.cs")
-        print("    ([BepInPlugin(\"guid\", \"nome\", \"x.y.z\")] ou uma const Version).")
+        print("    A versao tem de existir no <Version> do .csproj, no Plugin.cs")
+        print("    ([BepInPlugin(\"guid\", \"nome\", \"x.y.z\")] ou uma const Version) E no")
+        print("    README.md (linha `- **Version:** x.y.z`, a que os READMEs ja usam).")
         return 2
 
     if divergentes:
         print(">>> VERSAO DIVERGE em %d mod(s): %s" % (len(divergentes), ", ".join(divergentes)))
-        print("    O <Version> do .csproj e a FONTE; manifest.json e Plugin.cs sao ESPELHOS.")
+        print("    O <Version> do .csproj e a FONTE; manifest.json, Plugin.cs e README.md")
+        print("    sao ESPELHOS.")
         print("    Conserte a mao o(s) DIVERGE, ou rode de uma vez:")
         print("       python tools/pack-thunderstore.py --sincronizar-versao")
         print("    (pacote com versao errada sai do ar errado, e o log do BepInEx mente.)")
         return 1
 
-    print("  ==> os %d mods batem nos tres lugares (csproj = manifest = Plugin.cs)" % len(mods))
+    print("  ==> os %d mods batem nos quatro lugares (csproj = manifest = Plugin.cs = README)"
+          % len(mods))
     return 0
 
 

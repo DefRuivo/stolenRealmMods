@@ -30,7 +30,14 @@ REGRAS (as mesmas que o Thunderstore exige e o pack ja checava)
      com o mesmo GUID carregadas juntas, que e o defeito que essa amarra evita); sem
      dependencia repetida de pacote;
   6. `icon.png` e um PNG real de 256x256 e <= 1 MB;
-  7. `README.md` e `CHANGELOG.md` presentes na raiz do mod.
+  7. `README.md` e `CHANGELOG.md` presentes na raiz do mod;
+  8. `dependencies` RESOLVE (PKG-5): toda referencia aponta para uma versao que EXISTE - ja
+     publicada (lida do `release/mods.json`) ou que sai no MESMO lote numa ordem coerente.
+     A Thunderstore recusa no upload a referencia a versao inedita
+     (`PackageReferenceValidator(resolve=True)` -> `No matching package found`), e isso o
+     passo 5 acima NAO pegava. A regra mora em `tools/check_dependencias.py` (importado
+     aqui, stdlib puro, sem DLL) - uma fonte so; a versao FRESCA na API publica se confere
+     com `python tools/check_dependencias.py --api`.
 
 Uma pasta que NAO tem manifest.json e apenas AVISADA, nao reprovada: e o caso de um mod
 ainda em implementacao (o RoguelikeSkillTreeVisualizer hoje). Sem manifest ele nem e
@@ -39,6 +46,7 @@ pacote, nao ha o que validar - mas o aviso fica no log para nao passar em branco
 USO:  python .github/scripts/valida_pacotes.py
       exit 0 = todos os pacotes ok;  1 = algum problema (a saida diz qual).
 """
+import importlib.util
 import io
 import json
 import os
@@ -138,6 +146,21 @@ def partes_da_referencia(ref):
 
 
 VERSOES_DO_REPO, TEAM_DO_REPO = versoes_do_repo()
+
+
+def carregar_dependencias():
+    """Importa `tools/check_dependencias.py` - a FONTE UNICA da resolucao de dependencias.
+
+    O modulo so usa a biblioteca padrao (sem DLL, sem rede no modo local), entao importar
+    aqui nao fura o contrato deste script ("so le o que esta versionado"). E a MESMA regra
+    que o `tools/check_versoes.py` adota ao importar o `pack-thunderstore.py`: a definicao
+    de "a dependencia resolve" mora num lugar so, e o CI e o gate de release nao discordam.
+    """
+    caminho = os.path.join(RAIZ, "tools", "check_dependencias.py")
+    spec = importlib.util.spec_from_file_location("check_dependencias", caminho)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
 
 
 def valida(nome):
@@ -268,6 +291,25 @@ def main():
             print("ok    %-32s %-8s desc=%-4s icone=%s"
                   % (nome, dados.get("versao", "?"), dados.get("desc_len", "?"),
                      dados.get("icone", "?")))
+
+    # 8. resolucao de dependencias (PKG-5): toda dependencia tem de RESOLVER. A regra mora
+    #    em tools/check_dependencias.py; aqui ela roda no modo OFFLINE (release/mods.json),
+    #    deterministico - o CI nao fica vermelho por a API publica oscilar. A versao FRESCA
+    #    na API publica se confere a parte: `python tools/check_dependencias.py --api`.
+    dependencias = carregar_dependencias()
+    resultado = dependencias.resolver(dependencias.entradas_do_repo(),
+                                      dependencias.publicadas_do_mods_json(),
+                                      dependencias.liberados_do_mods_json())
+    print()
+    if resultado["problemas"]:
+        problemas += len(resultado["problemas"])
+        print("FALHA dependencias (resolucao PKG-5) - o upload seria recusado pela "
+              "Thunderstore (No matching package found)")
+        for motivo in resultado["problemas"]:
+            print("        - %s" % motivo)
+    else:
+        print("ok    dependencias: todas resolvem | ordem de envio: %s"
+              % " -> ".join(resultado["ordem"]))
 
     if sem:
         print()

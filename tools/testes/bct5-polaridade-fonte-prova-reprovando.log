@@ -1,0 +1,35 @@
+PROVA DE REPROVACAO - BCT-5 (a sombra CONTRASTA com a FONTE: a letra manda o LADO)
+==============================================================================
+Regra do projeto (docs/PLANO-DE-TESTES.md): todo teste tem de ser MOSTRADO
+REPROVANDO. Cada bloco e uma rodada LITERAL: o defeito foi plantado no FONTE
+VIVO (BetterCombatText/Configuracao.cs), o teste foi executado pelo RUNNER
+(`python tools/testes/roda_testes.py --teste <arquivo>`, o MESMO caminho da
+suite) e DEPOIS o fonte foi restaurado byte a byte (sha256 conferido).
+Teste: tools/testes/testes/puros/t_bct_sombra_polaridade_fonte.py
+==============================================================================
+
+sha256(Configuracao.cs original): 1bac7e76444f2b43c18a438a4429d8ca73a0deef62bccaa7ef24ef814cb532b4
+
+### VERDE (sem defeito) -> exit 0
+    [PASSOU ] bct-sombra-polaridade-fonte BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'
+    VEREDITO: VERDE (exit 0)
+
+### o VETO DA LETRA arrancado (a letra CLARA do nome ganha sombra CLARA)
+COM O DEFEITO PLANTADO -> exit 1
+    [REPROVOU] bct-sombra-polaridade-fonte a polaridade pela fonte caiu: `UsaSombraClara` perdeu o VETO DA LETRA (BCT-5): a sombra pode ficar do MESMO lado da luminancia da FONTE (clara-sobre-clara) - e o defeito 'a sombra fica da mesma cor da fonte'
+    VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 CONFERIDO) -> exit 0
+    [PASSOU ] bct-sombra-polaridade-fonte BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'
+    VEREDITO: VERDE (exit 0)
+
+### a sombra dos NOMES de volta no alfa 0.35 (fraca demais para se ver)
+COM O DEFEITO PLANTADO -> exit 1
+    [REPROVOU] bct-sombra-polaridade-fonte a VISIBILIDADE da sombra caiu: Configuracao.cs - o `alfaSombra` dos NOMES e 0.35: abaixo de 0.50 a sombra escura fica translucida demais e se confunde com o proprio glifo (o 'sombra da mesma cor da fonte')
+    VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+DEFEITO REMOVIDO (fonte restaurado byte a byte, sha256 CONFERIDO) -> exit 0
+    [PASSOU ] bct-sombra-polaridade-fonte BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'
+    VEREDITO: VERDE (exit 0)
+
+------------------------------------------------------------------------------
+VEREDITO: cada defeito plantado REPROVA (exit 1) pelo motivo certo e o fonte
+restaurado PASSA (exit 0). O teste nao e decoracao.

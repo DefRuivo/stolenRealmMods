@@ -605,6 +605,97 @@ def falhas_do_nao_regride(src):
 
 
 # ===========================================================================
+# 5b) BF-5 - A SOMBRA FANTASMA: a decisao de sombra nao pode ser por COR
+# ===========================================================================
+# O ACHADO DO BCT-4 (leitura do prefab com UnityPy): o rotulo 'SectionLabelText' do 'Select
+# Attributes' (TMP no GO 'Label' [680588]) usa o material 'Regular Font (Minion Pro Regular) SDF
+# Material', que traz `_UnderlayColor` preto alfa 0.5, `_UnderlayOffsetX/Y`/`_UnderlayDilate`/
+# `_UnderlaySoftness` = 0 e o keyword `UNDERLAY_ON` DESLIGADO (`m_ValidKeywords == []`). E uma
+# sombra INERTE que o jogo NUNCA desenha. O `CopiarEstilo` considerava "sombra em uso" por
+# `_UnderlayColor.a > 0.001` (SEM olhar a keyword), LIGAVA o `UNDERLAY_ON` no material novo e
+# copiava os valores: aparecia uma sombra que o jogo nunca renderizou - a "sombra muito grossa".
+# O criterio certo e o que faz a sombra APARECER: keyword ligada OU offset/dilate != 0.
+
+# A declaracao do helper que decide a sombra DE VERDADE (lida do fonte; se o nome mudar, a
+# checagem REPROVA dizendo que sumiu - nunca passa vazia).
+SOMBRA_DESENHADA = "private static bool SombraDesenhada("
+# As propriedades GEOMETRICAS da sombra (o que a faz aparecer). `_UnderlaySoftness` NAO entra:
+# sozinha ela nao desloca nem expande a sombra (fica atras do glifo, oculta).
+PROPS_GEOMETRIA_SOMBRA = ("_UnderlayOffsetX", "_UnderlayOffsetY", "_UnderlayDilate")
+# O defeito: a COR (alfa) decidindo a sombra sem a keyword. Vale para o fonte EFETIVO (sem
+# comentarios), para um comentario que cite o padrao nao acusar.
+PADRAO_SOMBRA_POR_COR = re.compile(r'GetColor\(\s*"_UnderlayColor"\s*\)\.a\s*>\s*0')
+
+
+def expressao_sombra_ativa(src):
+    """A decisao `bool sombraAtiva = ...;` do `CopiarEstilo`, ou None se a declaracao sumiu."""
+    corpo = copiar_corpo(src) or ""
+    i = corpo.find("bool sombraAtiva")
+    if i < 0:
+        return None
+    fim = corpo.find(";", i)
+    if fim < 0:
+        return None
+    return corpo[i:fim + 1]
+
+
+def soma_criterio_de_sombra(src):
+    """O corpo do helper `SombraDesenhada` (o criterio de sombra DE VERDADE), ou None."""
+    return bf.corpo(src, SOMBRA_DESENHADA)
+
+
+def falhas_da_sombra_inerte(src):
+    """BF-5: a sombra NAO pode ser acesa por `_UnderlayColor.a > 0` sozinho. Lista vazia = ok.
+
+    Tres exigencias, todas lidas do FONTE vivo:
+      1. a decisao `bool sombraAtiva` precisa perguntar a KEYWORD (direto ou via o helper);
+      2. ela NAO pode olhar a COR (`_UnderlayColor`/`GetColor`) - a cor nao prova que o shader
+         desenha a sombra (o prefab do jogo tem alfa 0.5 com a keyword desligada);
+      3. o helper `SombraDesenhada` precisa perguntar a keyword E olhar offset/dilate (a sombra
+         de verdade); e o padrao `GetColor("_UnderlayColor").a > 0` nao pode sobrar em NENHUM
+         ponto do codigo efetivo (portao, criterio de efeito e copia de estilo).
+    """
+    falhas = []
+    if copiar_corpo(src) is None:
+        return ["nao achei `CopiarEstilo` no fonte"]
+
+    expr = expressao_sombra_ativa(src)
+    if expr is None:
+        falhas.append("nao achei a decisao de sombra `bool sombraAtiva = ...` em CopiarEstilo: "
+                      "sem ela o UNDERLAY_ON pode voltar a ser ligado por qualquer coisa")
+    else:
+        tem_keyword = 'IsKeywordEnabled("UNDERLAY_ON")' in expr
+        tem_helper = "SombraDesenhada(" in expr
+        if not tem_keyword and not tem_helper:
+            falhas.append("a decisao de sombra nao pergunta a KEYWORD da fonte "
+                          "(IsKeywordEnabled(\"UNDERLAY_ON\")): a sombra INERTE (cor com alfa e "
+                          "keyword desligada) volta a ser acesa")
+        if "_UnderlayColor" in expr or "GetColor(" in expr:
+            falhas.append("a decisao de sombra ainda olha a COR (`_UnderlayColor`/GetColor): a cor "
+                          "sozinha NAO prova que o shader desenha a sombra - o prefab do jogo tem "
+                          "preto alfa 0.5 com a keyword desligada e offset/dilate 0 (sombra inerte)")
+
+    criterio = soma_criterio_de_sombra(src)
+    if criterio is None:
+        falhas.append("nao achei o criterio de sombra DE VERDADE (%s): sem ele, ou a sombra de "
+                      "verdade deixa de ser transportada, ou a inerte volta a ser acesa"
+                      % SOMBRA_DESENHADA.strip())
+    else:
+        if 'IsKeywordEnabled("UNDERLAY_ON")' not in criterio:
+            falhas.append("%s nao pergunta a keyword UNDERLAY_ON" % SOMBRA_DESENHADA.strip())
+        for prop in PROPS_GEOMETRIA_SOMBRA:
+            if prop not in criterio:
+                falhas.append("%s nao olha `%s`: a sombra de VERDADE (deslocamento/expansao) "
+                              "deixaria de ser transportada" % (SOMBRA_DESENHADA.strip(), prop))
+
+    if PADRAO_SOMBRA_POR_COR.search(bf.sem_comentarios(src)):
+        falhas.append("o fonte ainda decide sombra por `_UnderlayColor.a > 0` (sem keyword): a "
+                      "sombra INERTE do prefab volta a acender o UNDERLAY_ON - a 'sombra muito "
+                      "grossa' do 'Select Attributes'")
+    return falhas
+
+
+# ===========================================================================
 # 6) AS MUTACOES (o defeito plantado) - usadas pelos testes EM MEMORIA
 # ===========================================================================
 # Cada uma devolve o texto do fonte com UM defeito. Se nao achar onde agir, devolve o
@@ -672,6 +763,22 @@ def defeito_sem_underlay_on(texto=None):
     """A keyword UNDERLAY_ON deixa de ser ligada (a sombra para de aparecer)."""
     src = fonte() if texto is None else texto
     return _troca(src, 'novo.EnableKeyword("UNDERLAY_ON");', '')
+
+
+def defeito_sombra_por_alfa(texto=None):
+    """PLANTA o defeito do BF-5: a COR (alfa) volta a acender a sombra, sem olhar a keyword.
+
+    E o estado anterior ao conserto: `bool sombraAtiva` decidido por `_UnderlayColor.a > 0.001`
+    (mesmo com `UNDERLAY_ON` desligado e offset/dilate zero), que liga o UNDERLAY_ON no material
+    novo e faz aparecer a 'sombra muito grossa' do 'Select Attributes'.
+    """
+    src = fonte() if texto is None else texto
+    alvo = "            bool sombraAtiva = SombraDesenhada(antigo);"
+    defeito = ('            bool sombraAtiva = antigo.IsKeywordEnabled("UNDERLAY_ON") ||\n'
+               '                               antigo.IsKeywordEnabled("UNDERLAY_INNER") ||\n'
+               '                               (antigo.HasProperty("_UnderlayColor") && '
+               'antigo.GetColor("_UnderlayColor").a > 0.001f);')
+    return _troca(src, alvo, defeito)
 
 
 def defeito_default_escape_true(texto=None):

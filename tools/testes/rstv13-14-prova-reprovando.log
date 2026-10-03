@@ -1,0 +1,24 @@
+########## caso 13 ##########
+caso: 13
+sha256 antes : 9d668624931399ad9ed8960a9d3b47e3966b8476bc0fc59c173eff06fbf8b292
+sha256 depois: 9d668624931399ad9ed8960a9d3b47e3966b8476bc0fc59c173eff06fbf8b292 (igual)
+exit do teste com o defeito: 1 (esperado 1 = REPROVOU)
+  | [REPROVOU] rstv13-gate-mapa o portao por estado regrediu em 1 ponto(s): o portao de BATALHA 'spawn' (trecho 'SpawnPlacementActive') esta FORA do ramo `if (estado == GUIState.InBattle)` — ele volta a esconder o botao no MAPA-MUNDO (o sintoma do dono)
+  | reprovaram: 1
+  | VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+########## caso 14-host ##########
+caso: 14-host
+sha256 antes : df3375312cf0bd16489af9e9c8548a1eb5b221d3a9f566faac81f576808069ab
+sha256 depois: df3375312cf0bd16489af9e9c8548a1eb5b221d3a9f566faac81f576808069ab (igual)
+exit do teste com o defeito: 1 (esperado 1 = REPROVOU)
+  | [REPROVOU] rstv14-botao-ciclo-levelup o ciclo do botao da janela regrediu em 1 ponto(s): o `RstvHost.Update` nao chama `LevelUpWindowButton.Refresh()` — o botao nao seguiria o ciclo da janela (o defeito 'voando no nivel-up')
+  | reprovaram: 1
+  | VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+########## caso 14-estagio ##########
+caso: 14-estagio
+sha256 antes : 2878c1a21ef24d8ba6d3f36daba8978fc7fa0711e3219e6ff32d804bcce4fe63
+sha256 depois: 2878c1a21ef24d8ba6d3f36daba8978fc7fa0711e3219e6ff32d804bcce4fe63 (igual)
+exit do teste com o defeito: 1 (esperado 1 = REPROVOU)
+  | [REPROVOU] rstv14-botao-ciclo-levelup o ciclo do botao da janela regrediu em 2 ponto(s): o Refresh nao leva em conta o estagio corrente (`rok.CurLevelUpStage`) (trecho 'CurLevelUpStage') | o Refresh nao leva em conta o estagio de SKILLS (`LevelUpStage.Skills`) (trecho 'LevelUpStage.Skills')
+  | reprovaram: 1
+  | VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima

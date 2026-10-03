@@ -334,13 +334,18 @@ prova de fogo em `scratch/`, que e GITIGNORED; no CI estas skills nao tinham tes
 |---|---|
 | `t_bt10_reaper_toll.py` | BT-10/BT-10F (`ReaperTollPatch.cs`): o FAIL-SAFE (sem skill, sem % no asset, sem personagem em foco ou sem vida maxima o patch NAO escreve e a linha do jogo fica intacta; a 2a passada nao duplica o sufixo), a PROCEDENCIA (a % vem do ASSET e a vida maxima do valor FINAL do motor, nunca de literal) e o FORMATO (`).` no fim, nunca `. (` no meio - a trava da BT-10F) |
 | `t_bt11_hunger.py` | BT-11 (`HungerPatch.cs`): o valor sai da vida MAXIMA do motor (`Character.MaxHealth`) e a % do asset em runtime; o parser ancora em `health` e NAO pega a primeira % do texto (a descricao do asset tem DUAS % - a do mana e a do sacrificio -, e o teste roda uma descricao sintetica 5% x 12% que exige o 12); a conta e `vida * pct / 100f` e o formato fecha em `).` |
-| `t_bt12_berserkers_blood.py` | BT-12/BT-12A (`BerserkersBloodPatch.cs`): o fator sai da FORMULA do asset e a "vida perdida" de `personagem.HealthRatioInverse` (a fracao do motor); a ancora le a EQUIVALENCIA, nao a grafia - 17 variantes ACEITAS (ordem trocada, sufixo `f`, parenteses, espaco) e 15 RECUSADAS (campo trocado, `SavedMap`, termo negativo, multiplicador nao-constante, `Mathf.Max(1, ...)`), na tabela versionada `fixtures/bt12-berserkers-blood.entrada.json` |
+| `t_bt12_berserkers_blood.py` | BT-12/BT-12A/BT-12F (`BerserkersBloodPatch.cs`): o fator sai da FORMULA do asset e a "vida perdida" de `personagem.HealthRatioInverse` (a fracao do motor); a ancora le a EQUIVALENCIA, nao a grafia - 17 variantes ACEITAS (ordem trocada, sufixo `f`, parenteses, espaco) e 15 RECUSADAS (campo trocado, `SavedMap`, termo negativo, multiplicador nao-constante, `Mathf.Max(1, ...)`), na tabela versionada `fixtures/bt12-berserkers-blood.entrada.json`; e o FORMATO (a trava da BT-12F): o sufixo ABRE com `" (<color=#"` (o `(` colado no espaco, nunca `". (<color=#"` depois do ponto), FECHA o `</color>% increased damage right now)` e os DOIS ramos de retorno fecham em `+ ".";` - a linha montada termina em `).` e NUNCA tem `. (` no meio |
 | `t_bt13_atributo_percentual.py` | BT-13 (`AtributoPercentualPatch.cs`): a conta e `final x pct / (100 + soma)` e NAO `pct por cento do final` (os DOIS lados da confusao: com a skill ja na soma, 20 x 24, e so espiada na arvore, 20 x 20); a familia (7 skills, 9 efeitos) sai do asset por IGUALDADE, nao de lista digitada; o valor sai do indexador final do motor e a soma das % do `GetAttributeValueByMethod` |
 
 **A prova de fogo.** Cada defeito foi plantado no FONTE REAL (ou na fixture, no BT-12) e restaurado
 byte a byte, com sha256 conferido: o BT-10T em `tools/testes/bt10-reaper-prova.log` (3 iscas: numero
 fixo no lugar do asset, guarda de vida removida e o `(` depois do ponto) e os tres da BT-16 em
-`tools/testes/bt11-13-prova-de-fogo.log` (13 iscas: 4 do BT-11, 4 do BT-12 e 5 do BT-13). O BT-10 tem
+`tools/testes/bt11-13-prova-de-fogo.log` (13 iscas: 4 do BT-11, 4 do BT-12 e 5 do BT-13). A BT-12F tem
+prova propria em `tools/testes/bt12f-prova-de-fogo.log`: 2 iscas plantadas no FONTE REAL (o FORMATO
+ANTIGO inteiro, sem cortar o ponto, e o ponto NO MEIO da frase) e restauradas byte a byte com sha256,
+MAIS a isca F da bancada (o item 6 do `verifica.py` passou a LER o formato do fonte) — todas reprovam
+com exit 1, e a linha montada pelo patch consertado sai
+`...(<color=#CBB396>23.3</color>% increased damage right now).` O BT-10 tem
 ainda a isca EMBUTIDA: o proprio teste planta cada defeito numa copia em memoria do fonte e exige que
 a checagem REPROVE pela razao certa - checagem que nunca foi vista reprovando seria decoracao.
 
@@ -349,6 +354,89 @@ jogo e um harness por test): a ligacao com o motor e o RECORTE ESTRUTURAL do fon
 ancorado em IDENTIFICADOR - assinatura, nome de campo, literal -, nunca em numero de linha) e a
 descricao do ASSET lida do censo VERSIONADO (`docs/cobertura/skills.csv`); o BT-12 le a tabela de
 casos da fixture. O que amarra o modelo ao patch e a checagem estrutural do trecho.
+
+---
+
+## O teste MAN-2 (o PISO do atributo e o valor CRU no marcador de log)
+
+Um teste PURO sobre o FONTE VIVO do marcador (`BetterTooltips/Patches/ShrineAuraPatch.cs`) e sobre a
+FERRAMENTA que le o log (`tools/checa_shrines.py`, importada de verdade):
+
+| teste | o que ele trava |
+|---|---|
+| `t_shrine_piso_cru.py` | MAN-2/REV-47 (achados 3 e 1): o marcador LE `HasMin`/`MinValue`, EMITE a linha `RV-46 piso`/`no-piso=` e o campo `cru=` (o valor ANTES do corte) nas duas linhas de limite; o cru e MEDIDO pelo caminho publico do motor (`GetAttributeValueByMethod` + `SavedMap` + `CalculateAttribute`), nunca estimado; e o `checa_shrines.coleta()` le o piso (`MinValue=-75`) e o cru dos dois limites da fixture - com um log ANTIGO (teto sem `cru=`) continuando a ser lido |
+
+**As duas pontas.** O teste le o CODIGO EFETIVO do marcador (`regras_bf.sem_comentarios`: comentario
+nao e codigo - a exigencia satisfeita so no cabecalho nao conta) e importa o conferidor REAL para ler
+a fixture `tools/fixtures/shrines-piso-cru.log`, SINTETICA e rotulada como tal, com os valores do ASSET
+citados por offset (`DamageReduction` `MaxValue=50` @1519603860; `ManaCostMod` `HasMin` `MinValue=-75`
+@1519616544, `HasMax` ausente). O caso do cartao esta na fixture: `Damage taken` com DOIS Guardians
+(o motor soma 2 x 40 = 80 + resto 10) -> `cru=+90%` cortado em `total=+50%` (`MaxValue`), e o
+`ManaCostMod` no piso -> `cru=-100%` cortado em `total=-75%` (`MinValue`).
+
+**A isca e EMBUTIDA (como no BT-10).** Cada exigencia no fonte tem a sua: a substring e arrancada de
+uma copia EM MEMORIA e a MESMA checagem tem de reprovar. A prova de fogo FISICA (5 iscas plantadas no
+FONTE REAL, o teste rodado, o defeito restaurado byte a byte com sha256 conferido) esta em
+`tools/testes/man2-prova-de-fogo.log`: 1) o marcador deixa de olhar `HasMin`; 2) o campo `cru=` sai do
+marcador; 3) o cru deixa de partir do `SavedMap` (deixa de ser medido); 4) o conferidor deixa de ler a
+linha do piso; 5) o `RE_TETO` perde o grupo `cru`. As cinco REPROVAM pelo motivo certo.
+
+**O que este teste NAO prova.** Ele nao executa o C# do mod (pediria a `lib/` do jogo e um harness) e
+nao mede em jogo: a ligacao com o motor e a estrutura do fonte vivo + o caminho de leitura do
+conferidor. O VALOR do `MinValue`/`MaxValue` e publicado pelo mod em runtime (lido do proprio asset) e
+a fixture o reproduz com a procedencia (offset) documentada; a rodada em jogo que fecha o caso e a do
+dono (um hover com o `Energy Coil` no piso e um `Damage taken` com dois Guardians no teto).
+
+---
+
+## A familia RSTV-8 (o level-up da run libera o botao da Skill Tree)
+
+Um teste PURO e uma isca, sobre o FONTE VIVO do portao (`RoguelikeSkillTreeVisualizer/RunTargets.cs`):
+
+| teste | o que ele trava |
+|---|---|
+| `t_rstv8_gate_levelup.py` | o dono NUNCA viu o botao "Skills" no HUD da run: o portao escondia com `if (RoguelikeManager.IsNotNullAndIsActive) return false`, mas `IsNotNullAndIsActive` (decompilado l.168661) significa "o manager foi CARREGADO" — o GameObject dele fica ativo a run inteira depois do primeiro level-up (l.168005-168014). A janela de verdade e o filho `SkillSelectWindow.activeSelf` (l.168597; o jogo usa esse criterio em `GUIManager.Update` l.120492 e no `SkillSelectActive` l.230294). O conserto: `if (LevelUpAberto()) { return true; }`; o ALVO sai do PROPRIO manager (`CurrentRoguelikeSkillSelectingCharacter` l.168726, fallback `CharactersWaitingForLevelUp[0].Character` l.168655), nunca do `CurrentlySelectedCharacter` que ele troca (l.168929/169094-169097); TODOS os outros portoes continuam (mira/ping/janela/spawn/turno/animacao) |
+| `cp_rstv8_levelup_escondido.py` (isca) | reinjeta o `if (RoguelikeManager.IsNotNullAndIsActive) return false` no fonte e mostra as checagens reprovando-o; e o modelo PURO do portao tem de BLOQUEAR o cenario de level-up com a regra antiga e LIBERAR com a nova |
+
+**A prova de fogo FISICA.** O defeito foi plantado no `RunTargets.cs` REAL, o teste rodou e saiu
+`REPROVOU (exit 1)` ("o portao voltou a esconder por `RoguelikeManager.IsNotNullAndIsActive`" +
+"GateOk nao chama `LevelUpAberto()`"), e o fonte foi RESTAURADO byte a byte (sha256 conferido).
+O teste da suite tambem traz a isca EMBUTIDA (planta o defeito numa copia em memoria e exige que a
+checagem reprove por `IsNotNullAndIsActive`), como no BT-10 e no MAN-2.
+
+**O que esta familia NAO prova.** Nao executa o C# do mod (pediria a `lib/` e um harness) e nao
+mede em tela: a ligacao com o motor e a ESTRUTURA do fonte (recorte por casamento de chaves) e os
+campos lidos do proprio `GateOk`. **O botao APARECER durante o level-up depende tambem da RSTV-9**
+(aparencia): o HUD inteiro fica desligado nesse momento — `GUIManager.Update` (l.120492) faz
+`CurrentCharacterUI.gameObject.SetActive(false)` enquanto o `SkillSelectWindow` esta ativo — e o
+botao da RSTV-5 e filho desse HUD. O portao liberar e NECESSARIO, mas nao suficiente para o botao
+ser visto; quem confirma a tela e o dono.
+
+---
+
+## A familia RSTV-9 (o botao RENDERIZAR durante o level-up)
+
+Um teste PURO e uma isca, sobre o FONTE VIVO do re-parente (`RoguelikeSkillTreeVisualizer/RunButton.cs`)
+e o gatilho que ele le em `RunTargets.cs`:
+
+| teste | o que ele trava |
+|---|---|
+| `t_rstv9_render_levelup.py` | o ACHADO CRITICO da RSTV-8: mesmo com o portao liberando, o HUD INTEIRO e desligado no level-up — `GUIManager.Update` (decompilado l.120492) faz `CurrentCharacterUI.Instance.gameObject.SetActive(false)` enquanto `SkillSelectWindow.activeSelf` — e o clone da RSTV-5 e filho desse HUD, entao `SetActive(false)` no PAI esconde a subarvore inteira e o botao NAO RENDERIZA. O conserto: no level-up o `RunButton.HomeInLevelUp` REALOCA o clone para DENTRO do `SkillSelectWindow` (canto superior direito, `SetAsLastSibling`, lado no minimo `LadoMinimoLevelUp` — valor LIDO do fonte), pelo MESMO criterio do portao (`RunTargets.JanelaDoLevelUpAberta` delega ao `LevelUpAberto` da RSTV-8); `HomeInRow` devolve a casa de origem restaurada por `CaptureHome`, sem reaplicar o `ApplySquareLayout` (que encolheria a linha do Ping de novo). O teste tambem roda o MODELO PURO: no cenario de level-up (janela ativa, HUD DESLIGADO, botao ativo) a regra NOVA renderiza e a ANTIGA nao; fora do level-up as duas continuam renderizando (a run normal intacta) |
+| `cp_rstv9_botao_no_hud_desligado.py` (isca) | reinjeta o defeito no fonte em memoria (`SetParent(destino, ...)` vira `SetParent(_homeParent, ...)`: o clone fica preso sob o HUD) e mostra as checagens reprovando-o; o modelo PURO tem de deixar o botao INVISIVEL no level-up com a regra antiga e VISIVEL com a nova |
+
+**A prova de fogo FISICA.** A linha `rt.SetParent(destino, false);` foi trocada pela defeituosa no
+`RunButton.cs` REAL, o teste rodou e saiu `REPROVOU (exit 1)` ("HomeInLevelUp NAO re-parenteia o clone
+para a janela — o botao continua sob o HUD, que o jogo DESLIGA no level-up: nao renderiza"), e o fonte
+foi RESTAURADO byte a byte (sha256
+`e842e871319aabc8f4db49167eb95fb576d2bc2cb82ed1164dd99709fca0144d` conferido). O teste da suite
+tambem traz a isca EMBUTIDA (planta o defeito numa copia em memoria e exige que a checagem reprove pelo
+re-parente), como no BT-10 e no MAN-2.
+
+**O que esta familia NAO prova.** Nao executa o C# do mod (pediria a `lib/` e um harness) e nao mede em
+tela: a ligacao com o motor e a ESTRUTURA do fonte (recorte por casamento de chaves) e o modelo puro.
+O que o teste amarra e que o botao SAI de sob o HUD e passa a morar na janela ativa; a posicao exata
+(canto superior direito) e o tamanho (`LadoMinimoLevelUp`) podem ser ajustados depois de ver em jogo —
+quem confirma a tela e o dono.
 
 ---
 

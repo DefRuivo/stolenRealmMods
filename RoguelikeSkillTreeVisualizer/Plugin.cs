@@ -5,16 +5,17 @@ using BepInEx;
 using BepInEx.Configuration;
 using BepInEx.Logging;
 using HarmonyLib;
+using UnityEngine;
 
 namespace RoguelikeSkillTreeVisualizer
 {
     /// <summary>
     /// RoguelikeSkillTreeVisualizer (RSTV) — RSTV-2 implementada.
     ///
-    /// Na tela "Roguelike -> Select Party" (classe <c>CharacterChoiceManager</c>, l.208094 do
+    /// Na tela "Roguelike -> Select Party" (classe <c>CharacterChoiceManager</c>, l.328519 do
     /// decompilado) um botao QUADRADO aparece a DIREITA do "Choose Powerups"
-    /// (<c>CharacterChoiceManager.roguelikePowerupButton</c>, l.208096) e abre a Skill Tree
-    /// NATIVA (<c>SkillTreeManager</c>, l.172045 — a mesma do Campaign -> Change Skills) em modo
+    /// (<c>CharacterChoiceManager.roguelikePowerupButton</c>, l.328521) e abre a Skill Tree
+    /// NATIVA (<c>SkillTreeManager</c>, l.177201 — a mesma do Campaign -> Change Skills) em modo
     /// SOMENTE LEITURA, com o contexto real do personagem (o ultimo que o jogador local adicionou
     /// a party). Nenhum ponto e gasto, nada e gravado.
     ///
@@ -44,7 +45,7 @@ namespace RoguelikeSkillTreeVisualizer
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.2.0";
+        public const string Version = "0.3.0";
 
         internal static ManualLogSource Log { get; private set; }
 
@@ -65,11 +66,19 @@ namespace RoguelikeSkillTreeVisualizer
         internal static ConfigEntry<bool> AtivarBotaoNaRun { get; private set; }
 
         /// <summary>
-        /// RSTV-5: ajusta o indice de irmao da janela nativa para a arvore ficar POR CIMA do HUD na
-        /// run (a janela e outro ramo da hierarquia do canvas). Desligar deixa a arvore no indice em
-        /// que o prefab a posicionou — util se o tooltip do jogo aparecer atras da arvore.
+        /// RSTV-11a: liga/desliga o ATALHO de teclado (proposta D) que abre a MESMA skill tree
+        /// read-only, sem depender do botao do HUD. Padrao <c>true</c> (ligado). Desligar aqui nao
+        /// mexe nos botoes (a tela Select Party e o HUD da run seguem com o comportamento de sempre).
         /// </summary>
-        internal static ConfigEntry<bool> AjustarZOrderConfig { get; private set; }
+        internal static ConfigEntry<bool> AtalhoSkillTree { get; private set; }
+
+        /// <summary>
+        /// RSTV-11a: a TECLA do atalho. Padrao <c>KeyCode.F10</c>. A tecla e lida CRUA
+        /// (<c>Input.GetKeyDown</c>), entao NAO passa pela acao 10 nativa do jogo (que abriria junto
+        /// a janela vanilla <c>ToggleSkillTreeMenu</c>). Aceita qualquer <c>KeyCode</c> do Unity
+        /// (ex.: F9, K, Mouse4).
+        /// </summary>
+        internal static ConfigEntry<KeyCode> TeclaAtalhoSkillTree { get; private set; }
 
         /// <summary>
         /// Forma SEGURA de consultar a opcao: se por algum motivo o config nao pode ser lido/criado,
@@ -86,9 +95,16 @@ namespace RoguelikeSkillTreeVisualizer
             get { return AtivarBotaoNaRun == null || AtivarBotaoNaRun.Value; }
         }
 
-        internal static bool AjustarZOrder
+        /// <summary>Mesma regra para o atalho: config ilegivel = atalho LIGADO (com os guards do jogo).</summary>
+        internal static bool AtalhoLigado
         {
-            get { return AjustarZOrderConfig == null || AjustarZOrderConfig.Value; }
+            get { return AtalhoSkillTree == null || AtalhoSkillTree.Value; }
+        }
+
+        /// <summary>A tecla do atalho; sem config, o padrao do mod e <c>KeyCode.F10</c>.</summary>
+        internal static KeyCode TeclaAtalho
+        {
+            get { return TeclaAtalhoSkillTree != null ? TeclaAtalhoSkillTree.Value : KeyCode.F10; }
         }
 
         private void Awake()
@@ -114,12 +130,22 @@ namespace RoguelikeSkillTreeVisualizer
                     "turno do inimigo, personagem agindo/movendo, level-up pendente ou GUIState fora de " +
                     "InBattle/InWorldMap/InTown o botao fica escondido e o log diz por que.");
 
-                AjustarZOrderConfig = Config.Bind(
+                AtalhoSkillTree = Config.Bind(
                     "Geral",
-                    "AjustarZOrder",
+                    "AtalhoSkillTree",
                     true,
-                    "Ajusta o indice de irmao da janela nativa para a arvore ficar POR CIMA do HUD na " +
-                    "run. Padrao: true. Desligue se o tooltip do jogo aparecer atras da arvore.");
+                    "Liga o atalho de TECLADO que abre a mesma skill tree read-only (sem depender do " +
+                    "botao do HUD). Padrao: true. A tecla nao dispara durante chat, remap de tecla, " +
+                    "janela de evento ou menu sem alvo: os guards do KeybindManager.Update sao " +
+                    "replicados no mod.");
+
+                TeclaAtalhoSkillTree = Config.Bind(
+                    "Geral",
+                    "TeclaAtalhoSkillTree",
+                    KeyCode.F10,
+                    "A tecla do atalho da skill tree. Padrao: F10. Aceita qualquer KeyCode do Unity " +
+                    "(F9, K, Mouse4, ...). Nao usa a acao 10 nativa, entao NAO abre a janela vanilla " +
+                    "de skill tree junto.");
             }
             catch (Exception e)
             {
@@ -137,7 +163,9 @@ namespace RoguelikeSkillTreeVisualizer
             Log.LogInfo("RSTV DIAG: botao 'Skills' da tela Select Party " + (BotaoLigado ? "HABILITADO" : "DESABILITADO") +
                         " nesta sessao (AtivarBotao=" + BotaoLigado + " no config); botao 'Skills' do HUD da run " +
                         (RunBotaoLigado ? "HABILITADO" : "DESABILITADO") +
-                        " (AtivarBotaoNaRun=" + RunBotaoLigado + "); portao 4 sempre ativo no botao da run.");
+                        " (AtivarBotaoNaRun=" + RunBotaoLigado + "); portao 4 sempre ativo no botao da run; " +
+                        "atalho " + (AtalhoLigado ? ("LIGADO na tecla " + TeclaAtalho) : "DESABILITADO") +
+                        " (RSTV-11a: guards do KeybindManager replicados; sem acao nativa).");
         }
 
         /// <summary>

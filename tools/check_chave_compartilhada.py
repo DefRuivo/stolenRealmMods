@@ -15,8 +15,8 @@ CASO REAL (BUG-31, defeito confirmado em 30/09):
   "Each stack grants another 10% Max Health; you gain one stack per enemy hit."
   Mas o MESMO texto e usado pela skill `Endurance I` (Monk), onde o +10% e um
   bonus FIXO sem stack nenhum -> a nota caiu nos dois e mente para o Endurance.
-  A nota do `Consumption` (LocalizePatch l.418-423) ficou pendurada na chave
-  compartilhada; a chave "@Maximum health@ reduced by 20%" (l.424-426) entra na
+  A nota do `Consumption` (LocalizePatch.cs 1828-1829 · TextFixes) ficou pendurada na chave
+  compartilhada; a chave "@Maximum health@ reduced by 20%" (1835-1836 · TextFixes) entra na
   MESMA varredura.
 
 Isso e a familia do INC-1 (chave duplicada), mas a colisao e no JOGO, no texto

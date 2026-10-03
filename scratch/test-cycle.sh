@@ -3,7 +3,7 @@
 # lê o LogOutput.log e fecha o jogo — sem intervenção manual.
 #
 # Uso:   bash test-cycle.sh [SEG_APOS_PLUGIN] [PADRAO_GREP]
-# Ex.:   bash test-cycle.sh 20 "QoL fonte|Roguelike QoL"
+# Ex.:   bash test-cycle.sh 20 "Better Tooltips carregado|Better Stats carregado"
 set -u
 SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
@@ -15,7 +15,7 @@ PERFIL="$APPDATA\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx"
 PRELOADER="$PERFIL\core\BepInEx.Preloader.dll"
 LOG="$(cygpath -u "$PERFIL")/LogOutput.log"
 WAIT_AFTER="${1:-20}"
-PATTERN="${2:-QoL fonte|Roguelike QoL}"
+PATTERN="${2:-Better Tooltips carregado|Better Stats carregado}"
 
 echo "[1/5] encerrando instância anterior (se houver)..."
 if taskkill /F /IM "Stolen Realm.exe" >/dev/null 2>&1; then
@@ -33,7 +33,7 @@ echo "[3/5] lançando via Steam -applaunch $APPID"
 echo "[4/5] aguardando o plugin carregar (até 90s)..."
 LOADED=0
 for i in $(seq 1 90); do
-  if [ -f "$LOG" ] && grep -aq "Roguelike QoL carregado" "$LOG"; then
+  if [ -f "$LOG" ] && grep -aq "Better Tooltips carregado" "$LOG"; then
     echo "  plugin carregado após ~${i}s"
     LOADED=1
     break

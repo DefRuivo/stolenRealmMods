@@ -83,6 +83,12 @@ def monta_mod(raiz, nome="BetterTooltips", versao="9.9.9", config="Release",
         with open(os.path.join(pasta, doc), "w", encoding="utf-8") as fh:
             fh.write("# %s\n" % doc)
 
+    # PKG-3: o README do mod e o QUARTO lugar que carrega a versao (`- **Version:** x.y.z`)
+    # e o pre-flight REPROVA o plantio "em dia" se a linha faltar - o mtime nao e a unica
+    # coisa que a trava confere. Espelhado com a MESMA `versao` do .csproj/Plugin.cs.
+    with open(os.path.join(pasta, "README.md"), "a", encoding="utf-8") as fh:
+        fh.write("\n- **Version:** %s\n" % versao)
+
     icone = os.path.join(pasta, "icon.png")
     m.gerar_icone(nome, icone)
 

@@ -1,5 +1,30 @@
 # Changelog — BetterTooltips
 
+## MAN-2 / REV-47 (02/10) — o marcador de LOG passa a publicar o PISO e o VALOR CRU (so log; nada empacotado)
+
+Conserto de **dois buracos do marcador de log/despejo** das auras de shrine (achados 3 e 1 da REV-47).
+**Marcas de LOG apenas**: nenhum texto que o jogador ve, nenhuma formula e nenhuma convencao de numero
+(o inteiro da ficha do RV-45, o sinal unico do 46acd97) mudam — o numero exibido continua o do motor.
+
+- **O PISO era invisivel.** `MarcaTeto`/`TetoDoAtributo` (`ShrineAuraPatch.cs`) so olhavam o `HasMax`:
+  um atributo com PISO (`HasMin`/`MinValue`) **nunca gerava linha**, e pelo log nao dava para provar NEM
+  negar o piso — o `ManaCostMod` parecia "sem teto nenhum" (o dado so apareceu lendo o asset a mao).
+  O marcador agora olha `HasMin`/`MinValue` e emite a linha propria
+  `RV-46 piso '<atributo>': MinValue=<valor> total=...% cru=...% no-piso=sim|nao`. No asset,
+  `ManaCostMod` tem `HasMin` com MinValue **−75** (`resources.assets` @1519616544) e `HasMax` ausente.
+- **O valor CRU nao existia.** O marcador imprimia so o total **ja cortado** — com **DOIS** `Guardian
+  Aura` o `Damage taken` lia `total=+50%` (o `MaxValue`) e o cru (90) tinha de ser **inferido** da soma
+  por instancia provada no RV-46. O campo `cru=` entrou ao lado do `total` nas duas linhas de limite, e
+  o valor **nao e estimado**: e o numero que o motor calcula ANTES do corte, pelo caminho publico dele
+  (`GetAttributeValueByMethod` + `SavedMap` + `CalculateAttribute`) — o patch replica a logica de
+  `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NAO chamado pelo patch); sem leitura,
+  o campo simplesmente nao sai.
+
+Nada de Harmony mudou (segue o prefixo unico em `ApplyDescriptionExpressions`, `ref __2`); todo o
+trabalho novo e codigo de leitura dentro de try/catch. O `tools/checa_shrines.py` passou a ler o
+`cru=` (opcional, para log de build anterior) e a linha do piso, mostrou os dois na secao
+`LIMITES DO ATRIBUTO NO LOG` e usa o piso (como ja usava o teto) no bloco de ADITIVIDADE.
+
 ## RV-46 (30/09) — os dois defeitos da linha azul das auras de shrine (saiu na **0.1.1**, no ar desde 01/10)
 
 > **Historico do titulo:** esta secao nasceu como "Nao publicado" (bc394e7, 30/09) — e o RV-46 era mesmo

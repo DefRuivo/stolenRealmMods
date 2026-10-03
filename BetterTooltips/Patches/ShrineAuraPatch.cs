@@ -357,6 +357,35 @@ namespace BetterTooltips.Patches
     /// monta a lista dos itens sem atributo: aura de ATRIBUTO entra UMA vez (RV-46), aura de GATILHO
     /// entra UMA vez POR INSTÂNCIA. O tipo é logado (`RV-46/DWA-2 tipos de efeito`) e as contagens
     /// também — a linha continua se apresentando como COMPLETA.
+    ///
+    /// MAN-2 / REV-47 achados 3 e 1 (02/10) — DOIS BURACOS DO MARCADOR DE LOG, conserto só de LOG
+    /// (nenhum texto do jogador, nenhuma fórmula e nenhuma convenção de número mudam).
+    ///
+    /// (1) PISO INVISÍVEL — `MarcaTeto`/`TetoDoAtributo` só olhavam `HasMax`. Atributo com PISO
+    ///     (`HasMin`/`MinValue`) NUNCA gerava linha: pelo log não dava para provar NEM negar o piso,
+    ///     e o `ManaCostMod` parecia "sem teto nenhum" (o dado só apareceu lendo o asset à mão).
+    ///     Conserto: o marcador passa a olhar `HasMin`/`MinValue` também e emite a linha própria
+    ///     `RV-46 piso '<atributo>': MinValue=<valor> ... no-piso=sim|nao` — o mesmo tratamento que o
+    ///     teto já tinha (a convenção do jogo é a MESMA dos dois lados: `Character.GetAttribute`
+    ///     corta em `HasMax`/`MaxValue` (decompilado l.11871-11878/11879-11882) e o
+    ///     `CharacterAttribute` carrega `HasMin`/`MinValue` — sem `UseMinAttribute`, é um bool e um
+    ///     float). No asset: `ManaCostMod` tem `HasMin` com **MinValue = −75** (`resources.assets`
+    ///     @1519616544, o float logo depois do bool do `HasMin`) e `HasMax` AUSENTE — é o caso que
+    ///     ficava mudo.
+    ///
+    /// (2) VALOR CRU AUSENTE — o marcador imprimia só o total JÁ CORTADO. No `Damage taken` com DOIS
+    ///     Guardians o cru (90) teve de ser INFERIDO da soma por instância provada no RV-46, não
+    ///     MEDIDO: o `total` lido é o `Character[atributo]` já cortado (50, o `MaxValue`) e o corte
+    ///     não aparecia em lugar nenhum da conta. Conserto: campo `cru=` ao lado do `total` nas duas
+    ///     linhas de limite. O cru NÃO é estimado nem somado à mão: é o MESMO número que o motor
+    ///     calcula ANTES do corte — o patch replica a lógica de
+    ///     `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NÃO chamado pelo patch;
+    ///     `CalculateAttribute` sobre o `SavedMap`, decompilado l.8252-8274, chamado em `GetAttribute`
+    ///     l.11852-11869, com o corte DEPOIS, l.11871-11882). Falha de leitura = sem campo `cru`
+    ///     (número provado ou nada).
+    ///
+    /// Os dois campos são de LOG: nenhum item da linha azul e nem o texto do jogo mudam por causa
+    /// deles (o número exibido continua o do motor).
     /// </summary>
     [HarmonyPatch]
     public static class ShrineAuraPatch
@@ -1521,23 +1550,49 @@ namespace BetterTooltips.Patches
         /// `resto` do item (`total − contribuição`) NÃO é "a parte da ficha que não é aura" e não pode
         /// ser comparado entre hovers. O teto vai no log para quem confere saber; NENHUM texto muda por
         /// causa dele (o número exibido continua o do motor).
+        ///
+        /// MAN-2/REV-47 (02/10) — O MESMO MARCADOR PASSA A OLHAR O PISO E A IMPRIMIR O VALOR CRU.
+        /// O nome `MarcaTeto` fica (é o ponto de entrada que a doc do RV-46 referencia), mas o que ele
+        /// registra agora são os DOIS limites do atributo e a conta do corte:
+        ///   * `cru=` — o valor ANTES do corte, medido pelo caminho do motor (`ValorCruDoMotor`), ao
+        ///     lado do `total` (que já vem cortado). Sem ele o corte era invisível: o `Damage taken`
+        ///     com DOIS Guardians lia `total` 50 (o `MaxValue`) e o cru (90) só podia ser INFERIDO da
+        ///     soma por instância provada no RV-46;
+        ///   * a linha `RV-46 piso '<atributo>'` — o MESMO tratamento do teto para o PISO
+        ///     (`HasMin`/`MinValue`; `Character.GetAttribute` corta embaixo em l.11879-11882). Antes
+        ///     um atributo só de piso (`ManaCostMod`: `HasMin` MinValue −75, `HasMax` ausente,
+        ///     `resources.assets` @1519616544) NÃO gerava linha nenhuma e o piso não podia nem ser
+        ///     provado nem negado pelo log.
+        /// Falha de leitura do cru não inventa número: o campo simplesmente não sai.
         /// </summary>
         private static void MarcaTeto(CharacterAttribute atributo, Character receptor, string nome, float total)
         {
             try
             {
+                // MAN-2 — o CRU é medido UMA vez e entra nas DUAS linhas de limite (nunca estimado).
+                float cru;
+                string campoCru = ValorCruDoMotor(atributo, receptor, out cru)
+                    ? " cru=" + ComSinal(cru) + "%" : "";
+
                 float teto;
-                if (!TetoDoAtributo(atributo, receptor, out teto))
+                if (TetoDoAtributo(atributo, receptor, out teto))
                 {
-                    return;
+                    Marca($"RV-46 teto '{nome}': MaxValue={teto.ToString("0.#")} char={receptor.CharacterName}"
+                        + $" total={ComSinal(total)}%{campoCru} no-teto={(total >= teto ? "sim" : "nao")}"
+                        + " (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)");
                 }
-                Marca($"RV-46 teto '{nome}': MaxValue={teto.ToString("0.#")} char={receptor.CharacterName}"
-                    + $" total={ComSinal(total)}% no-teto={(total >= teto ? "sim" : "nao")}"
-                    + " (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)");
+
+                float piso;
+                if (PisoDoAtributo(atributo, receptor, out piso))
+                {
+                    Marca($"RV-46 piso '{nome}': MinValue={piso.ToString("0.#")} char={receptor.CharacterName}"
+                        + $" total={ComSinal(total)}%{campoCru} no-piso={(total <= piso ? "sim" : "nao")}"
+                        + " (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:11879-11882)");
+                }
             }
             catch (Exception ex)
             {
-                Plugin.Log.LogWarning($"[Shrine RV-46] leitura do teto falhou (nenhum campo extra no log): {ex.GetType().Name}: {ex.Message}");
+                Plugin.Log.LogWarning($"[Shrine RV-46] leitura do limite falhou (nenhum campo extra no log): {ex.GetType().Name}: {ex.Message}");
             }
         }
 
@@ -1562,6 +1617,79 @@ namespace BetterTooltips.Patches
             }
             teto = atributo.MaxValue;
             return true;
+        }
+
+        /// <summary>
+        /// MAN-2/REV-47 — o PISO do atributo pelo PRÓPRIO objeto do jogo. O `CharacterAttribute` NÃO
+        /// tem `UseMinAttribute` (o teto tem): o piso é só o bool `HasMin` + o `MinValue` — os MESMOS
+        /// campos que o `Character.GetAttribute` lê para cortar embaixo (decompilado l.11879-11882).
+        /// `false` = atributo sem piso neste build (nada sai no log).
+        /// </summary>
+        private static bool PisoDoAtributo(CharacterAttribute atributo, Character receptor, out float piso)
+        {
+            piso = 0f;
+            if (atributo == null || !atributo.HasMin)
+            {
+                return false;
+            }
+            piso = atributo.MinValue;
+            return true;
+        }
+
+        /// <summary>
+        /// MAN-2/REV-47 — O VALOR **CRU** DO ATRIBUTO: o que o MOTOR soma ANTES de cortar no
+        /// `HasMax`/`HasMin`. O `Character[atributo]` que os itens da linha azul usam já vem CORTADO
+        /// (`Character.GetAttribute`, decompilado l.11871-11882) — com DOIS Guardians o total lê 50 (o
+        /// `MaxValue`) enquanto o cru é 90, e sem este campo o corte era invisível na conta (o 90 tinha
+        /// de ser inferido à mão).
+        ///
+        /// O número NÃO é uma conta nova: é a MESMA conta do motor ANTES do corte — o patch replica a
+        /// lógica de `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NÃO chamado pelo patch;
+        /// l.8252-8274, chamado por `GetAttribute` em l.11852-11869 — o `Set` absoluto vence, senão
+        /// `SavedMap` + `CalculateAttribute` (Base/Percentage/Multiplicative) e, se o atributo pede,
+        /// a segunda passada). O `CharacterEffectMethod` e o `CalculateAttribute` são públicos (o
+        /// `AtributoPercentualPatch` já usa o MESMO `GetAttributeValueByMethod`).
+        ///
+        /// `false` = não deu para medir (atributo binário, leitura falhou): o campo `cru` simplesmente
+        /// não entra no log — número provado ou nada, nunca estimado.
+        /// </summary>
+        private static bool ValorCruDoMotor(CharacterAttribute atributo, Character receptor, out float cru)
+        {
+            cru = 0f;
+            if (atributo == null || receptor == null)
+            {
+                return false;
+            }
+            try
+            {
+                // Mesma ordem do motor: o bucket `Set` é absoluto (`+infinito` quando não há entry).
+                float absoluto = receptor.GetAttributeValueByMethod(
+                    atributo, CharacterEffectMethod.Set, false);
+                if (!float.IsPositiveInfinity(absoluto))
+                {
+                    cru = absoluto;
+                    return true;
+                }
+                if (atributo.IsBinary)
+                {
+                    // O motor não caminha atributo binário (GetAttribute não entra no else): o `Set`
+                    // acima já cobriu o caso; sem ele, não há valor contínuo para medir.
+                    return false;
+                }
+                cru = receptor.SavedMap[atributo.Guid];
+                cru = receptor.CalculateAttribute(atributo, cru, false, false);
+                if (atributo.NeedsSecondPass)
+                {
+                    cru = receptor.CalculateAttribute(atributo, cru, true, false);
+                }
+                return true;
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine MAN-2] valor cru de '{atributo.name}' NAO medido"
+                    + $" (nenhum campo cru no log): {ex.GetType().Name}: {ex.Message}");
+                return false;
+            }
         }
 
         /// <summary>

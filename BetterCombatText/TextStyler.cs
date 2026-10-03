@@ -33,6 +33,11 @@ namespace BetterCombatText
         // InstanceID -> tamanho de fonte ORIGINAL (para o ajuste ser idempotente).
         private static readonly Dictionary<int, float> TamanhoOriginal = new Dictionary<int, float>();
         private static readonly Dictionary<int, float> TamanhoOriginalLegado = new Dictionary<int, float>();
+        // BCT-2: InstanceID -> BALDE da sombra aplicado (true = letra escura -> sombra clara).
+        // Serve para a REAVALIACAO SEM RE-INSTANCIAR: o jogo pode REUSAR o mesmo componente com
+        // outra cor de letra; so quando o BALDE vira e que a cor da sombra e reescrita.
+        private static readonly Dictionary<int, bool> BaldeSombraTmp = new Dictionary<int, bool>();
+        private static readonly Dictionary<int, bool> BaldeSombraLegado = new Dictionary<int, bool>();
 
         private static bool _resumoAplicadoSobreNomes;
         private static bool _resumoAplicadoSobreDado;
@@ -66,7 +71,13 @@ namespace BetterCombatText
                 int id = tmp.GetInstanceID();
                 if (MateriaisInstanciados.TryGetValue(id, out var nosso) && nosso != null && nosso == compartilhadoAntes)
                 {
-                    return; // ja e a nossa instancia deste componente; nada a refazer
+                    // REAVALIACAO SEM RE-INSTANCIAR (BCT-2): o componente ja tem a NOSSA
+                    // instancia de material, mas o jogo pode REUSA-LO mudando a cor da letra
+                    // (o mesmo texto vira fogo e depois gelo). A cada chamada relemos a cor e,
+                    // se o BALDE da sombra virou, reescrevemos SO `_UnderlayColor` — sem criar
+                    // material novo e sem tocar no contorno/offsets.
+                    ReavaliarSombraTmp(tmp, cfg, nosso);
+                    return; // ja e a nossa instancia deste componente; nada mais a refazer
                 }
 
                 // === INSTANCIA POR COMPONENTE (nunca o material compartilhado) ===
@@ -105,7 +116,11 @@ namespace BetterCombatText
                     if (temUnderlay)
                     {
                         mat.EnableKeyword("UNDERLAY_ON");
-                        mat.SetColor("_UnderlayColor", cfg.CorSombra);
+                        mat.SetColor("_UnderlayColor", cfg.CorSombraPara(tmp.color));
+                        // BCT-3/BCT-4: o BALDE considera o FUNDO declarado (fundo escuro -> sombra
+                        // clara) E a LEI do contraste com a LETRA (o balde VIRA se a cor escolhida
+                        // nao contrastar com a letra) - a reavaliacao so reescreve se o balde muda.
+                        BaldeSombraTmp[id] = Configuracao.UsaSombraClara(tmp.color, Plugin.Cfg.CorSombraClara, Plugin.Cfg.CorSombraEscura, cfg.Fundo);
                         mat.SetFloat("_UnderlayOffsetX", Mathf.Clamp(cfg.SombraOffsetX.Value, -2f, 2f));
                         mat.SetFloat("_UnderlayOffsetY", Mathf.Clamp(cfg.SombraOffsetY.Value, -2f, 2f));
                         mat.SetFloat("_UnderlayDilate", Mathf.Clamp(cfg.SombraDilate.Value, -1f, 1f));
@@ -142,6 +157,44 @@ namespace BetterCombatText
             catch (Exception e)
             {
                 AvisoUma(superficie + ":erro", $"falha ao tratar '{Nome(tmp)}': {e.GetType().Name}: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// REAVALIACAO SEM RE-INSTANCIAR (BCT-2), caminho TMP. O componente ja tem a NOSSA
+        /// instancia de material; o jogo pode reusa-lo com OUTRA cor de letra. Relemos a cor e,
+        /// se o BALDE da sombra mudou, escrevemos SO `_UnderlayColor` na instancia que ja e
+        /// nossa — nada de `new Material`, nada de contorno/offset/tamanho. Sombra desligada,
+        /// sombra nao-adaptativa, shader sem `_UnderlaySoftness` ou balde igual: nada e escrito
+        /// (continua idempotente).
+        /// </summary>
+        private static void ReavaliarSombraTmp(TMP_Text tmp, EstiloTmpCfg cfg, Material nosso)
+        {
+            try
+            {
+                if (!cfg.SombraAtiva.Value || !Plugin.Cfg.SombraAdaptativa.Value)
+                {
+                    return; // sombra desligada, ou comportamento FIXO antigo: nada acompanha a cor
+                }
+                if (nosso == null || !nosso.HasProperty("_UnderlaySoftness"))
+                {
+                    return; // shader sem underlay: nao ha cor de sombra para atualizar
+                }
+
+                int id = tmp.GetInstanceID();
+                bool balde = Configuracao.UsaSombraClara(tmp.color, Plugin.Cfg.CorSombraClara, Plugin.Cfg.CorSombraEscura, cfg.Fundo);
+                if (BaldeSombraTmp.TryGetValue(id, out var anterior) && anterior == balde)
+                {
+                    return; // a letra continua no MESMO balde: a sombra ja esta certa
+                }
+                BaldeSombraTmp[id] = balde;
+                nosso.SetColor("_UnderlayColor", cfg.CorSombraPara(tmp.color));
+                tmp.SetMaterialDirty();
+            }
+            catch (Exception e)
+            {
+                AvisoUma("reavaliacao-tmp:erro",
+                    $"falha ao reavaliar a sombra adaptativa no TMP: {e.GetType().Name}: {e.Message}");
             }
         }
 
@@ -203,6 +256,10 @@ namespace BetterCombatText
             {
                 if (TextosLegadosTratados.Contains(id))
                 {
+                    // REAVALIACAO SEM RE-CRIAR (BCT-2): o rotulo legado pode ser REUSADO com
+                    // outra cor de letra. Se o BALDE virou, trocamos SO o effectColor do
+                    // Shadow — sem AddComponent de novo e sem tocar em contorno/tamanho.
+                    ReavaliarSombraLegado(txt, cfg);
                     return;
                 }
                 TextosLegadosTratados.Add(id);
@@ -241,9 +298,10 @@ namespace BetterCombatText
                     {
                         sombra = txt.gameObject.AddComponent<Shadow>();
                     }
-                    sombra.effectColor = cfg.CorSombra;
+                    sombra.effectColor = cfg.CorSombraPara(txt.color);
                     sombra.effectDistance = new Vector2(cfg.SombraOffsetX.Value, cfg.SombraOffsetY.Value);
                     sombra.useGraphicAlpha = true;
+                    BaldeSombraLegado[id] = Configuracao.UsaSombraClara(txt.color, Plugin.Cfg.CorSombraClara, Plugin.Cfg.CorSombraEscura, cfg.Fundo);
                 }
 
                 if (cfg.Negrito.Value)
@@ -272,6 +330,44 @@ namespace BetterCombatText
             catch (Exception e)
             {
                 AvisoUma(superficie + ":erro", $"falha ao tratar '{txt.gameObject.name}': {e.GetType().Name}: {e.Message}");
+            }
+        }
+
+        /// <summary>
+        /// REAVALIACAO SEM RE-CRIAR (BCT-2), caminho LEGADO (UI.Text). Se o rotulo ja tratado for
+        /// REUSADO com outra cor de letra e o BALDE da sombra virar, reescrevemos SO o
+        /// `effectColor` do Shadow que ja existe — sem `AddComponent` de novo e sem tocar no
+        /// contorno, negrito ou tamanho. Sombra desligada, nao-adaptativa, sem Shadow no objeto
+        /// ou balde igual: nada e escrito.
+        /// </summary>
+        private static void ReavaliarSombraLegado(Text txt, EstiloTextoLegadoCfg cfg)
+        {
+            try
+            {
+                if (!cfg.SombraAtiva.Value || !Plugin.Cfg.SombraAdaptativa.Value)
+                {
+                    return; // sombra desligada, ou comportamento FIXO antigo
+                }
+                var sombra = txt.gameObject.GetComponent<Shadow>();
+                if (sombra == null)
+                {
+                    return; // nao ha sombra nossa registrada neste objeto
+                }
+
+                int id = txt.GetInstanceID();
+                bool balde = Configuracao.UsaSombraClara(txt.color, Plugin.Cfg.CorSombraClara, Plugin.Cfg.CorSombraEscura, cfg.Fundo);
+                if (BaldeSombraLegado.TryGetValue(id, out var anterior) && anterior == balde)
+                {
+                    return; // a letra continua no MESMO balde
+                }
+                BaldeSombraLegado[id] = balde;
+                sombra.effectColor = cfg.CorSombraPara(txt.color);
+                txt.SetVerticesDirty();
+            }
+            catch (Exception e)
+            {
+                AvisoUma("reavaliacao-legado:erro",
+                    $"falha ao reavaliar a sombra adaptativa no texto legado: {e.GetType().Name}: {e.Message}");
             }
         }
 
@@ -325,6 +421,32 @@ namespace BetterCombatText
                     $"fonte TMP='{nomeFonte}', material compartilhado lido antes do tratamento='{nomeMaterialOriginal}'" +
                     $"{(jaEraInstancia ? " (ja era instancia por componente de outro mod — o TextMeshProUGUI.GetMaterial so cria copia quando m_fontMaterial e nulo ou tem InstanceID diferente; com o MESMO InstanceID ele REUSA a instancia existente, sem CreateMaterialInstance, e escrevemos NELA, sem clonar)" : " (compartilhado do prefab)")}, " +
                     $"shader='{nomeShader}', tem _OutlineWidth (distance field/SDF)={df}");
+
+                // BCT-3 (DIAGNOSTICO): a cor REAL da letra do alvo e a cor de sombra que FICOU no
+                // material. Sem esses dois numeros, "a sombra nao aparece" fica sem nada para
+                // conferir — e foi exatamente o estado em que o defeito do campo escuro foi
+                // relatado (o log dizia `sombra=on`, que e so a chave do config).
+                Color corLetra = tmp.color;
+                string sombraNoMaterial = "(este material/superficie nao escreveu _UnderlayColor)";
+                try
+                {
+                    Material inst = tmp.fontMaterial;
+                    if (inst != null && inst.HasProperty("_UnderlayColor"))
+                    {
+                        Color sc = inst.GetColor("_UnderlayColor");
+                        sombraNoMaterial = $"#{ColorUtility.ToHtmlStringRGB(sc)} alfa={sc.a:0.###}";
+                    }
+                }
+                catch
+                {
+                    // leitura best-effort: nao pode derrubar o diagnostico
+                }
+                Plugin.Log.LogInfo(
+                    $"[{superficie}] cor da LETRA no alvo='#{ColorUtility.ToHtmlStringRGB(corLetra)}' " +
+                    $"(alfa={corLetra.a:0.###}, luminancia={Configuracao.Luminancia(corLetra):0.###}, " +
+                    $"letra {(Configuracao.LetraEscura(corLetra) ? "ESCURA" : "CLARA")}); " +
+                    $"BCT-4: a sombra tem de CONTRASTAR com a LETRA (diferenca de luminancia >= " +
+                    $"{Configuracao.ContrasteMinimo:0.##}); sombra que FICOU no material=_UnderlayColor '{sombraNoMaterial}'.");
             }
             catch (Exception e)
             {

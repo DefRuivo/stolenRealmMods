@@ -32,24 +32,24 @@
 //
 // AS REGRAS DA LINHA AGREGADA sao a transcricao do mod vivo, cada uma com a citacao
 // arquivo:linha em `BetterTooltips/Patches/ShrineAuraPatch.cs` (a fonte e o repositorio):
-//   l.1005 AcumuladoShrines (um item por ATRIBUTO, na ordem canonica; sem aura viva, sem linha)
-//   l.1020 AurasVivas       (familia = ShrineKeys pela descricao do status)
-//   l.1220 AurasUnicas      (RV-46: a MESMA aura repetida na lista viva conta UMA vez - este
+//   1053 · AcumuladoShrines() (um item por ATRIBUTO, na ordem canonica; sem aura viva, sem linha)
+//   1245 · AurasVivas()       (familia = ShrineKeys pela descricao do status)
+//   1296 · AurasUnicas()      (RV-46: a MESMA aura repetida na lista viva conta UMA vez - este
 //                            e o defeito do print do dono: `Dodge +120%` com a aura valendo 40)
-//   l.1596 AtributosDasAuras(um item por atributo, ordem canonica l.984)
-//   l.1682 ContribuicaoDasAuras (soma aura por aura do AttributeEffects REAL, x TotalStacks)
-//   l.1359 ItensSemAtributo (Dwarven/Decay/Flame: item proprio ou o aviso no LOG, nunca sumir)
-//   l.1435 ItemDaAuraSemAtributo (Decay `Mathf.Round`, Flame `Mathf.Max(1, Round(...))`)
-//   l.1541 RotuloSemAtributo (Stun chance / Shadow damage per turn / Fire damage to attackers)
+//   1829 · AtributosDasAuras() (um item por atributo, ordem canonica 1032 · OrdemDosAtributos)
+//   1915 · ContribuicaoDasAuras() (soma aura por aura do AttributeEffects REAL, x TotalStacks)
+//   1592 · ItensSemAtributo() (Dwarven/Decay/Flame: item proprio ou o aviso no LOG, nunca sumir)
+//   1668 · ItemDaAuraSemAtributo() (Decay `Mathf.Round`, Flame `Mathf.Max(1, Round(...))`)
+//   1774 · RotuloSemAtributo() (Stun chance / Shadow damage per turn / Fire damage to attackers)
 //   DWA-2  AurasQueContamPorInstancia (o TIPO do efeito decide a repeticao: aura de ATRIBUTO conta
 //                            UMA vez - o motor soma as instancias e o teto corta, RV-46 - e aura de
 //                            GATILHO conta UMA vez POR INSTANCIA - o motor avalia o gatilho uma vez
 //                            por status vivo: `Character.SkillTriggers` l.33489-33508 +
 //                            `ProcessSkillTriggers` l.40953-40959, rolando a chance em l.41211-41216)
-//   l.897  Format            (rotulo por atributo; DamageReduction e ManaCostMod teem sinal invertido)
-//   l.924  ComSinal          ("+" para >=0, "−" U+2212 para negativo)
-//   l.950  InteiroDoJogo     (Mathf.CeilToInt - a grandeza da ficha; NaN/Inf -> 0)
-//   l.967  TotalComSinal     (o total do parenteses, na MESMA grandeza do rotulo)
+//   945 · Format()            (rotulo por atributo; DamageReduction e ManaCostMod teem sinal invertido)
+//   972 · ComSinal()          ("+" para >=0, "−" U+2212 para negativo)
+//   998 · InteiroDoJogo()     (Mathf.CeilToInt - a grandeza da ficha; NaN/Inf -> 0)
+//   1015 · TotalComSinal()     (o total do parenteses, na MESMA grandeza do rotulo)
 //
 // USO:
 //   dotnet run --project tools/testes/fixtures/geradores/oraculo_excesso_shrine -- tools/testes/fixtures
@@ -135,7 +135,7 @@ namespace OraculoExcessoShrine
             return (int)Math.Round((double)v, MidpointRounding.ToEven);
         }
 
-        /// <summary>Mathf.CeilToInt, a convencao da FICHA (ShrineAuraPatch.cs l.950). 0 em NaN/Inf.</summary>
+        /// <summary>Mathf.CeilToInt, a convencao da FICHA (ShrineAuraPatch.cs 998 · InteiroDoJogo()). 0 em NaN/Inf.</summary>
         private static int CeilDisplay(float v)
         {
             return (float.IsNaN(v) || float.IsInfinity(v)) ? 0 : (int)Math.Ceiling((double)v);
@@ -179,7 +179,7 @@ namespace OraculoExcessoShrine
         { "boss", "champion", "elite", "soldier", "fodder", "player" };
 
         // Etiqueta da aura cujo efeito NAO e atributo de personagem (ShrineAuraPatch.cs
-        // RotuloSemAtributo, l.1541: a chave e o texto EXATO da descricao do status; aqui o
+        // 1774 · RotuloSemAtributo(): a chave e o texto EXATO da descricao do status; aqui o
         // nome da aura do csv e 1:1 com ela).
         private static readonly Dictionary<string, string> RotuloSemAtributo = new Dictionary<string, string>
         {
@@ -203,14 +203,14 @@ namespace OraculoExcessoShrine
 
         // ------------------------------------------------- rotulos (transcricao do mod)
 
-        /// <summary>ShrineAuraPatch.cs l.924 ComSinal.</summary>
+        /// <summary>ShrineAuraPatch.cs 972 · ComSinal().</summary>
         private static string ComSinal(float v)
         {
             int n = CeilDisplay(v);
             return (n >= 0 ? "+" : "\u2212") + Math.Abs(n);
         }
 
-        /// <summary>ShrineAuraPatch.cs l.967 TotalComSinal (DamageReduction: sinal invertido).</summary>
+        /// <summary>ShrineAuraPatch.cs 1015 · TotalComSinal() (DamageReduction: sinal invertido).</summary>
         private static string TotalComSinal(string nome, float v)
         {
             int n = CeilDisplay(v);
@@ -218,7 +218,7 @@ namespace OraculoExcessoShrine
             return ComSinal(exibido) + "%";
         }
 
-        /// <summary>ShrineAuraPatch.cs l.897 Format. null = atributo fora da lista conhecida.</summary>
+        /// <summary>ShrineAuraPatch.cs 945 · Format(). null = atributo fora da lista conhecida.</summary>
         private static string Format(string attr, float v)
         {
             int n = CeilDisplay(v);
@@ -327,9 +327,9 @@ namespace OraculoExcessoShrine
         {
             int bonus = bonusPorId[cena.BonusId];
 
-            // (c) RV-46/AurasUnicas (l.1220): a MESMA aura repetida na lista viva conta UMA vez.
+            // (c) RV-46/AurasUnicas (1296 · AurasUnicas()): a MESMA aura repetida na lista viva conta UMA vez.
             // Cada `instancias` da cena e UMA entrada da lista viva (cada (re)entrada na area cria um
-            // status novo - o cabecalho do mod, l.1203-1210).
+            // status novo - o cabecalho do mod, 1296 · AurasUnicas()).
             var contagem = new Dictionary<string, int>();
             var unicas = new List<string>();
             var stacks = new Dictionary<string, int>();
@@ -357,7 +357,7 @@ namespace OraculoExcessoShrine
                 }
             }
 
-            // (d) AtributosDasAuras (l.1596): um item por atributo, ordem canonica.
+            // (d) AtributosDasAuras (1829 · AtributosDasAuras()): um item por atributo, ordem canonica.
             var achados = new List<string>();
             foreach (string a in unicas)
             {
@@ -389,8 +389,8 @@ namespace OraculoExcessoShrine
             var avisos = new List<string>();
             var somadas = new List<string>();
 
-            // (e) ContribuicaoDasAuras (l.1682): soma aura por aura do AttributeEffects REAL
-            // (x TotalStacks, l.1733). NUNCA o total do personagem.
+            // (e) ContribuicaoDasAuras (1915 · ContribuicaoDasAuras()): soma aura por aura do AttributeEffects REAL
+            // (x TotalStacks, 1966 · ContribuicaoDasAuras()). NUNCA o total do personagem.
             foreach (string attr in atributos)
             {
                 float contrib = 0f;
@@ -418,7 +418,7 @@ namespace OraculoExcessoShrine
                 }
             }
 
-            // (f) ItensSemAtributo (l.1359): nenhuma aura viva sai em silencio. DWA-2: a aura de
+            // (f) ItensSemAtributo (1592 · ItensSemAtributo()): nenhuma aura viva sai em silencio. DWA-2: a aura de
             // GATILHO (Dwarven/Decay/Flame) entra UMA vez POR INSTANCIA - o motor avalia o gatilho uma
             // vez por status vivo - e a de ATRIBUTO/desconhecida continua entrando UMA vez (RV-46).
             // O TEXTO de cada item e o do asset (nada somado a mao) e o AVISO, quando existe, sai UMA
@@ -857,7 +857,7 @@ namespace OraculoExcessoShrine
                     Alvos = new List<CenaAlvo>(),
                     Totais = new Dictionary<string, float> { { "DamageMod", 155f } },
                     Nota = "STACKS DO MESMO STATUS (TotalStacks = 2): o motor multiplica o valor pelo numero de"
-                        + " stacks (Character.cs l.37263; ShrineAuraPatch l.1733) - aqui a contribuicao E 40 x 2 = 80,"
+                        + " stacks (Character.cs l.37263; ShrineAuraPatch 1966 · ContribuicaoDasAuras()) - aqui a contribuicao E 40 x 2 = 80,"
                         + " o contrario do caso da aura repetida (que e a mesma aura, nao mais efeito).",
                 },
                 new Cena
