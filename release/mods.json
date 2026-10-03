@@ -51,8 +51,8 @@
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": "0.1.1",
-      "publicado_em": "2026-10-01T01:59:44.035205Z",
+      "versao_publicada": "0.1.2",
+      "publicado_em": "2026-10-03T00:33:26.581485Z",
       "motivo": "PUBLICAR 0.1.2 (substitui a 0.1.1, no ar desde 01/10/2026). A 0.1.2 leva o valor dinâmico nas passivas (Reaper's Toll, Hunger, Berserker's Blood) e nas skills de atributo em % (BT-10..BT-13), além do marcador de log das auras de shrine (MAN-2/REV-47, só log)."
     },
     {
