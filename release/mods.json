@@ -53,7 +53,7 @@
       "publicar": true,
       "versao_publicada": "0.1.2",
       "publicado_em": "2026-10-03T00:33:26.581485Z",
-      "motivo": "PUBLICAR 0.1.2 (substitui a 0.1.1, no ar desde 01/10/2026). A 0.1.2 leva o valor dinâmico nas passivas (Reaper's Toll, Hunger, Berserker's Blood) e nas skills de atributo em % (BT-10..BT-13), além do marcador de log das auras de shrine (MAN-2/REV-47, só log)."
+      "motivo": "PUBLICAR 0.1.3 (substitui a 0.1.2, no ar desde 03/10/2026). A 0.1.3 leva os valores nas passivas de inimigo (BT-18/19: Redemptive qualitativo, Regenerating, Teleporting, Cursed, Vengeful) e o Armor/Magic Armor absoluto nas skills de conversao plana (BT-20: Body and Soul = Vitality*5 / Intelligence*5)."
     },
     {
       "nome": "RoguelikeDebugger",
@@ -67,7 +67,7 @@
       "publicar": true,
       "versao_publicada": "0.3.0",
       "publicado_em": "2026-10-02T22:46:46.861419Z",
-      "motivo": "PUBLICADO: 0.3.0 no ar desde 2026-10-02T22:46:46Z (envio local via API experimental). Categoria 'Mods' preservada. Substitui a 0.2.0. A 0.3.0 troca o botao pela ABA 'All Skill Trees' no inventario (fileira das 11 classes clonadas do SkillTreeTab nativo + arvore read-only em escala e posicao nativas - nos dentro do container x1.7 do Skill Item Container), adiciona o atalho F10 configuravel, o roteamento de clique via ClearClickListeners e corrige os portoes do botao (mapa/combate/level-up) e a abertura pelo caminho nativo OpenSkillTreeMenu. UI/UX (escala dos nos e posicao da arvore) revisada pelo dono em jogo."
+      "motivo": "PUBLICAR 0.3.1 (substitui a 0.3.0, no ar desde 02/10/2026). A 0.3.1 adiciona o botao 'Skills' no modal Remove Skill Trees (RSTV-20), abrindo o viewer read-only do personagem do modal. UI/UX (posicao do botao no cabecalho) revisada em revisao independente, conferencia visual pendente."
     }
   ]
 }
