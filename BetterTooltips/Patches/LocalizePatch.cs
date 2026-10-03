@@ -2651,6 +2651,33 @@ namespace BetterTooltips.Patches
                 }
             }
 
+            // BT-20 (02/10) — o VALOR ABSOLUTO que as skills de CONVERSAO DE ATRIBUTO em Armor/Magic
+            // Armor concedem, NA LINHA BRANCA, ao lado da REGRA que o jogo ja mostra: `Intelligence now
+            // gives 5 Magic Armor per point and Vitality now gives 5 Armor per point (+50 Armor, +100
+            // Magic Armor).` Vale para a FAMILIA inteira (duas skills, quatro efeitos: `Body and Soul` =
+            // Vitality->Armor x5 e Intelligence->Magic Armor x5, e `Invulnerable Winter` =
+            // Intelligence->Armor/Magic Armor x(1+.14*Level)) — a lista NAO esta digitada:
+            // `ConvercaoAtributoPatch` monta o indice do asset carregado, a partir de TODO efeito
+            // `Base` (conversao PLANA) sobre Armor/MagicArmor com `Amount` que le um stat do dono
+            // (`Source["..."]`, nao-constante). O numero sai do INTERPRETADOR DO PROPRIO JOGO
+            // (`Game.TryEval` via `ShrineAuraPatch.ValorDaExpressao`) com o personagem em foco, a mesma
+            // conta que o motor aplica (e que o teste `BodyAndSoul` do jogo assere como `Vitality * 5`
+            // de Armor e `Intelligence * 5` de Magic Armor — ver a classe `ConvercaoAtributoPatch` para
+            // a procedencia completa). Sem personagem em foco, sem asset ou sem avaliacao, a linha do
+            // jogo fica INTACTA (nenhum numero inventado).
+            {
+                string linhaComValor;
+                string notaDoCalculo;
+                if (ConvercaoAtributoPatch.TentaMontar(original, __result, out linhaComValor, out notaDoCalculo))
+                {
+                    __result = linhaComValor;
+                    if (!string.IsNullOrEmpty(notaDoCalculo))
+                    {
+                        __result = AnexarNota(__result, NotaDeExplicacao(notaDoCalculo));
+                    }
+                }
+            }
+
             // RV-22/RV-23/RV-27 — acumulado de shrines (30/09): linha dinâmica com as auras de shrine
             // VIVAS no RECEPTOR (personagem em foco), com o bônus real dele
             // (ShrineAuraPatch.AcumuladoShrines). O número individual de cada shrine fica dinâmico

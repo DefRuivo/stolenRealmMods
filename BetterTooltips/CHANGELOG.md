@@ -1,5 +1,11 @@
 # Changelog — BetterTooltips
 
+## 0.1.3 — passivas de inimigo com valor + Armor/Magic Armor absoluto (BT-18..20)
+
+**Passivas de inimigo (BT-18/19):** o tooltip das passivas (`SpecialEffect`) passa a mostrar o que faltava — Regenerating (20% de Max Health por turno), Teleporting (não dispara enraizado/atordoado), Cursed (só habilidade nociva sem Curse), Vengeful (morte de aliado). O **Redemptive** ganha nota qualitativa honesta (a cura vem da habilidade lançada ao morrer; o número exato aguarda medição em jogo).
+
+**Armor/Magic Armor absoluto (BT-20):** skills de conversão plana (ex.: **Body and Soul** = Vitality×5 → Armor, Intelligence×5 → Magic Armor) mostram o valor calculado com os stats atuais. Skills cujo valor já aparece pelo token do motor (Invulnerable Winter) ficam de fora.
+
 ## 0.1.2 — valor dinâmico nas passivas + marcador de log das auras de shrine
 
 As passivas (**Reaper's Toll**, **Hunger**, **Berserker's Blood**) e as skills de **atributo em %** passam a mostrar o valor **calculado dinâmico** (BT-10..BT-13). O marcador de log das auras de shrine também publica o **piso** e o **valor cru** (MAN-2/REV-47, só log — nenhum texto que o jogador vê muda).
