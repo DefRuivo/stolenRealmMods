@@ -51,8 +51,8 @@
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": "0.1.2",
-      "publicado_em": "2026-10-03T00:33:26.581485Z",
+      "versao_publicada": "0.1.3",
+      "publicado_em": "2026-10-03T22:48:02.110130Z",
       "motivo": "PUBLICAR 0.1.3 (substitui a 0.1.2, no ar desde 03/10/2026). A 0.1.3 leva os valores nas passivas de inimigo (BT-18/19: Redemptive qualitativo, Regenerating, Teleporting, Cursed, Vengeful) e o Armor/Magic Armor absoluto nas skills de conversao plana (BT-20: Body and Soul = Vitality*5 / Intelligence*5)."
     },
     {
