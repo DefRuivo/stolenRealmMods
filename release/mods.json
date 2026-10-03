@@ -37,8 +37,8 @@
     {
       "nome": "BetterFont",
       "publicar": true,
-      "versao_publicada": "1.0.1",
-      "publicado_em": "2026-10-01T01:59:31.637789Z",
+      "versao_publicada": "1.0.2",
+      "publicado_em": "2026-10-03T00:18:59.651529Z",
       "motivo": "PUBLICAR 1.0.2 (substitui a 1.0.1, no ar desde 01/10/2026). A 1.0.2 leva o transporte de estilo entre VARIANTES de shader (BF-1) e a sombra fantasma corrigida (SombraDesenhada, BF-5). Categoria 'Mods'. Ordem: sobe ANTES do BetterCombatText 0.1.1 (que depende de BetterFont-1.0.2)."
     },
     {
