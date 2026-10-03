@@ -53,7 +53,7 @@
       "publicar": true,
       "versao_publicada": "0.1.1",
       "publicado_em": "2026-10-01T01:59:44.035205Z",
-      "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:44Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva ao ar o enxugamento das 12 notas de shrine (95ca3f3) e os consertos de formatacao da linha azul mais os 3 campos de log que faltavam na conferencia (46acd97) - tudo ja estava no fonte desde 30/09."
+      "motivo": "PUBLICAR 0.1.2 (substitui a 0.1.1, no ar desde 01/10/2026). A 0.1.2 leva o valor dinâmico nas passivas (Reaper's Toll, Hunger, Berserker's Blood) e nas skills de atributo em % (BT-10..BT-13), além do marcador de log das auras de shrine (MAN-2/REV-47, só log)."
     },
     {
       "nome": "RoguelikeDebugger",

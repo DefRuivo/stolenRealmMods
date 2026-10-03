@@ -19,7 +19,7 @@ namespace BetterTooltips
     /// resumo com a CONTAGEM REAL — nunca em bloco, para que um gancho que falhe não derrube os
     /// outros em silêncio.
     /// </summary>
-    [BepInPlugin("com.gumatos.bettertooltips", "Better Tooltips", "0.1.1")]
+    [BepInPlugin("com.gumatos.bettertooltips", "Better Tooltips", "0.1.2")]
     public class Plugin : BaseUnityPlugin
     {
         /// <summary>

@@ -1,5 +1,9 @@
 # Changelog — BetterTooltips
 
+## 0.1.2 — valor dinâmico nas passivas + marcador de log das auras de shrine
+
+As passivas (**Reaper's Toll**, **Hunger**, **Berserker's Blood**) e as skills de **atributo em %** passam a mostrar o valor **calculado dinâmico** (BT-10..BT-13). O marcador de log das auras de shrine também publica o **piso** e o **valor cru** (MAN-2/REV-47, só log — nenhum texto que o jogador vê muda).
+
 ## MAN-2 / REV-47 (02/10) — o marcador de LOG passa a publicar o PISO e o VALOR CRU (so log; nada empacotado)
 
 Conserto de **dois buracos do marcador de log/despejo** das auras de shrine (achados 3 e 1 da REV-47).
