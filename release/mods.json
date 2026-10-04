@@ -65,8 +65,8 @@
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.3.1",
-      "publicado_em": "2026-10-03T22:58:48.088877Z",
+      "versao_publicada": "0.3.2",
+      "publicado_em": "2026-10-04T05:39:36.232626Z",
       "motivo": "PUBLICAR 0.3.2 (substitui a 0.3.1, no ar desde 03/10/2026). A 0.3.2 abre a skill tree numa janela read-only propria ao clicar em 'Skills' no modal Remove Skill Trees (RSTV-21/22), com visual nativo (fundo/moldura/titulo/Close do proprio modal + barra de classes com icone) e revisao de design completa (RSTV-23/24/25: linhas de dependencia com rotacao/comprimento exato, centralizacao na area com clamps, highlight 0.12, tooltip com Outline + contorno dourado no hover, subtitulo 'All Skill Trees - Classe'). Revisada pelo dono em jogo."
     }
   ]
