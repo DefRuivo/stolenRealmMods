@@ -15,10 +15,18 @@
 #     significa hospedar arquivo de terceiro; nao vale o risco.
 #   * NAO PUBLICA. Sem token, sem upload, sem release, sem `dist/`. Nenhum segredo e
 #     lido e `permissions: contents: read` garante que nem se quisesse daria.
-#   * NAO EMPACOTA. `tools/pack-thunderstore.py` exige a DLL buildada, entao nao roda
-#     aqui; o que ele confere de METADADO (manifest/icon/README) e repetido pelo passo 7
-#     em `.github/scripts/valida_pacotes.py`, que le so o que esta versionado. A versao do
-#     mod (csproj = manifest = Plugin.cs) NAO depende disso e virou o passo 2.
+#   * NAO EMPACOTA ZIP NUM RUNNER LIMPO. `tools/pack-thunderstore.py` exige a DLL
+#     buildada (`<Mod>/bin/Release/netstandard2.1/<Mod>.dll`) para montar o zip, e no
+#     runner do GitHub nao ha DLL: `bin/` e gitignored e `lib/` (assemblies do JOGO)
+#     tambem. Rodar o comando cru aqui sairia != 0 em TODO push e deixaria o job vermelho
+#     para sempre. Por isso o passo 9 (empacotador) e GUARDADO: se achar DLL ele roda de
+#     verdade e confere a estrutura do zip (4 arquivos na raiz + plugins/<Mod>/<Mod>.dll);
+#     sem DLL ele valida so a descoberta de mods (`--listar-nomes`, a MESMA fonte de nomes
+#     que o release/mods.json consome) e SEGUE. O metadado que o zip carrega
+#     (manifest/icon/README/CHANGELOG) e conferido sem DLL pelo passo 8 em
+#     `.github/scripts/valida_pacotes.py`; a DLL dentro de plugins/<Mod>/ e a
+#     correspondencia artefato x fonte (REL-1) so o ritual LOCAL prova - o build nao entra
+#     no CI.
 #
 # ORDEM DOS PASSOS: do mais barato/mais grave para o mais caro, e para no primeiro
 # erro (o GitHub corta o job no primeiro `run` que sai != 0). Segredo primeiro: se
@@ -153,12 +161,30 @@ jobs:
       - name: "8. Pacotes (manifest, icon, README, CHANGELOG)"
         run: python .github/scripts/valida_pacotes.py
 
-      # 9. Auditoria das docs contra o disco (contagens, versoes, ferramentas citadas,
-      #    links e caminhos). O script esta VERSIONADO em tools/audita_docs.py - foi
-      #    promovido de scratch/ em 30/09/2026 -, entao este passo roda de verdade a
-      #    cada push; a checagem de existencia abaixo so evita quebrar o job se o
-      #    arquivo sair do repo um dia.
-      - name: "9. Auditoria dos docs (tools/audita_docs.py)"
+      # 9. Empacotador Thunderstore, GUARDADO (ver a decisao no cabecalho). Com DLL -
+      #    maquina de dev ou runner self-hosted - roda de verdade e confere a estrutura do
+      #    zip (4 arquivos na raiz + plugins/<Mod>/<Mod>.dll). Sem DLL (o caso do runner
+      #    do GitHub): valida so a descoberta de mods e SEGUE; o metadado ja foi checado
+      #    no passo 8. NUNCA tire a guarda: o comando cru sai != 0 sem DLL e deixaria o
+      #    job vermelho em todo push.
+      - name: "9. Empacotador (tools/pack-thunderstore.py) - guardado sem DLL"
+        run: |
+          if ls */bin/Release/netstandard2.1/*.dll >/dev/null 2>&1; then
+            echo "DLL encontrada neste runner: rodando o empacotador de verdade."
+            python tools/pack-thunderstore.py
+          else
+            echo "sem */bin/Release/netstandard2.1/*.dll (lib/ do jogo e gitignored; bin/ nao existe num runner limpo)."
+            echo "pack-thunderstore.py exige DLL buildada para zipar - empacotar continua sendo ritual LOCAL."
+            echo "Validando o que da para validar sem build: a descoberta de mods (mesma fonte do release/mods.json)."
+            python tools/pack-thunderstore.py --listar-nomes
+          fi
+
+      # 10. Auditoria das docs contra o disco (contagens, versoes, ferramentas citadas,
+      #     links e caminhos). O script esta VERSIONADO em tools/audita_docs.py - foi
+      #     promovido de scratch/ em 30/09/2026 -, entao este passo roda de verdade a
+      #     cada push; a checagem de existencia abaixo so evita quebrar o job se o
+      #     arquivo sair do repo um dia.
+      - name: "10. Auditoria dos docs (tools/audita_docs.py)"
         run: |
           if [ -f tools/audita_docs.py ]; then
             python tools/audita_docs.py
