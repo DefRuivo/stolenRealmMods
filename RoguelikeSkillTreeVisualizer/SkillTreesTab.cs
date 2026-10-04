@@ -108,6 +108,11 @@ namespace RoguelikeSkillTreeVisualizer
         private const float AlturaDoRotuloDaClasse = 40f;
         private const float EscalaDoRotuloDaClasse = 0.7f;
         private const float YDoRotuloDaClasse = -27.1f;
+        private const float DeslocamentoDoIconeDaClasse = 4f;  // RSTV-23d: +7 -> +4 (icone -24..+32, dentro do tile; antes estourava 3u no topo)
+        private const float TamanhoDaFonteDoRotulo = 15f;      // RSTV-23d: 13 -> 15 (fonte fixa; 13 era o texto mais fragil da tela)
+        private const float LarguraDoRotuloManual = 64f;       // RSTV-22: caixa do rotulo no fallback (cabe 'Lightning' em 1 linha)
+        private const float AlturaDoRotuloManual = 16f;        // RSTV-23d: 14 -> 16 (acompanha a fonte 15)
+        private const float YDoRotuloManual = -29f;            // RSTV-23d: -26.5 -> -29 (respiro ~3u do icone e ~8.6u da base)
 
         // Padroes do prefab (SkillTreeManager.nodeHorizontalPadding/tierVerticalPadding, l.177207-177209).
         private const float PaddingHorizontalPadrao = 47f;
@@ -145,7 +150,24 @@ namespace RoguelikeSkillTreeVisualizer
         private static SkillType _construidoPara = (SkillType)(-1);
         private static readonly List<SkillTreeItem> _itens = new List<SkillTreeItem>();
         private static readonly List<SkillTreeTab> _botoesDeClasse = new List<SkillTreeTab>();
+
+        /// <summary>RSTV-22: um botao de classe montado a MAO (fallback sem SkillTreeTab nativo), com o
+        /// highlight de selecao — o <see cref="MarcarClasse"/> alterna os DOIS caminhos.</summary>
+        private sealed class BotaoManualDeClasse
+        {
+            internal SkillType Tipo;
+            internal Image Highlight;
+        }
+
+        private static readonly List<BotaoManualDeClasse> _botoesManuais = new List<BotaoManualDeClasse>();
+
         private static bool _barraConstruida;
+
+        /// <summary>RSTV-21: o painel esta hospedado na JANELA propria (<see cref="SkillTreesWindow"/>)
+        /// em vez da aba do inventario. O painel e unico; trocar de modo DESMONTA e remonta sob o outro
+        /// host (ver <see cref="AbrirJanela"/>/<see cref="SairDoModoJanela"/>).</summary>
+        private static bool _modoJanela;
+
         private static bool _pedido;
         private static float _pedidoEm;
         private static ReadOnlyContext _contextoPendente = ReadOnlyContext.Inventario;
@@ -399,8 +421,12 @@ namespace RoguelikeSkillTreeVisualizer
         // ---------------------------------------------------------------------------------------
 
         /// <summary>
-        /// Caminho do botao do HUD / atalho F10 / botao do level-up: o corpo unico continua sendo
-        /// <c>RunButton.OpenForTarget</c> (ja passou pelo <c>RunTargets.GateOk</c> e resolveu o alvo).
+        /// Caminho do botao do HUD / atalho F10 / botao do level-up — o corpo de abertura pelo
+        /// INVENTARIO: o DESTINO e este <c>Abrir</c>, chamado por <c>RunButton.OpenForTarget</c> (que
+        /// ja passou pelo <c>RunTargets.GateOk</c> e resolveu o alvo). A abertura da visao read-only
+        /// tem DOIS corpos: alem deste (inventario), o modal "Remove Skill Trees" —
+        /// <c>RemovalWindowSkillsButton.OnClick</c> -&gt; <see cref="AbrirJanela"/> — NAO passa por
+        /// <c>RunButton</c> nem por <c>RunTargets</c> (usa o alvo do proprio modal).
         /// PONTO 8: abre o inventario PRIMEIRO (<c>OpenCharacterMenu</c>) e seleciona a aba depois
         /// (<c>SelectButtonAndInvoke</c> troca o CONTEUDO, l.140765). Se o menu ja esta aberto, a
         /// selecao e imediata.
@@ -417,6 +443,10 @@ namespace RoguelikeSkillTreeVisualizer
                 }
 
                 RstvHost.Ensure();
+
+                // RSTV-21: se a JANELA read-only propria estava aberta, este caminho assume a visao —
+                // desmonta o painel dela (o host muda) antes de seguir para a aba do inventario.
+                SairDoModoJanela();
 
                 // PONTO 1: a sessao read-only (que barra o clique — a `SkillTreeManager` e
                 // pre-carregada, `Instance` NAO e nulo) nasce JUNTO com a aba: e o `SelecionarEMostrar`
@@ -466,6 +496,138 @@ namespace RoguelikeSkillTreeVisualizer
             _mgr.SelectButtonAndInvoke(_aba);
         }
 
+        // ---------------------------------------------------------------------------------------
+        // RSTV-21 — A JANELA PROPRIA (read-only sem o inventario)
+        // ---------------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Abre a visao read-only numa JANELA PROPRIA (<see cref="SkillTreesWindow"/>) — para os pontos
+        /// de entrada que NAO tem o inventario disponivel, como o botao 'Skills' do modal "Remove Skill
+        /// Trees" na tela de Party Select (ali o <c>OpenCharacterMenu</c> NAO abre: o personagem nao
+        /// esta em <c>AllMyCharacters</c>).
+        ///
+        /// O CONTEUDO e o MESMO da aba (as funcoes de montagem sao as mesmas) — muda so o HOSPEDEIRO
+        /// do painel. O alvo e o contexto do pedido seguem o mesmo contrato dos outros pontos de
+        /// entrada: o personagem do modal entra como <c>_alvoDoPedido</c> e e consumido UMA vez por
+        /// <c>IniciarSessaoReadOnly</c>.
+        /// </summary>
+        /// <param name="dono">A janela do jogo que PEDE a visao (dela saem os moldes nativos e o ciclo
+        /// de vida: quando o dono sai de cena, a janela se fecha sozinha).</param>
+        internal static void AbrirJanela(Character alvo, ReadOnlyContext contexto, Transform dono)
+        {
+            try
+            {
+                RstvHost.Ensure();
+
+                // RSTV-21R: a janela avisa quando FECHA (o botao fechar ou o dono fora de cena, via
+                // `Atualizar`); aqui largamos o modo janela nesse aviso, para `_modoJanela` nunca ficar
+                // pendurado depois do fechamento. A ATRIBUICAO (e nao `+=`) mantem um unico handler.
+                SkillTreesWindow.Fechou = AoFecharJanela;
+
+                _contextoPendente = contexto;
+                _alvoDoPedido = alvo;
+
+                RectTransform area = SkillTreesWindow.Garantir(dono);
+                if (area == null)
+                {
+                    Plugin.Log.LogError("RSTV-21: nao foi possivel criar a janela read-only — nada foi aberto.");
+                    return;
+                }
+
+                // Troca de host: um painel que estava sob o inventario nao serve na janela (ancoras e
+                // pai diferentes) — desmonta antes; ConstruirPainel o recria sob a area da janela.
+                if (!_modoJanela)
+                {
+                    DestruirPainel();
+                }
+
+                _modoJanela = true;
+
+                IniciarSessaoReadOnly();
+                Mostrar();
+
+                Plugin.Log.LogInfo("RSTV-21: janela read-only ABERTA com TODAS as arvores (alvo=" +
+                                   (alvo != null ? alvo.CharacterName : "nenhum") + ", contexto=" + contexto +
+                                   ") — sem depender do inventario.");
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV-21: falha ao abrir a janela read-only: " + e);
+            }
+        }
+
+        /// <summary>
+        /// Sai do modo JANELA (se ativo): fecha a janela e desmonta o painel. Chamado quando outro
+        /// ponto de entrada assume a visao (a aba do inventario) — o painel e unico e o host muda.
+        /// </summary>
+        private static void SairDoModoJanela()
+        {
+            if (!_modoJanela)
+            {
+                return;
+            }
+
+            _modoJanela = false;
+            SkillTreesWindow.Fechar();
+            DestruirPainel();
+        }
+
+        /// <summary>
+        /// RSTV-21R — larga o MODO JANELA quando a janela FECHA por qualquer caminho: o botao fechar
+        /// (que chama <see cref="SkillTreesWindow.Fechar"/> direto) ou o <see cref="SkillTreesWindow.Atualizar"/>
+        /// (quando o DONO sai de cena). Inscrito em <see cref="SkillTreesWindow.Fechou"/> pela
+        /// <see cref="AbrirJanela"/>: sem isto o flag <c>_modoJanela</c> ficava pendurado <c>true</c> depois
+        /// do fechamento, ate um ponto de entrada chamar <see cref="SairDoModoJanela"/>. A guarda por
+        /// <c>_modoJanela</c> evita reentrada quando o fechamento veio do proprio
+        /// <see cref="SairDoModoJanela"/> (que ja largou o modo e o painel).
+        /// </summary>
+        private static void AoFecharJanela()
+        {
+            if (!_modoJanela)
+            {
+                return;
+            }
+
+            _modoJanela = false;
+            DestruirPainel();
+
+            if (ReadOnlySession.Active)
+            {
+                ReadOnlySession.End();
+                Plugin.Log.LogInfo("RSTV-21: a janela read-only fechou — modo janela largado e a sessao read-only encerrada.");
+            }
+        }
+
+        /// <summary>
+        /// Desmonta o painel e todo o estado de renderizacao que aponta para ele (ele sera recriado
+        /// sob o outro host). Sem isto, a troca de host deixaria o painel preso na hierarquia errada.
+        /// </summary>
+        private static void DestruirPainel()
+        {
+            try
+            {
+                LimparItens();
+                AjustarUnderline(false);
+
+                if (_painel != null)
+                {
+                    UnityEngine.Object.Destroy(_painel);
+                }
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogWarning("RSTV-21: falha ao desmontar o painel das arvores: " + e.Message);
+            }
+
+            _painel = null;
+            _areaDaArvore = null;
+            _containerDeNos = null;
+            _barraDeClasses = null;
+            _barraConstruida = false;
+            _botoesDeClasse.Clear();
+            _botoesManuais.Clear();
+        }
+
         /// <summary>
         /// O onClick da NOSSA aba (clique do jogador). PONTO 8: marca a aba com <c>SelectButton</c> (so
         /// realca — nao re-invoca o onClick), encerra os conteudos nativos abertos e mostra o painel.
@@ -475,6 +637,10 @@ namespace RoguelikeSkillTreeVisualizer
             try
             {
                 RstvHost.Ensure();
+
+                // RSTV-21: se a JANELA read-only propria estava aberta, este clique assume a visao.
+                SairDoModoJanela();
+
                 IniciarSessaoReadOnly();
 
                 if (_mgr != null && _aba != null)
@@ -560,6 +726,10 @@ namespace RoguelikeSkillTreeVisualizer
         {
             try
             {
+                // RSTV-21: a janela propria se fecha quando o DONO sai de cena (o jogador fechou o
+                // modal) — a raiz dela e DontDestroyOnLoad e nao pode ficar pendurada na proxima tela.
+                SkillTreesWindow.Atualizar();
+
                 if (_pedido)
                 {
                     CharacterMenusManager menu = _menu != null ? _menu : CharacterMenusManager.Instance;
@@ -612,8 +782,10 @@ namespace RoguelikeSkillTreeVisualizer
                 if (ReadOnlySession.Active)
                 {
                     ReadOnlySession.End();
-                    Plugin.Log.LogInfo("RSTV-16: a aba '" + TabLabel + "' deixou de ser a selecionada — " +
-                                       "sessao read-only encerrada.");
+                    Plugin.Log.LogInfo(_modoJanela
+                        ? "RSTV-21: a janela read-only deixou de estar aberta — sessao read-only encerrada."
+                        : "RSTV-16: a aba '" + TabLabel + "' deixou de ser a selecionada — " +
+                          "sessao read-only encerrada.");
                 }
             }
             catch (Exception e)
@@ -630,6 +802,12 @@ namespace RoguelikeSkillTreeVisualizer
 
         private static bool DeviaEstarVisivel()
         {
+            // RSTV-21: no modo JANELA quem decide e a propria janela (e o dono dela) — nao ha aba.
+            if (_modoJanela)
+            {
+                return SkillTreesWindow.Aberta;
+            }
+
             if (_aba == null || _mgr == null)
             {
                 return false;
@@ -653,6 +831,13 @@ namespace RoguelikeSkillTreeVisualizer
         {
             try
             {
+                // RSTV-21: na janela propria nao existe a barra de abas do inventario — a Underline
+                // nao e mexida (nem no abrir, nem no fechar).
+                if (_modoJanela)
+                {
+                    return;
+                }
+
                 if (_mgr == null || _mgr.Underline == null)
                 {
                     return;
@@ -833,6 +1018,14 @@ namespace RoguelikeSkillTreeVisualizer
 
         private static void ConstruirPainel()
         {
+            // RSTV-21: no modo JANELA o painel nasce sob a area da janela propria (ancoras esticadas),
+            // nao sob o menu do inventario.
+            if (_modoJanela)
+            {
+                ConstruirPainelNaJanela();
+                return;
+            }
+
             CharacterMenusManager menu = _menu != null ? _menu : CharacterMenusManager.Instance;
             if (menu == null)
             {
@@ -851,11 +1044,7 @@ namespace RoguelikeSkillTreeVisualizer
             if (existente != null)
             {
                 _painel = existente.gameObject;
-                _areaDaArvore = existente.Find(TreeAreaName) as RectTransform;
-                _containerDeNos = GarantirContainerDeNos(_areaDaArvore);
-                Transform barra = existente.Find(ClassBarName);
-                _barraDeClasses = barra != null ? barra.gameObject : null;
-                _barraConstruida = barra != null && barra.childCount > 0;
+                AtarPecasDoPainel(existente);
                 _painel.transform.SetAsLastSibling();
                 return;
             }
@@ -868,13 +1057,85 @@ namespace RoguelikeSkillTreeVisualizer
 
             PainelAbaixoDaBarra(rt, menuRt, mgr.transform as RectTransform);
 
+            ConstruirFilhosDoPainel(rt);
+            painel.SetActive(false);
+
+            Plugin.Log.LogInfo("RSTV-16: painel da aba criado sob '" + menu.transform.name + "' — topo abaixo da barra de " +
+                               "abas, area da arvore " + _areaDaArvore.rect.width.ToString("0.#") + "x" + _areaDaArvore.rect.height.ToString("0.#") + " px.");
+        }
+
+        /// <summary>
+        /// RSTV-21: monta o painel DENTRO da janela propria (<see cref="SkillTreesWindow"/>), esticado
+        /// na area de conteudo que ela reserva (abaixo do cabecalho). O CONTEUDO e o MESMO da aba —
+        /// quem muda e so o hospedeiro (ver <see cref="ConstruirFilhosDoPainel"/>).
+        /// </summary>
+        private static void ConstruirPainelNaJanela()
+        {
+            RectTransform area = SkillTreesWindow.Conteudo;
+            if (area == null)
+            {
+                Aviso("a janela read-only nao tem area de conteudo — o painel nao pode ser montado");
+                return;
+            }
+
+            Transform existente = area.Find(PanelName);
+            if (existente != null)
+            {
+                _painel = existente.gameObject;
+                AtarPecasDoPainel(existente);
+                _painel.transform.SetAsLastSibling();
+                return;
+            }
+
+            GameObject painel = new GameObject(PanelName, typeof(RectTransform));
+            RectTransform rt = painel.GetComponent<RectTransform>();
+            rt.SetParent(area, false);
+            rt.SetAsLastSibling();
+            rt.anchorMin = Vector2.zero;
+            rt.anchorMax = Vector2.one;
+            rt.pivot = new Vector2(0.5f, 0.5f);
+            // RSTV-23b: margem no painel do modo JANELA (a aba ja tem via `PainelAbaixoDaBarra`). Sem
+            // ela o painel preenchia a area inteira e a ultima fileira da arvore encostava na borda
+            // inferior da moldura (margem 0). 8u nas laterais/baixo = respiro de ~10px.
+            rt.offsetMin = new Vector2(8f, 8f);
+            rt.offsetMax = new Vector2(-8f, 0f);
+            rt.localScale = Vector3.one;
+            rt.localRotation = Quaternion.identity;
+            _painel = painel;
+
+            ConstruirFilhosDoPainel(rt);
+            painel.SetActive(false);
+
+            Plugin.Log.LogInfo("RSTV-21: painel da janela read-only criado sob '" + area.name + "' — area da arvore " +
+                               _areaDaArvore.rect.width.ToString("0.#") + "x" + _areaDaArvore.rect.height.ToString("0.#") +
+                               " px (host proprio, SEM o inventario).");
+        }
+
+        /// <summary>Reata as referencias de um painel que JA existe (idempotencia por NOME).</summary>
+        private static void AtarPecasDoPainel(Transform painel)
+        {
+            _areaDaArvore = painel.Find(TreeAreaName) as RectTransform;
+            _containerDeNos = GarantirContainerDeNos(_areaDaArvore);
+            Transform barra = painel.Find(ClassBarName);
+            _barraDeClasses = barra != null ? barra.gameObject : null;
+            _barraConstruida = barra != null && barra.childCount > 0;
+        }
+
+        /// <summary>
+        /// RSTV-21: os FILHOS do painel — a barra de classes no topo, a area da arvore abaixo e o
+        /// frame x1.7 dos nos. Extraido de <c>ConstruirPainel</c> para os DOIS hospedeiros (a aba do
+        /// inventario e a janela propria) montarem o MESMO conteudo; o posicionamento do painel em si
+        /// e responsabilidade de cada host.
+        /// </summary>
+        private static void ConstruirFilhosDoPainel(RectTransform rt)
+        {
             GameObject barra2 = new GameObject(ClassBarName, typeof(RectTransform));
             RectTransform barra2Rt = barra2.GetComponent<RectTransform>();
             barra2Rt.SetParent(rt, false);
             barra2Rt.anchorMin = new Vector2(0f, 1f);
             barra2Rt.anchorMax = new Vector2(1f, 1f);
             barra2Rt.pivot = new Vector2(0.5f, 1f);
-            barra2Rt.anchoredPosition = new Vector2(0f, -2f);
+            barra2Rt.anchoredPosition = new Vector2(0f, -8f);  // RSTV-23e: -2 -> -8 (afasta a barra do divisor do cabecalho)
             barra2Rt.sizeDelta = new Vector2(0f, AlturaDaBarraDeClasses);
 
             HorizontalLayoutGroup grupo = barra2.AddComponent<HorizontalLayoutGroup>();
@@ -907,10 +1168,6 @@ namespace RoguelikeSkillTreeVisualizer
             _containerDeNos = GarantirContainerDeNos(areaRt);
 
             _barraConstruida = false;
-            painel.SetActive(false);
-
-            Plugin.Log.LogInfo("RSTV-16: painel da aba criado sob '" + menu.transform.name + "' — topo abaixo da barra de " +
-                               "abas, area da arvore " + areaRt.rect.width.ToString("0.#") + "x" + areaRt.rect.height.ToString("0.#") + " px.");
         }
 
         /// <summary>
@@ -977,7 +1234,11 @@ namespace RoguelikeSkillTreeVisualizer
                 return 0f;
             }
 
-            RectTransform janela = _menu != null ? _menu.transform as RectTransform : null;
+            // RSTV-21: no modo JANELA a referencia e o proprio painel (ele preenche a area da janela,
+            // entao o container fica no centro do painel, como no nativo); na aba, e a janela do menu.
+            RectTransform janela = _modoJanela
+                ? (_painel != null ? _painel.transform as RectTransform : null)
+                : (_menu != null ? _menu.transform as RectTransform : null);
             if (janela == null && area.parent != null)
             {
                 janela = area.parent.parent as RectTransform;   // area -> painel -> janela do menu
@@ -1033,9 +1294,9 @@ namespace RoguelikeSkillTreeVisualizer
         private static void ConstruirBarraDeClasses()
         {
             CharacterMenusManager menu = _menu != null ? _menu : CharacterMenusManager.Instance;
-            if (menu == null || _barraDeClasses == null)
+            if (_barraDeClasses == null)
             {
-                Aviso("sem menu ou barra — nao da para montar os botoes de classe");
+                Aviso("sem a barra de classes do painel — nao da para montar os botoes de classe");
                 return;
             }
 
@@ -1046,6 +1307,7 @@ namespace RoguelikeSkillTreeVisualizer
 
             bool viaNativo = tabHolder != null && tabHolder.childCount > 0 && ordemDoAsset != null;
             _botoesDeClasse.Clear();
+            _botoesManuais.Clear();
 
             for (int i = 0; i < tipos.Count; i++)
             {
@@ -1058,7 +1320,9 @@ namespace RoguelikeSkillTreeVisualizer
                     origem = tabHolder.GetChild(indice).gameObject;
                 }
 
-                GameObject molde = origem != null ? origem : (menu.TabSkillTree != null ? menu.TabSkillTree.gameObject : null);
+                GameObject molde = origem != null
+                    ? origem
+                    : (menu != null && menu.TabSkillTree != null ? menu.TabSkillTree.gameObject : null);
                 if (molde == null)
                 {
                     Aviso("sem molde para o botao de classe " + tipo);
@@ -1094,17 +1358,16 @@ namespace RoguelikeSkillTreeVisualizer
                 }
                 else
                 {
-                    // Fallback: clone da aba do header (um MenuTab que nao deve depender do manager).
-                    MenuTab abaDoClone = botao.GetComponent<MenuTab>();
-                    if (abaDoClone != null)
+                    // RSTV-22 (fallback bonito): o molde caiu na aba do header (MenuTab), que NAO tem
+                    // icone de classe — ficava uma fileira de abas de menu. O clone e DESCARTADO e o
+                    // botao e montado DO ZERO com o icone do asset (TreeIcons) + nome da classe, no
+                    // mesmo 64x64 do SkillTreeTab nativo. O clique (TrocarClasse) e instalado logo
+                    // abaixo, como no caminho nativo.
+                    UnityEngine.Object.Destroy(botao);
+                    botao = MontarBotaoDeClasseManual(tipo);
+                    if (botao == null)
                     {
-                        abaDoClone.enabled = false;
-                    }
-
-                    TextMeshProUGUI rot = botao.GetComponentInChildren<TextMeshProUGUI>(true);
-                    if (rot != null)
-                    {
-                        rot.text = OptionsManager.Localize(tipo.ToString());
+                        continue;
                     }
                 }
 
@@ -1131,8 +1394,88 @@ namespace RoguelikeSkillTreeVisualizer
             }
 
             Plugin.Log.LogInfo("RSTV-16: barra de classes com " + tipos.Count + " botao(oes) via " +
-                               (viaNativo ? "SkillTreeTab NATIVO (icone+nome)" : "clone da aba do header") + " — " +
+                               (viaNativo ? "SkillTreeTab NATIVO (icone+nome)" : "botao montado a MAO (icone+nome)") + " — " +
                                nomes + " (Bard FORA; Basic/Innate fora; DLC/FullRelease respeitados).");
+        }
+
+        /// <summary>
+        /// RSTV-22 — botao de classe montado a MAO (so no fallback, quando nao ha SkillTreeTab nativo
+        /// para clonar — a janela propria abre numa cena sem o SkillTreeManager carregado). Um quadrado
+        /// 64x64 com o ICONE da classe (asset `TreeIcons`) e o NOME abaixo — o mesmo layout do
+        /// SkillTreeTab nativo medido no prefab (icone 56x56, rotulo 37.86x40 em escala 0.7, em
+        /// (0,-27.1)). O highlight de selecao fica numa Image filha, alternada pelo
+        /// <see cref="MarcarClasse"/>.
+        /// </summary>
+        private static GameObject MontarBotaoDeClasseManual(SkillType tipo)
+        {
+            GameObject botao = new GameObject("RstvClassButton_" + tipo, typeof(RectTransform));
+            botao.transform.SetParent(_barraDeClasses.transform, false);
+
+            RectTransform rt = botao.GetComponent<RectTransform>();
+            rt.anchorMin = new Vector2(0f, 0f);
+            rt.anchorMax = new Vector2(0f, 0f);
+            rt.pivot = new Vector2(0.5f, 0.5f);
+            rt.sizeDelta = new Vector2(LadoDoBotaoDeClasse, LadoDoBotaoDeClasse);
+            rt.localScale = Vector3.one;
+
+            // Fundo clicavel (Image + Button) transparente.
+            Image fundo = botao.AddComponent<Image>();
+            fundo.color = Color.clear;
+            Button bt = botao.AddComponent<Button>();
+            bt.targetGraphic = fundo;
+
+            // HIGHLIGHT de selecao (claridade leve), desligado por padrao.
+            // RSTV-23c: alfa 0.22 -> 0.12 — o platao inteiro de 50% branco derrubava o contraste do
+            // rotulo selecionado para ~2.5:1 (WCAG pede 4.5:1). Um brilho sutil mantem a marcacao
+            // sem esconder o nome.
+            GameObject hl = new GameObject("Highlight", typeof(RectTransform));
+            hl.transform.SetParent(botao.transform, false);
+            Image hlImg = hl.AddComponent<Image>();
+            hlImg.color = new Color(1f, 1f, 1f, 0.12f);
+            RectTransform hlRt = hl.GetComponent<RectTransform>();
+            hlRt.anchorMin = Vector2.zero;
+            hlRt.anchorMax = Vector2.one;
+            hlRt.offsetMin = Vector2.zero;
+            hlRt.offsetMax = Vector2.zero;
+            hl.SetActive(false);
+
+            // ICONE 56x56, centralizado no eixo X e um pouco ACIMA do centro (deixa a faixa de baixo
+            // livre para a legenda). preserveAspect=true mantem a proporcao do sprite do TreeIcons.
+            GameObject iconeGo = new GameObject("Icon", typeof(RectTransform));
+            iconeGo.transform.SetParent(botao.transform, false);
+            Image icone = iconeGo.AddComponent<Image>();
+            icone.sprite = IconeDe(tipo);
+            icone.preserveAspect = true;
+            RectTransform iconeRt = iconeGo.GetComponent<RectTransform>();
+            iconeRt.anchorMin = new Vector2(0.5f, 0.5f);
+            iconeRt.anchorMax = new Vector2(0.5f, 0.5f);
+            iconeRt.pivot = new Vector2(0.5f, 0.5f);
+            iconeRt.anchoredPosition = new Vector2(0f, DeslocamentoDoIconeDaClasse);
+            iconeRt.sizeDelta = new Vector2(LadoDoIconeDaClasse, LadoDoIconeDaClasse);
+            iconeRt.localScale = Vector3.one;
+
+            // NOME da classe: LEGENDA abaixo do icone. Sem autoSizing (o texto grande cobria o icone);
+            // fonte FIXA pequena + escala 0.7 (mesma do nativo), ancorada na faixa de baixo do botao.
+            GameObject nomeGo = new GameObject("Text", typeof(RectTransform));
+            nomeGo.transform.SetParent(botao.transform, false);
+            TextMeshProUGUI nome = nomeGo.AddComponent<TextMeshProUGUI>();
+            nome.font = TMP_Settings.defaultFontAsset;
+            nome.text = OptionsManager.LocalizeEnum(tipo);
+            nome.fontSize = TamanhoDaFonteDoRotulo;
+            nome.alignment = TextAlignmentOptions.Center;
+            nome.textWrappingMode = TextWrappingModes.NoWrap;   // RSTV-22: 1 linha sempre ('Lightning' cabe em 64u)
+            nome.overflowMode = TextOverflowModes.Overflow;  // se estourar, transborda em vez de quebrar
+            nome.color = Color.white;
+            RectTransform nomeRt = nomeGo.GetComponent<RectTransform>();
+            nomeRt.anchorMin = new Vector2(0.5f, 0.5f);
+            nomeRt.anchorMax = new Vector2(0.5f, 0.5f);
+            nomeRt.pivot = new Vector2(0.5f, 0.5f);
+            nomeRt.anchoredPosition = new Vector2(0f, YDoRotuloManual);
+            nomeRt.sizeDelta = new Vector2(LarguraDoRotuloManual, AlturaDoRotuloManual);
+            nomeRt.localScale = new Vector3(EscalaDoRotuloDaClasse, EscalaDoRotuloDaClasse, EscalaDoRotuloDaClasse);
+
+            _botoesManuais.Add(new BotaoManualDeClasse { Tipo = tipo, Highlight = hlImg });
+            return botao;
         }
 
         private static void DisableDlcLinker(SkillTreeTab tab)
@@ -1303,6 +1646,18 @@ namespace RoguelikeSkillTreeVisualizer
                     // sem highlight no clone
                 }
             }
+
+            // RSTV-22: os botoes montados a MAO (fallback) tambem alternam o highlight de selecao.
+            for (int i = 0; i < _botoesManuais.Count; i++)
+            {
+                BotaoManualDeClasse bm = _botoesManuais[i];
+                if (bm == null || bm.Highlight == null)
+                {
+                    continue;
+                }
+
+                bm.Highlight.gameObject.SetActive(bm.Tipo == tipo);
+            }
         }
 
         private static void TrocarClasse(SkillType tipo)
@@ -1312,6 +1667,19 @@ namespace RoguelikeSkillTreeVisualizer
                 _tipoAtual = tipo;
                 MarcarClasse(tipo);
                 Popular(tipo);
+
+                // RSTV-23h: indica no titulo da janela qual classe esta sendo exibida.
+                string nomeDaClasse;
+                try
+                {
+                    nomeDaClasse = OptionsManager.LocalizeEnum(tipo);
+                }
+                catch (Exception)
+                {
+                    nomeDaClasse = tipo.ToString();
+                }
+                SkillTreesWindow.DefinirSubtitulo(nomeDaClasse);
+
                 Plugin.Log.LogInfo("RSTV-16: classe visualizada -> " + tipo + ".");
             }
             catch (Exception e)
@@ -1431,6 +1799,7 @@ namespace RoguelikeSkillTreeVisualizer
             }
 
             DesenharLinhasDeDependencia();
+            CentralizarArvoreVerticalmente();
             _construidoPara = tipo;
 
             float escalaContainer = paiDeNos == _containerDeNos ? EscalaDoContainerDeNos : 1f;
@@ -1443,6 +1812,25 @@ namespace RoguelikeSkillTreeVisualizer
                                (LadoDoNoDoPrefab * EscalaDoNoDoPrefab * escalaContainer).ToString("0.#") +
                                "u efetivo, pitch horizontal " + (hp * escalaContainer).ToString("0.#") +
                                "u / vertical " + (vp * escalaContainer).ToString("0.#") + "u.");
+
+            // RSTV-24c: define o subtitulo ("All Skill Trees — <Classe>") a CADA carga — antes so era
+            // chamado no `TrocarClasse` (nao rodava na 1a abertura, e o titulo ficava sem a classe).
+            DefinirSubtituloDaClasse(tipo);
+        }
+
+        /// <summary>RSTV-23h/24c: anexa o nome da classe exibida ao titulo da janela.</summary>
+        private static void DefinirSubtituloDaClasse(SkillType tipo)
+        {
+            string nomeDaClasse;
+            try
+            {
+                nomeDaClasse = OptionsManager.LocalizeEnum(tipo);
+            }
+            catch (Exception)
+            {
+                nomeDaClasse = tipo.ToString();
+            }
+            SkillTreesWindow.DefinirSubtitulo(nomeDaClasse);
         }
 
         /// <summary>
@@ -1480,7 +1868,12 @@ namespace RoguelikeSkillTreeVisualizer
                     if (filhos.Count == 1)
                     {
                         responsavel.DependencyLine.gameObject.SetActive(true);
-                        responsavel.DependencyLine.transform.SetParent(_areaDaArvore, false);
+                        // RSTV-23a: as linhas entram no CONTAINER dos nos (escala 1.7), como o nativo
+                        // (`ProcessDependencyLines` parenta no `skillTreeShowers[...]`, tambem 1.7). Antes
+                        // entravam na AREA (escala 1) — o sizeDelta `Distance/1.5` virava 33% curto e o
+                        // traco 1.7x fino em relacao aos nos.
+                        RectTransform paiDasLinhas = _containerDeNos != null ? _containerDeNos : _areaDaArvore;
+                        responsavel.DependencyLine.transform.SetParent(paiDasLinhas, false);
                         responsavel.DependencyLine.transform.SetSiblingIndex(0);
 
                         RectTransform linha = responsavel.DependencyLine.GetComponent<RectTransform>();
@@ -1489,8 +1882,23 @@ namespace RoguelikeSkillTreeVisualizer
                         if (linha != null && da != null && para != null)
                         {
                             linha.position = Vector3.Lerp(da.position, para.position, 0.5f);
-                            linha.sizeDelta = new Vector2(linha.sizeDelta.x,
-                                                          Vector3.Distance(da.position, para.position) / 1.5f);
+
+                            // RSTV-25: o `Distance/1.5f` do nativo assume o sprite com padding e a linha
+                            // no MESMO shower; aqui a linha pode estar em escala (container 1.7). Para o
+                            // traco cobrir EXATAMENTE a distancia mundo, dividimos pela escala MUNDO
+                            // (lossyScale) — sem o fator 1.5 que deixava um vao de ~4u entre a ponta e o no.
+                            float distanciaMundo = Vector3.Distance(da.position, para.position);
+                            float escalaMundo = Mathf.Abs(linha.lossyScale.y);
+                            escalaMundo = escalaMundo > 0.001f ? escalaMundo : 1f;
+                            linha.sizeDelta = new Vector2(linha.sizeDelta.x, distanciaMundo / escalaMundo);
+
+                            // RSTV-24b: a linha e um sprite VERTICAL (sizeDelta 3x40) e so era POSICIONADA
+                            // no ponto medio — herda rotacao 0 e ficava VERTICAL ao lado dos nos, nao
+                            // DIAGONAL conectando-os. O sprite aponta para CIMA com rotacao 0, entao
+                            // `Atan2(dy,dx) - 90` aponta de `da` p/ `para`.
+                            Vector3 delta = para.position - da.position;
+                            float angulo = Mathf.Atan2(delta.y, delta.x) * Mathf.Rad2Deg - 90f;
+                            linha.rotation = Quaternion.Euler(0f, 0f, angulo);
                         }
                     }
                     else
@@ -1502,6 +1910,149 @@ namespace RoguelikeSkillTreeVisualizer
                 if (responsavel.DoubleDep != null)
                 {
                     responsavel.DoubleDep.SetActive(filhos.Count == 2);
+                }
+            }
+
+            // RSTV-24b: diagnostico — quantas linhas ficaram ativas e se tem sprite (para achar por que
+            // as linhas de dependencia nao desenham na tela).
+            int ativas = 0;
+            int comSprite = 0;
+            string corPrimeira = "?";
+            for (int i = 0; i < _itens.Count; i++)
+            {
+                SkillTreeItem item = _itens[i];
+                if (item == null || item.DependencyLine == null || !item.DependencyLine.gameObject.activeSelf)
+                {
+                    continue;
+                }
+                ativas++;
+                if (item.DependencyLine.sprite != null)
+                {
+                    comSprite++;
+                }
+                if (corPrimeira == "?")
+                {
+                    corPrimeira = item.DependencyLine.color.ToString();
+                }
+            }
+            Plugin.Log.LogInfo("RSTV-24b: " + ativas + " linha(s) de dependencia ativa(s), " + comSprite +
+                               " com sprite (de " + _itens.Count + " no(s)); cor da 1a = " + corPrimeira + ".");
+
+            // RSTV-25: diagnostico do T4->T5 — quantos nos por tier TEM Dependency (para entender por que
+            // o tier 5 fica sem linha de entrada na tela).
+            string porTier = "";
+            for (int t = 1; t <= 5; t++)
+            {
+                int comDep = 0;
+                int total = 0;
+                for (int i = 0; i < _itens.Count; i++)
+                {
+                    SkillTreeItem item = _itens[i];
+                    if (item == null || item.SkillInfo == null || item.SkillInfo.Tier != t)
+                    {
+                        continue;
+                    }
+                    total++;
+                    if (item.SkillInfo.Dependency != null)
+                    {
+                        comDep++;
+                    }
+                }
+                porTier += (porTier.Length == 0 ? "" : ", ") + "T" + t + ":" + comDep + "/" + total;
+            }
+            Plugin.Log.LogInfo("RSTV-25: nos com Dependency por tier — " + porTier + ".");
+        }
+
+        /// <summary>
+        /// RSTV-23b/23g — centraliza a arvore na AREA, nos DOIS eixos. Antes sobrava ~111px de vao
+        /// morto no topo, a ultima fileira encostava na base e a arvore ficava ~48px a esquerda do
+        /// centro (as colunas de `ActionsGranted` puxam para a esquerda). Calcula o bbox dos nos (em
+        /// unidades LOCAIS do container, escala 1.7) e desloca o container para o centro do bbox cair
+        /// no centro da area.
+        /// </summary>
+        private static void CentralizarArvoreVerticalmente()
+        {
+            // RSTV-24a: o centering pelo bbox e SO para o modo JANELA (na aba, o offset nativo do
+            // container — `DeslocamentoDoCentroDaArea + YDoContainerDeNos` — ja posiciona certo).
+            if (!_modoJanela || _containerDeNos == null || _itens == null || _itens.Count == 0)
+            {
+                return;
+            }
+
+            float minX = float.MaxValue;
+            float maxX = float.MinValue;
+            float minY = float.MaxValue;
+            float maxY = float.MinValue;
+            int contados = 0;
+            for (int i = 0; i < _itens.Count; i++)
+            {
+                RectTransform rt = _itens[i] != null ? _itens[i].GetComponent<RectTransform>() : null;
+                if (rt == null)
+                {
+                    continue;
+                }
+
+                float x = rt.anchoredPosition.x;
+                float y = rt.anchoredPosition.y;
+                float meiaL = rt.sizeDelta.x * 0.5f * Mathf.Abs(rt.localScale.x);
+                float meiaA = rt.sizeDelta.y * 0.5f * Mathf.Abs(rt.localScale.y);
+                minX = Mathf.Min(minX, x - meiaL);
+                maxX = Mathf.Max(maxX, x + meiaL);
+                minY = Mathf.Min(minY, y - meiaA);
+                maxY = Mathf.Max(maxY, y + meiaA);
+                contados++;
+            }
+
+            if (contados == 0 || minX >= maxX || minY >= maxY)
+            {
+                return;
+            }
+
+            float centroX = (minX + maxX) * 0.5f;
+            float centroY = (minY + maxY) * 0.5f;
+            float ajusteX = -centroX * EscalaDoContainerDeNos;
+            float ajusteY = -centroY * EscalaDoContainerDeNos;
+
+            // CLAMP do topo (RSTV-24a): o topo do bbox (em unidades da area) nao pode passar do topo da
+            // area — senao a 1a fileira invade a barra de classes. Se passar, desce o container o suficiente.
+            if (_areaDaArvore != null)
+            {
+                float topoDaArea = _areaDaArvore.rect.height * 0.5f;
+                float topoDoBbox = ajusteY + maxY * EscalaDoContainerDeNos;
+                if (topoDoBbox > topoDaArea)
+                {
+                    ajusteY -= (topoDoBbox - topoDaArea);
+                }
+            }
+
+            // SUBSTITUI (nao soma): o container fica posicionado SO pelo centro do bbox, centrado na
+            // AREA. Antes somava ao offset nativo (+70.7u) e a arvore ia parar centrada na JANELA.
+            _containerDeNos.anchoredPosition = new Vector2(ajusteX, ajusteY);
+
+            Plugin.Log.LogInfo("RSTV-24a: arvore centralizada na AREA (bbox local " +
+                               minX.ToString("0.#") + ".." + maxX.ToString("0.#") + " x " +
+                               minY.ToString("0.#") + ".." + maxY.ToString("0.#") + ", pos " +
+                               ajusteX.ToString("0.#") + "," + ajusteY.ToString("0.#") + "u).");
+
+            // RSTV-23i: clamp — se o bbox (em unidades da area, x1.7) exceder a area da arvore, reduz a
+            // escala do container para caber (protecao contra classes mais largas invadirem a moldura).
+            if (_areaDaArvore != null)
+            {
+                float larguraArea = _areaDaArvore.rect.width;
+                float alturaArea = _areaDaArvore.rect.height;
+                float larguraBbox = (maxX - minX) * EscalaDoContainerDeNos;
+                float alturaBbox = (maxY - minY) * EscalaDoContainerDeNos;
+                if (larguraArea > 1f && alturaArea > 1f &&
+                    (larguraBbox > larguraArea || alturaBbox > alturaArea))
+                {
+                    float fator = Mathf.Min(larguraArea / larguraBbox, alturaArea / alturaBbox);
+                    fator = Mathf.Clamp(fator, 0.5f, 1f);
+                    Vector3 escala = _containerDeNos.localScale;
+                    _containerDeNos.localScale = new Vector3(escala.x * fator, escala.y * fator, escala.z * fator);
+                    Plugin.Log.LogInfo("RSTV-23i: arvore excede a area (" + larguraBbox.ToString("0.#") + "x" +
+                                       alturaBbox.ToString("0.#") + " > " + larguraArea.ToString("0.#") + "x" +
+                                       alturaArea.ToString("0.#") + ") — escala do container reduzida por " +
+                                       fator.ToString("0.##") + "x.");
                 }
             }
         }
@@ -1558,6 +2109,7 @@ namespace RoguelikeSkillTreeVisualizer
     internal class RstvSkillHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
         internal SkillTreeItem Item;
+        private Outline _outline;   // RSTV-24e: contorno dourado adicionado no hover (removido no exit)
 
         public void OnPointerEnter(PointerEventData eventData)
         {
@@ -1575,6 +2127,20 @@ namespace RoguelikeSkillTreeVisualizer
                 }
 
                 gui.tooltip.ShowSkillTooltip(Item);
+
+                // RSTV-23f/24e: marca o no sob o mouse. O `Hover` nativo e sutil demais (anel 48 vs 38-43),
+                // entao alem dele adicionamos um OUTLINE dourado no icone — bem mais visivel.
+                if (Item.Hover != null)
+                {
+                    Item.Hover.gameObject.SetActive(true);
+                }
+
+                if (Item.SkillIcon != null && Item.SkillIcon.GetComponent<Outline>() == null)
+                {
+                    _outline = Item.SkillIcon.gameObject.AddComponent<Outline>();
+                    _outline.effectColor = new Color(1f, 0.85f, 0.4f, 1f);   // dourado
+                    _outline.effectDistance = new Vector2(2f, -2f);
+                }
             }
             catch (Exception e)
             {
@@ -1590,6 +2156,24 @@ namespace RoguelikeSkillTreeVisualizer
                 if (gui != null && gui.tooltip != null)
                 {
                     gui.tooltip.HideTooltip();
+                }
+
+                if (Item != null && Item.Hover != null)
+                {
+                    Item.Hover.gameObject.SetActive(false);
+                }
+
+                if (_outline != null)
+                {
+                    try
+                    {
+                        UnityEngine.Object.Destroy(_outline);
+                    }
+                    catch (Exception)
+                    {
+                        // ja destruido
+                    }
+                    _outline = null;
                 }
             }
             catch (Exception)

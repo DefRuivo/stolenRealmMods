@@ -13,11 +13,13 @@ namespace RoguelikeSkillTreeVisualizer
     ///
     /// O QUE ELE FAZ: fica no topo a DIREITA do titulo (o espaco escuro livre, acima da
     /// <c>TitleDivider</c>) e abre o viewer read-only do RSTV para o personagem DO PROPRIO MODAL
-    /// (<c>RoguelikeSkillTreeRemovalWindow.CurrentCharacter</c>, l.170661/170727) — o MESMO caminho
-    /// ja validado dos outros pontos de entrada do mod:
-    /// <see cref="SkillTreesTab.Abrir"/> (a aba "All Trees" do inventario; o atalho F10 e o botao da
-    /// tela Select Party usam exatamente este corpo). Regra do projeto: um so caminho de abertura,
-    /// nada de duplicar.
+    /// (<c>RoguelikeSkillTreeRemovalWindow.CurrentCharacter</c>, l.170661/170727).
+    ///
+    /// RSTV-21: o caminho de abertura e a JANELA PROPRIA do mod (<see cref="SkillTreesWindow"/>, via
+    /// <see cref="SkillTreesTab.AbrirJanela"/>), NAO mais a aba do inventario: o modal vive na tela de
+    /// PARTY SELECT, onde <c>CharacterMenusManager.OpenCharacterMenu</c> nao abre (o personagem nao
+    /// esta em <c>AllMyCharacters</c>) e o clique nao mostrava nada. O CONTEUDO e o mesmo da aba
+    /// "All Trees" (as funcoes de montagem sao as mesmas) — muda so o hospedeiro do painel.
     ///
     /// COMO O BOTAO NASCE (contrato da RSTV-2/RSTV-5): e um CLONE de um botao NATIVO do proprio modal
     /// (o `Root` do `CancelButton`; fallback no `AcceptButton`) — assim herda sprite, estados
@@ -40,7 +42,8 @@ namespace RoguelikeSkillTreeVisualizer
     /// <c>needsAccept</c> em true e barrado pelos prefixos do <c>Patches.cs</c>
     /// (<c>SkillTreeItemTogglePatch</c> / <c>ResetSkillPoints</c>) enquanto a sessao read-only esta
     /// ativa; a rede final e a higienizacao do proprio <c>AcceptSkillChanges</c>. Este arquivo NAO
-    /// adiciona nenhum caminho de escrita — so chama o mesmo `Abrir` dos outros botoes.
+    /// adiciona nenhum caminho de escrita — o clique chama o <c>SkillTreesTab.AbrirJanela</c> (a janela
+    /// propria do RSTV-21), que tambem so LE o personagem.
     ///
     /// O modal nao tem metodo `Update` publico nem gancho de abrir proprio alem do `Open`, entao o
     /// gancho e o postfix de `RoguelikeSkillTreeRemovalWindow.Open(Character)` (Patches.cs).
@@ -282,7 +285,7 @@ namespace RoguelikeSkillTreeVisualizer
                 "RSTV-20: botao '" + Label + "' injetado no cabecalho do modal 'Remove Skill Trees' " +
                 "(" + Lado.ToString("0.#") + "x" + Lado.ToString("0.#") + " px, canto superior direito de '" +
                 pai.name + "' via " + origemPai + "), clone de '" + molde.gameObject.name + "' (" + origemMolde +
-                "); onClick limpo -> SkillTreesTab.Abrir(CurrentCharacter, RemocaoDeArvores); " +
+                "; onClick limpo -> SkillTreesTab.AbrirJanela(CurrentCharacter, RemocaoDeArvores) [RSTV-21: janela propria, sem inventario]; " +
                 "janela=" + window.name + ".");
         }
 
@@ -316,7 +319,14 @@ namespace RoguelikeSkillTreeVisualizer
         /// <summary>
         /// O clique: abre o viewer read-only do RSTV para o personagem DO MODAL, lido do
         /// <c>CurrentCharacter</c> no exato momento do clique (nunca cacheado — o jogo troca o
-        /// personagem a cada abertura do modal, l.170727). Mesmo corpo dos outros pontos de entrada.
+        /// personagem a cada abertura do modal, l.170727).
+        ///
+        /// RSTV-21: o caminho aqui NAO e mais o <c>SkillTreesTab.Abrir</c> (que abre o INVENTARIO e
+        /// seleciona a aba). O modal vive na tela de PARTY SELECT, onde <c>OpenCharacterMenu</c> NAO
+        /// abre (o personagem nao esta em <c>AllMyCharacters</c>) — o clique nao mostrava nada. A visao
+        /// passa a abrir numa JANELA PROPRIA (<see cref="SkillTreesWindow"/>), ancorada na janela do
+        /// modal (de onde saem os moldes nativos e o ciclo de vida: fechou o modal, a janela fecha).
+        /// O CONTEUDO e o mesmo "All Skill Trees" da run — muda so o hospedeiro.
         /// </summary>
         private static void OnClick()
         {
@@ -332,8 +342,8 @@ namespace RoguelikeSkillTreeVisualizer
                 }
 
                 Plugin.Log.LogInfo("RSTV-20: clique no botao '" + Label + "' do modal -> '" + alvo.CharacterName +
-                                   "' (nivel " + alvo.Level + ") na aba 'All Trees' do inventario (read-only).");
-                SkillTreesTab.Abrir(alvo, ReadOnlyContext.RemocaoDeArvores);
+                                   "' (nivel " + alvo.Level + ") na JANELA read-only de todas as arvores (RSTV-21).");
+                SkillTreesTab.AbrirJanela(alvo, ReadOnlyContext.RemocaoDeArvores, janela.transform);
             }
             catch (Exception e)
             {

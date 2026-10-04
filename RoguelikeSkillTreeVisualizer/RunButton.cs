@@ -388,13 +388,16 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
-        /// RSTV-11b/RSTV-16: o corpo UNICO de abertura da visualizacao read-only — o portao 4 ja
-        /// validado (`RunTargets.GateOk`) -> o alvo resolvido na hora (`RunTargets.Resolve`, nunca
+        /// RSTV-11b/RSTV-16: o corpo de abertura da visualizacao read-only pelo INVENTARIO — o portao 4
+        /// ja validado (`RunTargets.GateOk`) -> o alvo resolvido na hora (`RunTargets.Resolve`, nunca
         /// cacheado) -> `SkillTreesTab.Abrir(alvo, Run)` (a aba "All Skill Trees" do inventario, que
-        /// aposentou a janela separada). Extraido do antigo `OnClick` para ser REUSADO por tres
-        /// interlocutores, sem duplicar a logica: o botao do HUD (`RunButton`), o botao DENTRO da janela
-        /// do level-up (`LevelUpWindowButton`) e o atalho de teclado (`SkillTreeShortcut`). Idempotente
-        /// e sem estado: se o portao recusar ou nao houver alvo, so loga o motivo e nao abre nada.
+        /// aposentou a antiga janela NATIVA separada da RSTV-15). Extraido do antigo `OnClick` para ser
+        /// REUSADO por tres interlocutores, sem duplicar a logica: o botao do HUD (`RunButton`), o botao
+        /// DENTRO da janela do level-up (`LevelUpWindowButton`) e o atalho de teclado (`SkillTreeShortcut`).
+        /// NAO e o unico caminho: o RSTV-21 tem um SEGUNDO corpo de abertura,
+        /// `RemovalWindowSkillsButton.OnClick` -> `SkillTreesTab.AbrirJanela`, que usa o alvo do proprio
+        /// modal (CurrentCharacter) e NAO passa por aqui nem pelo `RunTargets`. Idempotente e sem estado:
+        /// se o portao recusar ou nao houver alvo, so loga o motivo e nao abre nada.
         /// </summary>
         internal static void OpenForTarget()
         {
