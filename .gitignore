@@ -13,6 +13,7 @@ b_*.txt
 build_*.txt
 __pycache__/
 *.pyc
+*.log
 
 # Notas/dumps de trabalho de IA — superados pelo censo em docs/cobertura/
 # (KANBAN.md e *_INVENTORY.md na raiz seguem FORA do git de proposito)
