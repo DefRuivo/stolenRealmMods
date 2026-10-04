@@ -29,6 +29,10 @@ __pycache__/
 !docs/**/
 !docs/**/*.md
 
+# Dumps de revisao de tooltips (gerados a partir do censo por script; artefato de
+# trabalho que nao deve ser versionado - o censo (CSVs) e a fonte, o dump e derivado)
+docs/cobertura/DUMP-*.md
+
 # ENT-2: README/CHANGELOG e os metadados do pacote Thunderstore na raiz de cada
 # mod (manifest.json = nome/versao/dependencias; icon.png = icone da pagina).
 !*/README.md
