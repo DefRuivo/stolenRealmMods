@@ -1,5 +1,57 @@
 # Changelog — RoguelikeSkillTreeVisualizer
 
+## 0.3.2 — janela read-only própria no botão "Skills" do modal (RSTV-21) + UI/UX revision (RSTV-22)
+
+O botão **Skills** do modal **Remove Skill Trees** estava **morto** na tela de Party Select: o clique
+chamava `SkillTreesTab.Abrir`, que abre o INVENTÁRIO — e `CharacterMenusManager.OpenCharacterMenu`
+não abre ali (o personagem não está em `AllMyCharacters`), então o pedido morria no teto de 5 s sem
+mostrar nada.
+
+Agora o clique abre uma **janela read-only própria do mod** (`SkillTreesWindow`: Canvas em overlay,
+escalado como o jogo) mostrando **todas** as skill trees — as mesmas classes e a mesma árvore da aba
+"All Trees", sem depender do inventário. O personagem do modal entra como alvo (`AbrirJanela`), a
+sessão read-only continua barrando qualquer escrita, e a janela segue o ciclo de vida do modal
+(fechar o modal fecha a janela; a raiz é `DontDestroyOnLoad` e reusada entre aberturas).
+
+**Tooltip legível (RSTV-22):** a janela é um Canvas próprio acima de tudo, mas o tooltip de skill
+vive no canvas **raiz** da UI do jogo — a primeira tentativa de "erguer" o canvas do tooltip
+(`overrideSorting`) ou escondia a janela inteira (quando pegava o canvas raiz `GUI Manager`) ou não
+fazia nada (não havia canvas nested para erguer). A solução final é **reparentar** o
+`gui.tooltip` para DENTRO da janela (`SetParent` + `SetAsLastSibling`) enquanto ela está aberta e
+devolvê-lo ao jogo no fechar (`RestaurarTooltip`, guardando o pai/índice antigos) — o hover no nó
+volta a mostrar o tooltip completo, acima do fundo escuro.
+
+**Visual nativo (RSTV-22):** o fundo, a moldura, o título e o botão fechar passam a clonar os moldes
+do próprio modal (`Fade`, `PanelBackground`, `TitleText`, `CancelButton`) em vez de cor sólida/option
+row; e a barra de classes, quando o `SkillTreeManager` nativo não está carregado (cena sem a aba),
+monta cada botão do zero com o **ícone** da classe (asset `TreeIcons`) + nome, no layout 64×64 do
+nativo — nada mais de fileira de abas de menu sem ícone. **Ajuste de posicionamento (04/10):** o ícone
+sobe 7px (`+7`), o nome usa fonte FIXA 13px (sem `autoSizing`, que estourava) e caixa **64×14** com
+**wrap desligado** (a caixa herdada do prefab, 37.86×40, era estreita demais e quebrava nomes como
+"Lightning" em 2 linhas — a 1ª linha subia para cima do ícone). Resultado: ícone acima, nome como
+legenda em uma linha logo abaixo.
+
+**Revisão de design da janela (RSTV-23/24/25, 04/10 — medida pixel a pixel):**
+- **Linhas de dependência agora aparecem.** Antes eram só posicionadas no ponto médio, herdavam
+  rotação 0 (ficavam verticais ao lado dos nós) e o `Distance/1.5` deixava vão na ponta. Agora entram
+  no **container dos nós** (escala 1.7, como o nativo), recebem rotação `Atan2(dy,dx) − 90` e
+  comprimento `distanciaMundo / lossyScale` (cobrem a distância exata) — as pré-requisites voltam a
+  ser comunicadas.
+- **Árvore centralizada na área** (não na janela): o container é posicionado pelo bbox dos nós, com
+  **clamp do topo** (nenhum nó invade a barra de classes) e **clamp de escala** (classes largas
+  encolhem para caber na moldura).
+- **Barra de classes:** ícone `+4`, legenda `−29` em fonte 15 (caixa 64×16), wrap desligado; o
+  **highlight da seleção** caiu de alfa 0.22 para 0.12 (contraste do rótulo ~6:1, WCAG).
+- **Cabeçalho:** altura 64u, botão **Close** 56u recuado 22u da borda, divisor de 2px sob o título,
+  margem base 48u (simétrica ao topo).
+- **Tooltip e hover:** o tooltip ganhou **Outline** preto (não some mais no fundo escuro) e o nó sob o
+  mouse ganhou **contorno dourado** no ícone (destaque visível).
+- **Subtítulo da classe:** o título mostra "All Skill Trees — \<Classe\>" (atualizado a cada troca).
+
+- **Testes:** `t_rstv21_janela_propria.py` + 14 iscas `cp_rstv21_*` (volta ao inventário, janela sem
+  dono, tooltip sem reparent, simetria do tooltip, fundo sem clique, fechamento sem aviso, etc.) e as
+  provas de fogo do RSTV-21/22.
+
 ## 0.3.1 — botão "Skills" no modal Remove Skill Trees (RSTV-20)
 
 Novo botão **Skills** no canto superior direito do modal **Remove Skill Trees** (Party Select), abrindo o visualizador de skill tree em read-only para o personagem do modal.

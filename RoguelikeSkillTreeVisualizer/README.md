@@ -4,10 +4,10 @@ Adds a **`Skills`** button that opens the game's **native skill tree**, read-onl
 character you chose. **No skill point is spent. No gameplay change.**
 
 - **GUID:** `com.gumatos.roguelikeskilltreevisualizer`
-- **Version:** 0.3.1
+- **Version:** 0.3.2
 - **Works with:** Stolen Realm v1.3.1 (Roguelike mode only).
 - **Needs:** BepInEx 5 (r2modman installs it for you).
-- **Status:** implemented; **not yet checked in game** by the author.
+- **Status:** implemented; **checked in game** by the author.
 
 ## What the button does
 
@@ -87,10 +87,10 @@ dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\RoguelikeSkillTreeVisualizer.dll`. The reference DLLs
-come from the game and are **never distributed**. The flag keeps the build local: **without it
-the `DeployToBepInEx` target also copies the DLL into
-`<r2modman profile>\BepInEx\plugins\RoguelikeSkillTreeVisualizer\` on the machine that built
-it** — a bare `dotnet build` installs.
+come from the game and are **never distributed**. The deploy is **opt-in** (DEPLOY-2): a bare
+`dotnet build` installs **nothing** — the `DeployToBepInEx` target runs only with
+`-p:DeployToBepInEx=true`, which copies the DLL into
+`<r2modman profile>\BepInEx\plugins\RoguelikeSkillTreeVisualizer\` on the machine that built it.
 
 ---
 
@@ -99,5 +99,4 @@ it** — a bare `dotnet build` installs.
 Adiciona um botão **`Skills`** que abre a árvore de skills **nativa do jogo** em modo
 **somente leitura**, no personagem escolhido: na tela *Select Party*, ao lado do
 `Choose Powerups`; na run, ao lado do Ping Button do HUD (e só quando é seguro abrir).
-**Nenhum ponto é gasto** e nada que persista muda. O mod ainda **não foi conferido em
-jogo** pelo autor.
+**Nenhum ponto é gasto** e nada que persista muda. O mod foi **conferido em jogo** pelo autor.

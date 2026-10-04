@@ -136,13 +136,15 @@ def falhas_dos_nos(src_tab):
         if "Instantiate(gui.skillTreeItemActivePrefab, paiDeNos)" not in popular:
             falhas.append("Popular nao instancia o no em `paiDeNos` — o no fica sem o frame x1.7")
 
-    # 4) AS LINHAS continuam no IRMAO sem escala (senao dobrariam o 1.7).
+    # 4) AS LINHAS ficam no MESMO container dos nos (escala 1.7), como o nativo (`ProcessDependencyLines`
+    #    parenta no `skillTreeShowers[...]`, tambem 1.7). Antes ficavam na area (escala 1) e o traco saia
+    #    1.7x fino e 33% curto (RSTV-23a, 04/10).
     linhas = _corpo(src_tab, LINHAS)
     if linhas is None:
         falhas.append("nao achei %s no SkillTreesTab.cs" % LINHAS)
-    elif "SetParent(_areaDaArvore, false)" not in linhas:
-        falhas.append("as linhas de dependencia nao ficam no irmao sem escala (`_areaDaArvore`) — elas "
-                      "entrariam no frame x1.7 e dobrariam a escala")
+    elif "_containerDeNos" not in linhas:
+        falhas.append("as linhas de dependencia nao ficam no container dos nos (escala 1.7) — o traco "
+                      "sairia 1.7x fino e 33% curto (a escala errada de 04/10)")
 
     return falhas
 
