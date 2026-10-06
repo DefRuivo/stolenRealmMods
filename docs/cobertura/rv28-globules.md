@@ -264,3 +264,44 @@ comentário de `BetterTooltips/Patches/GlobulePatch.cs:13-18` — nenhuma diverg
 verificadas por `python tools/checa_citacoes.py docs/cobertura/rv28-globules.md`. Referências ao
 decompilado do jogo aparecem como **tipo + membro** (e não como `arquivo:linha`) porque o dump
 monolítico foi podado do repositório — o comando de regeneração está em §8.
+
+---
+
+## 10. A decisão de tabela (INC-1) e a verificação executável — 06/10
+
+Esta seção fecha o item 5 do cartão de implementação (`t_a0544760`): *onde* o número mora, e o que
+foi EXECUTADO (não afirmado) para provar que o texto base não mudou.
+
+### 10.1 O número NÃO é chave nova — ele é composto no momento do hover
+
+A frase do `Sustenance` sai do postfix de `OptionsManager.Localize`
+(`BetterTooltips/Patches/LocalizePatch.cs:2775`) e é **anexada ao bloco de nota da própria
+descrição**. Não existe entrada nova — nem em `TextFixes`, nem em `TextAppends`. As entradas que já
+existiam continuam sendo as **únicas donas do texto base**
+(`BetterTooltips/Patches/LocalizePatch.cs:1482-1487`, o fix de terminologia `max life` → `max health`
+do RV-14). É por isso que o **INC-1** (uma entrada por texto, em uma só tabela) não é violado: o mod
+acrescenta **comportamento na saída**, não uma segunda entrada de dicionário para o mesmo texto.
+
+Sem tier ativa, sem personagem em foco ou com falha de leitura, `FraseSustenance` devolve `""`
+(`BetterTooltips/Patches/GlobulePatch.cs:109`) e o postfix **não toca** no resultado: o texto base sai
+como sempre saiu.
+
+### 10.2 O que rodou em 06/10 (execução, não afirmação)
+
+| Prova | Comando | Resultado |
+|---|---|---|
+| Compila | `dotnet build BetterTooltips/BetterTooltips.csproj -c Release` | **0 erro(s)** (1 aviso `MSB3277` de versão de `System.Net.Http`, pré-existente) |
+| A DLL que o jogo carrega é a compilação do fonte em disco | `sha256sum` da DLL do perfil × a do `bin/Release` | **iguais**: `270f311b0f7bb5cca5a61f42e6adb56cbadcb7e8965a49bd5bb940c61c3cbe6b` (a árvore tem WIP de outras frentes não commitado — o que se afirma aqui é fonte-em-disco × DLL, não commit × DLL) |
+| Nenhuma chave compartilhada (INC-1) | `python tools/check_chave_compartilhada.py --estrito` | exit 0 (nenhuma chave reprovando) |
+| Nenhuma entrada duplicada | `python tools/check_dupes.py` | `TextFixes 101` / `TextAppends 197`, **zero duplicadas** |
+| Nenhuma nota redundante | `python tools/check_notas_redundantes.py` | exit 0 |
+| Robustez dos ganchos Harmony | `python tools/check_patches.py` | exit 0 (53/54 métodos de patch protegidos; 0 achado que reprova) |
+| O caminho do globule contra o censo do motor | `python tools/automacao/aut6/cobertura.py --casos tools/automacao/aut6/casos-aut6.json --observacoes tools/automacao/aut6/observacoes-fixture.json` | `S-rv28-globule-sustenance/so-tier1` e `S-rv28-globule-sustenance/duas-tiers` **OK** (a fixture avalia o avaliador; `com_prova_runtime=0`, ou seja, isso **não** é prova de runtime) |
+
+### 10.3 O que ainda **não** está provado (e não é desta entrega)
+
+**Não existe nenhuma marca `[Globule RV-28]` no `LogOutput.log`** — o arquivo foi truncado pela sessão
+nova (06/10 15:30) e a conferência em jogo (`docs/CONFERENCIA-DONO-06-10.md` §5) é quem produz essa
+evidência: o número **na tela**, com o personagem em foco, em cada membro da família. O que está
+provado até aqui é o **caminho** (compila, está instalado, as guardas passam e o avaliador aceita o
+formato e as contas), **não** o runtime.
