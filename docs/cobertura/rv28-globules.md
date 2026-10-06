@@ -384,7 +384,8 @@ e a metade OK), `tools/testes/rv28-globule-prova-de-fogo.py` e o log da prova f�
 ### 11.4 Cenários 1, 4b e 5 — caminho reprodutível na TELA (para a conferência humana)
 
 Os cenários 2, 3 e 4 (números) estão provados acima por execução; **1**, **4b** e **5** são de tela e
-é isto que o conferente executa (o roteiro completo é `docs/CONFERENCIA-DONO-06-10.md` §5):
+é isto que o conferente executa (o pacote detalhado, com as tabelas de OK/NOK para preencher, é
+`docs/CONFERENCIA-RV28-GLOBULES.md`; o resumo dentro da sessão única é `docs/CONFERENCIA-DONO-06-10.md` §5):
 
 1. **Sem `Sustenance` → tooltip sem número.** Personagem sem nenhuma tier de `Sustenance` (ou com a
    skill respeitada). Hover em qualquer globule no chão da batalha. **Esperado:** a descrição do
