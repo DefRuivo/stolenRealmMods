@@ -143,7 +143,7 @@ fechar.
 `ActionStatuses[0].Description` **quando existe**, senão `GroundEffectInfo.Description`
 (`Tooltip.ShowGroundEffectTooltip`, ilspycmd) — e **qual dos dois** o `Power Globule` usa **não é
 legível por varredura de bytes** (é uma lista de `PPtr`, não texto). Por isso a implementação
-registra a chave nas **duas** descrições dele (`GlobulePatch.cs:75` e `GlobulePatch.cs:76`), o que é
+registra a chave nas **duas** descrições dele (`GlobulePatch.cs:77` e `GlobulePatch.cs:78`), o que é
 correto em qualquer um dos casos.
 
 O ecossistema do status já reconhece a ligação com cura no sentido inverso: a nota do `RV-9` no
@@ -181,7 +181,7 @@ status diz *"Also increases the healing this character does by the same percenta
    **Limite do teste:** ele afirma o **gatilho**, não o **valor** — para `Sustenance` o jogo não tem
    teste de número (diferente do `Omnism`, que tem). Por isso a dúvida "8% ou 20% ou 28%" **não** se
    resolve aqui: a implementação lê a lista **ativa** (`Character.Skills`) e mostra o que o jogo
-   tiver ligado, sem cravar tier nem somar (`GlobulePatch.cs:176`).
+   tiver ligado, sem cravar tier nem somar (`GlobulePatch.cs:220`).
 4. **A skill que *cria* globule usa a mesma família.** `Magic Hat III` — descrição "Produce a random
    Globule on the target hex." (@1101649793; o nome/título em @1101649628) — e o `Fabricate`
    ("When you consume a globule you have a 50% chance to spawn a random globule within a 6 hex area
@@ -192,12 +192,12 @@ status diz *"Also increases the healing this character does by the same percenta
 
 ## 6. O que o mod já faz com esta lista (estado em 06/10)
 
-- A família está instrumentada em `BetterTooltips/Patches/GlobulePatch.cs:68` (as sete chaves das
-  seis descrições — o `Power Globule` comparece com duas) e `GlobulePatch.cs:91` (as seis descrições
+- A família está instrumentada em `BetterTooltips/Patches/GlobulePatch.cs:70` (as sete chaves das
+  seis descrições — o `Power Globule` comparece com duas) e `GlobulePatch.cs:93` (as seis descrições
   dos pickups de poção).
 - A nota entra pelo postfix do `OptionsManager.Localize`: `BetterTooltips/Patches/LocalizePatch.cs:2775`.
 - A nota é **por personagem em foco** e com a % das tiers que o jogo tem ativas
-  (`GlobulePatch.cs:109`, `GlobulePatch.cs:176`); sem skill ativa, sem número (texto do jogo intacto).
+  (`GlobulePatch.cs:143`, `GlobulePatch.cs:220`); sem skill ativa, sem número (texto do jogo intacto).
 - Registro no changelog: `BetterTooltips/CHANGELOG.md:123`.
 - Aceite do dono: comentado no card `t_2bd1a32c` em 06/10 — *"Globule, Decay estão corretos durante a
   run"*. Gate restante do `RV-28` é **publicação**, não texto.
@@ -283,7 +283,7 @@ do RV-14). É por isso que o **INC-1** (uma entrada por texto, em uma só tabela
 acrescenta **comportamento na saída**, não uma segunda entrada de dicionário para o mesmo texto.
 
 Sem tier ativa, sem personagem em foco ou com falha de leitura, `FraseSustenance` devolve `""`
-(`BetterTooltips/Patches/GlobulePatch.cs:109`) e o postfix **não toca** no resultado: o texto base sai
+(`BetterTooltips/Patches/GlobulePatch.cs:143`) e o postfix **não toca** no resultado: o texto base sai
 como sempre saiu.
 
 ### 10.2 O que rodou em 06/10 (execução, não afirmação)
@@ -291,7 +291,7 @@ como sempre saiu.
 | Prova | Comando | Resultado |
 |---|---|---|
 | Compila | `dotnet build BetterTooltips/BetterTooltips.csproj -c Release` | **0 erro(s)** (1 aviso `MSB3277` de versão de `System.Net.Http`, pré-existente) |
-| A DLL que o jogo carrega é a compilação do fonte em disco | `sha256sum` da DLL do perfil × a do `bin/Release` | **iguais**: `270f311b0f7bb5cca5a61f42e6adb56cbadcb7e8965a49bd5bb940c61c3cbe6b` (a árvore tem WIP de outras frentes não commitado — o que se afirma aqui é fonte-em-disco × DLL, não commit × DLL) |
+| A DLL que o jogo carrega é a compilação do fonte em disco | `sha256sum` da DLL do perfil × a do `bin/Release` | **iguais**: `f525b1015c2275b98265040634563710d24041d90c5a710363fb30f60343397d` (a árvore tem WIP de outras frentes não commitado — o que se afirma aqui é fonte-em-disco × DLL, não commit × DLL) |
 | Nenhuma chave compartilhada (INC-1) | `python tools/check_chave_compartilhada.py --estrito` | exit 0 (nenhuma chave reprovando) |
 | Nenhuma entrada duplicada | `python tools/check_dupes.py` | `TextFixes 101` / `TextAppends 197`, **zero duplicadas** |
 | Nenhuma nota redundante | `python tools/check_notas_redundantes.py` | exit 0 |
@@ -305,3 +305,115 @@ nova (06/10 15:30) e a conferência em jogo (`docs/CONFERENCIA-DONO-06-10.md` §
 evidência: o número **na tela**, com o personagem em foco, em cada membro da família. O que está
 provado até aqui é o **caminho** (compila, está instalado, as guardas passam e o avaliador aceita o
 formato e as contas), **não** o runtime.
+
+---
+
+## 11. A blindagem das guardas e a MATRIZ de aceite — 06/10
+
+Esta seção fecha o cartão `t_39a85204` (o irmão de TESTES do `t_a0544760`, §10): as guardas que
+impedem a tooltip de quebrar, e a matriz de aceite provada numericamente com o exemplo do dono
+(**100 de vida / 200 de mana**). Tudo o que aparece aqui foi **executado** — os comandos estão na
+tabela de §11.3 e o log da prova física é o arquivo versionado
+`tools/testes/rv28-globule-prova-de-fogo.log`.
+
+### 11.1 As cinco guardas obrigatórias — onde cada uma vive e o que a morde
+
+| # | Guarda (o que o cartão exige) | Onde vive | O que a morde |
+|---|---|---|---|
+| 1 | Assinatura **explícita** do método/gancho | `GlobulePatch.cs:143` (`public static string FraseSustenance(string chaveDaTooltip)`) — e o gancho por TIPO em `LocalizePatch.cs:19` (`[HarmonyPatch(typeof(OptionsManager), nameof(OptionsManager.Localize))]`) | pin no fonte (`t_rv28_globule_sustenance`), nunca resolução por nome |
+| 2 | `try/catch` em todo o corpo, queda = texto **SEM número** | `GlobulePatch.cs:204` (o `catch (Exception ex)` fecha com `return "";` no próprio corpo) | isca **C** — o `catch` re-lançando (`throw ex;`) é ACUSADO (a tooltip quebraria) |
+| 3 | O atributo **existe ANTES** de ser lido | `AtributoExiste` (`GlobulePatch.cs:121`), chamado em `GlobulePatch.cs:162`, **antes** de `GlobulePatch.cs:182` (`float vida = personagem.MaxHealth;`) | iscas **A** (guarda apagada) e **D** (a guarda indexa o personagem) |
+| 4 | Alvo nulo / tooltip fora de contexto de jogador → sem número | `GlobulePatch.cs:153` (personagem nulo) e `GlobulePatch.cs:162` (atributo ausente: inspeção, loja, `WorldCharacter` vazio do shrine) | o motivo vai para o log (`Marca("sem numero: ...")`) e a tooltip fica intacta |
+| 5 | **Nunca** somar tier I com tier II à mão | `pct += daSkill;` (`GlobulePatch.cs:246`) sobre a lista do jogo (`Character.Skills`, `GlobulePatch.cs:232`); o fonte **não** tem literal de tier nem constante de % | isca **B** — `pct += 8f + 20f;` (a soma à mão) é ACUSADA |
+
+**O que é NOVO nesta rodada: a guarda 3.** Até 06/10 a leitura do atributo estava protegida apenas
+pelo `catch` — e `Character.MaxHealth` é `Mathf.Ceil(this["MaxHealth"])`, com o indexador
+`Character.this[string]` **lançando** `No attribute named ...` para nome desconhecido (`Character.cs`
+do decompilado, l.3960-3973). A guarda usa as **duas consultas a dicionário que o próprio indexador
+usa antes de lançar** — `Game.GetAttribute(nome)` / `Game.GetVariableAttribute(nome)`
+(tipo `Game` do decompilado, l.1383-1399), que devolvem `null` em vez de lançar — de modo que o caso
+"não existe" é uma **decisão explícita e logada**
+(`[Globule RV-28] sem numero: MaxHealth/MaxMana nao existem neste contexto (target nulo ou tooltip
+fora de jogador)`), e não um `catch` genérico engolindo erro de forma indiscriminada.
+
+### 11.2 A matriz de aceite (o exemplo do dono: 100 de vida / 200 de mana)
+
+| # | Cenário | Esperado | Obtido | Prova |
+|---|---|---|---|---|
+| 1 | **nenhuma** tier de `Sustenance` | tooltip **sem número** | `""` devolvido → o postfix não toca no texto base | `GlobulePatch.cs:176` (`if (pct <= 0f \|\| tiers.Count == 0)`) + a marca `[Globule RV-28] '<chave>': <nome> nao tem Sustenance ativa -> sem numero`; **tela** (§11.4) |
+| 2 | `Sustenance I` | **8** de vida / **16** de mana | **8 / 16** | `t_rv28_globule_sustenance` → PASSOU; a % vem do censo do motor, `docs/cobertura/acoes.csv:255` (`Target.MaxHealth * .08f`) |
+| 3 | `Sustenance II` | **20** de vida / **40** de mana | **20 / 40** | idem, `docs/cobertura/acoes.csv:256` (`.20f`) |
+| 4 | **uma só** tier ativa | **nunca 28 / 56** | **8/16** (só a I) e **20/40** (só a II) | idem — a checagem exige que 28/56 **não** apareça com uma tier ativa |
+| 5 | vida/mana mudando (equipar/desequipar) | o número acompanha | leitura no hover, cache de ~1s | `GlobulePatch.cs:182` — `Character.MaxHealth`/`MaxMana` são o valor FINAL do motor (base + equipamento + skills); **tela** (§11.4) |
+
+**Sobre o 28/56 (o cenário 4, sem eufemismo).** A matriz prova o que o cartão pede: com **uma** tier
+ativa o tooltip mostra 8/16 ou 20/40 e **nunca** soma a outra — as duas linhas de 100/200 acima são
+exatamente o caso. As **duas** tiers ativas ao mesmo tempo (8 + 20 = 28) continuam **indeterminadas**:
+é o ponto aberto do `RV-24` (§7.4) e **não** é deste cartão. O mod não decide nada — ele soma
+exatamente as tiers que o **jogo** deixou em `Character.Skills` (a lista já resolvida pelo
+`SkillsThatReplace` de cada skill), então o número na tela é sempre o que o motor tem ligado. Se o
+jogo mantiver as duas, 28 é o número CORRETO (e o `LogOutput` dirá
+`... (Sustenance I and Sustenance II) = 28%`); quem fecha isso é a medição em jogo do cenário 4b
+(§11.4).
+
+### 11.3 O que rodou (comando → resultado)
+
+| Prova | Comando | Resultado |
+|---|---|---|
+| Compila e instala | `dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=true` | **0 erro(s)**, 1 aviso `MSB3277` pré-existente; `INFRA-1` copiou a DLL para o perfil |
+| A DLL que o jogo carrega é a compilação do fonte em disco | `sha256sum` de `bin/Release/netstandard2.1/BetterTooltips.dll` × a do perfil | **iguais**: `f525b1015c2275b98265040634563710d24041d90c5a710363fb30f60343397d` |
+| As guardas + a matriz | `python tools/testes/roda_testes.py --teste tools/testes/testes/puros/t_rv28_globule_sustenance.py` | `[PASSOU ]` (exit 0) — guardas no fonte vivo, as **4 iscas embutidas** mordidas, 8/16 e 20/40 com 100/200, e a ponte com as linhas do AUT-6 |
+| A suíte pura inteira | `python tools/testes/roda_testes.py --puros` | **90 rodaram / 90 passaram / 0 reprovaram** (1 excluído por categoria: `jogo`), VERDE exit 0 |
+| As iscas do projeto | `python tools/testes/roda_testes.py --contra-prova` | 65 rodaram, **50 prova de fogo OK / 0 falhou**, VERDE exit 0 (inclui o par novo `cp_rv28_globule_soma_a_mao` / `cp_rv28_globule_ok`) |
+| Prova de fogo **física** (4 defeitos no fonte real) | `python tools/testes/rv28-globule-prova-de-fogo.py` | cada defeito → `REPROVOU` (exit 1) pelo motivo certo e o arquivo volta **byte a byte** (sha256 `7fff83c4…` IDENTICO); VEREDITO OK — log `tools/testes/rv28-globule-prova-de-fogo.log` |
+| Robustez dos ganchos Harmony | `python tools/check_patches.py` | exit 0 |
+| Uma entrada por texto / sem duplicata / sem nota redundante | `python tools/check_dupes.py`, `check_notas_redundantes.py`, `check_chave_compartilhada.py --estrito` | exit 0 nos três |
+| O caminho do globule contra o censo do motor (harness) | `python tools/automacao/aut6/cobertura.py --casos tools/automacao/aut6/casos-aut6.json --observacoes tools/automacao/aut6/observacoes-fixture.json` | `S-rv28-globule-sustenance/so-tier1` e `/duas-tiers` **OK** (fixture avalia o avaliador; **não** é prova de runtime) |
+
+Os 4 defeitos plantados na prova física (cada um no arquivo REAL, testado e restaurado):
+**(A)** a guarda de existência trocada por `if (false)` → acusado; **(B)** `pct += 8f + 20f;` (soma à
+mão) → acusado; **(C)** o `catch` re-lançando → acusado; **(D)** `AtributoExiste` indexando o
+personagem → acusado.
+
+Arquivos novos desta blindagem: `tools/testes/regras_rv28_globule.py` (as regras em Python, com a
+fonte independente da % no censo de ações e a isca embutida),
+`tools/testes/testes/puros/t_rv28_globule_sustenance.py` (o teste da suíte),
+`tools/testes/contra-prova/cp_rv28_globule_soma_a_mao.py` + `cp_rv28_globule_ok.py` (a contra-prova
+e a metade OK), `tools/testes/rv28-globule-prova-de-fogo.py` e o log da prova física.
+
+### 11.4 Cenários 1, 4b e 5 — caminho reprodutível na TELA (para a conferência humana)
+
+Os cenários 2, 3 e 4 (números) estão provados acima por execução; **1**, **4b** e **5** são de tela e
+é isto que o conferente executa (o roteiro completo é `docs/CONFERENCIA-DONO-06-10.md` §5):
+
+1. **Sem `Sustenance` → tooltip sem número.** Personagem sem nenhuma tier de `Sustenance` (ou com a
+   skill respeitada). Hover em qualquer globule no chão da batalha. **Esperado:** a descrição do
+   globule (`Heals for 50% of Max Health`, `Restores 50% of Max Mana`, `Cleanses all debuffs`,
+   `Grants an additional Action Point`, `Lowers Cooldowns by 1`, `Increases all damage by 10%`), **sem
+   nenhuma frase extra**. No log: `[Globule RV-28] '<chave>': <personagem> nao tem Sustenance ativa ->
+   sem numero` (uma por combinação).
+2. **4b — as duas tiers aprendidas (o 8/20/28).** Com `Sustenance I` **e** `II` aprendidas, hover em um
+   globule e ler a marca `[Globule RV-28]` no `LogOutput.log`: se a linha disser
+   `... <personagem> Sustenance I and Sustenance II = 28%`, o jogo **não** substitui a I e a cura real
+   é 28% da vida máxima; se a lista ativa tiver só a II, o mod mostra 20% e a resposta é a outra.
+   Fecha o ponto aberto do `RV-24` **sem** mexer no mod (o mod só reflete o que o jogo tem ativo).
+3. **Vida/mana mudando → o número acompanha.** Com `Sustenance II` ativa (20%): abrir a tooltip de um
+   globule e anotar o número; fechar; **equipar/desequipar** um item que mude `Max Health`/`Max Mana`
+   (ou usar um power-up de Vitality/Intelligence); reabrir a tooltip. **Esperado:** o número é
+   `MaxHealth × 20%` lido NO HOVER (cache de ~1s), então acompanha a ficha — com 233 de vida, por
+   exemplo, `46.6 health` (uma casa decimal quando não é inteiro). Confira contra a ficha (tecla de
+   personagem) e contra a marca `[Globule RV-28]` no log.
+
+### 11.5 Limites desta entrega
+
+1. **A prova é do MODELO e do FONTE, não do C# rodando no jogo.** Os testes são de lógica pura: eles
+   leem o fonte vivo (guardas, ordem guarda→indexador, formato da conta) e conferem a conta contra a
+   fonte independente da % (o censo de ações do motor); **não** executam o `GlobulePatch` dentro do
+   jogo. Quem fecha isso é a conferência humana (§11.4) — a ligação entre as duas pontas é o recorte
+   estrutural do fonte citado por `arquivo:linha`.
+2. **`28%` com as duas tiers ativas**: indeterminado, ponto aberto do `RV-24` (§7.4) — o cenário 4b
+   de §11.4 é a medição que fecha.
+3. **Runtime ainda sem marca**: nenhuma linha `[Globule RV-28]` existe no `LogOutput.log` das sessões
+   de 15:30/15:33 (nada foi hoverado ainda); a DLL blindada **já está instalada** no perfil
+   (sha256 `f525b101…`), então o próximo hover em jogo produz a evidência de §11.4.
+

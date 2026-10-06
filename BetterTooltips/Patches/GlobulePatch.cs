@@ -53,8 +53,10 @@ namespace BetterTooltips.Patches
     /// com as duas ⇒ 28%. O texto e o número saem certos nos dois cenários, sem precisar fechar a dúvida.
     ///
     /// Os valores saem das propriedades do personagem em foco: `Character.MaxHealth`/`MaxMana`
-    /// (`Mathf.Ceil(this["MaxHealth"])`, l.32362/32364) — o MESMO resolvedor de receptor do RV-22/23.
-    /// A base é `% da vida máxima e da mana máxima` (texto do próprio asset do Sustenance). O
+    /// (`Mathf.Ceil(this["MaxHealth"])`, l.32362/32364) — o MESMO resolvedor de receptor do RV-22/23
+    /// — e o atributo é checado ANTES da leitura (`AtributoExiste`, blindagem de 06/10): o indexador
+    /// do motor LANÇA para nome desconhecido. A base é `% da vida máxima e da mana máxima` (texto do
+    /// próprio asset do Sustenance). O
     /// ARREDONDAMENTO do motor para a cura real não é legível (o efeito mora no proc, que não está no
     /// dump): o mod mostra o produto com uma casa decimal e não afirma inteiro.
     /// </summary>
@@ -103,8 +105,40 @@ namespace BetterTooltips.Patches
         private const string PrefixoSustenance = "Consuming any Globule heals you for ";
 
         /// <summary>
+        /// RV-28 (blindagem, 06/10) — O ATRIBUTO EXISTE ANTES DE SER LIDO.
+        ///
+        /// `Character.this[string]` LANÇA para nome desconhecido
+        /// (`throw new Exception("No attribute named " + attributeName)`, `Character.cs` do decompilado,
+        /// l.3960-3973) e `Character.MaxHealth`/`MaxMana` são justamente `Mathf.Ceil(this["MaxHealth"])` /
+        /// `Mathf.Ceil(this["MaxMana"])` (l.3660/3662). O jogo responde à MESMA pergunta sem lançar:
+        /// `Game.GetAttribute(nome)` e `Game.GetVariableAttribute(nome)` são consultas a dicionário que
+        /// devolvem `null` quando o nome não existe (`Burst2Flame/Game.cs`, l.1383-1399) — são exatamente
+        /// as duas que o próprio indexador consulta antes de lançar. Este guard roda ANTES da leitura
+        /// (mesmo padrão do `EhAtributoPrimario` do BT-13, `t_bt_guard_avaliador`): o nome que chega ao
+        /// indexador sempre existe, e a queda para o texto SEM número é uma decisão EXPLÍCITA e logada,
+        /// não um `catch` que engole tudo de forma indiscriminada.
+        /// </summary>
+        private static bool AtributoExiste(Character personagem, string nome)
+        {
+            Game jogo = Game.Instance;
+            if (jogo == null)
+            {
+                return false;
+            }
+            if (jogo.GetAttribute(nome) != null)
+            {
+                return true;   // caminho `GetAttribute(attribute)` do indexador
+            }
+            // Caminho `Values[nome]` do indexador: a variável existe no jogo E tem valor NESTE
+            // personagem (sem o segundo teste o próprio `Values[nome]` lançaria com chave ausente).
+            return jogo.GetVariableAttribute(nome) != null
+                && personagem.Values != null
+                && personagem.Values.ContainsKey(nome);
+        }
+
+        /// <summary>
         /// A frase do Sustenance para este globule — "" quando não há nada a mostrar (sem a skill, sem
-        /// personagem em foco, ou falha de leitura). Nunca lança.
+        /// personagem em foco, atributo inexistente ou falha de leitura). Nunca lança.
         /// </summary>
         public static string FraseSustenance(string chaveDaTooltip)
         {
@@ -119,6 +153,16 @@ namespace BetterTooltips.Patches
                 if (personagem == null)
                 {
                     Marca("sem numero: nenhum personagem em foco");
+                    return "";
+                }
+
+                // GUARDA DE EXISTENCIA (antes de QUALQUER leitura de atributo): sem os dois pools nao ha
+                // frase — e o caso acontece de verdade fora do contexto de jogador (inspecao/loja e o
+                // WorldCharacter vazio do shrine). A tooltip continua intacta, com motivo no log.
+                if (!AtributoExiste(personagem, "MaxHealth") || !AtributoExiste(personagem, "MaxMana"))
+                {
+                    Marca("sem numero: MaxHealth/MaxMana nao existem neste contexto (target nulo ou "
+                        + "tooltip fora de jogador)");
                     return "";
                 }
 

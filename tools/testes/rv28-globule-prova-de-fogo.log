@@ -1,0 +1,35 @@
+==============================================================================
+ PROVA DE FOGO FISICA - blindagem do RV-28 (guardas do tooltip do globule)
+ raiz: C:\dev\stolen-realm
+ alvo: BetterTooltips\Patches\GlobulePatch.cs
+ teste: tools\testes\testes\puros\t_rv28_globule_sustenance.py
+==============================================================================
+
+sha256 do alvo (limpo): 7fff83c4a8f722e9e6fee45e8f3b25df10804f75688c36516c5c85ab6c8bea26
+
+[0] repo como esta -> exit 0  ([PASSOU ] rv28-globule-sustenance as guardas do tooltip do globule (fonte vivo) e a matriz 8/16, 20/40 e nunca 28/56)
+
+[A: sem a guarda de existencia]
+  espera acusar: a guarda de existencia ANTES da leitura do atributo
+  1. defeito plantado -> exit 1  ([REPROVOU] rv28-globule-sustenance guardas obrigatorias do tooltip do globule: ['(3) sem guarda de existencia do atributo MaxHealth antes da leitura', '(3) sem guarda de existencia do atributo MaxMana antes da leitura']: esperado [], obtido ['(3) sem guarda de existencia do atributo MaxHealth antes da leitura', '(3) sem guarda de existencia do atributo MaxMana antes da leitura'])
+  2. restaurado       -> sha256 7fff83c4a8f722e9 (IDENTICO)
+
+[B: soma a mao tier I + tier II (28)]
+  espera acusar: a % tem de vir da lista ATIVA do jogo, nunca de uma soma a mao
+  1. defeito plantado -> exit 1  ([REPROVOU] rv28-globule-sustenance guardas obrigatorias do tooltip do globule: ['(5) a % nao e acumulada do que o jogo tem ativo (`pct += daSkill;`)']: esperado [], obtido ['(5) a % nao e acumulada do que o jogo tem ativo (`pct += daSkill;`)'])
+  2. restaurado       -> sha256 7fff83c4a8f722e9 (IDENTICO)
+
+[C: o catch re-lanca (tooltip quebra)]
+  espera acusar: a queda para o texto SEM numero, no proprio catch
+  1. defeito plantado -> exit 1  ([REPROVOU] rv28-globule-sustenance guardas obrigatorias do tooltip do globule: ['(2) o `catch` NAO cai para o texto SEM numero (sem `return "";` no proprio catch)', '(2) o `catch` RE-LANCA — a tooltip quebra em vez de cair para SEM numero']: esperado [], obtido ['(2) o `catch` NAO cai para o texto SEM numero (sem `return "";` no proprio catch)', '(2) o `catch` RE-LANCA — a tooltip quebra em vez de cair para SEM numero'])
+  2. restaurado       -> sha256 7fff83c4a8f722e9 (IDENTICO)
+
+[D: a guarda indexa o personagem (lanca)]
+  espera acusar: a guarda nao pode indexar (usar as consultas que devolvem null)
+  1. defeito plantado -> exit 1  ([REPROVOU] rv28-globule-sustenance guardas obrigatorias do tooltip do globule: ['(3) `AtributoExiste` nao usa as consultas que devolvem null do jogo (`GetAttribute`/`GetVariableAttribute`)']: esperado [], obtido ['(3) `AtributoExiste` nao usa as consultas que devolvem null do jogo (`GetAttribute`/`GetVariableAttribute`)'])
+  2. restaurado       -> sha256 7fff83c4a8f722e9 (IDENTICO)
+
+==============================================================================
+ VEREDITO: PROVA DE FOGO OK - o teste passa no repo, REPROVA em cada um dos 4 defeitos
+           plantados no fonte real e o arquivo volta byte a byte (sha256 igual).
+==============================================================================
