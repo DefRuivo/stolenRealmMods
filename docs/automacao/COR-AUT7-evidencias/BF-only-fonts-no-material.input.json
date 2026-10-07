@@ -1,0 +1,22 @@
+[
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7-sintetica-sem-runtime",
+    "fonte_sha": "2831d21197fd4b2fa141446126e56b256a4e265c0c9d33277591cbde1875fb76",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\marcador-sintetico.txt",
+    "objeto": "Tooltip.Title",
+    "fonte": "new",
+    "mod_ativo": true
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7-sintetica-sem-runtime",
+    "fonte_sha": "2831d21197fd4b2fa141446126e56b256a4e265c0c9d33277591cbde1875fb76",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\marcador-sintetico.txt",
+    "objeto": "Tooltip.Title",
+    "fonte": "old",
+    "mod_ativo": false
+  }
+]

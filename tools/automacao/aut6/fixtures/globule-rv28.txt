@@ -1,0 +1,25 @@
+# ===========================================================================
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real. (AUT-6, RV-28/RV-32)
+# ---------------------------------------------------------------------------
+# Serve para a PROVA DE FOGO do avaliador AUT-6 no caminho do GLOBULE: as linhas sao
+# reproduzidas no formato EXATO do `Marca` do GlobulePatch
+# (`BetterTooltips/Patches/GlobulePatch.cs`):
+#
+#   [Globule RV-28] '<chaveDaTooltip>': <personagem> <tiers ativas> = <pct>% -> <frase>
+#
+# DE ONDE VEM CADA NUMERO (nenhum digitado "de cabeca"):
+#   * a % de cada tier e a ACAO do MOTOR no censo de acoes
+#     (`docs/cobertura/acoes.csv`): `Sustenance I Proc` -> `Target.MaxHealth * .08f` (8%) e
+#     `Sustenance II Proc` -> `Target.MaxHealth * .20f` (20%); as tiers ativas SOMAM (cada uma
+#     tem o proprio gatilho `OnGlobulePickup`), 8 + 20 = 28.
+#   * a frase segue o `FraseSustenance`: abertura ("Consuming a Globule also heals you for ")
+#     + pct + "% of your Max Health and Max Mana (" + tiers + "): " + vida*pct/100 +
+#     " health and " + mana*pct/100 + " mana with your current pools."
+#   * a chave da tooltip e a DESCRICAO do pickup (`Health Globule` =
+#     "Heals for 50% of Max Health", asset @1520824128 citado no cabecalho do GlobulePatch).
+#
+# Os POOLS (MaxHealth/MaxMana) sao declarados nas observacoes do avaliador; as linhas abaixo
+# usam 100/50 (ChkG1, so o tier I) e 200/80 (ChkG2, as duas tiers).
+# ===========================================================================
+[Info   :Better Tooltips] [Globule RV-28] 'Heals for 50% of Max Health': ChkG1 Sustenance I = 8% -> Consuming a Globule also heals you for 8% of your Max Health and Max Mana (Sustenance I): 8 health and 4 mana with your current pools.
+[Info   :Better Tooltips] [Globule RV-28] 'Heals for 50% of Max Health': ChkG2 Sustenance I and Sustenance II = 28% -> Consuming a Globule also heals you for 28% of your Max Health and Max Mana (Sustenance I and Sustenance II): 56 health and 22.4 mana with your current pools.

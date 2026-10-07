@@ -1,0 +1,17 @@
+# COR-AUT4-F3 — sha256 medidos (bytes em disco, apos a correcao)
+# data: 2026-10-06 15:48:26 -0300
+b92c46c3386428c6e75e77511e91ac61b71bf6980f3e3cae21a7ec9b0420fa89 *tools/automacao/runtime/coletor.py
+dba7c0272bde6fcf722488bf255d1fdfc37fd99e301d09746a8e8567de3a19c4 *tools/automacao/runtime/testes/t_aut4_costura_probe.py
+53db56e97c5e461790f348156d89313c8aa760dd756fe0db63d3e852f55259f1 *tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_evidencia_runtime_forma_errada_ok.py
+769ec5cab2ba5eadbc69535fe85588c618c74727f9625a31fa50fa191ab81f59 *tools/automacao/runtime/roda_testes_runtime.py
+9b8893ef55d5d79f8ceb6332bacd4f3186eaba22f14c31a0231bdebcd6de7051 *tools/automacao/runtime/fixtures/probe-saida-exemplo.entrada.json
+5a51abaa439b90263e3b202e01a0b2b3b343fabc8cb71c9de8b3ac97b343bdd3 *tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs
+fd774259b5e8813f2f3b29e2ff805f12cb0cdab4c277116fcc8bbb7e7e3bffdd *tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll
+2d417e861d152cf6cd508413a7eca54ff3b0a4e3b462f1f908f7a6bf417aeda2 *docs/automacao/AUT-4-estado.json
+d7604b2306df7dfde417702671cb13142eb2eec63ec78d0bb470f1153fc6366a *docs/automacao/AUT-4-preparacao.md
+
+# bytes ORIGINAIS (pre-COR-AUT4-F3) usados na nao-regressao:
+155b8ffe58ebdeda6d191d1b789fe3731a5d56c58962631216f0f2adf8b3f578 */c/Users/Pichau/AppData/Local/hermes/cache/scratch/cor-aut4f3/coletor-original.py
+
+# relatorio final:
+73a93217a1ebf1e76f70d1707773caead8a9b66d99f459735540bfd21c940032 *docs/automacao/COR-AUT4-F3-relatorio.md

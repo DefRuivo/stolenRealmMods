@@ -1,0 +1,31 @@
+### cmd: python tools/automacao/cenarios/test_tooltips_shrines.py
+RESULTADO|PASSOU|contrato-v1|ok
+RESULTADO|PASSOU|positivo-dois-personagens|ok
+RESULTADO|PASSOU|positivo-dwarven|ok
+RESULTADO|PASSOU|positivo-flame-oraculo|ok
+RESULTADO|PASSOU|positivo-regressao-bug34|ok
+RESULTADO|PASSOU|fixture-nao-prova-runtime|ok
+RESULTADO|PASSOU|identidade-suficiente-aprova|ok
+RESULTADO|PASSOU|runtime-completo-verde|ok
+RESULTADO|PASSOU|esperado-rastreavel|ok
+RESULTADO|PASSOU|sem-pedido-humano|ok
+RESULTADO|PASSOU|controle-negativo|ok
+RESULTADO|PASSOU|isca-teste-deve-reprovar|ok
+RESULTADO|PASSOU|runtime-sem-evidencia-nao-aprova|ok
+RESULTADO|PASSOU|runtime-sem-hash-fonte-nao-aprova|ok
+RESULTADO|PASSOU|runtime-hash-divergente-indeterminado|ok
+RESULTADO|PASSOU|rotulo-ausente-nao-vira-runtime|ok
+RESULTADO|PASSOU|contrato-procedencia-classe|ok
+RESULTADO|PASSOU|evidencia-vem-do-artefato-lido|ok
+RESULTADO|PASSOU|hash-fonte-dll-casa-identidade|ok
+RESULTADO|PASSOU|hash-fonte-source-divergente-nao-aprova|ok
+RESULTADO|PASSOU|criterio-propaga-fonte-e-dll-da-identidade|ok
+RESULTADO|PASSOU|runtime-verde-integra-decisao|ok
+RESULTADO|PASSOU|runtime-sem-evidencia-integra-decisao|ok
+RESULTADO|PASSOU|lacuna-coleta-vai-pra-fila|ok
+RESULTADO|PASSOU|sem-tooltip-nao-fecha-ok|ok
+RESULTADO|PASSOU|contra-prova-fixture-nao-autentica|ok
+RESULTADO|PASSOU|contra-prova-outra-build-indeterminado|ok
+RESULTADO|PASSOU|contra-prova-outra-sessao-indeterminado|ok
+TOTAL|rodaram=28 reprovaram=0 nao_rodaram=0
+EXIT=0

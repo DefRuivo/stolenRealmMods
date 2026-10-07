@@ -1,0 +1,55 @@
+{
+  "esquema": "AUT-4/1",
+  "tarefa_origem": "t_775eb4ae",
+  "procedencia": "fixture",
+  "rotulo_fixture": "shrines-observacoes-exemplo",
+  "evidencia_runtime": false,
+  "status": "FIXTURE",
+  "veredito": "NAO PROVA RUNTIME: fixture rotulada — testa o AVALIADOR, nunca apresentar como leitura de jogo",
+  "aviso": "ROTULO INEQUIVOCO: os trechos de FEED sao VERBATIM de logs VERSIONADOS (tools/fixtures/shrines-rv46-dedupe.log, tools/fixtures/shrines-exemplo.log); as tooltips sao o texto renderizado que o mod desenha a partir da MESMA linha (regras_shrine.agregar). Nenhum numero foi digitado de cabeca: o esperado e CALCULADO pelo modulo a partir das tabelas geradas.",
+  "fontes_dos_trechos": {
+    "feed_shrines": "tools/fixtures/shrines-rv46-dedupe.log",
+    "feed_flame": "tools/fixtures/shrines-exemplo.log"
+  },
+  "observacoes": [
+    {
+      "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+      "procedencia": "fixture",
+      "rotulo_fixture": "shrines-observacoes-exemplo",
+      "evidencia": [
+        "tools/fixtures/shrines-rv46-dedupe.log",
+        "tools/fixtures/shrines-exemplo.log"
+      ],
+      "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)\n[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=Raven bonus=100 -> Dodge +40% (total +52%)\n[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW0 bonus=0 -> Stun chance +20%\n[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW20 bonus=20 -> Stun chance +24%\n[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW bonus=100 -> Stun chance +40%\n[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=28"
+    },
+    {
+      "objeto": "Tooltip.LinhaAzul (ChkRA)",
+      "personagem": "ChkRA",
+      "procedencia": "fixture",
+      "rotulo_fixture": "shrines-observacoes-exemplo",
+      "texto_renderizado": "Your active shrine auras: Dodge +20% (total +37%).",
+      "evidencia": ["tools/automacao/cenarios/shrines-observacoes.exemplo.json"]
+    },
+    {
+      "campos": {
+        "objeto": {"estado": "PRESENTE", "valor": "Tooltip.LinhaAzul"},
+        "texto_renderizado": {"estado": "PRESENTE", "valor": "Your active shrine auras: Dodge +40% (total +52%)."},
+        "personagem": {"estado": "PRESENTE", "valor": {"nome": "Raven"}},
+        "texto_bruto": {"estado": "PRESENTE", "valor": "Your active shrine auras: Dodge +40% (total +52%)."}
+      },
+      "procedencia": "fixture",
+      "rotulo_fixture": "shrines-observacoes-exemplo",
+      "evidencia": ["tools/automacao/cenarios/shrines-observacoes.exemplo.json"]
+    },
+    {
+      "objeto": "FeedDeCombate (aplicacao de Armor)",
+      "procedencia": "fixture",
+      "rotulo_fixture": "shrines-observacoes-exemplo",
+      "texto_renderizado": "Increased Armor Applied",
+      "evidencia": [
+        "BetterTooltips/Patches/LocalizePatch.cs",
+        "KANBAN.md (BUG-34, aceite humano 05/10)"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,132 @@
+{
+  "esquema": "AUT-4/1",
+  "nome": "AUT-7-estilo-atributos-dump",
+  "descricao": "PLANO DE COLETA do AUT-7 (estilo/atributos/dump: BetterFont, BetterCombatText, BetterStats, RoguelikeDebugger). NAO foi executado: autorizacao.coleta_autorizada=false - nenhuma leitura de jogo acontece sem autorizacao explicita do dono para a rodada. Os alvos nomeados saem das listas dos PROPRIOS modulos de regra (regras_bct.SUPERFICIES_DO_BCT / TIPOS_DO_LEVELUP); as marcas `mod_ativo`, `nao_deve_exibir_efeito` e `config` sao as do avaliador de `tools/automacao/estilo/estilo_atributos.py` (coleta preparada, nunca dado fabricado).",
+  "procedencia": "plano (nao e observacao: nada aqui prova jogo)",
+  "evidencia_runtime": false,
+  "autorizacao": {
+    "coleta_autorizada": false,
+    "autor": "dono",
+    "observacao": "default do repositorio: nenhuma coleta ate autorizacao explicita da rodada; uma frente runtime por vez"
+  },
+  "orcamento_segundos": 240,
+  "campos_alvo": [
+    "objeto",
+    "caminho",
+    "componente",
+    "visivel_na_tela",
+    "texto_bruto",
+    "texto_renderizado",
+    "fonte",
+    "material",
+    "shader",
+    "shader_suportado",
+    "keywords",
+    "cores",
+    "geometria",
+    "tamanho_fonte",
+    "personagem"
+  ],
+  "cenarios": [
+    {
+      "nome": "font-ligado",
+      "mod": "BetterFont",
+      "espera_estado": "ui-com-texto-renderizado",
+      "navegar": false,
+      "mod_ativo": true,
+      "alvos": [
+        "Tooltip.Title",
+        "Tooltip.Description",
+        "TMP_Text@ativo"
+      ],
+      "leitura": "com o BetterFont LIGADO: `fonte` (tem de DIFERIR do controle) + `cores.face/contorno/sombra` + `keywords.OUTLINE_ON/UNDERLAY_ON` (tem de IGUALAR o controle)"
+    },
+    {
+      "nome": "font-controle-desligado",
+      "mod": "BetterFont",
+      "espera_estado": "ui-com-texto-renderizado",
+      "navegar": false,
+      "mod_ativo": false,
+      "alvos": [
+        "Tooltip.Title",
+        "Tooltip.Description",
+        "TMP_Text@ativo"
+      ],
+      "leitura": "CONTROLE: a MESMA tela com o BetterFont DESABILITADO (mesmos alvos). Sem este par o criterio de preservacao de cor/contorno/underlay fica NAO_EXERCITADO - e e lacuna TECNICA declarada, nunca OK"
+    },
+    {
+      "nome": "combate-superficies-alvo",
+      "mod": "BetterCombatText",
+      "espera_estado": "em-run-com-texto-de-combate",
+      "navegar": true,
+      "mod_ativo": true,
+      "alvos": [
+        "BossHealthbar",
+        "PlayerInfoWindow",
+        "StatusIcon",
+        "DiceRollingManager",
+        "DiceRoller",
+        "Healthbar"
+      ],
+      "leitura": "superficies ALVO do BCT (lista de regras_bct.SUPERFICIES_DO_BCT): contorno/sombra aplicados; a sombra tem de bater com regras_bct.sombra_para(letra) e com o contraste/alfa minimos"
+    },
+    {
+      "nome": "combate-idempotencia",
+      "mod": "BetterCombatText",
+      "espera_estado": "em-run-com-texto-de-combate",
+      "navegar": true,
+      "mod_ativo": true,
+      "alvos": [
+        "BossHealthbar",
+        "PlayerInfoWindow"
+      ],
+      "leitura": "DUAS leituras do MESMO objeto (estagios diferentes) na mesma sessao: os valores de `cores`/`keywords` tem de ser identicos (o efeito nao acumula)"
+    },
+    {
+      "nome": "levelup-sem-vazamento",
+      "mod": "BetterCombatText",
+      "espera_estado": "tela-de-level-up",
+      "navegar": true,
+      "mod_ativo": true,
+      "alvos": [
+        "Tooltip.Title",
+        "Tooltip.Description",
+        "SectionLabelText"
+      ],
+      "leitura": "objetos marcados `nao_deve_exibir_efeito=true` (marca do planejador): tem de sair SEM OUTLINE_ON/UNDERLAY_ON/contorno - o material compartilhado de skill/item/powerup nao pode receber o efeito",
+      "marcas": {
+        "nao_deve_exibir_efeito": true,
+        "tipos_do_levelup": [
+          "RoguelikeManager",
+          "SectionLabelText",
+          "LevelUpStage",
+          "SkillSelectWindow"
+        ]
+      }
+    },
+    {
+      "nome": "stats-ficha-e-levelup",
+      "mod": "BetterStats",
+      "espera_estado": "ficha-de-personagem-e-level-up",
+      "navegar": true,
+      "mod_ativo": true,
+      "alvos": [
+        "AttributesValuesMainHolder",
+        "StatValues",
+        "InventoryManager"
+      ],
+      "leitura": "texto `base (final)` nos dois paineis + geometria (`caixa_na_tela_px` do texto) - a base tem de ser o valor PURO (SavedMap); o valor por atributo do personagem e a bbox do PAINEL ainda NAO sao emitidos pelo probe (lacuna TECNICA declarada)"
+    },
+    {
+      "nome": "debugger-boot",
+      "mod": "RoguelikeDebugger",
+      "espera_estado": "menu-com-log-de-boot",
+      "navegar": false,
+      "mod_ativo": true,
+      "alvos": [
+        "LogOutput.log"
+      ],
+      "leitura": "boot NOVO com a DLL atual (SEM carregar save): o contrato do dump (`desc=` por ultimo, sem `|`) e o censo sao lidos do log DESSA sessao. Log de sessao anterior NAO vale (precedente AUT-4R)"
+    }
+  ]
+}

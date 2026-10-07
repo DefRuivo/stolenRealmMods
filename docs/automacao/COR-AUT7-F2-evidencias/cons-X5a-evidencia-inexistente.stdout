@@ -1,0 +1,1258 @@
+{
+  "esquema": "AUT-7/aceite/1",
+  "tarefa": "t_674c5976",
+  "identidade": {
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "suficiente": true,
+    "conhecidos": [
+      "dll_sha",
+      "fonte_sha"
+    ]
+  },
+  "criterios": 77,
+  "por_frente": {
+    "AUT-3": 54,
+    "AUT-5": 1,
+    "AUT-6": 1,
+    "AUT-7": 21
+  },
+  "status_tecnico": {
+    "falhas_automaticas": [
+      {
+        "id": "build_BetterCombatText",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=06dae5aa7b5e",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterCombatText/bin/Release/netstandard2.1/BetterCombatText.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_BetterCombatText",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterCombatText/bin/Release/netstandard2.1/BetterCombatText.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M1",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterCombatText/bin/Release/netstandard2.1/BetterCombatText.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/suite-ausente",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bct_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-superficies-contraste",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "todas superficies canonicas com cor/alfa/contraste/polaridade",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-idempotencia",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "mesmo objeto/sessao; estagios/eventos/leituras distintos e efeito estavel",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "nenhum alvo BCT relido"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "nenhum alvo BCT relido",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-sem-vazamento-levelup",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "level-up real: todos tipos e alvos comparados ao estilo nativo desligado",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "build_BetterFont",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=2c07f5e959af",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterFont/bin/Release/netstandard2.1/BetterFont.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_BetterFont",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterFont/bin/Release/netstandard2.1/BetterFont.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M2",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterFont/bin/Release/netstandard2.1/BetterFont.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-7/BetterFont/suite-ausente",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bf_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterFont/runtime-preservacao-estilo",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte trocada preservando TODAS propriedades efetivas e keywords",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "controle ligado/desligado no mesmo objeto ausente"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "controle ligado/desligado no mesmo objeto ausente",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterFont/runtime-config",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "config real: bytes, identidade, chaves e defaults confrontados",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "config/chaves/valores ausentes"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "config/chaves/valores ausentes",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "build_BetterStats",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=5a3c001ad424",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterStats/bin/Release/netstandard2.1/BetterStats.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_BetterStats",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterStats/bin/Release/netstandard2.1/BetterStats.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M3",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterStats/bin/Release/netstandard2.1/BetterStats.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-7/BetterStats/suite-ausente",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bs_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterStats/runtime-base-vs-final",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "na ficha/level-up o texto sai `base (final)`, com a base do valor PURO investido e o final do motor; `character[nome]` NAO serve como base",
+        "observado": "nenhum texto `base (final)` nas observacoes",
+        "motivo": "lacuna tecnica de runtime (probe/campo/coleta/preparacao): automatizavel, volta ao ciclo — NAO e tarefa do dono — valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+        "evidencia": [],
+        "lacuna_probe": "valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterStats/runtime-geometria",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a caixa do texto de valores cabe DENTRO do painel de atributos (sem clipping/saida lateral), com deslocamento unico e nao acumulado",
+        "observado": "nenhuma observacao com `geometria`",
+        "motivo": "lacuna tecnica de runtime (probe/campo/coleta/preparacao): automatizavel, volta ao ciclo — NAO e tarefa do dono — caixa (bbox) do painel de atributos, alem da do texto",
+        "evidencia": [],
+        "lacuna_probe": "caixa (bbox) do painel de atributos, alem da do texto",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "build_BetterTooltips",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=270f311b0f7b",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterTooltips/bin/Release/netstandard2.1/BetterTooltips.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_BetterTooltips",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterTooltips/bin/Release/netstandard2.1/BetterTooltips.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_dupes",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "chave duplicada nas tabelas do LocalizePatch",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_dupes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_chave_compartilhada",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "chave de texto compartilhada / nota que mente para outro dono",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_chave_compartilhada.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_notas_redundantes",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "notas redundantes/duplicadas (REESCREVE docs/cobertura/revisao -> sandbox)",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_notas_redundantes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_fix_keys",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "chaves de TextFixes/TextAppends contra o censo",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_fix_keys.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M4",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterTooltips/bin/Release/netstandard2.1/BetterTooltips.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-26",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-27",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-28",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-29",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "aura viva x fora da aura — leitura em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-30",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "aura de perigo com Source=null — medicao em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-31",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "agregado por atributo — leitura em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-33",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "flame/decay por alvo — leitura em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:S-RV-34",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "defeito do proprio mod superado por RV-30 — revalidacao em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:BUG34",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "aceite humano ja dado (KANBAN l.506); regressao de feed exige jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-6/resultado-malformado",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a frente medir este item",
+        "observado": "nao medido nesta rodada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\frentes\\X5a-evidencia-inexistente.json"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "build_RoguelikeDebugger",
+        "mod": "RoguelikeDebugger",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=99c156799380",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeDebugger/bin/Release/netstandard2.1/RoguelikeDebugger.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_RoguelikeDebugger",
+        "mod": "RoguelikeDebugger",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeDebugger/bin/Release/netstandard2.1/RoguelikeDebugger.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M5",
+        "mod": "RoguelikeDebugger",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeDebugger/bin/Release/netstandard2.1/RoguelikeDebugger.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-7/RoguelikeDebugger/suite-ausente",
+        "mod": "RoguelikeDebugger",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_debugger_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "build_RoguelikeSkillTreeVisualizer",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "build Release 0 erros",
+        "observado": "exit=0 sha=454587a031a3",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeSkillTreeVisualizer/bin/Release/netstandard2.1/RoguelikeSkillTreeVisualizer.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "fonte_dll_RoguelikeSkillTreeVisualizer",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte=Release=perfil por sha256",
+        "observado": "provada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeSkillTreeVisualizer/bin/Release/netstandard2.1/RoguelikeSkillTreeVisualizer.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:M6",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "RoguelikeSkillTreeVisualizer/bin/Release/netstandard2.1/RoguelikeSkillTreeVisualizer.dll"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:T-RSTV6",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/testes/roda_testes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:T-RSTV21",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "janela read-only abre/navega/fecha e publicacao — exige jogo/dono (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:T-RSTV25B",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "precisa do LogOutput.log do proximo boot (INDETERMINADO) (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:T-RSTV26",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "NAO_EXERCITADO",
+        "motivo": "hover com numeros resolvidos — revalidacao visual em jogo (automatizavel: lacuna tecnica, nao vai ao dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "AUT-5/nao-exercitado",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a frente medir este item",
+        "observado": "nao medido nesta rodada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "check_segredos",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "nenhuma credencial no que seria publicado",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_segredos.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_versoes",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "csproj = manifest = Plugin.cs = README",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_versoes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_patches",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "5 regras de robustez dos patches Harmony",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_patches.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_dependencias",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "toda dependencia de manifest resolve",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_dependencias.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "check_deploy_optin",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "nenhum alvo escreve no perfil sem opt-in",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_deploy_optin.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "pacotes_preflight",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "pre-flight Thunderstore (artefato x fonte, nada e zipado)",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/pack-thunderstore.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "audita_docs",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "doc x disco (contagens, ferramentas, versoes, links)",
+        "observado": "exit=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/audita_docs.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "suite_puros",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "suite de logica pura (CI)",
+        "observado": "exit=0 contagem={'PASSOU': 85}",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/testes/roda_testes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "suite_contra_prova",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "prova de fogo do runner (iscas tem de REPROVAR)",
+        "observado": "exit=0 contagem={'PROVA_OK': 49, 'PASSOU': 14}",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/testes/roda_testes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "suite_jogo",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "testes que precisam da lib/ do jogo (sem abrir o jogo)",
+        "observado": "exit=0 contagem={'PASSOU': 1}",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/testes/roda_testes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cp_dupes",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "defeito reprova e correcao aprova",
+        "observado": "defeito=1 correcao=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterTooltips/Patches/LocalizePatch.cs",
+          "tools/check_dupes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cp_versoes",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "defeito reprova e correcao aprova",
+        "observado": "defeito=1 correcao=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterFont/manifest.json",
+          "tools/check_versoes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cp_patches",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "defeito reprova e correcao aprova",
+        "observado": "defeito=1 correcao=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "BetterStats/Plugin.cs",
+          "tools/check_patches.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cp_deploy_optin",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "defeito reprova e correcao aprova",
+        "observado": "defeito=1 correcao=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_deploy_optin.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cp_segredos",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "defeito reprova e correcao aprova",
+        "observado": "defeito=1 correcao=0",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/check_segredos.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "guarda_perfil",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "intacto",
+        "observado": "True",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "guarda_repo",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "intacto",
+        "observado": "True",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "cobertura:AUT-REUSE",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "criterio AUT-2 coberto",
+        "observado": "OK_OFFLINE",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "tools/testes/roda_testes.py"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      },
+      {
+        "id": "reuso_snapshot_aut3",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "AUT-3 amarra os bytes atuais",
+        "observado": "snapshot divergente",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "desconhecido"
+      }
+    ],
+    "pronto_para_decisao": false,
+    "motivo": "NAO: 67 falha(s) automatica(s) volta(m) ao ciclo; nada disso vai ao dono",
+    "resumo": {
+      "mods": 7,
+      "criterios": 77,
+      "ok_vinculantes": 6,
+      "falhas_automaticas": 67,
+      "pendencias_humanas": 4,
+      "nao_conta_como_prova": 0
+    }
+  },
+  "revisoes": {
+    "revisoes": {
+      "AUT-3R": "EM_ANDAMENTO",
+      "AUT-5R": "PENDENTE",
+      "AUT-6R": "PENDENTE"
+    },
+    "consolidacao_final": false,
+    "motivo": "revisao(oes) pendente(s)/nao-OK: AUT-3R, AUT-5R, AUT-6R",
+    "arquivo": "C:\\dev\\stolen-realm\\docs\\automacao\\AUT-7-revisoes.json"
+  },
+  "aceite_humano": {
+    "pronunciado": false,
+    "status": "NAO_PRONUNCIADO",
+    "por_mod": {}
+  },
+  "publicacao": {
+    "status": "NAO_VERIFICADO",
+    "online": null,
+    "motivo": "publicacao e decisao do dono (Thunderstore imutavel); exige aceite humano e consulta por pacote; fora desta rodada",
+    "aceite_humano_pronunciado": false
+  },
+  "relatorio_escrito": null,
+  "medicao_estilo_suites": {
+    "puros": {
+      "arquivo": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\suite-puros.json",
+      "exit_runner": null,
+      "erro": "cache ausente/obsoleto: rerodar suite",
+      "contagem": null,
+      "sha256": "6e4a5cc6164c80b4e0477613c3c204e5ba0798371f07c22f5b6a7e3592b41ae6"
+    },
+    "contra_prova": {
+      "arquivo": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\suite-contra-prova.json",
+      "exit_runner": null,
+      "erro": "cache ausente/obsoleto: rerodar suite",
+      "contagem": null,
+      "sha256": "275e6da19ac33c1aa18b725ec51d712c313a013041c610a58ae4cb071eb4320e"
+    }
+  },
+  "saida_completa": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\cons-X5a-evidencia-inexistente.aceite.json"
+}

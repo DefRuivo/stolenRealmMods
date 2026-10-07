@@ -1,0 +1,31 @@
+test_estilo_atributos.py - 28 caso(s)
+  [OK   ] estado-do-registro: mapeia suite, isca e NAO_RODOU
+  [OK   ] BetterStats estrutural: fonte real passa nos 6 checks
+  [OK   ] BetterStats estrutural: DEFEITO plantado tem de REPROVAR (base do final)
+  [OK   ] BetterStats estrutural: DEFEITO plantado tem de REPROVAR (geometria sem guarda)
+  [OK   ] medicao offline REAL: roda a suite do projeto e nao deixa mod sem familia de teste
+  [OK   ] runtime SEM observacao: os 11 aspectos existem e NENHUM e OK
+  [OK   ] runtime: observacao MALFORMADA nao levanta e nunca vira OK
+  [OK   ] BetterCombatText: sombra fora do modelo do regras_bct tem de REPROVAR
+  [OK   ] BetterCombatText: UMA superficie so (sem as canonicas) nunca vira OK
+  [OK   ] BetterCombatText: sombra CERTA em fixture NAO vira OK (fixture nao prova runtime)
+  [OK   ] BetterCombatText: runtime so fecha OK com TODAS as superficies, session e evidencia
+  [OK   ] BetterCombatText: 6 leituras NAO marcam a 7a superficie (A3: token, nunca substring)
+  [OK   ] BetterCombatText: idempotencia exige estagios/eventos/leituras independentes
+  [OK   ] BetterCombatText: marca isolada de texto alheio (sem campos/contexto) nunca e OK
+  [OK   ] BetterFont: sem o PAR ligado/desligado a preservacao fica NAO_EXERCITADO
+  [OK   ] BetterFont: par com cor divergente tem de REPROVAR; par fiel nao vira OK
+  [OK   ] BetterFont: propriedades efetivas do material incompletas nunca viram OK
+  [OK   ] BetterFont: `rotulo_fixture`/`evidencia_runtime=false` nunca viram runtime
+  [OK   ] BetterFont: config exige arquivo, hash e chaves/valores contra os defaults
+  [OK   ] BetterFont: par com chave de um lado SO tem de REPROVAR (A1: conjunto completo)
+  [OK   ] BetterFont: config legitimo com identidade sem hash de config e LACUNA (A2)
+  [OK   ] Debugger: log VAZIO nunca e OK; o contrato real com `|` antes do desc= nao reprova
+  [OK   ] plano do AUT-7: consumivel pelo contrato do coletor AUT-4 (e plano quebrado recusado)
+  [OK   ] --sem-suite: cache sem vinculo (ou mutado) NAO reusa prova antiga
+  [OK   ] cache --sem-suite: os ARTEFATOS que a suite MEDE entram na fotografia (A6)
+  [OK   ] CLI: --sem-suite roda de ponta a ponta e nunca sai 0 sem prova
+  [OK   ] cache --sem-suite: as ENTRADAS lidas pelos testes entram na fotografia (A6/F2)
+  [OK   ] cache --sem-suite: apagar a FIXTURE lida por teste mapeado zera o OK de suite (A6/F2)
+total: 28 | falhas: 0
+TUDO OK

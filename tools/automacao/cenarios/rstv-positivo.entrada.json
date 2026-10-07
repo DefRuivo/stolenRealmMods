@@ -1,0 +1,34 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "rotulo_fixture": "rstv-positivo-sintetico",
+  "sintetico": true,
+  "aviso": "ARTEFATO SINTETICO, NAO e leitura de jogo. Existe SO para exercitar o caminho OK do avaliador (o teste injeta procedencia=runtime + sessao e usa os hashes sinteticos declarados aqui como identidade). Nao tem valor probatorio de runtime; fixture nao prova produto. O campo `hash_fonte` segue o contrato REAL do coletor CIC-5: e o sha256 da **DLL** do probe (ver coletor.derivar_config), por isso casa com `dll_sha` da identidade, nao com `fonte_sha`.",
+  "fonte_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "dll_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "config_sha": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+  "sessao": "2026-10-05T00:00:00-sintetica",
+  "observacoes": [
+    {
+      "hash_fonte": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "personagem_esperado": "Raven",
+      "personagem": {"gui_state": "ChoosingCharacter", "tem_personagem_selecionado": true, "personagem": "Raven"},
+      "skills_antes": ["Fireball", "Shield"],
+      "skills_depois": ["Fireball", "Shield"],
+      "pontos_antes": 4,
+      "pontos_depois": 4,
+      "janela": {"aberta": true, "fechada": true},
+      "tooltip_pai_antes": "GUI Manager/Tooltips / Popups",
+      "tooltip_pai_depois": "GUI Manager/Tooltips / Popups",
+      "tooltip_indice_antes": 3,
+      "tooltip_indice_depois": 3,
+      "janelas_duplicadas": 0,
+      "texto_bruto": "Deals [0] fire damage.",
+      "texto_renderizado": "Deals 14 fire damage.",
+      "linhas_dependencia": {"T4": 2, "T5": 0},
+      "dependency_por_tier": {"T4": 2, "T5": 0},
+      "arestas_inventadas": 0,
+      "geometria": {"caixa_na_tela_px": {"x": 10, "y": 20, "largura": 300, "altura": 40}, "tela": "1920x1080"},
+      "evidencia": ["tools/automacao/cenarios/rstv-positivo.entrada.json"]
+    }
+  ]
+}

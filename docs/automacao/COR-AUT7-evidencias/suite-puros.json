@@ -1,0 +1,702 @@
+{
+  "modo": "suite, so logica pura (--puros)",
+  "raiz": "C:\\dev\\stolen-realm\\tools\\testes\\testes",
+  "exit_code": 0,
+  "contagem": {
+    "PASSOU": 86
+  },
+  "excluidos_por_categoria": {
+    "jogo": 1
+  },
+  "ignorados_fora_do_padrao": [],
+  "testes": [
+    {
+      "arquivo": "puros\\t_aut6_cor_e1_e9.py",
+      "nome": "aut6-cor-e1-e9",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "AUT-6/COR-AUT6: as duas suites offline do avaliador de tooltips/shrines por personagem (contrato v1, 25 casos de fixture + 26 regressoes E1-E9) rodam e saem 0 - nenhuma aprovacao de runtime e nenhum alvo de produto"
+    },
+    {
+      "arquivo": "puros\\t_bct_aplicador.py",
+      "nome": "bct-aplicador",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/8: o mod aplica gancho a gancho com contagem real (sem PatchAll) e o filtro so aceita [HarmonyPatch] no TIPO - e a contra-prova da trava check_patches (filtro que exige atributo TEM de reprovar)"
+    },
+    {
+      "arquivo": "puros\\t_bct_caminho_legado.py",
+      "nome": "bct-caminho-legado",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/5: UI.Text legado recebe contorno DURO (Outline/Shadow) e o mod nao tenta material de distance field nos rotulos de status"
+    },
+    {
+      "arquivo": "puros\\t_bct_defaults.py",
+      "nome": "bct-defaults",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/3: tooltip de status DESLIGADO (Title/Description sao compartilhados com skill/item/powerup), eventos/dado LIGADO, chave mestra LIGADA; com arquivo:linha"
+    },
+    {
+      "arquivo": "puros\\t_bct_desligar.py",
+      "nome": "bct-desligar-inerte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/4: com Ativar=false nenhum gancho age - Awake sai antes de aplicar e todo postfix e guardado (direto ou por delegacao)"
+    },
+    {
+      "arquivo": "puros\\t_bct_diagnostico.py",
+      "nome": "bct-diagnostico",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado"
+    },
+    {
+      "arquivo": "puros\\t_bct_idempotencia.py",
+      "nome": "bct-idempotencia",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/2: aplicar duas vezes no mesmo componente nao acumula (registro por InstanceID no TMP e no legado, e o piso no tamanho original)"
+    },
+    {
+      "arquivo": "puros\\t_bct_precondicao_shader.py",
+      "nome": "bct-precondicao-shader",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/7: o efeito confirma a precondicao do shader (HasProperty _OutlineWidth/_UnderlaySoftness) antes de aplicar, em vez de confiar por nome/variante"
+    },
+    {
+      "arquivo": "puros\\t_bct_regra_de_ouro.py",
+      "nome": "bct-regra-de-ouro",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/1: o material e sempre a copia por componente - o IL da DLL do pacote nao referencia setter de material e o fonte so le o compartilhado"
+    },
+    {
+      "arquivo": "puros\\t_bct_sem_acoplamento.py",
+      "nome": "bct-sem-acoplamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-8/9: do lado do BCT, o codigo e a DLL nao citam o BetterFont (nem escrevem no material dele) - a ligacao e so o material por componente da frente"
+    },
+    {
+      "arquivo": "puros\\t_bct_sem_vazamento_no_levelup.py",
+      "nome": "bct-sem-vazamento-no-levelup",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "R2: o BCT fica nas 7 superficies dele e NAO patcheia nem cita a janela do level-up (RoguelikeManager/SectionLabelText) - a sombra do 'Select Attributes' e do BetterFont (underlay inerte com o keyword desligado), nao do BCT"
+    },
+    {
+      "arquivo": "puros\\t_bct_sombra_adaptativa.py",
+      "nome": "bct-sombra-adaptativa",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BCT-2: sombra ADAPTATIVA (cor -> luminancia -> balde -> hex): letra escura ganha #CBB396, letra clara ganha #000000, inclusive no REUSO do componente sem re-instancia"
+    },
+    {
+      "arquivo": "puros\\t_bct_sombra_contraste_letra.py",
+      "nome": "bct-sombra-contraste-letra",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BCT-4/BCT-5: a sombra CONTRASTA com a LETRA - ela fica do LADO OPOSTO da luminancia da fonte (fonte CLARA -> sombra ESCURA; fonte ESCURA -> sombra CLARA) em toda a paleta e em todo Fundo; o nome do inimigo (#CBB396, letra CLARA) ganha a sombra ESCURA #000000, nunca uma sombra clara 'da mesma cor da fonte'"
+    },
+    {
+      "arquivo": "puros\\t_bct_sombra_polaridade_fonte.py",
+      "nome": "bct-sombra-polaridade-fonte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'"
+    },
+    {
+      "arquivo": "puros\\t_bct_sombra_visivel_fundo_escuro.py",
+      "nome": "bct-sombra-visivel-fundo-escuro",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BCT-3/BCT-4/BCT-5: o FUNDO propoe e a LETRA VETA - a letra bege #CBB396 (o nome do inimigo), sendo CLARA, ganha a sombra ESCURA (#000000) que CONTRASTA com a fonte, em qualquer fundo; nunca uma sombra clara (o #CBB396 ou o #FFFFFF do BCT-4) 'da mesma cor da fonte'"
+    },
+    {
+      "arquivo": "puros\\t_bf_decisao_texto.py",
+      "nome": "bf-decisao-texto",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: a decisao por texto (converter-com-transporte/convert-simples/nao-tocar/escape) e o escape ligado/desligado, como funcao pura sobre o fonte vivo"
+    },
+    {
+      "arquivo": "puros\\t_bf_defaults.py",
+      "nome": "bf-defaults",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros"
+    },
+    {
+      "arquivo": "puros\\t_bf_diag_orcamento.py",
+      "nome": "bf-diag-orcamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+    },
+    {
+      "arquivo": "puros\\t_bf_falha_segura.py",
+      "nome": "bf-falha-segura",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa"
+    },
+    {
+      "arquivo": "puros\\t_bf_gate_material.py",
+      "nome": "bf-gate-material",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BF-2: variante de shader nao e recusa, gate pelo efeito no material, fonte+estilo juntos e buracos fechados"
+    },
+    {
+      "arquivo": "puros\\t_bf_nao_regride.py",
+      "nome": "bf-nao-regride",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: nao regride o que o dono aprovou - a troca de fonte dos textos NORMAIS (com padding), o fallback da fonte original, o resumo da varredura e zero mudanca de gameplay"
+    },
+    {
+      "arquivo": "puros\\t_bf_preservacao.py",
+      "nome": "bf-preservacao",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: as duas listas do BetterFont - o que CopiarEstilo transporta (cores, contorno, sombra, offsets e as keywords OUTLINE_ON/UNDERLAY_ON) e o que NAO pode transportar (atlas, _GradientScale, _FaceTex, _BumpMap, GLOW_ON, BEVEL_ON)"
+    },
+    {
+      "arquivo": "puros\\t_bf_sem_acoplamento.py",
+      "nome": "bf-sem-acoplamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "TST-7: invariante 3 - o codigo do BetterFont (fonte e DLL) nao cita nome/GUID do outro mod; e o detector nao e vazio"
+    },
+    {
+      "arquivo": "puros\\t_bf_sombra_inerte.py",
+      "nome": "bf-sombra-inerte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BF-5: o CopiarEstilo so liga UNDERLAY_ON se a fonte tinha a keyword ou offset/dilate != 0 - a sombra INERTE do 'Select Attributes' (cor com alfa, keyword UNDERLAY_ON desligada e offset/dilate 0) nao volta a acender"
+    },
+    {
+      "arquivo": "puros\\t_bt10_reaper_toll.py",
+      "nome": "bt10-reaper-toll",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-10: o Reaper's Toll - o fail-safe nao escreve sem dado provado (e a 2a passada nao duplica), a % vem do ASSET e a vida maxima do valor FINAL do motor, e a linha termina em ').' sem '. (' no meio (trava da BT-10F)"
+    },
+    {
+      "arquivo": "puros\\t_bt11_hunger.py",
+      "nome": "bt11-hunger",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-11: o valor do Hunger sai da vida MAXIMA do motor e da % do asset em runtime, o parser ancora em 'health' (e nao pega a primeira % do texto), o formato termina em ').' e sem personagem/vida maxima a linha fica intacta"
+    },
+    {
+      "arquivo": "puros\\t_bt12_berserkers_blood.py",
+      "nome": "bt12-berserkers-blood",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-12/BT-12A/BT-12F: o fator do Beserker's Blood sai da formula do asset, a ancora aceita as variantes EQUIVALENTES (ordem trocada, sufixo f, parenteses, espaco) e RECUSA campo trocado, SavedMap, termo negativo e multiplicador nao-constante (tabela versionada de 17 aceitos + 15 recusados); a 'vida perdida' sai do motor e o formato fecha em ').' sem '. (' no meio (trava da BT-12F)"
+    },
+    {
+      "arquivo": "puros\\t_bt13_atributo_percentual.py",
+      "nome": "bt13-atributo-percentual",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-13: a conta do atributo em % e `final x pct / (100 + somaPercentual)` (e nao `pct por cento do final`), a familia sao 7 skills e 9 efeitos vindos do asset e os dois lados da confusao sao cobertos; fail-safe sem personagem/asset/%"
+    },
+    {
+      "arquivo": "puros\\t_bt18_passivas_inimigo.py",
+      "nome": "bt18-passivas-inimigo",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-18: a tabela da Onda 1 (4 descricoes de EnemyMod, notas sem eco e sem chave duplicada, numero sempre com procedencia no comentario), a nota IDEMPOTENTE (dois ganchos, sem duplicar), os ganchos por TIPO/por NOME com try/catch e a nota no bloco do nivel 2, e o PLACEHOLDER do Redemptive (valor ainda null, TODO) — sem numero digitado a mao"
+    },
+    {
+      "arquivo": "puros\\t_bt20_conversao_atributo.py",
+      "nome": "bt20-conversao-atributo",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BT-20: o valor de conversao de atributo em Armor/Magic Armor sai do interpretador do jogo (`ShrineAuraPatch.ValorDaExpressao` -> `Game.TryEval`), a familia sao 2 skills / 4 efeitos vindos do asset (nao de lista digitada), o fail-safe mantem a linha intacta sem personagem/avaliacao e a skill que JA rende o valor por DescriptionExpressions (token `[N]`) e PULADA (sem repeticao, revisao BT-20R)"
+    },
+    {
+      "arquivo": "puros\\t_bt34_nota_fora_do_feed.py",
+      "nome": "bt34-nota-fora-do-feed",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "a nota de Armor/Resistencia e barrada no FEED/combate por flag de contexto (Root.SendMessageWindowMessage + OverheadMessageDisplay.SpawnOverheadMessage) e continua no corpo da tooltip; o BUG-33 (4 nomes) segue protegido"
+    },
+    {
+      "arquivo": "puros\\t_bt_composicao_tooltip.py",
+      "nome": "bt-composicao-tooltip",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o prefixo remonta corpo, notas (na ordem) e a linha de auras por ULTIMO, com uma linha em branco antes de cada bloco e sem duplicar na 2a passada"
+    },
+    {
+      "arquivo": "puros\\t_bt_contra_prova.py",
+      "nome": "bt-contra-prova",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "as 7 iscas da familia de texto do BetterTooltips reprovam PELO MOTIVO CERTO e os 6 testes da suite + 6 metades OK passam"
+    },
+    {
+      "arquivo": "puros\\t_bt_guard_avaliador.py",
+      "nome": "bt-guard-avaliador",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o guard (EhAtributoPrimario) roda ANTES do indexador do motor: atributo inexistente e pulado, nunca explode"
+    },
+    {
+      "arquivo": "puros\\t_bt_regra_do_token.py",
+      "nome": "bt-regra-do-token",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "nenhuma nota (valor de TextAppends + bloco C8B090 fundido no TextFixes) carrega o token [N]; a isca plantada morde"
+    },
+    {
+      "arquivo": "puros\\t_bt_substituicao_segura.py",
+      "nome": "bt-substituicao-segura",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o funil so troca com o texto exibido == original em ingles: texto localizado, substring e mesmo-comeco ficam intactos"
+    },
+    {
+      "arquivo": "puros\\t_bt_texto_ausente.py",
+      "nome": "bt-texto-ausente",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "chave morta, expressao que nao avalia e valor nulo deixam o texto do jogo intacto e a falha e DECLARADA - nunca escrita pela metade"
+    },
+    {
+      "arquivo": "puros\\t_bt_uma_entrada_por_texto.py",
+      "nome": "bt-uma-entrada-por-texto",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "check_dupes morde a chave duplicada plantada e o --estrito trava a chave nas duas tabelas; o LocalizePatch.cs real passa nas duas"
+    },
+    {
+      "arquivo": "puros\\t_cor3_posicao.py",
+      "nome": "cor3-posicao",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "COR-3: a nota do mod e achada pelo CONTEUDO, nao pela cor - o valor de dano do motor fica na linha branca (2 skills + 1 shrine provam as duas metades)"
+    },
+    {
+      "arquivo": "puros\\t_cores_niveis.py",
+      "nome": "cores-niveis",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "procedencia datada dos 3 niveis, sanidade do nivel 2 e a cor do campo chegando ao bloco"
+    },
+    {
+      "arquivo": "puros\\t_debugger_estabilidade.py",
+      "nome": "debugger-estabilidade",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "as 7 categorias do censo continuam, as colunas de cada uma sao o prefixo do CSV versionado (nenhuma some) e toda chave lida com f.get existe no FIELD (senao a coluna vira vazia) - com isca embutida"
+    },
+    {
+      "arquivo": "puros\\t_debugger_parser_contrato.py",
+      "nome": "debugger-parser-contrato",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o censo (tools/census.py) le a linha no formato ATUAL (lido do fonte) e no ANTIGO (log versionado); `desc=` e o ultimo campo, nenhum valor tem '|' nem quebra de linha, e um campo renomeado vira vazio (isca)"
+    },
+    {
+      "arquivo": "puros\\t_debugger_reflexao_cast.py",
+      "nome": "debugger-reflexao-cast",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "um tipo concreto NOVO de IEffectInfo sai no dump por REFLEXAO (sem recompilar) e o cast `as GeneralEffect` perde o dado em silencio; o fonte vivo le por reflexao e publica o Nome do tipo (isca embutida)"
+    },
+    {
+      "arquivo": "puros\\t_debugger_saneamento.py",
+      "nome": "debugger-saneamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "Limpa/Valor saneiam '|', aspas, quebra de linha, vazio e nulo; o marcador `!erro:` e seguro; um '|' no valor trunca o campo no parser real; campos ausentes viram vazio e o Summon nao tem desc (isca embutida)"
+    },
+    {
+      "arquivo": "puros\\t_deploy_optin_guarda.py",
+      "nome": "deploy-optin-guarda",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "a guarda do opt-in de deploy aceita o valido e reprova os dois furaos (Condition multi-linha e alvo de outro nome)"
+    },
+    {
+      "arquivo": "puros\\t_deploy_optin_repo.py",
+      "nome": "deploy-optin-repo",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "os csproj reais exigem o opt-in de deploy: Directory.Build.props desliga por padrao, nenhum alvo escreve no perfil sem Condition, e o DeployToScripts do ReloadProbe esta coberto"
+    },
+    {
+      "arquivo": "puros\\t_exemplo_soma_aura.py",
+      "nome": "soma-aura",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "escala de aura de shrine confere com o motor (22 cenarios + auditoria da fixture)"
+    },
+    {
+      "arquivo": "puros\\t_formato6_check_patches_janela.py",
+      "nome": "formato6-check-patches-janela",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "FORMATO-6: a janela de 2000 chars do check_patches (regra 2) e recorte estrutural (recorte.py, falha alta) — o retoque inofensivo nao quebra e o defeito real continua pego, sem mudar nenhum veredito no repo"
+    },
+    {
+      "arquivo": "puros\\t_formato7_faixa_recorte.py",
+      "nome": "formato7-faixa-recorte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "FORMATO-7: o recorte estrutural devolve a FAIXA (inicio, fim) alem do texto — as duas formas dao o mesmo recorte, a faixa fecha o furo da reconstrucao por texto e um retoque inofensivo nao quebra nenhuma das duas"
+    },
+    {
+      "arquivo": "puros\\t_formato8_casadores_locais.py",
+      "nome": "formato8-casadores-locais",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "FORMATO-8: os casadores de chave locais do regras_bf/regras_bct delegam ao recorte.py — chave em literal de string nao quebra e metodo sem fechamento FALHA ALTO; o recorte do fonte vivo e byte a byte o estrutural (veredito igual)"
+    },
+    {
+      "arquivo": "puros\\t_formato9_janela_aura.py",
+      "nome": "formato9-janela-aura",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "FORMATO-9: a base da aura no asset exige UMA formula do eixo documentado na janela (0 ou >1 base distinta -> SystemExit); a 1a nao vence em silencio"
+    },
+    {
+      "arquivo": "puros\\t_formato_notas.py",
+      "nome": "formato-notas",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RV-17 + BANCADA-1/2: a linha em branco EXATA e a ORDEM dos blocos (1 e 2 notas, nivel 3 por ultimo, ataque basico primeiro nas invocacoes) - a bancada reproduz o texto do jogo (as 2 quebras da l.1470+1536 antes do AP Cost) e o checador libera SO a PRIMEIRA linha de custo de cada caminho (a linha em branco antes do Range reprova)"
+    },
+    {
+      "arquivo": "puros\\t_nivel3_sinergia.py",
+      "nome": "nivel3-sinergia",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "NIV3-1: o bloco de nivel 3 da SINERGIA (Your skills on this status) passa pelo laco do prefixo e vai para o FIM — a linha azul deixa de ficar atras da nota remanejada, e as auras de shrine saem identicas"
+    },
+    {
+      "arquivo": "puros\\t_nivel3_texto.py",
+      "nome": "nivel3-texto",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "NIV3-2: o TEXTO da linha de nivel 3 (sinergia) preso pela FONTE — o prefixo, a juncao de skills/itens e o SINAL nos dois casos (U+2212 no negativo, nao hifen); o sinal invertido e o hifen REPROVAM"
+    },
+    {
+      "arquivo": "puros\\t_parser_comentario_na_chave.py",
+      "nome": "parser-comentario-na-chave",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "PARSER-1: o parser VE a chave com comentario de LINHA e de BLOCO entre a abertura e a chave (o regex antigo nao via) e os OITO consumidores usam tabelas.py"
+    },
+    {
+      "arquivo": "puros\\t_pkg4_versao_4_lugares.py",
+      "nome": "pkg4-versao-4-lugares",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o parser le a linha '- **Version:** x.y.z' do README (e so ela), o repo vivo bate nos 4 lugares, a divergencia plantada da exit 1 no check_versoes.py e o sincronizar reescreve SO o valor (idempotente)"
+    },
+    {
+      "arquivo": "puros\\t_pkg5_dep_publicada_passa.py",
+      "nome": "pkg5-dep-publicada-passa",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "dependencia para versao ja publicada resolve sem ordem (externa e de mod deste repo); trocar por versao inexistente reprova"
+    },
+    {
+      "arquivo": "puros\\t_pkg5_dep_versao_inexistente_reprova.py",
+      "nome": "pkg5-dep-versao-inexistente-reprova",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "dependencia para versao que nao existe NAO resolve (No matching package found); a mesma dependencia numa versao publicada resolve"
+    },
+    {
+      "arquivo": "puros\\t_pkg5_mao_dupla_reprova.py",
+      "nome": "pkg5-mao-dupla-reprova",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "A->B e B->A, ambos ineditos, reprova como CICLO com motivo; publicar uma das pontas desfaz o ciclo"
+    },
+    {
+      "arquivo": "puros\\t_pkg5_ordem_envio.py",
+      "nome": "pkg5-ordem-envio",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BetterCombatText 0.1.1 -> BetterFont 1.0.2 (inedita) resolve com BetterFont ANTES; a direcao invertida entre as duas ineditas reprova"
+    },
+    {
+      "arquivo": "puros\\t_prova_de_fogo.py",
+      "nome": "prova-de-fogo",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o runner reprova a isca (e pelo motivo certo) e aprova o mesmo teste corrigido"
+    },
+    {
+      "arquivo": "puros\\t_recorte_estrutural.py",
+      "nome": "recorte-estrutural",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "FORMATO-3: o recorte de fonte e estrutural (casamento de chaves, literal-aware, falha alta) e resiste ao retoque inofensivo sem deixar passar o defeito real"
+    },
+    {
+      "arquivo": "puros\\t_rel3_release_check_sem_deploy.py",
+      "nome": "rel3-release-check-sem-deploy",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o release-check nao builda sem a flag, o opt-in so sai no modo explicito, a guarda roda antes e a mensagem de perfil intacto e medida, nao afirmada"
+    },
+    {
+      "arquivo": "puros\\t_rstv11_atalho_f10.py",
+      "nome": "rstv11-atalho-f10",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-11a: o atalho (F10 por padrao, configuravel) replica os guards do KeybindManager e so abre pelo despacho do botao; o defeito 'sem guard de chat' reprova"
+    },
+    {
+      "arquivo": "puros\\t_rstv11b_botao_janela_levelup.py",
+      "nome": "rstv11b-botao-janela-levelup",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-11b: o botao 'Skills' nasce DENTRO do SkillSelectWindow (fora do Content, sem reflow), o Ensure e idempotente por janela e o re-parent da RSTV-9 foi aposentado; os defeitos 'sem idempotencia' e 'clone no Content' reprovam"
+    },
+    {
+      "arquivo": "puros\\t_rstv12_onclick_roteamento.py",
+      "nome": "rstv12-onclick-roteamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-12: o clique dos botoes 'Skills' (HUD ping e janela do level-up) chega ao RunButton.OpenForTarget — a limpeza troca a INSTANCIA do evento para descartar o onClick persistente do prefab; o modelo reprova o clique que cai no original"
+    },
+    {
+      "arquivo": "puros\\t_rstv13_gate_mapa.py",
+      "nome": "rstv13-gate-mapa",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-13: no MAPA-MUNDO os portoes de batalha (turno/spawn/mira/animacao) nao escondem o botao; em BATALHA cada um continua bloqueando, e o defeito 'batalha valendo no mapa' reprova"
+    },
+    {
+      "arquivo": "puros\\t_rstv14_botao_ciclo_levelup.py",
+      "nome": "rstv14-botao-ciclo-levelup",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-14: o botao 'Skills' da janela do level-up segue o ciclo de vida — some nos estagios que nao sao de skills (deixa de 'voar' no level-up attributes), volta re-ancorado e nao e injetado fora de hora; a arvore read-only some de OpenedWindows no Close (o botao do HUD VOLTA)"
+    },
+    {
+      "arquivo": "puros\\t_rstv16_aba_arvores.py",
+      "nome": "rstv16-aba-arvores",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-16: a aba 'All Skill Trees' entra no array publico MenuTabs, o conteudo vem de Game.Instance.Skills (todas as classes menos Bard/Basic/Innate, com DLC), o read-only vem da sessao e a janela separada (ZOrder/LifecycleBlock/AjustarZOrder) foi aposentada; os defeitos 'Bard incluido', 'aba fora do array' e 'predicado fraco' reprovam"
+    },
+    {
+      "arquivo": "puros\\t_rstv18_escala_nos.py",
+      "nome": "rstv18-escala-nos",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-18: os nos da arvore vivem no container 'RstvNodeContainer' (o 'Skill Item Container' nativo) em escala 1.7x -> no de 45.9u e pitch 79.9/56.1u; sem o frame (escala 1.0) o no cai para 27u e a checagem REPROVA"
+    },
+    {
+      "arquivo": "puros\\t_rstv19_posicao_nos.py",
+      "nome": "rstv19-posicao-nos",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-19: o container dos nos e posicionado no centro da JANELA + 26.7 (como o 'Skill Item Container' nativo), nao no centro da area ~64u abaixo — sem a compensacao os nos caem no rodape (folga < meio no) e a checagem REPROVA"
+    },
+    {
+      "arquivo": "puros\\t_rstv21_janela_propria.py",
+      "nome": "rstv21-janela-propria",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-21: o clique do botao do modal abre uma JANELA read-only PROPRIA (Canvas overlay escalado como o jogo) com TODAS as arvores, sem depender do inventario; a janela segue o dono (fecha quando o modal sai), o tooltip do jogo sobe acima dela e nenhum arquivo tem caminho de escrita no personagem"
+    },
+    {
+      "arquivo": "puros\\t_rstv26_tooltip_personagem.py",
+      "nome": "rstv26-tooltip-personagem",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-26: o hover da janela read-only passa o personagem do MODAL (ReadOnlySession.Target) ao ShowSkillTooltip, com `showCanLevelDetail: false`; o motor resolve o '*N'/'[N]' contra ele (sem o TooltipCharacter null) e o alvo null cai no comportamento antigo — o defeito SEM o alvo explicito republica o '*0'"
+    },
+    {
+      "arquivo": "puros\\t_rstv8_gate_levelup.py",
+      "nome": "rstv8-gate-levelup",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RSTV-8: o level-up libera o botao pelo SkillSelectWindow, o alvo sai do manager e o defeito antigo reprova"
+    },
+    {
+      "arquivo": "puros\\t_rv18_atributo_runtime.py",
+      "nome": "rv18-atributo-runtime",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RV-18: as 5 notas de 'Effects per point' dos powerups de ATRIBUTO saem da tabela AttributePowerupNotes (com os {Campo}) resolvidas em runtime pelo GlobalSettings antes de anexar — nenhum token sai CRU (token sem campo derruba a nota inteira), sem chave duplicada (INC-1) e com a delegacao do BuildAttributeEffects presa no fonte"
+    },
+    {
+      "arquivo": "puros\\t_rv30_shrine_fonte.py",
+      "nome": "rv30-shrine-fonte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RV-30: o bonus do ShrineEffectBonus NAO entra nas duas auras de PERIGO — o fonte nao escreve em `__2.Source`, as 4 avaliacoes de Decay/Flame usam a constante SEM fator com `Source` = null, e as 9 de BUFF continuam com o receptor (o motor le `Target[...]`)"
+    },
+    {
+      "arquivo": "puros\\t_rv50_shrine_personagem.py",
+      "nome": "rv50-shrine-personagem",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "RV-50: `Receptor` le o PERSONAGEM SOB O CURSOR antes do selecionado (o inimigo sai no tooltip DELE), exclui o tooltip do SHRINE e mantem os fallbacks - a linha nao mostra mais os valores de outro personagem"
+    },
+    {
+      "arquivo": "puros\\t_shrine_contra_prova.py",
+      "nome": "shrine-contra-prova",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "as 6 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 5 testes da suite passam"
+    },
+    {
+      "arquivo": "puros\\t_shrine_dois_personagens.py",
+      "nome": "shrine-dois-personagens",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "a MESMA aura viva em mais de um personagem conta 1x POR PERSONAGEM (a lista viva e a do receptor), com o bonus de cada um"
+    },
+    {
+      "arquivo": "puros\\t_shrine_excesso_agregado.py",
+      "nome": "shrine-excesso-agregado",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "linha agregada: aura repetida conta 1x (Dodge +120% -> +40%), auras somam, Dwarven nunca some"
+    },
+    {
+      "arquivo": "puros\\t_shrine_excesso_bonus.py",
+      "nome": "shrine-excesso-bonus",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "cadeia do ShrineEffectBonus (0/8/20/50/100 + combinacoes) e a escala das auras"
+    },
+    {
+      "arquivo": "puros\\t_shrine_excesso_dano.py",
+      "nome": "shrine-excesso-dano",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "dano do Flame/Decay: minimo 1 so no Flame, vida maxima 3/100, half-to-even e um alvo por item"
+    },
+    {
+      "arquivo": "puros\\t_shrine_excesso_formatacao.py",
+      "nome": "shrine-excesso-formatacao",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "bordas de formato: Ceil da ficha, .5, -0.4, inteiro sem .0, um % por rotulo e U+2212"
+    },
+    {
+      "arquivo": "puros\\t_shrine_piso_cru.py",
+      "nome": "shrine-piso-cru",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "MAN-2/REV-47: o marcador publica o PISO (HasMin/MinValue) e o valor CRU antes do corte, e o conferidor le os dois"
+    },
+    {
+      "arquivo": "puros\\t_trava_artefato_fonte.py",
+      "nome": "trava-artefato-fonte",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "a trava REL-1 recusa a DLL mais antiga que a fonte, passa com o build em dia e ignora o gerado de obj/"
+    },
+    {
+      "arquivo": "puros\\t_trava_cor_notas_fundidas.py",
+      "nome": "trava-cor-notas-fundidas",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "a trava de cor confere TODAS as notas fundidas (inclusive as de UMA quebra) e REAGE a troca de cor — tambem com COMENTARIO DE BLOCO dentro da chave (FIX-4)"
+    }
+  ]
+}

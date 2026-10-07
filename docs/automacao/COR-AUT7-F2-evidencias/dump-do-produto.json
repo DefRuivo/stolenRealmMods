@@ -1,0 +1,471 @@
+{
+  "arquivos": [
+    "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+    "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs"
+  ],
+  "predicados_e_totais": [
+    {
+      "predicado": "' | ' in linha (separador real, com espacos)",
+      "total": 68
+    },
+    {
+      "predicado": "'desc=' in linha",
+      "total": 5
+    },
+    {
+      "predicado": "' | ' in linha or 'desc=' in linha (o predicado da correcao anterior - e o TOTAL)",
+      "total": 73
+    },
+    {
+      "predicado": "'desc=' in linha E ' | ' NOT in linha (o que o campo mal rotulado chamava de 'estrito')",
+      "total": 5
+    },
+    {
+      "predicado": "'\" | \"' in linha or 'desc=' in linha (aspas literais)",
+      "total": 5
+    }
+  ],
+  "total": 73,
+  "reconhecidas_pelo_LINE": 0,
+  "o_que_o_LINE_do_censo_reconhece": "o parser `LINE` do censo (tools/census.py) exige o formato `k=\"v\"` sem pipes: reconhece 0 linhas dos fontes C# medidos",
+  "linhas": [
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 27,
+      "texto": "/// FORMATO: os campos novos entram ANTES de desc=, porque tools/census.py casa",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 28,
+      "texto": "/// \"campo=valor\" separado por \"|\" e precisa que desc= continue por ÚLTIMO. Nenhum",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 126,
+      "texto": "$\"[Action] '{nome}' | dano={ac.DamageType} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 127,
+      "texto": "$\"nEfeitosTot={EfeitosInfo.Conta(ac.Effects)} | efTipos={efTipos} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 128,
+      "texto": "$\"efeitos={dono} | refAcao={(refAcao != null ? Limpa(refAcao.name) : \"\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 129,
+      "texto": "$\"efeitosRef={refe} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 130,
+      "texto": "$\"nEfeitos={nDono} | nEfeitosRef={nRef} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 131,
+      "texto": "$\"nSummons={(ac.Summons == null ? -1 : ac.Summons.Count)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 132,
+      "texto": "$\"refStatus={(refStatus != null ? Limpa(refStatus.Name) : \"\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 133,
+      "texto": "$\"danoExpr={Junta(ac.DamageExpressionOverrides)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 134,
+      "texto": "$\"expr={Junta(ac.DescriptionExpressions)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 135,
+      "texto": "$\"desc=\\\"{Limpa(ac.Description)}\\\"\");",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 246,
+      "texto": "$\"[ActionProps] '{nome}' | tipo={ac.ActionType} | beneficio={ac.BenefitType} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 247,
+      "texto": "$\"skillType={ac.SkillType} | nAlvos={nAlvos} | alvos={alvos} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 248,
+      "texto": "$\"alcance={(ac.UseMaxRangeOverride ? ac.MaxRangeOverride.ToString() : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 249,
+      "texto": "$\"alcanceBlast={(ac.UseMaxRangeBlastOverride ? ac.MaxRangeBlastOverride.ToString() : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 250,
+      "texto": "$\"knockback={(ac.UseKnockback ? ac.KnockbackAmount.ToString() : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 251,
+      "texto": "$\"hits={(ac.UseMultipleHits ? ac.NumHits.ToString() : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 258,
+      "texto": "$\"maxChain={ac.DashMaxChainCount} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 259,
+      "texto": "$\"colisao={(ac.KnockbackCollideAction != null ? ac.KnockbackCollideAction.name : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 260,
+      "texto": "$\"hexesAtiv={(string.IsNullOrEmpty(ac.ActivationIndicatorHexes) ? \"-\" : ac.ActivationIndicatorHexes.Replace('\\n', ','))} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 261,
+      "texto": "$\"numHitsEq={(ac.UseNumHitsEquation ? \"Sim\" : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 265,
+      "texto": "$\"chainProj={(ac.ProjectileChain ? \"Sim\" : \"Nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 266,
+      "texto": "$\"chainProjN={ac.ProjectileChainCount} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 267,
+      "texto": "$\"chainProjAlvo={Limpa(ac.ProjectileChainTarget)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 268,
+      "texto": "$\"chainMesmo={ac.ChainSameTarget} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 277,
+      "texto": "$\"chainAlvo={Limpa(ac.DashChainTarget)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 278,
+      "texto": "$\"chainMesmoAlvo={(ac.DashChainSameTarget ? \"Sim\" : \"Nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 279,
+      "texto": "$\"remocoes={(ac.StatusRemovals == null ? 0 : ac.StatusRemovals.Length)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 280,
+      "texto": "$\"remocoesP={(ac.PostActionStatusRemovals == null ? 0 : ac.PostActionStatusRemovals.Length)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 281,
+      "texto": "$\"remocao={(ac.StatusRemovals != null && ac.StatusRemovals.Length > 0 && ac.StatusRemovals[0].ActionOnRemoval != null ? Limpa(ac.StatusRemovals[0].ActionOnRemoval.name) + \"=>\" + EfeitosDe(ac.StatusRem",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 282,
+      "texto": "$\"remocaoTipo={(ac.StatusRemovals != null && ac.StatusRemovals.Length > 0 ? ac.StatusRemovals[0].BenefitType.ToString() + \"/\" + Limpa(ac.StatusRemovals[0].NumStatusesToRemove) : \"-\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 283,
+      "texto": "$\"exprHits={Limpa(ac.NumHitsEquation)} | alcanceHits={Limpa(ac.MultipleHitRange)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 284,
+      "texto": "$\"cooldown={Limpa(ac.Cooldown)} | cargas={Limpa(ac.MaxCharges)}/{Limpa(ac.InitialCharges)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 285,
+      "texto": "$\"precisa={Limpa(ac.UseCondition)} | condFalha={Limpa(ac.UseConditionFailText)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 286,
+      "texto": "$\"statusAplicados={statusAplic} | stacks={stacksTxt} | ground={groundTxt} | statusFonte={statusFonte} | chances={chances}\");",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 333,
+      "texto": "$\"[Summon] '{nome}' | sorteio={(ac.RandomSummonFromList ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 334,
+      "texto": "$\"herdaStats={(ac.BenefitFromCasterStats ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 335,
+      "texto": "$\"morreComCaster={(ac.DieWhenCasterDies ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 336,
+      "texto": "$\"persistente={(ac.IsPersistantSummon ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 337,
+      "texto": "$\"doencaDeInvocacao={(ac.HasSummoningSickness ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 477,
+      "texto": "$\"[Skill] '{sk.SkillName}' | tipo={sk.SkillType} | dano={sk.DamageType} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 478,
+      "texto": "$\"tier={sk.Tier} | tags={tags} | skid={sk.Guid} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 479,
+      "texto": "$\"passivo={(sk.IsPassive ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 480,
+      "texto": "$\"attr={ef} | acts={acts} | pstat={pstat} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 481,
+      "texto": "$\"nAttrEf={EfeitosInfo.Conta(sk.AttributeEffects)} | attrTipos={attrTipos} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 482,
+      "texto": "$\"expr={Junta(sk.DescriptionExpressions)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 483,
+      "texto": "$\"danoExpr={Junta(sk.DamageExpressionOverrides)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 484,
+      "texto": "$\"upg={Limpa(sk.UpgradeText)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 485,
+      "texto": "$\"desc=\\\"{desc.Replace(\"\\n\", \" \")}\\\"\");",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 530,
+      "texto": "$\"[Trigger] '{sk.SkillName}' | tipo={tg.TriggerType} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 531,
+      "texto": "$\"cond={Limpa(tg.Condition)} | addBasicAttack={(tg.AddBasicAttackToActionList ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 532,
+      "texto": "$\"garanteUm={(tg.GauranteeOneAction ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 533,
+      "texto": "$\"chanceIgual={(tg.GiveAllActionsEqualChance ? \"sim\" : \"nao\")} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 534,
+      "texto": "$\"chances={Junta(tg.ActionChanceEquations)} | acoes={acoesTg} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 535,
+      "texto": "$\"status={statusTg} | chancesStatus={Junta(tg.ActionStatusChanceEquations)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 536,
+      "texto": "$\"nEfeitos={(tg.GeneralEffects == null ? 0 : tg.GeneralEffects.Length)} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 376,
+      "texto": "$\"[Status] '{nome}' | tipo={tipo} | raridade={raridade} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 377,
+      "texto": "$\"efeitos={ef} | efeitosDano={efGerais} | nEfeitosDano={nGerais} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 378,
+      "texto": "$\"aura={aura} | raio={raio} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 379,
+      "texto": "$\"auraAli={auraAli} | auraIni={auraIni} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 380,
+      "texto": "$\"modelo={modelo} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 385,
+      "texto": "$\"beneficio={beneficio} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 389,
+      "texto": "$\"dur={dur} | maxStk={maxStk} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 395,
+      "texto": "$\"nEfeitosTot={nEfeitosTot} | efTipos={efTipos} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 396,
+      "texto": "$\"nAttrEf={nAttrEf} | attrTipos={attrTipos} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 397,
+      "texto": "$\"nTrig={nTrig} | trigEf={trigEf} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 411,
+      "texto": "$\"expr={expr} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 412,
+      "texto": "$\"danoExpr={danoExpr} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 413,
+      "texto": "$\"refAcao={refAcao} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 414,
+      "texto": "$\"refStatus={refStatus} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 415,
+      "texto": "$\"tick={tick} | auraSts={auraSts} | \" +",
+      "reconhecida_pelo_LINE": false
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+      "linha": 416,
+      "texto": "$\"desc=\\\"{desc}\\\"\");",
+      "reconhecida_pelo_LINE": false
+    }
+  ]
+}

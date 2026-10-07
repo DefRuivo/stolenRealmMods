@@ -1,0 +1,41 @@
+### cmd: python cic4r3_probe.py  (modulo do PRODUTO, 65c0f3b2)
+  P8-completa-OK               estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P1-feed-vs-tooltip-DIVERGE   estado=REPROVADO       prova_runtime=False exit=1  feed_vs_tooltip=DIVERGE        prova_runtime_total=0
+      motivo: FEED e TOOLTIP divergem no personagem 'ChkRA' (feed contrib=20 total=37 | tooltip contrib=99 total=99)
+  P2-sem-tooltip               estado=NAO_EXERCITADO  prova_runtime=False exit=2  feed_vs_tooltip=SEM_TOOLTIP    prova_runtime_total=0
+      motivo: sem a superficie TOOLTIP do personagem 'ChkRA' bonus=0: o criterio e 'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca OK (lacuna TECNICA 
+  P3-tooltip-fixture           estado=NAO_EXERCITADO  prova_runtime=False exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=0
+      motivo: contra-prova (TOOLTIP) de 'ChkRA' NAO autenticada: procedencia='fixture' - o criterio 'feed vs tooltip' so fecha com a segunda superficie da MESMA rodada de run
+  P4-tooltip-outra-build       estado=INDETERMINADO   prova_runtime=False exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=0
+      motivo: contra-prova (TOOLTIP) de 'ChkRA' sem cadeia valida: observacao de OUTRA build (hash dll_sha difere da identidade da rodada)
+  P5-tooltip-outra-sessao      estado=INDETERMINADO   prova_runtime=False exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=0
+      motivo: contra-prova (TOOLTIP) de 'ChkRA' e da sessao 's9' e o FEED e da sessao 's1': superficies de rodadas diferentes nao provam o mesmo ciclo
+  P6-sem-tooltip+feed-sem-hash estado=NAO_EXERCITADO  prova_runtime=False exit=2  feed_vs_tooltip=SEM_TOOLTIP    prova_runtime_total=0
+      motivo: rotulo runtime SEM hash da build: o rotulo sozinho nao amarra aos bytes - a observacao so aprova com o hash (hash_fonte/DLL) confrontado com a identidade
+  P7-sem-tooltip+feed-hash-errado estado=INDETERMINADO   prova_runtime=False exit=2  feed_vs_tooltip=SEM_TOOLTIP    prova_runtime_total=0
+      motivo: observacao de OUTRA build (hash dll_sha difere da identidade da rodada)
+ESTADOS: ['OK', 'REPROVADO', 'NAO_EXERCITADO', 'NAO_EXERCITADO', 'INDETERMINADO', 'INDETERMINADO', 'NAO_EXERCITADO', 'INDETERMINADO']
+DIVERGENCIAS: []
+EXIT=0
+
+### cmd: python cic4r3_probe.py --modulo .../tooltips_shrines_antes.py   (bytes ANTIGOS df3258e8)
+  P8-completa-OK               estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P1-feed-vs-tooltip-DIVERGE   estado=REPROVADO       prova_runtime=False exit=1  feed_vs_tooltip=None           prova_runtime_total=1
+      motivo: FEED e TOOLTIP divergem no personagem 'ChkRA' (feed contrib=20 total=37 | tooltip contrib=99 total=99)
+  P2-sem-tooltip               estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=None           prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P3-tooltip-fixture           estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P4-tooltip-outra-build       estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P5-tooltip-outra-sessao      estado=OK              prova_runtime=True  exit=2  feed_vs_tooltip=IGUAL          prova_runtime_total=2
+      motivo: valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+  P6-sem-tooltip+feed-sem-hash estado=NAO_EXERCITADO  prova_runtime=False exit=2  feed_vs_tooltip=None           prova_runtime_total=0
+      motivo: rotulo runtime SEM hash da build: o rotulo sozinho nao amarra aos bytes - a observacao so aprova com o hash (hash_fonte/DLL) confrontado com a identidade
+  P7-sem-tooltip+feed-hash-errado estado=INDETERMINADO   prova_runtime=False exit=2  feed_vs_tooltip=None           prova_runtime_total=0
+      motivo: observacao de OUTRA build (hash dll_sha difere da identidade da rodada)
+ESTADOS: ['OK', 'REPROVADO', 'OK', 'OK', 'OK', 'OK', 'NAO_EXERCITADO', 'INDETERMINADO']
+DIVERGENCIAS: [2, 3, 4, 5]
+EXIT=1

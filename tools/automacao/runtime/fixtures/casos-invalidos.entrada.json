@@ -1,0 +1,48 @@
+{
+  "esquema": "AUT-4/1",
+  "procedencia": "fixture",
+  "rotulo_fixture": "casos-invalidos",
+  "aviso": "CONTROLE NEGATIVO: cada caso e um dado INVALIDADO que o coletor TEM de recusar. Nenhum caso aqui e observacao de runtime.",
+  "casos": [
+    {
+      "nome": "sem_procedencia",
+      "procedencia": null,
+      "observacao": {"texto_bruto": "x"},
+      "espera_erro": "procedencia",
+      "motivo": "sem rotulo de procedencia nao da para dizer se e runtime ou fixture — tem de falhar"
+    },
+    {
+      "nome": "runtime_sem_hash_nem_sessao",
+      "procedencia": "runtime",
+      "observacao": {"objeto": "Tooltip.Title", "texto_bruto": "y"},
+      "espera_erro": "hash",
+      "motivo": "alegar procedencia=runtime sem sessao nem hash de fonte e evidencia fabricada — tem de falhar"
+    },
+    {
+      "nome": "ausente_marcado_ok",
+      "procedencia": "fixture",
+      "rotulo_fixture": "caso-rotulado",
+      "observacao": {"texto_bruto": "AUSENTE", "status": "OK"},
+      "espera_erro": "lacuna",
+      "motivo": "campo AUSENTE declarado como OK viola 'AUSENTE nunca e OK' — tem de falhar"
+    },
+    {
+      "nome": "fixture_rotulada_como_runtime",
+      "procedencia": "runtime",
+      "observacao": {
+        "objeto": "Tooltip.Title",
+        "texto_bruto": "valor-de-fixture",
+        "rotulo_fixture": "observacao-fixture-exemplo"
+      },
+      "espera_erro": "hash",
+      "motivo": "fixture reetiquetada de runtime (tem rotulo de fixture, mas procedencia runtime e sem hash) — tem de falhar"
+    },
+    {
+      "nome": "runtime_hash_vazio",
+      "procedencia": "runtime",
+      "observacao": {"sessao": "s1", "hash_fonte": "", "texto_bruto": "z"},
+      "espera_erro": "hash",
+      "motivo": "hash de fonte vazio nao identifica build — tem de falhar"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+### cmd: python tools/automacao/cenarios/tooltips_shrines.py --observacoes tools/automacao/cenarios/shrines-observacoes.exemplo.json
+==============================================================================
+CIC-4 tooltips/shrines - avaliador por personagem
+  observacoes: tools/automacao/cenarios/shrines-observacoes.exemplo.json
+  identidade suficiente: False
+==============================================================================
+  [OK]      S-dois-personagens-rogue/receptor/bonus=0    fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-dois-personagens-rogue/source/bonus=100    fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-dois-personagens-dwarven/chkdw0/bonus=0    fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-dois-personagens-dwarven/chkdw20/bonus=20  fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-dois-personagens-dwarven/chkdw/bonus=100   fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-perigo-flame/ChkGob/bonus=100              fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1)
+  [OK]      S-regressao-bug34-armor                      regressao OK: a nota de Armor NAO voltou ao FEED (fixture: avalia o avaliador; NAO prova runtime (a decisao separa fixture de prova - CICLO-VALIDACAO-escopo.md, contrato v1))
+
+== RESULTADO ==
+  OK=7, REPROVADO=0, NAO_EXERCITADO=0, INDETERMINADO=0
+  com prova runtime: 0  · exit=2
+EXIT=2

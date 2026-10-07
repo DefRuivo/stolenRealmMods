@@ -1,0 +1,195 @@
+### cmd: python tools/automacao/ciclo/test_decisao.py   (consumidor CIC-2)
+RESULTADO|PASSOU|sem criterios -> nao pronto|
+RESULTADO|PASSOU|sem criterios -> resumo.criterios == 0|
+RESULTADO|PASSOU|sem criterios -> falhas vazias|
+RESULTADO|PASSOU|sem criterios -> contrato presente|
+RESULTADO|PASSOU|sem criterios -> aceite NAO_PRONUNCIADO|
+RESULTADO|PASSOU|sem criterios -> publicacao NAO_VERIFICADO|
+RESULTADO|PASSOU|offline real OK -> prova vinculante|
+RESULTADO|PASSOU|offline real OK -> classificacao OK_VINCULANTE|
+RESULTADO|PASSOU|offline real OK -> pronto para decisao|
+RESULTADO|PASSOU|offline real OK -> sem falhas|
+RESULTADO|PASSOU|offline real OK -> sem pendencia humana|
+RESULTADO|PASSOU|offline real OK -> mod estado OK|
+RESULTADO|PASSOU|runtime real OK com cadeia completa -> vinculante|
+RESULTADO|PASSOU|runtime real OK com cadeia completa -> pronto|
+RESULTADO|PASSOU|runtime real OK com cadeia completa -> sem falhas|
+RESULTADO|PASSOU|CIC2R: prova_runtime=False NUNCA vinculante|
+RESULTADO|PASSOU|CIC2R: prova_runtime=False -> falha automatica (nao OK_VINCULANTE)|
+RESULTADO|PASSOU|CIC2R: prova_runtime=False nao vai ao humano|
+RESULTADO|PASSOU|CIC2R: prova_runtime=False -> nao pronto|
+RESULTADO|PASSOU|runtime OK sem prova_runtime/sessao -> NAO vinculante|
+RESULTADO|PASSOU|runtime OK sem cadeia -> falha automatica|
+RESULTADO|PASSOU|runtime OK sem cadeia -> nao vai ao humano|
+RESULTADO|PASSOU|runtime OK sem cadeia -> motivo nomeia a cadeia|
+RESULTADO|PASSOU|runtime com fonte_sha de outra build -> NAO vinculante|
+RESULTADO|PASSOU|runtime com fonte divergente -> falha automatica|
+RESULTADO|PASSOU|runtime com fonte divergente -> nao pronto|
+RESULTADO|PASSOU|runtime com sessao divergente -> NAO vinculante|
+RESULTADO|PASSOU|runtime com sessao divergente -> falha automatica|
+RESULTADO|PASSOU|config relevante sem config_sha -> NAO vinculante|
+RESULTADO|PASSOU|config relevante sem config_sha -> falha automatica|
+RESULTADO|PASSOU|config_sha confirmado pela identidade -> vinculante|
+RESULTADO|PASSOU|evidencia difere do manifest da coleta -> NAO vinculante|
+RESULTADO|PASSOU|evidencia difere do manifest -> falha automatica|
+RESULTADO|PASSOU|evidencia coerente com o manifest -> vinculante|
+RESULTADO|PASSOU|runtime com evidencia ausente -> NAO vinculante|
+RESULTADO|PASSOU|runtime com evidencia ausente -> falha automatica|
+RESULTADO|PASSOU|OK sem evidencia -> NAO vinculante|
+RESULTADO|PASSOU|OK sem evidencia -> falha automatica|
+RESULTADO|PASSOU|OK sem evidencia -> nao pronto|
+RESULTADO|PASSOU|OK sem evidencia -> falha nao vai ao humano|
+RESULTADO|PASSOU|evidencia ausente -> falha automatica|
+RESULTADO|PASSOU|evidencia ausente -> prova false|
+RESULTADO|PASSOU|evidencia ausente -> motivo menciona evidencia|
+RESULTADO|PASSOU|evidencia ausente -> nao pronto|
+RESULTADO|PASSOU|fixture -> NAO_CONTA_COMO_PROVA|
+RESULTADO|PASSOU|fixture -> prova false|
+RESULTADO|PASSOU|fixture -> nao pronto|
+RESULTADO|PASSOU|fixture sozinha -> falha automatica sintetica (sem prova real)|
+RESULTADO|PASSOU|fixture REPROVADA -> falha automatica|
+RESULTADO|PASSOU|hash de bytes antigos -> prova false|
+RESULTADO|PASSOU|hash de bytes antigos -> falha automatica|
+RESULTADO|PASSOU|hash de bytes antigos -> motivo de bytes antigos|
+RESULTADO|PASSOU|hash de bytes antigos -> nao pronto|
+RESULTADO|PASSOU|hash nao confirmado pela identidade -> falha automatica|
+RESULTADO|PASSOU|hash nao confirmado -> nao vinculante|
+RESULTADO|PASSOU|hash de config confirmado -> vinculante|
+RESULTADO|PASSOU|identidade insuficiente -> prova false|
+RESULTADO|PASSOU|identidade insuficiente -> falha automatica|
+RESULTADO|PASSOU|identidade insuficiente -> nao pronto|
+RESULTADO|PASSOU|offline NAO_EXERCITADO -> falha automatica|
+RESULTADO|PASSOU|offline NAO_EXERCITADO -> NAO vai ao humano|
+RESULTADO|PASSOU|offline NAO_EXERCITADO -> nao pronto|
+RESULTADO|PASSOU|runtime NE lacuna tecnica -> falha automatica|
+RESULTADO|PASSOU|runtime NE lacuna tecnica -> NAO vai ao humano|
+RESULTADO|PASSOU|runtime NE lacuna tecnica -> volta na fila de agente|
+RESULTADO|PASSOU|runtime NE lacuna tecnica -> nao pronto|
+RESULTADO|PASSOU|autorizacao_necessaria=true -> pendencia humana|
+RESULTADO|PASSOU|autorizacao explicita -> tipo autorizacao|
+RESULTADO|PASSOU|autorizacao explicita -> instrucao concreta|
+RESULTADO|PASSOU|autorizacao explicita -> agrega o criterio|
+RESULTADO|PASSOU|autorizacao explicita -> sem falha automatica|
+RESULTADO|PASSOU|autorizacao explicita -> pronto p/ decisao|
+RESULTADO|PASSOU|tipo_pendencia=julgamento_visual -> pendencia humana|
+RESULTADO|PASSOU|tipo_pendencia=julgamento_visual -> tipo julgamento_visual|
+RESULTADO|PASSOU|tipo_pendencia=julgamento_visual -> instrucao preservada|
+RESULTADO|PASSOU|runtime NE sem sinal -> NAO vai ao humano|
+RESULTADO|PASSOU|runtime NE sem sinal -> falha automatica|
+RESULTADO|PASSOU|runtime OK com julgamento -> ainda vinculante|
+RESULTADO|PASSOU|runtime OK com julgamento -> pendencia humana visual|
+RESULTADO|PASSOU|runtime OK com julgamento -> pronto|
+RESULTADO|PASSOU|julgamento visual -> pendencia humana|
+RESULTADO|PASSOU|instrucao especifica preservada no criterio normalizado|
+RESULTADO|PASSOU|instrucao especifica aparece no roteiro|
+RESULTADO|PASSOU|prova tecnica ainda vinculante|
+RESULTADO|PASSOU|REPROVADO -> falha automatica|
+RESULTADO|PASSOU|REPROVADO -> mod estado REPROVADO|
+RESULTADO|PASSOU|REPROVADO -> nao pronto|
+RESULTADO|PASSOU|por_mod separa os mods|
+RESULTADO|PASSOU|por_mod BetterTooltips com falha|
+RESULTADO|PASSOU|por_mod RSTV com pendencia|
+RESULTADO|PASSOU|offline NE nao aparece no roteiro humano|
+RESULTADO|PASSOU|autorizacao explicita aparece no roteiro humano|
+RESULTADO|PASSOU|offline NE vira falha automatica|
+RESULTADO|PASSOU|aceite pronunciado|
+RESULTADO|PASSOU|aceite NAO muda pronto_para_decisao|
+RESULTADO|PASSOU|aceite com falha -> inconsistente|
+RESULTADO|PASSOU|publicacao continua NAO_VERIFICADO|
+RESULTADO|PASSOU|roteiro agrega por mod+tipo|
+RESULTADO|PASSOU|roteiro tem no maximo 1 item por mod+tipo|
+RESULTADO|PASSOU|roteiro autorizacao conta 2 criterios|
+RESULTADO|PASSOU|roteiro nao e o checklist completo (menos itens que criterios)|
+RESULTADO|PASSOU|malformado -> falha automatica|
+RESULTADO|PASSOU|malformado -> nao pronto|
+RESULTADO|PASSOU|hash de cadeia aninhado divergente -> falha tecnica (nao OK)|
+RESULTADO|PASSOU|manifest do criterio nao sobrescreve o da coleta -> falha tecnica (nao OK)|
+RESULTADO|PASSOU|CONTRATO: identidade sem sessao ainda vincula (CIC-2-correcao.md regra 2)|
+RESULTADO|PASSOU|CONTRATO: evidencia por caminho do artefato lido ainda vincula|
+RESULTADO|PASSOU|agregacao preserva as DUAS instrucoes no roteiro|
+RESULTADO|PASSOU|agregacao mantem rastreio por criterio|
+RESULTADO|PASSOU|rstv real sem coleta -> somente agentes|
+RESULTADO|PASSOU|tooltips_shrines real sem coleta -> somente agentes|
+RESULTADO|PASSOU|RSTV real + manifest AUT4 -> positivo do contrato|
+RESULTADO|PASSOU|mesma rodada apos alterar a evidencia -> nao pronto|
+RESULTADO|PASSOU|CLI positivo exit 0|exit=0
+RESULTADO|PASSOU|CLI positivo emite JSON parseavel|{
+  "esquema": "CIC-2/1",
+  "identidade": {
+    "fonte_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+RESULTADO|PASSOU|CLI positivo: pronto_para_decisao true|
+RESULTADO|PASSOU|CLI positivo: contrato completo|
+RESULTADO|PASSOU|CLI positivo: roteiro_humano presente|
+RESULTADO|PASSOU|CLI runtime com cadeia completa exit 0|exit=0
+RESULTADO|PASSOU|CLI prova_runtime=False exit 1|exit=1
+RESULTADO|PASSOU|CLI prova_runtime=False: 0 vinculantes|
+RESULTADO|PASSOU|CLI prova_runtime=False: falha automatica registrada|
+RESULTADO|PASSOU|CLI prova_runtime=False: nada no roteiro humano|
+RESULTADO|PASSOU|CLI negativo exit 1 (falha automatica)|exit=1
+RESULTADO|PASSOU|CLI negativo grava --resultado|
+RESULTADO|PASSOU|CLI sem criterios exit 2|exit=2
+RESULTADO|PASSOU|CLI criterios ausente exit 2 (nao rodou)|exit=2
+
+total: 127 | falhas: 0
+TUDO OK
+EXIT=0
+
+### cmd: python tools/automacao/ciclo/test_ciclo.py   (orquestrador CIC-1)
+test_cli_decisao_discorda_do_ciclo_e_rebaixa_aprovado (__main__.TestCLI.test_cli_decisao_discorda_do_ciclo_e_rebaixa_aprovado) ... ok
+test_cli_escalona_por_sem_progresso (__main__.TestCLI.test_cli_escalona_por_sem_progresso) ... ok
+test_cli_mudanca_de_fonte_invalida_aprovacao (__main__.TestCLI.test_cli_mudanca_de_fonte_invalida_aprovacao) ... ok
+test_cli_reprovado_gera_fila_e_exit1 (__main__.TestCLI.test_cli_reprovado_gera_fila_e_exit1) ... ok
+test_cli_reuso_snapshot_ausente_nao_aprova (__main__.TestCLI.test_cli_reuso_snapshot_ausente_nao_aprova) ... ok
+test_cli_reuso_snapshot_divergente_nao_aprova (__main__.TestCLI.test_cli_reuso_snapshot_divergente_nao_aprova) ... ok
+test_cli_segunda_rodada_detecta_invalidacao_da_anterior (__main__.TestCLI.test_cli_segunda_rodada_detecta_invalidacao_da_anterior) ... ok
+test_cli_sem_dll_nao_aprova_e_mostra_falhas (__main__.TestCLI.test_cli_sem_dll_nao_aprova_e_mostra_falhas) ... ok
+test_cli_tudo_ok_aprova_e_exit0 (__main__.TestCLI.test_cli_tudo_ok_aprova_e_exit0) ... ok
+test_cobertura_runtime_e_residual_nao_falha (__main__.TestCriteriosEFila.test_cobertura_runtime_e_residual_nao_falha) ... ok
+test_contra_prova_ok_e_reprovada (__main__.TestCriteriosEFila.test_contra_prova_ok_e_reprovada) ... ok
+test_falha_vira_item_de_fila_declarativo (__main__.TestCriteriosEFila.test_falha_vira_item_de_fila_declarativo) ... ok
+test_fila_aponta_causa_ou_desconhecido_explicito (__main__.TestCriteriosEFila.test_fila_aponta_causa_ou_desconhecido_explicito) ... ok
+test_guarda_violada_reprova (__main__.TestCriteriosEFila.test_guarda_violada_reprova) ... ok
+test_sem_identidade_build_nao_vira_ok (__main__.TestCriteriosEFila.test_sem_identidade_build_nao_vira_ok) ... ok
+test_tudo_ok_gera_fila_vazia (__main__.TestCriteriosEFila.test_tudo_ok_gera_fila_vazia) ... ok
+test_carregar_decisao_informa_presenca (__main__.TestDecisaoOpcional.test_carregar_decisao_informa_presenca) ... ok
+test_consolidar_usa_modulo_quando_existe (__main__.TestDecisaoOpcional.test_consolidar_usa_modulo_quando_existe) ... ok
+test_decisao_ausente_pode_usar_minima (__main__.TestDecisaoOpcional.test_decisao_ausente_pode_usar_minima) ... ok
+test_decisao_minima_nao_aprova_sem_dll (__main__.TestDecisaoOpcional.test_decisao_minima_nao_aprova_sem_dll) ... ok
+test_decisao_quebrada_nao_esconde_erro (__main__.TestDecisaoOpcional.test_decisao_quebrada_nao_esconde_erro) ... ok
+test_fallback_fila_existente_impede_pronto (__main__.TestDecisaoOpcional.test_fallback_fila_existente_impede_pronto) ... ok
+test_fallback_sem_modulo_preserva_lacuna_runtime_e_paridade (__main__.TestDecisaoOpcional.test_fallback_sem_modulo_preserva_lacuna_runtime_e_paridade) ... ok
+test_limite_de_numero_escalona_ao_supervisor (__main__.TestEscalonamento.test_limite_de_numero_escalona_ao_supervisor) ... ok
+test_sem_falha_nunca_escalona (__main__.TestEscalonamento.test_sem_falha_nunca_escalona) ... ok
+test_sem_progresso_abaixo_do_limite_nao_preenche_motivo (__main__.TestEscalonamento.test_sem_progresso_abaixo_do_limite_nao_preenche_motivo) ... ok
+test_sem_progresso_no_limite_escalona (__main__.TestEscalonamento.test_sem_progresso_no_limite_escalona) ... ok
+test_identidade_estavel_e_sensivel_a_bytes (__main__.TestIdentidade.test_identidade_estavel_e_sensivel_a_bytes) ... ok
+test_identidade_fail_closed_sem_git (__main__.TestIdentidade.test_identidade_fail_closed_sem_git) ... ok
+test_identidade_suficiente_exige_fonte_e_dll (__main__.TestIdentidade.test_identidade_suficiente_exige_fonte_e_dll) ... ok
+test_identidade_tem_dll_sha_quando_ha_release (__main__.TestIdentidade.test_identidade_tem_dll_sha_quando_ha_release) ... ok
+test_lock_obsoleto_de_pid_morto_e_retomado (__main__.TestLockDaArea.test_lock_obsoleto_de_pid_morto_e_retomado) ... ok
+test_lock_vivo_bloqueia_e_liberado_libera (__main__.TestLockDaArea.test_lock_vivo_bloqueia_e_liberado_libera) ... ok
+test_rodada_com_area_ocupada_nao_aprova_nem_escreve_copia (__main__.TestLockDaArea.test_rodada_com_area_ocupada_nao_aprova_nem_escreve_copia) ... ok
+test_checagem_desconhecida_nao_aprova (__main__.TestRegressaoReal.test_checagem_desconhecida_nao_aprova) ... ok
+test_copia_preserva_dist_e_rejeita_destino_interno (__main__.TestRegressaoReal.test_copia_preserva_dist_e_rejeita_destino_interno) ... ok
+test_dll_ignorada_pelo_git_invalida (__main__.TestRegressaoReal.test_dll_ignorada_pelo_git_invalida) ... ok
+test_falha_correcao_revalidacao_motor_real (__main__.TestRegressaoReal.test_falha_correcao_revalidacao_motor_real) ... ok
+test_reuso_cli_motor_real_rejeita_dll_trocada_e_ausente (__main__.TestRegressaoReal.test_reuso_cli_motor_real_rejeita_dll_trocada_e_ausente) ... ok
+test_snapshot_arquivo_novo_conta_como_divergencia (__main__.TestSnapshotReuso.test_snapshot_arquivo_novo_conta_como_divergencia) ... ok
+test_snapshot_ausente_insuficiente (__main__.TestSnapshotReuso.test_snapshot_ausente_insuficiente) ... ok
+test_snapshot_confere_aprova (__main__.TestSnapshotReuso.test_snapshot_confere_aprova) ... ok
+test_snapshot_divergente_reprova (__main__.TestSnapshotReuso.test_snapshot_divergente_reprova) ... ok
+test_fonte_nova_invalida_anterior_e_nao_e_sem_progresso (__main__.TestTentativasEInvalidacao.test_fonte_nova_invalida_anterior_e_nao_e_sem_progresso) ... ok
+test_invalidacao_durante_rodada (__main__.TestTentativasEInvalidacao.test_invalidacao_durante_rodada) ... ok
+test_resultado_aut3_precisa_ser_reescrito (__main__.TestTentativasEInvalidacao.test_resultado_aut3_precisa_ser_reescrito) ... ok
+test_sem_progresso_quando_fonte_e_falhas_iguais (__main__.TestTentativasEInvalidacao.test_sem_progresso_quando_fonte_e_falhas_iguais) ... ok
+test_verificar_resultado (__main__.TestTentativasEInvalidacao.test_verificar_resultado) ... ok
+
+----------------------------------------------------------------------
+Ran 48 tests in 23.053s
+
+OK
+EXIT=0
+
+### cmd: python tools/automacao/cenarios/test_rstv.py   (modulo vizinho CIC-3)
+RESULTADO|PASSOU|cic3-rstv|avaliador RSTV: fixture nao vira OK, lacunas nao viram OK, controles reprovam, runtime identifica
+EXIT=0

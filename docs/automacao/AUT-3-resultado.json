@@ -1,0 +1,2045 @@
+{
+  "esquema": "AUT-3/1",
+  "tarefa": "t_49075ea4",
+  "titulo": "AUT-3 bancada de revisao estatica e regressao (sem tocar no perfil)",
+  "gerado_em": "2026-10-05 15:47:35",
+  "repo": "C:\\dev\\stolen-realm",
+  "git": {
+    "head": "f526fe9b71f5e7b946c1e699612cb1e9a3a08810",
+    "branch": "ci-validate-test"
+  },
+  "nota_metodo": "Execucao REAL e offline: builds Release sem deploy dentro de um sandbox (copia do repo) com PathMap sandbox->repo; conferidores estaticos e suite no sandbox; contra-provas em copia isolada. Perfil so medido por hash. NAO abre jogo, NAO instala, NAO publica, NAO commita.",
+  "veredito": "VERDE",
+  "guarda_perfil": {
+    "intacto": true,
+    "arquivos": 28,
+    "sha_antes": {
+      "plugins/BetterCombatText/BetterCombatText.dll": "06dae5aa7b5e",
+      "plugins/BetterFont/BetterFont.dll": "2c07f5e959af",
+      "plugins/BetterStats/BetterStats.dll": "5a3c001ad424",
+      "plugins/BetterTooltips/BetterTooltips.dll": "270f311b0f7b",
+      "plugins/HybridSR-Roguelike_Scaling/CHANGELOG.md.old": "7d4300842bdd",
+      "plugins/HybridSR-Roguelike_Scaling/README.md.old": "6a4760090ec1",
+      "plugins/HybridSR-Roguelike_Scaling/icon.png.old": "336d3bf53b81",
+      "plugins/HybridSR-Roguelike_Scaling/manifest.json.old": "57077e02eecf",
+      "plugins/HybridSR-Roguelike_Scaling/scaling-chart.png.old": "ce75ab56a9a2",
+      "plugins/HybridSR-Roguelike_Scaling/stat-screen.png.old": "4d443582a368",
+      "plugins/HybridSR-Roguelike_Scaling/RoguelikeScaling/RoguelikeScaling.dll.old": "ae95f0afb735",
+      "plugins/RoguelikeClassesMod/RoguelikeClassesMod.dll": "c83d3e25b25d",
+      "plugins/RoguelikeClassesMod/classes.json": "8b7834c4d992",
+      "plugins/RoguelikeDebugger/RoguelikeDebugger.dll": "99c156799380",
+      "plugins/RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.dll": "454587a031a3",
+      "plugins/ScriptEngine/ScriptEngine.dll": "d7df5ab2c023",
+      "plugins/StolenRealmModding-StolenRealmModAPI/README.md": "9cc6ca9a04db",
+      "plugins/StolenRealmModding-StolenRealmModAPI/StolenRealmModAPI.dll.disabled": "39ca02a678cf",
+      "plugins/StolenRealmModding-StolenRealmModAPI/icon.png": "d4eb7956e559",
+      "plugins/StolenRealmModding-StolenRealmModAPI/manifest.json": "f687364a347b",
+      "config/BepInEx.cfg": "5b32b49399ce",
+      "config/bfivealive.stolenrealm.roguelikeclassesmod.cfg": "3301d389a089",
+      "config/com.bepis.bepinex.scriptengine.cfg": "40b02a0eb677",
+      "config/com.gumatos.bettercombattext.cfg": "b29b12e94984",
+      "config/com.gumatos.bettercombattext.cfg.bak-bct5": "8f7af98f4371",
+      "config/com.gumatos.betterfont.cfg": "736058fa0918",
+      "config/com.gumatos.roguelikeskilltreevisualizer.cfg": "fa506b724f8a",
+      "config/com.stolenrealm.roguelikescaling.cfg": "66724ff5285e"
+    },
+    "sha_depois": {
+      "plugins/BetterCombatText/BetterCombatText.dll": "06dae5aa7b5e",
+      "plugins/BetterFont/BetterFont.dll": "2c07f5e959af",
+      "plugins/BetterStats/BetterStats.dll": "5a3c001ad424",
+      "plugins/BetterTooltips/BetterTooltips.dll": "270f311b0f7b",
+      "plugins/HybridSR-Roguelike_Scaling/CHANGELOG.md.old": "7d4300842bdd",
+      "plugins/HybridSR-Roguelike_Scaling/README.md.old": "6a4760090ec1",
+      "plugins/HybridSR-Roguelike_Scaling/icon.png.old": "336d3bf53b81",
+      "plugins/HybridSR-Roguelike_Scaling/manifest.json.old": "57077e02eecf",
+      "plugins/HybridSR-Roguelike_Scaling/scaling-chart.png.old": "ce75ab56a9a2",
+      "plugins/HybridSR-Roguelike_Scaling/stat-screen.png.old": "4d443582a368",
+      "plugins/HybridSR-Roguelike_Scaling/RoguelikeScaling/RoguelikeScaling.dll.old": "ae95f0afb735",
+      "plugins/RoguelikeClassesMod/RoguelikeClassesMod.dll": "c83d3e25b25d",
+      "plugins/RoguelikeClassesMod/classes.json": "8b7834c4d992",
+      "plugins/RoguelikeDebugger/RoguelikeDebugger.dll": "99c156799380",
+      "plugins/RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.dll": "454587a031a3",
+      "plugins/ScriptEngine/ScriptEngine.dll": "d7df5ab2c023",
+      "plugins/StolenRealmModding-StolenRealmModAPI/README.md": "9cc6ca9a04db",
+      "plugins/StolenRealmModding-StolenRealmModAPI/StolenRealmModAPI.dll.disabled": "39ca02a678cf",
+      "plugins/StolenRealmModding-StolenRealmModAPI/icon.png": "d4eb7956e559",
+      "plugins/StolenRealmModding-StolenRealmModAPI/manifest.json": "f687364a347b",
+      "config/BepInEx.cfg": "5b32b49399ce",
+      "config/bfivealive.stolenrealm.roguelikeclassesmod.cfg": "3301d389a089",
+      "config/com.bepis.bepinex.scriptengine.cfg": "40b02a0eb677",
+      "config/com.gumatos.bettercombattext.cfg": "b29b12e94984",
+      "config/com.gumatos.bettercombattext.cfg.bak-bct5": "8f7af98f4371",
+      "config/com.gumatos.betterfont.cfg": "736058fa0918",
+      "config/com.gumatos.roguelikeskilltreevisualizer.cfg": "fa506b724f8a",
+      "config/com.stolenrealm.roguelikescaling.cfg": "66724ff5285e"
+    }
+  },
+  "guarda_repo": {
+    "intacto": true,
+    "arquivos": 78,
+    "sha_antes": {
+      "BetterCombatText/README.md": "2e661c44bac6",
+      "BetterFont/README.md": "37f47ed39d0f",
+      "BetterStats/README.md": "5ed7238dc8f6",
+      "BetterTooltips/CHANGELOG.md": "2ab42e312386",
+      "BetterTooltips/Patches/LocalizePatch.cs": "29ff26a77c07",
+      "BetterTooltips/Patches/ShrineAuraPatch.cs": "7e3bd18ac737",
+      "BetterTooltips/README.md": "fd62acf90832",
+      "README.md": "634dfc6e0e86",
+      "RoguelikeDebugger/README.md": "4646429be3fc",
+      "RoguelikeSkillTreeVisualizer/SkillTreesTab.cs": "6d9edfeee754",
+      "docs/NULL-1-varredura-fake-null.md": "2de1510b1acc",
+      "docs/PLANO-DE-TESTES.md": "d4370801771e",
+      "docs/README.md": "1008390d4a54",
+      "docs/TEXTO-TOOLTIPS.md": "8c473ac40f2a",
+      "docs/cobertura/acoes.csv": "077f69edc600",
+      "docs/cobertura/revisao/ANTES-E-DEPOIS.md": "0ff9c763ca56",
+      "docs/cobertura/revisao/CHK-1-shrines-conferencia-mecanica.md": "6b27b4b61bf4",
+      "docs/cobertura/revisao/RV-19-shrines.md": "14a601208251",
+      "docs/cobertura/revisao/RV-35-40-shrines-conferencia.md": "46648ec50187",
+      "docs/cobertura/revisao/RV-9-censo.md": "6df1d4ae1943",
+      "docs/cobertura/skills.csv": "d5557d3b898a",
+      "docs/cobertura/status.csv": "c192ad94b06d",
+      "tools/checa_shrines.py": "a000cc178b2f",
+      "tools/dados/shrines-esperado.csv": "836f2833d2ef",
+      "tools/fixtures/shrines-exemplo.log": "3d9d5a2031e4",
+      "tools/fixtures/shrines-rv46-dedupe.log": "06696792855f",
+      "tools/gera_shrines_esperado.py": "d58ee0c931fb",
+      "tools/testes/README.md": "61d9b9089cf3",
+      "tools/testes/fixtures/README.md": "99cee807a5a6",
+      "tools/testes/fixtures/excesso-shrine.entrada.json": "d4911e5a2c50",
+      "tools/testes/fixtures/excesso-shrine.esperado.json": "5d937fa193b4",
+      "tools/testes/fixtures/geradores/oraculo_excesso_shrine/Program.cs": "37fd513d50b1",
+      "tools/testes/regras_shrine.py": "1ef67649463e",
+      "tools/testes/testes/puros/t_shrine_contra_prova.py": "1be2428dbde8",
+      "tools/testes/testes/puros/t_shrine_excesso_agregado.py": "4767956c29e9",
+      "tools/testes/testes/puros/t_shrine_excesso_bonus.py": "fde0a54d8603",
+      "tools/testes/testes/puros/t_shrine_excesso_dano.py": "49c6c8150bc5",
+      "docs/cobertura/auditoria-cobertura.md": "18b92dc037ed",
+      "tools/ocr_tela.ps1": "cbb6ad4c2f83",
+      "tools/testes/contra-prova/cp_bt_composicao_idem_isca.py": "6fe95f0090a1",
+      "tools/testes/contra-prova/cp_bt_composicao_isca.py": "8867c9613f92",
+      "tools/testes/contra-prova/cp_bt_composicao_ok.py": "00ee0b3d1cbb",
+      "tools/testes/contra-prova/cp_bt_guard_isca.py": "ed7d9b2ae658",
+      "tools/testes/contra-prova/cp_bt_guard_ok.py": "586c15dfe0b5",
+      "tools/testes/contra-prova/cp_bt_substituicao_isca.py": "48b9df9730e3",
+      "tools/testes/contra-prova/cp_bt_substituicao_ok.py": "6df1466e0e8c",
+      "tools/testes/contra-prova/cp_bt_texto_ausente_isca.py": "110915407386",
+      "tools/testes/contra-prova/cp_bt_texto_ausente_ok.py": "60a50ee39f1a",
+      "tools/testes/contra-prova/cp_bt_token_isca.py": "cd8249d8ea3e",
+      "tools/testes/contra-prova/cp_bt_token_ok.py": "b9cfe7224534",
+      "tools/testes/contra-prova/cp_bt_uma_entrada_isca.py": "25547cc54cf8",
+      "tools/testes/contra-prova/cp_bt_uma_entrada_ok.py": "792beecba128",
+      "tools/testes/contra-prova/cp_rv30_source_injetado.py": "a23525b3f79e",
+      "tools/testes/debugger-prova-de-fogo.py": "1638a71fdb96",
+      "tools/testes/fixtures/shrine-dois-personagens.entrada.json": "5e2eaee4bddf",
+      "tools/testes/fixtures/shrine-dois-personagens.esperado.json": "fdba75e5578b",
+      "tools/testes/fixtures/uma-entrada-plantada.entrada.cs": "df596887d0a0",
+      "tools/testes/regras_bt_texto.py": "2e7761746371",
+      "tools/testes/regras_debugger.py": "9e1cdd00b142",
+      "tools/testes/regras_rstv26.py": "64a5d01b45a7",
+      "tools/testes/regras_rv30.py": "cb5ee0a7303c",
+      "tools/testes/regras_rv50.py": "4a5244440b79",
+      "tools/testes/testes/puros/t_bt34_nota_fora_do_feed.py": "c7805a53359e",
+      "tools/testes/testes/puros/t_bt_composicao_tooltip.py": "f3350d01b0ac",
+      "tools/testes/testes/puros/t_bt_contra_prova.py": "ee775e22176d",
+      "tools/testes/testes/puros/t_bt_guard_avaliador.py": "a2630e618cd8",
+      "tools/testes/testes/puros/t_bt_regra_do_token.py": "34d28e6e276d",
+      "tools/testes/testes/puros/t_bt_substituicao_segura.py": "d8d8ec0cc38b",
+      "tools/testes/testes/puros/t_bt_texto_ausente.py": "73cadbf959c7",
+      "tools/testes/testes/puros/t_bt_uma_entrada_por_texto.py": "09f24760979e",
+      "tools/testes/testes/puros/t_debugger_estabilidade.py": "ea76861d515a",
+      "tools/testes/testes/puros/t_debugger_parser_contrato.py": "8246f6eb9937",
+      "tools/testes/testes/puros/t_debugger_reflexao_cast.py": "9d929dd1e1f3",
+      "tools/testes/testes/puros/t_debugger_saneamento.py": "6cdc91054bf3",
+      "tools/testes/testes/puros/t_rstv26_tooltip_personagem.py": "73fb33d4e385",
+      "tools/testes/testes/puros/t_rv30_shrine_fonte.py": "769d43a14581",
+      "tools/testes/testes/puros/t_rv50_shrine_personagem.py": "448892a8a09c",
+      "tools/testes/testes/puros/t_shrine_dois_personagens.py": "cd056ae94dd4"
+    },
+    "sha_depois": {
+      "BetterCombatText/README.md": "2e661c44bac6",
+      "BetterFont/README.md": "37f47ed39d0f",
+      "BetterStats/README.md": "5ed7238dc8f6",
+      "BetterTooltips/CHANGELOG.md": "2ab42e312386",
+      "BetterTooltips/Patches/LocalizePatch.cs": "29ff26a77c07",
+      "BetterTooltips/Patches/ShrineAuraPatch.cs": "7e3bd18ac737",
+      "BetterTooltips/README.md": "fd62acf90832",
+      "README.md": "634dfc6e0e86",
+      "RoguelikeDebugger/README.md": "4646429be3fc",
+      "RoguelikeSkillTreeVisualizer/SkillTreesTab.cs": "6d9edfeee754",
+      "docs/NULL-1-varredura-fake-null.md": "2de1510b1acc",
+      "docs/PLANO-DE-TESTES.md": "d4370801771e",
+      "docs/README.md": "1008390d4a54",
+      "docs/TEXTO-TOOLTIPS.md": "8c473ac40f2a",
+      "docs/cobertura/acoes.csv": "077f69edc600",
+      "docs/cobertura/revisao/ANTES-E-DEPOIS.md": "0ff9c763ca56",
+      "docs/cobertura/revisao/CHK-1-shrines-conferencia-mecanica.md": "6b27b4b61bf4",
+      "docs/cobertura/revisao/RV-19-shrines.md": "14a601208251",
+      "docs/cobertura/revisao/RV-35-40-shrines-conferencia.md": "46648ec50187",
+      "docs/cobertura/revisao/RV-9-censo.md": "6df1d4ae1943",
+      "docs/cobertura/skills.csv": "d5557d3b898a",
+      "docs/cobertura/status.csv": "c192ad94b06d",
+      "tools/checa_shrines.py": "a000cc178b2f",
+      "tools/dados/shrines-esperado.csv": "836f2833d2ef",
+      "tools/fixtures/shrines-exemplo.log": "3d9d5a2031e4",
+      "tools/fixtures/shrines-rv46-dedupe.log": "06696792855f",
+      "tools/gera_shrines_esperado.py": "d58ee0c931fb",
+      "tools/testes/README.md": "61d9b9089cf3",
+      "tools/testes/fixtures/README.md": "99cee807a5a6",
+      "tools/testes/fixtures/excesso-shrine.entrada.json": "d4911e5a2c50",
+      "tools/testes/fixtures/excesso-shrine.esperado.json": "5d937fa193b4",
+      "tools/testes/fixtures/geradores/oraculo_excesso_shrine/Program.cs": "37fd513d50b1",
+      "tools/testes/regras_shrine.py": "1ef67649463e",
+      "tools/testes/testes/puros/t_shrine_contra_prova.py": "1be2428dbde8",
+      "tools/testes/testes/puros/t_shrine_excesso_agregado.py": "4767956c29e9",
+      "tools/testes/testes/puros/t_shrine_excesso_bonus.py": "fde0a54d8603",
+      "tools/testes/testes/puros/t_shrine_excesso_dano.py": "49c6c8150bc5",
+      "docs/cobertura/auditoria-cobertura.md": "18b92dc037ed",
+      "tools/ocr_tela.ps1": "cbb6ad4c2f83",
+      "tools/testes/contra-prova/cp_bt_composicao_idem_isca.py": "6fe95f0090a1",
+      "tools/testes/contra-prova/cp_bt_composicao_isca.py": "8867c9613f92",
+      "tools/testes/contra-prova/cp_bt_composicao_ok.py": "00ee0b3d1cbb",
+      "tools/testes/contra-prova/cp_bt_guard_isca.py": "ed7d9b2ae658",
+      "tools/testes/contra-prova/cp_bt_guard_ok.py": "586c15dfe0b5",
+      "tools/testes/contra-prova/cp_bt_substituicao_isca.py": "48b9df9730e3",
+      "tools/testes/contra-prova/cp_bt_substituicao_ok.py": "6df1466e0e8c",
+      "tools/testes/contra-prova/cp_bt_texto_ausente_isca.py": "110915407386",
+      "tools/testes/contra-prova/cp_bt_texto_ausente_ok.py": "60a50ee39f1a",
+      "tools/testes/contra-prova/cp_bt_token_isca.py": "cd8249d8ea3e",
+      "tools/testes/contra-prova/cp_bt_token_ok.py": "b9cfe7224534",
+      "tools/testes/contra-prova/cp_bt_uma_entrada_isca.py": "25547cc54cf8",
+      "tools/testes/contra-prova/cp_bt_uma_entrada_ok.py": "792beecba128",
+      "tools/testes/contra-prova/cp_rv30_source_injetado.py": "a23525b3f79e",
+      "tools/testes/debugger-prova-de-fogo.py": "1638a71fdb96",
+      "tools/testes/fixtures/shrine-dois-personagens.entrada.json": "5e2eaee4bddf",
+      "tools/testes/fixtures/shrine-dois-personagens.esperado.json": "fdba75e5578b",
+      "tools/testes/fixtures/uma-entrada-plantada.entrada.cs": "df596887d0a0",
+      "tools/testes/regras_bt_texto.py": "2e7761746371",
+      "tools/testes/regras_debugger.py": "9e1cdd00b142",
+      "tools/testes/regras_rstv26.py": "64a5d01b45a7",
+      "tools/testes/regras_rv30.py": "cb5ee0a7303c",
+      "tools/testes/regras_rv50.py": "4a5244440b79",
+      "tools/testes/testes/puros/t_bt34_nota_fora_do_feed.py": "c7805a53359e",
+      "tools/testes/testes/puros/t_bt_composicao_tooltip.py": "f3350d01b0ac",
+      "tools/testes/testes/puros/t_bt_contra_prova.py": "ee775e22176d",
+      "tools/testes/testes/puros/t_bt_guard_avaliador.py": "a2630e618cd8",
+      "tools/testes/testes/puros/t_bt_regra_do_token.py": "34d28e6e276d",
+      "tools/testes/testes/puros/t_bt_substituicao_segura.py": "d8d8ec0cc38b",
+      "tools/testes/testes/puros/t_bt_texto_ausente.py": "73cadbf959c7",
+      "tools/testes/testes/puros/t_bt_uma_entrada_por_texto.py": "09f24760979e",
+      "tools/testes/testes/puros/t_debugger_estabilidade.py": "ea76861d515a",
+      "tools/testes/testes/puros/t_debugger_parser_contrato.py": "8246f6eb9937",
+      "tools/testes/testes/puros/t_debugger_reflexao_cast.py": "9d929dd1e1f3",
+      "tools/testes/testes/puros/t_debugger_saneamento.py": "6cdc91054bf3",
+      "tools/testes/testes/puros/t_rstv26_tooltip_personagem.py": "73fb33d4e385",
+      "tools/testes/testes/puros/t_rv30_shrine_fonte.py": "769d43a14581",
+      "tools/testes/testes/puros/t_rv50_shrine_personagem.py": "448892a8a09c",
+      "tools/testes/testes/puros/t_shrine_dois_personagens.py": "cd056ae94dd4"
+    }
+  },
+  "estados_separados": {
+    "fonte": {
+      "BetterCombatText/README.md": "2e661c44bac6",
+      "BetterFont/README.md": "37f47ed39d0f",
+      "BetterStats/README.md": "5ed7238dc8f6",
+      "BetterTooltips/CHANGELOG.md": "2ab42e312386",
+      "BetterTooltips/Patches/LocalizePatch.cs": "29ff26a77c07",
+      "BetterTooltips/Patches/ShrineAuraPatch.cs": "7e3bd18ac737",
+      "BetterTooltips/README.md": "fd62acf90832",
+      "README.md": "634dfc6e0e86",
+      "RoguelikeDebugger/README.md": "4646429be3fc",
+      "RoguelikeSkillTreeVisualizer/SkillTreesTab.cs": "6d9edfeee754",
+      "docs/NULL-1-varredura-fake-null.md": "2de1510b1acc",
+      "docs/PLANO-DE-TESTES.md": "d4370801771e",
+      "docs/README.md": "1008390d4a54",
+      "docs/TEXTO-TOOLTIPS.md": "8c473ac40f2a",
+      "docs/cobertura/revisao/ANTES-E-DEPOIS.md": "0ff9c763ca56",
+      "docs/cobertura/revisao/CHK-1-shrines-conferencia-mecanica.md": "6b27b4b61bf4",
+      "docs/cobertura/revisao/RV-19-shrines.md": "14a601208251",
+      "docs/cobertura/revisao/RV-35-40-shrines-conferencia.md": "46648ec50187",
+      "docs/cobertura/revisao/RV-9-censo.md": "6df1d4ae1943",
+      "tools/testes/README.md": "61d9b9089cf3",
+      "tools/testes/fixtures/README.md": "99cee807a5a6",
+      "tools/testes/fixtures/excesso-shrine.entrada.json": "d4911e5a2c50",
+      "tools/testes/fixtures/excesso-shrine.esperado.json": "5d937fa193b4",
+      "tools/testes/fixtures/geradores/oraculo_excesso_shrine/Program.cs": "37fd513d50b1",
+      "docs/cobertura/auditoria-cobertura.md": "18b92dc037ed",
+      "tools/testes/fixtures/shrine-dois-personagens.entrada.json": "5e2eaee4bddf",
+      "tools/testes/fixtures/shrine-dois-personagens.esperado.json": "fdba75e5578b",
+      "tools/testes/fixtures/uma-entrada-plantada.entrada.cs": "df596887d0a0"
+    },
+    "release": {
+      "BetterCombatText": "06dae5aa7b5e",
+      "BetterFont": "2c07f5e959af",
+      "BetterStats": "5a3c001ad424",
+      "BetterTooltips": "270f311b0f7b",
+      "RoguelikeDebugger": "99c156799380",
+      "RoguelikeSkillTreeVisualizer": "454587a031a3"
+    },
+    "pacote": {
+      "BetterCombatText": {
+        "sha_zip": "06dae5aa7b5e",
+        "zip_igual_release": true
+      },
+      "BetterFont": {
+        "sha_zip": "2c07f5e959af",
+        "zip_igual_release": true
+      },
+      "BetterStats": {
+        "sha_zip": "5a3c001ad424",
+        "zip_igual_release": true
+      },
+      "BetterTooltips": {
+        "sha_zip": "80bba4543d2a",
+        "zip_igual_release": false
+      },
+      "RoguelikeDebugger": {
+        "sha_zip": "99c156799380",
+        "zip_igual_release": true
+      },
+      "RoguelikeSkillTreeVisualizer": {
+        "sha_zip": "c2ce4862c2fd",
+        "zip_igual_release": false
+      }
+    }
+  },
+  "builds": [
+    {
+      "id": "build_BetterCombatText",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/BetterCombatText/BetterCombatText.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 2.941,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "06dae5aa7b5e",
+      "sha_release": "06dae5aa7b5e",
+      "sha_perfil": "06dae5aa7b5e",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    },
+    {
+      "id": "build_BetterFont",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/BetterFont/BetterFont.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 2.705,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "2c07f5e959af",
+      "sha_release": "2c07f5e959af",
+      "sha_perfil": "2c07f5e959af",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    },
+    {
+      "id": "build_BetterStats",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/BetterStats/BetterStats.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 2.161,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "5a3c001ad424",
+      "sha_release": "5a3c001ad424",
+      "sha_perfil": "5a3c001ad424",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    },
+    {
+      "id": "build_BetterTooltips",
+      "mod": "BetterTooltips",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/BetterTooltips/BetterTooltips.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 1.929,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "270f311b0f7b",
+      "sha_release": "270f311b0f7b",
+      "sha_perfil": "270f311b0f7b",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    },
+    {
+      "id": "build_RoguelikeDebugger",
+      "mod": "RoguelikeDebugger",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/RoguelikeDebugger/RoguelikeDebugger.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 1.691,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "99c156799380",
+      "sha_release": "99c156799380",
+      "sha_perfil": "99c156799380",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    },
+    {
+      "id": "build_RoguelikeSkillTreeVisualizer",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "estado": "OK",
+      "comando": "dotnet build C:/Users/Pichau/AppData/Local/Temp/aut3-9elq68df/sandbox/RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj -c Release -p:DeployToBepInEx=false -p:PathMap=C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox=C:\\dev\\stolen-realm --nologo -v quiet",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 1.72,
+      "timeout": false,
+      "erro_lancamento": null,
+      "sha_sandbox": "454587a031a3",
+      "sha_release": "454587a031a3",
+      "sha_perfil": "454587a031a3",
+      "fonte_dll_provada": true,
+      "stderr_tail": ""
+    }
+  ],
+  "checagens": [
+    {
+      "id": "check_dupes",
+      "classe": "estrutura",
+      "mod": "BetterTooltips",
+      "desc": "chave duplicada nas tabelas do LocalizePatch",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_dupes.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.097,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_chave_compartilhada",
+      "classe": "estrutura",
+      "mod": "BetterTooltips",
+      "desc": "chave de texto compartilhada / nota que mente para outro dono",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_chave_compartilhada.py --estrito",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.127,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_notas_redundantes",
+      "classe": "estrutura",
+      "mod": "BetterTooltips",
+      "desc": "notas redundantes/duplicadas (REESCREVE docs/cobertura/revisao -> sandbox)",
+      "escritas_docs": true,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_notas_redundantes.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.098,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_fix_keys",
+      "classe": "estrutura",
+      "mod": "BetterTooltips",
+      "desc": "chaves de TextFixes/TextAppends contra o censo",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_fix_keys.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.074,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_segredos",
+      "classe": "estrutura",
+      "mod": "transversal",
+      "desc": "nenhuma credencial no que seria publicado",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_segredos.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 7.012,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_versoes",
+      "classe": "pacote",
+      "mod": "transversal",
+      "desc": "csproj = manifest = Plugin.cs = README",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_versoes.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.075,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_patches",
+      "classe": "estrutura",
+      "mod": "transversal",
+      "desc": "5 regras de robustez dos patches Harmony",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_patches.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.502,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_dependencias",
+      "classe": "pacote",
+      "mod": "transversal",
+      "desc": "toda dependencia de manifest resolve",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_dependencias.py --local",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.111,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "check_deploy_optin",
+      "classe": "estrutura",
+      "mod": "transversal",
+      "desc": "nenhum alvo escreve no perfil sem opt-in",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_deploy_optin.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.095,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "pacotes_preflight",
+      "classe": "pacote",
+      "mod": "transversal",
+      "desc": "pre-flight Thunderstore (artefato x fonte, nada e zipado)",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/pack-thunderstore.py --so-conferir",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.095,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    },
+    {
+      "id": "audita_docs",
+      "classe": "docs",
+      "mod": "transversal",
+      "desc": "doc x disco (contagens, ferramentas, versoes, links)",
+      "escritas_docs": false,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/audita_docs.py",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 0.516,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "detalhe": ""
+    }
+  ],
+  "suite": [
+    {
+      "id": "suite_puros",
+      "classe": "puro",
+      "desc": "suite de logica pura (CI)",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/testes/roda_testes.py --puros --json",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 38.235,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "contagem": {
+        "PASSOU": 85
+      },
+      "testes": [
+        {
+          "arquivo": "puros\\t_bct_aplicador.py",
+          "nome": "bct-aplicador",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/8: o mod aplica gancho a gancho com contagem real (sem PatchAll) e o filtro so aceita [HarmonyPatch] no TIPO - e a contra-prova da trava check_patches (filtro que exige atributo TEM de reprovar)"
+        },
+        {
+          "arquivo": "puros\\t_bct_caminho_legado.py",
+          "nome": "bct-caminho-legado",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/5: UI.Text legado recebe contorno DURO (Outline/Shadow) e o mod nao tenta material de distance field nos rotulos de status"
+        },
+        {
+          "arquivo": "puros\\t_bct_defaults.py",
+          "nome": "bct-defaults",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/3: tooltip de status DESLIGADO (Title/Description sao compartilhados com skill/item/powerup), eventos/dado LIGADO, chave mestra LIGADA; com arquivo:linha"
+        },
+        {
+          "arquivo": "puros\\t_bct_desligar.py",
+          "nome": "bct-desligar-inerte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/4: com Ativar=false nenhum gancho age - Awake sai antes de aplicar e todo postfix e guardado (direto ou por delegacao)"
+        },
+        {
+          "arquivo": "puros\\t_bct_diagnostico.py",
+          "nome": "bct-diagnostico",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado"
+        },
+        {
+          "arquivo": "puros\\t_bct_idempotencia.py",
+          "nome": "bct-idempotencia",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/2: aplicar duas vezes no mesmo componente nao acumula (registro por InstanceID no TMP e no legado, e o piso no tamanho original)"
+        },
+        {
+          "arquivo": "puros\\t_bct_precondicao_shader.py",
+          "nome": "bct-precondicao-shader",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/7: o efeito confirma a precondicao do shader (HasProperty _OutlineWidth/_UnderlaySoftness) antes de aplicar, em vez de confiar por nome/variante"
+        },
+        {
+          "arquivo": "puros\\t_bct_regra_de_ouro.py",
+          "nome": "bct-regra-de-ouro",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/1: o material e sempre a copia por componente - o IL da DLL do pacote nao referencia setter de material e o fonte so le o compartilhado"
+        },
+        {
+          "arquivo": "puros\\t_bct_sem_acoplamento.py",
+          "nome": "bct-sem-acoplamento",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-8/9: do lado do BCT, o codigo e a DLL nao citam o BetterFont (nem escrevem no material dele) - a ligacao e so o material por componente da frente"
+        },
+        {
+          "arquivo": "puros\\t_bct_sem_vazamento_no_levelup.py",
+          "nome": "bct-sem-vazamento-no-levelup",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "R2: o BCT fica nas 7 superficies dele e NAO patcheia nem cita a janela do level-up (RoguelikeManager/SectionLabelText) - a sombra do 'Select Attributes' e do BetterFont (underlay inerte com o keyword desligado), nao do BCT"
+        },
+        {
+          "arquivo": "puros\\t_bct_sombra_adaptativa.py",
+          "nome": "bct-sombra-adaptativa",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BCT-2: sombra ADAPTATIVA (cor -> luminancia -> balde -> hex): letra escura ganha #CBB396, letra clara ganha #000000, inclusive no REUSO do componente sem re-instancia"
+        },
+        {
+          "arquivo": "puros\\t_bct_sombra_contraste_letra.py",
+          "nome": "bct-sombra-contraste-letra",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BCT-4/BCT-5: a sombra CONTRASTA com a LETRA - ela fica do LADO OPOSTO da luminancia da fonte (fonte CLARA -> sombra ESCURA; fonte ESCURA -> sombra CLARA) em toda a paleta e em todo Fundo; o nome do inimigo (#CBB396, letra CLARA) ganha a sombra ESCURA #000000, nunca uma sombra clara 'da mesma cor da fonte'"
+        },
+        {
+          "arquivo": "puros\\t_bct_sombra_polaridade_fonte.py",
+          "nome": "bct-sombra-polaridade-fonte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'"
+        },
+        {
+          "arquivo": "puros\\t_bct_sombra_visivel_fundo_escuro.py",
+          "nome": "bct-sombra-visivel-fundo-escuro",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BCT-3/BCT-4/BCT-5: o FUNDO propoe e a LETRA VETA - a letra bege #CBB396 (o nome do inimigo), sendo CLARA, ganha a sombra ESCURA (#000000) que CONTRASTA com a fonte, em qualquer fundo; nunca uma sombra clara (o #CBB396 ou o #FFFFFF do BCT-4) 'da mesma cor da fonte'"
+        },
+        {
+          "arquivo": "puros\\t_bf_decisao_texto.py",
+          "nome": "bf-decisao-texto",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: a decisao por texto (converter-com-transporte/convert-simples/nao-tocar/escape) e o escape ligado/desligado, como funcao pura sobre o fonte vivo"
+        },
+        {
+          "arquivo": "puros\\t_bf_defaults.py",
+          "nome": "bf-defaults",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros"
+        },
+        {
+          "arquivo": "puros\\t_bf_diag_orcamento.py",
+          "nome": "bf-diag-orcamento",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+        },
+        {
+          "arquivo": "puros\\t_bf_falha_segura.py",
+          "nome": "bf-falha-segura",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa"
+        },
+        {
+          "arquivo": "puros\\t_bf_gate_material.py",
+          "nome": "bf-gate-material",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BF-2: variante de shader nao e recusa, gate pelo efeito no material, fonte+estilo juntos e buracos fechados"
+        },
+        {
+          "arquivo": "puros\\t_bf_nao_regride.py",
+          "nome": "bf-nao-regride",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: nao regride o que o dono aprovou - a troca de fonte dos textos NORMAIS (com padding), o fallback da fonte original, o resumo da varredura e zero mudanca de gameplay"
+        },
+        {
+          "arquivo": "puros\\t_bf_preservacao.py",
+          "nome": "bf-preservacao",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: as duas listas do BetterFont - o que CopiarEstilo transporta (cores, contorno, sombra, offsets e as keywords OUTLINE_ON/UNDERLAY_ON) e o que NAO pode transportar (atlas, _GradientScale, _FaceTex, _BumpMap, GLOW_ON, BEVEL_ON)"
+        },
+        {
+          "arquivo": "puros\\t_bf_sem_acoplamento.py",
+          "nome": "bf-sem-acoplamento",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "TST-7: invariante 3 - o codigo do BetterFont (fonte e DLL) nao cita nome/GUID do outro mod; e o detector nao e vazio"
+        },
+        {
+          "arquivo": "puros\\t_bf_sombra_inerte.py",
+          "nome": "bf-sombra-inerte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BF-5: o CopiarEstilo so liga UNDERLAY_ON se a fonte tinha a keyword ou offset/dilate != 0 - a sombra INERTE do 'Select Attributes' (cor com alfa, keyword UNDERLAY_ON desligada e offset/dilate 0) nao volta a acender"
+        },
+        {
+          "arquivo": "puros\\t_bt10_reaper_toll.py",
+          "nome": "bt10-reaper-toll",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-10: o Reaper's Toll - o fail-safe nao escreve sem dado provado (e a 2a passada nao duplica), a % vem do ASSET e a vida maxima do valor FINAL do motor, e a linha termina em ').' sem '. (' no meio (trava da BT-10F)"
+        },
+        {
+          "arquivo": "puros\\t_bt11_hunger.py",
+          "nome": "bt11-hunger",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-11: o valor do Hunger sai da vida MAXIMA do motor e da % do asset em runtime, o parser ancora em 'health' (e nao pega a primeira % do texto), o formato termina em ').' e sem personagem/vida maxima a linha fica intacta"
+        },
+        {
+          "arquivo": "puros\\t_bt12_berserkers_blood.py",
+          "nome": "bt12-berserkers-blood",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-12/BT-12A/BT-12F: o fator do Beserker's Blood sai da formula do asset, a ancora aceita as variantes EQUIVALENTES (ordem trocada, sufixo f, parenteses, espaco) e RECUSA campo trocado, SavedMap, termo negativo e multiplicador nao-constante (tabela versionada de 17 aceitos + 15 recusados); a 'vida perdida' sai do motor e o formato fecha em ').' sem '. (' no meio (trava da BT-12F)"
+        },
+        {
+          "arquivo": "puros\\t_bt13_atributo_percentual.py",
+          "nome": "bt13-atributo-percentual",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-13: a conta do atributo em % e `final x pct / (100 + somaPercentual)` (e nao `pct por cento do final`), a familia sao 7 skills e 9 efeitos vindos do asset e os dois lados da confusao sao cobertos; fail-safe sem personagem/asset/%"
+        },
+        {
+          "arquivo": "puros\\t_bt18_passivas_inimigo.py",
+          "nome": "bt18-passivas-inimigo",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-18: a tabela da Onda 1 (4 descricoes de EnemyMod, notas sem eco e sem chave duplicada, numero sempre com procedencia no comentario), a nota IDEMPOTENTE (dois ganchos, sem duplicar), os ganchos por TIPO/por NOME com try/catch e a nota no bloco do nivel 2, e o PLACEHOLDER do Redemptive (valor ainda null, TODO) — sem numero digitado a mao"
+        },
+        {
+          "arquivo": "puros\\t_bt20_conversao_atributo.py",
+          "nome": "bt20-conversao-atributo",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BT-20: o valor de conversao de atributo em Armor/Magic Armor sai do interpretador do jogo (`ShrineAuraPatch.ValorDaExpressao` -> `Game.TryEval`), a familia sao 2 skills / 4 efeitos vindos do asset (nao de lista digitada), o fail-safe mantem a linha intacta sem personagem/avaliacao e a skill que JA rende o valor por DescriptionExpressions (token `[N]`) e PULADA (sem repeticao, revisao BT-20R)"
+        },
+        {
+          "arquivo": "puros\\t_bt34_nota_fora_do_feed.py",
+          "nome": "bt34-nota-fora-do-feed",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "a nota de Armor/Resistencia e barrada no FEED/combate por flag de contexto (Root.SendMessageWindowMessage + OverheadMessageDisplay.SpawnOverheadMessage) e continua no corpo da tooltip; o BUG-33 (4 nomes) segue protegido"
+        },
+        {
+          "arquivo": "puros\\t_bt_composicao_tooltip.py",
+          "nome": "bt-composicao-tooltip",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o prefixo remonta corpo, notas (na ordem) e a linha de auras por ULTIMO, com uma linha em branco antes de cada bloco e sem duplicar na 2a passada"
+        },
+        {
+          "arquivo": "puros\\t_bt_contra_prova.py",
+          "nome": "bt-contra-prova",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "as 7 iscas da familia de texto do BetterTooltips reprovam PELO MOTIVO CERTO e os 6 testes da suite + 6 metades OK passam"
+        },
+        {
+          "arquivo": "puros\\t_bt_guard_avaliador.py",
+          "nome": "bt-guard-avaliador",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o guard (EhAtributoPrimario) roda ANTES do indexador do motor: atributo inexistente e pulado, nunca explode"
+        },
+        {
+          "arquivo": "puros\\t_bt_regra_do_token.py",
+          "nome": "bt-regra-do-token",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "nenhuma nota (valor de TextAppends + bloco C8B090 fundido no TextFixes) carrega o token [N]; a isca plantada morde"
+        },
+        {
+          "arquivo": "puros\\t_bt_substituicao_segura.py",
+          "nome": "bt-substituicao-segura",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o funil so troca com o texto exibido == original em ingles: texto localizado, substring e mesmo-comeco ficam intactos"
+        },
+        {
+          "arquivo": "puros\\t_bt_texto_ausente.py",
+          "nome": "bt-texto-ausente",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "chave morta, expressao que nao avalia e valor nulo deixam o texto do jogo intacto e a falha e DECLARADA - nunca escrita pela metade"
+        },
+        {
+          "arquivo": "puros\\t_bt_uma_entrada_por_texto.py",
+          "nome": "bt-uma-entrada-por-texto",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "check_dupes morde a chave duplicada plantada e o --estrito trava a chave nas duas tabelas; o LocalizePatch.cs real passa nas duas"
+        },
+        {
+          "arquivo": "puros\\t_cor3_posicao.py",
+          "nome": "cor3-posicao",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "COR-3: a nota do mod e achada pelo CONTEUDO, nao pela cor - o valor de dano do motor fica na linha branca (2 skills + 1 shrine provam as duas metades)"
+        },
+        {
+          "arquivo": "puros\\t_cores_niveis.py",
+          "nome": "cores-niveis",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "procedencia datada dos 3 niveis, sanidade do nivel 2 e a cor do campo chegando ao bloco"
+        },
+        {
+          "arquivo": "puros\\t_debugger_estabilidade.py",
+          "nome": "debugger-estabilidade",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "as 7 categorias do censo continuam, as colunas de cada uma sao o prefixo do CSV versionado (nenhuma some) e toda chave lida com f.get existe no FIELD (senao a coluna vira vazia) - com isca embutida"
+        },
+        {
+          "arquivo": "puros\\t_debugger_parser_contrato.py",
+          "nome": "debugger-parser-contrato",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o censo (tools/census.py) le a linha no formato ATUAL (lido do fonte) e no ANTIGO (log versionado); `desc=` e o ultimo campo, nenhum valor tem '|' nem quebra de linha, e um campo renomeado vira vazio (isca)"
+        },
+        {
+          "arquivo": "puros\\t_debugger_reflexao_cast.py",
+          "nome": "debugger-reflexao-cast",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "um tipo concreto NOVO de IEffectInfo sai no dump por REFLEXAO (sem recompilar) e o cast `as GeneralEffect` perde o dado em silencio; o fonte vivo le por reflexao e publica o Nome do tipo (isca embutida)"
+        },
+        {
+          "arquivo": "puros\\t_debugger_saneamento.py",
+          "nome": "debugger-saneamento",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "Limpa/Valor saneiam '|', aspas, quebra de linha, vazio e nulo; o marcador `!erro:` e seguro; um '|' no valor trunca o campo no parser real; campos ausentes viram vazio e o Summon nao tem desc (isca embutida)"
+        },
+        {
+          "arquivo": "puros\\t_deploy_optin_guarda.py",
+          "nome": "deploy-optin-guarda",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "a guarda do opt-in de deploy aceita o valido e reprova os dois furaos (Condition multi-linha e alvo de outro nome)"
+        },
+        {
+          "arquivo": "puros\\t_deploy_optin_repo.py",
+          "nome": "deploy-optin-repo",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "os csproj reais exigem o opt-in de deploy: Directory.Build.props desliga por padrao, nenhum alvo escreve no perfil sem Condition, e o DeployToScripts do ReloadProbe esta coberto"
+        },
+        {
+          "arquivo": "puros\\t_exemplo_soma_aura.py",
+          "nome": "soma-aura",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "escala de aura de shrine confere com o motor (22 cenarios + auditoria da fixture)"
+        },
+        {
+          "arquivo": "puros\\t_formato6_check_patches_janela.py",
+          "nome": "formato6-check-patches-janela",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "FORMATO-6: a janela de 2000 chars do check_patches (regra 2) e recorte estrutural (recorte.py, falha alta) — o retoque inofensivo nao quebra e o defeito real continua pego, sem mudar nenhum veredito no repo"
+        },
+        {
+          "arquivo": "puros\\t_formato7_faixa_recorte.py",
+          "nome": "formato7-faixa-recorte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "FORMATO-7: o recorte estrutural devolve a FAIXA (inicio, fim) alem do texto — as duas formas dao o mesmo recorte, a faixa fecha o furo da reconstrucao por texto e um retoque inofensivo nao quebra nenhuma das duas"
+        },
+        {
+          "arquivo": "puros\\t_formato8_casadores_locais.py",
+          "nome": "formato8-casadores-locais",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "FORMATO-8: os casadores de chave locais do regras_bf/regras_bct delegam ao recorte.py — chave em literal de string nao quebra e metodo sem fechamento FALHA ALTO; o recorte do fonte vivo e byte a byte o estrutural (veredito igual)"
+        },
+        {
+          "arquivo": "puros\\t_formato9_janela_aura.py",
+          "nome": "formato9-janela-aura",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "FORMATO-9: a base da aura no asset exige UMA formula do eixo documentado na janela (0 ou >1 base distinta -> SystemExit); a 1a nao vence em silencio"
+        },
+        {
+          "arquivo": "puros\\t_formato_notas.py",
+          "nome": "formato-notas",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RV-17 + BANCADA-1/2: a linha em branco EXATA e a ORDEM dos blocos (1 e 2 notas, nivel 3 por ultimo, ataque basico primeiro nas invocacoes) - a bancada reproduz o texto do jogo (as 2 quebras da l.1470+1536 antes do AP Cost) e o checador libera SO a PRIMEIRA linha de custo de cada caminho (a linha em branco antes do Range reprova)"
+        },
+        {
+          "arquivo": "puros\\t_nivel3_sinergia.py",
+          "nome": "nivel3-sinergia",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "NIV3-1: o bloco de nivel 3 da SINERGIA (Your skills on this status) passa pelo laco do prefixo e vai para o FIM — a linha azul deixa de ficar atras da nota remanejada, e as auras de shrine saem identicas"
+        },
+        {
+          "arquivo": "puros\\t_nivel3_texto.py",
+          "nome": "nivel3-texto",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "NIV3-2: o TEXTO da linha de nivel 3 (sinergia) preso pela FONTE — o prefixo, a juncao de skills/itens e o SINAL nos dois casos (U+2212 no negativo, nao hifen); o sinal invertido e o hifen REPROVAM"
+        },
+        {
+          "arquivo": "puros\\t_parser_comentario_na_chave.py",
+          "nome": "parser-comentario-na-chave",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "PARSER-1: o parser VE a chave com comentario de LINHA e de BLOCO entre a abertura e a chave (o regex antigo nao via) e os OITO consumidores usam tabelas.py"
+        },
+        {
+          "arquivo": "puros\\t_pkg4_versao_4_lugares.py",
+          "nome": "pkg4-versao-4-lugares",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o parser le a linha '- **Version:** x.y.z' do README (e so ela), o repo vivo bate nos 4 lugares, a divergencia plantada da exit 1 no check_versoes.py e o sincronizar reescreve SO o valor (idempotente)"
+        },
+        {
+          "arquivo": "puros\\t_pkg5_dep_publicada_passa.py",
+          "nome": "pkg5-dep-publicada-passa",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "dependencia para versao ja publicada resolve sem ordem (externa e de mod deste repo); trocar por versao inexistente reprova"
+        },
+        {
+          "arquivo": "puros\\t_pkg5_dep_versao_inexistente_reprova.py",
+          "nome": "pkg5-dep-versao-inexistente-reprova",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "dependencia para versao que nao existe NAO resolve (No matching package found); a mesma dependencia numa versao publicada resolve"
+        },
+        {
+          "arquivo": "puros\\t_pkg5_mao_dupla_reprova.py",
+          "nome": "pkg5-mao-dupla-reprova",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "A->B e B->A, ambos ineditos, reprova como CICLO com motivo; publicar uma das pontas desfaz o ciclo"
+        },
+        {
+          "arquivo": "puros\\t_pkg5_ordem_envio.py",
+          "nome": "pkg5-ordem-envio",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "BetterCombatText 0.1.1 -> BetterFont 1.0.2 (inedita) resolve com BetterFont ANTES; a direcao invertida entre as duas ineditas reprova"
+        },
+        {
+          "arquivo": "puros\\t_prova_de_fogo.py",
+          "nome": "prova-de-fogo",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o runner reprova a isca (e pelo motivo certo) e aprova o mesmo teste corrigido"
+        },
+        {
+          "arquivo": "puros\\t_recorte_estrutural.py",
+          "nome": "recorte-estrutural",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "FORMATO-3: o recorte de fonte e estrutural (casamento de chaves, literal-aware, falha alta) e resiste ao retoque inofensivo sem deixar passar o defeito real"
+        },
+        {
+          "arquivo": "puros\\t_rel3_release_check_sem_deploy.py",
+          "nome": "rel3-release-check-sem-deploy",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o release-check nao builda sem a flag, o opt-in so sai no modo explicito, a guarda roda antes e a mensagem de perfil intacto e medida, nao afirmada"
+        },
+        {
+          "arquivo": "puros\\t_rstv11_atalho_f10.py",
+          "nome": "rstv11-atalho-f10",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-11a: o atalho (F10 por padrao, configuravel) replica os guards do KeybindManager e so abre pelo despacho do botao; o defeito 'sem guard de chat' reprova"
+        },
+        {
+          "arquivo": "puros\\t_rstv11b_botao_janela_levelup.py",
+          "nome": "rstv11b-botao-janela-levelup",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-11b: o botao 'Skills' nasce DENTRO do SkillSelectWindow (fora do Content, sem reflow), o Ensure e idempotente por janela e o re-parent da RSTV-9 foi aposentado; os defeitos 'sem idempotencia' e 'clone no Content' reprovam"
+        },
+        {
+          "arquivo": "puros\\t_rstv12_onclick_roteamento.py",
+          "nome": "rstv12-onclick-roteamento",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-12: o clique dos botoes 'Skills' (HUD ping e janela do level-up) chega ao RunButton.OpenForTarget — a limpeza troca a INSTANCIA do evento para descartar o onClick persistente do prefab; o modelo reprova o clique que cai no original"
+        },
+        {
+          "arquivo": "puros\\t_rstv13_gate_mapa.py",
+          "nome": "rstv13-gate-mapa",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-13: no MAPA-MUNDO os portoes de batalha (turno/spawn/mira/animacao) nao escondem o botao; em BATALHA cada um continua bloqueando, e o defeito 'batalha valendo no mapa' reprova"
+        },
+        {
+          "arquivo": "puros\\t_rstv14_botao_ciclo_levelup.py",
+          "nome": "rstv14-botao-ciclo-levelup",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-14: o botao 'Skills' da janela do level-up segue o ciclo de vida — some nos estagios que nao sao de skills (deixa de 'voar' no level-up attributes), volta re-ancorado e nao e injetado fora de hora; a arvore read-only some de OpenedWindows no Close (o botao do HUD VOLTA)"
+        },
+        {
+          "arquivo": "puros\\t_rstv16_aba_arvores.py",
+          "nome": "rstv16-aba-arvores",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-16: a aba 'All Skill Trees' entra no array publico MenuTabs, o conteudo vem de Game.Instance.Skills (todas as classes menos Bard/Basic/Innate, com DLC), o read-only vem da sessao e a janela separada (ZOrder/LifecycleBlock/AjustarZOrder) foi aposentada; os defeitos 'Bard incluido', 'aba fora do array' e 'predicado fraco' reprovam"
+        },
+        {
+          "arquivo": "puros\\t_rstv18_escala_nos.py",
+          "nome": "rstv18-escala-nos",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-18: os nos da arvore vivem no container 'RstvNodeContainer' (o 'Skill Item Container' nativo) em escala 1.7x -> no de 45.9u e pitch 79.9/56.1u; sem o frame (escala 1.0) o no cai para 27u e a checagem REPROVA"
+        },
+        {
+          "arquivo": "puros\\t_rstv19_posicao_nos.py",
+          "nome": "rstv19-posicao-nos",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-19: o container dos nos e posicionado no centro da JANELA + 26.7 (como o 'Skill Item Container' nativo), nao no centro da area ~64u abaixo — sem a compensacao os nos caem no rodape (folga < meio no) e a checagem REPROVA"
+        },
+        {
+          "arquivo": "puros\\t_rstv21_janela_propria.py",
+          "nome": "rstv21-janela-propria",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-21: o clique do botao do modal abre uma JANELA read-only PROPRIA (Canvas overlay escalado como o jogo) com TODAS as arvores, sem depender do inventario; a janela segue o dono (fecha quando o modal sai), o tooltip do jogo sobe acima dela e nenhum arquivo tem caminho de escrita no personagem"
+        },
+        {
+          "arquivo": "puros\\t_rstv26_tooltip_personagem.py",
+          "nome": "rstv26-tooltip-personagem",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-26: o hover da janela read-only passa o personagem do MODAL (ReadOnlySession.Target) ao ShowSkillTooltip, com `showCanLevelDetail: false`; o motor resolve o '*N'/'[N]' contra ele (sem o TooltipCharacter null) e o alvo null cai no comportamento antigo — o defeito SEM o alvo explicito republica o '*0'"
+        },
+        {
+          "arquivo": "puros\\t_rstv8_gate_levelup.py",
+          "nome": "rstv8-gate-levelup",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RSTV-8: o level-up libera o botao pelo SkillSelectWindow, o alvo sai do manager e o defeito antigo reprova"
+        },
+        {
+          "arquivo": "puros\\t_rv18_atributo_runtime.py",
+          "nome": "rv18-atributo-runtime",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RV-18: as 5 notas de 'Effects per point' dos powerups de ATRIBUTO saem da tabela AttributePowerupNotes (com os {Campo}) resolvidas em runtime pelo GlobalSettings antes de anexar — nenhum token sai CRU (token sem campo derruba a nota inteira), sem chave duplicada (INC-1) e com a delegacao do BuildAttributeEffects presa no fonte"
+        },
+        {
+          "arquivo": "puros\\t_rv30_shrine_fonte.py",
+          "nome": "rv30-shrine-fonte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RV-30: o bonus do ShrineEffectBonus NAO entra nas duas auras de PERIGO — o fonte nao escreve em `__2.Source`, as 4 avaliacoes de Decay/Flame usam a constante SEM fator com `Source` = null, e as 9 de BUFF continuam com o receptor (o motor le `Target[...]`)"
+        },
+        {
+          "arquivo": "puros\\t_rv50_shrine_personagem.py",
+          "nome": "rv50-shrine-personagem",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "RV-50: `Receptor` le o PERSONAGEM SOB O CURSOR antes do selecionado (o inimigo sai no tooltip DELE), exclui o tooltip do SHRINE e mantem os fallbacks - a linha nao mostra mais os valores de outro personagem"
+        },
+        {
+          "arquivo": "puros\\t_shrine_contra_prova.py",
+          "nome": "shrine-contra-prova",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "as 6 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 5 testes da suite passam"
+        },
+        {
+          "arquivo": "puros\\t_shrine_dois_personagens.py",
+          "nome": "shrine-dois-personagens",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "a MESMA aura viva em mais de um personagem conta 1x POR PERSONAGEM (a lista viva e a do receptor), com o bonus de cada um"
+        },
+        {
+          "arquivo": "puros\\t_shrine_excesso_agregado.py",
+          "nome": "shrine-excesso-agregado",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "linha agregada: aura repetida conta 1x (Dodge +120% -> +40%), auras somam, Dwarven nunca some"
+        },
+        {
+          "arquivo": "puros\\t_shrine_excesso_bonus.py",
+          "nome": "shrine-excesso-bonus",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "cadeia do ShrineEffectBonus (0/8/20/50/100 + combinacoes) e a escala das auras"
+        },
+        {
+          "arquivo": "puros\\t_shrine_excesso_dano.py",
+          "nome": "shrine-excesso-dano",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "dano do Flame/Decay: minimo 1 so no Flame, vida maxima 3/100, half-to-even e um alvo por item"
+        },
+        {
+          "arquivo": "puros\\t_shrine_excesso_formatacao.py",
+          "nome": "shrine-excesso-formatacao",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "bordas de formato: Ceil da ficha, .5, -0.4, inteiro sem .0, um % por rotulo e U+2212"
+        },
+        {
+          "arquivo": "puros\\t_shrine_piso_cru.py",
+          "nome": "shrine-piso-cru",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "MAN-2/REV-47: o marcador publica o PISO (HasMin/MinValue) e o valor CRU antes do corte, e o conferidor le os dois"
+        },
+        {
+          "arquivo": "puros\\t_trava_artefato_fonte.py",
+          "nome": "trava-artefato-fonte",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "a trava REL-1 recusa a DLL mais antiga que a fonte, passa com o build em dia e ignora o gerado de obj/"
+        },
+        {
+          "arquivo": "puros\\t_trava_cor_notas_fundidas.py",
+          "nome": "trava-cor-notas-fundidas",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "a trava de cor confere TODAS as notas fundidas (inclusive as de UMA quebra) e REAGE a troca de cor — tambem com COMENTARIO DE BLOCO dentro da chave (FIX-4)"
+        }
+      ],
+      "detalhe": ""
+    },
+    {
+      "id": "suite_contra_prova",
+      "classe": "estrutura",
+      "desc": "prova de fogo do runner (iscas tem de REPROVAR)",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/testes/roda_testes.py --contra-prova --json",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 21.689,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "contagem": {
+        "PROVA_OK": 49,
+        "PASSOU": 14
+      },
+      "testes": [
+        {
+          "arquivo": "cp_bf_diag_orcamento.py",
+          "nome": "contra-prova-bf-diag-orcamento",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: os dez defeitos do orcamento foram pegos pelas checagens (esperado) - o orcamento da BF-2 (sessao + classificacao pelo conteudo): 5 checagem(ns) | o pulado pelo escape contado como EFEITO: 2 checagem(ns) | o reset so na PRIMEIRA cena (`if (_diagCena != null)`): 3 checagem(ns) | o reset INALCANCAVEL (`if (true) return`): 3 checagem(ns) | (A) a cena lida vira COMENTARIO e `cena` fica FIXA (reset so na 1a cena): 3 checagem(ns) | (B) o ramo do escape volta a incrementar o contador de EFEITO: 1 checagem(ns) | (C) o corte do escape passa a depender TAMBEM do TETO DE EFEITO: 1 checagem(ns) | FIX-8 (1) o bloco de ZERAMENTO dentro de um `if (false)`: 3 checagem(ns) | FIX-8 (2) `_diagCena = cena` ANTES do guarda (guarda sempre verdadeiro): 3 checagem(ns) | FIX-8 (3) o reset CHAMADO depois do uso do contador: 3 checagem(ns)"
+        },
+        {
+          "arquivo": "cp_bf_gate_shader.py",
+          "nome": "contra-prova-bf-gate-shader",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: os dois defeitos do BF-1 foram pegos pelas checagens (esperado) - shader: o gate voltou a RECUSAR por variante de shader (o defeito do BF-1) | gate: a chamada do portao nao esta presa ao efeito presente no material"
+        },
+        {
+          "arquivo": "cp_bf_sombra_por_alfa.py",
+          "nome": "contra-prova-bf-sombra-por-alfa",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o defeito do BF-5 (alfa decidindo a sombra) foi pego pela checagem (esperado) - a decisao de sombra ainda olha a COR (`_UnderlayColor`/GetColor): a cor sozinha NAO prova que o shader desenha a sombra - o prefab do jogo tem preto alfa 0.5 com a keyword desligada e offset/dilate 0 (sombra inerte)"
+        },
+        {
+          "arquivo": "cp_bt_composicao_idem_isca.py",
+          "nome": "contra-prova-bt-composicao-idem",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a composicao rv17 tinha de estar conforme, mas: ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']: esperado [], obtido ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']"
+        },
+        {
+          "arquivo": "cp_bt_composicao_isca.py",
+          "nome": "contra-prova-bt-composicao-ordem",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a composicao rv17 tinha de estar conforme, mas: ['ORDEM: ha bloco anexado DEPOIS da linha de auras']: esperado [], obtido ['ORDEM: ha bloco anexado DEPOIS da linha de auras']"
+        },
+        {
+          "arquivo": "cp_bt_composicao_ok.py",
+          "nome": "contra-prova-bt-composicao-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE (rv17): corpo->notas->aura, 1 linha em branco, idempotente"
+        },
+        {
+          "arquivo": "cp_bt_guard_isca.py",
+          "nome": "contra-prova-bt-guard",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "atributo inexistente tinha de ser pulado, mas: [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]: esperado [], obtido [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]"
+        },
+        {
+          "arquivo": "cp_bt_guard_ok.py",
+          "nome": "contra-prova-bt-guard-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE: o guard pula o atributo inexistente antes de indexar"
+        },
+        {
+          "arquivo": "cp_bt_substituicao_isca.py",
+          "nome": "contra-prova-bt-substituicao",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a substituicao segura divergiu (o defeito plantado aparece): [\"chave como substring: esperado 'prefixo 10% chance to cast Level [level value] {SKL=Meteor} when Striking. sufixo', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\", \"mesmo comeco, texto diferente: esperado '10% chance to cast Level [level value] {SKL=Meteor} when Striking. e mais alguma coisa', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\"]: esperado [], obtido [\"chave como substring: esperado 'prefixo 10% chance to cast Level [level value] {SKL=Meteor} when Striking. sufixo', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\", \"mesmo comeco, texto diferente: esperado '10% chance to cast Level [level value] {SKL=Meteor} when Striking. e mais alguma coisa', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\"]"
+        },
+        {
+          "arquivo": "cp_bt_substituicao_ok.py",
+          "nome": "contra-prova-bt-substituicao-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE (so troca o exibido == original em ingles)"
+        },
+        {
+          "arquivo": "cp_bt_texto_ausente_isca.py",
+          "nome": "contra-prova-bt-texto-ausente",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o texto do jogo tinha de ficar intacto, mas: ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']: esperado [], obtido ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']"
+        },
+        {
+          "arquivo": "cp_bt_texto_ausente_ok.py",
+          "nome": "contra-prova-bt-texto-ausente-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE: texto intacto + falha declarada"
+        },
+        {
+          "arquivo": "cp_bt_token_isca.py",
+          "nome": "contra-prova-bt-token",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "nenhuma nota podia ter o token [N]; achei: [('plantado', 'Cada stack concede +[0] Max Health por acerto.', ['[0]'])]"
+        },
+        {
+          "arquivo": "cp_bt_token_ok.py",
+          "nome": "contra-prova-bt-token-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca sobre as tabelas de verdade: nenhuma nota carrega [N]"
+        },
+        {
+          "arquivo": "cp_bt_uma_entrada_isca.py",
+          "nome": "contra-prova-bt-uma-entrada",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o fonte plantado devia estar LIMPO (o defeito nao existe). As ferramentas acusaram: check_dupes: chave duplicada {'chave repetida no mesmo texto': 2}; chave nas duas tabelas: ['chave nas duas tabelas']; check_chave_compartilhada --estrito reprovou (exit 1): [\"'chave nas duas tabelas'\", \"[TextFixes l.22] 'chave nas duas tabelas'\", \"[TextAppends l.27] 'chave nas duas tabelas'\"]"
+        },
+        {
+          "arquivo": "cp_bt_uma_entrada_ok.py",
+          "nome": "contra-prova-bt-uma-entrada-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca sobre o LocalizePatch.cs real: chaves unicas, sem chave nas duas tabelas"
+        },
+        {
+          "arquivo": "cp_cor_comentario_bloco_isca.py",
+          "nome": "contra-prova-cor-comentario-bloco",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "DEIXA PASSAR a troca de cor numa entrada com COMENTARIO DE BLOCO dentro da chave (formato `{ /* ... */ \"chave\" }`): plantei #C0FFEE em \"Raise a Undead Wizard to fight by your side.\", e a trava saiu com exit 1; saida: ...... 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Raise a Undead Wizard to fight by your side. — cor que nao e a do nivel 2 nem do jogo (l.1668): #C0FFEE"
+        },
+        {
+          "arquivo": "cp_cor_comentario_bloco_ok.py",
+          "nome": "contra-prova-cor-comentario-bloco-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "mesmo teste sem o defeito: a trava PEGA a troca numa entrada com COMENTARIO DE BLOCO dentro da chave"
+        },
+        {
+          "arquivo": "cp_cor_nota_fundida_isca.py",
+          "nome": "contra-prova-cor-nota-fundida",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "DEIXA PASSAR a troca de cor numa nota FUNDIDA de SHRINE (formato de UMA quebra): plantei #C0FFEE em 'Recover [0]% of maximum mana each turn.' e a trava saiu com exit 1; saida: o ........ 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Recover [0]% of maximum mana each turn. — cor que nao e a do nivel 2 nem do jogo (l.1470): #C0FFEE"
+        },
+        {
+          "arquivo": "cp_cor_nota_fundida_ok.py",
+          "nome": "contra-prova-cor-nota-fundida-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "mesmo teste sem o defeito: a trava PEGA a troca de cor na nota fundida"
+        },
+        {
+          "arquivo": "cp_corrigido_soma_aura.py",
+          "nome": "contra-prova-corrigido",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o mesmo teste com o valor vindo do motor: tem de PASSAR"
+        },
+        {
+          "arquivo": "cp_defeito_soma_aura.py",
+          "nome": "contra-prova-defeito",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "worship-omnism2 (base 20, bonus 120): esperado 40, obtido 44"
+        },
+        {
+          "arquivo": "cp_formato_linha_antes_do_range_isca.py",
+          "nome": "contra-prova-formato-linha-antes-do-range",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o checador ACEITOU a linha em branco antes do `Range` — uma forma que o JOGO nunca escreve: ele so escreve a linha em branco antes da PRIMEIRA linha de custo de cada caminho — o texto plantado passou limpo: 'D\\n\\nAP Cost: 1\\n\\nRange: Melee'"
+        },
+        {
+          "arquivo": "cp_formato_linha_antes_do_range_ok.py",
+          "nome": "contra-prova-formato-linha-antes-do-range-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE (so a PRIMEIRA linha de custo de cada caminho): o checador VE a linha em branco antes do `Range`"
+        },
+        {
+          "arquivo": "cp_formato_notas_isca.py",
+          "nome": "contra-prova-formato-notas",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o formato SAIA QUEBRADO (linha em branco orfa e/ou 2a nota antes do AP Cost): a regra 'antiga' quebrou 5 caso(s) (esperado 0) — skill com dano (TextAppends) -> DUAS linhas em branco seguidas (o defeito do RV-17(a)); shrine com valor + linha azul do nivel 3 -> linha em branco ORFA (nao separa nenhum bloco nosso): 'by <color=#CBB396>40</color>%.\\n\\nTurns Remaining: <color=#CBB'"
+        },
+        {
+          "arquivo": "cp_formato_notas_ok.py",
+          "nome": "contra-prova-formato-notas-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE (todas as notas, a linha em branco inteira): o formato fecha"
+        },
+        {
+          "arquivo": "cp_formato_quebra_do_jogo_isca.py",
+          "nome": "contra-prova-formato-quebra-do-jogo",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a BANCADA nao reproduz o JOGO: os custos sao juntados com outro numero de quebras que o `ShowSkillTooltip` escreve (l.1470 + l.1536) — eu esperava o texto do jogo. JOGO: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\\n\\nAP Cost: 1\\nRange: Melee\\n\\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>' BANCADA: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\\nAP Cost: 1\\nRange: Melee\\n\\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>'"
+        },
+        {
+          "arquivo": "cp_formato_quebra_do_jogo_ok.py",
+          "nome": "contra-prova-formato-quebra-do-jogo-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra de HOJE (as quebras da LEITURA do decompilado): a bancada reproduz o jogo"
+        },
+        {
+          "arquivo": "cp_nivel3_sinergia_isca.py",
+          "nome": "contra-prova-nivel3-sinergia",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a linha azul do nivel 3 (sinergia) deixa de ser a ULTIMA coisa do tooltip: a NOTA e devolvida pelo prefixo DEPOIS dela: a regra 'sem-sinergia' quebrou 2 caso(s) (esperado 0) — Chilled -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip; Poisoned -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip"
+        },
+        {
+          "arquivo": "cp_nivel3_sinergia_ok.py",
+          "nome": "contra-prova-nivel3-sinergia-ok",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "o MESMO teste da isca com a regra do NIV3-1 (a sinergia recolhida pelo marcador): o formato fecha"
+        },
+        {
+          "arquivo": "cp_rel_artefato_velho_aceito.py",
+          "nome": "contra-prova-rel-artefato-velho-isca",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o pre-flight ACEITOU a DLL mais antiga que a fonte - empacotar entregaria um binario sem a edicao (o defeito do REL-1)"
+        },
+        {
+          "arquivo": "cp_rel_artefato_velho_recusado.py",
+          "nome": "contra-prova-rel-artefato-velho-conserto",
+          "categoria": "pura",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "mesmo teste com a trava ligada: o pre-flight RECUSA a DLL mais antiga que a fonte"
+        },
+        {
+          "arquivo": "cp_rstv11_atalho_sem_guard_de_chat.py",
+          "nome": "contra-prova-rstv11-atalho-sem-guard",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'atalho sem guard de chat' foi pego pelo fonte e pelo modelo (esperado) - fonte: o guard de foco de texto/chat (l.133374) saiu do Liberado (trecho 'if (FocoDeTexto())')"
+        },
+        {
+          "arquivo": "cp_rstv11b_clone_no_content.py",
+          "nome": "contra-prova-rstv11b-clone-no-content",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'clone dentro do Content (reflow do painel)' foi pego pelo fonte e pelo modelo (esperado) - fonte: o clone NAO nasce como filho direto da janela (`Instantiate(original.gameObject, janela.transform)`) — clonar dentro do Content reflui o painel (RSTV-10, secao 4)"
+        },
+        {
+          "arquivo": "cp_rstv11b_sem_idempotencia.py",
+          "nome": "contra-prova-rstv11b-sem-idempotencia",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a 'duplicata por falta de idempotencia' foi pega pelo fonte e pelo modelo (esperado) - fonte: EnsureInternal nao tem a guarda de idempotencia `if (_janela == janela && _button != null)` — o postfix roda de novo a cada personagem da fila e criaria um SEGUNDO botao"
+        },
+        {
+          "arquivo": "cp_rstv12_clique_no_original.py",
+          "nome": "contra-prova-rstv12-clique-no-original",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'clique que cai no onClick persistente' foi pego no fonte (clones e helper) e no modelo (pingou / levelup-nre) - fonte: RunButton nao chama `ClearClickListeners(button)` — o onClick SERIALIZADO do prefab (persistente) sobrevive no clone"
+        },
+        {
+          "arquivo": "cp_rstv13_batalha_no_mapa.py",
+          "nome": "contra-prova-rstv13-batalha-no-mapa",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'portao de batalha valendo no mapa' foi pego pelo fonte e pelo modelo (esperado) - fonte: o portao de BATALHA 'spawn' (trecho 'SpawnPlacementActive') esta FORA do ramo `if (estado == GUIState.InBattle)` — ele volta a esconder o botao no MAPA-MUNDO (o sintoma do dono)"
+        },
+        {
+          "arquivo": "cp_rstv14_refresh_morto_no_host.py",
+          "nome": "contra-prova-rstv14-refresh-morto-no-host",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'Refresh morto no host' foi pego pelo fonte e pelo modelo (esperado) - fonte: o `RstvHost.Update` nao chama `LevelUpWindowButton.Refresh()` — o botao nao seguiria o ciclo da janela (o defeito 'voando no nivel-up')"
+        },
+        {
+          "arquivo": "cp_rstv14_refresh_sem_estagio.py",
+          "nome": "contra-prova-rstv14-refresh-sem-estagio",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'Refresh sem estagio' foi pego pelo fonte e pelo modelo (esperado) - fonte: o Refresh nao leva em conta o estagio corrente (`rok.CurLevelUpStage`) (trecho 'CurLevelUpStage')"
+        },
+        {
+          "arquivo": "cp_rstv16_aba_fora_do_array.py",
+          "nome": "contra-prova-rstv16-aba-fora-do-array",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a aba fora do array publico foi pega pelo fonte e pelo modelo (esperado) - fonte: a injecao da aba nao faz a aba ENTRA no array publico MenuTabs (trecho 'MenuTabs = novo')"
+        },
+        {
+          "arquivo": "cp_rstv16_bard_incluido.py",
+          "nome": "contra-prova-rstv16-bard-incluido",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o Bard incluido foi pego pelo fonte e pelo modelo (esperado) - fonte: TiposDaAba NAO exclui o Bard (decisao do dono: nao esta no jogo)"
+        },
+        {
+          "arquivo": "cp_rstv18_escala_1.py",
+          "nome": "contra-prova-rstv18-escala-1",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a escala 1.0 (no de 27.0u) foi pega pela checagem - fonte: a escala do container dos nos e 1.00x — o 'Skill Item Container' NATIVO e 1.7x (o no sairia 27.0u em vez de 45.9u, e o pitch 47.0u em vez de 79.9u)"
+        },
+        {
+          "arquivo": "cp_rstv19_container_no_rodape.py",
+          "nome": "contra-prova-rstv19-container-no-rodape",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a posicao crua no centro da AREA (fundo do no a -9.6u do rodape, menos que meio no) foi pega pela checagem - fonte: GarantirContainerDeNos poe o container CRU em relacao ao centro da AREA (o (0, 26.7) do nativo) — sem compensar que a area fica ~64.25u ABAIXO do centro da janela: os nos caem no rodape e sao cortados (RSTV-19)"
+        },
+        {
+          "arquivo": "cp_rstv21_ao_fechar_sem_reset.py",
+          "nome": "contra-prova-rstv21-ao-fechar-sem-reset",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o `AoFecharJanela` sem o reset foi pego (esperado) - fonte: `AoFecharJanela` NAO zera o `_modoJanela` — o flag ficaria PENDURADO depois do fechamento (o defeito do RSTV-21A)"
+        },
+        {
+          "arquivo": "cp_rstv21_botao_fechar_sem_fechar.py",
+          "nome": "contra-prova-rstv21-botao-fechar-sem-fechar",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o botao Close fora do funil `Fechar` foi pego (esperado) - fonte: o botao Close nao chama `Fechar` (`onClick.AddListener(new UnityAction(Fechar))`) — o caminho do botao nao passaria pelo aviso e o `_modoJanela` ficaria pendurado"
+        },
+        {
+          "arquivo": "cp_rstv21_clique_volta_inventario.py",
+          "nome": "contra-prova-rstv21-clique-volta-inventario",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o clique de volta no inventario foi pego pelo fonte e pelo modelo (esperado) - fonte: o clique nao abre pela JANELA (`SkillTreesTab.AbrirJanela`)"
+        },
+        {
+          "arquivo": "cp_rstv21_entrada_sem_sair_do_modo.py",
+          "nome": "contra-prova-rstv21-entrada-sem-sair-do-modo",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: os dois pontos de entrada sem `SairDoModoJanela()` foram pegos (esperado) - fonte: `SelecionarEMostrar` nao chama `SairDoModoJanela()` — a visao da janela nao seria desmontada quando a aba assume (o painel ficaria preso no host errado)"
+        },
+        {
+          "arquivo": "cp_rstv21_fechou_sem_aviso.py",
+          "nome": "contra-prova-rstv21-fechou-sem-aviso",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o `Fechar` sem o aviso `Fechou` foi pego (esperado) - fonte: `Fechar` NAO dispara o aviso `Fechou()` — nenhum dos dois caminhos de fechamento (botao Close nem dono fora) largaria o `_modoJanela`"
+        },
+        {
+          "arquivo": "cp_rstv21_fechou_sem_inscricao.py",
+          "nome": "contra-prova-rstv21-fechou-sem-inscricao",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o hospedeiro fora do aviso foi pego (esperado) - fonte: `AbrirJanela` nao se INSCREVE no aviso (`SkillTreesWindow.Fechou = AoFecharJanela`) — o `_modoJanela` nao seria largado quando a janela fechasse"
+        },
+        {
+          "arquivo": "cp_rstv21_fundo_sem_raycast.py",
+          "nome": "contra-prova-rstv21-fundo-sem-raycast",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o FUNDO sem consumir o clique foi pego (esperado) - fonte: o FUNDO da janela ('RstvWindowBackdrop') nao consome o clique (`fundoImg.raycastTarget = true`) — o modal atras poderia ser acionado por um clique na janela"
+        },
+        {
+          "arquivo": "cp_rstv21_janela_sem_dono.py",
+          "nome": "contra-prova-rstv21-janela-sem-dono",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a janela sem o dono no `Atualizar` foi pega pelo fonte e pelo modelo (esperado) - fonte: `Atualizar` nao tem nenhum `if` que leve o DONO FORA de cena (`!DonoVivo()`) ao `Fechar()` — a janela nao se fecharia quando o dono saisse e ficaria pendurada na proxima tela"
+        },
+        {
+          "arquivo": "cp_rstv21_mostrar_sem_construir.py",
+          "nome": "contra-prova-rstv21-mostrar-sem-construir",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o `Mostrar` sem `ConstruirPainel()` foi pego (esperado) - fonte: `Mostrar` nao chama `ConstruirPainel()` — com `_painel == null` o painel nunca seria montado (a janela abriria vazia)"
+        },
+        {
+          "arquivo": "cp_rstv21_mostrar_sem_guarda.py",
+          "nome": "contra-prova-rstv21-mostrar-sem-guarda",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o `Mostrar` sem a guarda imediatamente antes de `ConstruirPainel()` foi pego (esperado) - fonte: `Mostrar` chama `ConstruirPainel()` SEM a guarda `if (_painel == null)` IMEDIATAMENTE antes da chamada — o painel seria reconstruido a cada Mostrar (perderia estado)"
+        },
+        {
+          "arquivo": "cp_rstv21_polaridade_do_gatilho.py",
+          "nome": "contra-prova-rstv21-polaridade-do-gatilho",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: a polaridade invertida e a guarda sem `_root.activeSelf` foram pegas pelos DOIS lados do caminho (b) (esperado)"
+        },
+        {
+          "arquivo": "cp_rstv21_tooltip_assimetrico.py",
+          "nome": "contra-prova-rstv21-tooltip-assimetrico",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: as duas quebras de simetria do tooltip foram pegas (esperado) - fonte: `RestaurarTooltip` nao devolve o tooltip ao PAI guardado por `ElevarTooltip` (`SetParent(_tooltipPaiAntigo)`) — o tooltip ficaria preso na janela"
+        },
+        {
+          "arquivo": "cp_rstv21_tooltip_raiz.py",
+          "nome": "contra-prova-rstv21-tooltip-raiz",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o tooltip sem reparent foi pego pela checagem (esperado) - fonte: `ElevarTooltip` nao REPARENTA o tooltip para dentro da janela (SetParent) — sem isso ele fica atras do fundo"
+        },
+        {
+          "arquivo": "cp_rstv8_levelup_escondido.py",
+          "nome": "contra-prova-rstv8-levelup-escondido",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "isca: o 'esconder no level-up' foi pego pelo fonte e pelo modelo (esperado) - fonte: o portao voltou a esconder por `RoguelikeManager.IsNotNullAndIsActive` (o manager CARREGADO nao e o level-up aberto — o defeito do RSTV-8)"
+        },
+        {
+          "arquivo": "cp_rv30_source_injetado.py",
+          "nome": "contra-prova-rv30-source-injetado",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o trecho do RV-34 tem de ser acusado: o prefix `FixShrineExpressionParams` AINDA escreve em `__2.Source` — o `Source` do hover do shrine volta a ser o observador e o bonus do jogador entra nas duas auras de perigo, que leem `Source[...]` (o defeito do RV-30); alguma formula de perigo e avaliada por `FormulaDoDano(...)` (o seletor da constante COM o fator do personagem) — o numero passa a depender de um bonus que a aura nao usa; esperava as 4 avaliacoes de perigo com a constante SEM fator e `Source` = null (FraseAlvosDoFlame, LinhaDecayComValor, ItemDaAuraSemAtributo x2); achei 0; o caminho das 9 auras de BUFF mudou: `ContribuicaoDasAuras` tem de continuar avaliando `efeito.Amount` com o receptor nos dois slots (o motor le `Target[...]` = quem RECEBE a aura)"
+        },
+        {
+          "arquivo": "cp_shrine_bonus_somado_a_mao.py",
+          "nome": "contra-prova-shrine-bonus",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "Omnism I + Omnism II: o motor desconta a I (20), o defeito soma as duas (28): esperado 20, obtido 28"
+        },
+        {
+          "arquivo": "cp_shrine_dwarven_sumido.py",
+          "nome": "contra-prova-shrine-dwarven",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a cena so tem o Dwarven vivo: a linha TEM de trazer o item proprio `Stun chance`: esperado ['Stun chance +40%'], obtido []"
+        },
+        {
+          "arquivo": "cp_shrine_fracao_e_porcento.py",
+          "nome": "contra-prova-shrine-formato",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "a borda do equipamento (53.4): a convencao do Ceil do jogo da 54 e UM sinal de %: esperado 'Dodge +54%', obtido 'Dodge +53.4%%'"
+        },
+        {
+          "arquivo": "cp_shrine_gatilho_uma_instancia.py",
+          "nome": "contra-prova-shrine-gatilho-uma-instancia",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "o Dwarven com DOIS shrines: o motor rola a chance UMA VEZ POR INSTANCIA - a lista tem de trazer DOIS itens: esperado ['Stun chance +40%', 'Stun chance +40%'], obtido ['Stun chance +40%']"
+        },
+        {
+          "arquivo": "cp_shrine_instancias_dobradas.py",
+          "nome": "contra-prova-shrine-instancias",
+          "categoria": "pura",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK",
+          "detalhe": "rogue-x3 (o DEFEITO DO PRINT): a aura repetida 3x na lista viva: esperado 'Dodge +40% (total +57%)', obtido 'Dodge +120% (total +57%)'"
+        }
+      ],
+      "detalhe": ""
+    },
+    {
+      "id": "suite_jogo",
+      "classe": "estrutura",
+      "desc": "testes que precisam da lib/ do jogo (sem abrir o jogo)",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/testes/roda_testes.py --jogo --json",
+      "cwd": "<sandbox>",
+      "exit_code": 0,
+      "segundos": 1.086,
+      "timeout": false,
+      "erro_lancamento": null,
+      "estado": "OK",
+      "contagem": {
+        "PASSOU": 1
+      },
+      "testes": [
+        {
+          "arquivo": "jogo\\t_exemplo_referencias_lib.py",
+          "nome": "referencias-lib",
+          "categoria": "jogo",
+          "esperado": "passar",
+          "estado": "PASSOU",
+          "detalhe": "as referencias lib\\* dos .csproj existem na lib/ e sao PE validas"
+        }
+      ],
+      "detalhe": ""
+    }
+  ],
+  "contra_provas": [
+    {
+      "id": "cp_dupes",
+      "familia": "chave duplicada (INC-1: derruba o LocalizePatch inteiro)",
+      "arquivo": "BetterTooltips/Patches/LocalizePatch.cs",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_dupes.py",
+      "exit_com_defeito": 1,
+      "exit_apos_correcao": 0,
+      "timeout_com_defeito": false,
+      "veredito": "PROVA_OK",
+      "detalhe": ""
+    },
+    {
+      "id": "cp_versoes",
+      "familia": "versao divergente (manifest != csproj)",
+      "arquivo": "BetterFont/manifest.json",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_versoes.py",
+      "exit_com_defeito": 1,
+      "exit_apos_correcao": 0,
+      "timeout_com_defeito": false,
+      "veredito": "PROVA_OK",
+      "detalhe": ""
+    },
+    {
+      "id": "cp_patches",
+      "familia": "parametro posicional do Harmony (__0) sem justificativa",
+      "arquivo": "BetterStats/Plugin.cs",
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_patches.py",
+      "exit_com_defeito": 1,
+      "exit_apos_correcao": 0,
+      "timeout_com_defeito": false,
+      "veredito": "PROVA_OK",
+      "detalhe": ""
+    },
+    {
+      "id": "cp_deploy_optin",
+      "familia": "alvo de deploy SEM opt-in explicito (escreveria no perfil)",
+      "arquivo": null,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_deploy_optin.py --raiz C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut3-9elq68df\\sandbox\\sandbox-optin",
+      "exit_com_defeito": 1,
+      "exit_apos_correcao": 0,
+      "timeout_com_defeito": false,
+      "veredito": "PROVA_OK",
+      "detalhe": ""
+    },
+    {
+      "id": "cp_segredos",
+      "familia": "credencial plantada em arquivo RASTREADO",
+      "arquivo": null,
+      "comando": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\tools\\python-3.14.7+20260901-win32-x64\\python.exe tools/check_segredos.py",
+      "exit_com_defeito": 1,
+      "exit_apos_correcao": 0,
+      "timeout_com_defeito": false,
+      "veredito": "PROVA_OK",
+      "detalhe": ""
+    }
+  ],
+  "cobertura": {
+    "matriz_sha": "8503010272d7",
+    "itens": [
+      {
+        "id": "M1",
+        "mod": "BetterCombatText",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (06dae5aa7b5e); zip = do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "M2",
+        "mod": "BetterFont",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (2c07f5e959af); zip = do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "M3",
+        "mod": "BetterStats",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (5a3c001ad424); zip = do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "M4",
+        "mod": "BetterTooltips",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (270f311b0f7b); zip != do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "M5",
+        "mod": "RoguelikeDebugger",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (99c156799380); zip = do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "M6",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "build Release 0 erros; fonte->DLL = Release = perfil (454587a031a3); zip != do Release",
+        "motivo": "publicacao online e validacao em jogo seguem FORA do AUT-3"
+      },
+      {
+        "id": "T-RSTV6",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "36 testes rstv na suite: ['PASSOU', 'PROVA_OK']",
+        "motivo": ""
+      },
+      {
+        "id": "T-RSTV21",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "janela read-only abre/navega/fecha e publicacao — exige jogo/dono"
+      },
+      {
+        "id": "T-RSTV25B",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "precisa do LogOutput.log do proximo boot (INDETERMINADO)"
+      },
+      {
+        "id": "T-RSTV26",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "hover com numeros resolvidos — revalidacao visual em jogo"
+      },
+      {
+        "id": "S-RV-26",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO"
+      },
+      {
+        "id": "S-RV-27",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO"
+      },
+      {
+        "id": "S-RV-28",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "tooltip de shrine em jogo; RV-49 trava numeros das auras de PERIGO"
+      },
+      {
+        "id": "S-RV-29",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "aura viva x fora da aura — leitura em jogo"
+      },
+      {
+        "id": "S-RV-30",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "aura de perigo com Source=null — medicao em jogo"
+      },
+      {
+        "id": "S-RV-31",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "agregado por atributo — leitura em jogo"
+      },
+      {
+        "id": "S-RV-33",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "flame/decay por alvo — leitura em jogo"
+      },
+      {
+        "id": "S-RV-34",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "defeito do proprio mod superado por RV-30 — revalidacao em jogo"
+      },
+      {
+        "id": "BUG34",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "evidencia_aut3": "",
+        "motivo": "aceite humano ja dado (KANBAN l.506); regressao de feed exige jogo"
+      },
+      {
+        "id": "AUT-REUSE",
+        "mod": "transversal",
+        "estado": "OK_OFFLINE",
+        "evidencia_aut3": "reusa roda_testes.py (0/1/2), checa_shrines, CAP-1; nao reconstroi",
+        "motivo": "CAP-1 exige sessao de jogo autorizada (fora do AUT-3)"
+      }
+    ],
+    "resumo": {
+      "OK_OFFLINE": 8,
+      "PARCIAL_OFFLINE": 0,
+      "NAO_EXERCITADO": 12,
+      "REPROVADO": 0
+    }
+  },
+  "nao_exercitados": [
+    "T-RSTV21",
+    "T-RSTV25B",
+    "T-RSTV26",
+    "S-RV-26",
+    "S-RV-27",
+    "S-RV-28",
+    "S-RV-29",
+    "S-RV-30",
+    "S-RV-31",
+    "S-RV-33",
+    "S-RV-34",
+    "BUG34"
+  ],
+  "builds_executados": 6,
+  "limite_builds": 6
+}

@@ -1,0 +1,329 @@
+{
+  "esquema": "AUT-7/aceite/1",
+  "tarefa": "t_674c5976",
+  "identidade": {
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "suficiente": true,
+    "conhecidos": [
+      "dll_sha",
+      "fonte_sha"
+    ]
+  },
+  "criterios": 24,
+  "por_frente": {
+    "AUT-3": 1,
+    "AUT-5": 1,
+    "AUT-6": 1,
+    "AUT-7": 21
+  },
+  "status_tecnico": {
+    "falhas_automaticas": [
+      {
+        "id": "AUT-3/nao-leu",
+        "mod": "transversal",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a frente medir este item",
+        "observado": "nao medido nesta rodada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [
+          "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\docs\\automacao\\AUT-3-resultado.json"
+        ],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-5/nao-exercitado",
+        "mod": "RoguelikeSkillTreeVisualizer",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a frente medir este item",
+        "observado": "nao medido nesta rodada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-6/nao-exercitado",
+        "mod": "BetterTooltips",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a frente medir este item",
+        "observado": "nao medido nesta rodada",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterFont/suite-ausente",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bf_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterFont/runtime-preservacao-estilo",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "fonte trocada preservando TODAS propriedades efetivas e keywords",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "controle ligado/desligado no mesmo objeto ausente"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "controle ligado/desligado no mesmo objeto ausente",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterFont/runtime-config",
+        "mod": "BetterFont",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "config real: bytes, identidade, chaves e defaults confrontados",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "config/chaves/valores ausentes"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "config/chaves/valores ausentes",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/suite-ausente",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bct_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-superficies-contraste",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "todas superficies canonicas com cor/alfa/contraste/polaridade",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-idempotencia",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "mesmo objeto/sessao; estagios/eventos/leituras distintos e efeito estavel",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "nenhum alvo BCT relido"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "nenhum alvo BCT relido",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterCombatText/runtime-sem-vazamento-levelup",
+        "mod": "BetterCombatText",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "level-up real: todos tipos e alvos comparados ao estilo nativo desligado",
+        "observado": {
+          "objetos": [],
+          "erros": [],
+          "lacunas": [
+            "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow"
+          ]
+        },
+        "motivo": "criterio incoerente: classe runtime exige procedencia runtime (veio 'execucao')",
+        "evidencia": [],
+        "lacuna_probe": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterStats/suite-ausente",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_bs_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterStats/runtime-base-vs-final",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "na ficha/level-up o texto sai `base (final)`, com a base do valor PURO investido e o final do motor; `character[nome]` NAO serve como base",
+        "observado": "nenhum texto `base (final)` nas observacoes",
+        "motivo": "lacuna tecnica de runtime (probe/campo/coleta/preparacao): automatizavel, volta ao ciclo — NAO e tarefa do dono — valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+        "evidencia": [],
+        "lacuna_probe": "valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/BetterStats/runtime-geometria",
+        "mod": "BetterStats",
+        "estado": "NAO_EXERCITADO",
+        "classe": "runtime",
+        "procedencia": "runtime",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "a caixa do texto de valores cabe DENTRO do painel de atributos (sem clipping/saida lateral), com deslocamento unico e nao acumulado",
+        "observado": "nenhuma observacao com `geometria`",
+        "motivo": "lacuna tecnica de runtime (probe/campo/coleta/preparacao): automatizavel, volta ao ciclo — NAO e tarefa do dono — caixa (bbox) do painel de atributos, alem da do texto",
+        "evidencia": [],
+        "lacuna_probe": "caixa (bbox) do painel de atributos, alem da do texto",
+        "tipo_pendencia": "coleta_tecnica",
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      },
+      {
+        "id": "AUT-7/RoguelikeDebugger/suite-ausente",
+        "mod": "RoguelikeDebugger",
+        "estado": "NAO_EXERCITADO",
+        "classe": "offline",
+        "procedencia": "execucao",
+        "classificacao": "FALHA_AUTOMATICA",
+        "esperado": "familia de teste puro do mod na suite do projeto (`t_debugger_*`)",
+        "observado": "nenhum teste do mod na suite",
+        "motivo": "criterio offline nao exercitado: automatizavel, volta ao ciclo (nao e tarefa do dono)",
+        "evidencia": [],
+        "lacuna_probe": null,
+        "tipo_pendencia": null,
+        "instrucoes_humanas": null,
+        "tarefa_origem": "t_674c5976"
+      }
+    ],
+    "pronto_para_decisao": false,
+    "motivo": "NAO: 14 falha(s) automatica(s) volta(m) ao ciclo; nada disso vai ao dono",
+    "resumo": {
+      "mods": 7,
+      "criterios": 24,
+      "ok_vinculantes": 6,
+      "falhas_automaticas": 14,
+      "pendencias_humanas": 4,
+      "nao_conta_como_prova": 0
+    }
+  },
+  "revisoes": {
+    "revisoes": {
+      "AUT-3R": "EM_ANDAMENTO",
+      "AUT-5R": "PENDENTE",
+      "AUT-6R": "PENDENTE"
+    },
+    "consolidacao_final": false,
+    "motivo": "revisao(oes) pendente(s)/nao-OK: AUT-3R, AUT-5R, AUT-6R",
+    "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\docs\\automacao\\AUT-7-revisoes.json"
+  },
+  "aceite_humano": {
+    "pronunciado": false,
+    "status": "NAO_PRONUNCIADO",
+    "por_mod": {}
+  },
+  "publicacao": {
+    "status": "NAO_VERIFICADO",
+    "online": null,
+    "motivo": "publicacao e decisao do dono (Thunderstore imutavel); exige aceite humano e consulta por pacote; fora desta rodada",
+    "aceite_humano_pronunciado": false
+  },
+  "relatorio_escrito": null,
+  "medicao_estilo_suites": {
+    "puros": {
+      "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+      "exit_runner": null,
+      "erro": "cache ausente/obsoleto: rerodar suite",
+      "contagem": null,
+      "sha256": "97040dc93769ef95dd38c877d9d2dd30e0476acf8c976c655cfb2856d3cfb15c"
+    },
+    "contra_prova": {
+      "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+      "exit_runner": null,
+      "erro": "cache ausente/obsoleto: rerodar suite",
+      "contagem": null,
+      "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+    }
+  },
+  "saida_completa": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E3-consolidador-sem-a-fixture.aceite.json"
+}

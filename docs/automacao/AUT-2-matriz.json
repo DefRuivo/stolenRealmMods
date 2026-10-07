@@ -1,0 +1,2179 @@
+{
+  "esquema": "AUT-2/1",
+  "tarefa": "t_9f420f69",
+  "titulo": "AUT-2 - inventario verificavel das alteracoes e matriz de cobertura por mod",
+  "gerado_em": "2026-10-05 15:27:54",
+  "repo": "C:/dev/stolen-realm",
+  "git": {
+    "branch": "ci-validate-test",
+    "head": "f526fe9b71f5e7b946c1e699612cb1e9a3a08810",
+    "head_curto": "f526fe9"
+  },
+  "nota_metodo": "Inventario SOMENTE LEITURA: nenhum build/teste/commit/deploy/publicacao executado; nenhum runtime de jogo iniciado. Classificacao por parsing robusto de `git status --porcelain -z --untracked-files=all` (NUL), sem exclusao silenciosa.",
+  "resumo": {
+    "alteracoes_produto_total": 78,
+    "tracked_modificados": 37,
+    "untracked_novos": 41,
+    "por_categoria": {
+      "doc": 17,
+      "codigo": 3,
+      "dados": 13,
+      "teste": 45
+    },
+    "por_mod": {
+      "BetterCombatText": 1,
+      "BetterFont": 1,
+      "BetterStats": 1,
+      "BetterTooltips": 48,
+      "transversal": 23,
+      "RoguelikeDebugger": 1,
+      "RoguelikeSkillTreeVisualizer": 3
+    },
+    "tarefas_nao_mapeadas": 12,
+    "mods_cobertos": [
+      "BetterCombatText",
+      "BetterFont",
+      "BetterStats",
+      "BetterTooltips",
+      "RoguelikeDebugger",
+      "RoguelikeSkillTreeVisualizer"
+    ]
+  },
+  "estados_separados": {
+    "definicao": "Fonte (working tree) · Release (bin/Release + dist/*.zip locais) · Perfil (BepInEx do dono) · Publicacao online (Thunderstore). Sao estados distintos: versao igual NAO prova bytes iguais nem publicacao online.",
+    "release_registro_local": {
+      "arquivo": "release/mods.json",
+      "sha256": "4f886b92bdea9a1eb57325e12c7c33f9a91805c7571f6a35c1214b1f94c1d1bc",
+      "aviso": "registro LOCAL do pipeline; NAO e prova online atual (a prova exige consulta por pacote na API da Thunderstore)."
+    },
+    "dist_zips_sha256": {
+      "dist/StolenRealm-Mods-2026-09-29.zip": "7c864e5336f19723cc5f577271d8ac8b6ee60a2b1059f09b99a86b24e11e41dd",
+      "dist/gumatos-BetterCombatText-0.1.0.zip": "fc9fbbc5bdd9b3487ded23ffc99834ed015cb3aceb9bade8a3095936db6e3889",
+      "dist/gumatos-BetterCombatText-0.1.1.zip": "c6ab6bc46c7643d340e9d7a5378dcea16da19dd38086eee59627b6b1d9e3284d",
+      "dist/gumatos-BetterFont-1.0.0.zip": "4acf5953d9484a6d8668cfa0db0f092e08697f10c9e2bc73418f42a2c9d09607",
+      "dist/gumatos-BetterFont-1.0.1.zip": "e526bd907c9708d69cfff6a2e017871dfb313fe681c0ebcacbeb70436443eb54",
+      "dist/gumatos-BetterFont-1.0.2.zip": "7728c14fa4b68ea3f7a0548b0797c47bcb6a488a5bc4b79a07abde0d48623281",
+      "dist/gumatos-BetterStats-1.0.0.zip": "c00bd5e4c593d1532c97ca88ad46e3b1f8cd1e392cde91e6764a7cdb09e8c878",
+      "dist/gumatos-BetterStats-1.0.1.zip": "68698de33bf3a06daef03e1be6d1fd6f2a5c7389338c042c44aee9abd594949a",
+      "dist/gumatos-BetterTooltips-0.1.0.zip": "baa9aff10b8eceb94b051683dd5e16eff531d592a6d820d4add18b971d73e2eb",
+      "dist/gumatos-BetterTooltips-0.1.1.zip": "346bc226c7925860e2579b7401b28bbae167f9766408e19d6ae7e30bde072729",
+      "dist/gumatos-BetterTooltips-0.1.2.zip": "942845a3baa726ccaf2496111ed4307fc3b1a6396a259ea5dd641f12234bc8bc",
+      "dist/gumatos-BetterTooltips-0.1.3.zip": "a7953fb33e57c68954805d2d42632caa14283036f1f1c9085d2006af568cee94",
+      "dist/gumatos-RoguelikeDebugger-0.1.0.zip": "e830e53884f5399b3987489c1ad742033b4d98fa2ccda3ef47df2c6e0ef4c012",
+      "dist/gumatos-RoguelikeDebugger-0.1.1.zip": "41fd8c4b9b4b5805a4c06b39fa806956b1ce8523a81292ffe55c8d864f7bad7a",
+      "dist/gumatos-RoguelikeQoL-0.1.0.zip": "b2e1f396952887055e12f2957816f11c687da0f25c0ea80ce9031f625d1cf5b2",
+      "dist/gumatos-RoguelikeQoL-0.1.1.zip": "d5d85d9d8c60fb47f0409b9e7eec9beb5f6ced2e84eace26c6d597c0ee8c2e4c",
+      "dist/gumatos-RoguelikeSkillTreeVisualizer-0.1.0.zip": "2dfee2f072c30861e205a869de5c40e0b61b7e3701bb2096bb9a2b670b6f816c",
+      "dist/gumatos-RoguelikeSkillTreeVisualizer-0.2.0.zip": "ee0ea7a6b0eb7e74eb3878c16d07ce0c404bd938aaad18776ef11ffa6e43229f",
+      "dist/gumatos-RoguelikeSkillTreeVisualizer-0.3.0.zip": "2b153b90fa31b4f43c2c8c6ec85bd072380df43d265d1110aa0772e16f83dc7b",
+      "dist/gumatos-RoguelikeSkillTreeVisualizer-0.3.1.zip": "6b492975f0f00892f6b78e2ea99e8db962e12cddb8e123c38679967c1e33ebad",
+      "dist/gumatos-RoguelikeSkillTreeVisualizer-0.3.2.zip": "2a1f7d9b77b5fcc92a128351166ee70544b9ac50fff52046c63372dbd36bac15"
+    },
+    "por_mod": {
+      "BetterCombatText": {
+        "fonte": "working tree (C:/dev/stolen-realm/BetterCombatText) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "06dae5aa7b5e345ab1b36b23df9e2074797dd95ba3de9ed2e7a1fad4ae61e9aa",
+        "perfil_sha256": "06dae5aa7b5e345ab1b36b23df9e2074797dd95ba3de9ed2e7a1fad4ae61e9aa",
+        "perfil_mtime": "2026-10-02 20:57:53",
+        "zip_local": "dist/gumatos-BetterCombatText-0.1.1.zip",
+        "zip_dll_sha256": "06dae5aa7b5e345ab1b36b23df9e2074797dd95ba3de9ed2e7a1fad4ae61e9aa",
+        "registro_local": {
+          "versao_publicada": "0.1.0",
+          "publicado_em": "2026-10-01T02:00:04Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": true,
+        "divergencia": "sem divergencia bin==perfil==dll-do-zip (bytes iguais)"
+      },
+      "BetterFont": {
+        "fonte": "working tree (C:/dev/stolen-realm/BetterFont) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "2c07f5e959afbf394e9fa7ec11519cd254459a1dfa7eb9956e66a2c95364af16",
+        "perfil_sha256": "2c07f5e959afbf394e9fa7ec11519cd254459a1dfa7eb9956e66a2c95364af16",
+        "perfil_mtime": "2026-10-02 17:34:15",
+        "zip_local": "dist/gumatos-BetterFont-1.0.2.zip",
+        "zip_dll_sha256": "2c07f5e959afbf394e9fa7ec11519cd254459a1dfa7eb9956e66a2c95364af16",
+        "registro_local": {
+          "versao_publicada": "1.0.2",
+          "publicado_em": "2026-10-03T00:18:59Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": true,
+        "divergencia": "sem divergencia bin==perfil==dll-do-zip (bytes iguais)"
+      },
+      "BetterStats": {
+        "fonte": "working tree (C:/dev/stolen-realm/BetterStats) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "5a3c001ad424f0de125ee2c17f13552f86f1c28b93e02b70cfc9f94772c5e48a",
+        "perfil_sha256": "5a3c001ad424f0de125ee2c17f13552f86f1c28b93e02b70cfc9f94772c5e48a",
+        "perfil_mtime": "2026-10-01 23:44:17",
+        "zip_local": "dist/gumatos-BetterStats-1.0.1.zip",
+        "zip_dll_sha256": "5a3c001ad424f0de125ee2c17f13552f86f1c28b93e02b70cfc9f94772c5e48a",
+        "registro_local": {
+          "versao_publicada": "1.0.1",
+          "publicado_em": "2026-10-01T01:59:37Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": true,
+        "divergencia": "sem divergencia bin==perfil==dll-do-zip (bytes iguais)"
+      },
+      "BetterTooltips": {
+        "fonte": "working tree (C:/dev/stolen-realm/BetterTooltips) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "270f311b0f7bb5cca5a61f42e6adb56cbadcb7e8965a49bd5bb940c61c3cbe6b",
+        "perfil_sha256": "270f311b0f7bb5cca5a61f42e6adb56cbadcb7e8965a49bd5bb940c61c3cbe6b",
+        "perfil_mtime": "2026-10-05 13:36:20",
+        "zip_local": "dist/gumatos-BetterTooltips-0.1.3.zip",
+        "zip_dll_sha256": "80bba4543d2a2b7085b22d7b7432a50c526b9dcfc585516df7c611d9307b2fd8",
+        "registro_local": {
+          "versao_publicada": "0.1.3",
+          "publicado_em": "2026-10-03T22:48:02Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": false,
+        "divergencia": "BIN/PERFIL DIVERGEM do DLL dentro do zip (versao igual NAO implica bytes iguais) — ha trabalho local nao empacotado"
+      },
+      "RoguelikeDebugger": {
+        "fonte": "working tree (C:/dev/stolen-realm/RoguelikeDebugger) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "99c15679938097d9bc2bea8e9dec5ad6332e528da084ed70bde085d8f74c7d27",
+        "perfil_sha256": "99c15679938097d9bc2bea8e9dec5ad6332e528da084ed70bde085d8f74c7d27",
+        "perfil_mtime": "2026-10-01 23:44:21",
+        "zip_local": "dist/gumatos-RoguelikeDebugger-0.1.1.zip",
+        "zip_dll_sha256": "99c15679938097d9bc2bea8e9dec5ad6332e528da084ed70bde085d8f74c7d27",
+        "registro_local": {
+          "versao_publicada": "0.1.1",
+          "publicado_em": "2026-10-01T01:59:51Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": true,
+        "divergencia": "sem divergencia bin==perfil==dll-do-zip (bytes iguais)"
+      },
+      "RoguelikeSkillTreeVisualizer": {
+        "fonte": "working tree (C:/dev/stolen-realm/RoguelikeSkillTreeVisualizer) — nao hashada (fonte != artefato binario)",
+        "bin_release_sha256": "454587a031a3e89104ec8535cf4c6328e2a527238138a136adcc773c5617a948",
+        "perfil_sha256": "454587a031a3e89104ec8535cf4c6328e2a527238138a136adcc773c5617a948",
+        "perfil_mtime": "2026-10-05 13:32:31",
+        "zip_local": "dist/gumatos-RoguelikeSkillTreeVisualizer-0.3.2.zip",
+        "zip_dll_sha256": "c2ce4862c2fd5f1ea1d10b97c8b4b24ba0a7b6f4f24c0e3322d92cb23ccde98a",
+        "registro_local": {
+          "versao_publicada": "0.3.2",
+          "publicado_em": "2026-10-04T05:39:36Z",
+          "fonte_registro": "release/mods.json (registro LOCAL; NAO e prova online atual)"
+        },
+        "publicado_online": "NAO VERIFICADO nesta rodada (exigiria consulta por pacote na API da Thunderstore)",
+        "bin_igual_perfil": true,
+        "zip_igual_bin_perfil": false,
+        "divergencia": "BIN/PERFIL DIVERGEM do DLL dentro do zip (versao igual NAO implica bytes iguais) — ha trabalho local nao empacotado"
+      }
+    }
+  },
+  "reconciliacao_snapshots": {
+    "snapshot_partida": {
+      "arquivo": ".git-snapshot-20261005-152500.status-all.z",
+      "sha256": "74ce967fa9d97cc4f32f994fcacb21965a8e278af0f4d25fa8035326c7969a2f",
+      "n_registros_produto": 78,
+      "head": "f526fe9b71f5e7b946c1e699612cb1e9a3a08810"
+    },
+    "snapshot_final": {
+      "arquivo": ".git-snapshot-20261005-152500.status-all.final.z",
+      "sha256": "73b1e2d79ae425ec165084031481bf5b77ef4ea2a611fef563f5920cb815a4a3",
+      "n_registros_produto": 78,
+      "head": "f526fe9b71f5e7b946c1e699612cb1e9a3a08810"
+    },
+    "conjuntos_iguais": true,
+    "adicionados_durante_coleta": [],
+    "removidos_durante_coleta": [],
+    "veredito": "SEM DRIFT - o conjunto inventariado e estavel entre partida e final (LEITURA DA COLETA 2026-10-05 15:27; ver 'reverificavel')",
+    "nota": "Snapshots (.status*.z) foram efemeros (artefatos temporarios desta rodada) e REMOVIDOS ao final; os hashes ficam como prova da leitura que originou este inventario.",
+    "reverificavel": "NAO - os snapshots .status*.z foram removidos (efemeros); sem eles o drift partida x final NAO pode ser re-provado. Nao fabricar.",
+    "revisao_aut2r": {
+      "data": "2026-10-05",
+      "escopo": "AUT-2R (revisor nao-autor)",
+      "fato": "o conjunto atual coincide com a matriz (impacto pratico nulo), mas falta a prova do drift"
+    }
+  },
+  "registros": [
+    {
+      "id": "A001",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterCombatText\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterCombatText\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "2e661c44bac6d7d8630df68ad9d9dd3a25751469e8878419ce043c6a14d58e4d",
+      "categoria": "doc",
+      "mod": "BetterCombatText",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A002",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterFont\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterFont\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "37f47ed39d0fcc2725afe0ffa979d2d5cf4c4b447791c5c5fe308203790b0b4b",
+      "categoria": "doc",
+      "mod": "BetterFont",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A003",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterStats\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterStats\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "5ed7238dc8f611333f6b3ea3a303beae70cfb1c9cb2f89843191fbef9720adee",
+      "categoria": "doc",
+      "mod": "BetterStats",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A004",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterTooltips\\CHANGELOG.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterTooltips\\CHANGELOG.md",
+      "alteracao": "modificado(M)",
+      "sha256": "2ab42e312386e4e5e6425fe27a8cdf144a9b6d6f2a88967b6306b45131511de2",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-50 ",
+        "RV-44 ",
+        "RV-46 ",
+        "RV-48"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A005",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterTooltips\\Patches\\LocalizePatch.cs",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterTooltips\\Patches\\LocalizePatch.cs",
+      "alteracao": "modificado(M)",
+      "sha256": "29ff26a77c0722432196794a50fc242a8fef24f97926c6ba134c38257c4d309c",
+      "categoria": "codigo",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BUG-34a ",
+        "RV-43 ",
+        "TX-1"
+      ],
+      "criterio": "build Release 0 erros com -p:DeployToBepInEx=false; invariantes do mod (sem acoplamento, guarda de null do CLR, falha-segura).",
+      "meios_prova": "dotnet build <Mod>.csproj -p:DeployToBepInEx=false; suite tools/testes/roda_testes.py; checador tools/check_patches.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida literal build + suite verde na bancada AUT-3 (offline).",
+      "lacuna": "build/teste NAO reexecutados nesta tarefa (somente leitura).",
+      "humano_residual": "verificacao em jogo (AUT-4/5) apos bancada.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A006",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterTooltips\\Patches\\ShrineAuraPatch.cs",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterTooltips\\Patches\\ShrineAuraPatch.cs",
+      "alteracao": "modificado(M)",
+      "sha256": "7e3bd18ac737edc8954e84fa78f103aca0a74e4281a70b586ee1eb142fce8173",
+      "categoria": "codigo",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-50 ",
+        "RV-49 ",
+        "RV-30 ",
+        "RV-44"
+      ],
+      "criterio": "build Release 0 erros com -p:DeployToBepInEx=false; invariantes do mod (sem acoplamento, guarda de null do CLR, falha-segura).",
+      "meios_prova": "dotnet build <Mod>.csproj -p:DeployToBepInEx=false; suite tools/testes/roda_testes.py; checador tools/check_patches.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida literal build + suite verde na bancada AUT-3 (offline).",
+      "lacuna": "build/teste NAO reexecutados nesta tarefa (somente leitura).",
+      "humano_residual": "verificacao em jogo (AUT-4/5) apos bancada.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A007",
+      "tipo": "alteracao",
+      "caminho_rel": "BetterTooltips\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\BetterTooltips\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "fd62acf90832afe9b019222165517a07c1618a3ab3ddb37cb77114be0c85bcfe",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A008",
+      "tipo": "alteracao",
+      "caminho_rel": "README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "634dfc6e0e8691dc0bb55fa1b2e5266d52a573afccb80307f8a6899ab505030d",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A009",
+      "tipo": "alteracao",
+      "caminho_rel": "RoguelikeDebugger\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\RoguelikeDebugger\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "4646429be3fc787356375474e620d5893750680ecc1157bd0c4180889b9a8c74",
+      "categoria": "doc",
+      "mod": "RoguelikeDebugger",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A010",
+      "tipo": "alteracao",
+      "caminho_rel": "RoguelikeSkillTreeVisualizer\\SkillTreesTab.cs",
+      "caminho_abs": "C:\\dev\\stolen-realm\\RoguelikeSkillTreeVisualizer\\SkillTreesTab.cs",
+      "alteracao": "modificado(M)",
+      "sha256": "6d9edfeee754373eabef593a037a3ed23191f02a20b5d088316fd48d4778a4a4",
+      "categoria": "codigo",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-26a"
+      ],
+      "criterio": "build Release 0 erros com -p:DeployToBepInEx=false; invariantes do mod (sem acoplamento, guarda de null do CLR, falha-segura).",
+      "meios_prova": "dotnet build <Mod>.csproj -p:DeployToBepInEx=false; suite tools/testes/roda_testes.py; checador tools/check_patches.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida literal build + suite verde na bancada AUT-3 (offline).",
+      "lacuna": "build/teste NAO reexecutados nesta tarefa (somente leitura).",
+      "humano_residual": "verificacao em jogo (AUT-4/5) apos bancada.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A011",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\NULL-1-varredura-fake-null.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\NULL-1-varredura-fake-null.md",
+      "alteracao": "modificado(M)",
+      "sha256": "2de1510b1acc27957c37412a333c804262e087637bfaacfd432d7b260a5e5f3a",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A012",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\PLANO-DE-TESTES.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\PLANO-DE-TESTES.md",
+      "alteracao": "modificado(M)",
+      "sha256": "d4370801771e4c923ded633dfb10b1a8ffc82e460d4c743364f7d20b58d39423",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A013",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "1008390d4a54e0c9f8de1f4d0d5a54a4b147772385349e738647c2c2f1eed669",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A014",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\TEXTO-TOOLTIPS.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\TEXTO-TOOLTIPS.md",
+      "alteracao": "modificado(M)",
+      "sha256": "8c473ac40f2a22e701e4f75be5d705159a636d2abc9ad534d6117e88cb493ca4",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A015",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\acoes.csv",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\acoes.csv",
+      "alteracao": "modificado(M)",
+      "sha256": "077f69edc600a7e8eb25028cb221863b09144c9a7efe8ee2e5b8463206a22ab4",
+      "categoria": "dados",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-7/8 "
+      ],
+      "criterio": "tabela CSV derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A016",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\revisao\\ANTES-E-DEPOIS.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\revisao\\ANTES-E-DEPOIS.md",
+      "alteracao": "modificado(M)",
+      "sha256": "0ff9c763ca564aa110a4e1c9dae86e0d621425c54fb0b29b8fc5841b3bbd079a",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-relatorio"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A017",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\revisao\\CHK-1-shrines-conferencia-mecanica.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\revisao\\CHK-1-shrines-conferencia-mecanica.md",
+      "alteracao": "modificado(M)",
+      "sha256": "6b27b4b61bf4a797456f09ba90ddf638d2b52d9ab062c08f87a0d084489f9fef",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A018",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\revisao\\RV-19-shrines.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\revisao\\RV-19-shrines.md",
+      "alteracao": "modificado(M)",
+      "sha256": "14a60120825129d344dd6ef8da09f1e396fef85c2a7db4a24ad8acb30aca7a70",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A019",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\revisao\\RV-35-40-shrines-conferencia.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\revisao\\RV-35-40-shrines-conferencia.md",
+      "alteracao": "modificado(M)",
+      "sha256": "46648ec501873ee965234ed024a4029853548aa922bbee4ee32607bbb7e84353",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A020",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\revisao\\RV-9-censo.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\revisao\\RV-9-censo.md",
+      "alteracao": "modificado(M)",
+      "sha256": "6df1d4ae1943dae56e573de664521bbcc40365b60c344ecc22cde81bc73fe303",
+      "categoria": "doc",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-relatorio"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A021",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\skills.csv",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\skills.csv",
+      "alteracao": "modificado(M)",
+      "sha256": "d5557d3b898a5eff618df9d8d78ee32c052c34c4c2c1440293671f4468668bea",
+      "categoria": "dados",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-7/8 "
+      ],
+      "criterio": "tabela CSV derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A022",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\status.csv",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\status.csv",
+      "alteracao": "modificado(M)",
+      "sha256": "c192ad94b06db685d3a8308055acbd8ff3eeee8d57ea9c66f77b4243edb8ac9f",
+      "categoria": "dados",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-7/8 "
+      ],
+      "criterio": "tabela CSV derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A023",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\checa_shrines.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\checa_shrines.py",
+      "alteracao": "modificado(M)",
+      "sha256": "a000cc178b2f93007dbf8c948ca553a1c8e9593e37aca52177bcde82e6900296",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "CHK-1 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A024",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\dados\\shrines-esperado.csv",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\dados\\shrines-esperado.csv",
+      "alteracao": "modificado(M)",
+      "sha256": "836f2833d2ef50e0ee14aaebe17b551f9ed7f6a09fc029771ffced5c048824ce",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "tabela CSV derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A025",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\fixtures\\shrines-exemplo.log",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\fixtures\\shrines-exemplo.log",
+      "alteracao": "modificado(M)",
+      "sha256": "3d9d5a2031e4c5b74d4a15726e43154f14fcfbac309d66099091a5839f971f1b",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "log de fixture derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A026",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\fixtures\\shrines-rv46-dedupe.log",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\fixtures\\shrines-rv46-dedupe.log",
+      "alteracao": "modificado(M)",
+      "sha256": "06696792855f487a1ce2662b8f82c627aa49268511ec8d945a96066adf17b4b6",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-46"
+      ],
+      "criterio": "log de fixture derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A027",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\gera_shrines_esperado.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\gera_shrines_esperado.py",
+      "alteracao": "modificado(M)",
+      "sha256": "d58ee0c931fb5efdff08189f48cbb4085a06c0fc03072c9f3fb9dcae83de5dcc",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "CHK-1 ",
+        "RV-35..40"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A028",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "61d9b9089cf3aba19483db0a2b48b84582db67a5713dfd2e52e69a39191acd6a",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A029",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\README.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\README.md",
+      "alteracao": "modificado(M)",
+      "sha256": "99cee807a5a60bff9810796c31d5215cc47ece9a453810e95abe8c5bced0fa1c",
+      "categoria": "dados",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "dado derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A030",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\excesso-shrine.entrada.json",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\excesso-shrine.entrada.json",
+      "alteracao": "modificado(M)",
+      "sha256": "d4911e5a2c50422fb52d237c4bd9294159f039751c6961f633fd0d42de273c95",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "fixture JSON derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A031",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\excesso-shrine.esperado.json",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\excesso-shrine.esperado.json",
+      "alteracao": "modificado(M)",
+      "sha256": "5d937fa193b4803bd96dd2ca633243e95506133a66c02a16b96e345cde5ebf35",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "fixture JSON derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A032",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\geradores\\oraculo_excesso_shrine\\Program.cs",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\geradores\\oraculo_excesso_shrine\\Program.cs",
+      "alteracao": "modificado(M)",
+      "sha256": "37fd513d50b1ff4d7a980f49ebabba8576acb7de7473c1ee56729bb6f91fc9a6",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "fonte C# de fixture derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A033",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_shrine.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_shrine.py",
+      "alteracao": "modificado(M)",
+      "sha256": "1ef67649463eeab2b113f1423c8c6667ff24b9162c89633608e6c2a51bf9c562",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "CHK-1 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A034",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_shrine_contra_prova.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_shrine_contra_prova.py",
+      "alteracao": "modificado(M)",
+      "sha256": "1be2428dbde8f5ba09c33c30ead24cd32c8a9146b0e02962616b04f077acd259",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A035",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_shrine_excesso_agregado.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_shrine_excesso_agregado.py",
+      "alteracao": "modificado(M)",
+      "sha256": "4767956c29e9793dea6d3f70a53393b10d86fea75b9d74cafdfd99aefaf6f758",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A036",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_shrine_excesso_bonus.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_shrine_excesso_bonus.py",
+      "alteracao": "modificado(M)",
+      "sha256": "fde0a54d8603d92bbc9c913a531f89a39d59339e3fd06f94305919bd0ae5bcd9",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A037",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_shrine_excesso_dano.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_shrine_excesso_dano.py",
+      "alteracao": "modificado(M)",
+      "sha256": "49c6c8150bc59af99f876b0d1987d18301c8fc91d5b087ae2d8845af9eaba6ee",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A040",
+      "tipo": "alteracao",
+      "caminho_rel": "docs\\cobertura\\auditoria-cobertura.md",
+      "caminho_abs": "C:\\dev\\stolen-realm\\docs\\cobertura\\auditoria-cobertura.md",
+      "alteracao": "novo(??)",
+      "sha256": "18b92dc037ed0be3bed7a9240d9b309cc2d77c462b2fee1fc9e957b2577bc5b7",
+      "categoria": "doc",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-13"
+      ],
+      "criterio": "doc nao mente: citacoes arquivo:linha existem (tools/checa_citacoes.py) e indice coerente (tools/audita_docs.py).",
+      "meios_prova": "python tools/checa_citacoes.py; python tools/audita_docs.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "saida das duas ferramentas sem furo.",
+      "lacuna": "checadores NAO executados nesta tarefa.",
+      "humano_residual": "revisao de prosa/idioma se publico.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A041",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\ocr_tela.ps1",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\ocr_tela.ps1",
+      "alteracao": "novo(??)",
+      "sha256": "cbb6ad4c2f83c2ca6fd29ed75080db1f81730557435177519f46e727f6a5a78f",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "AUT-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A042",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_composicao_idem_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_composicao_idem_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "6fe95f0090a18c03d73786988f2caf7b6db9b72bd9065a04842c4c22bbd5ffd9",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A043",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_composicao_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_composicao_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "8867c9613f922d0b71fc4166d6ae9e4505d792df71b5bbc61ed81b2e72e7dd17",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A044",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_composicao_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_composicao_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "00ee0b3d1cbbbe3184afc4ca1931e76641e9ec03c5edec15bbec39b4eb97ca1d",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A045",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_guard_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_guard_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "ed7d9b2ae658d08d21809d1c2a139358ca1cc33ff4b23bed949500aab15e3dd1",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A046",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_guard_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_guard_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "586c15dfe0b5ec280b10e84d73279ec6e7050400838bcebb7d894cce0b4588bf",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A047",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_substituicao_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_substituicao_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "48b9df9730e3c09f460dbfc7423d921d6a076e42937a5da8e886da78a6bc0f55",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A048",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_substituicao_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_substituicao_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "6df1466e0e8cfe99902695f2a9e0563d5a97c95591af50e3bb4ac0dab05638ad",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A049",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_texto_ausente_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_texto_ausente_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "1109154073869abef5b46c49d33055107422df922ba3b9cf6270597dafc2c51e",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A050",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_texto_ausente_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_texto_ausente_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "60a50ee39f1a1fd7d4190076d165dead79b6f9eef2d73664dab222a371ac7317",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A051",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_token_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_token_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "cd8249d8ea3e3e22a8cb3bbc11fed0beaf3cca139a32757f733701fbac6700fc",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A052",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_token_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_token_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "b9cfe722453474ec85ae5411a2e9adce82e5dca90e4fea7773f1184282fd72c2",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A053",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_uma_entrada_isca.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_uma_entrada_isca.py",
+      "alteracao": "novo(??)",
+      "sha256": "25547cc54cf89ff9523b4f2a746927e70bb40812da7838b1b73209a3221b5d7f",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A054",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_bt_uma_entrada_ok.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_bt_uma_entrada_ok.py",
+      "alteracao": "novo(??)",
+      "sha256": "792beecba128eac2b5bfdabb44b18f1ccf704ce04ac4bf6c2aee623b40351f8e",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A055",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\contra-prova\\cp_rv30_source_injetado.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova\\cp_rv30_source_injetado.py",
+      "alteracao": "novo(??)",
+      "sha256": "a23525b3f79e5c7a803ab326db189d4e53391ce7ce4acbf193598a8b1e658369",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-30"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A056",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\debugger-prova-de-fogo.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\debugger-prova-de-fogo.py",
+      "alteracao": "novo(??)",
+      "sha256": "1638a71fdb96c56e249d7b65254e371c17c2e981dbe9fb0f0dc0e258e8c37b1b",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A057",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\shrine-dois-personagens.entrada.json",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\shrine-dois-personagens.entrada.json",
+      "alteracao": "novo(??)",
+      "sha256": "5e2eaee4bddf7b836b13541f09baf9e870ae6dfb76afcfe7053e7c5795959462",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "fixture JSON derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A058",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\shrine-dois-personagens.esperado.json",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\shrine-dois-personagens.esperado.json",
+      "alteracao": "novo(??)",
+      "sha256": "fdba75e5578b4ff5b2cf535d4db1a06dc041b1244580cf736a1f4994251f3ff1",
+      "categoria": "dados",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "fixture JSON derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A059",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\fixtures\\uma-entrada-plantada.entrada.cs",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\fixtures\\uma-entrada-plantada.entrada.cs",
+      "alteracao": "novo(??)",
+      "sha256": "df596887d0a080c8272b848e9e800f15dc8ff4eef04717b32386088157c4abbc",
+      "categoria": "dados",
+      "mod": "transversal",
+      "tarefa": [
+        "nao_mapeada"
+      ],
+      "criterio": "fonte C# de fixture derivado da fonte (censo/resources.assets) e reconciliado com o consumidor.",
+      "meios_prova": "regerado por tools/gera_shrines_esperado.py / census.py; conferido por checa_shrines.py.",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "recarga/regeneracao reproduzivel + conferencia do consumidor.",
+      "lacuna": "dado NAO regenerado nesta tarefa (proibido executar script que regenera).",
+      "humano_residual": "decisao quando dado divergir da fonte.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A060",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_bt_texto.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_bt_texto.py",
+      "alteracao": "novo(??)",
+      "sha256": "2e77617463718b30df6db99374639d7ddf31e9ff42914081e3799636c3fdd16d",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A061",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_debugger.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_debugger.py",
+      "alteracao": "novo(??)",
+      "sha256": "9e1cdd00b142a8b28aa0f06e8a129229a37702c381e30627054d223f6d1e30e7",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A062",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_rstv26.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_rstv26.py",
+      "alteracao": "novo(??)",
+      "sha256": "64a5d01b45a784be3a651886f3a368331bca7846306c7a01fa49d393fdcef870",
+      "categoria": "teste",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-26"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A063",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_rv30.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_rv30.py",
+      "alteracao": "novo(??)",
+      "sha256": "cb5ee0a7303cde92e254d7ce5bef7d18a35ab47072f4d198db5d9703556c7b8c",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-30"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A064",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\regras_rv50.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\regras_rv50.py",
+      "alteracao": "novo(??)",
+      "sha256": "4a5244440b794fb2316412f311d84af0afe52f8b3e6ec6ee087bbfe0b29863a8",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A065",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt34_nota_fora_do_feed.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt34_nota_fora_do_feed.py",
+      "alteracao": "novo(??)",
+      "sha256": "c7805a53359e2cb38fd567ea27494672c474988be5bcb15f0d57151332562019",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A066",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_composicao_tooltip.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_composicao_tooltip.py",
+      "alteracao": "novo(??)",
+      "sha256": "f3350d01b0ac02590327bb2015470be6abd371340f77c60ec190796add0b6d89",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A067",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_contra_prova.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_contra_prova.py",
+      "alteracao": "novo(??)",
+      "sha256": "ee775e22176dadcd48bc18015b7d21e5c04dd47348353a5c92fc7ab7352ed4f2",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A068",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_guard_avaliador.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_guard_avaliador.py",
+      "alteracao": "novo(??)",
+      "sha256": "a2630e618cd85a7c287df7f14f4fd1a6a8bb773de774368af06517566c57de7f",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A069",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_regra_do_token.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_regra_do_token.py",
+      "alteracao": "novo(??)",
+      "sha256": "34d28e6e276d6af1290bda44f335a09f402e8a17693412b2e77211ab2ef8749e",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A070",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_substituicao_segura.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_substituicao_segura.py",
+      "alteracao": "novo(??)",
+      "sha256": "d8d8ec0cc38b5e6b8474dd97080d6e7566130ba6ffab853ff981c4456d5c2aad",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A071",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_texto_ausente.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_texto_ausente.py",
+      "alteracao": "novo(??)",
+      "sha256": "73cadbf959c707f2fd9304dd00a6e07ef70844c40e2c23e73d8d8f357d91797b",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A072",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_bt_uma_entrada_por_texto.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_bt_uma_entrada_por_texto.py",
+      "alteracao": "novo(??)",
+      "sha256": "09f24760979e9cf9a9eba584c6f4660d575c87bba80275392dd926e627760d1c",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BT-34 ",
+        "BT-7/8"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A073",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_debugger_estabilidade.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_debugger_estabilidade.py",
+      "alteracao": "novo(??)",
+      "sha256": "ea76861d515afb70a0b5dd19c3f6ccd7417c334bd9e6d545ed4a33cf6386bca0",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A074",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_debugger_parser_contrato.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_debugger_parser_contrato.py",
+      "alteracao": "novo(??)",
+      "sha256": "8246f6eb99373ccde39e5537464b75c6f18e2d8cbbf469bb457be883a7a85ec4",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A075",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_debugger_reflexao_cast.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_debugger_reflexao_cast.py",
+      "alteracao": "novo(??)",
+      "sha256": "9d929dd1e1f3abb145af821e1f5059f6771844c34bd58666a261fe9517b45c58",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A076",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_debugger_saneamento.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_debugger_saneamento.py",
+      "alteracao": "novo(??)",
+      "sha256": "6cdc91054bf39a3d376cc23cea155dbed68a0581e4d9bfff723ab37d7e17dc8a",
+      "categoria": "teste",
+      "mod": "transversal",
+      "tarefa": [
+        "RD-1"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A077",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_rstv26_tooltip_personagem.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_rstv26_tooltip_personagem.py",
+      "alteracao": "novo(??)",
+      "sha256": "73fb33d4e385dead90fa612e8e1d240d6b7ccaa6c90ee8c62fd66381afd77bba",
+      "categoria": "teste",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-26"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A078",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_rv30_shrine_fonte.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_rv30_shrine_fonte.py",
+      "alteracao": "novo(??)",
+      "sha256": "769d43a1458106dd72f9feb14d707151eb2bb2c54ab5e07e553811d1098d45b1",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-30"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A079",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_rv50_shrine_personagem.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_rv50_shrine_personagem.py",
+      "alteracao": "novo(??)",
+      "sha256": "448892a8a09cedb852f98fa23301673938df2735e73702e1ef2ced4b0a73f490",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    },
+    {
+      "id": "A080",
+      "tipo": "alteracao",
+      "caminho_rel": "tools\\testes\\testes\\puros\\t_shrine_dois_personagens.py",
+      "caminho_abs": "C:\\dev\\stolen-realm\\tools\\testes\\testes\\puros\\t_shrine_dois_personagens.py",
+      "alteracao": "novo(??)",
+      "sha256": "cd056ae94dd41df2f05137b9b58d69212b4ba5eb2cbca079f96c3c8404ae0f7b",
+      "categoria": "teste",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-35..40 ",
+        "RV-50"
+      ],
+      "criterio": "teste/regra reprova com defeito plantado e passa sem ele (prova de fogo).",
+      "meios_prova": "python tools/testes/roda_testes.py [--puros|--contra-prova].",
+      "evidencia_atual": "diff presente no working tree (nesta rodada NAO reexecutado build/teste/commit).",
+      "evidencia_necessaria": "execucao do runner com exit 0 (tudo verde) apos a bancada AUT-3.",
+      "lacuna": "runner NAO executado nesta tarefa.",
+      "humano_residual": "nenhum (verde automatizado), salvo teste de 'jogo' que exige lib/.",
+      "procedencia": "indeterminado (working tree; sem prova de autoria/commit nesta rodada)"
+    }
+  ],
+  "cobertura": [
+    {
+      "id": "M1",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "BetterCombatText",
+      "tarefa": [
+        "BT (sombra/contorno UI/UX)",
+        "RSTV? nao"
+      ],
+      "criterio": "build+perfil+zip do MESMO DLL; motivo do registro pede publicar 0.1.1",
+      "meios_prova": "build Release -p:DeployToBepInEx=false; check_versoes.py; pack-thunderstore.py --listar",
+      "evidencia_atual": "bin==perfil==dll-do-zip 0.1.1 (sha 06dae5aa..., 3 iguais); registro local diz versao_publicada 0.1.0",
+      "evidencia_necessaria": "consulta por pacote na API Thunderstore p/ saber se 0.1.1 ja esta no ar",
+      "lacuna": "registro local (0.1.0) != zip local (0.1.1): publicacao online NAO provada",
+      "humano_residual": "aprovacao de envio + revisao visual (esta ultima ja anotada como feita no motivo)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "M2",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "BetterFont",
+      "tarefa": [
+        "BF-1",
+        "BF-5"
+      ],
+      "criterio": "build+perfil+zip iguais; estilo (BF-ESTILO) preservado",
+      "meios_prova": "build Release; check_versoes; t_bf*/regras_bf_estilo",
+      "evidencia_atual": "bin==perfil==dll-do-zip 1.0.2 (sha 2c07f5e9...)",
+      "evidencia_necessaria": "confirmacao online por pacote",
+      "lacuna": "publicacao online do 1.0.2 NAO provada nesta rodada",
+      "humano_residual": "nenhum alem de publicacao",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "M3",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "BetterStats",
+      "tarefa": [
+        "BS-1 (layout inventario)"
+      ],
+      "criterio": "build+perfil+zip iguais",
+      "meios_prova": "build Release; check_versoes",
+      "evidencia_atual": "bin==perfil==dll-do-zip 1.0.1 (sha 5a3c001a...)",
+      "evidencia_necessaria": "confirmacao online por pacote",
+      "lacuna": "BS-1 (layout) segue em aberto no KANBAN FASE-1; publicacao online NAO provada",
+      "humano_residual": "decisao/validacao visual do layout",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "M4",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BUG-34a",
+        "RV-50",
+        "RV-49",
+        "RV-30",
+        "RV-44"
+      ],
+      "criterio": "build 0 erros; invariantes (falha-segura, sem acoplamento, guarda de null do CLR)",
+      "meios_prova": "build Release -p:DeployToBepInEx=false; roda_testes.py (puros); checa_shrines.py",
+      "evidencia_atual": "bin/perfil 05/10 13:36 (sha 270f311b...) DIVERGE do dll do zip 0.1.3 (sha 80bba454...); 48 alteracoes locais do mod (LocalizePatch=BUG-34, ShrineAuraPatch=RV-50/49/30) - corrigido: 37 era o total GLOBAL de arquivos M",
+      "evidencia_necessaria": "build+suite verde (AUT-3) e conferencia em jogo (AUT-4/6)",
+      "lacuna": "trabalho local (BUG-34/RV-50) NAO empacotado nem publicado; bytes FONTE<->DLL nao provados (mtime so sugere)",
+      "humano_residual": "medicao em jogo com/sem Omnism/Horn p/ fechar RV-49",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "M5",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "RoguelikeDebugger",
+      "tarefa": [
+        "RD-1",
+        "decisao Thunderstore (ferramenta de DEV)"
+      ],
+      "criterio": "build+perfil+zip iguais; decisao de publicar ferramenta de dev",
+      "meios_prova": "build Release; check_versoes; regras_debugger.py",
+      "evidencia_atual": "bin==perfil==dll-do-zip 0.1.1 (sha 99c15679...)",
+      "evidencia_necessaria": "confirmacao online; decisao do dono sobre publicar ferramenta de dev",
+      "lacuna": "decisao aberta (KANBAN FASE-1 E); publicacao online NAO provada",
+      "humano_residual": "decisao de produto (incluir ferramenta de DEV no Thunderstore?)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "M6",
+      "tipo": "cobertura",
+      "escopo": "mod integral",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-6",
+        "RSTV-21",
+        "RSTV-25b",
+        "RSTV-26"
+      ],
+      "criterio": "build 0 erros; janela read-only; tooltip com numeros resolvidos",
+      "meios_prova": "build Release; roda_testes.py; regras_rstv26.py; AUT-5 (cenarios)",
+      "evidencia_atual": "bin/perfil 05/10 13:32 (sha 454587a0...) DIVERGE do dll do zip 0.3.2 (sha c2ce4862...); SkillTreesTab.cs (RSTV-26) local+deployado; registro diz 0.3.2 publicado",
+      "evidencia_necessaria": "validacao em jogo (RSTV-21a/22d) + empacotar/publicar nova versao com RSTV-26",
+      "lacuna": "RSTV-26 deployado local != publicado; RSTV-25b INDETERMINADO (log existe; marcador 'RSTV-25:' nao localizado; causa nao provada); KANBAN.md x release/mods.json divergem em 0.3.2",
+      "humano_residual": "validacao visual em jogo da janela e dos numeros",
+      "procedencia": "KANBAN.md (local) vs release/mods.json (local) divergem"
+    },
+    {
+      "id": "T-RSTV6",
+      "tipo": "cobertura",
+      "escopo": "bateria de testes",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-6"
+      ],
+      "criterio": "testes t_rstv* + iscas cp_rstv* verdes",
+      "meios_prova": "tools/testes/roda_testes.py",
+      "evidencia_atual": "bateria entregue (KANBAN l.286: 'RSTV-1 a RSTV-7 TODAS ENTREGUES'); regras_rstv*.py presentes em tools/testes/",
+      "evidencia_necessaria": "execucao do runner (exit 0) na bancada AUT-3; cenarios RSTV em AUT-5",
+      "lacuna": "nao reexecutado nesta rodada",
+      "humano_residual": "nenhum (automatizado)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "T-RSTV21",
+      "tipo": "cobertura",
+      "escopo": "fechamento do mod",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-21a",
+        "RSTV-21b",
+        "RSTV-21c"
+      ],
+      "criterio": "janela read-only abre/navega/fecha; versao bumpada e publicada",
+      "meios_prova": "RSTV-21a (validacao em jogo pelo dono); pack-thunderstore.py; API Thunderstore",
+      "evidencia_atual": "RSTV-21b feito (bump 0.3.2 nos 4 lugares); git log: 'release: registra ... v0.3.2 na Thunderstore' (d6c0020); registro local 0.3.2",
+      "evidencia_necessaria": "consulta por pacote na API publica p/ provar 0.3.2 ONLINE; revalidacao visual",
+      "lacuna": "RSTV-21a/21c seguem ABERTOS no KANBAN; prova de publicacao so LOCAL",
+      "humano_residual": "validacao visual da janela em jogo (o dono)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "T-RSTV25B",
+      "tipo": "cobertura",
+      "escopo": "bug em aberto",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-25b"
+      ],
+      "criterio": "T4->T5 com linhas (dado legitimo) ou causa do zero-linha provada",
+      "meios_prova": "log de diagnostico 'RSTV-25: nos com Dependency por tier — T1..T5:N/M' no LogOutput.log",
+      "evidencia_atual": "diagnostico ADICIONADO no fonte; LogOutput.log EXISTE (profiles/Default/BepInEx, 1.234.333 B, mtime 05/10 14:32; RSTV-20/21 presentes) mas o marcador 'RSTV-25:' NAO foi localizado na revisao (AUT-2R)",
+      "evidencia_necessaria": "releitura do log em novo boot com o diagnostico ativo (AUT-4/5) e leitura do contador",
+      "lacuna": "INDETERMINADO - o log existe; a ausencia do marcador 'RSTV-25:' tem causa INDETERMINADA (nao se pode afirmar categoricamente que o caminho de linhas de dependencia nao foi exercido - a causa nao foi provada). Nao se decide entre (a) dado legitimo e (b) bug de casamento Dependency==SkillInfo",
+      "humano_residual": "nenhum (dado do jogo) — leitura automatizavel",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "T-RSTV26",
+      "tipo": "cobertura",
+      "escopo": "bug corrigido localmente",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "tarefa": [
+        "RSTV-26a"
+      ],
+      "criterio": "hover mostra numeros resolvidos (nao '*0'/'[N]' literais); read-only mantido; reparent intacto",
+      "meios_prova": "regras_rstv26.py + t_rstv26_tooltip_personagem.py; conferencia em jogo",
+      "evidencia_atual": "SkillTreesTab.cs l.2109-2144 implementa alvo=ReadOnlySession.Target + showCanLevelDetail:false; bin/perfil 13:32 posteriores ao fonte (13:32:19->13:32:31)",
+      "evidencia_necessaria": "build 0 erros + testes verdes + validacao em jogo (numeros contra o personagem do modal)",
+      "lacuna": "fix deployado local mas NAO no zip 0.3.2 publicado; revalidacao em jogo pendente",
+      "humano_residual": "conferir em jogo que o dano bate com o personagem do modal",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-26",
+      "tipo": "cobertura",
+      "escopo": "RV-26 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-26"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (LocalizePatch (shrine)); SUPERSEDED por RV-33: numero unico 'para voce' saiu; valor por alvo na area; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-27",
+      "tipo": "cobertura",
+      "escopo": "RV-27 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-27"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (LocalizePatch/ShrineAuraPatch); linha no azul da paleta, ultimo bloco colorido; regras_cor.py; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-28",
+      "tipo": "cobertura",
+      "escopo": "RV-28 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-28"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (GlobulePatch); cura dinamica por globule; RV-32 estendeu a pickups de pocao (arquivo NAO alterado nesta rodada); evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-29",
+      "tipo": "cobertura",
+      "escopo": "RV-29 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-29"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (ShrineAuraPatch); filtro por Character.ActionStatuses (AurasVivas); fora da aura nao ve linha; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-30",
+      "tipo": "cobertura",
+      "escopo": "RV-30 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-30"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (ShrineAuraPatch/LocalizePatch); correcao NAO commitada; auras de perigo avaliadas com Source=null; contradiz medicao de 30/09 -> RV-49; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-31",
+      "tipo": "cobertura",
+      "escopo": "RV-31 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-31"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (ShrineAuraPatch); agregado por atributo (um item por atributo); AurasVivas substitui o recorte por tooltip; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-33",
+      "tipo": "cobertura",
+      "escopo": "RV-33 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-33"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (LocalizePatch); Flame = % da vida de quem SOFRE; Decay = % da vida do portador; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "S-RV-34",
+      "tipo": "cobertura",
+      "escopo": "RV-34 (shrine)",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "RV-34"
+      ],
+      "criterio": "valor/rotulo confere com codigo+asset (checa_shrines.py) e continua COMPLETO (aura viva nao some em silencio)",
+      "meios_prova": "tools/checa_shrines.py (exit 0/1/2/3; AUSENTE nunca vira OK) + logs RV-31/44/46 + regras_shrine.py",
+      "evidencia_atual": "implementado no fonte (ShrineAuraPatch); DEFEITO do proprio mod; superado pelo RV-30 (03/10); pendencia RV-49; evidencia documental em BetterTooltips/CHANGELOG.md + docs/cobertura/revisao/RV-19-shrines.md e RV-35-40-shrines-conferencia.md",
+      "evidencia_necessaria": "conferencia em jogo por aura (entrar/sair) + medicao com/sem Omnism/Horn; regenerar shrines-esperado.csv",
+      "lacuna": "conferencia visual final do conjunto de tooltips de shrine ainda NAO revalidada em jogo; RV-49 trava os numeros das auras de PERIGO",
+      "humano_residual": "medir em jogo com/sem bonus e decidir a versao (RV-49)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    },
+    {
+      "id": "BUG34",
+      "tipo": "cobertura",
+      "escopo": "regressao de nota de Armor/Resistencia",
+      "mod": "BetterTooltips",
+      "tarefa": [
+        "BUG-34a"
+      ],
+      "criterio": "nota de Armor so no corpo da TOOLTIP, ausente no FEED de combate",
+      "meios_prova": "t_bt34_nota_fora_do_feed.py; prefix [ThreadStatic] em Root.SendMessageWindowMessage (l.144600)",
+      "evidencia_atual": "correcao implementada em LocalizePatch.cs (flag de contexto + patches de feed/texto-flutuante, l.2131-2247); ACEITE HUMANO em 05/10/2026 (KANBAN l.506)",
+      "evidencia_necessaria": "revisao independente/regressao + publicacao em nova versao (DoD)",
+      "lacuna": "LocalizePatch local+deployado (perfil=bin 13:36) mas NAO empacotado; bytes nao provados",
+      "humano_residual": "publicacao aprovada (nao reabrir o bug)",
+      "procedencia": "aceite humano registrado (KANBAN, 05/10) — nao reexecutado nesta rodada"
+    },
+    {
+      "id": "AUT-REUSE",
+      "tipo": "cobertura",
+      "escopo": "infraestrutura reaproveitavel",
+      "mod": "transversal",
+      "tarefa": [
+        "CAP-1",
+        "AUT-3/4/5/6"
+      ],
+      "criterio": "reaproveitar em vez de reconstruir",
+      "meios_prova": "existencia + contrato de saida",
+      "evidencia_atual": "CAP-1: scratch/cap1/rotina-cap1.sh + consolida.py + CapProbe + ENTREGA-CAP1.md; suite: tools/testes/roda_testes.py (exit 0/1/2, com --puros/--contra-prova); conferencia: tools/checa_shrines.py (exit 0/1/2/3); gerador: tools/gera_shrines_esperado.py; OCR: tools/ocr_tela.ps1 (AUT-1)",
+      "evidencia_necessaria": "AUT-3/AUT-4 devem LER e ESTENDER estes, nao recriar",
+      "lacuna": "nenhuma (infra presente); CAP-1 exige sessao de jogo autorizada",
+      "humano_residual": "nenhum (reuso)",
+      "procedencia": "indeterminado (sem prova de autoria nesta rodada)"
+    }
+  ],
+  "escrita_autorizada": [
+    "docs/automacao/AUT-2-matriz.json",
+    "docs/automacao/AUT-2-contexto.md"
+  ],
+  "excluidos_da_coleta": {
+    "nota": "Arquivos do proprio AUT-2 presentes no working tree durante a coleta, excluidos do conjunto das 78 alteracoes de PRODUTO. Nenhuma outra exclusao foi feita.",
+    "total": 2,
+    "paths": [
+      {
+        "caminho_rel": "docs/automacao/AUT-2-contexto.md",
+        "motivo": "entregavel do proprio AUT-2 (contexto)"
+      },
+      {
+        "caminho_rel": "docs/automacao/AUT-2-matriz.json",
+        "motivo": "entregavel do proprio AUT-2 (matriz)"
+      }
+    ]
+  },
+  "errata_revisao": {
+    "data": "2026-10-05",
+    "motivo": "correcao documental pos-revisao independente AUT-2R",
+    "relatorio_revisao": "docs/automacao/AUT-2R-revisao.md (preservado, somente leitura; historico NAO apagado)",
+    "escopo": "somente contexto/cobertura/notas; IDs, caminhos, categorias, mods e sha256 dos 78 registros NAO foram regenerados nem alterados",
+    "hash_matriz_antes": "e43e8ce07cc6a167ede3698461858c434dee8c8c776f0dfc2c4b8e3b87c30292",
+    "hash_matriz_depois": "ver AUT-2-contexto.md (nao auto-referenciado para evitar circularidade)",
+    "correcoes": [
+      "exclusoes: '6 artefatos' -> 2 entregaveis AUT-2 (paths em excluidos_da_coleta)",
+      "M4 cobertura: '37 alteracoes locais' -> 48 (BetterTooltips=48 registros; 37 era o total global M)",
+      "T-RSTV25B: log EXISTE; marcador 'RSTV-25:' nao localizado; causa da ausencia INDETERMINADA",
+      "reconciliacao_snapshots: 'SEM DRIFT' = leitura-da-coleta, nao re-verificavel (snapshots removidos)"
+    ]
+  }
+}

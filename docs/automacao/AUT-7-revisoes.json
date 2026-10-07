@@ -1,0 +1,17 @@
+{
+  "esquema": "AUT-7/revisoes/1",
+  "tarefa": "t_674c5976",
+  "nota": "Estado das revisoes INDEPENDENTES que a consolidacao final do AUT-7 depende. Nao e veredito de runtime nem de mod: e o que falta para o relatorio deixar de ser PROVISORIO. Atualizar quando cada revisao fechar.",
+  "revisoes": {
+    "AUT-3R": "EM_ANDAMENTO",
+    "AUT-5R": "PENDENTE",
+    "AUT-6R": "PENDENTE"
+  },
+  "contexto": {
+    "AUT-4R": "CHANGES_REQUESTED (nenhum criterio de runtime aprovado; correcoes E1-E7 roteadas ao CIC-5 t_431dba37)",
+    "CIC-5R": "EM_ANDAMENTO",
+    "runtime": "NAO EXERCITADO — depende de autorizacao explicita do dono, uma frente por vez"
+  },
+  "consolidacao_final": false,
+  "motivo": "consolidacao final depende AUT-3R/5R/6R; enquanto houver revisao pendente/nao-OK o relatorio e PROVISORIO"
+}

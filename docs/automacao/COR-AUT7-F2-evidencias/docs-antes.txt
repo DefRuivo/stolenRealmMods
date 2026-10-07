@@ -1,0 +1,23 @@
+docs-antes.txt - COR-AUT7-F2 (t_cd1332d7, execucao 430)
+Prova que o achado A9 apontava como ausente (a COR-AUT7 citava este arquivo e nao o entregou).
+sha256 dos docs gerados ANTES (estado do disco no inicio da fase de fecho) e DEPOIS (regerados pela CLI REAL do consolidador: `relatorio_aceite.py --relatorio ... --out ...`):
+
+arquivo                      antes                                                            depois                                                          
+AUT-7-relatorio.md           3c53c2c226205c840279efcebac4a27ba06ad70138d6c9f4b48e0c64e066fd77 2ca2bb08c2c9551db3bff44de1e1e4d9f05e0fe2e79d9c8092789de220173e7b
+AUT-7-resultado.json         eb1a40e6bc0247b0c4633609acd993934c8e914cb66668383bd7c03ec4bf15b0 a8a2f55250b7bc0afcd360493cb4940948be0edaa3566540fd9c226898e47d7c
+
+fontes e docs no fechamento da COR-AUT7-F2 (sha256):
+docs/automacao/AUT-7-relatorio.md                2ca2bb08c2c9551db3bff44de1e1e4d9f05e0fe2e79d9c8092789de220173e7b
+docs/automacao/AUT-7-resultado.json              a8a2f55250b7bc0afcd360493cb4940948be0edaa3566540fd9c226898e47d7c
+tools/automacao/aceite/relatorio_aceite.py       0ea9c942ffc5f7b2ff8f36e49313e1cb133aa1f2e45cf9a26e79b7136e6b01b1
+tools/automacao/aceite/test_relatorio_aceite.py  1d253c3820923600ef4ead6df71862a8f80677d8698189c77bb47208e1b38b3b
+tools/automacao/estilo/estilo_atributos.py       49cd80b641bff189f822ca28d89a6c9f659ccf845092a47f468ee82c518cc975
+tools/automacao/estilo/fechar_cor_aut7f2.py      a43cad62b3f6352f6d5b258040211da9d1a473c811c57eb6cfb2c69f4f44dcc0
+tools/automacao/estilo/hashes_da_entrega.py      0044846174c92914f44e1298f74a1f7d3f90a7c8b27e13706f12df79788869a1
+tools/automacao/estilo/refutar_cor_aut7f2.py     8284b169f2ee0e20b9706372d0fafc93c77e1175e088fbc59d0c34368827d0a9
+tools/automacao/estilo/refutar_cor_aut7f2_entradas.py c4cc4d983388f4b2505f27b12ce1f0fc52857d68a3ec0df77f0b2927d726493d
+tools/automacao/estilo/test_estilo_atributos.py  67db3f44a99439b3ddb4417da7c7acd72eb59a3c687504dcacb1feb4d3c8bf4b
+
+O relatorio completo desta refutacao (achados A1-A9 + fecho) esta em refutacao-cor-aut7-f2.json, no mesmo diretorio.
+
+Nota: se o 'antes' medido aqui NAO for o hash que a COR-AUT7 declarou em docs/automacao/COR-AUT7-correcao.md (tabela "Hashes"), houve ESCRITOR CONCORRENTE na arvore compartilhada entre a leitura daquele parecer e esta execucao. O que este arquivo prova e o que a correcao do A9 promete: o doc foi regerado pela CLI real NESTA execucao e os dois lados (antes/depois) estao medidos acima.

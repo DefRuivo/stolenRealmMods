@@ -1,0 +1,117 @@
+--- C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_278bbb07/tooltips_shrines_antes.py	2026-10-06 14:07:11.941087200 -0300
++++ tools/automacao/cenarios/tooltips_shrines.py	2026-10-06 14:00:53.394520500 -0300
+@@ -41,6 +41,14 @@
+    `RV-31 acumulado`) e o valor DESENHADO na tooltip (texto renderizado lido do objeto pelo
+    AUT-4) tem de bater entre si E com o esperado independente. Se so houver uma das duas
+    superficies, o que faltar sai NAO_EXERCITADO (nunca OK).
++   **COR-CIC4 (achados A/B do parecer CIC-4R2):** a segunda superficie e CONTRA-PROVA e tem de
++   estar AUTENTICADA. Sem a observacao da TOOLTIP o criterio do FEED sai `NAO_EXERCITADO`
++   (nunca OK) e a TOOLTIP so vale como contra-prova se passar a MESMA cadeia da rodada
++   (`sessao` + hash confrontado com a identidade + evidencia do artefato lido) **e** vier da
++   MESMA sessao do FEED; fixture, outra build ou outra sessao fecham a COMPARACAO
++   (`observado.feed_vs_tooltip` diz o que se mediu), mas nao fecham o CRITERIO (o estado diz o
++   que se provou). Em rodada de FIXTURE a contra-prova de fixture continua valendo - ela testa
++   o AVALIADOR e nunca fecha OK com `prova_runtime=True`.
+ 3. **Regressao BUG-34 (Armor).** O aceite humano do BUG-34 (05/10, KANBAN l.508) NAO e
+    reaberto: o unico criterio e de REGRESSAO - a nota de Armor NAO pode voltar a vazar para o
+    feed ("Increased Armor Applied" limpo). Um vazamento e REPROVADO de regressao, nao a
+@@ -492,6 +500,44 @@
+                         "(sessao/hash/manifest/evidencia confrontados com a identidade)")
+ 
+ 
++def _achar_tooltip(adaptadas, nome):
++    """A observacao da superficie TOOLTIP (texto renderizado) DAQUELE personagem, ou None."""
++    for o in adaptadas:
++        if o.get("personagem") == nome and o.get("texto_renderizado"):
++            return o
++    return None
++
++
++def _contra_prova_autenticada(contra, feed, ident_kwargs, nome):
++    """A superficie de CONTRA-PROVA (TOOLTIP) passa a MESMA cadeia da superficie observada?
++
++    Achado B do CIC-4R2: uma tooltip `fixture`, de OUTRA build ou de OUTRA sessao fechava a
++    comparacao (`feed_vs_tooltip=IGUAL`) sem autenticar nada. Devolve (estado, motivo) quando a
++    contra-prova NAO autentica, ou (None, None) quando autentica - ou quando a rodada nao se
++    declara runtime: em rodada de FIXTURE a contra-prova de fixture testa o AVALIADOR, nao o
++    campo (e nunca fecha OK com `prova_runtime=True`).
++    """
++    if not contra or feed.get("procedencia") != "runtime":
++        return (None, None)
++    if contra.get("procedencia") != "runtime":
++        return ("NAO_EXERCITADO",
++                "contra-prova (TOOLTIP) de '%s' NAO autenticada: procedencia=%r - o criterio "
++                "'feed vs tooltip' so fecha com a segunda superficie da MESMA rodada de runtime "
++                "(fixture/rotulo nao prova campo; automatizavel: coletar a tooltip na rodada)"
++                % (nome, contra.get("procedencia")))
++    estado, motivo = _cadeia_runtime(contra, ident_kwargs)
++    if estado:
++        return (estado, "contra-prova (TOOLTIP) de '%s' sem cadeia valida: %s" % (nome, motivo))
++    sess_feed = str(feed.get("sessao") or "").strip()
++    sess_contra = str(contra.get("sessao") or "").strip()
++    if sess_feed and sess_contra and sess_feed != sess_contra:
++        return ("INDETERMINADO",
++                "contra-prova (TOOLTIP) de '%s' e da sessao %r e o FEED e da sessao %r: "
++                "superficies de rodadas diferentes nao provam o mesmo ciclo"
++                % (nome, sess_contra, sess_feed))
++    return (None, None)
++
++
+ # --------------------------------------------------------------- casos
+ 
+ def _casos(caminho):
+@@ -606,17 +652,15 @@
+                                    obs["procedencia"], False, ev, classe=_classe_de(obs["procedencia"]),
+                                    extra={"personagem": nome}))
+             continue
+-        # (2) a TOOLTIP (texto renderizado) presente bate com o FEED?
+-        tooltip = None
+-        for o in adaptadas:
+-            if o.get("personagem") == nome and o.get("texto_renderizado"):
+-                tooltip = o
+-                break
++        # (2) a segunda superficie e CONTRA-PROVA (COR-CIC4, achados A/B do CIC-4R2): ela tem de
++        # EXISTIR, estar AUTENTICADA (mesma cadeia/sessao da rodada) e BATER com o FEED.
++        tooltip = _achar_tooltip(adaptadas, nome)
+         if tooltip is not None:
+             observado["superficie_tooltip"] = tooltip["rotulo"]
+             par = _item_do_atributo(tooltip["texto_renderizado"], caso["atributo"])
+             ev = ev + _evidencia_obs(tooltip)
+             if par is None:
++                observado["feed_vs_tooltip"] = "TOOLTIP_SEM_ITEM"
+                 criterios.append(_crit(caso, pid, "NAO_EXERCITADO", esperado, observado,
+                                        "tooltip renderizada sem o item do atributo %s (campo "
+                                        "ausente na leitura do objeto: lacuna TECNICA)"
+@@ -626,6 +670,7 @@
+                                               "tipo_pendencia": "coleta_tecnica"}))
+                 continue
+             if abs(par[1] - item["contrib"]) > 1e-9 or abs(par[2] - item["total"]) > 1e-9:
++                observado["feed_vs_tooltip"] = "DIVERGE"
+                 criterios.append(_crit(caso, pid, "REPROVADO", esperado, observado,
+                                        "FEED e TOOLTIP divergem no personagem '%s' "
+                                        "(feed contrib=%g total=%g | tooltip contrib=%g total=%g)"
+@@ -635,7 +680,24 @@
+                                        extra={"personagem": nome, "feed_vs_tooltip": "DIVERGE"}))
+                 continue
+             observado["feed_vs_tooltip"] = "IGUAL"
++        else:
++            observado["superficie_tooltip"] = None
++            observado["feed_vs_tooltip"] = "SEM_TOOLTIP"
++        # (3) o estado: a cadeia do FEED primeiro (defeito de cadeia e mais grave que a ausencia
++        # da contra-prova e nao pode ser mascarado por ela), depois a EXIGENCIA da segunda
++        # superficie autenticada (achados A/B: sem ela NAO ha OK).
+         estado, prova, motivo = _decisao_runtime(obs, ident_kwargs)
++        if estado == "OK" and tooltip is None:
++            estado, prova = "NAO_EXERCITADO", False
++            motivo = ("sem a superficie TOOLTIP do personagem '%s' bonus=%s: o criterio e "
++                      "'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca "
++                      "OK (lacuna TECNICA de coleta: ler a tooltip renderizada na rodada)"
++                      % (nome, bonus))
++        if estado == "OK":
++            estado_contra, motivo_contra = _contra_prova_autenticada(tooltip, obs, ident_kwargs,
++                                                                     nome)
++            if estado_contra:
++                estado, prova, motivo = estado_contra, False, motivo_contra
+         extra = {"personagem": nome}
+         extra.update(_chain_extra(obs, ident_kwargs))
+         criterios.append(_crit(caso, pid, estado, esperado, observado, motivo,

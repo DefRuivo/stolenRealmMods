@@ -1,0 +1,227 @@
+{
+  "execucao": "387 (correcao)",
+  "variantes": {
+    "BF-only-fonts-no-material": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "BF-unvalidated-control-fixture": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "BF-config-arbitrary-hash-no-keys": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "BCT-only-one-surface-no-colors": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "BCT-duplicate-same-reading": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "BCT-levelup-no-fields": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "Debugger-empty-log": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_OK"
+    },
+    "Debugger-real-delimiters": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_estilo": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "NOT_REPROVADO"
+    }
+  },
+  "suites": {
+    "suite-estilo": {
+      "exit": 0,
+      "total": "total: 22 | falhas: 0"
+    },
+    "suite-aceite": {
+      "exit": 0,
+      "total": "total: 14 | falhas: 0"
+    }
+  },
+  "cache": {
+    "ok_com_suite_real": {
+      "BetterFont": [
+        "AUT-7/BetterFont/puro/bf-decisao-texto",
+        "AUT-7/BetterFont/puro/bf-defaults",
+        "AUT-7/BetterFont/puro/bf-diag-orcamento",
+        "AUT-7/BetterFont/puro/bf-falha-segura",
+        "AUT-7/BetterFont/puro/bf-gate-material",
+        "AUT-7/BetterFont/puro/bf-nao-regride",
+        "AUT-7/BetterFont/puro/bf-preservacao",
+        "AUT-7/BetterFont/puro/bf-sem-acoplamento",
+        "AUT-7/BetterFont/puro/bf-sombra-inerte",
+        "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+        "AUT-7/BetterFont/controle-negativo/contra-prova-bf-gate-shader",
+        "AUT-7/BetterFont/controle-negativo/contra-prova-bf-sombra-por-alfa"
+      ],
+      "BetterCombatText": [
+        "AUT-7/BetterCombatText/puro/bct-aplicador",
+        "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+        "AUT-7/BetterCombatText/puro/bct-defaults",
+        "AUT-7/BetterCombatText/puro/bct-desligar-inerte",
+        "AUT-7/BetterCombatText/puro/bct-diagnostico",
+        "AUT-7/BetterCombatText/puro/bct-idempotencia",
+        "AUT-7/BetterCombatText/puro/bct-precondicao-shader",
+        "AUT-7/BetterCombatText/puro/bct-regra-de-ouro",
+        "AUT-7/BetterCombatText/puro/bct-sem-acoplamento",
+        "AUT-7/BetterCombatText/puro/bct-sem-vazamento-no-levelup",
+        "AUT-7/BetterCombatText/puro/bct-sombra-adaptativa",
+        "AUT-7/BetterCombatText/puro/bct-sombra-contraste-letra",
+        "AUT-7/BetterCombatText/puro/bct-sombra-polaridade-fonte",
+        "AUT-7/BetterCombatText/puro/bct-sombra-visivel-fundo-escuro",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-idem",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-ordem",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-ok",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-guard",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-guard-ok",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-substituicao",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-substituicao-ok",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-texto-ausente",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-texto-ausente-ok",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-token",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-token-ok",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-uma-entrada",
+        "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-uma-entrada-ok"
+      ],
+      "RoguelikeDebugger": [
+        "AUT-7/RoguelikeDebugger/puro/debugger-estabilidade",
+        "AUT-7/RoguelikeDebugger/puro/debugger-parser-contrato",
+        "AUT-7/RoguelikeDebugger/puro/debugger-reflexao-cast",
+        "AUT-7/RoguelikeDebugger/puro/debugger-saneamento"
+      ]
+    },
+    "cache_valido_apos_mutacao": false,
+    "melhorfont_ok_apos_mutacao": [],
+    "exit_apos_mutacao": 0,
+    "ok_vinculante_apos_mutacao": [],
+    "fonte_restaurada_byte_a_byte": true
+  },
+  "runtime": "NAO EXERCITADO",
+  "frentes_vazias": {
+    "por_frente": {
+      "AUT-3": 54,
+      "AUT-5": 1,
+      "AUT-6": 1,
+      "AUT-7": 62
+    },
+    "exit": 1,
+    "lacunas_canonicas": [
+      "AUT-6/resultado-vazio",
+      "AUT-5/resultado-vazio"
+    ]
+  },
+  "dump_do_produto": [
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 27,
+      "texto": "/// FORMATO: os campos novos entram ANTES de desc=, porque tools/census.py casa"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 28,
+      "texto": "/// \"campo=valor\" separado por \"|\" e precisa que desc= continue por ÚLTIMO. Nenhum"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 126,
+      "texto": "$\"[Action] '{nome}' | dano={ac.DamageType} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 127,
+      "texto": "$\"nEfeitosTot={EfeitosInfo.Conta(ac.Effects)} | efTipos={efTipos} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 128,
+      "texto": "$\"efeitos={dono} | refAcao={(refAcao != null ? Limpa(refAcao.name) : \"\")} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 129,
+      "texto": "$\"efeitosRef={refe} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 130,
+      "texto": "$\"nEfeitos={nDono} | nEfeitosRef={nRef} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 131,
+      "texto": "$\"nSummons={(ac.Summons == null ? -1 : ac.Summons.Count)} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 132,
+      "texto": "$\"refStatus={(refStatus != null ? Limpa(refStatus.Name) : \"\")} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 133,
+      "texto": "$\"danoExpr={Junta(ac.DamageExpressionOverrides)} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 134,
+      "texto": "$\"expr={Junta(ac.DescriptionExpressions)} | \" +"
+    },
+    {
+      "arquivo": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+      "linha": 135,
+      "texto": "$\"desc=\\\"{Limpa(ac.Description)}\\\"\");"
+    }
+  ],
+  "hashes": {
+    "tools/automacao/estilo/estilo_atributos.py": "17066cfa25135f6ff95eb8762eec4d62b535d52076bdf31a1e4b7c76790e8c22",
+    "tools/automacao/estilo/test_estilo_atributos.py": "3ef52c20dcc6780931fe6daaff237b0b028b09ce31c237cfe413e886d9039bf1",
+    "tools/automacao/aceite/relatorio_aceite.py": "13bc565c725784a7f34aef13ba9f15e5706bb5948100048327af8f70a2139767",
+    "tools/automacao/aceite/test_relatorio_aceite.py": "29ce8d33cc33a3b3282ea3a85b90316251782c7baf71f8bd49d37b7bb84c41d8"
+  }
+}

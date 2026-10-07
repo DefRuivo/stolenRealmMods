@@ -1,0 +1,18 @@
+{
+  "modulo_preferido": "tools\\automacao\\aut6\\cobertura.py",
+  "carregou": true,
+  "rotulo": "aut6/cobertura.py::avaliar (integracoes COR-AUT6)",
+  "itens": 26,
+  "ids_amostra": [
+    "S-rv26-receptor-duas-pessoas/receptor/bonus=0",
+    "S-rv26-receptor-duas-pessoas/source/bonus=100",
+    "S-rv28-omnism-horn-cadeia/sem-bonus/bonus=0",
+    "S-rv28-omnism-horn-cadeia/omnism2/bonus=20",
+    "S-rv28-omnism-horn-cadeia/horn/bonus=100"
+  ],
+  "adaptador_em_todos": true,
+  "algum_avaliador_indisponivel": false,
+  "algum_tooltips_shrines": false,
+  "sha_do_modulo": "e33fb037ab0303e33765331ba5cd06194bb4e1343d534fcbcab9726290ea8c0d",
+  "proibicao_do_fallback_mantida": true
+}

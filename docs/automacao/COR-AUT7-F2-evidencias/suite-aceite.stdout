@@ -1,0 +1,18 @@
+test_relatorio_aceite.py - 15 caso(s)
+  [OK   ] relatorio por mod: provas, regressao, lacunas e roteiro humano existem
+  [OK   ] tres estados SEPARADOS: tecnico, aceite humano e publicacao no markdown
+  [OK   ] rotulo OK sem evidencia NAO vira prova (o rotulo nao aprova)
+  [OK   ] frente sem entrada (AUT-3/5/6) sai NAO_EXERCITADO, nunca OK
+  [OK   ] AUT-3 ilegivel tambem nao vira OK (arquivo que nao e resultado da bancada)
+  [OK   ] aceite humano sobre mod com falha automatica fica INCONSISTENTE (nao esconde)
+  [OK   ] revisoes: pendente deixa PROVISORIO; todas OK libera a consolidacao final
+  [OK   ] relatorio nao afirma eficacia: mod sem criterio nenhum sai NAO_EXERCITADO
+  [OK   ] markdown aguenta as DUAS formas de evidencia (caminho solto e dict)
+  [OK   ] CLI: --sem-suite consolida e diz o que faltou (nunca sai 0 sem prova)
+  [OK   ] AUT-5/6: resultado vazio vira LACUNA canonica (nunca frente=0)
+  [OK   ] AUT-5/6: evidencia de item conferida (existencia+sha) e identidade sem emprestimo
+  [OK   ] AUT-5/6: rotulo OK com arquivo qualquer e identidade emprestada NAO vira prova (A7)
+  [OK   ] AUT-6: reusa a frente REAL do aut6/cobertura.py e nunca devolve vazio
+  [OK   ] consolidacao: frente vazia mantem lacuna no resultado (por_frente > 0)
+total: 15 | falhas: 0
+TUDO OK

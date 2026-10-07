@@ -1,0 +1,1 @@
+{"esquema": "AUT-6/refutacao-f2", "criterios": [{"id": "AUT-6/sint/sem-ev", "mod": "BetterTooltips", "estado": "OK", "classe": "runtime", "procedencia": "runtime", "prova_runtime": true, "sessao": "cor-aut7f2-sintetica", "esperado": "criterio sintetico da refutacao", "observado": "rotulo OK sem medicao", "evidencia": []}]}

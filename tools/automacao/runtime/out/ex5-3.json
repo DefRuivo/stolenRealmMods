@@ -1,0 +1,13 @@
+{
+  "esquema": "AUT-4/1",
+  "status": "FIXTURE",
+  "evidencia_runtime": false,
+  "veredito": "NAO PROVA RUNTIME: fixture rotulada — nunca apresentar como resultado de jogo",
+  "saida_probe": {
+    "status": "CONCLUIDO",
+    "fase": "concluido",
+    "sessao": "2026-10-05 18:30:00",
+    "hash_fonte": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "total": 2
+  }
+}

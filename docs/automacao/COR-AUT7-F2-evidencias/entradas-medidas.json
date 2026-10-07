@@ -1,0 +1,424 @@
+{
+  "E": {
+    "sandbox": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo",
+    "sandbox_copia_de": "C:\\dev\\stolen-realm",
+    "fixture_medida": "tools/fixtures/bf-efeito-no-boot.json",
+    "criterio": "bf-diag-orcamento",
+    "teste": "tools/testes/testes/puros/t_bf_diag_orcamento.py",
+    "E1_primeira_leitura": {
+      "exit": 0,
+      "cache_valido": true,
+      "ok_de_suite": 43,
+      "amostra_ok": [
+        "AUT-7/BetterCombatText/puro/bct-aplicador",
+        "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+        "AUT-7/BetterCombatText/puro/bct-defaults",
+        "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+      ],
+      "criterio_medido": [
+        [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "OK"
+        ],
+        [
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+          "OK"
+        ]
+      ],
+      "criterio_medido_ok": [
+        "AUT-7/BetterFont/puro/bf-diag-orcamento",
+        "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+      ],
+      "suites": {
+        "puros": {
+          "exit_runner": null,
+          "erro": "cache atual verificado"
+        },
+        "contra_prova": {
+          "exit_runner": null,
+          "erro": "cache atual verificado"
+        }
+      },
+      "arquivos": 3615,
+      "artefatos": 33,
+      "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E1-sem-suite-baseline.estilo.json"
+    },
+    "E1": {
+      "exit": 0,
+      "cache_valido": true,
+      "ok_de_suite": 43,
+      "amostra_ok": [
+        "AUT-7/BetterCombatText/puro/bct-aplicador",
+        "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+        "AUT-7/BetterCombatText/puro/bct-defaults",
+        "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+      ],
+      "criterio_medido": [
+        [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "OK"
+        ],
+        [
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+          "OK"
+        ]
+      ],
+      "criterio_medido_ok": [
+        "AUT-7/BetterFont/puro/bf-diag-orcamento",
+        "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+      ],
+      "suites": {
+        "puros": {
+          "exit_runner": null,
+          "erro": "cache atual verificado"
+        },
+        "contra_prova": {
+          "exit_runner": null,
+          "erro": "cache atual verificado"
+        }
+      },
+      "arquivos": 3615,
+      "artefatos": 33,
+      "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E1-sem-suite-baseline.estilo.json"
+    },
+    "E2": {
+      "exit": 0,
+      "contagem": {
+        "PASSOU": 1
+      },
+      "testes": [
+        {
+          "arquivo": "t_bf_diag_orcamento.py",
+          "nome": "bf-diag-orcamento",
+          "estado": "PASSOU",
+          "esperado": "passar",
+          "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+        }
+      ]
+    },
+    "E3_fotografia": {
+      "arquivos_antes": 3615,
+      "arquivos_depois": 3614,
+      "fotografia_mudou": true,
+      "caminhos_que_sairam": [
+        "tools/fixtures/bf-efeito-no-boot.json"
+      ],
+      "a_fixture_saiu": true,
+      "artefatos_intactos": true
+    },
+    "E3_rodada_viva": {
+      "exit": 1,
+      "contagem": {
+        "REPROVOU": 1
+      },
+      "testes": [
+        {
+          "arquivo": "t_bf_diag_orcamento.py",
+          "nome": "bf-diag-orcamento",
+          "estado": "REPROVOU",
+          "esperado": "passar",
+          "detalhe": "a medicao dos textos COM EFEITO no boot nao esta em tools\\fixtures\\bf-efeito-no-boot.json (era ela que o teste digitava como 5)"
+        }
+      ]
+    },
+    "E3_sem_suite": {
+      "exit": 0,
+      "cache_valido": false,
+      "ok_de_suite": 0,
+      "amostra_ok": [],
+      "criterio_medido": [],
+      "criterio_medido_ok": [],
+      "suites": {
+        "puros": {
+          "exit_runner": null,
+          "erro": "cache ausente/obsoleto: rerodar suite"
+        },
+        "contra_prova": {
+          "exit_runner": null,
+          "erro": "cache ausente/obsoleto: rerodar suite"
+        }
+      },
+      "arquivos": 3614,
+      "artefatos": 33,
+      "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E3-sem-suite-com-a-prova-velha.estilo.json"
+    },
+    "E3_consolidador": {
+      "exit": 1,
+      "criterio": [],
+      "ok_vinculantes_do_criterio": [],
+      "criterios_do_mod_afetado": [
+        [
+          "AUT-7/BetterFont/suite-ausente",
+          "NAO_EXERCITADO"
+        ],
+        [
+          "AUT-7/BetterFont/runtime-preservacao-estilo",
+          "NAO_EXERCITADO"
+        ],
+        [
+          "AUT-7/BetterFont/runtime-config",
+          "NAO_EXERCITADO"
+        ],
+        [
+          "AUT-7/BetterFont/runtime-visual",
+          "NAO_EXERCITADO"
+        ]
+      ],
+      "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E3-consolidador-sem-a-fixture.aceite.json"
+    },
+    "E4": {
+      "restaurada_byte_a_byte": true,
+      "sha_antes": "ab9ad7f24844f692408572fa997f3e9926280fcd16526529ba887a0688b6f5d4",
+      "sha_depois": "ab9ad7f24844f692408572fa997f3e9926280fcd16526529ba887a0688b6f5d4",
+      "fotografia_igual_a_antes": true,
+      "rodada_viva": {
+        "exit": 0,
+        "contagem": {
+          "PASSOU": 1
+        },
+        "testes": [
+          {
+            "arquivo": "t_bf_diag_orcamento.py",
+            "nome": "bf-diag-orcamento",
+            "estado": "PASSOU",
+            "esperado": "passar",
+            "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+          }
+        ]
+      },
+      "sem_suite": {
+        "exit": 0,
+        "cache_valido": true,
+        "ok_de_suite": 43,
+        "amostra_ok": [
+          "AUT-7/BetterCombatText/puro/bct-aplicador",
+          "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+          "AUT-7/BetterCombatText/puro/bct-defaults",
+          "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+        ],
+        "criterio_medido": [
+          [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+            "OK"
+          ]
+        ],
+        "criterio_medido_ok": [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+        ],
+        "suites": {
+          "puros": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          },
+          "contra_prova": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          }
+        },
+        "arquivos": 3615,
+        "artefatos": 33,
+        "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E4-sem-suite-restaurado.estilo.json"
+      },
+      "consolidador": {
+        "exit": 1,
+        "criterio": [
+          [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+            "OK"
+          ]
+        ],
+        "ok_vinculantes_do_criterio": [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+        ],
+        "criterios_do_mod_afetado": [
+          [
+            "AUT-7/BetterFont/puro/bf-decisao-texto",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-defaults",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-falha-segura",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-gate-material",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-nao-regride",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-preservacao",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-sem-acoplamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/puro/bf-sombra-inerte",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-gate-shader",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-sombra-por-alfa",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-preservacao-estilo",
+            "NAO_EXERCITADO"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-config",
+            "NAO_EXERCITADO"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-visual",
+            "NAO_EXERCITADO"
+          ]
+        ],
+        "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E4-consolidador-restaurado.aceite.json"
+      }
+    },
+    "E5": {
+      "arquivos_lidos": 376,
+      "dirs_listados": 302,
+      "entradas_cobertas": 324,
+      "por_origem": {
+        "raiz BetterCombatText": 8,
+        "artefato <Mod>/bin/**/*.dll": 4,
+        "raiz BetterFont": 4,
+        "raiz BetterStats": 4,
+        "raiz BetterTooltips": 14,
+        "padrao **/*.props": 1,
+        "raiz ReloadProbe": 2,
+        "raiz RoguelikeDebugger": 14,
+        "raiz RoguelikeSkillTreeVisualizer": 16,
+        "artefato dist/*.zip": 1,
+        "raiz docs/cobertura": 9,
+        "raiz scratch": 8,
+        "raiz tools": 239
+      },
+      "derivados_lidos": [
+        "tools/__pycache__/census.cpython-314.pyc",
+        "tools/__pycache__/checa_shrines.cpython-314.pyc",
+        "tools/__pycache__/check_chave_compartilhada.cpython-314.pyc",
+        "tools/__pycache__/check_dependencias.cpython-314.pyc",
+        "tools/__pycache__/check_deploy_optin.cpython-314.pyc",
+        "tools/__pycache__/check_dupes.cpython-314.pyc",
+        "tools/__pycache__/check_fix_keys.cpython-314.pyc",
+        "tools/__pycache__/check_notas_redundantes.cpython-314.pyc",
+        "tools/__pycache__/check_omissao.cpython-314.pyc",
+        "tools/__pycache__/check_patches.cpython-314.pyc",
+        "tools/__pycache__/check_scaling.cpython-314.pyc",
+        "tools/__pycache__/check_versoes.cpython-314.pyc",
+        "tools/__pycache__/gera_shrines_esperado.cpython-314.pyc",
+        "tools/__pycache__/pack-thunderstore.cpython-314.pyc",
+        "tools/__pycache__/preserva_curado.cpython-314.pyc",
+        "tools/__pycache__/review_ledger.cpython-314.pyc",
+        "tools/__pycache__/tabelas.cpython-314.pyc",
+        "tools/automacao/aut6/__pycache__/cobertura.cpython-314.pyc",
+        "tools/automacao/aut6/__pycache__/observacoes_fixture.cpython-314.pyc",
+        "tools/automacao/aut6/__pycache__/prova.cpython-314.pyc",
+        "tools/automacao/aut6/__pycache__/suporte_testes.cpython-314.pyc",
+        "tools/automacao/aut6/__pycache__/validacoes.cpython-314.pyc",
+        "tools/automacao/ciclo/__pycache__/decisao.cpython-314.pyc",
+        "tools/automacao/runtime/__pycache__/coletor.cpython-314.pyc",
+        "tools/testes/__pycache__/arcabouco.cpython-314.pyc",
+        "tools/testes/__pycache__/recorte.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_bct.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_bf.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_bf_estilo.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_bt_texto.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_cor.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_debugger.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_formato.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_nivel3.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rel.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv11.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv11b.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv12.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv13.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv14.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv16.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv18.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv19.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv21.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv26.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv27.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv27_valor.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rstv28.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rv30.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_rv50.cpython-314.pyc",
+        "tools/testes/__pycache__/regras_shrine.cpython-314.pyc"
+      ],
+      "nao_cobertos": [],
+      "cobertura_declarada": {
+        "raizes": [
+          "BetterFont",
+          "BetterCombatText",
+          "BetterStats",
+          "RoguelikeDebugger",
+          "BetterTooltips",
+          "RoguelikeSkillTreeVisualizer",
+          "tools",
+          "lib",
+          "docs/cobertura",
+          "ReloadProbe",
+          "scratch"
+        ],
+        "arquivos_soltos": [
+          "docs/PLANO-DE-TESTES.md"
+        ],
+        "padroes": [
+          "**/*.csproj",
+          "**/*.props",
+          "**/*.targets"
+        ],
+        "fora": [
+          ".git",
+          ".worktrees",
+          "bin",
+          "obj",
+          "__pycache__",
+          "node_modules",
+          ".vs"
+        ]
+      },
+      "gancho": "sys.addaudithook em open/os.listdir/os.scandir/glob.glob (sitecustomize)"
+    },
+    "leitura": "A fotografia passou a cobrir as ENTRADAS que a suite LE - 6 mods, `tools/**`, `lib/**`, `docs/cobertura/**`, `ReloadProbe/**`, `scratch/**`, `docs/PLANO-DE-TESTES.md` e os projetos `*.csproj`/`*.props`/`*.targets` da arvore - alem dos artefatos de build que ela MEDE. Apagar a `tools/fixtures/bf-efeito-no-boot.json` (lida por `t_bf_diag_orcamento`) muda a fotografia: a rodada viva REPROVA (E3) e o `--sem-suite` com a prova velha nao reusa nada (cache INVALIDO, 0 OK de suite, 0 OK_VINCULANTE no consolidador). Restaurada byte a byte, tudo volta (E4) - a invalidacao vem da ENTRADA, nao de ruido. A cobertura e AUDITADA (E5): todo arquivo lido sob o repo na rodada viva esta coberto pelas raizes/padroes/artefatos declarados.",
+    "fechou": true
+  },
+  "hashes": {
+    "tools\\automacao\\estilo\\estilo_atributos.py": "49cd80b641bff189f822ca28d89a6c9f659ccf845092a47f468ee82c518cc975",
+    "tools\\automacao\\estilo\\test_estilo_atributos.py": "67db3f44a99439b3ddb4417da7c7acd72eb59a3c687504dcacb1feb4d3c8bf4b",
+    "tools\\automacao\\estilo\\refutar_cor_aut7f2_entradas.py": "c4cc4d983388f4b2505f27b12ce1f0fc52857d68a3ec0df77f0b2927d726493d"
+  }
+}

@@ -1,0 +1,12 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "procedencia": "fixture",
+  "rotulo_fixture": "rstv-ausente",
+  "evidencia_runtime": false,
+  "aviso": "Caso SEM leitura de campo (rodada de ciclo antes de qualquer coleta runtime). O avaliador TEM de devolver NAO_EXERCITADO para todas as capacidades — AUSENTE nao e OK.",
+  "identidade": {
+    "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "observacoes": []
+}

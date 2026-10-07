@@ -1,0 +1,26 @@
+{
+  "esquema": "AUT-4/1",
+  "descricao": "PLANO DE COLETA AUT-4 — FIXTURE rotulada. NAO e observacao de runtime e NAO prova nada em jogo.",
+  "procedencia": "fixture",
+  "rotulo_fixture": "plano-exemplo",
+  "evidencia_runtime": false,
+  "autorizacao": {
+    "coleta_autorizada": false,
+    "autor": "dono",
+    "observacao": "default do repositorio: nenhuma coleta ate autorizacao explicita da rodada"
+  },
+  "orcamento_segundos": 120,
+  "cenarios": [
+    {
+      "nome": "boot-menu",
+      "espera_estado": "ui-com-texto-renderizado",
+      "navegar": false,
+      "demostrar_tooltip": false,
+      "alvos": [
+        "Tooltip.Title",
+        "Tooltip.Description",
+        "TMP_Text@ativo"
+      ]
+    }
+  ]
+}

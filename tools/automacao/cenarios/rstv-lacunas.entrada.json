@@ -1,0 +1,83 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "rotulo_fixture": "rstv-lacunas",
+  "aviso": "LACUNAS TECNICAS (B1/B2 da CIC-3R). Cada caso roda com procedencia runtime + sessao + hash_fonte == identidade (identidade SUFICIENTE): mesmo assim, campo AUSENTE/incompleto/malformado NAO pode fechar OK. Nenhum caso e leitura de jogo — sao fixtures que provam a regra 'AUSENTE/incompleto/malformado nunca vira OK'. Cada lacuna vira pendencia TECNICA (lacuna_probe, tipo_pendencia=tecnica).",
+  "identidade": {
+    "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "casos": [
+    {
+      "nome": "personagem_ausente",
+      "criterio_esperado": "RSTV-6-readonly-personagem",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"personagem_esperado": "Raven", "personagem": {"personagem": null}}
+    },
+    {
+      "nome": "personagem_sem_alvo_declarado",
+      "criterio_esperado": "RSTV-6-readonly-personagem",
+      "estado_esperado": "INDETERMINADO",
+      "observacao": {"personagem": {"gui_state": "ChoosingCharacter", "tem_personagem_selecionado": true, "personagem": "Raven"}}
+    },
+    {
+      "nome": "skills_par_incompleto",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"skills_antes": ["A", "B"]}
+    },
+    {
+      "nome": "pontos_par_incompleto",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"pontos_antes": 5}
+    },
+    {
+      "nome": "skills_como_string",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"skills_antes": "AB", "skills_depois": "BA"}
+    },
+    {
+      "nome": "skills_como_dict",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"skills_antes": {"a": 1}, "skills_depois": {"a": 1}}
+    },
+    {
+      "nome": "pontos_nao_numerico",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"pontos_antes": 1, "pontos_depois": "abc"}
+    },
+    {
+      "nome": "snapshot_sem_chaves",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"snapshot_antes": {"nivel": 3}, "snapshot_depois": {"nivel": 3}}
+    },
+    {
+      "nome": "janela_registro_vazio",
+      "criterio_esperado": "RSTV-21-janela-ciclo",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"janela": {}}
+    },
+    {
+      "nome": "tooltip_so_duplicadas",
+      "criterio_esperado": "RSTV-21-tooltip-restauracao",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"janelas_duplicadas": 0}
+    },
+    {
+      "nome": "dependencia_sem_dependency",
+      "criterio_esperado": "RSTV-25b-dependencia",
+      "estado_esperado": "INDETERMINADO",
+      "observacao": {"linhas_dependencia": {"T4": 2}}
+    },
+    {
+      "nome": "geometria_sem_tela",
+      "criterio_esperado": "RSTV-geometria-clipping",
+      "estado_esperado": "NAO_EXERCITADO",
+      "observacao": {"geometria": {"caixa_na_tela_px": {"x": 10, "y": 20, "largura": 300, "altura": 40}}}
+    }
+  ]
+}
