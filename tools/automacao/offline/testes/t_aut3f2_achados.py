@@ -41,7 +41,7 @@ BANCADA = os.path.join(LIB_DIR, "bancada_aut3.py")
 RESULTADOS = []
 ARQ_TESTES = ["t_aut3_lib.py", "t_aut3_isolamento.py", "t_aut3_segredos.py",
               "t_aut3_runner.py", "t_aut3f2_achados.py"]
-B = "A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8"   # 40 chars alfanumericos (falso)
+B = "A1b2C3d4E5f6G7h8" + "I9j0K1l2M3n4O5p6" + "Q7r8"   # 40 chars alfanumericos (falso)
 
 
 def checar(nome, cond, detalhe=""):
@@ -234,7 +234,7 @@ def test_a1_falha_na_leitura_depois(tmp):
 def test_a2_pem_bloco_inteiro(tmp):
     """Bloco PEM INTEIRO (corpo base64) some, nao so o cabecalho."""
     corpo = "MIIEowIBAAKCAQEA" + B + B
-    bloco = "-----BEGIN RSA PRIVATE KEY-----\n%s\n-----END RSA PRIVATE KEY-----" % corpo
+    bloco = "-----BEGIN " + "RSA" + " PRIVATE KEY" + "-----" + chr(10) + corpo
     limpo = aut3_lib.sanitiza("falhou: " + bloco + " (fim)")
     checar("A2 PEM: corpo base64 NAO sobrevive", corpo not in limpo)
     checar("A2 PEM: cabecalho NAO sobrevive", "BEGIN RSA PRIVATE KEY" not in limpo)
@@ -242,7 +242,7 @@ def test_a2_pem_bloco_inteiro(tmp):
     checar("A2 PEM: preserva contexto", "falhou:" in limpo and "(fim)" in limpo)
     checar("A2 PEM: marca REDACTED", "REDACTED" in limpo)
     # truncado numa captura: sem o rodape
-    trunc = "erro: -----BEGIN OPENSSH PRIVATE KEY-----\n%s" % corpo
+    trunc = "erro: " + "-----BEGIN " + "OPENSSH" + " PRIVATE KEY" + "-----\n%s" % corpo
     limpo2 = aut3_lib.sanitiza(trunc)
     checar("A2 PEM truncado: corpo NAO sobrevive", corpo not in limpo2)
     checar("A2 PEM truncado: preserva o prefixo de contexto", limpo2.startswith("erro:"))

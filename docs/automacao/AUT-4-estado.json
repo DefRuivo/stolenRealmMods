@@ -1,7 +1,7 @@
 {
   "esquema": "AUT-4/1",
   "tarefa": "t_b8b9822e",
-  "correcao": "t_b62359c3 (COR-AUT4 — achados A1-A7 da revisao independente AUT-4R2) + t_fc40b2a7 (AUT-4F — achados remanescentes do parecer CIC-5R: R-1..R-5, S-2, S-3)",
+  "correcao": "t_b62359c3 (COR-AUT4 — achados A1-A7 da revisao independente AUT-4R2) + t_fc40b2a7 (AUT-4F — achados remanescentes do parecer CIC-5R: R-1..R-5, S-2, S-3) + t_6db50f7a (AUD-1 — agregados/identidade + fidelidade do criterio de EFEITO ao BetterFont, achado da revisao rodada 1)",
   "titulo": "AUT-4 - preparacao e teste OFFLINE do coletor runtime",
   "rodada": "offline",
   "runtime_exercitado": false,
@@ -9,37 +9,65 @@
   "aviso": "Nenhum jogo aberto/encerrado, nenhum save tocado, nenhum probe instalado, nenhum deploy. A coleta em jogo e a proxima rodada autorizada.",
   "artefatos": {
     "probe_fonte": "tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs",
-    "probe_fonte_sha256": "5a51abaa439b90263e3b202e01a0b2b3b343fabc8cb71c9de8b3ac97b343bdd3",
+    "probe_fonte_sha256": "48afd3c41cf3ba97c93e5fc2d6b02ca58298939bf4b2a51f0ccd159ec96e3e94",
+    "probe_componentes": [
+      {
+        "arquivo": "tools/automacao/runtime/AUT4Probe/LeituraAgregados.cs",
+        "papel": "AGREGADOS do CAP-1 em componente ISOLADO (estatico, so leitura): inventario por shader/fonte, fontes em memoria com ShaderUtilities.ShaderRef_MobileSDF e os textos ja desenhados (AUD-1/t_6db50f7a). O criterio de EFEITO espelha o BetterFont (TemEfeitoNoMaterial -> SombraDesenhada, BF-5) e esse espelho e CONFERIDO contra a fonte do mod por t_aut4_probe_contrato.py §11.3",
+        "sha256": "2506ec6478dd5a6bd445f2726c6595015f877f5e6465201d10c12a439c36cab0"
+      },
+      {
+        "arquivo": "tools/automacao/runtime/AUT4Probe/IdentidadeDoProbe.cs",
+        "papel": "IDENTIDADE do instrumento (L1 da AUD-1): bloco `identidade` no JSON com o hash do fonte declarado pelo driver E o sha256 da DLL calculado no runtime",
+        "sha256": "c23574f324f7a70ddeb2edb484daf292ebd92fc07eb0304bfbf343e58d27bfa6"
+      }
+    ],
     "probe_projeto": "tools/automacao/runtime/AUT4Probe/AUT4Probe.csproj",
     "probe_dll": "tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll",
-    "probe_dll_sha256": "fd774259b5e8813f2f3b29e2ff805f12cb0cdab4c277116fcc8bbb7e7e3bffdd",
+    "probe_dll_sha256": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
     "probe_dll_reprodutivel_byte_a_byte": false,
     "probe_dll_identidade": "HASH DECLARADO do binario em disco (nunca 'compila igual'): a DLL do probe NAO e reproduzivel byte a byte (build sem -p:PathMap) — um rebuild do MESMO fonte gera outro hash. A rodada runtime usa ESTE hash como identidade declarada e CONFERIR o sha256 antes de instalar.",
     "driver": "tools/automacao/runtime/coletor.py",
-    "driver_sha256": "68866a7ce101044b314587a32199d8709f87f97b6749fa1d86dc0978605a1595",
+    "driver_sha256": "adb48dca024120db91b65e28b8842b7f303ca1725359cdaf4deab5530ae1dd46",
+    "driver_controle_negativo": "tools/automacao/runtime/controle_negativo.py",
+    "driver_controle_negativo_sha256": "053c0026f97c8541294c81e9d0011df4f3d970756f6ab8bc1d96a98fa9296659",
     "runner": "tools/automacao/runtime/roda_testes_runtime.py",
     "runner_sha256": "7906c1692bf349aff006039f73bbc8c59ef4e2a7a588210c348227be4dfb157e",
     "testes": [
       "tools/automacao/runtime/testes/t_aut4_autorizacao.py",
       "tools/automacao/runtime/testes/t_aut4_cic5r.py",
+      "tools/automacao/runtime/testes/t_aut4_controle_isolado.py",
       "tools/automacao/runtime/testes/t_aut4_controle_negativo.py",
       "tools/automacao/runtime/testes/t_aut4_costura_probe.py",
+      "tools/automacao/runtime/testes/t_aut4_detector_no.py",
       "tools/automacao/runtime/testes/t_aut4_estado_docs.py",
       "tools/automacao/runtime/testes/t_aut4_execucao.py",
+      "tools/automacao/runtime/testes/t_aut4_jogo_aberto_frente.py",
       "tools/automacao/runtime/testes/t_aut4_manifest_rollback.py",
       "tools/automacao/runtime/testes/t_aut4_observacao.py",
       "tools/automacao/runtime/testes/t_aut4_plano.py",
-      "tools/automacao/runtime/testes/t_aut4_probe_contrato.py"
+      "tools/automacao/runtime/testes/t_aut4_probe_contrato.py",
+      "tools/automacao/runtime/testes/t_aut4_restauracao.py",
+      "tools/automacao/runtime/testes/t_aut4_runbook.py"
     ],
     "contra_prova": [
       "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_ausente_ok.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_coleta_sem_autorizacao.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_controle_negativo_no_perfil_do_dono.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_detector_confirma_leitura_vazia.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_detector_confirma_sem_status.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_jogo_aberto_promete_hot_reload.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_runbook_hash_velho.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_alvos_2o_cenario_ignorado.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_campo_extra_ausente_ok.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_cli_sem_perfil_estoura.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_contraprova_aceita_excecao.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_encerrar_por_imagem_mata_todas.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_espera_queima_teto.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4probe_isca_sombra_por_cor.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_backup_log_sem_registro.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_forcado_primeiro.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_residuo_nao_detectado.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_fora_do_schema.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_nao_lido_ok.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_vazio_ok.py",
@@ -59,7 +87,8 @@
       "tools/automacao/runtime/fixtures/plano-exemplo.entrada.json",
       "tools/automacao/runtime/fixtures/observacao-fixture-exemplo.entrada.json",
       "tools/automacao/runtime/fixtures/casos-invalidos.entrada.json",
-      "tools/automacao/runtime/fixtures/probe-saida-exemplo.entrada.json"
+      "tools/automacao/runtime/fixtures/probe-saida-exemplo.entrada.json",
+      "tools/automacao/runtime/fixtures/cenarios-negativos.entrada.json"
     ]
   },
   "build": {
@@ -76,10 +105,10 @@
   "testes_offline": {
     "comando": "python tools/automacao/runtime/roda_testes_runtime.py",
     "exit_code": 0,
-    "passaram": 10,
+    "passaram": 15,
     "reprovaram": 0,
     "contra_prova_exit_code": 0,
-    "iscas_reprovaram_como_deviam": 22
+    "iscas_reprovaram_como_deviam": 31
   },
   "achados_aut4r2_corrigidos": [
     {
@@ -223,21 +252,182 @@
     }
   ],
   "contratos_exercitados_offline": [
-    {"caso": "default offline (sem autorizacao)", "exit": 2, "status": "NAO_EXERCITADO", "pode_coletar": false},
-    {"caso": "autorizado mas sem jogo", "exit": 2, "status": "NAO_EXERCITADO"},
-    {"caso": "fixture rotulada consolidada", "exit": 2, "status": "FIXTURE", "veredito": "NAO PROVA RUNTIME"},
-    {"caso": "autorizado+confirmado+com jogo (previsto)", "passos": 6, "rollback_itens": 3, "executado_em_jogo": false},
-    {"caso": "rodada autorizada com as 3 provas (contra stub, sem jogo)", "exit": 0, "status": "CONCLUIDO"},
-    {"caso": "JSON de rodada anterior", "exit": 2, "status": "NAO_EXERCITADO"},
-    {"caso": "print ausente/bytes=0", "exit": 1, "status": "INDETERMINADO"},
-    {"caso": "alvo nao lido (objeto inativo)", "exit": 1, "status": "INCOMPLETO"},
-    {"caso": "demostrar_tooltip sem prova de ida-e-volta", "exit": 1, "status": "INDETERMINADO"}
+    {
+      "caso": "default offline (sem autorizacao)",
+      "exit": 2,
+      "status": "NAO_EXERCITADO",
+      "pode_coletar": false
+    },
+    {
+      "caso": "autorizado mas sem jogo",
+      "exit": 2,
+      "status": "NAO_EXERCITADO"
+    },
+    {
+      "caso": "fixture rotulada consolidada",
+      "exit": 2,
+      "status": "FIXTURE",
+      "veredito": "NAO PROVA RUNTIME"
+    },
+    {
+      "caso": "autorizado+confirmado+com jogo (previsto)",
+      "passos": 6,
+      "rollback_itens": 3,
+      "executado_em_jogo": false
+    },
+    {
+      "caso": "rodada autorizada com as 3 provas (contra stub, sem jogo)",
+      "exit": 0,
+      "status": "CONCLUIDO"
+    },
+    {
+      "caso": "JSON de rodada anterior",
+      "exit": 2,
+      "status": "NAO_EXERCITADO"
+    },
+    {
+      "caso": "print ausente/bytes=0",
+      "exit": 1,
+      "status": "INDETERMINADO"
+    },
+    {
+      "caso": "alvo nao lido (objeto inativo)",
+      "exit": 1,
+      "status": "INCOMPLETO"
+    },
+    {
+      "caso": "demostrar_tooltip sem prova de ida-e-volta",
+      "exit": 1,
+      "status": "INDETERMINADO"
+    },
+    {
+      "caso": "detector: leitura valida e expectativa casa",
+      "exit": 0,
+      "veredito": "CONFIRMADA"
+    },
+    {
+      "caso": "detector: leitura valida e expectativa NAO casa",
+      "exit": 1,
+      "veredito": "NO"
+    },
+    {
+      "caso": "detector: nenhuma observacao / nenhum alvo lido",
+      "exit": 1,
+      "veredito": "AUSENTE"
+    },
+    {
+      "caso": "detector: caminho sem acesso autorizado ao jogo (ou instrumentacao nao carregada)",
+      "exit": 2,
+      "veredito": "NAO_EXERCITADO",
+      "dados_sinteticos": false
+    },
+    {
+      "caso": "detector: lacuna, prova de execucao incompleta, estado terminal ou fixture rotulada",
+      "exit": 1,
+      "veredito": "INCOMPLETO"
+    },
+    {
+      "caso": "controle negativo isolado: perfil do dono como destino",
+      "resultado": "PerfilNaoIsolado — RECUSADO (fail-closed)"
+    },
+    {
+      "caso": "controle negativo isolado: autorizado=False",
+      "exit": 2,
+      "status": "NAO_EXERCITADO",
+      "observacoes": 0,
+      "stub_rodou": false
+    },
+    {
+      "caso": "controle negativo isolado: autorizado=True com stub que nao escreve leitura",
+      "exit": 2,
+      "status": "NAO_EXERCITADO",
+      "observacoes": 0,
+      "stub_rodou": true,
+      "perfil_dono_intacto": true
+    },
+    {
+      "caso": "jogo aberto sem o probe carregado",
+      "exit": 2,
+      "status": "NAO_EXERCITADO",
+      "reinicio_necessario": true,
+      "hot_reload": false
+    },
+    {
+      "caso": "jogo aberto com o probe carregado",
+      "exit": 0,
+      "status": "PRONTO_PARA_LER",
+      "hot_reload": false
+    },
+    {
+      "caso": "frente duplicada (outra frente controlando o jogo)",
+      "exit": 2,
+      "status": "NAO_EXERCITADO",
+      "stub_rodou": false
+    }
   ],
   "controle_negativo": {
     "fixture": "tools/automacao/runtime/fixtures/casos-invalidos.entrada.json",
     "casos": 5,
     "recusados": 5,
     "resultado": "todos os casos invalidados recusados pelo motivo declarado"
+  },
+  "detector_de_ausencia": {
+    "tarefa": "t_a5994af0",
+    "funcao": "coletor.detectar_leitura",
+    "vocabulario_fechado": ["CONFIRMADA", "NO", "AUSENTE", "NAO_EXERCITADO", "INCOMPLETO"],
+    "vereditos_negativos": ["NO", "AUSENTE", "NAO_EXERCITADO", "INCOMPLETO"],
+    "regra": "a ordem das regras e: (1) reinicio/sem exercicio -> NAO_EXERCITADO; (2) fixture rotulada -> INCOMPLETO (nunca confirma); (3) provas de execucao incompletas / estado terminal de falha / instrumento sem status de conclusao -> INCOMPLETO; (4) nenhuma observacao ou nenhum campo-alvo lido -> AUSENTE; (5) leitura VALIDA e a expectativa declarada NAO casa -> NO; (6) alvo declarado nao lido -> INCOMPLETO; (7) so entao -> CONFIRMADA",
+    "no_exige_leitura": "campo nao lido NAO vira NO: vira AUSENTE (nao da para dizer NAO sobre o que o probe nao leu)",
+    "status_de_conclusao_obrigatorio": "AUT-4R rodada 1: o status de conclusao do instrumento e OBRIGATORIO em detectar_leitura — ausente/vazio NAO confirma ('silencio nao e aprovacao'). Antes o curto-circuito `if st and st not in STATUS_PROBE_OK` deixava `status` ausente/\"\" escapar para CONFIRMADA, contradizendo a docstring (regra 2), o irmao consolidar_probe e veredito_do_status(None). Corrigido: `if st not in STATUS_PROBE_OK` — so CONCLUIDO/OK atravessam. Por isso a fixture cenarios-negativos declara `status_conclusao` e todo caso abaixo do portao o usa.",
+    "invariantes": [
+      "nenhum caminho devolve CONFIRMADA sem leitura valida",
+      "nenhum caminho devolve CONFIRMADA sem status de conclusao declarado",
+      "dados_sinteticos e SEMPRE False (o detector nunca fabrica dado)",
+      "hot_reload e SEMPRE False (o detector nunca promete hot-reload)",
+      "todo veredito negativo carrega exit != 0 e motivo declarado",
+      "veredito_do_status(status desconhecido ou ausente) == INCOMPLETO (silencio nao e aprovacao)"
+    ],
+    "casos": 11,
+    "fixture": "tools/automacao/runtime/fixtures/cenarios-negativos.entrada.json",
+    "teste": "tools/automacao/runtime/testes/t_aut4_detector_no.py",
+    "iscas": [
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_detector_confirma_leitura_vazia.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_detector_confirma_sem_status.py"
+    ],
+    "lane_cli_detectar": {
+      "declaracao": "LACUNA DECLARADA (AUT-4R rodada 1): o lane `--detectar` LE um artefato JA EXISTENTE e NAO passa `provas` ao detector — nem provas.ok nem a atualidade da sessao sao checadas nesse caminho (a prova de execucao — sessao desta rodada + log + prints — so existe no caminho `--executar`). O QUE ESTE LANE GARANTE: o status de conclusao do instrumento e OBRIGATORIO — ausente/vazio sai INCOMPLETO/exit 1. Quem precisar da prova de execucao usa `--executar`.",
+      "ver_revisao": "AUT-4R rodada 1 (comentario em t_a5994af0)"
+    }
+  },
+  "identidade_do_resultado": {
+    "tarefa": "t_a5994af0",
+    "funcao": "coletor.identificacao_do_resultado",
+    "regra": "TODO resultado identifica hash de fonte/DLL, configuracao, cenario, observado/esperado, evidencia e lacunas; o caminho executavel anexa o bloco em `identificacao` (inclusive nos retornos NAO_EXERCITADO/PLANO_INVALIDO)",
+    "hash": "o hash de fonte e o sha256 MEDIDO da DLL em disco (coletor._sha256), nunca 'compila igual'"
+  },
+  "controle_negativo_isolado": {
+    "tarefa": "t_a5994af0",
+    "modulo": "tools/automacao/runtime/controle_negativo.py",
+    "trava": "exigir_perfil_isolado (FAIL-CLOSED): perfil e out_dir tem de estar DENTRO de uma raiz isolada explicita, e a raiz isolada nao pode estar dentro do perfil do dono; o perfil do dono r2modman e RECUSADO como destino (a DLL do dono nao e movida sem autorizacao)",
+    "perfil_do_dono": "o modulo apenas LE/mede o perfil do dono (impressao por stat: {rel: bytes:mtime_ns}) para provar que o controle nao o tocou",
+    "lancamento": "STUB (processo de Python) — o lancador real do jogo (steam.exe) e RECUSADO; sem --stub o caminho autorizado nao roda",
+    "caminhos": [
+      "autorizado=False: o driver NAO age (nenhum probe, nenhum cfg, o stub nao roda) -> NAO_EXERCITADO/exit 2 e zero observacao",
+      "autorizado=True + stub que nao escreve leitura: a rodada RODA (argv em disco) e mesmo assim NAO ha leitura -> NAO_EXERCITADO/exit 2, zero observacao"
+    ],
+    "teste": "tools/automacao/runtime/testes/t_aut4_controle_isolado.py",
+    "iscas": [
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_controle_negativo_no_perfil_do_dono.py"
+    ],
+    "runtime_exercitado": false
+  },
+  "jogo_aberto_e_frente_unica": {
+    "tarefa": "t_a5994af0",
+    "funcao": "coletor.decidir_com_jogo_aberto",
+    "regra": "com o jogo JA ABERTO a rodada so LE instrumentacao JA CARREGADA; sem o probe carregado nao ha o que ler e a rodada declara REINICIO NECESSARIO/NAO_EXERCITADO — o driver nunca promete hot-reload (hot_reload: False sempre) e reiniciar o jogo exige autorizacao explicita do dono",
+    "frente_unica": "decidir_autorizacao(..., frente_ativa=True) -> NAO_EXERCITADO ('uma unica frente controla o jogo'), inclusive no caminho executavel (o stub nao chega a rodar)",
+    "teste": "tools/automacao/runtime/testes/t_aut4_jogo_aberto_frente.py",
+    "isca": "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_jogo_aberto_promete_hot_reload.py"
   },
   "reuso_cap1": [
     "driver no PlayerLoop do Unity (Update do plugin e destruido na 1a cena)",
@@ -274,5 +464,77 @@
     "sem iniciar/encerrar jogo, sem instalar probe, sem manipular UI/save",
     "build do probe com USERPROFILE/APPDATA/LOCALAPPDATA isolados e sem alvo de deploy",
     "sem commit/push/publicacao/segredos"
-  ]
+  ],
+  "contrato_restauracao": {
+    "documento": "docs/automacao/AUT-4-contrato-restauracao.md",
+    "vigia": [
+      "BepInEx/plugins/**",
+      "BepInEx/config/**",
+      "BepInEx/LogOutput.log"
+    ],
+    "backup": "out_dir/rollback-backup/<mesmo caminho relativo> + out_dir/log-anterior.log",
+    "prova": "resultado['restauracao'] (verificar_sem_residuo); residuo => status RESIDUO / exit 1",
+    "manifesto": "resultado['manifest'] (montar_manifest_da_rodada)",
+    "encerramento": "gracioso (CloseMainWindow) -> forcado por PID (fallback); sem medicao, RECUSA",
+    "runtime_exercitado": false,
+    "lacuna": "rollback/encerramento contra o jogo REAL: NAO EXERCITADO (exige autorizacao do dono)"
+  },
+  "achados_aud1_corrigidos": [
+    {
+      "id": "L1",
+      "origem": "AUD-1 (t_3feaddcc)",
+      "defeito": "a rodada vigiava so os 3 nomes do contrato: arquivo criado pelo probe num caminho nao previsto nao entrava no rollback nem no manifest",
+      "correcao": "caminhos_vigiados varre BepInEx/plugins/** e BepInEx/config/** inteiros (o BepInEx varre plugins/ recursivamente) e o rollback classifica o criado como 'criado' => REMOVE; montar_manifest_da_rodada descreve artefatos, estado antes/depois por arquivo e o backup; verificar_sem_residuo prova a restauracao e rebaixa a rodada a RESIDUO/exit 1 se sobrar residuo",
+      "prova": "t_aut4_restauracao.py blocos _varredura/_manifesto/_rodada_completa A (extra fora do contrato removido) e D (rollback que falha de verdade => RESIDUO); isca cp_aut4rest_isca_residuo_nao_detectado.py"
+    },
+    {
+      "id": "L2",
+      "origem": "AUD-1 (t_3feaddcc)",
+      "defeito": "o encerramento do jogo dependia de taskkill (bloqueado em rodada sem usuario) sem caminho gracioso",
+      "correcao": "comandos_de_fechamento: fechamento GRACIOSO (CloseMainWindow via powershell) primeiro e forcado por PID so como FALLBACK; encerrar_processos executa a decisao com executar/pid_vivo/dormir injetaveis e nao executa NADA quando a decisao e RECUSADA",
+      "prova": "t_aut4_restauracao.py blocos _encerramento e _rodada_completa C; isca cp_aut4rest_isca_forcado_primeiro.py"
+    },
+    {
+      "id": "backup-de-log",
+      "origem": "AUD-1 (t_3feaddcc)",
+      "defeito": "o arquivamento do LogOutput.log era inline e sem registro (bytes/sha256)",
+      "correcao": "backup_do_log: arquiva antes do lancamento, remove do perfil e devolve registro {existia, backup, bytes, sha256} em resultado['backup_log']",
+      "prova": "t_aut4_restauracao.py bloco _backup_log e _rodada_completa B"
+    },
+    {
+      "id": "espelho-do-efeito",
+      "origem": "revisao rodada 1 de t_6db50f7a (AUD-1: agregados)",
+      "defeito": "o agregado `inventario` emitia `criterio_de_efeito` como 'espelho do criterio do BetterFont (TemEfeitoNoMaterial + TexturaDeEfeito)' mas media a sombra por `UNDERLAY_ON`/`UNDERLAY_INNER` ou `_UnderlayColor.a > 0.001` — ramo que o BetterFont NAO tem: o mod decide a sombra em `SombraDesenhada` (keyword ligada, ou |`_UnderlayOffsetX`|/|`_UnderlayOffsetY`|/`_UnderlayDilate` > 1e-4) e nunca olha a cor. Um material com `_UnderlayColor.a = 0.5`, keyword desligada e offset/dilate zero (a sombra INERTE que o proprio jogo produz, BF-5) era contado como 'com efeito' pelo probe e como SEM efeito pelo mod: `textos_com_efeito_no_material` inflado sob um rotulo falso. Redacao herdada verbatim do CAP-1 (CapProbePlugin.cs:710/1651)",
+      "correcao": "o ramo da sombra do agregado virou DELEGACAO a `SombraDesenhada(m)` (internal, private) que espelha `BetterFont/Plugin.cs::SombraDesenhada`: keyword UNDERLAY_ON/UNDERLAY_INNER ou `_UnderlayOffsetX`/`_UnderlayOffsetY`/`_UnderlayDilate` != 0 (`ValorDiferenteDeZero`); a cor da sombra saiu do criterio (o plugin segue REPORTANDO a cor em `cores.sombra`, que e leitura de cor, nao criterio). O `criterio_de_efeito` emitido no JSON e a docstring passaram a declarar o criterio REAL (sombra DESENHADA; cor com alfa NAO conta), e a fixture `probe-saida-exemplo` acompanhou",
+      "prova": "t_aut4_probe_contrato.py §11.3 — o rotulo 'espelho' e CONFERIDO contra a fonte espelhada: extrai o corpo de `SombraDesenhada` do BetterFont e de `LeituraAgregados.cs` e exige o MESMO conjunto de tokens (UNDERLAY_ON/UNDERLAY_INNER/_UnderlayOffsetX/_UnderlayOffsetY/_UnderlayDilate) com `_UnderlayColor` FORA do criterio, alem de exigir a delegacao em EfeitoNoMaterial. Isca cp_aut4probe_isca_sombra_por_cor.py: planta o criterio antigo (cor com alfa) e a geometria faltando e PROVA que a conferencia detecta (reprova como devia)"
+    }
+  ],
+  "achados_aut4r_rodada1_corrigidos": [
+    {
+      "id": "detector-confirma-sem-status",
+      "gravidade": "grave (classe A1: o driver confirma sem prova de execucao)",
+      "origem": "revisao independente AUT-4R rodada 1 (lente artefato+execucao) de t_a5994af0",
+      "defeito": "o caminho novo `--detectar` CONFIRMAVA (exit 0 / CONFIRMADA) quando o artefato do probe nao trazia status de conclusao (chave `status` ausente ou vazia). O MESMO artefato pelo caminho ja aprovado `--saida-probe` (consolidar_probe) dava INCOMPLETO. Causa: `coletor.py` `if st and st not in STATUS_PROBE_OK:` — o curto-circuito `if st` deixava status ausente/vazio passar direto para CONFIRMADA, contradizendo a propria docstring de detectar_leitura (regra 2), o irmao consolidar_probe e veredito_do_status(None/\"\") (que os proprios testes assertam)",
+      "correcao": "`if st not in STATUS_PROBE_OK:` — o status de conclusao passou a ser OBRIGATORIO: ausente/vazio sai INCOMPLETO/exit 1 ('silencio nao e aprovacao'), alinhado com consolidar_probe. A fixture cenarios-negativos passou a declarar `status_conclusao` (CONCLUIDO) e todo caso abaixo do portao de status o usa, para o caminho positivo (CONFIRMADA) continuar exercitado",
+      "prova": "t_aut4_detector_no.py: bloco novo 'leitura VALIDA sem status de conclusao (%r) tem de sair INCOMPLETO' para status None e \"\", mais o controle de que COM status declarado a leitura valida CONFIMA; isca cp_aut4_isca_detector_confirma_sem_status.py (afirma o falso 'sem status confirma' — TEM de reprovar por ASSERT)",
+      "relacionado_declarado": "o lane `--detectar` do CLI nao passa `provas` ao detector (nem provas.ok nem a atualidade da sessao sao checadas nesse caminho); declarado no modulo (comentario no lane) e em detector_de_ausencia.lane_cli_detectar. A prova de execucao vive no caminho `--executar`"
+    }
+  ],
+  "runbook_rodada_autorizada": {
+    "tarefa": "t_ef6e8a29",
+    "documento": "docs/automacao/AUT-4-runbook-rodada-autorizada.md",
+    "papel": "consolida a prova OFFLINE ja revisada e o procedimento da rodada EM JOGO; e o documento que o dono le antes de autorizar a rodada",
+    "contem": [
+      "gates de autorizacao G1-G8 (com o que acontece quando cada um falta)",
+      "identidade da build: hashes de fonte/DLL/componentes/driver/controle/runner + a DLL do JOGO (intocada)",
+      "configuracao: plano AUT-4/1 e as 10 chaves do .cfg derivado",
+      "cenarios C0-C7 com observado/esperado e o veredito que fecha/reprova",
+      "evidencias: resultados offline ja obtidos + o que a rodada em jogo coleta",
+      "criterios de aceite AC1-AC10",
+      "lacunas declaradas e o que NAO fazer"
+    ],
+    "trava": "tools/automacao/runtime/testes/t_aut4_runbook.py (o runbook TEM de casar com o disco: hashes byte a byte, chaves vivas de coletor.CFG_CHAVES e contagens reais de testes/iscas); isca cp_aut4_isca_runbook_hash_velho.py (afirma o falso — hash de DLL velho ou chave de cfg faltando 'passariam')",
+    "limite_explicito": "AUTOMACAO NAO SUBSTITUI ACEITE HUMANO NEM A PUBLICACAO DO DoD: nenhum veredito automatico (nem CONFIRMADA) publica, instala ou promove nada",
+    "runtime_exercitado": false
+  }
 }
