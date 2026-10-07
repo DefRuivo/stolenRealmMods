@@ -6,6 +6,14 @@ motivo concreto, explicado em §7 (há **um campo que falta no log** para a conf
 
 Tarefa: kanban `t_57052a7c` (CHK-1). Bases dos números: `docs/cobertura/revisao/RV-19-shrines.md`
 §2/§4 (provadas contra o asset e o decompilado) e o censo `docs/cobertura/status.csv`.
+>
+> ⚠ **RETIFICAÇÃO RV-48 (03/10) — o "perk `Worship`" é FABRICAÇÃO.** A investigação RV-30 provou que
+> `worship` tem ZERO ocorrências no código do jogo; o único rastro é a habilidade do CharacterInfo de
+> INIMIGO `T2_Worshiper` — não é perk do jogador. Os "3 casos" desta conferência são bônus 0, +20
+> (**Omnism II**) e +100 (**Horn of Devotion**); onde este documento escreve `Worship` como rótulo do
+> caso +100, leia **Horn of Devotion**. O "dano dobrado" que motivou o +100 era o defeito do `Source`
+> injetado (RV-34), corrigido no RV-30 (03/10). Decisão pendente (RV-49).
+
 
 ---
 
@@ -69,7 +77,7 @@ ainda é o que as fontes geram).
 
 - `contribuicao_esperada` = `Round(BASE × (1 + bônus/100))`, com o `Mathf.Round` **half-to-even**
   do Unity (é o mesmo arredondamento do motor). Casos gerados: **0**, **+20** (`Omnism II`) e
-  **+100** (`Worship`). Confere com RV-19 §2.2: base 20 → 20/24/40 · base 8 → 8/10/16 ·
+  **+100** (`Horn of Devotion` — o antigo rótulo `Worship` era fabricado, RV-48). Confere com RV-19 §2.2: base 20 → 20/24/40 · base 8 → 8/10/16 ·
   base 10 → 10/12/20 · base −50 → −50/−60/−100 · 25/−25 → 25/30/50 e −25/−30/−50 ·
   Flame 5 → 5/6/10 · Decay 10 → 10/12/20.
 - `total_esperado` / `resto_esperado` **só existem onde o repositório prova**: os prints do dono
@@ -324,13 +332,13 @@ toda AUSENTE, §3.1).
 **(B) Caso `+20` (`Omnism II`, Chaos tier 2):** repetir o passo (A) com o personagem que tem
 `Omnism II` (ela **substitui** a `Omnism I`; o total é 20, não 28 — RV-19 §3).
 
-**(C) Caso `+100` (`Worship`, perk do Worshiper):** repetir o passo (A) com o personagem do perk.
+**(C) Caso `+100` (`Horn of Devotion` — o antigo "perk `Worship`" era FABRICADO, RV-48):** repetir o passo (A) com o bonus +100.
 O `Horn of Devotion` cobre +50/+100 pelo mesmo caminho (roll), mas **+50 não é um dos 3 casos** da
 tabela — sai como AVISO ("caso não tabelado") e não como OK.
 
 **(D) Fechar:** `python tools/checa_shrines.py` — verde (`exit 0`) só se **as 12 auras × 3 casos**
 tiverem observação; o que faltar aparece na lista de `AUSENTE` e o exit é **3**.
-Nas duas telas do dono (Fury sem/com `Worship`, Rogue com `Worship`) a ferramenta também confere o
+Nas duas telas do dono (Fury bônus 0/100, Rogue bônus 100 — os rótulos originais eram "sem/com `Worship`"; ver a retificação RV-48) a ferramenta também confere o
 **total** e o **resto** contra os prints de RV-19 §9.1/§10.5.
 
 **O que a rotina NÃO cobre (dito, não maquiado):** o `[0]`% do Decay

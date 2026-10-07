@@ -19,7 +19,7 @@ virou lacuna/reprovação, nunca o contrário).
 
 | ponto | antes (execução 415) | agora (execução 430) |
 |---|---|---|
-| **A6/F2** — fotografia do cache `--sem-suite` | cobria fontes dos 4 mods medidos + `tools/testes/**` + `tools/automacao/estilo/**` + `tools/*.py` + artefatos (`dist/*.zip`, `<Mod>/bin/**/*.dll`) ⇒ `tools/fixtures/**`, lido pelos testes mapeados, **não** invalidava o cache | cobre **todas as ENTRADAS que a suíte lê**: os 6 mods, `tools/**`, `lib/**`, `docs/cobertura/**`, `ReloadProbe/**`, `scratch/**`, `docs/PLANO-DE-TESTES.md` e os projetos `*.csproj`/`*.props`/`*.targets` da árvore, **+** os artefatos medidos. A cobertura declarada vai no próprio resultado (`medicao.fotografia`) e foi **medida** (não afirmada) com gancho de auditoria sobre a rodada viva |
+| **A6/F2** — fotografia do cache `--sem-suite` | cobria fontes dos 4 mods medidos + `tools/testes/**` + `tools/automacao/estilo/**` + `tools/*.py` + artefatos (`dist/*.zip`, `<Mod>/bin/**/*.dll`) ⇒ `tools/fixtures/**`, lido pelos testes mapeados, **não** invalidava o cache | cobre **todas as ENTRADAS que a suíte lê**: os 6 mods, `tools/**`, `lib/**`, `docs/cobertura/**`, `ReloadProbe/**` (projeto de bancada, fora do repositório, não versionado), `scratch/**`, `docs/PLANO-DE-TESTES.md` e os projetos `*.csproj`/`*.props`/`*.targets` da árvore, **+** os artefatos medidos. A cobertura declarada vai no próprio resultado (`medicao.fotografia`) e foi **medida** (não afirmada) com gancho de auditoria sobre a rodada viva |
 | **A5 (achado menor)** | o `dump-do-produto.json` trazia `total_com_predicado_estrito: 5` sem declarar o predicado — número não reproduzível pelo rótulo | cada número vem **com o predicado que o produz**: **68** com `' | '`, **5** com `desc=` (e **sem** `' | '`), **73** na união, **0** com `'" | "'` literal, **0** reconhecidas pelo `LINE` |
 | regressões | 26 casos na suíte da ferramenta, 15 na do aceite; refutação em duas fases (A1–A9) | **28** casos na suíte da ferramenta (+2: cobertura das ENTRADAS e a regressão ponta a ponta com a fixture apagada) e 15 no aceite; fase nova de refutação `refutar_cor_aut7f2_entradas.py` (E1–E5) |
 
@@ -139,7 +139,7 @@ Hashes das fontes e dos docs (medidos no fechamento — repetidos em
   ou leitura de objeto vivo; `aceite_humano = NAO_PRONUNCIADO`, `publicacao = NAO_VERIFICADO`,
   `consolidacao_final = false`. Nada aqui é prova de jogo.
 - **A6/F2 — o que a fotografia cobre agora**: os **6 mods**, `tools/**`, `lib/**`,
-  `docs/cobertura/**`, `ReloadProbe/**`, `scratch/**`, `docs/PLANO-DE-TESTES.md`, os projetos
+  `docs/cobertura/**`, `ReloadProbe/**` (projeto de bancada, fora do repositório, não versionado), `scratch/**`, `docs/PLANO-DE-TESTES.md`, os projetos
   `*.csproj`/`*.props`/`*.targets` da árvore e os artefatos medidos (`dist/*.zip`,
   `<Mod>/bin/**/*.dll`). **Fica fora de propósito**: `bin`/`obj`/`__pycache__` (DERIVADOS — cobrir
   o bytecode faria a própria rodada invalidar a fotografia), `docs/automacao/**` (SAÍDA da

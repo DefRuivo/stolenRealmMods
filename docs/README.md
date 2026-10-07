@@ -72,7 +72,7 @@ anterior antes de reescrever.
 | `cobertura/alerta-tokens.md` | Saída de `tools/scan_tokens.py` (RV-8a): onde o `[...]` do texto pode virar `Parsing Error` em jogo. |
 | `cobertura/auditoria-tooltips.md` | Saída de `tools/audit_tooltips.py` (RV-8b): dano sem tipo declarado, número fixo onde há valor dinâmico, área não mencionada, descrições curtas. |
 
-### `cobertura/revisao/` — 48 relatórios de revisão
+### `cobertura/revisao/` — 55 relatórios de revisão
 
 O número é o **total de `.md` desta pasta** e o `tools/audita_docs.py` (**passo 7 do CI**)
 confere ele: o total do título, o `Nº` de cada linha (nomes listados na linha), todo nome
@@ -85,7 +85,8 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 | **Fichas por árvore** (texto × código, uma por árvore) | `ficha-basic`, `ficha-chaos`, `ficha-cold`, `ficha-fire`, `ficha-innate`, `ficha-light`, `ficha-lightning`, `ficha-monk`, `ficha-nature`, `ficha-ranger`, `ficha-shadow`, `ficha-thief`, `ficha-warrior` | 13 |
 | **RV-8b** (auditoria de skills) | `RV-8b-0f-propriedades`, `RV-8b-2c-ranger`, `RV-8b-2e-fechamento`, `RV-8b-shadow`, `RV-8b-shadow-lote2` | 5 |
 | **RV-9** (buffs/debuffs/status) | `RV-9-censo`, `RV-9-buffs`, `RV-9-buffs-1`, `RV-9-buffs-2`, `RV-9-buffs-3`, `RV-9-buffs-4`, `RV-9-buffs-5`, `RV-9-buffs-6`, `RV-9-debuffs`, `RV-9-debuffs-1`, `RV-9-debuffs-2`, `RV-9-debuffs-3`, `RV-9-debuffs-4`, `RV-9-numeros` | 14 |
-| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BT-18-passivas-inimigo.md`, `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RSTV-5-confirmacao-prefab.md` (confirmação do INDETERMINADO do RSTV-3 — o X do prefab), `RSTV-10-confirmacao-prefab.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md`, `RV-35-40-shrines-conferencia.md` | 16 |
+| **Relatórios de caso e de fechamento** | `ANTES-E-DEPOIS.md` (o livro de correções, gerado por `tools/review_ledger.py` a partir do fonte do mod), `BT-18-passivas-inimigo.md`, `BUG-32-chaves-compartilhadas.md`, `CHK-1-shrines-conferencia-mecanica.md`, `escala.md`, `omissoes.md`, `REL-BT-014-reconciliacao.md` (reconciliação do changelog/escopo da 0.1.4 — preparação local), `REVISAR-AO-FINAL.md` (checklist de fechamento), `RSTV-1-investigacao.md`, `RSTV-5-confirmacao-prefab.md` (confirmação do INDETERMINADO do RSTV-3 — o X do prefab), `RSTV-10-confirmacao-prefab.md`, `RV-13-auditoria-cobertura.md`, `RV-13b-fechamento.md`, `RV-14-terminologia.md`, `RV-15-notas-redundantes.md`, `RV-19-shrines.md`, `RV-35-40-shrines-conferencia.md`, `RV-29-nota-filtro-vivo` | 18 |
+| **Revisões independentes** (revisor ≠ autor; `RSTV-27R-body` é o corpo/pergunta da revisão do 27R, guardado junto do parecer) | `RSTV-26R-revisao.md`, `RSTV-27R-revisao.md`, `RSTV-27R-body.md`, `RSTV-28R-revisao.md`, `RSTV-29R-revisao.md` | 5 |
 
 **Como regerar o censo** (nenhuma leitura manual — sai do dump de boot do
 `RoguelikeDebugger`):
@@ -103,8 +104,9 @@ Ordem **inegociável**. Cada passo existe por causa de um incidente real
 (`INC-1`/`INC-3`/`BUG-32`, registrados no quadro de trabalho interno do projeto). Nenhum passo pode ser pulado — inclusive os passos 3 e 5,
 que são os que **travam** a release.
 
-> **Antes de tudo:** feche o jogo. A cópia da DLL para o perfil falha se o arquivo
-> estiver em uso.
+> **Antes de tudo:** feche o jogo quando for **instalar** (o deploy é opt-in,
+> `-p:DeployToBepInEx=true`): a cópia da DLL para o perfil falha se o arquivo estiver em uso.
+> Um build de verificação não toca no perfil.
 
 ### Passo 0 — pré-requisitos
 
@@ -121,9 +123,10 @@ cd C:/dev/stolen-realm
 LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -p:DeployToBepInEx=false --nologo -v q -clp:ErrorsOnly
 ```
 
-A `-p:DeployToBepInEx=false` é o que mantém este passo **local**: **sem ela o target
-`DeployToBepInEx` roda e copia a DLL para o perfil do r2modman** (`plugins\<Mod>\`) — é isso que
-instala, e é por que um `dotnet build` comum escreve no ambiente do dono.
+Desde a DEPLOY-2 o deploy é **opt-in**: o padrão é `DeployToBepInEx=false` (no
+`Directory.Build.props` da raiz) e o alvo dos `.csproj` só roda com `-p:DeployToBepInEx=true`.
+Então um `dotnet build` comum **não** escreve no ambiente do dono, e a `-p:DeployToBepInEx=false`
+aqui é cinto e suspensório.
 
 Troque pelo mod que você mexeu (`BetterStats/BetterStats.csproj`,
 `BetterFont/BetterFont.csproj`,
@@ -216,10 +219,11 @@ detector sem tocar no `LocalizePatch.cs`: `--estrito --fonte OUTRO.cs`.
 ### Passo 6 — instalar a DLL no perfil do r2modman
 
 **Este passo escreve no ambiente do dono.** O destino é `BepInEx\plugins\<Mod>\` dentro do
-perfil do r2modman (`%APPDATA%\r2modmanPlus-local\...`). O build já traz o target
-`DeployToBepInEx` (INFRA-1) que copia a DLL sozinho **por padrão** — é justamente isso que os
-passos anteriores desligam com `-p:DeployToBepInEx=false` para não instalar sem querer. Se
-precisar fazer na mão (ou para conferir que a cópia aconteceu):
+perfil do r2modman (`%APPDATA%\r2modmanPlus-local\...`). O target `DeployToBepInEx` (INFRA-1)
+copia a DLL, mas desde a DEPLOY-2 ele é **opt-in**: só roda com `-p:DeployToBepInEx=true` — um
+`dotnet build` comum **não** instala. Para instalar de propósito, passe `-p:DeployToBepInEx=true`
+(o modo `--instalar-no-perfil` do `release-check.sh` faz isso e anuncia antes). Se precisar fazer
+na mão (ou para conferir que a cópia aconteceu):
 
 ```bash
 cp BetterTooltips/bin/Debug/netstandard2.1/BetterTooltips.dll \
@@ -261,8 +265,9 @@ Só depois disso a alteração conta como instalada e testada.
 ### Passo 8 — Release: só quando for **empacotar** (PKG-5)
 
 O dia a dia continua em **Debug**: `dotnet build <Mod>/<Mod>.csproj` (sem `-c`) compila em
-`<Mod>/bin/Debug/netstandard2.1/<Mod>.dll` e o alvo `DeployToBepInEx` copia essa DLL para o perfil
-do r2modman. **Nada disso mudou.**
+`<Mod>/bin/Debug/netstandard2.1/<Mod>.dll`. **Isso mudou na DEPLOY-2:** antes o alvo
+`DeployToBepInEx` também copiava essa DLL para o perfil do r2modman; agora o deploy é opt-in e só
+`-p:DeployToBepInEx=true` copia.
 
 O que passou a existir é o build de **Release** para gerar o artefato que vai para o `dist/`. É o
 mesmo fonte — nenhum arquivo dos 6 mods usa `#if DEBUG` (conferido com
@@ -276,11 +281,11 @@ LC_ALL=C dotnet build BetterTooltips/BetterTooltips.csproj -c Release -p:DeployT
 ```
 
 - a DLL sai em **`<Mod>/bin/Release/netstandard2.1/<Mod>.dll`** (a pasta de Debug fica intacta);
-- **`-p:DeployToBepInEx=false` desliga o deploy** — é o que impede um build de Release de
-  sobrescrever a DLL que está instalada no perfil do r2modman (obrigatório quando o mod está aberto
-  em teste). O alvo `DeployToBepInEx` dos 7 `.csproj` ganhou
-  `Condition="'$(DeployToBepInEx)' != 'false'"`: **sem a flag o comportamento é o de sempre** (copia),
-  e a cópia continua usando `$(TargetPath)`, ou seja, a DLL da configuração que foi buildada.
+- **`-p:DeployToBepInEx=false` mantém o deploy desligado** — cinto e suspensório: desde a DEPLOY-2
+  o padrão já é `false` e o alvo `DeployToBepInEx` dos 7 `.csproj` agora exige
+  `Condition="'$(DeployToBepInEx)' == 'true'"`, então **sem a flag o build não copia** para o perfil
+  do r2modman (só `-p:DeployToBepInEx=true` instala; útil quando o mod está aberto em teste). A
+  cópia continua usando `$(TargetPath)`, ou seja, a DLL da configuração que foi buildada.
 
 Saída literal medida em 30/09/2026 (os dois mods mais simples; os outros 4 usam o mesmo `.csproj` e
 a mesma receita):
@@ -379,7 +384,7 @@ mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do
 | `BetterStats` | Mostra os atributos no formato **`base (combinado)`** na ficha de personagem e na tela de level up. | 1.0.1 | **PUBLICADO 1.0.1** (`DefRuivo_StolenRealmMods-BetterStats`, 01/10/2026). |
 | `BetterTooltips` | Conserta tooltips de skill/status que "mentiam por omissão" e acrescenta ao fim a explicação da mecânica. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-BetterTooltips`, 01/10/2026). |
 | `RoguelikeDebugger` | Ferramenta de **desenvolvimento**: despeja o inventário interno do jogo (skills, status, itens, loot) no `LogOutput.log` — é o dump que gera o censo. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-RoguelikeDebugger`, 01/10/2026) — categoria **Tools**. |
-| `RoguelikeSkillTreeVisualizer` | Botão ao lado de *Choose Powerups* que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto. | 0.2.0 | **PUBLICADO 0.2.0** (`DefRuivo_StolenRealmMods-RoguelikeSkillTreeVisualizer`, 01/10/2026); o mod ainda **não foi conferido em jogo** pelo autor (roteiro no `README.md` dele). |
+| `RoguelikeSkillTreeVisualizer` | Botão `Skills` no **cabeçalho do modal *Remove Skill Trees*** (tela Select Party) e **na barra de baixo do HUD da run** (na linha dos botões nativos de inventário e de skills, no vão livre antes do rotador da barra de skills — RSTV-30), que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto; na run ele **fica visível com o HUD** (não pisca quando outro personagem age) e o portão decide só o **clique**; o atalho **F10** abre a mesma árvore, inclusive na tela de party (a RSTV-29 removeu o antigo botão da própria tela de party, ao lado do *Choose Powerups*). | 0.3.2 | **PUBLICADO 0.3.2** (`DefRuivo_StolenRealmMods-RoguelikeSkillTreeVisualizer`, 04/10/2026; conferido na API em 06/10/2026) — mas **RSTV-29** (remoção do botão da tela Select Party) e **RSTV-30** (botão na barra de baixo) **ainda NÃO estão publicadas**: o zip no ar é anterior às duas e a descrição dele na vitrine ainda cita o botão antigo. Revisado em jogo pelo dono (a conferência visual da RSTV-30 está pendente). |
 
 A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `manifest.json` e
 `Plugin.cs`; ver *Fonte única de versão*). O que está no ar é o `versao_publicada` do
@@ -504,11 +509,12 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
-sair é o gate versionado [`release/mods.json`](../release/mods.json) (hoje com **6** entradas, todas
-com `publicar: true` e **publicadas** na leva de 01/10/2026 — BetterFont **1.0.1**, BetterStats
-**1.0.1**, BetterTooltips **0.1.1**, RoguelikeDebugger **0.1.1**, RoguelikeSkillTreeVisualizer **0.2.0**,
-BetterCombatText **0.1.0**); a lista tem de bater
-com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**), o envio é o workflow
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (**6** entradas, todas com
+`publicar: true`); a **leva de 01/10/2026** é que subiu BetterFont **1.0.1**, BetterStats
+**1.0.1**, BetterTooltips **0.1.1**, RoguelikeDebugger **0.1.1**, RoguelikeSkillTreeVisualizer **0.2.0**
+e BetterCombatText **0.1.0** — são as versões **daquela leva**, não as correntes (a versão publicada
+corrente de cada mod é o `versao_publicada` do próprio `release/mods.json`); a lista tem de bater
+com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**; o envio é o workflow
 [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
 (**manual**, com aprovação num GitHub Environment) e o envio **local** continua sendo
 `bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só sobe com `--go`). Os dois

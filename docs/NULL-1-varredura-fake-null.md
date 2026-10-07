@@ -56,7 +56,7 @@ proprio metodo patchado) e `RoguelikeDebugger/Patches/ExpDebugPatch.cs:45` (`__i
 novo sobre `Character`). A frase que estava aqui — "nenhum gancho do pacote usa `== null` como guarda
 de ENTRADA" — era FALSA e foi corrigida no FIX-6 (achado 4 da REV-56); os tres casos estao
 classificados na secao 2. As 85 comparacoes dentro de ganchos sao `!Plugin.Ativo` / valor de config
-(bool estatico), parametros `__instance`/`__result`/`__2` (vivos na chamada) e `ReadOnlySession.Active`.
+(bool estatico), parametros `__instance`/`__result`/`gameFunctionParameters` (vivos na chamada) e `ReadOnlySession.Active`.
 O padrao que produziu a licao errada (guarda sobre a instancia do plugin) **nao existe nos 6 mods**.
 
 ---
@@ -80,9 +80,9 @@ O padrao que produziu a licao errada (guarda sobre a instancia do plugin) **nao 
 | `RoguelikeSkillTreeVisualizer/RunButton.cs:216, 291, 296` | `_button == null`, `_button != null` | Mirror()/Hide() | **L** | Rechecagem logo apos a reinjecao (a falha ja foi logada por `Ensure`/`Fail`) e protecao do Hide: mexer so no clone VIVO. |
 | `RoguelikeSkillTreeVisualizer/SelectPartyButton.cs:66` | `_owner == manager && _button != null` | Ensure() | **L** | Mesmo caso do RunButton.cs:97. |
 | `RoguelikeSkillTreeVisualizer/SelectPartyButton.cs:165` | `_button == null` | Mirror() | **A** | Detecta o clone destruido, mas o ramo apenas DIAGNOSTICA (log unico por tela) e volta: quem (re)injeta e o gancho de abertura da tela. Nao e calado; ficou como esta (o do RunButton, que era calado, foi corrigido). |
-| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs:199, 468` | `_pendingTarget == null`, `_selectionAnterior != null` | Tick()/RestoreSelection() | **L** | `Character` — classe pura. |
-| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs:523, 540` | `_interceptor != null`, `_interceptorAnterior != null` | Install/RemoveCancelInterceptor() | **L** | `Func<bool>` — delegate, nao objeto da Unity. |
-| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs:852` | `_movedBranch != null` | ZOrder.Restore() | **L** | `Transform` guardado pelo mod: destruido -> nao restaura e o `finally` zera. **ReferenceEquals voltaria a mexer num Transform MORTO.** |
+| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs` (**trecho RETIRADO pela RSTV-16, 02/10** — citação de linha do baseline 01/10) | `_pendingTarget == null`, `_selectionAnterior != null` | Tick()/RestoreSelection() | **L** | `Character` — classe pura. |
+| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs` (**trecho RETIRADO pela RSTV-16, 02/10**) | `_interceptor != null`, `_interceptorAnterior != null` | Install/RemoveCancelInterceptor() | **L** | `Func<bool>` — delegate, nao objeto da Unity. |
+| `RoguelikeSkillTreeVisualizer/SkillTreeReadOnly.cs` (**trecho RETIRADO pela RSTV-16, 02/10**) | `_movedBranch != null` | ZOrder.Restore() | **L** | `Transform` guardado pelo mod: destruido -> nao restaura e o `finally` zera. **ReferenceEquals voltaria a mexer num Transform MORTO.** |
 | `RoguelikeSkillTreeVisualizer/Patches.cs:69` | `__instance.selectedCharacterChoiceItem != null` | captura de `_subject` | **L** | Objeto vivo no gancho. O cache estatico `_subject` guarda `Character` — classe pura, imune. |
 | `BetterCombatText/TextStyler.cs:67` (`AplicarTmp()`) | `nosso != null && nosso == compartilhadoAntes` | AplicarTmp() | **L** | Cache de Material por InstanceID que **se cura**: material destruido reprova no `!= null` e o mod reinjeta. Operador da Unity e o certo. |
 | `BetterCombatText/TextStyler.cs:204` (`AplicarTextoLegado()`) | `TextosLegadosTratados.Contains(id)` | AplicarTextoLegado() | **A** | Cache 'ja tratei este rotulo' por `GetInstanceID()`. Id RECICLADO = rotulo NOVO pulado em silencio (a classe exata do defeito). A doc da Unity garante id unico apenas entre objetos VIVOS; o reuso pos-destruicao esta documentado para o **EntityId** (Unity 6.4+), nao para o `int`. Risco teorico, **nao medido em jogo** — nao trocado (proibido trocar por trocar). |
@@ -98,7 +98,7 @@ O padrao que produziu a licao errada (guarda sobre a instancia do plugin) **nao 
 ## 2. Referencia obtida na hora — 520 comparacoes
 
 Regra: se o objeto foi obtido no proprio ponto (parametro do gancho, `__instance`, `__result`,
-`__2`, campo de um objeto vivo como `ui.pingBtn`, elemento de colecao, item de
+`gameFunctionParameters`, campo de um objeto vivo como `ui.pingBtn`, elemento de colecao, item de
 `Resources.FindObjectsOfTypeAll`) entao `== null` responde exatamente **"foi destruido / nao existe?"**
 — que e a pergunta certa. Nao ha nada a consertar; a troca por `ReferenceEquals` seria um defeito
 (passaria a aceitar objetos destruidos).

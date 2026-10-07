@@ -256,7 +256,7 @@ Mass Haste,Fire,5,None,Beneficial,nao,,All allies gain an additional action this
 Master Assassin,Thief,4,None,,sim,"MasterAssassin:Set:1,",Always deal the maximum damage within a damage range. ,revisado
 Master Of Ice,Cold,5,None,,sim,"MasterOfIce:Set:1,","Each turn you freeze an enemy, you gain an additional action.",revisado
 Meditation,Monk,3,Healing,"Beneficial,Ranged",nao,,Put the target ally into a meditative state restoring 20% of max health and mana. ,revisado
-Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,revisado
+Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,corrigido
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target 3 times.  Applies {STA=Bleeding} on hit.,corrigido
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target 2 times.  Applies {STA=Bleeding} on hit.,corrigido
 Melee Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,"Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",corrigido
@@ -321,7 +321,7 @@ Raise Undead Berserker,Shadow,3,None,"Beneficial,Ranged",nao,,Raise an Undead Be
 Raise Undead Ranger,Shadow,1,None,Ranged,nao,,Raise an Undead Ranger to fight by your side.,revisado
 Raise Undead Wizard,Shadow,5,None,"Beneficial,Ranged",nao,,Raise a Undead Wizard to fight by your side.,corrigido
 Rally,Ranger,1,None,"Beneficial,AreaEffect",nao,,Increases movement of all allies within 4 hexes by 3.,revisado
-Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,revisado
+Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,corrigido
 Ranged Attack,Basic,0,Physical,"Harmful,Ranged,DealsDamage",nao,,"Deals *0 weapon damage to target.   When targeting an ally, heals for *0.",corrigido
 Ranger's Gift I,Ranger,3,None,,sim,"PerHexRangeDamageBonus:Base:2,",Every hex between you and your target increases damage dealt by 2%.,revisado
 Ranger's Gift II,Ranger,4,None,,sim,"PerHexRangeDamageBonus:Base:3,",Every hex between you and your target increases damage dealt by an additional 3%.,revisado
@@ -373,7 +373,7 @@ Soul Exchange,Shadow,5,None,"Harmful,DealsDamage,Ranged",nao,,"Swaps the life fo
 Soul Link,Shadow,4,Shadow,Ranged,nao,,All damage and healing dealt to one target is also dealt to the linked target.,revisado
 Spectral Chains,Shadow,2,Shadow,"MovementImpairing,Harmful,Ranged",nao,,Deals *0 shadow damage and applies {STA=Immobilized} for 1 turn.,revisado
 Speed,Monk,4,None,,sim,"DexterityBase:Percentage:15, ReflexBase:Percentage:15,",Increases @Dexterity@ and @Reflex@ by 15%.,revisado
-Staff Attack,Basic,0,None,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,revisado
+Staff Attack,Basic,0,None,"Harmful,Ranged,DealsDamage",nao,,Deals *0 weapon damage to target. ,corrigido
 Staff Attack,Basic,0,Healing,"Beneficial,Ranged",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",corrigido
 Stage Presence I,Bard,1,None,Beneficial,sim,"DamageMod:Base:3 * Source.NumAlliesWithin(4), DamageModHealing:Base:3 * Source.NumAlliesWithin(4),",Gain 3% increased damage and healing for each ally within 4 hexes.,intocavel
 Stage Presence II,Bard,2,None,Beneficial,sim,"DamageMod:Base:5 * Source.NumAlliesWithin(4), DamageModHealing:Base:5 * Source.NumAlliesWithin(4),",Gain an additional 5% increased damage and healing for each ally within 4 hexes.,intocavel
@@ -431,7 +431,7 @@ Tranquilizing Shot,Ranger,1,None,"Ranged,Harmful",nao,,Tranquilizes the target a
 Tricks of the Trade,Thief,5,None,,sim,"CooldownMod:Base:-1,",Reduces the cooldown of all abilities by 1.,revisado
 Twister,Lightning,2,Lightning,"DealsDamage,Harmful,Elemental",nao,,Summons a raging tempest that deals *0 lightning damage in a line.  Targets hit are {STA=Crippled} for 2 turns.,revisado
 Two-Handed Mastery,Warrior,3,None,,sim,"DamageMod:Base:Source.WieldingTwoHanded ? 20 : 0,",While a two handed weapon is equipped all damage is increased by 20%. ,revisado
-Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,revisado
+Unarmed Attack,Basic,0,Physical,"Harmful,Melee,DealsDamage",nao,,Deals *0 weapon damage to target. ,corrigido
 Unarmed Attack,Basic,0,Healing,"Harmful,Melee,DealsDamage",nao,,"Heals target ally for *0.    When targeting an enemy, deals *0 Holy Damage.",corrigido
 Uncanny Evasion,Thief,3,None,Beneficial,nao,,Gain 100% @dodge chance@ for the next attack. Increases @Counter Attack Damage@ by 50% for 1 turn.,revisado
 Unyielding Contender,Warrior,5,None,Beneficial,nao,,"Grants 50% increased Armor, Magic Armor, and Max Health for 2 turns. Grants Enrage. Usable while stunned.",revisado
