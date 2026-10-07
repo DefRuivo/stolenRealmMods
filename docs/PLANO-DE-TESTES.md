@@ -20,7 +20,7 @@ e a conferencia de shrines so nao aprovou o formato antigo porque se recusou a c
 
 ## Vocabulario de cenario (usar estes nomes nas tarefas)
 
-**EXCESSO DE SHRINE**: Worship (+100), Omnism II (+20), Horn of Devotion (+50/+100), os dois juntos, tres bencaos
+**EXCESSO DE SHRINE**: Omnism II (+20), Horn of Devotion (+50/+100) — o antigo "Worship (+100)" era fabricado (RV-48) —, os dois juntos, tres bencaos
 acumuladas, varias auras no MESMO atributo, stacks do mesmo status, dois personagens na mesma aura.
 
 **BORDAS**: valor zero, valor negativo (Energy), total que arredonda para zero, fracao (.5 e -0.4), minimo 1 do

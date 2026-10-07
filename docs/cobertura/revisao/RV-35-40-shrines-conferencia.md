@@ -53,7 +53,7 @@ nível nem de atributo secundário.
 
 ## Valor escalado (Mathf.Round half-to-even) — conferência aritmética
 
-| Shrine | BASE | b=0 | b=+8 (Omnism I) | b=+20 (Omnism II) | b=+50 | b=+100 (Worship/Horn) |
+| Shrine | BASE | b=0 | b=+8 (Omnism I) | b=+20 (Omnism II) | b=+50 | b=+100 (Horn of Devotion) |
 |--------|------|-----|-----------------|--------------------|-------|-----------------------|
 | Warrior / Guardian / Conqueror / Rogue | 20 | 20 | 22 | 24 | 30 | 40 |
 | Reaper | 8 | 8 | 9 | 10 | 12 | 16 |

@@ -53,7 +53,7 @@ o exit code nao consulta a decisao. Aceite #4 e descumprido ("sem esconder falha
 "sem progresso" nao aciona escalonamento, so avisa.
 
 ### ACHADO 4 — secundario. Fila acionavel aponta o conferidor, nao a causa
-`montar_fila` (`ciclo.py:489-511`): `caminhos` = evidencia = o **script conferidor** (ex.: `tools/check_x.py`),
+`montar_fila` (`ciclo.py:489-511`): `caminhos` = evidencia = o **script conferidor** (ex.: `tools/check_versoes.py`),
 nunca o arquivo-causa; `tarefa_origem` e **sempre** o id do orquestrador (`TAREFA="t_2c3e8182"`, `ciclo.py:58`),
 nao a tarefa dona do defeito. Estrutura do contrato existe (caminhos/tarefa/falha/evidencia/criterio) e a
 instrucao textual e clara, mas o roteamento nao chega ao dono por `caminhos`/`tarefa_origem`. Itens com

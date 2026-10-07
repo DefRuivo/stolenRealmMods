@@ -242,7 +242,7 @@ Não é regressão do COR-CIC3 em nenhum dos dois sentidos; é lista desatualiza
   e dos relatórios `RSTV-27R*`, de outros cartões).
 - `tools/checa_citacoes.py`: 4 reclamações, **nenhuma** sobre `COR-CIC3-correcao.md`.
 - O `checa_citacoes` do projeto é **cego** ao padrão `arquivo.py:LINHA` usado neste doc (devolve "0 citações"
-  para ele). Conferi com um verificador próprio (`check_cit.py`): **18 citações `arquivo:linha` encontradas,
+  para ele). Conferi com um verificador próprio de bancada (`check_cit.py`, script local de revisão, fora do repo): **18 citações `arquivo:linha` encontradas,
   18 resolvem, 0 pendentes** — inclusive as 7 do §1 do relatório do autor e o par decisivo `rstv.py:805-807`.
 
 ### 2.10 Diff do produto (bytes antigos × atuais) — `10-diff-produto-antigo-atual.txt`
@@ -441,7 +441,7 @@ todos de outras frentes). Nenhum desses arquivos é meu nem passa por esta revis
 escritos são `docs/automacao/CIC-3R2-revisao.md` e `docs/automacao/CIC-3R2-evidencias/`.
 
 Bancadas do revisor (fora do repo): `%LOCALAPPDATA%/hermes/cache/scratch/cic3r2/` — `plantio.py`,
-`dupla_lente.py`, `n1.py`, `diff_fixtures.py`, `check_cit.py`, `gera_evidencia.sh`, `resultado_*.json`.
+`dupla_lente.py`, `n1.py`, `diff_fixtures.py`, `check_cit.py` (scripts locais de bancada, fora do repo), `gera_evidencia.sh`, `resultado_*.json`.
 
 Revisor: tarefa `t_d243872d`, run 426, profile `default` — **não** autor de `t_7bec518b` nem do CIC-3.
 Sem build, deploy, jogo, save, commit, push ou publicação nesta rodada.

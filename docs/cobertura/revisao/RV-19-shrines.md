@@ -9,10 +9,22 @@ estão no §9 e o roteiro de conferência em jogo no §10. Referência viva das 
 e `BetterTooltips/Patches/ShrineAuraPatch.cs`.
 Revisão **RV-44 (30/09/2026, conserto em código)**: a linha `Your active shrine auras:` **deixou de mostrar o total do
 personagem como se fosse a aura** — cada item passou a ser `<o que as auras entregam> (total <o total do personagem>%)`;
-o caso do Rogue Shrine com `Worship` (`Dodge +40% (total +57%)`) e as duas telas do Fury entram como **casos de aceite**
+o caso do Rogue Shrine (bônus 100; rótulo original "com `Worship`" — ver retificação RV-48) (`Dodge +40% (total +57%)`) e as duas telas do Fury entram como **casos de aceite**
 (§9.1/§9.2, §10.5). Nenhuma outra linha foi tocada.
 Fontes: `Assembly-CSharp.dll` (build atual do jogo) + `resources.assets` (1,7 GB) + censo (`docs/cobertura/*.csv`) + dump de boot no `LogOutput.log`.
 Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.decompiled.cs`, 371.804 linhas; classe `CompiledDynamicExpresso` em l.49965).
+>
+> ⚠ **RETIFICAÇÃO RV-48 (03/10) — o "perk `Worship`" NÃO existe.** A investigação RV-30 provou que
+> `worship` tem **ZERO ocorrências no código do jogo** (Assembly-CSharp; `Worshiper` idem). O único
+> rastro do termo é a **habilidade homônima do CharacterInfo de INIMIGO `T2_Worshiper`**
+> (`resources.assets` @1519682296) — **não é perk do jogador**. Toda menção a um "perk `Worship`" do
+> jogador neste documento (a cadeia de fontes do `ShrineEffectBonus`, o "fator do `Worship`" e o
+> "dano dobrado") é a premissa de 30/09, hoje **retificada**: o "dobro" era o **defeito do `Source`
+> injetado** pelo prefix do RV-34 — as auras de perigo (Decay/Flame) leem
+> `Source["ShrineEffectBonus"]`, o bônus do SHRINE, não o do jogador. O RV-30 (03/10) parou de
+> escrever em `Source`. As fontes REAIS do bônus, na tela, são **Omnism I/II** e o **Horn of
+> Devotion**. **Decisão pendente (RV-49).**
+
 
 ---
 
@@ -51,8 +63,10 @@ Referência de linhas: decompilado completo do build atual (`Assembly-CSharp.dec
    mecânica de aura?) — **RESPONDIDO no RD-2 (01/10): é `SkillTriggers[0].Targets`**, e o dump de status passou a
    expor o campo (`~alvos=`); a evidência antiga que citava `ActionsOnTick` envelheceu (seção 7, ressalva do DOC-8).
 5. **Provas dos consertos RV-33/RV-34** (a MEDIÇÃO em jogo vence a leitura de asset — hierarquia de fontes do projeto):
-   - **medição do dono do jogo (30/09):** com o perk `Worship` (+100 em `ShrineEffectBonus`, um **PERK DO PERSONAGEM**) o
-     dano por turno do Decay **DOBRA** — 10% → 20%. Logo o fator vale 2 e quem ele lê é o personagem **na aura**.
+   - **medição do dono do jogo (30/09)** — ⚠ **RETIFICADA (RV-48)**: o "perk `Worship`" citado aqui é FABRICAÇÃO
+     (`worship` tem 0 ocorrências no código; o único rastro é a habilidade do CharacterInfo de INIMIGO `T2_Worshiper`).
+     O que dobrava era o **defeito do `Source` injetado** (RV-34), não um perk do jogador: a aura de perigo lê
+     `Source["ShrineEffectBonus"]` — o bônus do SHRINE. Ver a retificação no topo.
    - **log do próprio jogo (30/09):** a marca `RV-31 acumulado: ... char=Raven bonus=100` saiu **ao lado** de
      `RV-33 linha do Decay: Raven MaxHealth=233 -> ... (23 damage per turn for you)` — 23 = 10% de 233, ou seja o número
      **sem o fator** com o bônus 100 já presente no MESMO personagem (a aura de buff do mesmo Raven saiu ×2: Life Steal
@@ -141,7 +155,7 @@ Caveat: "escala" acima é o **efeito real** (o `AttributeEffects` das auras, que
 **hover do SHRINE** o número saía sempre na BASE para toda a família, pelo `Source` vazio (§0.4/§3) — ⚠RV-33/RV-34: o
 prefix que preenche os parâmetros vazios (e troca o `Source` vazio do shrine) **já está no mod**, então o número do hover
 passa a sair com o bônus do personagem em foco. Nas duas auras de perigo o fator entra **até na conta do dano** (medição
-do dono em jogo: com `Worship` o dano por turno do Decay dobrou, 10% → 20%).
+do dono em jogo: o dano por turno do Decay dobrava, 10% → 20% — ⚠ o rótulo `Worship` era fabricado; era o defeito do `Source` (RV-48)).
 
 **Dwarven — RESOLVIDO (RV-24 → RV-22, já aplicado):** o asset do `Dwarven Totem Aura Status` (pid 2543235) **tem** a
 fórmula com `Target`: `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))`, **2×** (`resources.assets`
@@ -216,10 +230,30 @@ Decay: `Decay Aura Proc`, `Effects[0].Action`, UTF-16 @1519519282:
 TargetStored["ShadowDamage"] = Mathf.Round((Target["MaxHealth"] * Target.GetValueByEnemyType(.05f, .1f, .12f, .15f, .2f, .1f)) * (1 + (Source["ShrineEffectBonus"] / 100)))
 ```
 
+### 4.2.1 A cadeia ESTRUTURAL do asset (reconferida no cartão `t_d02f9212`, 06/10)
+
+Dump estrutural com **UnityPy 1.25.3** (`scratch/le_status_um.py`), resolvendo a ação pela PPtr `Actions`
+do status (não por offset adivinhado) e lendo a string da fórmula **byte a byte** na janela:
+
+| Objeto | pathID | onde | campos que importam |
+|---|---|---|---|
+| status `Flame Shrine Aura` | 2543240 | @1517120720 (1088 B) | `Description = "Attackers take Fire Damage."`; `SkillTriggers[0]`: `TriggerType = 1` (`OnGettingHitDamaging`), `Condition = "Source.IsEnemy(Target)"`, `Targets = "Cell.IsCurrentHex(Target)"`, **`UseTriggerSource = 0`**, `Actions = [2544297]` |
+| ação `Flame Aura Proc` | 2544297 | @1519544344 (3160 B) | campo `Action` do `Effects[0]` (`Burst2Flame.GeneralEffect`) começa em @1519546081; a string da fórmula está em **@1519546098** (UTF-16LE, len 187) |
+| status `Decay Shrine Aura` | 2543234 | @1517113960 (1092 B) | `SkillTriggers[0]`: `TriggerType = 4` (`OnTurnStart`), `Condition = ""`, `Targets = "Cell.IsCurrentHex(Source)"`, **`UseTriggerSource = 0`**, `Actions = [2544288]` |
+
+A **mesma string** existe nos dois lugares: no campo `Effects[0].Action` do objeto da AÇÃO (acima) e como
+chave do cache compilado `CompiledExpressions` do jogo — o prefixo `TargetStored["FireDamage"] = ` é o que
+diferencia. No dump regenerado por `ilspycmd 8.2.0` sobre `lib/Assembly-CSharp.dll` (06/10) essas chaves
+saem em l.87922/87882 (o dump antigo, podado, tinha l.87156/87116). A tabela de % por tipo continua sendo
+**gerada** do asset por `tools/gera_shrines_esperado.py` (`--check` reprova se o asset mudar).
+
+`UseTriggerSource = 0` é o campo que decide **de quem é o `Source` da ação** — ver §4.5.
+
 ### 4.3 As porcentagens (por tipo de inimigo)
 
-`Character.GetValueByEnemyType(boss, champion, elite, soldier, fodder, player)` (l.38351):
-não-AI → `player`; AI → pelo `EnemyType` (enum l.99774: Fodder=0, Soldier=1, Elite=2, Champion=4, Boss=3).
+`Character.GetValueByEnemyType(boss, champion, elite, soldier, fodder, player)` (l.39235 no dump
+regenerado; l.38351 no antigo): não-AI → `player`; AI → pelo `EnemyType` (enum l.100604 no regenerado,
+l.99774 no antigo: Fodder=0, Soldier=1, Elite=2, Champion=4, Boss=3).
 
 | Aura | Boss | Champion | Elite | Soldier | Fodder | Player |
 |---|---|---|---|---|---|---|
@@ -229,9 +263,9 @@ não-AI → `player`; AI → pelo `EnemyType` (enum l.99774: Fodder=0, Soldier=1
 A ponte com o texto/exibição: a base do asset (5 no Flame, 10 no Decay) **é igual ao valor "player"** da fórmula
 (5%/10%) — o texto de hoje do Decay ("Take [0]% of your Max Health…") é exatamente essa % do alvo. ⚠RV-33/RV-34
 (substitui a conclusão ⚠RV-24) — o `[0]` do Decay é avaliado com **`X = Source`**, e o prefix do mod entrega ali o
-**personagem avaliado** (não o personagem vazio do shrine): o `[0]` sai com o bônus REAL (com `Worship`: 20, não 10) e
+**personagem avaliado** (não o personagem vazio do shrine): o `[0]` sai com o bônus REAL (no relato, "`Worship`": 20, não 10 — ⚠ rótulo fabricado, RV-48) e
 **o dano de verdade escala igual** — o mesmo fator `(1 + bônus)` está nas duas pontas, no `[0]` e na ação. Prova: a
-medição do dono em jogo (com `Worship` o dano por turno DOBRA). No log do jogo isso ficou visível antes do conserto: a
+medição do dono em jogo (o dano por turno dobrava; ⚠ rótulo `Worship` fabricado — era o defeito do `Source`, RV-48). No log do jogo isso ficou visível antes do conserto: a
 linha do Decay saiu `23 damage per turn for you` (10% de 233) **ao lado** de `char=Raven bonus=100` — o número sem o
 fator. Para o Flame o texto do jogo não tem `[0]` — por isso o jogador não vê número nenhum ali: a informação só existe
 no código (e na nota + lista por alvo que o mod acrescenta).
@@ -240,14 +274,47 @@ no código (e na nota + lista por alvo que o mod acrescenta).
 
 - **Flame Shrine Aura**: quem **ataca** um personagem dentro da aura leva dano de fogo = `Máx(1, MaxHealth(quem leva o
   dano) × % do tipo dele × (1 + bônus dele/100))` — ⚠RV-33/RV-34: o fator **ENTRA** (quem o lê é o personagem avaliado,
-  §4.2), então o dano **cresce** com `Omnism`/`Horn`/`Worship`. É um efeito de retaliação ("Attackers take Fire
+  §4.2), então o dano **cresce** com `Omnism`/`Horn` (o antigo `/Worship` era fabricado — RV-48). É um efeito de retaliação ("Attackers take Fire
   Damage."): a condição do status (`Source.IsEnemy(Target)`) e a ação (`Cell.HasEnemy(Source)` na seleção de alvo)
   apontam para "inimigo do portador da aura". No hover o atacante é DESCONHECIDO: cada ocupante da área é **projetado**
   como atacante (§9).
 - **Decay Shrine Aura**: quem **fica dentro** perde `% do próprio Max Health em Shadow` por turno (o texto diz isso); a
   dica de loading confirma o uso ("force your enemies to lose life in the Decay Shrine"). Aqui o bônus é o do **próprio
   portador da aura** — é ele que o proc acerta no começo do turno dele e é o `ShrineEffectBonus` DELE que o fator lê — e
-  o dano **escala** (medido em jogo: com `Worship`, 10% → 20%).
+  o dano **escala** (no relato, "com `Worship`", 10% → 20% — ⚠ rótulo fabricado; era o defeito do `Source`, RV-48).
+  ⚠ ver §4.5: a evidência nova (t_d02f9212) mostra que o `Source` da AÇÃO é o EXECUTOR do gatilho, isto é **o personagem
+  que TEM a aura** — o que o RV-48 chamou de "defeito do `Source`" é o mecanismo do motor; qual versão o DISPLAY usa
+  segue como decisão do **RV-49**, e nada mudou no número por causa disso.
+
+### 4.5 ⚠ DE QUEM É O `ShrineEffectBonus` DO FATOR (evidência nova do `t_d02f9212`; decisão no RV-49)
+
+O RV-30/RV-48 concluíram que as duas auras de PERIGO leem o `ShrineEffectBonus` **do SHRINE** (o personagem vazio do
+ground effect) porque o motor lê o slot `Source` do PRÓPRIO status. Isso vale para a **caminhada de ATRIBUTO** — o
+`GameFunctionParameters { Source = actionStatus3.Source, Target = actionStatus3.Target }` de
+`Character.GetAttributeValueByMethod` (l.37891, binding em l.38109-38110), que é o caminho das 9 auras de BUFF e o
+único que tem `AttributeEffects` (`Amount` lendo `Target[...]`); as duas de PERIGO não têm `AttributeEffects` (§5) e o
+dano delas vive no `SkillTrigger` — **outro caminho, com outro `Source`**:
+
+1. l.40959 — `target.ProcessSkillTriggers(source, ..., TriggerType.OnGettingHitDamaging, ...)`: `this` = quem **FOI
+   acertado** (o portador da aura) e o PARÂMETRO `target` do gatilho = o **ATACANTE** (a assinatura está em l.41756 e o
+   irmão `OnHittingDamaging`, logo acima, é `source.ProcessSkillTriggers(target, ...)` — é isso que fixa quem é quem);
+2. l.41865 e l.41881 — `Condition` e `Targets` do gatilho são avaliados com `Source = this` e `Target = <atacante>`
+   (`Source.IsEnemy(Target)` = "quem me acertou é meu inimigo"; `Cell.IsCurrentHex(Target)` = a célula DO ATACANTE);
+3. l.41935 — `Character character = ((trigger.UseTriggerSource && trigger.TriggerSource != null) ?
+   trigger.TriggerSource : this)`. Com **`UseTriggerSource = 0`** (§4.2.1), o executor é `this` = **o personagem que TEM
+   a aura**. `TriggerSource` só é escrito quando `UseTriggerSource` (l.34381-34383:
+   `skillTrigger3.TriggerSource = actionStatus.Source`) — e o asset do Flame **e** do Decay tem 0;
+4. l.42623/42632 — o executor roda a ação nos personagens das células alvo (`ApplyAction(delay, actionInfo, this,
+   character2, ...)`) e l.39490-39494 — `GetActionDamage` avalia a expressão com `Source = source, Target = target`
+   (a definição que recebe o par está em l.40157).
+
+Consequência: no caminho do **DANO**, `Source[...]` é **quem tem a aura** (no Flame, quem FOI acertado; no Decay, quem
+está decaindo — o mesmo personagem nas duas), não o personagem vazio do shrine. A medição do dono em 30/09 (o dano por
+turno do Decay **dobrando** com bônus 100) é coerente com isso. **Nada foi mudado no número exibido por causa desta
+evidência** — o mod continua avaliando com a constante SEM o fator (regra do RV-30, cobrada em
+`tools/testes/regras_rv30.py`); decidir qual versão fica é o **RV-49** (medição em jogo com/sem Omnism/Horn), do dono. O
+que o `t_d02f9212` fez com a evidência foi só de TEXTO: a legenda do Flame parou de citar um "Shrine Effect Bonus DELE"
+(do atacante) que o número exibido nunca usou (§9).
 
 ---
 
@@ -322,7 +389,7 @@ interpretaria o token (regra do projeto).
 | saiu da nota | onde vive agora |
 |---|---|
 | **percentuais por tipo de inimigo** (Flame 2,5/8/10/12/14/5%; Decay 5/10/12/15/20/10%) | **§4.3** (tabela completa, com a origem no asset) e **§2.2** (escala por aura) |
-| **fontes do `ShrineEffectBonus`** (`Omnism I` +8, `Omnism II` +20, perk `Worship` +100, `Horn of Devotion` {50,100}) | **§3** (tabela + provas do teste do próprio jogo) |
+| **fontes do `ShrineEffectBonus`** (`Omnism I` +8, `Omnism II` +20, `Horn of Devotion` {50,100}) — o antigo "perk `Worship` +100" era fabricado (RV-48) | **§3** (tabela + provas do teste do próprio jogo) |
 | **"Minimum 1"** — que existe **só no Flame** (o Decay pode dar 0) | **§4.3** (cabeçalho da linha do Flame) e **§4.4** |
 
 
@@ -366,7 +433,7 @@ bônus (`CreateNewGroundEffectCharacter`, l.143758: `TeamIndex = 2`, nada herdad
 (`Observable.New<Character>()`, l.143680–143684; só `.Level` é atribuído, l.155836) → `Source["ShrineEffectBonus"]` = 0.
 "`Target` vazio" **não** é a explicação: o motor já faz `if (Target == null) Target = Source` (l.215241–215243). O ⚠RV-24
 concluiu daí que o fator era **×1 "na prática"** — **claim MORTO**: ERRADO como afirmação sobre o DANO (a medição do
-dono mostra o fator valendo 2 com `Worship`, §0.5). Quem executa a
+dono mostrava o dobro; ⚠ o rótulo `Worship` era fabricado — era o defeito do `Source`, §0.5). Quem executa a
 fórmula é o personagem avaliado (as ações avaliam `Source` = `Target` = o personagem), e o fator lê o bônus DELE. O prefix
 troca o `Source` vazio do shrine pelo receptor e o fator passou a valer também no número exibido (RV-34). A lição ficou
 registrada: **medição em jogo vence leitura de asset** (§0.5).
@@ -417,8 +484,8 @@ e a medição de quantos statuses preenchem cada campo). Duas leituras de asset 
 Confirmação em jogo — o que o RV-33/RV-34 fecharam e o que sobrou: (i) hover no shrine com/sem `Omnism` — o número do
 `[0]` muda? **Agora muda, por construção** (o prefix preenche os parâmetros: §0.4/§3), mas a conferência VISUAL dessas
 linhas ainda não foi feita — roteiro na §10; (ii) o dano do Decay escala com o bônus? **SIM — MEDIDO em jogo pelo dono
-(30/09): com o perk `Worship` o dano por turno DOBRA (10% → 20%)**; (iii) o dano de retorno do Flame escala com o bônus
-de quem o leva? A fórmula/fator são os mesmos, mas **falta a medição em jogo do dano de RETORNO com `Worship`** para
+(30/09): o dano por turno DOBRAVA (10% → 20%)** — ⚠ **RETIFICADO (RV-48)**: o "perk `Worship`" era fabricado, o dobro era o defeito do `Source` injetado; (iii) o dano de retorno do Flame escala com o bônus
+de quem o leva? A fórmula/fator são os mesmos, mas **falta a medição em jogo do dano de RETORNO** para
 fechar se o bônus é o do atacante ou o do portador da aura — **INDETERMINADO**, §9(ii).
 
 ---
@@ -455,8 +522,8 @@ fechar se o bônus é o do atacante ou o do portador da aura — **INDETERMINADO
    (`Character[atributo]`, `ShrineAuraPatch.AcumuladoShrines` — a linha era `float valor = receptor[nome];`), que é
    o MESMO número da ficha (BetterStats) — inclui base, gear e skills. Numa aura de 25% a linha dizia o total do
    personagem, o que **na tela lê como "a aura dá 50%"**. Prints do dono (30/09):
-   Goblin Battle Standard (Fury) sem `Worship` -> shrine `25%` / linha `Damage +50%`, `Damage taken +5%`; com
-   `Worship` -> `50%` / `Damage +75%`, `Damage taken +30%`; **Rogue Shrine** com `Worship` (caso isolável, sem
+   Goblin Battle Standard (Fury) bônus 0 (rótulo original "sem `Worship`") -> shrine `25%` / linha `Damage +50%`, `Damage taken +5%`; com
+   bônus 100 ("com `Worship`") -> `50%` / `Damage +75%`, `Damage taken +30%`; **Rogue Shrine** bônus 100 (caso isolável, sem
    colisão de atributo) -> shrine `40%` / linha `Dodge +57%`. Conserto: cada item agora é
    **`<o que as auras entregam> (total <o total do personagem>%)`** — `Dodge +40% (total +57%)`,
    `Damage +25% (total +50%)`, `Damage taken +25% (total +5%)` —, com a contribuição saindo do
@@ -483,7 +550,7 @@ fechar se o bônus é o do atacante ou o do portador da aura — **INDETERMINADO
    l.192215-192218; `-10 * Stacks`, l.196236-196239). Não há, portanto, defeito de leitura a relatar aqui.
 3. **O FLAME é uma PROJEÇÃO — e falta a medição do dano de RETORNO.** No hover **não se sabe quem vai atacar**: o mod
    projeta **cada ocupante da área** como atacante e mostra "o dano se ele atacasse" (vida máxima DELE × a % do tipo DELE
-   × o bônus DELE). **INDETERMINADO**: falta a medição em jogo do dano de RETORNO do Flame com `Worship` para fechar se o
+   × o bônus DELE). **INDETERMINADO**: falta a medição em jogo do dano de RETORNO do Flame com o bônus 100 (rótulo antigo `Worship`, fabricado — RV-48) para fechar se o
    bônus que multiplica é o do **atacante** ou o do **portador da aura** — a nota viva (§6.1, texto do RV-43) descreve o
    número como **projeção do personagem avaliado como atacante** e **tem de mudar se a medição disser o contrário**.
 3. **A linha do Decay depende do receptor resolver.** A cadeia é `Tooltip.TooltipCharacter` → `Root.WorldCharacter` →
@@ -500,9 +567,9 @@ Nota de método: nada aqui é estimado. Atributo ausente no build, personagem fo
 ## 10. Como conferir em jogo (roteiro)
 
 Objetivo: a **conferência visual** das linhas que ainda não foram olhadas na tela (a linha do Decay, a lista do Flame e o
-bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `Omnism II` (+20) e o perk `Worship` (+100).
+bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `Omnism II` (+20) e **`Horn of Devotion`** (+100; o antigo rótulo "perk `Worship`" era fabricado — RV-48).
 
-| Aura | bônus 0 | `Omnism II` (+20) | `Worship` (+100) |
+| Aura | bônus 0 | `Omnism II` (+20) | `Horn` (+100) |
 |---|---|---|---|
 | Warrior / Guardian / Conqueror / Rogue | 20 | 24 | 40 |
 | Reaper | 8 | 10 | 16 |
@@ -514,17 +581,22 @@ bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `
 | Flame (a % do tipo; com 100 de vida o dano é o mesmo número) | 5 | 6 | 10 |
 
 1. Entrar em jogo com um personagem **sem** bônus (caso 0), outro com `Omnism II` (Chaos tier 2 — ela **substitui** a I,
-   §3) e outro com o perk `Worship`. O `Horn of Devotion` cobre +50/+100 (roll) e é o mesmo teste do `Worship` quando cai
-   100.
+   §3) e outro com **`Horn of Devotion`** (+100). O único +100% de shrine é o roll do `Horn` — não existe perk `Worship` (RV-48).
 2. **Auras de buff**: hover no shrine com o personagem **dentro** da área — o número tem de bater com a tabela acima na
    coluna do caso.
 3. **Decay**: com o personagem na área, a linha do jogo ganha `(N damage per turn for you)`, com `N` = a % do tipo dele ×
    a vida máxima DELE × o bônus DELE (100 de vida: 10 / 12 / 20). Log: `[Shrine RV-23] RV-34 linha do Decay: <char>
    MaxHealth=... bonus=... -> '...'`.
-4. **Flame**: hover com personagens na área — um item por ocupante (`In the aura now (raw damage it takes as the
-   attacker, ...): nome dano; ...`). Log por alvo: `[Shrine RV-23] RV-34 Flame alvo '...': MaxHealth=... tipo=...
-   bonus=... dano=...`. **A medição que falta** (§9(ii)): deixar um personagem COM `Worship` **apanhar** de dentro do
-   Flame e comparar o dano de tela com/sem o perk — é o que diz se o bônus é do atacante ou do portador da aura.
+4. **Flame**: hover com personagens na área — um item por ocupante, com a legenda nomeando o dono da vida máxima
+   (`In the aura now (raw damage it takes as the attacker, from the attacker's own Max Health): nome dano; ...` — o
+   `the attacker's own` entrou no lugar de `its own` no `t_d02f9212`, 06/10, e o `and its own Shrine Effect Bonus` saiu
+   porque o número exibido não usa esse fator; a escala por tipo **não** é exibida — RV-33 opção (a), §9). Log por alvo:
+   `[Shrine RV-23] RV-34 Flame alvo '...': MaxHealth=... tipo=... bonus=... dano=...` (o marcador **não** mudou de
+   forma: `tools/checa_shrines.py` o casa por regex).
+   **A medição que falta** (§9(ii)): deixar um personagem com **`Horn of Devotion`** (+100) **apanhar** de dentro do
+   Flame e comparar o dano de tela com/sem o perk — é o que diz se o bônus é do atacante ou do portador da aura (o
+   `t_d02f9212` estreitou isso: o `Source` da AÇÃO é o personagem que TEM a aura — §4.5 —, mas a decisão do display
+   segue no RV-49).
 5. **Linha `Your active shrine auras:`**: no hover, com o personagem dentro de qualquer aura de shrine, ela lista **todas**
    as auras vivas dele (um item por atributo), **SOME quando ele sai da aura** (filtro do RV-29 — é o passo que prova o
    filtro) e, desde o RV-44, cada item traz **os dois números**: `<o que as auras entregam> (total <o total do
@@ -532,9 +604,9 @@ bloco `Your active shrine auras:`), nos **três casos por aura** — bônus 0, `
 
    | Cena | Aura viva | Item esperado |
    |---|---|---|
-   | Goblin Battle Standard, sem `Worship` (bônus 0) | Fury (25 / −25) | `Damage +25% (total +50%)`; `Damage taken +25% (total +5%)` |
-   | Goblin Battle Standard, com `Worship` (bônus 100) | Fury (50 / −50) | `Damage +50% (total +75%)`; `Damage taken +50% (total +30%)` |
-   | Rogue Shrine, com `Worship` (bônus 100) | Rogue (40) | `Dodge +40% (total +57%)` |
+   | Goblin Battle Standard, bônus 0 (rótulo antigo "sem `Worship`") | Fury (25 / −25) | `Damage +25% (total +50%)`; `Damage taken +25% (total +5%)` |
+   | Goblin Battle Standard, bônus 100 (rótulo antigo "com `Worship`") | Fury (50 / −50) | `Damage +50% (total +75%)`; `Damage taken +50% (total +30%)` |
+   | Rogue Shrine, bônus 100 (rótulo antigo "com `Worship`") | Rogue (40) | `Dodge +40% (total +57%)` |
 
    O primeiro número é o que o **tooltip do shrine** mostra na mesma tela; o parênteses é o número da **ficha**. Log:
    `[Shrine RV-23] RV-44 item '<atributo>': aura=... total=... resto=... em [<auras>]` — o `resto` (total − aura) é o
@@ -568,8 +640,8 @@ Se algum número não bater, o que se corrige é **este relatório contra o jogo
   | l.3502 | 3 | `+120%` | `+75%` |
 
 - **Por que 120 nunca ia fechar com 75:** o motor percorre TODAS as instâncias (`Character.GetAttributeValueByMethod`,
-  `Character.cs:8494`, ×`TotalStacks` em `Character.cs:8563`) e **corta o total no teto do atributo**
-  (`Character.GetAttribute`, `Character.cs:11871-11878`). No asset, `DodgeChance` tem `HasMax` com **MaxValue = 75**
+  `Character.cs:37194`, ×`TotalStacks` em `Character.cs:37263`) e **corta o total no teto do atributo**
+  (`Character.GetAttribute`, `Character.cs:40607`). No asset, `DodgeChance` tem `HasMax` com **MaxValue = 75**
   (`resources.assets` @1519604232) e `DamageReduction` **MaxValue = 50** (@1519603860) — é o que explica o total
   parar em 75 com 2 e com 3 instâncias, e `Damage taken` parar em −50 com dois Guardian (aura 80).
 - **Conserto:** a contribuição passa a contar **cada aura UMA vez** (`AurasUnicas`), que é o número da linha branca do
@@ -586,7 +658,7 @@ Se algum número não bater, o que se corrige é **este relatório contra o jogo
 - **Onde o valor está no asset** (`Dwarven Totem Aura Status`, `resources.assets` @1517115056): a fórmula
   `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))` aparece **2×** — @1517115395 (ao lado da
   `Description`, = `DescriptionExpressions[0]`) e @1517115647 (dentro do gatilho, ao lado de
-  `Source.IsEnemy(Target)`/`Cell.IsCurrentHex(Target)`). As duas são a MESMA string, e o valor com `Worship` é 40 —
+  `Source.IsEnemy(Target)`/`Cell.IsCurrentHex(Target)`). As duas são a MESMA string, e o valor com bônus 100 é 40 —
   igual à linha branca do shrine.
 - **Conserto:** item próprio `Stun chance +40%` (avaliado pelo motor com `Target` = o personagem em foco). Pela
   mesma regra, o Decay (`Shadow damage per turn N`) e o Flame (`Fire damage to attackers: …`) — as outras duas das
