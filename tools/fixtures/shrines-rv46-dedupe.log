@@ -65,13 +65,13 @@
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=20 -> Damage +30% (total +55%); Damage taken +30% (total +10%)
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=100 -> Damage +50% (total +75%); Damage taken +50% (total +30%)
 [Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=0 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=20 -> 'Take [0]% of your Max Health in Shadow Damage per turn (12 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (20 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=233 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (47 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=20 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=233 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (23 damage per turn for you).'
 [Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=0 dano=5
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=20 dano=6
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=100 dano=10
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=56
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=20 dano=5
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=100 dano=5
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=28
 [Info   :Better Tooltips] [Shrine RV-23] RV-46 instancias repetidas na lista viva de Raven: [Guardian Aura x2, Rogue Aura x3] — o motor soma cada instancia (Character.cs:8494 + TotalStacks em Character.cs:8563) e o TETO do atributo corta o total; a CONTRIBUICAO conta cada aura UMA vez (e o numero que a linha branca do proprio shrine mostra)
 [Info   :Better Tooltips] [Shrine RV-23] RV-44 item 'DamageReduction': aura=+40% total=+50% resto=+10% char=Raven bonus=100 em [Guardian Aura, Rogue Aura, Reaper Aura, Conqueror Aura, Dwarven Aura]
 [Info   :Better Tooltips] [Shrine RV-23] RV-46 teto 'DamageReduction': MaxValue=50 char=Raven total=+50% no-teto=sim (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)
@@ -91,9 +91,9 @@
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW0 bonus=0 -> Stun chance +20%
 [Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Dwarven Aura' -> 'Stun chance +24%' char=ChkDW20 bonus=20
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW20 bonus=20 -> Stun chance +24%
-[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Decay: MaxHealth=100 bonus=100 dano=20 tipo=player
-[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Decay Shrine Aura' -> 'Shadow damage per turn 20' char=ChkDecay bonus=100
-[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=56
-[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Flame Shrine Aura' -> 'Fire damage to attackers: ChkGob 56' char=ChkDecay bonus=100
-[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Decay Shrine Aura, Flame Shrine Aura] char=ChkDecay bonus=100 -> Shadow damage per turn 20; Fire damage to attackers: ChkGob 56
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Decay: MaxHealth=100 bonus=100 dano=10 tipo=player
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Decay Shrine Aura' -> 'Shadow damage per turn 10' char=ChkDecay bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item do Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=28
+[Info   :Better Tooltips] [Shrine RV-23] RV-46 item sem atributo: 'Flame Shrine Aura' -> 'Fire damage to attackers: ChkGob 28' char=ChkDecay bonus=100
+[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Decay Shrine Aura, Flame Shrine Aura] char=ChkDecay bonus=100 -> Shadow damage per turn 10; Fire damage to attackers: ChkGob 28
 [Info   :Better Tooltips] [Shrine RV-23] RV-46 AVISO: a aura viva 'Aura Sem Etiqueta' NAO virou item da linha (efeito sem atributo de personagem e sem etiqueta conhecida (descricao 'Nova aura do jogo.')) — a lista esta incompleta e isto esta registrado; nenhum numero foi estimado
