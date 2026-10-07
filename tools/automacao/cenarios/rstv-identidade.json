@@ -1,0 +1,7 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "rotulo_fixture": "rstv-identidade",
+  "aviso": "IDENTIDADE-EXEMPLO de fixture. Os sha256 sao sinteticos: existem para o teste exercitar o caminho com identidade suficiente. NAO correspondem a nenhuma build medida.",
+  "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+  "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222"
+}

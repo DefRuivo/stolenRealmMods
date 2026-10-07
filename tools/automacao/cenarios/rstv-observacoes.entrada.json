@@ -1,0 +1,67 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "procedencia": "fixture",
+  "rotulo_fixture": "rstv-observacoes",
+  "evidencia_runtime": false,
+  "aviso": "FIXTURE ROTULADA: imita o formato da leitura AUT-4 (campos planos do probe) e da forma normalizada (bloco 'campos'). NAO foi lida do jogo e NAO pode ser apresentada como evidencia de runtime. O avaliador deve devolver NAO_EXERCITADO para os itens sem defeito, porque fixture testa o avaliador, nao prova runtime.",
+  "identidade": {
+    "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "observacoes": [
+    {
+      "cenario": "party-select-modal",
+      "objeto": "Tooltip.Title",
+      "personagem_esperado": "Raven",
+      "personagem": {
+        "gui_state": "ChoosingCharacter",
+        "tem_personagem_selecionado": true,
+        "personagem": "Raven"
+      },
+      "skills_antes": ["Fireball", "Frostbolt", "Shield"],
+      "skills_depois": ["Fireball", "Frostbolt", "Shield"],
+      "pontos_antes": 5,
+      "pontos_depois": 5,
+      "texto_renderizado": "Deals 12 - 20 fire damage.",
+      "evidencia": ["tools/automacao/cenarios/rstv-observacoes.entrada.json"]
+    },
+    {
+      "cenario": "janela-readonly",
+      "janela": {"aberta": true, "fechada": true},
+      "tooltip_pai_antes": "GUI Manager/Tooltips / Popups",
+      "tooltip_pai_depois": "GUI Manager/Tooltips / Popups",
+      "tooltip_indice_antes": 3,
+      "tooltip_indice_depois": 3,
+      "janelas_duplicadas": 0,
+      "evidencia": ["tools/automacao/cenarios/rstv-observacoes.entrada.json"]
+    },
+    {
+      "cenario": "linhas-dependencia",
+      "linhas_dependencia": {"T4": 2, "T5": 0},
+      "dependency_por_tier": {"T4": 2, "T5": 0},
+      "arestas_inventadas": 0,
+      "nota": "T5 sem Dependency e AUSENCIA LEGITIMA — nao se inventa aresta.",
+      "evidencia": ["tools/automacao/cenarios/rstv-observacoes.entrada.json"]
+    },
+    {
+      "cenario": "geometria",
+      "geometria": {
+        "caixa_na_tela_px": {"x": 10, "y": 20, "largura": 300, "altura": 40},
+        "escala": 1.0,
+        "tela": "1920x1080"
+      },
+      "evidencia": ["tools/automacao/cenarios/rstv-observacoes.entrada.json"]
+    },
+    {
+      "cenario": "tooltip-normalizado",
+      "rotulo_fixture": "rstv-observacoes",
+      "campos": {
+        "objeto": {"estado": "PRESENTE", "valor": "Tooltip.Description"},
+        "texto_bruto": {"estado": "PRESENTE", "valor": "Deals [0] fire damage."},
+        "texto_renderizado": {"estado": "PRESENTE", "valor": "Deals 14 fire damage."}
+      },
+      "nota": "Forma NORMALIZADA de coletor.consolidar. O '[0]' no texto CRU e o template legitimo; so reprova se sobrar no RENDERIZADO.",
+      "evidencia": ["tools/automacao/cenarios/rstv-observacoes.entrada.json"]
+    }
+  ]
+}

@@ -1,0 +1,278 @@
+{
+  "esquema": "AUT-4/1",
+  "tarefa": "t_b8b9822e",
+  "correcao": "t_b62359c3 (COR-AUT4 — achados A1-A7 da revisao independente AUT-4R2) + t_fc40b2a7 (AUT-4F — achados remanescentes do parecer CIC-5R: R-1..R-5, S-2, S-3)",
+  "titulo": "AUT-4 - preparacao e teste OFFLINE do coletor runtime",
+  "rodada": "offline",
+  "runtime_exercitado": false,
+  "status": "PREPARADO_NAO_EXERCITADO",
+  "aviso": "Nenhum jogo aberto/encerrado, nenhum save tocado, nenhum probe instalado, nenhum deploy. A coleta em jogo e a proxima rodada autorizada.",
+  "artefatos": {
+    "probe_fonte": "tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs",
+    "probe_fonte_sha256": "5a51abaa439b90263e3b202e01a0b2b3b343fabc8cb71c9de8b3ac97b343bdd3",
+    "probe_projeto": "tools/automacao/runtime/AUT4Probe/AUT4Probe.csproj",
+    "probe_dll": "tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll",
+    "probe_dll_sha256": "fd774259b5e8813f2f3b29e2ff805f12cb0cdab4c277116fcc8bbb7e7e3bffdd",
+    "probe_dll_reprodutivel_byte_a_byte": false,
+    "probe_dll_identidade": "HASH DECLARADO do binario em disco (nunca 'compila igual'): a DLL do probe NAO e reproduzivel byte a byte (build sem -p:PathMap) — um rebuild do MESMO fonte gera outro hash. A rodada runtime usa ESTE hash como identidade declarada e CONFERIR o sha256 antes de instalar.",
+    "driver": "tools/automacao/runtime/coletor.py",
+    "driver_sha256": "68866a7ce101044b314587a32199d8709f87f97b6749fa1d86dc0978605a1595",
+    "runner": "tools/automacao/runtime/roda_testes_runtime.py",
+    "runner_sha256": "7906c1692bf349aff006039f73bbc8c59ef4e2a7a588210c348227be4dfb157e",
+    "testes": [
+      "tools/automacao/runtime/testes/t_aut4_autorizacao.py",
+      "tools/automacao/runtime/testes/t_aut4_cic5r.py",
+      "tools/automacao/runtime/testes/t_aut4_controle_negativo.py",
+      "tools/automacao/runtime/testes/t_aut4_costura_probe.py",
+      "tools/automacao/runtime/testes/t_aut4_estado_docs.py",
+      "tools/automacao/runtime/testes/t_aut4_execucao.py",
+      "tools/automacao/runtime/testes/t_aut4_manifest_rollback.py",
+      "tools/automacao/runtime/testes/t_aut4_observacao.py",
+      "tools/automacao/runtime/testes/t_aut4_plano.py",
+      "tools/automacao/runtime/testes/t_aut4_probe_contrato.py"
+    ],
+    "contra_prova": [
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_ausente_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4_isca_coleta_sem_autorizacao.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_alvos_2o_cenario_ignorado.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_campo_extra_ausente_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_cli_sem_perfil_estoura.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_contraprova_aceita_excecao.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_encerrar_por_imagem_mata_todas.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_espera_queima_teto.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_fora_do_schema.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_nao_lido_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_vazio_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_dir_pre_existente_removido.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_evidencia_runtime_false_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_evidencia_runtime_forma_errada_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_ida_volta_sem_marcador.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_print_velho_ok.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_procedencia_do_chamador.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_sem_autorizacao_executa.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_sem_prova_execucao.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_sem_prova_ida_volta.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_status_erro_confirma.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_topo_sem_hash_ok.py"
+    ],
+    "fixtures": [
+      "tools/automacao/runtime/fixtures/plano-exemplo.entrada.json",
+      "tools/automacao/runtime/fixtures/observacao-fixture-exemplo.entrada.json",
+      "tools/automacao/runtime/fixtures/casos-invalidos.entrada.json",
+      "tools/automacao/runtime/fixtures/probe-saida-exemplo.entrada.json"
+    ]
+  },
+  "build": {
+    "comando": "dotnet build -c Release --no-incremental -v q -p:DeployToBepInEx=false AUT4Probe.csproj",
+    "compilacoes_usadas": 1,
+    "limite": 2,
+    "erros": 0,
+    "warnings": 1,
+    "warning": "MSB3277 System.Net.Http (herdado das DLLs do jogo; igual ao CapProbe)",
+    "deploy": false,
+    "ambiente_isolado": "USERPROFILE/APPDATA/LOCALAPPDATA redirecionados para pasta de trabalho",
+    "observacao": "csproj sem alvo DeployToBepInEx; perfil do dono intacto (sem pasta AUT4Probe em plugins/)"
+  },
+  "testes_offline": {
+    "comando": "python tools/automacao/runtime/roda_testes_runtime.py",
+    "exit_code": 0,
+    "passaram": 10,
+    "reprovaram": 0,
+    "contra_prova_exit_code": 0,
+    "iscas_reprovaram_como_deviam": 22
+  },
+  "achados_aut4r2_corrigidos": [
+    {
+      "id": "A1",
+      "gravidade": "grave",
+      "defeito": "o driver confirmava CONCLUIDO olhando so o conteudo de aut4probe.json; JSON de rodada anterior era consumido como se fosse desta rodada",
+      "correcao": "executar_rodada passou a exigir TRES provas independentes via provas_de_execucao(): (a) sessao DESTA rodada (gerada por sessao_da_rodada(), escrita no .cfg como 'Sessao' e devolvida no JSON) + JSON mais novo que o lancamento; (b) LogOutput.log desta rodada com o fim do chainloader E a linha de vida do probe; (c) prints nao vazio com cada arquivo existindo e bytes>0. Falta de (a) => NAO_EXERCITADO/exit 2; falta de (b)/(c) => INDETERMINADO/exit 1",
+      "prova": "t_aut4_execucao.py casos E/F/G/H (vermelho antes da correcao); isca cp_aut5_isca_sem_prova_execucao.py PASSOU antes e REPROVA depois"
+    },
+    {
+      "id": "A2",
+      "gravidade": "grave",
+      "defeito": "campos_alvo nao governava o veredito: alvo nao lido virava NAO_APLICAVEL (inativo) e o cenario fechava CONFIRMADA; alvo inexistente/typo tambem fechava",
+      "correcao": "em normalizar_observacao, campo-alvo em estado AUSENTE ou NAO_APLICAVEL entra em lacunas (o fallback do inativo e INFORMACAO, nunca satisfacao do criterio) => consolidado INCOMPLETO/exit != 0; e validar_alvos() recusa (PlanoInvalido) campos_alvo fora do schema em validar_plano, _alvos_do_plano e consolidar",
+      "prova": "t_aut4_costura_probe.py (A2) e t_aut4_plano.py (campos_alvo_typo/misto/vazio/no cenario) em vermelho antes; iscas cp_aut5_isca_alvo_nao_lido_ok.py e cp_aut5_isca_alvo_fora_do_schema.py"
+    },
+    {
+      "id": "A3",
+      "gravidade": "medio",
+      "defeito": "consolidar_probe(..., procedencia='runtime') maquiava JSON rotulado fixture como runtime",
+      "correcao": "o rotulo LIDO DO ARTEFATO tem precedencia: procedencia declarada fixture (ou evidencia_runtime=false + rotulo_fixture) forca FIXTURE/exit 2 mesmo com o chamador pedindo runtime, com motivo registrado",
+      "prova": "t_aut4_costura_probe.py (A3); isca cp_aut5_isca_procedencia_do_chamador.py"
+    },
+    {
+      "id": "A4",
+      "gravidade": "medio",
+      "defeito": "status/fase do probe (ERRO, SEM_UI, ORCAMENTO_ESTOURADO, NAO_EXERCITADO) nao entravam no veredito",
+      "correcao": "em consolidar_probe, estado terminal de falha rebaixa o resultado a ERRO/INCOMPLETO com exit != 0; status ausente tambem NAO confirma ('silencio nao e aprovacao'); so status CONCLUIDO/OK pode fechar CONFIRMADA",
+      "prova": "t_aut4_costura_probe.py (A4, quatro estados + instrumento mudo); isca cp_aut5_isca_status_erro_confirma.py"
+    },
+    {
+      "id": "A5",
+      "gravidade": "medio",
+      "defeito": "rollback nao era exato para DIRETORIOS: pasta pre-existente e vazia do probe era removida",
+      "correcao": "snapshot_dirs() registra a existencia dos diretorios antes/depois; planejar_rollback expoe dirs_criados/dirs_pre_existentes e executar_rollback/_remover_dirs_vazios PRESERVAM os pre-existentes (inclusive ancestrais)",
+      "prova": "t_aut4_execucao.py caso L; isca cp_aut5_isca_dir_pre_existente_removido.py"
+    },
+    {
+      "id": "A6",
+      "gravidade": "medio",
+      "defeito": "o aceite de leitura ida-e-volta nao tinha instrumento no AUT-4",
+      "correcao": "porta OPT-IN de ida-e-volta NO PROBE, declarada como LEITURA: cfg DemostrarTooltip (default FALSE) + MarcadorIdaEVolta; DemostrarIdaEVolta() chama o handler REAL Tooltip.ShowTooltip(marcador) e RELE Tooltip.Title, registrando ida_e_volta {marcador, titulo_lido, titulo_renderizado_lido, conferiu}. O driver gera o marcador, liga a chave quando o plano tem demostrar_tooltip e EXIGE conferiu==true para confirmar a rodada",
+      "prova": "t_aut4_probe_contrato.py (marcadores do fonte, opt-in default FALSE) e t_aut4_execucao.py casos J/K; isca cp_aut5_isca_sem_prova_ida_volta.py"
+    },
+    {
+      "id": "A7",
+      "gravidade": "informativo (documentacao)",
+      "defeito": "o estado declarava DLL e contagens desatualizadas; o doc humano repetia 6/6 e '2 iscas'",
+      "correcao": "AUT-4-estado.json passa a declarar o hash MEDIDO da DLL em disco, o hash do FONTE, a nao-reprodutibilidade byte a byte e a regra 'identidade = hash declarado'; as listas de testes/iscas/fixtures sao as do disco; AUT-4-preparacao.md cita os numeros reais. O teste t_aut4_estado_docs.py trava a deriva (lista declarada == disco, hash declarado == bytes, doc com os numeros reais)",
+      "prova": "t_aut4_estado_docs.py (vermelho antes de atualizar o estado/doc; verde depois)"
+    }
+  ],
+  "achados_cor_aut4r_fechados_f2": [
+    {
+      "id": "A1-c",
+      "gravidade": "baixo",
+      "defeito": "a prova (c) aceitava qualquer arquivo com bytes>0 no out_dir REUSADO: um PNG de rodada anterior satisfazia prints_ok e a rodada fechava CONCLUIDO/exit 0",
+      "correcao": "provas_de_execucao exige que cada arquivo de prints seja POSTERIOR ao lancamento (mtime >= lancamento_epoca): PNG velho -> INDETERMINADO/exit 1",
+      "prova": "t_aut4_execucao.py caso A1c; isca cp_aut5_isca_print_velho_ok.py (isca PASSA com o defeito plantado)"
+    },
+    {
+      "id": "A2",
+      "gravidade": "grave",
+      "defeito": "o artefato REAL do probe emite '' (GetParsedText -> string.Empty) e '' contava como PRESENTE: o alvo nao lido nao virava lacuna; a fixture codificava null (forma que o jogo nao produz)",
+      "correcao": "_estado_do_campo trata valor VAZIO ('' / so-espacos / [] / {}) como AUSENTE (nao lido) -> alvo vazio e LACUNA; a fixture probe-saida-exemplo passou a codificar a forma REAL ('') e o stub da regressao tambem",
+      "prova": "t_aut4_costura_probe.py (A2 F2: '' / [] / {}); t_aut4_execucao.py A2/I; isca cp_aut5_isca_alvo_vazio_ok.py (isca PASSA com o defeito plantado)"
+    },
+    {
+      "id": "A3",
+      "gravidade": "medio",
+      "defeito": "'evidencia_runtime: false' SOZINHO (sem rotulo_fixture) era ignorado: a procedencia virava runtime e o proprio campo declarado era invertido para true",
+      "correcao": "consolidar_probe trata evidencia_runtime is False como declaracao de fixture (basta sozinho): sai FIXTURE/exit 2",
+      "prova": "t_aut4_costura_probe.py (A3 F2); isca cp_aut5_isca_evidencia_runtime_false_ok.py (isca PASSA com o defeito plantado)"
+    },
+    {
+      "id": "A6",
+      "gravidade": "medio",
+      "defeito": "a exigencia de ida-e-volta aceitava {conferiu: true} SEM o marcador gerado pelo driver (o marcador era opcional)",
+      "correcao": "executar_rodada exige o marcador do driver: conferiu==true E marcador == AUT4-IDA-E-VOLTA-<sessao>; marcador ausente ou diferente nao confere",
+      "prova": "t_aut4_execucao.py caso A6m; isca cp_aut5_isca_ida_volta_sem_marcador.py (isca PASSA com o defeito plantado)"
+    }
+  ],
+  "achados_cor_aut4_f3_corrigidos": [
+    {
+      "id": "A3-forma",
+      "gravidade": "baixo (ressalva nao bloqueante da COR-AUT4-F2R)",
+      "defeito": "consolidar_probe decidia com `evidencia_runtime is False`: um artefato que trazia a STRING \"false\" (ou 0, \"0\", null) nao satisfazia `is False` e era consolidado como RUNTIME (CONFIRMADA/exit 0) — a FORMA errada confirmava em vez de ser recusada",
+      "correcao": "consolidar_probe aceita runtime SO com a chave evidencia_runtime AUSENTE (o probe C# real nao emite a chave) ou o bool True legitimo; qualquer outra forma PRESENTE (bool False, string \"false\"/\"0\"/\"False\", inteiro 0, null, valor nao-canonico) RECUSA como FIXTURE/exit 2 e nunca confirma. A presenca da chave e preservada (evidencia_runtime_presente) para que um null explicito nao se confunda com a chave ausente",
+      "prova": "t_aut4_costura_probe.py (A3 F3: \"false\"/0/\"0\"/null/\"False\"/1/\"true\" -> FIXTURE/exit 2; controles bool True e chave ausente -> CONFIRMADA/exit 0); isca cp_aut5_isca_evidencia_runtime_forma_errada_ok.py (isca PASSA com o defeito plantado)"
+    }
+  ],
+  "achados_cic5r_corrigidos_aut4f": [
+    {
+      "id": "R-1",
+      "gravidade": "grave",
+      "defeito": "hash_fonte do coletor = sha256 da DLL, mas rstv/tooltips_shrines confrontavam com fonte_sha: TODA observacao runtime legitima virava INDETERMINADO / 'observacao de OUTRA build'",
+      "correcao": "contrato escrito e travado: hash_fonte/hash_dll entram sob a chave canonica dll_sha (_ALIAS_HASH), e fonte_sha so casa por nome explicito. Nenhum arquivo do coletor mudou por este item: o conserto vive nos adaptadores (cenarios/rstv.py, cenarios/tooltips_shrines.py)",
+      "prova": "t_aut4_cic5r.py (R-1): _checagem_hashes == ([], []), _evidencia_runtime == True, _cadeia_runtime fecha com evidencia; controle: hash de outra build segue INDETERMINADO. Defeito plantado (alias hash_fonte->fonte_sha) deixa o teste VERMELHO"
+    },
+    {
+      "id": "R-2",
+      "gravidade": "medio",
+      "defeito": "CLI --executar sem --perfil estourava TypeError em os.path.abspath ANTES do gate: exit 1 em vez do NAO_EXERCITADO/exit 2 prometido pelo default",
+      "correcao": "o gate (decidir_autorizacao) vem ANTES de normalizar caminhos; sem perfil_dir/out_dir explicitos a rodada sai NAO_EXERCITADO/exit 2 com motivo nomeando o que falta (nunca o perfil do dono por acidente)",
+      "prova": "t_aut4_cic5r.py (R-2); isca cp_aut4f_isca_cli_sem_perfil_estoura.py"
+    },
+    {
+      "id": "R-3",
+      "gravidade": "medio",
+      "defeito": "o catch do probe grava status=ERRO SEM setar fase; _esperar_estado parava so por fase terminal, entao o erro do instrumento queimava o teto INTEIRO (medido: 0,622 s de 0,6 s)",
+      "correcao": "_esperar_estado para por ESTADO TERMINAL — fase OU status (STATUS_TERMINAIS_ESPERA), e registra o status lido. O conserto ficou no coletor (single-writer); o probe nao foi tocado",
+      "prova": "t_aut4_cic5r.py (R-3: segundos < 0,3 com teto de 0,6 s e status=ERRO); isca cp_aut4f_isca_espera_queima_teto.py"
+    },
+    {
+      "id": "R-4",
+      "gravidade": "risco (grave)",
+      "defeito": "o finally encerrava o LANCADOR (Popen = steam.exe), nao o jogo, e encerrar_imagem usava taskkill /F /IM <imagem> — que mata TODAS as instancias da imagem, inclusive a que o dono ja tinha aberta. O comentario 'encerra SO a instancia que a rotina lancou' era falso",
+      "correcao": "o driver fotografia os PIDs da imagem ANTES de lancar (pids_da_imagem/tasklist) e encerra SO os PIDs que nasceram nesta rodada, por PID (taskkill /F /PID). Sem medicao, RECUSA (fail-closed) e registra o motivo em resultado['encerramento']. O comentario/docstring falso foi corrigido",
+      "prova": "t_aut4_cic5r.py (R-4: pids=[300] e nao [100,200,300]; recusa sem medicao; fonte sem 'taskkill /F /IM'); isca cp_aut4f_isca_encerrar_por_imagem_mata_todas.py"
+    },
+    {
+      "id": "R-5",
+      "gravidade": "medio",
+      "defeito": "o runner de contra-prova aceitava QUALQUER exit==1; o arcabouco converte EXCECAO INESPERADA em exit 1, entao 2 das 4 iscas reprovavam por crash e metade do controle negativo nao provava nada",
+      "correcao": "roda_testes_runtime.classificar_contra_prova exige a linha RESULTADO|REPROVOU| (assert/Falhou) e rejeita 'excecao inesperada'; as 2 iscas que reprovavam por excecao (cp_aut4_isca_ausente_ok, cp_aut5_isca_topo_sem_hash_ok) passaram a reprovar por ASSERT explicito",
+      "prova": "t_aut4_cic5r.py (R-5); a suite de contra-prova roda 22/22 sem nenhuma reprovacao por 'excecao inesperada'; isca cp_aut4f_isca_contraprova_aceita_excecao.py"
+    },
+    {
+      "id": "S-2",
+      "gravidade": "backlog (bloqueia como contrato)",
+      "defeito": "_alvos_do_plano lia campos_alvo SO do topo ou do cenarios[0]: com 2+ cenarios, o requisito por campo do 2o em diante era descartado em silencio (e, se existisse so no 2o, o plano voltava a mirar os 13 campos de todo TMP_Text)",
+      "correcao": "_alvos_do_plano agora une campos_alvo do topo e de TODOS os cenarios (validados contra o schema); _demostrar_do_plano tambem considera qualquer cenario",
+      "prova": "t_aut4_cic5r.py (S-2: alvo do 2o cenario vira lacuna -> INCOMPLETO/exit != 0; controle positivo fecha); isca cp_aut4f_isca_alvos_2o_cenario_ignorado.py"
+    },
+    {
+      "id": "S-3",
+      "gravidade": "backlog",
+      "defeito": "campo EXTRA (ex. shader_suportado) declarado alvo e ausente nunca virava lacuna (o laco de lacunas so olhava CAMPOS): alvo declarado silenciosamente nao cobrado",
+      "correcao": "o laco de lacunas usa o conjunto de alvos efetivos validado contra CAMPOS_TODOS, entao campo EXTRA alvo e ausente/vazio vira LACUNA como qualquer outro alvo",
+      "prova": "t_aut4_cic5r.py (S-3: lacunas inclui shader_suportado, ok=False, consolidado INCOMPLETO); isca cp_aut4f_isca_campo_extra_ausente_ok.py"
+    }
+  ],
+  "contratos_exercitados_offline": [
+    {"caso": "default offline (sem autorizacao)", "exit": 2, "status": "NAO_EXERCITADO", "pode_coletar": false},
+    {"caso": "autorizado mas sem jogo", "exit": 2, "status": "NAO_EXERCITADO"},
+    {"caso": "fixture rotulada consolidada", "exit": 2, "status": "FIXTURE", "veredito": "NAO PROVA RUNTIME"},
+    {"caso": "autorizado+confirmado+com jogo (previsto)", "passos": 6, "rollback_itens": 3, "executado_em_jogo": false},
+    {"caso": "rodada autorizada com as 3 provas (contra stub, sem jogo)", "exit": 0, "status": "CONCLUIDO"},
+    {"caso": "JSON de rodada anterior", "exit": 2, "status": "NAO_EXERCITADO"},
+    {"caso": "print ausente/bytes=0", "exit": 1, "status": "INDETERMINADO"},
+    {"caso": "alvo nao lido (objeto inativo)", "exit": 1, "status": "INCOMPLETO"},
+    {"caso": "demostrar_tooltip sem prova de ida-e-volta", "exit": 1, "status": "INDETERMINADO"}
+  ],
+  "controle_negativo": {
+    "fixture": "tools/automacao/runtime/fixtures/casos-invalidos.entrada.json",
+    "casos": 5,
+    "recusados": 5,
+    "resultado": "todos os casos invalidados recusados pelo motivo declarado"
+  },
+  "reuso_cap1": [
+    "driver no PlayerLoop do Unity (Update do plugin e destruido na 1a cena)",
+    "leitura por reflexao (nao quebra com mudanca no Assembly-CSharp)",
+    "ScreenCapture.CaptureScreenshot para o PNG pela API do Unity",
+    "espera por estado (GUIManager.tooltip + TMP_Text ativo com GetParsedText nao vazio)",
+    "ida-e-volta por Tooltip.ShowTooltip + releitura (mesmo padrao do CAP-1); CAP-1 nao editado",
+    "formato de observacao compativel com capprobe.json"
+  ],
+  "lacunas_runtime": [
+    "leitura real do objeto vivo: NAO EXERCITADO",
+    "PNG pela API do Unity: NAO EXERCITADO",
+    "owners Harmony em sessao viva: NAO EXERCITADO",
+    "navegacao por handler real de UI: NAO EXERCITADO",
+    "rollback EXECUTADO em jogo (o plano e a execucao contra stub estao testados): NAO EXERCITADO",
+    "ida-e-volta em jogo (DemostrarTooltip=true numa rodada autorizada): NAO EXERCITADO — o instrumento existe e o driver o EXIGE, mas nunca rodou em sessao viva",
+    "gate de autorizacao do probe testado estaticamente, nao em execucao"
+  ],
+  "proxima_rodada": {
+    "requer_reinicio": true,
+    "motivo": "probe NOVO: exige instalar e iniciar o jogo (sem hot-reload)",
+    "precisa": [
+      "autorizacao explicita do dono + uma unica frente controlando o jogo",
+      "Autorizado=true e HashFonte (sha de fonte/DLL) na rodada",
+      "PerfilDir passado para o rollback exato",
+      "perfil isolado para o controle negativo quando possivel",
+      "ao fim, consumir manifest+rollback e restaurar/remover exato",
+      "para o criterio de ida-e-volta: plano com demostrar_tooltip=true e conferir ida_e_volta.conferiu no JSON"
+    ]
+  },
+  "restricoes_respeitadas": [
+    "edicao apenas em tools/automacao/runtime/** e docs/automacao/AUT-4-*.md/.json",
+    "nenhum arquivo de mod, perfil, config, KANBAN, CAP-1 original ou docs/automacao/AUT-2 tocado",
+    "sem iniciar/encerrar jogo, sem instalar probe, sem manipular UI/save",
+    "build do probe com USERPROFILE/APPDATA/LOCALAPPDATA isolados e sem alvo de deploy",
+    "sem commit/push/publicacao/segredos"
+  ]
+}

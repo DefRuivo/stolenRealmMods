@@ -1,0 +1,104 @@
+{
+  "esquema": "CIC-3/rstv/1",
+  "procedencia": "fixture",
+  "rotulo_fixture": "rstv-controles",
+  "evidencia_runtime": false,
+  "aviso": "CONTROLE NEGATIVO de CIC-3. Cada caso planta um DEFEITO que o avaliador TEM de marcar REPROVADO. Nenhum caso e leitura de jogo — sao fixtures que provam que a regra pega o defeito.",
+  "identidade": {
+    "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222"
+  },
+  "casos": [
+    {
+      "nome": "gasto_de_skills",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "REPROVADO",
+      "motivo": "skills mudaram (A,B -> A): leitura somente nao pode alterar o personagem",
+      "observacao": {"cenario": "party-select-modal", "personagem_esperado": "Raven",
+                     "personagem": {"personagem": "Raven"},
+                     "skills_antes": ["A", "B"], "skills_depois": ["A"],
+                     "pontos_antes": 3, "pontos_depois": 3}
+    },
+    {
+      "nome": "gasto_de_pontos",
+      "criterio_esperado": "RSTV-6-readonly-skills-pontos",
+      "estado_esperado": "REPROVADO",
+      "motivo": "pontos caem (5 -> 2): GASTO detectado",
+      "observacao": {"cenario": "level-up", "personagem_esperado": "Raven",
+                     "personagem": {"personagem": "Raven"},
+                     "pontos_antes": 5, "pontos_depois": 2}
+    },
+    {
+      "nome": "personagem_errado",
+      "criterio_esperado": "RSTV-6-readonly-personagem",
+      "estado_esperado": "REPROVADO",
+      "motivo": "observacao leu Borin, o cenario pedia Raven",
+      "observacao": {"cenario": "inventario", "personagem_esperado": "Raven",
+                     "personagem": {"tem_personagem_selecionado": true, "personagem": "Borin"}}
+    },
+    {
+      "nome": "placeholder_asterisco_zero",
+      "criterio_esperado": "RSTV-26-placeholders",
+      "estado_esperado": "REPROVADO",
+      "motivo": "'*0' literal no texto renderizado (defeito RSTV-26)",
+      "observacao": {"cenario": "tooltip-skill", "objeto": "Tooltip.Description",
+                     "texto_renderizado": "Deals *0 fire damage."}
+    },
+    {
+      "nome": "placeholder_indice",
+      "criterio_esperado": "RSTV-26-placeholders",
+      "estado_esperado": "REPROVADO",
+      "motivo": "'[2]' nao resolvido no texto renderizado",
+      "observacao": {"cenario": "tooltip-skill", "objeto": "Tooltip.Description",
+                     "texto_renderizado": "Deals [2] fire damage."}
+    },
+    {
+      "nome": "tooltip_nao_restaurado",
+      "criterio_esperado": "RSTV-21-tooltip-restauracao",
+      "estado_esperado": "REPROVADO",
+      "motivo": "pai do tooltip mudou no fechar (nao devolvido ao original)",
+      "observacao": {"cenario": "janela-readonly", "janela": {"aberta": true, "fechada": true},
+                     "tooltip_pai_antes": "GUI Manager/Tooltips / Popups",
+                     "tooltip_pai_depois": "GUI Manager/SkillTreesWindow",
+                     "tooltip_indice_antes": 3, "tooltip_indice_depois": 3,
+                     "janelas_duplicadas": 0}
+    },
+    {
+      "nome": "janela_duplicada",
+      "criterio_esperado": "RSTV-21-tooltip-restauracao",
+      "estado_esperado": "REPROVADO",
+      "motivo": "duas janelas read-only ao mesmo tempo (anti-duplicacao)",
+      "observacao": {"cenario": "janela-readonly", "janela": {"aberta": true, "fechada": true},
+                     "tooltip_pai_antes": "GUI Manager/Tooltips / Popups",
+                     "tooltip_pai_depois": "GUI Manager/Tooltips / Popups",
+                     "tooltip_indice_antes": 3, "tooltip_indice_depois": 3,
+                     "janelas_duplicadas": 2}
+    },
+    {
+      "nome": "janela_nao_fechou",
+      "criterio_esperado": "RSTV-21-janela-ciclo",
+      "estado_esperado": "REPROVADO",
+      "motivo": "ciclo incompleto: a janela abriu e nao fechou",
+      "observacao": {"cenario": "janela-readonly", "janela": {"aberta": true, "fechada": false}}
+    },
+    {
+      "nome": "geometria_clipping",
+      "criterio_esperado": "RSTV-geometria-clipping",
+      "estado_esperado": "REPROVADO",
+      "motivo": "bbox estoura a largura da tela (clipping horizontal)",
+      "observacao": {"cenario": "geometria",
+                     "geometria": {"caixa_na_tela_px": {"x": 1900, "y": 20, "largura": 300, "altura": 40},
+                                   "tela": "1920x1080"}}
+    },
+    {
+      "nome": "dependencia_aresta_inventada",
+      "criterio_esperado": "RSTV-25b-dependencia",
+      "estado_esperado": "REPROVADO",
+      "motivo": "T5 tem linha mas nao tem Dependency: aresta INVENTADA",
+      "observacao": {"cenario": "linhas-dependencia",
+                     "linhas_dependencia": {"T5": 1},
+                     "dependency_por_tier": {"T5": 0},
+                     "arestas_inventadas": 1}
+    }
+  ]
+}

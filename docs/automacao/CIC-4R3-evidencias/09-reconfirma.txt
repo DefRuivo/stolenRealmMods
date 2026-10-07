@@ -1,0 +1,32 @@
+### cmd: python reconfirma.py   (itens 1-7/10/11 do CIC-4R, anexo do autor)
+== item 1 (contrato v1: campos/estados/enums) ==
+  [OK ] 1-contrato-campos                              obtido=todos            esperado=todos
+  [OK ] 1-contrato-estados                             obtido=['OK']           esperado=['OK']
+  [OK ] 1-contrato-procedencias                        obtido=['fixture']      esperado=['fixture']
+== item 2 (esperado independente e rastreavel — sondas E1/E2/E3 do CIC-4R2) ==
+  [OK ] E1-feed-99                                     obtido=REPROVADO        esperado=REPROVADO
+  [OK ] E2-flame-40                                    obtido=REPROVADO        esperado=REPROVADO
+  [OK ] E3-flame-14                                    obtido=OK               esperado=OK
+  [OK ] E3-esperado-eixo                               obtido=(14.0, 'Source') esperado=(14.0, 'Source')
+== item 3 (identidade de fonte/DLL) ==
+  [OK ] I3-sem-identidade                              obtido=NAO_EXERCITADO   esperado=NAO_EXERCITADO
+  [OK ] I4-outra-build                                 obtido=INDETERMINADO    esperado=INDETERMINADO
+== item 4 (receptor/source com o numero do outro) ==
+  [OK ] C1-receptor-com-40                             obtido=REPROVADO        esperado=REPROVADO
+  [OK ] C2-source-com-20                               obtido=REPROVADO        esperado=REPROVADO
+  [OK ] C3-bonus-trocados                              obtido=('NAO_EXERCITADO', 'NAO_EXERCITADO') esperado=('NAO_EXERCITADO', 'NAO_EXERCITADO')
+== item 5 (duas superficies / personagem combinado) ==
+  [OK ] D1-feed-x-tooltip                              obtido=REPROVADO        esperado=REPROVADO
+  [OK ] L-char-combinado                               obtido=NAO_EXERCITADO   esperado=NAO_EXERCITADO
+== item 6 (ausencia de dado/observacao) ==
+  [OK ] I-sem-observacao                               obtido=(0, 7, 2)        esperado=(0, 7, 2)
+== item 7 (fixture nao prova runtime + integracao decisao) ==
+  [OK ] G-fixture-prova-runtime                        obtido=0                esperado=0
+  [OK ] G-fixture-exit                                 obtido=2                esperado=2
+  [OK ] G-decisao-sem-prova                            obtido=(0, 7, False)    esperado=(0, 7, False)
+== item 10 (BUG-34 somente regressao) ==
+  [OK ] N7-regressao                                   obtido=('REPROVADO', False, 'BUG-34') esperado=('REPROVADO', False, 'BUG-34')
+== item 11 (lacuna tecnica nao vira pedido humano) ==
+  [OK ] 11-sem-pedido-humano                           obtido=nenhum           esperado=nenhum
+TOTAL itens com divergencia=0 
+EXIT=0

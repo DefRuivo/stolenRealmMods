@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- AUT-4: INSTRUMENTO de coleta runtime em jogo. NAO e feature, NAO entra no
+       pacote publicado e NAO tem alvo de deploy (quem instala/remove e a rotina).
+       Reusa o padrao ja provado no CAP-1 (scratch/cap1/CapProbe): gancho/PlayerLoop,
+       leitura por reflexao, ScreenCapture pela API do Unity. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>AUT4Probe</AssemblyName>
+    <RootNamespace>Aut4Probe</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>AUT-4: coletor runtime por objetos Unity (texto/estado/fonte/material/cores/geometria/owners), opt-in e somente leitura.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- Pasta Managed do jogo (para UnityEngine.ScreenCaptureModule.dll). -->
+    <GameManaged Condition="'$(GameManaged)' == ''">E:\SteamLibrary\steamapps\common\Stolen Realm\Stolen Realm_Data\Managed</GameManaged>
+    <!-- Sem alvo de copia para o perfil: o instrumento nunca escreve no perfil por build. -->
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>..\..\..\..\lib\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>..\..\..\..\lib\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>..\..\..\..\lib\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>..\..\..\..\lib\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>..\..\..\..\lib\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>..\..\..\..\lib\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>..\..\..\..\lib\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.TextRenderingModule"><HintPath>..\..\..\..\lib\UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>..\..\..\..\lib\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule"><HintPath>$(GameManaged)\UnityEngine.ScreenCaptureModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,20 @@
+{
+  "esquema": "AUT-4/1",
+  "rotina": "execucao-runtime",
+  "decisao": {
+    "dados_sinteticos": false,
+    "observacoes": [],
+    "screenshot": null,
+    "status": "NAO_EXERCITADO",
+    "pode_coletar": false,
+    "modo": "offline",
+    "motivo": "coleta NAO autorizada (default do repositorio): nenhuma leitura, PNG ou navegacao sera feita"
+  },
+  "perfil": "C:\\dev\\stolen-realm\\tools\\automacao\\runtime\\out\\perfil-fake",
+  "out_dir": "C:\\dev\\stolen-realm\\tools\\automacao\\runtime\\out\\out-fake",
+  "passos": [],
+  "efeitos_colaterais": [],
+  "exit_code": 2,
+  "status": "NAO_EXERCITADO",
+  "motivo": "coleta NAO autorizada (default do repositorio): nenhuma leitura, PNG ou navegacao sera feita"
+}

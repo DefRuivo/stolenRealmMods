@@ -1,0 +1,67 @@
+{
+  "esquema": "CIC-4/shrines/1",
+  "tarefa_origem": "t_775eb4ae",
+  "descricao": "Cenarios do avaliador tooltips/shrines por personagem (CIC-4). O ESPERADO nao e digitado aqui: cada caso so DECLARA o cenario; o valor esperado e calculado pelo modulo a partir das tabelas GERADAS (tools/dados/shrines-esperado.csv / shrines-percentuais.csv) e do oraculo tools/testes/regras_shrine.py. Fixture testa o avaliador; NAO prova runtime.",
+  "fontes_esperado": {
+    "tabela_gerada": "tools/dados/shrines-esperado.csv",
+    "percentuais_gerados": "tools/dados/shrines-percentuais.csv",
+    "gerador": "tools/gera_shrines_esperado.py",
+    "conferencia_lida": "tools/checa_shrines.py (coleta / esperado_buff)",
+    "oraculo": "tools/testes/regras_shrine.py (escala / dano; segunda implementacao do oraculo C# oraculo_excesso_shrine)",
+    "regra": "docs/cobertura/revisao/RV-19-shrines.md"
+  },
+  "casos": [
+    {
+      "id": "S-dois-personagens-rogue",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "atributo",
+      "classe": "runtime",
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "nota": "A MESMA aura de atributo viva em DOIS personagens distintos: cada personagem conta a aura UMA vez e usa o PROPRIO bonus (a linha 'Your active shrine auras' e por personagem). O valor NUNCA e somado entre os dois. Fonte do valor: tools/dados/shrines-esperado.csv (Rogue Aura/DodgeChance, eixo Target).",
+      "personagens": [
+        {"id": "receptor", "nome": "ChkRA", "bonus": 0},
+        {"id": "source", "nome": "Raven", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-dois-personagens-dwarven",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "sem_atributo",
+      "classe": "runtime",
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "nota": "Aura de GATILHO (efeito NAO e atributo de personagem): item proprio 'Stun chance +N%', com o numero do asset avaliado com o bonus DAQUELE personagem. Tres personagens na mesma aura, cada um com o proprio bonus - nunca somado entre personagens nem contado como instancia de um so. Fonte: tools/dados/shrines-esperado.csv (Dwarven Aura, resources.assets@1517115364).",
+      "personagens": [
+        {"id": "chkdw0", "nome": "ChkDW0", "bonus": 0},
+        {"id": "chkdw20", "nome": "ChkDW20", "bonus": 20},
+        {"id": "chkdw", "nome": "ChkDW", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-perigo-flame",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "perigo",
+      "classe": "runtime",
+      "aura": "Flame Shrine Aura",
+      "atributo": "",
+      "nota": "Aura de PERIGO: o dano por alvo sai do oraculo (regras_shrine.dano) com o eixo `Source` do shrine (bonus 0, RV-30) e a % por TIPO de inimigo da tabela de percentuais. O dado de entrada (MaxHealth, tipo) vem da observacao; o esperado e independente.",
+      "alvos": [
+        {"nome": "ChkGob", "tipo": "Fodder", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-regressao-bug34-armor",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "regressao_feed",
+      "classe": "runtime",
+      "marcador": "Increased Armor Applied",
+      "texto_limpo": "Increased Armor Applied",
+      "nota": "REGRESSAO SOMENTE. O aceite humano do BUG-34 (KANBAN.md, 05/10) NAO e reaberto: o diagnostico esta fechado. O unico criterio e que a nota de Armor ('blocks damage') NAO volte ao FEED de combate. Um vazamento e REPROVADO de regressao, com `reabre_bug: false`, nao a reabertura da investigacao."
+    }
+  ]
+}

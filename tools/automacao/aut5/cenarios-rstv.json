@@ -1,0 +1,122 @@
+{
+  "esquema": "AUT5/rstv-cenarios/1",
+  "tarefa": "t_76a41ea7",
+  "mod": "RoguelikeSkillTreeVisualizer",
+  "aviso": "Plano de CENARIOS do AUT-5 (RSTV-6/21/26 + diagnostico RSTV-25b). Declara O QUE olhar, DE ONDE vem o esperado e O QUE ainda depende de rodada autorizada. Nao executa nada em jogo: instalar probe, iniciar/encerrar o jogo e carregar save continuam exigindo autorizacao explicita do dono para a rodada.",
+  "perfil_de_teste": {
+    "regra": "NAO carregar save de producao automaticamente; usar fixture ou perfil de teste autorizado",
+    "estado": "nao_autorizado",
+    "personagem_esperado": null,
+    "origem_do_esperado": "declarado pelo dono na rodada autorizada (nome do personagem do perfil de teste); NUNCA lido da mesma observacao que sera julgada"
+  },
+  "capacidades": {
+    "RSTV-6-readonly-personagem": {
+      "cenarios": ["S1-party-select-modal", "S3-level-up", "S4-run"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "o alvo esperado do cenario e do PERFIL DE TESTE; sem alvo declarado nao existe confronto (nao se usa o proprio log como esperado)",
+      "campos_necessarios": ["personagem (probe A4: contexto de tela)", "personagem_esperado (plano/fixture)"],
+      "instrucoes_humanas": "Autorizar UMA rodada em perfil/save de teste: dizer o NOME do personagem esperado em cada cena (Party Select, level-up, run) para o cenario declarar o alvo antes da leitura."
+    },
+    "RSTV-6-readonly-skills-pontos": {
+      "cenarios": ["S1-party-select-modal", "S4-run"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "AUT5-F1 (t_dd95f8d9): o probe AUT-4 JA emite snapshot_antes/depois (skills + pontos) por observacao; falta a rodada autorizada para o par existir em sessao viva",
+      "campos_necessarios": ["snapshot_antes/depois (probe AUT-4/AUT5-F1)", "sessao da rodada"],
+      "instrucoes_humanas": "Autorizar UMA rodada e abrir a janela read-only (modal Party Select E run): o probe tira o snapshot de skills/pontos no inicio e no fim da leitura; nenhum ponto pode ser gasto."
+    },
+    "RSTV-21-janela-ciclo": {
+      "cenarios": ["S1-party-select-modal", "S4-run"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "o marcador existe no mod e no log; falta uma sessao em que a janela seja ABERTA e FECHADA",
+      "campos_necessarios": ["RSTV-21: janela read-only ABERTA", "RSTV-21: janela read-only fechada"],
+      "instrucoes_humanas": "Autorizar UMA rodada e abrir a janela read-only pelo menos duas vezes (uma no modal, uma na run), fechando com X e com Esc em uma delas."
+    },
+    "RSTV-21-tooltip-restauracao": {
+      "cenarios": ["S1-party-select-modal"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "AUT5-F1 (t_dd95f8d9): o probe AUT-4 JA emite tooltip_pai/indice_antes/depois e janelas_duplicadas por observacao; falta a rodada autorizada para medir o reparent/restauracao",
+      "campos_necessarios": ["tooltip_pai_antes/depois", "tooltip_indice_antes/depois", "janelas_duplicadas", "sessao da rodada"],
+      "instrucoes_humanas": "Autorizar UMA rodada: abrir a janela read-only DUAS vezes no modal (anti-duplicacao), passar o mouse por skills (o mod reparenta o tooltip no hover) e fechar com X e com Esc."
+    },
+    "RSTV-26-placeholders": {
+      "cenarios": ["S5-tooltip-readonly"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "o texto RENDERIZADO do hover so existe com o jogo aberto e o tooltip exibido",
+      "campos_necessarios": ["texto_bruto", "texto_renderizado"],
+      "instrucoes_humanas": "Autorizar UMA rodada e passar o mouse por 2 skills de dano e 1 passiva no modal Remove Skill Trees, deixando o tooltip aberto por 2 s."
+    },
+    "RSTV-25b-dependencia": {
+      "cenarios": ["S5-tooltip-readonly"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "AUT5-F1 (t_dd95f8d9): o RSTV-24b passou a publicar as linhas ativas POR TIER (ao lado do RSTV-25); o confronto ja fecha no log de build nova e falta a rodada autorizada para o probe medir a sessao",
+      "campos_necessarios": ["RSTV-24b com 'por tier' (AUT5-F1)", "RSTV-25 (Dependency por tier)", "sessao da rodada"],
+      "instrucoes_humanas": "Autorizar UMA rodada com a janela read-only aberta em uma classe com dependencias (o log traz RSTV-24b por tier e RSTV-25)."
+    },
+    "RSTV-geometria-clipping": {
+      "cenarios": ["S5-tooltip-readonly"],
+      "pendencia_primaria": "autorizacao",
+      "motivo": "AUT5-F1 (t_dd95f8d9): conferido que o probe JA emite geometria.tela (dimensao do viewport) junto da caixa_na_tela_px; falta a rodada autorizada para a bbox viva",
+      "campos_necessarios": ["geometria.caixa_na_tela_px", "geometria.tela", "sessao da rodada"],
+      "instrucoes_humanas": "Autorizar UMA rodada com a janela read-only aberta (modal e run) para a bbox/clipping ser medida em sessao viva."
+    }
+  },
+  "cenarios": [
+    {
+      "id": "S1-party-select-modal",
+      "tarefa_origem": "RSTV-21",
+      "onde": "Party Select -> modal 'Remove Skill Trees' -> botao 'Skills'",
+      "esperado": "a janela read-only propia abre com TODAS as arvores, sem depender do inventario; fecha no X e no Esc; tooltip volta ao pai/indice original; sem janela duplicada",
+      "marcadores": ["RSTV-20: botao 'Skills' injetado no cabecalho do modal", "RSTV-16: modo somente leitura ATIVO", "RSTV-21: janela read-only ABERTA", "RSTV-21: janela read-only fechada"],
+      "evidencia_de_aceite": ["log da sessao (somente leitura)", "PNG da janela aberta e fechada", "PNG do tooltip no hover"],
+      "autorizacao_necessaria": true
+    },
+    {
+      "id": "S2-inventario-independente",
+      "tarefa_origem": "RSTV-21",
+      "onde": "Party Select, com o inventario FECHADO (CharacterMenusManager inativo)",
+      "esperado": "a janela abre mesmo sem o inventario; nenhuma linha 'o inventario nao abriu em 5 s' depois do clique",
+      "marcadores": ["RSTV-21: janela read-only ABERTA", "RSTV-16: o inventario nao abriu em 5 s"],
+      "evidencia_de_aceite": ["log da sessao", "PNG da janela aberta com o inventario fechado"],
+      "autorizacao_necessaria": true
+    },
+    {
+      "id": "S3-level-up",
+      "tarefa_origem": "RSTV-8",
+      "onde": "level-up (RoguelikeManager.OpenSkillSelectWindow) durante a run",
+      "esperado": "botao visivel/clicavel no level-up; guardas de batalha SUSPENSAS no menu modal; alvo = personagem sendo nivelado (nao o CurrentlySelectedCharacter)",
+      "marcadores": ["RSTV-21: janela read-only ABERTA (alvo=<nivelando>)", "RSTV-16: modo somente leitura ATIVO"],
+      "evidencia_de_aceite": ["log da sessao", "PNG do level-up com o botao e a janela"],
+      "autorizacao_necessaria": true
+    },
+    {
+      "id": "S4-run",
+      "tarefa_origem": "RSTV-6",
+      "onde": "run roguelike: barra de BAIXO do HUD, na linha dos botoes de inventario e de skills, no vao livre antes do Skillbar Index Controls (RSTV-30)",
+      "esperado": "RSTV-30: o botao fica VISIVEL enquanto o HUD esta na tela (inclusive fora de combate e durante a acao de outro personagem) e NAO clica durante mira de hex, mira de skill, janela de UI aberta ou posicionamento inicial; abrir duas vezes nao duplica janela; X e Esc fecham; nenhum ponto gasto e nenhuma skill alterada",
+      "marcadores": ["RSTV-30: botao 'Skills' injetado na BARRA DE BAIXO", "RSTV-5: abertura RECUSADA — <motivo>", "RSTV-21: janela read-only ABERTA", "RSTV-2: commit higienizado (read-only"],
+      "evidencia_de_aceite": ["log da sessao", "PNG do HUD com o botao", "PNG da janela aberta na run"],
+      "autorizacao_necessaria": true
+    },
+    {
+      "id": "S5-tooltip-readonly",
+      "tarefa_origem": "RSTV-26",
+      "onde": "hover nas skills dentro da janela read-only (modal e run)",
+      "esperado": "nenhum '*0', '[indice]' ou '@atributo@' literal no texto RENDERIZADO; dano bate com o personagem do modal; linhas de dependencia condizem com o Dependency real (T5 sem Dependency e ausencia LEGITIMA); bbox/clipping/ordem/hover por objeto",
+      "marcadores": ["RSTV-24b: N linha(s) de dependencia ativa(s)", "RSTV-25: nos com Dependency por tier", "RSTV-23i: arvore excede a area", "RSTV-24a: arvore centralizada na AREA"],
+      "evidencia_de_aceite": ["log da sessao", "PNG do hover por objeto (ordem e contraste)", "PNG da arvore inteira (bbox/clipping)"],
+      "autorizacao_necessaria": true
+    }
+  ],
+  "guards_run": {
+    "fonte": "RoguelikeSkillTreeVisualizer/RunTargets.cs (GateOk)",
+    "mecanica": "cada recusa escreve 'RSTV-5: abertura RECUSADA — <motivo>. Nada foi aberto.'; a automacao cobra o motivo EXATO de cada cena",
+    "nota": "RSTV-30 (t_2cef3e03): o portao deixou de decidir a VISIBILIDADE do botao (ele decide so' o CLIQUE) e as guardas `turno-inimigo`, `agindo` e `movendo` FORAM REMOVIDAS — eram elas que faziam o botao piscar quando qualquer personagem agia (defeito relatado pelo dono em 06/10). Ficaram as de DANO REAL (mira de hex, mira de skill, janela de UI aberta, posicionamento inicial) + a regra nativa do jogo para o botao Skills do HUD. AUT5-F2 (t_9cee7d21): (a) `motivo` e o literal COMPLETO do produto — o de `mira-skill` inclui o sufixo ': abrir aqui cancelaria o apontar hex' (RunTargets.cs:231); o confronto com o log normaliza os DOIS lados pela mesma chave (texto antes do primeiro ' ('), como a checagem de fonte ja fazia; (b) `condicao` e o texto exato do `if (...)` que produz o motivo — a checagem de fonte exige o bloco condicao->motivo->return false, nao a mera presenca do texto; (c) 8 itens declarados, 7 confrontaveis por `recusas`: o item `chat/texto` sai pelo atalho, que o produto loga como 'RSTV-11: atalho <tecla> IGNORADO — <motivo>.' (SkillTreeShortcut.cs:69), nunca como 'RSTV-5: abertura RECUSADA' — por isso `confrontavel_em_recusas=false` (achado A-8 da AUT-5R).",
+    "itens": [
+      {"id": "mira-hex", "motivo": "modo de apontar o hex ligado (GUIManager.PingModeActive)", "condicao": "gui.PingModeActive"},
+      {"id": "janela-aberta", "motivo": "ja existe uma janela de UI aberta (UIWindowManager.OpenedWindows)", "condicao": "wm != null && wm.AnyUIWindowOpen"},
+      {"id": "mira-skill", "motivo": "mira de skill ativa (HexCellManager.CurrentState=Action): abrir aqui cancelaria o apontar hex", "condicao": "hcm != null && hcm.CurrentState == PlayerState.Action"},
+      {"id": "posicionamento", "motivo": "posicionamento inicial em andamento (Root.SpawnPlacementActive)", "condicao": "root.SpawnPlacementActive"},
+      {"id": "chat/texto", "motivo": "atalho F10 ignorado com campo de texto em foco (SkillTreeShortcut / RSTV-11)", "via": "RSTV-11", "confrontavel_em_recusas": false, "observacao": "nao passa por RunTargets.GateOk: sai como 'RSTV-11: atalho F10 IGNORADO — <motivo>.' (SkillTreeShortcut.cs:69) e nao aparece em `recusas`"}
+    ]
+  }
+}

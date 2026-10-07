@@ -1,0 +1,27 @@
+### cmd: python cic4r3_probe2.py  (modulo do PRODUTO 65c0f3b2)
+== C1 observacao COMBINADA (feed+tooltip no mesmo objeto runtime) (exit=2)
+   S-dois-personagens-rogue/receptor/bonus=0            OK              prova_runtime=True  fvt=IGUAL
+   S-dois-personagens-rogue/source/bonus=100            NAO_EXERCITADO  prova_runtime=False fvt=SEM_TOOLTIP
+   S-dois-personagens-dwarven/chkdw0/bonus=0            OK              prova_runtime=True  fvt=None
+   S-dois-personagens-dwarven/chkdw20/bonus=20          OK              prova_runtime=True  fvt=None
+   S-dois-personagens-dwarven/chkdw/bonus=100           OK              prova_runtime=True  fvt=None
+   S-perigo-flame/ChkGob/bonus=100                      OK              prova_runtime=True  fvt=None
+   S-regressao-bug34-armor                              NAO_EXERCITADO  prova_runtime=False fvt=None
+== C2 rodada runtime SEM nenhuma tooltip de personagem (exit=2)
+   S-dois-personagens-rogue/receptor/bonus=0            NAO_EXERCITADO  prova_runtime=False fvt=SEM_TOOLTIP
+   S-dois-personagens-rogue/source/bonus=100            NAO_EXERCITADO  prova_runtime=False fvt=SEM_TOOLTIP
+   S-dois-personagens-dwarven/chkdw0/bonus=0            OK              prova_runtime=True  fvt=None
+   S-dois-personagens-dwarven/chkdw20/bonus=20          OK              prova_runtime=True  fvt=None
+   S-dois-personagens-dwarven/chkdw/bonus=100           OK              prova_runtime=True  fvt=None
+   S-perigo-flame/ChkGob/bonus=100                      OK              prova_runtime=True  fvt=None
+   S-regressao-bug34-armor                              OK              prova_runtime=True  fvt=None
+== C4 rodada de FIXTURE (feed+tooltip fixture) (exit=2)
+   S-dois-personagens-rogue/receptor/bonus=0            OK              prova_runtime=False fvt=IGUAL
+   S-dois-personagens-rogue/source/bonus=100            NAO_EXERCITADO  prova_runtime=False fvt=SEM_TOOLTIP
+   S-dois-personagens-dwarven/chkdw0/bonus=0            OK              prova_runtime=False fvt=None
+   S-dois-personagens-dwarven/chkdw20/bonus=20          OK              prova_runtime=False fvt=None
+   S-dois-personagens-dwarven/chkdw/bonus=100           OK              prova_runtime=False fvt=None
+   S-perigo-flame/ChkGob/bonus=100                      OK              prova_runtime=False fvt=None
+   S-regressao-bug34-armor                              NAO_EXERCITADO  prova_runtime=False fvt=None
+C4 resumo: {'total': 7, 'OK': 5, 'REPROVADO': 0, 'NAO_EXERCITADO': 2, 'INDETERMINADO': 0, 'com_prova_runtime': 0}
+EXIT=0

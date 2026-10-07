@@ -1,0 +1,517 @@
+{
+  "modo": "prova de fogo (--contra-prova)",
+  "raiz": "C:\\dev\\stolen-realm\\tools\\testes\\contra-prova",
+  "exit_code": 0,
+  "contagem": {
+    "PROVA_OK": 49,
+    "PASSOU": 14
+  },
+  "excluidos_por_categoria": {},
+  "ignorados_fora_do_padrao": [],
+  "testes": [
+    {
+      "arquivo": "cp_bf_diag_orcamento.py",
+      "nome": "contra-prova-bf-diag-orcamento",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: os dez defeitos do orcamento foram pegos pelas checagens (esperado) - o orcamento da BF-2 (sessao + classificacao pelo conteudo): 5 checagem(ns) | o pulado pelo escape contado como EFEITO: 2 checagem(ns) | o reset so na PRIMEIRA cena (`if (_diagCena != null)`): 3 checagem(ns) | o reset INALCANCAVEL (`if (true) return`): 3 checagem(ns) | (A) a cena lida vira COMENTARIO e `cena` fica FIXA (reset so na 1a cena): 3 checagem(ns) | (B) o ramo do escape volta a incrementar o contador de EFEITO: 1 checagem(ns) | (C) o corte do escape passa a depender TAMBEM do TETO DE EFEITO: 1 checagem(ns) | FIX-8 (1) o bloco de ZERAMENTO dentro de um `if (false)`: 3 checagem(ns) | FIX-8 (2) `_diagCena = cena` ANTES do guarda (guarda sempre verdadeiro): 3 checagem(ns) | FIX-8 (3) o reset CHAMADO depois do uso do contador: 3 checagem(ns)"
+    },
+    {
+      "arquivo": "cp_bf_gate_shader.py",
+      "nome": "contra-prova-bf-gate-shader",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: os dois defeitos do BF-1 foram pegos pelas checagens (esperado) - shader: o gate voltou a RECUSAR por variante de shader (o defeito do BF-1) | gate: a chamada do portao nao esta presa ao efeito presente no material"
+    },
+    {
+      "arquivo": "cp_bf_sombra_por_alfa.py",
+      "nome": "contra-prova-bf-sombra-por-alfa",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o defeito do BF-5 (alfa decidindo a sombra) foi pego pela checagem (esperado) - a decisao de sombra ainda olha a COR (`_UnderlayColor`/GetColor): a cor sozinha NAO prova que o shader desenha a sombra - o prefab do jogo tem preto alfa 0.5 com a keyword desligada e offset/dilate 0 (sombra inerte)"
+    },
+    {
+      "arquivo": "cp_bt_composicao_idem_isca.py",
+      "nome": "contra-prova-bt-composicao-idem",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a composicao rv17 tinha de estar conforme, mas: ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']: esperado [], obtido ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']"
+    },
+    {
+      "arquivo": "cp_bt_composicao_isca.py",
+      "nome": "contra-prova-bt-composicao-ordem",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a composicao rv17 tinha de estar conforme, mas: ['ORDEM: ha bloco anexado DEPOIS da linha de auras']: esperado [], obtido ['ORDEM: ha bloco anexado DEPOIS da linha de auras']"
+    },
+    {
+      "arquivo": "cp_bt_composicao_ok.py",
+      "nome": "contra-prova-bt-composicao-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE (rv17): corpo->notas->aura, 1 linha em branco, idempotente"
+    },
+    {
+      "arquivo": "cp_bt_guard_isca.py",
+      "nome": "contra-prova-bt-guard",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "atributo inexistente tinha de ser pulado, mas: [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]: esperado [], obtido [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]"
+    },
+    {
+      "arquivo": "cp_bt_guard_ok.py",
+      "nome": "contra-prova-bt-guard-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE: o guard pula o atributo inexistente antes de indexar"
+    },
+    {
+      "arquivo": "cp_bt_substituicao_isca.py",
+      "nome": "contra-prova-bt-substituicao",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a substituicao segura divergiu (o defeito plantado aparece): [\"chave como substring: esperado 'prefixo 10% chance to cast Level [level value] {SKL=Meteor} when Striking. sufixo', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\", \"mesmo comeco, texto diferente: esperado '10% chance to cast Level [level value] {SKL=Meteor} when Striking. e mais alguma coisa', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\"]: esperado [], obtido [\"chave como substring: esperado 'prefixo 10% chance to cast Level [level value] {SKL=Meteor} when Striking. sufixo', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\", \"mesmo comeco, texto diferente: esperado '10% chance to cast Level [level value] {SKL=Meteor} when Striking. e mais alguma coisa', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\"]"
+    },
+    {
+      "arquivo": "cp_bt_substituicao_ok.py",
+      "nome": "contra-prova-bt-substituicao-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE (so troca o exibido == original em ingles)"
+    },
+    {
+      "arquivo": "cp_bt_texto_ausente_isca.py",
+      "nome": "contra-prova-bt-texto-ausente",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o texto do jogo tinha de ficar intacto, mas: ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']: esperado [], obtido ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']"
+    },
+    {
+      "arquivo": "cp_bt_texto_ausente_ok.py",
+      "nome": "contra-prova-bt-texto-ausente-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE: texto intacto + falha declarada"
+    },
+    {
+      "arquivo": "cp_bt_token_isca.py",
+      "nome": "contra-prova-bt-token",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "nenhuma nota podia ter o token [N]; achei: [('plantado', 'Cada stack concede +[0] Max Health por acerto.', ['[0]'])]"
+    },
+    {
+      "arquivo": "cp_bt_token_ok.py",
+      "nome": "contra-prova-bt-token-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca sobre as tabelas de verdade: nenhuma nota carrega [N]"
+    },
+    {
+      "arquivo": "cp_bt_uma_entrada_isca.py",
+      "nome": "contra-prova-bt-uma-entrada",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o fonte plantado devia estar LIMPO (o defeito nao existe). As ferramentas acusaram: check_dupes: chave duplicada {'chave repetida no mesmo texto': 2}; chave nas duas tabelas: ['chave nas duas tabelas']; check_chave_compartilhada --estrito reprovou (exit 1): [\"'chave nas duas tabelas'\", \"[TextFixes l.22] 'chave nas duas tabelas'\", \"[TextAppends l.27] 'chave nas duas tabelas'\"]"
+    },
+    {
+      "arquivo": "cp_bt_uma_entrada_ok.py",
+      "nome": "contra-prova-bt-uma-entrada-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca sobre o LocalizePatch.cs real: chaves unicas, sem chave nas duas tabelas"
+    },
+    {
+      "arquivo": "cp_cor_comentario_bloco_isca.py",
+      "nome": "contra-prova-cor-comentario-bloco",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "DEIXA PASSAR a troca de cor numa entrada com COMENTARIO DE BLOCO dentro da chave (formato `{ /* ... */ \"chave\" }`): plantei #C0FFEE em \"Raise a Undead Wizard to fight by your side.\", e a trava saiu com exit 1; saida: ...... 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Raise a Undead Wizard to fight by your side. — cor que nao e a do nivel 2 nem do jogo (l.1668): #C0FFEE"
+    },
+    {
+      "arquivo": "cp_cor_comentario_bloco_ok.py",
+      "nome": "contra-prova-cor-comentario-bloco-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "mesmo teste sem o defeito: a trava PEGA a troca numa entrada com COMENTARIO DE BLOCO dentro da chave"
+    },
+    {
+      "arquivo": "cp_cor_nota_fundida_isca.py",
+      "nome": "contra-prova-cor-nota-fundida",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "DEIXA PASSAR a troca de cor numa nota FUNDIDA de SHRINE (formato de UMA quebra): plantei #C0FFEE em 'Recover [0]% of maximum mana each turn.' e a trava saiu com exit 1; saida: o ........ 0 linha(s) a mao (nao regravado (--fonte fora do repositorio)) relatorio: docs/cobertura/revisao/RV-15-notas-redundantes.md SEM COR [TextFixes] Recover [0]% of maximum mana each turn. — cor que nao e a do nivel 2 nem do jogo (l.1470): #C0FFEE"
+    },
+    {
+      "arquivo": "cp_cor_nota_fundida_ok.py",
+      "nome": "contra-prova-cor-nota-fundida-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "mesmo teste sem o defeito: a trava PEGA a troca de cor na nota fundida"
+    },
+    {
+      "arquivo": "cp_corrigido_soma_aura.py",
+      "nome": "contra-prova-corrigido",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o mesmo teste com o valor vindo do motor: tem de PASSAR"
+    },
+    {
+      "arquivo": "cp_defeito_soma_aura.py",
+      "nome": "contra-prova-defeito",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "worship-omnism2 (base 20, bonus 120): esperado 40, obtido 44"
+    },
+    {
+      "arquivo": "cp_formato_linha_antes_do_range_isca.py",
+      "nome": "contra-prova-formato-linha-antes-do-range",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o checador ACEITOU a linha em branco antes do `Range` — uma forma que o JOGO nunca escreve: ele so escreve a linha em branco antes da PRIMEIRA linha de custo de cada caminho — o texto plantado passou limpo: 'D\\n\\nAP Cost: 1\\n\\nRange: Melee'"
+    },
+    {
+      "arquivo": "cp_formato_linha_antes_do_range_ok.py",
+      "nome": "contra-prova-formato-linha-antes-do-range-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE (so a PRIMEIRA linha de custo de cada caminho): o checador VE a linha em branco antes do `Range`"
+    },
+    {
+      "arquivo": "cp_formato_notas_isca.py",
+      "nome": "contra-prova-formato-notas",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o formato SAIA QUEBRADO (linha em branco orfa e/ou 2a nota antes do AP Cost): a regra 'antiga' quebrou 5 caso(s) (esperado 0) — skill com dano (TextAppends) -> DUAS linhas em branco seguidas (o defeito do RV-17(a)); shrine com valor + linha azul do nivel 3 -> linha em branco ORFA (nao separa nenhum bloco nosso): 'by <color=#CBB396>40</color>%.\\n\\nTurns Remaining: <color=#CBB'"
+    },
+    {
+      "arquivo": "cp_formato_notas_ok.py",
+      "nome": "contra-prova-formato-notas-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE (todas as notas, a linha em branco inteira): o formato fecha"
+    },
+    {
+      "arquivo": "cp_formato_quebra_do_jogo_isca.py",
+      "nome": "contra-prova-formato-quebra-do-jogo",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a BANCADA nao reproduz o JOGO: os custos sao juntados com outro numero de quebras que o `ShowSkillTooltip` escreve (l.1470 + l.1536) — eu esperava o texto do jogo. JOGO: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\\n\\nAP Cost: 1\\nRange: Melee\\n\\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>' BANCADA: 'Summons a cloud of chaos that strikes 3 times. At every strike each damage type has a @50%@ chance to deal <size=18.9><color=#CBB396>42</color></size> damage.\\nAP Cost: 1\\nRange: Melee\\n\\n<color=#CBB396>The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.</color>'"
+    },
+    {
+      "arquivo": "cp_formato_quebra_do_jogo_ok.py",
+      "nome": "contra-prova-formato-quebra-do-jogo-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra de HOJE (as quebras da LEITURA do decompilado): a bancada reproduz o jogo"
+    },
+    {
+      "arquivo": "cp_nivel3_sinergia_isca.py",
+      "nome": "contra-prova-nivel3-sinergia",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a linha azul do nivel 3 (sinergia) deixa de ser a ULTIMA coisa do tooltip: a NOTA e devolvida pelo prefixo DEPOIS dela: a regra 'sem-sinergia' quebrou 2 caso(s) (esperado 0) — Chilled -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip; Poisoned -> a linha azul do nivel 3 nao e a ULTIMA coisa do tooltip"
+    },
+    {
+      "arquivo": "cp_nivel3_sinergia_ok.py",
+      "nome": "contra-prova-nivel3-sinergia-ok",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "o MESMO teste da isca com a regra do NIV3-1 (a sinergia recolhida pelo marcador): o formato fecha"
+    },
+    {
+      "arquivo": "cp_rel_artefato_velho_aceito.py",
+      "nome": "contra-prova-rel-artefato-velho-isca",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o pre-flight ACEITOU a DLL mais antiga que a fonte - empacotar entregaria um binario sem a edicao (o defeito do REL-1)"
+    },
+    {
+      "arquivo": "cp_rel_artefato_velho_recusado.py",
+      "nome": "contra-prova-rel-artefato-velho-conserto",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "mesmo teste com a trava ligada: o pre-flight RECUSA a DLL mais antiga que a fonte"
+    },
+    {
+      "arquivo": "cp_rstv11_atalho_sem_guard_de_chat.py",
+      "nome": "contra-prova-rstv11-atalho-sem-guard",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'atalho sem guard de chat' foi pego pelo fonte e pelo modelo (esperado) - fonte: o guard de foco de texto/chat (l.133374) saiu do Liberado (trecho 'if (FocoDeTexto())')"
+    },
+    {
+      "arquivo": "cp_rstv11b_clone_no_content.py",
+      "nome": "contra-prova-rstv11b-clone-no-content",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'clone dentro do Content (reflow do painel)' foi pego pelo fonte e pelo modelo (esperado) - fonte: o clone NAO nasce como filho direto da janela (`Instantiate(original.gameObject, janela.transform)`) — clonar dentro do Content reflui o painel (RSTV-10, secao 4)"
+    },
+    {
+      "arquivo": "cp_rstv11b_sem_idempotencia.py",
+      "nome": "contra-prova-rstv11b-sem-idempotencia",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a 'duplicata por falta de idempotencia' foi pega pelo fonte e pelo modelo (esperado) - fonte: EnsureInternal nao tem a guarda de idempotencia `if (_janela == janela && _button != null)` — o postfix roda de novo a cada personagem da fila e criaria um SEGUNDO botao"
+    },
+    {
+      "arquivo": "cp_rstv12_clique_no_original.py",
+      "nome": "contra-prova-rstv12-clique-no-original",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'clique que cai no onClick persistente' foi pego no fonte (clones e helper) e no modelo (pingou / levelup-nre) - fonte: RunButton nao chama `ClearClickListeners(button)` — o onClick SERIALIZADO do prefab (persistente) sobrevive no clone"
+    },
+    {
+      "arquivo": "cp_rstv13_batalha_no_mapa.py",
+      "nome": "contra-prova-rstv13-batalha-no-mapa",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'portao de batalha valendo no mapa' foi pego pelo fonte e pelo modelo (esperado) - fonte: o portao de BATALHA 'spawn' (trecho 'SpawnPlacementActive') esta FORA do ramo `if (estado == GUIState.InBattle)` — ele volta a esconder o botao no MAPA-MUNDO (o sintoma do dono)"
+    },
+    {
+      "arquivo": "cp_rstv14_refresh_morto_no_host.py",
+      "nome": "contra-prova-rstv14-refresh-morto-no-host",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'Refresh morto no host' foi pego pelo fonte e pelo modelo (esperado) - fonte: o `RstvHost.Update` nao chama `LevelUpWindowButton.Refresh()` — o botao nao seguiria o ciclo da janela (o defeito 'voando no nivel-up')"
+    },
+    {
+      "arquivo": "cp_rstv14_refresh_sem_estagio.py",
+      "nome": "contra-prova-rstv14-refresh-sem-estagio",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'Refresh sem estagio' foi pego pelo fonte e pelo modelo (esperado) - fonte: o Refresh nao leva em conta o estagio corrente (`rok.CurLevelUpStage`) (trecho 'CurLevelUpStage')"
+    },
+    {
+      "arquivo": "cp_rstv16_aba_fora_do_array.py",
+      "nome": "contra-prova-rstv16-aba-fora-do-array",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a aba fora do array publico foi pega pelo fonte e pelo modelo (esperado) - fonte: a injecao da aba nao faz a aba ENTRA no array publico MenuTabs (trecho 'MenuTabs = novo')"
+    },
+    {
+      "arquivo": "cp_rstv16_bard_incluido.py",
+      "nome": "contra-prova-rstv16-bard-incluido",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o Bard incluido foi pego pelo fonte e pelo modelo (esperado) - fonte: TiposDaAba NAO exclui o Bard (decisao do dono: nao esta no jogo)"
+    },
+    {
+      "arquivo": "cp_rstv18_escala_1.py",
+      "nome": "contra-prova-rstv18-escala-1",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a escala 1.0 (no de 27.0u) foi pega pela checagem - fonte: a escala do container dos nos e 1.00x — o 'Skill Item Container' NATIVO e 1.7x (o no sairia 27.0u em vez de 45.9u, e o pitch 47.0u em vez de 79.9u)"
+    },
+    {
+      "arquivo": "cp_rstv19_container_no_rodape.py",
+      "nome": "contra-prova-rstv19-container-no-rodape",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a posicao crua no centro da AREA (fundo do no a -9.6u do rodape, menos que meio no) foi pega pela checagem - fonte: GarantirContainerDeNos poe o container CRU em relacao ao centro da AREA (o (0, 26.7) do nativo) — sem compensar que a area fica ~64.25u ABAIXO do centro da janela: os nos caem no rodape e sao cortados (RSTV-19)"
+    },
+    {
+      "arquivo": "cp_rstv21_ao_fechar_sem_reset.py",
+      "nome": "contra-prova-rstv21-ao-fechar-sem-reset",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o `AoFecharJanela` sem o reset foi pego (esperado) - fonte: `AoFecharJanela` NAO zera o `_modoJanela` — o flag ficaria PENDURADO depois do fechamento (o defeito do RSTV-21A)"
+    },
+    {
+      "arquivo": "cp_rstv21_botao_fechar_sem_fechar.py",
+      "nome": "contra-prova-rstv21-botao-fechar-sem-fechar",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o botao Close fora do funil `Fechar` foi pego (esperado) - fonte: o botao Close nao chama `Fechar` (`onClick.AddListener(new UnityAction(Fechar))`) — o caminho do botao nao passaria pelo aviso e o `_modoJanela` ficaria pendurado"
+    },
+    {
+      "arquivo": "cp_rstv21_clique_volta_inventario.py",
+      "nome": "contra-prova-rstv21-clique-volta-inventario",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o clique de volta no inventario foi pego pelo fonte e pelo modelo (esperado) - fonte: o clique nao abre pela JANELA (`SkillTreesTab.AbrirJanela`)"
+    },
+    {
+      "arquivo": "cp_rstv21_entrada_sem_sair_do_modo.py",
+      "nome": "contra-prova-rstv21-entrada-sem-sair-do-modo",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: os dois pontos de entrada sem `SairDoModoJanela()` foram pegos (esperado) - fonte: `SelecionarEMostrar` nao chama `SairDoModoJanela()` — a visao da janela nao seria desmontada quando a aba assume (o painel ficaria preso no host errado)"
+    },
+    {
+      "arquivo": "cp_rstv21_fechou_sem_aviso.py",
+      "nome": "contra-prova-rstv21-fechou-sem-aviso",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o `Fechar` sem o aviso `Fechou` foi pego (esperado) - fonte: `Fechar` NAO dispara o aviso `Fechou()` — nenhum dos dois caminhos de fechamento (botao Close nem dono fora) largaria o `_modoJanela`"
+    },
+    {
+      "arquivo": "cp_rstv21_fechou_sem_inscricao.py",
+      "nome": "contra-prova-rstv21-fechou-sem-inscricao",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o hospedeiro fora do aviso foi pego (esperado) - fonte: `AbrirJanela` nao se INSCREVE no aviso (`SkillTreesWindow.Fechou = AoFecharJanela`) — o `_modoJanela` nao seria largado quando a janela fechasse"
+    },
+    {
+      "arquivo": "cp_rstv21_fundo_sem_raycast.py",
+      "nome": "contra-prova-rstv21-fundo-sem-raycast",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o FUNDO sem consumir o clique foi pego (esperado) - fonte: o FUNDO da janela ('RstvWindowBackdrop') nao consome o clique (`fundoImg.raycastTarget = true`) — o modal atras poderia ser acionado por um clique na janela"
+    },
+    {
+      "arquivo": "cp_rstv21_janela_sem_dono.py",
+      "nome": "contra-prova-rstv21-janela-sem-dono",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a janela sem o dono no `Atualizar` foi pega pelo fonte e pelo modelo (esperado) - fonte: `Atualizar` nao tem nenhum `if` que leve o DONO FORA de cena (`!DonoVivo()`) ao `Fechar()` — a janela nao se fecharia quando o dono saisse e ficaria pendurada na proxima tela"
+    },
+    {
+      "arquivo": "cp_rstv21_mostrar_sem_construir.py",
+      "nome": "contra-prova-rstv21-mostrar-sem-construir",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o `Mostrar` sem `ConstruirPainel()` foi pego (esperado) - fonte: `Mostrar` nao chama `ConstruirPainel()` — com `_painel == null` o painel nunca seria montado (a janela abriria vazia)"
+    },
+    {
+      "arquivo": "cp_rstv21_mostrar_sem_guarda.py",
+      "nome": "contra-prova-rstv21-mostrar-sem-guarda",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o `Mostrar` sem a guarda imediatamente antes de `ConstruirPainel()` foi pego (esperado) - fonte: `Mostrar` chama `ConstruirPainel()` SEM a guarda `if (_painel == null)` IMEDIATAMENTE antes da chamada — o painel seria reconstruido a cada Mostrar (perderia estado)"
+    },
+    {
+      "arquivo": "cp_rstv21_polaridade_do_gatilho.py",
+      "nome": "contra-prova-rstv21-polaridade-do-gatilho",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: a polaridade invertida e a guarda sem `_root.activeSelf` foram pegas pelos DOIS lados do caminho (b) (esperado)"
+    },
+    {
+      "arquivo": "cp_rstv21_tooltip_assimetrico.py",
+      "nome": "contra-prova-rstv21-tooltip-assimetrico",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: as duas quebras de simetria do tooltip foram pegas (esperado) - fonte: `RestaurarTooltip` nao devolve o tooltip ao PAI guardado por `ElevarTooltip` (`SetParent(_tooltipPaiAntigo)`) — o tooltip ficaria preso na janela"
+    },
+    {
+      "arquivo": "cp_rstv21_tooltip_raiz.py",
+      "nome": "contra-prova-rstv21-tooltip-raiz",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o tooltip sem reparent foi pego pela checagem (esperado) - fonte: `ElevarTooltip` nao REPARENTA o tooltip para dentro da janela (SetParent) — sem isso ele fica atras do fundo"
+    },
+    {
+      "arquivo": "cp_rstv8_levelup_escondido.py",
+      "nome": "contra-prova-rstv8-levelup-escondido",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "isca: o 'esconder no level-up' foi pego pelo fonte e pelo modelo (esperado) - fonte: o portao voltou a esconder por `RoguelikeManager.IsNotNullAndIsActive` (o manager CARREGADO nao e o level-up aberto — o defeito do RSTV-8)"
+    },
+    {
+      "arquivo": "cp_rv30_source_injetado.py",
+      "nome": "contra-prova-rv30-source-injetado",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o trecho do RV-34 tem de ser acusado: o prefix `FixShrineExpressionParams` AINDA escreve em `__2.Source` — o `Source` do hover do shrine volta a ser o observador e o bonus do jogador entra nas duas auras de perigo, que leem `Source[...]` (o defeito do RV-30); alguma formula de perigo e avaliada por `FormulaDoDano(...)` (o seletor da constante COM o fator do personagem) — o numero passa a depender de um bonus que a aura nao usa; esperava as 4 avaliacoes de perigo com a constante SEM fator e `Source` = null (FraseAlvosDoFlame, LinhaDecayComValor, ItemDaAuraSemAtributo x2); achei 0; o caminho das 9 auras de BUFF mudou: `ContribuicaoDasAuras` tem de continuar avaliando `efeito.Amount` com o receptor nos dois slots (o motor le `Target[...]` = quem RECEBE a aura)"
+    },
+    {
+      "arquivo": "cp_shrine_bonus_somado_a_mao.py",
+      "nome": "contra-prova-shrine-bonus",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "Omnism I + Omnism II: o motor desconta a I (20), o defeito soma as duas (28): esperado 20, obtido 28"
+    },
+    {
+      "arquivo": "cp_shrine_dwarven_sumido.py",
+      "nome": "contra-prova-shrine-dwarven",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a cena so tem o Dwarven vivo: a linha TEM de trazer o item proprio `Stun chance`: esperado ['Stun chance +40%'], obtido []"
+    },
+    {
+      "arquivo": "cp_shrine_fracao_e_porcento.py",
+      "nome": "contra-prova-shrine-formato",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "a borda do equipamento (53.4): a convencao do Ceil do jogo da 54 e UM sinal de %: esperado 'Dodge +54%', obtido 'Dodge +53.4%%'"
+    },
+    {
+      "arquivo": "cp_shrine_gatilho_uma_instancia.py",
+      "nome": "contra-prova-shrine-gatilho-uma-instancia",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "o Dwarven com DOIS shrines: o motor rola a chance UMA VEZ POR INSTANCIA - a lista tem de trazer DOIS itens: esperado ['Stun chance +40%', 'Stun chance +40%'], obtido ['Stun chance +40%']"
+    },
+    {
+      "arquivo": "cp_shrine_instancias_dobradas.py",
+      "nome": "contra-prova-shrine-instancias",
+      "categoria": "pura",
+      "esperado": "reprovar",
+      "estado": "PROVA_OK",
+      "detalhe": "rogue-x3 (o DEFEITO DO PRINT): a aura repetida 3x na lista viva: esperado 'Dodge +40% (total +57%)', obtido 'Dodge +120% (total +57%)'"
+    }
+  ]
+}

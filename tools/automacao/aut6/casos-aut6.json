@@ -1,0 +1,188 @@
+{
+  "esquema": "AUT-6/aut6/1",
+  "tarefa_origem": "t_775eb4ae",
+  "descricao": "Casos do avaliador AUT-6 (tooltips/shrines por personagem). O ESPERADO nao e digitado aqui: cada caso DECLARA o cenario e o modulo o calcula das tabelas GERADAS (tools/dados/shrines-esperado.csv + shrines-percentuais.csv), do censo de acoes (docs/cobertura/acoes.csv) e dos offsets DOCUMENTADOS do resources.assets. Fixture testa o avaliador; NAO prova runtime.",
+  "fontes_esperado": {
+    "tabela_gerada": "tools/dados/shrines-esperado.csv",
+    "percentuais_gerados": "tools/dados/shrines-percentuais.csv",
+    "gerador": "tools/gera_shrines_esperado.py",
+    "conferencia_lida": "tools/checa_shrines.py (coleta/carrega_esperado/carrega_percentuais/esperado_buff/round_half_even)",
+    "acoes_do_motor": "docs/cobertura/acoes.csv (Sustenance I/II Proc)",
+    "limites_do_atributo": "resources.assets@1519603860 (DamageReduction HasMax=50) e @1519616544 (ManaCostMod HasMin=-75)",
+    "contrato_do_mod": "BetterTooltips/Patches/LocalizePatch.cs + ShrineAuraPatch.cs + GlobulePatch.cs",
+    "regra": "docs/cobertura/revisao/RV-19-shrines.md; docs/automacao/CICLO-VALIDACAO-escopo.md"
+  },
+  "casos": [
+    {
+      "id": "S-rv26-receptor-duas-pessoas",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "atributo",
+      "rv": ["RV-26", "RV-28"],
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "nota": "RV-26/28 (receptor x source): a MESMA aura viva em DOIS personagens; a linha 'Your active shrine auras' e POR PERSONAGEM e cada um usa o PROPRIO bonus. Nunca somada entre os dois. Esperado: tools/dados/shrines-esperado.csv (Rogue Aura/DodgeChance, eixo Target).",
+      "personagens": [
+        {"id": "receptor", "nome": "ChkRA", "bonus": 0},
+        {"id": "source", "nome": "Raven", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-rv28-omnism-horn-cadeia",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "atributo",
+      "rv": ["RV-26", "RV-31"],
+      "aura": "Warrior Aura",
+      "atributo": "DamageMod",
+      "nota": "RV-31/50b: a cadeia do ShrineEffectBonus (Omnism I +8 / Omnism II +20 / Horn of Devotion 50-100) escala a CONTRIBUICAO como Round(base * (1 + bonus/100)). Os tres casos exigidos pela tabela: 0 (sem bonus), 20 (Omnism II) e 100 (Horn). Aqui os tres na MESMA aura/personagem: 20 -> 20/24/40.",
+      "personagens": [
+        {"id": "sem-bonus", "nome": "ChkWA", "bonus": 0},
+        {"id": "omnism2", "nome": "ChkWA", "bonus": 20},
+        {"id": "horn", "nome": "ChkWA", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-rv28-dwarven-duas-pessoas",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "sem_atributo",
+      "rv": ["RV-28", "RV-46"],
+      "aura": "Dwarven Aura",
+      "chave_item": "Stun chance",
+      "rotulo": "item proprio 'Stun chance +N%' (RV-46)",
+      "nota": "RV-28/46: aura de GATILHO (efeito nao e atributo de personagem) - o item proprio e o unico numero comparavel. Tres personagens na mesma aura, cada um com o proprio bonus (0/20/100), nunca somado entre personagens. Esperado: tools/dados/shrines-esperado.csv (Dwarven Aura, resources.assets@1517115364).",
+      "personagens": [
+        {"id": "chkdw0", "nome": "ChkDW0", "bonus": 0},
+        {"id": "chkdw20", "nome": "ChkDW20", "bonus": 20},
+        {"id": "chkdw", "nome": "ChkDW", "bonus": 100}
+      ]
+    },
+    {
+      "id": "S-rv33-decay-portador",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "perigo",
+      "rv": ["RV-26", "RV-33", "RV-34"],
+      "aura": "Decay Shrine Aura",
+      "nota": "RV-33/34: o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (o gatilho roda no inicio do turno DELE), avaliado com o eixo Source (bonus 0, RV-30). Esperado: tools/dados/shrines-percentuais.csv (% do tipo) x MaxHealth observado, SEM o bonus do jogador. Caso do dono em jogo: MaxHealth=233 -> 23.",
+      "alvos": [
+        {"nome": "ChkDecay", "tipo": "player", "bonus": 100, "max_health": 233}
+      ]
+    },
+    {
+      "id": "S-rv33-flame-atacante",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "perigo",
+      "rv": ["RV-26", "RV-33", "RV-34"],
+      "aura": "Flame Shrine Aura",
+      "nota": "RV-33/34: um item por ATACANTE projetado na area, com a vida maxima/%/bonus DELE (nao a de quem apanhou). Esperado: tools/dados/shrines-percentuais.csv (Flame/Fodder 14%) x MaxHealth 200 = 28, eixo Source=0. O MINIMO 1 e do Flame.",
+      "alvos": [
+        {"nome": "ChkGob", "tipo": "Fodder", "bonus": 100, "max_health": 200}
+      ]
+    },
+    {
+      "id": "S-rv28-globule-sustenance",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "globule",
+      "rv": ["RV-28"],
+      "chave": "Heals for 50% of Max Health",
+      "nota": "RV-28/32: a frase do Sustenance entra no tooltip de TODO globule. A % esperada vem da ACAO do motor no censo (docs/cobertura/acoes.csv: Sustenance I Proc = .08f, II Proc = .20f; as tiers ativas SOMAM); a vida/mana esperadas saem do POOL declarado na observacao x a %. Dois personagens: um so com a I (8%) e outro com I+II (28%).",
+      "personagens": [
+        {"id": "so-tier1", "nome": "ChkG1", "tiers": ["Sustenance I"], "max_health": 100, "max_mana": 50},
+        {"id": "duas-tiers", "nome": "ChkG2", "tiers": ["Sustenance I", "Sustenance II"], "max_health": 200, "max_mana": 80}
+      ]
+    },
+    {
+      "id": "S-rv29-dentro-da-aura",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "entrar_sair",
+      "rv": ["RV-29", "RV-31"],
+      "aura": "Warrior Aura",
+      "personagem": "ChkWA",
+      "dentro_da_aura": true,
+      "nota": "RV-29/31: a linha so existe se o personagem em foco tem pelo menos UMA aura viva na lista (Character.ActionStatuses). DENTRO da area a linha aparece.",
+      "bonus": 20
+    },
+    {
+      "id": "S-rv29-fora-da-aura",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "entrar_sair",
+      "rv": ["RV-29"],
+      "aura": "Warrior Aura",
+      "personagem": "ChkFora",
+      "dentro_da_aura": false,
+      "nota": "RV-29: FORA da area nao pode existir linha para esse personagem. A observacao tem de DECLARAR a saida (sem a declaracao o caso e NAO_EXERCITADO) - e o defeito classico (a linha 'sempre presente') e REPROVADO. O personagem sai da area e o hover e repetido: nenhuma linha RV-31 dele.",
+      "bonus": 20
+    },
+    {
+      "id": "S-rv31-dedupe-stacking",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "dedupe",
+      "rv": ["RV-31", "RV-46"],
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "personagem": "Raven",
+      "bonus": 100,
+      "instancias_min": 2,
+      "nota": "RV-46: a MESMA aura repetida na lista viva (reentrada no ground effect cria status novo) conta UMA vez; o motor soma cada instancia no TOTAL, e o TETO corta o total. A CONTRIBUICAO da linha e 1x (40 com bonus 100) - nunca 80/120. Exige que o log declare `instancias=[Nome xN]` com N>=2."
+    },
+    {
+      "id": "S-rv46-teto-damage-reduction",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "limite",
+      "rv": ["RV-46"],
+      "atributo": "DamageReduction",
+      "personagem": "Man2Guard",
+      "aura": "Guardian Aura",
+      "bonus": 100,
+      "nota": "RV-46/50c: TETO do atributo. O MaxValue sai do ASSET (independente do log do mod); o total para no teto, a CONTRIBUICAO da aura nao (RV-50c). Caso do cartao MAN-2: 2 Guardians (cru 90) + MaxValue 50."
+    },
+    {
+      "id": "S-rv50-piso-mana-cost",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "limite",
+      "rv": ["RV-46"],
+      "atributo": "ManaCostMod",
+      "personagem": "Man2Energy",
+      "aura": "Energy Aura",
+      "bonus": 100,
+      "nota": "RV-46 (MAN-2/REV-47): PISO do atributo. O MinValue (-75) sai do asset; a Energy Aura (base -50) empurra -100 no bonus 100 e o total e CORTADO no piso, com o cru (-100) visivel no log."
+    },
+    {
+      "id": "S-rv26-corpo-linha-nota",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "corpo_tooltip",
+      "rv": ["RV-26", "RV-27"],
+      "superficie": "tooltip_shrine",
+      "nota_fragmento": "Shrine Effect Bonus",
+      "nota": "RV-26/27 (corpo/nota/linha azul): o CORPO renderizado da tooltip de shrine tem de trazer a LINHA 'Your active shrine auras:' e, com bonus != 0, a NOTA do Shrine Effect Bonus. O corpo NAO sai no log do mod: so a coleta do objeto vivo (AUT-4) o entrega - sem ela, NAO_EXERCITADO."
+    },
+    {
+      "id": "S-bug34-armor-feed-e-corpo",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "armor",
+      "rv": ["BUG-34"],
+      "superficie_feed": "feed",
+      "superficie_corpo": "tooltip_status",
+      "nota": "BUG-34 (regressao SOMENTE; aceite humano de 05/10 NAO e reaberto): (a) o FEED/texto flutuante de combate NUNCA pode carregar a nota de Armor ('blocks damage'); (b) o CORPO da tooltip do status TEM de continuar com ela. Duas superficies, dois criterios; reabre_bug=false. Observacoes precisam declarar `superficie`: 'feed' e 'tooltip'."
+    },
+    {
+      "id": "S-rv49-divergencia-perigo",
+      "mod": "BetterTooltips",
+      "tarefa_origem": "t_775eb4ae",
+      "tipo": "divergencia_rv49",
+      "rv": ["RV-34", "RV-33"],
+      "nota": "RV-49 (pendencia de DECISAO do dono): a medicao de 30/09 (o numero 'dobrava' com o bonus) convive com o fato de 03/10 (RV-30 para de escrever `Source`; as auras de perigo avaliam com Source=null e nao escalam com o jogador). O criterio REGISTRA a divergencia como INDETERMINADO - a automacao nao escolhe a versao nem altera a formula para fechar verde."
+    }
+  ]
+}

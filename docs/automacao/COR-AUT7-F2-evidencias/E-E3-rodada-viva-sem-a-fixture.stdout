@@ -1,0 +1,20 @@
+{
+  "modo": "teste unico: tools\\testes\\testes\\puros\\t_bf_diag_orcamento.py",
+  "raiz": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros",
+  "exit_code": 1,
+  "contagem": {
+    "REPROVOU": 1
+  },
+  "excluidos_por_categoria": {},
+  "ignorados_fora_do_padrao": [],
+  "testes": [
+    {
+      "arquivo": "t_bf_diag_orcamento.py",
+      "nome": "bf-diag-orcamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "REPROVOU",
+      "detalhe": "a medicao dos textos COM EFEITO no boot nao esta em tools\\fixtures\\bf-efeito-no-boot.json (era ela que o teste digitava como 5)"
+    }
+  ]
+}

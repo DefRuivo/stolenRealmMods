@@ -1,0 +1,25 @@
+# ===========================================================================
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real. (AUT-6, BUG-34 - regressao)
+# ---------------------------------------------------------------------------
+# As duas SUPERFICIES do texto de Armor, como o jogo as monta (citadas em
+# `BetterTooltips/Patches/LocalizePatch.cs`, BUG-33/BUG-34):
+#
+#   [feed]   o FEED DE TEXTO (`Root.SendMessageWindowMessage`) monta
+#            "[source] applied [status] on [target]" com o NOME do status - e a superficie que
+#            o prefix `SemNotaNoFeedDeTexto` protege. A NOTA de Armor NAO pode aparecer aqui.
+#   [corpo]  o CORPO da tooltip do status localiza a DESCRICAO
+#            (`Tooltip.ShowActionStatusTooltip` -> `OptionsManager.Localize(Description)`) por
+#            FORA do contexto de feed: a NOTA TEM de continuar aqui (`BuildArmorNote`).
+#
+# O texto da nota e literal do `BuildArmorNote` (com os valores do `GlobalSettings` no lugar):
+#   "\nArmor blocks damage: each <N> Armor reduces damage taken by 1 (capped at <X>% of the
+#    incoming damage). Armor and Magic Armor do not reduce Shadow damage."
+# ===========================================================================
+[feed]
+Necrodancer applied Increased Armor on ChkRA
+Increased Armor Applied
+
+[corpo]
+Increased Armor
+@Armor@ and @Magic Armor@ increased by [0].
+Armor blocks damage: each 10 Armor reduces damage taken by 1 (capped at 90% of the incoming damage). Armor and Magic Armor do not reduce Shadow damage.

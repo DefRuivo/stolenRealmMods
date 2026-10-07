@@ -1,0 +1,33 @@
+[Info   :BepInEx] BepInEx 5.4.23.5 - Stolen Realm
+[Info   :Roguelike Skill Tree Visualizer] Roguelike Skill Tree Visualizer 0.3.2 carregado (RSTV-5: botao na tela Select Party + botao no HUD da run, ancorado no Ping Button, skill tree read-only).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — CharacterChoiceOpenPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — CharacterChoiceTogglePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeManagerAcceptSkillChangesPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeManagerInitializePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeManagerRespecFooterPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeItemTogglePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeManagerResetSkillPointsPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — CharacterMenusManagerOpenWindowPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — SkillTreeManagerOnDisablePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — CharacterMenusManagerCloseSkillTreePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — CurrentCharacterUIInitPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — PlayerMovementProcessLeftMouseClickPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — KeybindManagerUpdatePatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — RoguelikeManagerOpenSkillSelectWindowPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV: gancho aplicado — RoguelikeSkillTreeRemovalWindowOpenPatch (1 metodo(s) do jogo).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-20: gancho do modal 'Remove Skill Trees' ATIVO (RoguelikeSkillTreeRemovalWindow.Open).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-20: botao 'Skills' injetado no cabecalho do modal 'Remove Skill Trees' (44x44 px, canto superior direito de 'Panel' via probe do titulo renderizado ("Remove Skill Trees")), clone de 'Cancel Button' (CancelButton; onClick limpo -> SkillTreesTab.AbrirJanela(CurrentCharacter, RemocaoDeArvores) [RSTV-21: janela propria, sem inventario]; janela=Skill Tree Removal Window.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-5: gancho do HUD da run ATIVO (CurrentCharacterUI.InitSingleton).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-30: botao 'Skills' injetado na BARRA DE BAIXO do HUD (largura=19 px (nativo 27 px), altura=35 px; borda direita dos nativos=111.3 px, limite do vizinho 'Skillbar Index Controls'=134.3 px, vao livre=19 px, margem=2 px no espaco local de 'Skillbar Buttons'); pai=Skillbar Buttons (o container dos botoes de inventario e de skills); molde=CurrentCharacterUI.skillsBtn ('Skills Tree Btn' da barra de baixo); grupo do pai=HorizontalLayoutGroup — o clone esta com ignoreLayout, entao o grupo NAO reflui por nossa causa.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-16: modo somente leitura ATIVO (contexto=RemocaoDeArvores, alvo=Raven) — a vida agora e a do hospedeiro ativo (a aba do inventario ou a janela propria, RSTV-21).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-21: janela read-only montada — Canvas overlay (sortingOrder 3200, scaler copiado do jogo), titulo de molde 'Title', botao fechar de molde 'Cancel Button'.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-21: janela read-only ABERTA com TODAS as arvores (alvo=Raven, contexto=RemocaoDeArvores) — sem depender do inventario.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-21: tooltip do jogo movido para DENTRO da janela (acima do fundo) — reparent feito no hover.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-24a: arvore centralizada na AREA (bbox local -120.5..118.9 x -430.2..420.1, pos 0.7,-5.1u).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-24b: 4 linha(s) de dependencia ativa(s), 4 com sprite (de 12 no(s)); cor da 1a = RGBA(1.000, 1.000, 1.000, 0.500); por tier: T1:0, T2:1, T3:1, T4:2, T5:0.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-25: nos com Dependency por tier — T1:0/1, T2:1/2, T3:1/2, T4:2/3, T5:0/4.
+[Info   :Roguelike Skill Tree Visualizer] RSTV-2: commit higienizado (read-only, closeMenu=True) — nenhuma escrita no personagem (7 skills no snapshot).
+[Info   :Roguelike Skill Tree Visualizer] RSTV-21: janela read-only fechada.
+[Warning:Roguelike Skill Tree Visualizer] RSTV-5: abertura RECUSADA — modo de apontar o hex ligado (GUIManager.PingModeActive). Nada foi aberto.
+[Warning:Roguelike Skill Tree Visualizer] RSTV-5: abertura RECUSADA — posicionamento inicial em andamento (Root.SpawnPlacementActive). Nada foi aberto.
+[Warning:Roguelike Skill Tree Visualizer] RSTV-5: abertura RECUSADA — mira de skill ativa (HexCellManager.CurrentState=Action): abrir aqui cancelaria o apontar hex. Nada foi aberto.

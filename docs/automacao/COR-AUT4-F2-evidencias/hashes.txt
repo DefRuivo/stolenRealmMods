@@ -1,0 +1,11 @@
+155b8ffe58ebdeda6d191d1b789fe3731a5d56c58962631216f0f2adf8b3f578  tools/automacao/runtime/coletor.py  # driver (coletor.py)
+9b8893ef55d5d79f8ceb6332bacd4f3186eaba22f14c31a0231bdebcd6de7051  tools/automacao/runtime/fixtures/probe-saida-exemplo.entrada.json  # fixture do artefato (forma REAL '')
+afe6131ff9d1596cbaf575417a01a6e5d9284700c769754efeddf342f156309f  tools/automacao/runtime/testes/t_aut4_execucao.py  # teste de execucao (+A1c/A6m/A2-sec)
+bd6e2dee763ce6fa91fab92c08ae98a2629efbb10003cbb941575166ab252f97  tools/automacao/runtime/testes/t_aut4_costura_probe.py  # teste de costura (+A2 F2/A3 F2)
+93ce41fc13b2b8ff8b59c238668898afd5cfd7c035babdb9c2a7ba6e5484e799  tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_print_velho_ok.py  # isca A1-c
+36e4c45a2b69add76eafff7c16e546888612c95d6c94cec19fd4cb5a3b402181  tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_alvo_vazio_ok.py  # isca A2
+e25b633f0b9c873f0e2f85263999c81d9ad42bf7640f5f48d9834e6cc0fd81d8  tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_evidencia_runtime_false_ok.py  # isca A3
+0df7a56b911fd119934c331588f1c433da41c8eb8823454d39101e6a45361170  tools/automacao/runtime/testes/contra-prova/cp_aut5_isca_ida_volta_sem_marcador.py  # isca A6
+5ed26c540a8cf95f17884b0cb4d3bef75ae10fbb15517894c0f0e51dc01476f9  docs/automacao/AUT-4-estado.json  # estado (listas/hashes)
+3bb7e34c7f764609146ca5189ca89d4bb4fffecfc0b753b27ec2f522d1df65e4  docs/automacao/AUT-4-preparacao.md  # doc humano (contagens)
+769ec5cab2ba5eadbc69535fe85588c618c74727f9625a31fa50fa191ab81f59  tools/automacao/runtime/roda_testes_runtime.py  # runner

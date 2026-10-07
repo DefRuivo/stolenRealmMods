@@ -1,0 +1,36 @@
+{
+  "esquema": "AUT-4/1",
+  "decisao": {
+    "dados_sinteticos": false,
+    "observacoes": [],
+    "screenshot": null,
+    "status": "NAO_EXERCITADO",
+    "pode_coletar": false,
+    "modo": "autorizado-sem-jogo",
+    "motivo": "autorizado, mas SEM acesso ao jogo: nada a coletar (NAO_EXERCITADO, jamais dado fabricado)"
+  },
+  "perfil": null,
+  "passos": [],
+  "manifest_previsto": {
+    "artefatos": [
+      "aut4probe.json",
+      "01-ui.png",
+      "NN-*.png"
+    ],
+    "rollback": [
+      "pasta plugins/AUT4Probe (REMOVER — criada pela rodada)",
+      "com.gumatos.aut4probe.cfg (REMOVER se nao existia; RESTAURAR se existia)",
+      "LogOutput.log (ARQUIVAR antes de lancar; um boot trunca o log)"
+    ]
+  },
+  "resultado": {
+    "esquema": "AUT-4/1",
+    "status": "NAO_EXERCITADO",
+    "motivo": "autorizado, mas SEM acesso ao jogo: nada a coletar (NAO_EXERCITADO, jamais dado fabricado)",
+    "dados_sinteticos": false,
+    "screenshot": null,
+    "observacoes": [],
+    "plano": null
+  },
+  "exit_code": 2
+}

@@ -1,0 +1,1770 @@
+{
+  "esquema": "AUT-7/estilo/1",
+  "tarefa": "t_674c5976",
+  "identidade": {
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "suficiente": true,
+    "erro": null
+  },
+  "mods": [
+    "BetterFont",
+    "BetterCombatText",
+    "BetterStats",
+    "RoguelikeDebugger"
+  ],
+  "total": 62,
+  "contagem": {
+    "OK": 48,
+    "REPROVADO": 1,
+    "NAO_EXERCITADO": 13,
+    "INDETERMINADO": 0
+  },
+  "por_mod": {
+    "BetterCombatText": {
+      "OK": 26,
+      "REPROVADO": 1,
+      "NAO_EXERCITADO": 3,
+      "INDETERMINADO": 0
+    },
+    "BetterFont": {
+      "OK": 12,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 3,
+      "INDETERMINADO": 0
+    },
+    "RoguelikeDebugger": {
+      "OK": 4,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 3,
+      "INDETERMINADO": 0
+    },
+    "BetterStats": {
+      "OK": 6,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 4,
+      "INDETERMINADO": 0
+    }
+  },
+  "criterios": [
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-aplicador",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_aplicador.py",
+          "sha256": "e228cd1660120a71aa816eb12474efe091e0c4c10bf21867d351402b732fc3c5"
+        }
+      ],
+      "motivo": "TST-8/8: o mod aplica gancho a gancho com contagem real (sem PatchAll) e o filtro so aceita [HarmonyPatch] no TIPO - e a contra-prova da trava check_patches (filtro que exige atributo TEM de reprovar)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_caminho_legado.py",
+          "sha256": "5bd9d150c9f498247c1828e7a93bbf4b0af1bae1e53892a5144be7cf3dda1298"
+        }
+      ],
+      "motivo": "TST-8/5: UI.Text legado recebe contorno DURO (Outline/Shadow) e o mod nao tenta material de distance field nos rotulos de status",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-defaults",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_defaults.py",
+          "sha256": "37cd4b6424f2a4e11bfebc430fad2c2309514a00115ea623b7332a8d6bc6dbe9"
+        }
+      ],
+      "motivo": "TST-8/3: tooltip de status DESLIGADO (Title/Description sao compartilhados com skill/item/powerup), eventos/dado LIGADO, chave mestra LIGADA; com arquivo:linha",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-desligar-inerte",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_desligar.py",
+          "sha256": "79da44bb02210da0317c747322dc7f9b5259b44088e780d9d98ef8bc8653f9c9"
+        }
+      ],
+      "motivo": "TST-8/4: com Ativar=false nenhum gancho age - Awake sai antes de aplicar e todo postfix e guardado (direto ou por delegacao)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-diagnostico",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_diagnostico.py",
+          "sha256": "17382b96f426a483c7273e13261fc7089752d428a4bd79efc78b00954f5fc0df"
+        }
+      ],
+      "motivo": "TST-8/6: o diagnostico de arranque - intervalo 5s (era 2s), PARADA no primeiro sucesso e a chave que zera a varredura - provado por modelo puro do tempo/estado",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-idempotencia",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_idempotencia.py",
+          "sha256": "2c1de0c949ec2619f8240939b475cba61798d3603959529b1de18e5eeadfdadb"
+        }
+      ],
+      "motivo": "TST-8/2: aplicar duas vezes no mesmo componente nao acumula (registro por InstanceID no TMP e no legado, e o piso no tamanho original)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-precondicao-shader",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_precondicao_shader.py",
+          "sha256": "1abce713a01580d61176996defba192124e1ab0548f0d1dba7bd7a92a4a301da"
+        }
+      ],
+      "motivo": "TST-8/7: o efeito confirma a precondicao do shader (HasProperty _OutlineWidth/_UnderlaySoftness) antes de aplicar, em vez de confiar por nome/variante",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-regra-de-ouro",
+      "mod": "BetterCombatText",
+      "estado": "REPROVADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=REPROVOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_regra_de_ouro.py",
+          "sha256": "fe08ff8fbf90f1edc84a97d06fc43e65337ddc621bf5186ef0c8cf422cabad6d"
+        }
+      ],
+      "motivo": "o IL da DLL do pacote (pacote dist\\gumatos-BetterCombatText-0.1.1.zip!plugins/BetterCombatText/BetterCombatText.dll) reprovou em 2 ponto(s): o leitor de IL nao achou 1 referencia(s) que a DLL TEM (get_fontSharedMaterial): o controle positivo falhou - sem ele, 'nao achei o setter' seria vacuidade | a",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sem-acoplamento",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sem_acoplamento.py",
+          "sha256": "d4d12507f832dc2c11f9078f09a68573f4cdf849a76c446e45f65e2701a27b2e"
+        }
+      ],
+      "motivo": "TST-8/9: do lado do BCT, o codigo e a DLL nao citam o BetterFont (nem escrevem no material dele) - a ligacao e so o material por componente da frente",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sem-vazamento-no-levelup",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sem_vazamento_no_levelup.py",
+          "sha256": "4e7af72d5efa62b8b1997fd6003ed76baa77a7702baf1c913bc12704a030ceef"
+        }
+      ],
+      "motivo": "R2: o BCT fica nas 7 superficies dele e NAO patcheia nem cita a janela do level-up (RoguelikeManager/SectionLabelText) - a sombra do 'Select Attributes' e do BetterFont (underlay inerte com o keyword desligado), nao do BCT",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sombra-adaptativa",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sombra_adaptativa.py",
+          "sha256": "f26e3c36b051f6f912995e0a8b9e9ff6293f4c869a046e19cfdbc74ced32ac62"
+        }
+      ],
+      "motivo": "BCT-2: sombra ADAPTATIVA (cor -> luminancia -> balde -> hex): letra escura ganha #CBB396, letra clara ganha #000000, inclusive no REUSO do componente sem re-instancia",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sombra-contraste-letra",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sombra_contraste_letra.py",
+          "sha256": "00bbe6d236836f5dfc8eac60fab7de23d2c732b550d2a646f8d69b43b77958b3"
+        }
+      ],
+      "motivo": "BCT-4/BCT-5: a sombra CONTRASTA com a LETRA - ela fica do LADO OPOSTO da luminancia da fonte (fonte CLARA -> sombra ESCURA; fonte ESCURA -> sombra CLARA) em toda a paleta e em todo Fundo; o nome do inimigo (#CBB396, letra CLARA) ganha a sombra ESCURA #000000, nunca uma sombra clara 'da mesma cor da ",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sombra-polaridade-fonte",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sombra_polaridade_fonte.py",
+          "sha256": "e53e0accad7141ea4f9bc5087bc080713fb6c95c15ed64d17160243e47c864a8"
+        }
+      ],
+      "motivo": "BCT-5: a sombra CONTRASTA com a FONTE - letra CLARA ganha sombra ESCURA e letra ESCURA ganha sombra CLARA (o LADO oposto da luminancia), em toda a paleta e em todo Fundo, com alfa visivel; a letra clara #CBB396 do nome do inimigo nunca mais ganha uma sombra clara 'da mesma cor da fonte'",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/puro/bct-sombra-visivel-fundo-escuro",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bct_sombra_visivel_fundo_escuro.py",
+          "sha256": "3d664d9771c36de9005cc98bbb8b74982aef5211cd2c1197e4c96828bfc4b61b"
+        }
+      ],
+      "motivo": "BCT-3/BCT-4/BCT-5: o FUNDO propoe e a LETRA VETA - a letra bege #CBB396 (o nome do inimigo), sendo CLARA, ganha a sombra ESCURA (#000000) que CONTRASTA com a fonte, em qualquer fundo; nunca uma sombra clara (o #CBB396 ou o #FFFFFF do BCT-4) 'da mesma cor da fonte'",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-decisao-texto",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_decisao_texto.py",
+          "sha256": "2507f9443e09e187bc65a8432612ff946df4497d8ec47531c7dfd99a74c638f4"
+        }
+      ],
+      "motivo": "TST-7: a decisao por texto (converter-com-transporte/convert-simples/nao-tocar/escape) e o escape ligado/desligado, como funcao pura sobre o fonte vivo",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-defaults",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_defaults.py",
+          "sha256": "770794cdfaf65545a923396553c65e68aa999aad1f5407df459ad5688cab9e98"
+        }
+      ],
+      "motivo": "TST-7: os defaults das 3 chaves (PularTextosEstilizados=false e o escape; PreservarEstilo=true; LogDiagnosticoEstilo=false) com arquivo:linha e os getters seguros",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-diag-orcamento",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_diag_orcamento.py",
+          "sha256": "7a052cf7e3d52c64e2fb14f67ce7484843622074b2f443925efe7fcdede8aaeb"
+        }
+      ],
+      "motivo": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-falha-segura",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_falha_segura.py",
+          "sha256": "63934b34ac2eb3e357e710c55c00ac556c87dbfeba78b945907d7cc5bbd5aebd"
+        }
+      ],
+      "motivo": "TST-7: a matriz da falha-segura (caso a caso -> nao-tocar) e o shader diferente, que no BF-2 deixou de ser recusa",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-gate-material",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_gate_material.py",
+          "sha256": "a733155cf76f995a58d71d8ff9ef78c19b15280700fc549c2d16c30a3592707d"
+        }
+      ],
+      "motivo": "BF-2: variante de shader nao e recusa, gate pelo efeito no material, fonte+estilo juntos e buracos fechados",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-nao-regride",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_nao_regride.py",
+          "sha256": "f84f9c6b7a63799e7e97e5f2cd7498609a130acbf47e62b42f06fac111b80a3c"
+        }
+      ],
+      "motivo": "TST-7: nao regride o que o dono aprovou - a troca de fonte dos textos NORMAIS (com padding), o fallback da fonte original, o resumo da varredura e zero mudanca de gameplay",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-preservacao",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_preservacao.py",
+          "sha256": "e55eded04dfb386fecde815bad54d626648ac1d7bd0caa1740ee192072dd92e4"
+        }
+      ],
+      "motivo": "TST-7: as duas listas do BetterFont - o que CopiarEstilo transporta (cores, contorno, sombra, offsets e as keywords OUTLINE_ON/UNDERLAY_ON) e o que NAO pode transportar (atlas, _GradientScale, _FaceTex, _BumpMap, GLOW_ON, BEVEL_ON)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-sem-acoplamento",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_sem_acoplamento.py",
+          "sha256": "bcbe1cef70a5905890d4c3a99aef8c63801707d369c6e0ca69b44cc39bd8b898"
+        }
+      ],
+      "motivo": "TST-7: invariante 3 - o codigo do BetterFont (fonte e DLL) nao cita nome/GUID do outro mod; e o detector nao e vazio",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/puro/bf-sombra-inerte",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_bf_sombra_inerte.py",
+          "sha256": "fe7da63ae18f514b7ce02f7f28df0c446551ac4527c6e418ea65632611d1ed59"
+        }
+      ],
+      "motivo": "BF-5: o CopiarEstilo so liga UNDERLAY_ON se a fonte tinha a keyword ou offset/dilate != 0 - a sombra INERTE do 'Select Attributes' (cor com alfa, keyword UNDERLAY_ON desligada e offset/dilate 0) nao volta a acender",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/puro/debugger-estabilidade",
+      "mod": "RoguelikeDebugger",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_debugger_estabilidade.py",
+          "sha256": "ea76861d515afb70a0b5dd19c3f6ccd7417c334bd9e6d545ed4a33cf6386bca0"
+        }
+      ],
+      "motivo": "as 7 categorias do censo continuam, as colunas de cada uma sao o prefixo do CSV versionado (nenhuma some) e toda chave lida com f.get existe no FIELD (senao a coluna vira vazia) - com isca embutida",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/puro/debugger-parser-contrato",
+      "mod": "RoguelikeDebugger",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_debugger_parser_contrato.py",
+          "sha256": "8246f6eb99373ccde39e5537464b75c6f18e2d8cbbf469bb457be883a7a85ec4"
+        }
+      ],
+      "motivo": "o censo (tools/census.py) le a linha no formato ATUAL (lido do fonte) e no ANTIGO (log versionado); `desc=` e o ultimo campo, nenhum valor tem '|' nem quebra de linha, e um campo renomeado vira vazio (isca)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/puro/debugger-reflexao-cast",
+      "mod": "RoguelikeDebugger",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_debugger_reflexao_cast.py",
+          "sha256": "9d929dd1e1f3abb145af821e1f5059f6771844c34bd58666a261fe9517b45c58"
+        }
+      ],
+      "motivo": "um tipo concreto NOVO de IEffectInfo sai no dump por REFLEXAO (sem recompilar) e o cast `as GeneralEffect` perde o dado em silencio; o fonte vivo le por reflexao e publica o Nome do tipo (isca embutida)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/puro/debugger-saneamento",
+      "mod": "RoguelikeDebugger",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros\\t_debugger_saneamento.py",
+          "sha256": "6cdc91054bf39a3d376cc23cea155dbed68a0581e4d9bfff723ab37d7e17dc8a"
+        }
+      ],
+      "motivo": "Limpa/Valor saneiam '|', aspas, quebra de linha, vazio e nulo; o marcador `!erro:` e seguro; um '|' no valor trunca o campo no parser real; campos ausentes viram vazio e o Summon nao tem desc (isca embutida)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bf_diag_orcamento.py",
+          "sha256": "d92e2cd8ab50518aade91e170d1f54def32a836680b70674f8059775b0d21618"
+        }
+      ],
+      "motivo": "isca: os dez defeitos do orcamento foram pegos pelas checagens (esperado) - o orcamento da BF-2 (sessao + classificacao pelo conteudo): 5 checagem(ns) | o pulado pelo escape contado como EFEITO: 2 checagem(ns) | o reset so na PRIMEIRA cena (`if (_diagCena != null)`): 3 checagem(ns) | o reset INALCAN",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/controle-negativo/contra-prova-bf-gate-shader",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bf_gate_shader.py",
+          "sha256": "98763e4189aaf442033b7f4408d1c4a9b7ec907d0aa70727dba268b51f8b2c0c"
+        }
+      ],
+      "motivo": "isca: os dois defeitos do BF-1 foram pegos pelas checagens (esperado) - shader: o gate voltou a RECUSAR por variante de shader (o defeito do BF-1) | gate: a chamada do portao nao esta presa ao efeito presente no material",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/controle-negativo/contra-prova-bf-sombra-por-alfa",
+      "mod": "BetterFont",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bf_sombra_por_alfa.py",
+          "sha256": "39c70d6bf97189a4eaf72b2f97b435bebbfb93c12166498c5aa028a259e35e85"
+        }
+      ],
+      "motivo": "isca: o defeito do BF-5 (alfa decidindo a sombra) foi pego pela checagem (esperado) - a decisao de sombra ainda olha a COR (`_UnderlayColor`/GetColor): a cor sozinha NAO prova que o shader desenha a sombra - o prefab do jogo tem preto alfa 0.5 com a keyword desligada e offset/dilate 0 (sombra inerte",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-idem",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_composicao_idem_isca.py",
+          "sha256": "6fe95f0090a18c03d73786988f2caf7b6db9b72bd9065a04842c4c22bbd5ffd9"
+        }
+      ],
+      "motivo": "a composicao rv17 tinha de estar conforme, mas: ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']: esperado [], obtido ['IDEMPOTENCIA: a 2a passada duplicou a nota/linha']",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-ordem",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_composicao_isca.py",
+          "sha256": "8867c9613f922d0b71fc4166d6ae9e4505d792df71b5bbc61ed81b2e72e7dd17"
+        }
+      ],
+      "motivo": "a composicao rv17 tinha de estar conforme, mas: ['ORDEM: ha bloco anexado DEPOIS da linha de auras']: esperado [], obtido ['ORDEM: ha bloco anexado DEPOIS da linha de auras']",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-composicao-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_composicao_ok.py",
+          "sha256": "00ee0b3d1cbbbe3184afc4ca1931e76641e9ec03c5edec15bbec39b4eb97ca1d"
+        }
+      ],
+      "motivo": "o MESMO teste da isca com a regra de HOJE (rv17): corpo->notas->aura, 1 linha em branco, idempotente",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-guard",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_guard_isca.py",
+          "sha256": "ed7d9b2ae658d08d21809d1c2a139358ca1cc33ff4b23bed949500aab15e3dd1"
+        }
+      ],
+      "motivo": "atributo inexistente tinha de ser pulado, mas: [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]: esperado [], obtido [\"atributo INEXISTENTE explodiu no indexador: indexador do motor LANCA para nome desconhecido: 'Courage'\"]",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-guard-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_guard_ok.py",
+          "sha256": "586c15dfe0b5ec280b10e84d73279ec6e7050400838bcebb7d894cce0b4588bf"
+        }
+      ],
+      "motivo": "o MESMO teste da isca com a regra de HOJE: o guard pula o atributo inexistente antes de indexar",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-substituicao",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_substituicao_isca.py",
+          "sha256": "48b9df9730e3c09f460dbfc7423d921d6a076e42937a5da8e886da78a6bc0f55"
+        }
+      ],
+      "motivo": "a substituicao segura divergiu (o defeito plantado aparece): [\"chave como substring: esperado 'prefixo 10% chance to cast Level [level value] {SKL=Meteor} when Striking. sufixo', obtido '10% chance to cast Level [level value] {SKL=Meteor} when striking.'\", \"mesmo comeco, texto diferente: esperado '1",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-substituicao-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_substituicao_ok.py",
+          "sha256": "6df1466e0e8cfe99902695f2a9e0563d5a97c95591af50e3bb4ac0dab05638ad"
+        }
+      ],
+      "motivo": "o MESMO teste da isca com a regra de HOJE (so troca o exibido == original em ingles)",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-texto-ausente",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_texto_ausente_isca.py",
+          "sha256": "1109154073869abef5b46c49d33055107422df922ba3b9cf6270597dafc2c51e"
+        }
+      ],
+      "motivo": "o texto do jogo tinha de ficar intacto, mas: ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']: esperado [], obtido ['expressao que nao avalia: a excecao ESCAPOU (RuntimeError) - o texto do jogo nao ficou intacto']",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-texto-ausente-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_texto_ausente_ok.py",
+          "sha256": "60a50ee39f1a1fd7d4190076d165dead79b6f9eef2d73664dab222a371ac7317"
+        }
+      ],
+      "motivo": "o MESMO teste da isca com a regra de HOJE: texto intacto + falha declarada",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-token",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_token_isca.py",
+          "sha256": "cd8249d8ea3e3e22a8cb3bbc11fed0beaf3cca139a32757f733701fbac6700fc"
+        }
+      ],
+      "motivo": "nenhuma nota podia ter o token [N]; achei: [('plantado', 'Cada stack concede +[0] Max Health por acerto.', ['[0]'])]",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-token-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_token_ok.py",
+          "sha256": "b9cfe722453474ec85ae5411a2e9adce82e5dca90e4fea7773f1184282fd72c2"
+        }
+      ],
+      "motivo": "o MESMO teste da isca sobre as tabelas de verdade: nenhuma nota carrega [N]",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-uma-entrada",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=reprovar (suite do projeto)",
+      "observado": "estado no runner=PROVA_OK",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_uma_entrada_isca.py",
+          "sha256": "25547cc54cf89ff9523b4f2a746927e70bb40812da7838b1b73209a3221b5d7f"
+        }
+      ],
+      "motivo": "o fonte plantado devia estar LIMPO (o defeito nao existe). As ferramentas acusaram: check_dupes: chave duplicada {'chave repetida no mesmo texto': 2}; chave nas duas tabelas: ['chave nas duas tabelas']; check_chave_compartilhada --estrito reprovou (exit 1): [\"'chave nas duas tabelas'\", \"[TextFixes l",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/controle-negativo/contra-prova-bt-uma-entrada-ok",
+      "mod": "BetterCombatText",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "esperado=passar (suite do projeto)",
+      "observado": "estado no runner=PASSOU",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\contra-prova\\cp_bt_uma_entrada_ok.py",
+          "sha256": "792beecba128eac2b5bfdabb44b18f1ccf704ce04ac4bf6c2aee623b40351f8e"
+        }
+      ],
+      "motivo": "o MESMO teste da isca sobre o LocalizePatch.cs real: chaves unicas, sem chave nas duas tabelas",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/suite-ausente",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "familia de teste puro do mod na suite do projeto (`t_bs_*`)",
+      "observado": "nenhum teste do mod na suite",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA de medicao offline: sem familia de teste puro na suite, a prova deste mod tem de vir de outra via",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/controle-negativo-ausente",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "isca do mod tem de ser MOSTRADA REPROVANDO (`cp_debugger_*`)",
+      "observado": "nenhuma isca do mod rodou",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+          "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "lacuna TECNICA: prova que nunca reprovou nao vale como prova",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/base-do-savedmap",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "a base exibida sai do valor PURO do personagem (`character.SavedMap[baseAttr.Guid]`), com fallback declarado para o valor do motor",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/final-do-motor",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "o valor COMBINADO sai da lista FINAL do motor (`LevelableCharacterAttributesFinal` + `character[finalAttrs[i].name]`), com o par base em `LevelableCharacterAttributes`",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/sem-gameplay",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "o mod NAO escreve em atributo/`SavedMap` do personagem (so reescreve o texto exibido)",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/geometria-deslocada-uma-vez",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "a coluna de valores e deslocada UMA vez (guarda `_shiftedValues`); deslocar a cada quadro acumularia e jogaria o texto para fora do painel",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/falha-segura",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "os dois ganchos sao try/catch e guardam nulo (personagem, holder, StatValues): o diagnostico nunca derruba a UI",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/formato-base-combinado",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "base == combinado mostra SO o base (sem `10 (10)`) e o parentese encolhe pela tag `<size=` do TMP quando o quadrado e estreito",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+          "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-preservacao-estilo",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "fonte trocada preservando TODAS propriedades efetivas e keywords",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "controle ligado/desligado no mesmo objeto ausente"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "controle ligado/desligado no mesmo objeto ausente",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "controle ligado/desligado no mesmo objeto ausente",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-config",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "config real: bytes, identidade, chaves e defaults confrontados",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "config/chaves/valores ausentes"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "config/chaves/valores ausentes",
+      "tarefa_origem": "t_674c5976",
+      "config_relevante": true,
+      "config_sha": null,
+      "lacuna_probe": "config/chaves/valores ausentes",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-visual",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "em jogo: a fonte aplicada e legivel e coerente com a UI (hierarquia, tamanho, entrelinha) e nenhuma tela ficou com texto cortado",
+      "observado": "julgamento humano ainda nao pronunciado",
+      "evidencia": [],
+      "motivo": "o DoD exige revisao de UI/UX para alteracao de fonte: o dado tecnico nao substitui o olho no jogo",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "julgamento_visual",
+      "autorizacao_necessaria": true,
+      "julgamento_humano": "Abrir o jogo com o BetterFont ativo e conferir, em tooltip, texto de combate e UI, se a fonte ficou legivel e sem corte; registrar o aceite.",
+      "instrucoes_humanas": "Abrir o jogo com o BetterFont ativo e conferir, em tooltip, texto de combate e UI, se a fonte ficou legivel e sem corte; registrar o aceite."
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-superficies-contraste",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "todas superficies canonicas com cor/alfa/contraste/polaridade",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+      "tarefa_origem": "t_674c5976",
+      "superficies_medidas": [],
+      "lacuna_probe": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-idempotencia",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "mesmo objeto/sessao; estagios/eventos/leituras distintos e efeito estavel",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "nenhum alvo BCT relido"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "nenhum alvo BCT relido",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "nenhum alvo BCT relido",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-sem-vazamento-levelup",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "level-up real: todos tipos e alvos comparados ao estilo nativo desligado",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+      "tarefa_origem": "t_674c5976",
+      "tipos_do_levelup": [
+        "RoguelikeManager",
+        "SectionLabelText",
+        "LevelUpStage",
+        "SkillSelectWindow"
+      ],
+      "lacuna_probe": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-base-vs-final",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "na ficha/level-up o texto sai `base (final)`, com a base do valor PURO investido e o final do motor; `character[nome]` NAO serve como base",
+      "observado": "nenhum texto `base (final)` nas observacoes",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA dupla: (a) a rodada runtime nao foi autorizada e (b) o probe nao emite os valores de atributo do personagem (SavedMap x final), sem os quais o texto exibido nao pode ser confrontado com a fonte do numero",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-geometria",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "a caixa do texto de valores cabe DENTRO do painel de atributos (sem clipping/saida lateral), com deslocamento unico e nao acumulado",
+      "observado": "nenhuma observacao com `geometria`",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA: o probe emite a caixa do TEXTO (`caixa_na_tela_px` + `tela`), mas NAO a caixa do PAINEL de atributos - sem a do painel nao ha contra o que comparar",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "caixa (bbox) do painel de atributos, alem da do texto",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-visual",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "em jogo: a coluna de valores cabe no painel nas DUAS telas (ficha e level-up)",
+      "observado": "julgamento humano ainda nao pronunciado (BS-1a aguarda validacao visual)",
+      "evidencia": [],
+      "motivo": "so a estrutura foi medida offline; numeros/geometria runtime seguem nao comprovados; aceite visual separado",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "julgamento_visual",
+      "autorizacao_necessaria": true,
+      "julgamento_humano": "Com o BetterStats ativo, abrir a ficha de personagem (painel Attributes) e a tela de level-up: conferir que `base (final)` cabe no painel, sem vazar a borda e sem quebra de linha.",
+      "instrucoes_humanas": "Com o BetterStats ativo, abrir a ficha de personagem (painel Attributes) e a tela de level-up: conferir que `base (final)` cabe no painel, sem vazar a borda e sem quebra de linha."
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/runtime-contrato-dump",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "no LogOutput.log do MESMO boot: as linhas do dump saem com `desc=` por ULTIMO, sem `|` e sem quebra de linha no valor",
+      "observado": "nenhum log de boot NOVO com a DLL atual",
+      "evidencia": [],
+      "motivo": "rodada runtime ainda nao autorizada: log de sessao anterior NAO prova os bytes atuais (precedente AUT-4R: log velho nao assina fonte nova). O contrato e o saneamento ja tem prova ESTRUTURAL na suite pura (t_debugger_*)",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "autorizacao",
+      "autorizacao_necessaria": true,
+      "lacuna_probe": "LogOutput.log de um boot com a DLL atual (sessao + hash)",
+      "instrucoes_humanas": "Autorizar UMA rodada de boot com os mods atuais (SEM carregar save): abrir o jogo ate o menu com o RoguelikeDebugger ativo e encerrar; o LogOutput.log dessa sessao e a evidencia."
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/runtime-censo",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "as categorias e colunas do censo saem do dump do boot atual (nenhum campo desaparece); o censo NAO e regenerado aqui (escreve doc curada)",
+      "observado": "nenhum dump de boot novo para ler o censo",
+      "evidencia": [],
+      "motivo": "rodada runtime ainda nao autorizada (mesmo log do boot do criterio de contrato); o `census.py` NAO e executado nesta frente porque reescreve doc curada",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "autorizacao",
+      "autorizacao_necessaria": true,
+      "lacuna_probe": "dump do boot atual para conferir categorias/colunas do censo"
+    }
+  ],
+  "medicao": {
+    "esquema": "AUT-7/estilo/1",
+    "tarefa": "t_674c5976",
+    "repo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo",
+    "out_dir": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias",
+    "suites": {
+      "puros": {
+        "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-puros.json",
+        "exit_runner": 1,
+        "erro": "",
+        "contagem": {
+          "PASSOU": 88,
+          "REPROVOU": 1
+        },
+        "sha256": "52578f0ecd072adfd50e69acc3acff8c06d34ee0af4f9aa1eb8f3c5bf234965e"
+      },
+      "contra_prova": {
+        "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\suite-contra-prova.json",
+        "exit_runner": 0,
+        "erro": "",
+        "contagem": {
+          "PROVA_OK": 49,
+          "PASSOU": 14
+        },
+        "sha256": "da470633273bade97445f5a574303b41c613b074ec0af6f30508e488b6b0ab3c"
+      }
+    },
+    "fontes": {
+      "BetterFont": [
+        {
+          "rel": "BetterFont/Plugin.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterFont\\Plugin.cs",
+          "sha256": "61d0d752f059d92a0fdb9047dbe9124de2c5a523867ed396a15de3dd962a1b31"
+        }
+      ],
+      "BetterCombatText": [
+        {
+          "rel": "BetterCombatText/Plugin.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterCombatText\\Plugin.cs",
+          "sha256": "77a5f63eeadeb98c17b2c592d9390a44c88a5131dd2e8bbc8856021747cba6af"
+        },
+        {
+          "rel": "BetterCombatText/TextStyler.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterCombatText\\TextStyler.cs",
+          "sha256": "0b5a0742e0cd92e84727583852afd6ddf9e7a1c52368c35137f838a13e325b6b"
+        },
+        {
+          "rel": "BetterCombatText/Configuracao.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterCombatText\\Configuracao.cs",
+          "sha256": "d9cef26eca89fd4e8b16add176e5d598ab088e801bd92624856a876f352b5bd9"
+        },
+        {
+          "rel": "BetterCombatText/Patches.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterCombatText\\Patches.cs",
+          "sha256": "c66eb24fced182c6fcbb71e812735e611675207f4b6c96ec8e832c4fef6df18b"
+        }
+      ],
+      "BetterStats": [
+        {
+          "rel": "BetterStats/Plugin.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        }
+      ],
+      "RoguelikeDebugger": [
+        {
+          "rel": "RoguelikeDebugger/EfeitosInfo.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\RoguelikeDebugger\\EfeitosInfo.cs",
+          "sha256": "69ffbf2ccaae4471e0ba882b494a6e512e8c2fec9a3aa0bc226b83e2e45a450b"
+        },
+        {
+          "rel": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\RoguelikeDebugger\\Patches\\SkillInventoryPatch.cs",
+          "sha256": "629d1d1f07e697996da020fa0a9f6c30b7cc592b01a48c83f53bf406ff6e02b1"
+        },
+        {
+          "rel": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+          "caminho": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\RoguelikeDebugger\\Patches\\ActionStatusInventoryPatch.cs",
+          "sha256": "77748b53441feecdf8c92310867e0f3d0953d67519b939ebc44190f0d598e140"
+        }
+      ]
+    },
+    "mods": [
+      "BetterFont",
+      "BetterCombatText",
+      "BetterStats",
+      "RoguelikeDebugger"
+    ],
+    "identidade": {
+      "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+      "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
+    },
+    "fotografia": {
+      "raizes": [
+        "BetterFont",
+        "BetterCombatText",
+        "BetterStats",
+        "RoguelikeDebugger",
+        "BetterTooltips",
+        "RoguelikeSkillTreeVisualizer",
+        "tools",
+        "lib",
+        "docs/cobertura",
+        "ReloadProbe",
+        "scratch"
+      ],
+      "arquivos_soltos": [
+        "docs/PLANO-DE-TESTES.md"
+      ],
+      "padroes": [
+        "**/*.csproj",
+        "**/*.props",
+        "**/*.targets"
+      ],
+      "fora": [
+        ".git",
+        ".worktrees",
+        "bin",
+        "obj",
+        "__pycache__",
+        "node_modules",
+        ".vs"
+      ],
+      "arquivos": 3615,
+      "artefatos": 33,
+      "o_que_fica_fora": "`bin`/`obj`/`__pycache__` (DERIVADOS: o bytecode e escrito pela propria rodada); `dist/*.zip` e `<Mod>/bin/**/*.dll` nao ficam de fora - entram no bloco `artefatos`; `docs/automacao/**`, `release/` e `NuGet/` sao SAIDA de ferramenta/build, nao entrada de teste",
+      "como_foi_medida": "gancho de auditoria (`sys.addaudithook` em open/listdir/scandir/glob) sobre a rodada viva das duas suites: todo arquivo lido sob o repo esta coberto por estas raizes/padroes/artefatos (fora `__pycache__`)"
+    },
+    "betterstats": {
+      "fonte": "BetterStats/Plugin.cs",
+      "checks": [
+        {
+          "id": "base-do-savedmap",
+          "ok": true
+        },
+        {
+          "id": "final-do-motor",
+          "ok": true
+        },
+        {
+          "id": "sem-gameplay",
+          "ok": true
+        },
+        {
+          "id": "geometria-deslocada-uma-vez",
+          "ok": true
+        },
+        {
+          "id": "falha-segura",
+          "ok": true
+        },
+        {
+          "id": "formato-base-combinado",
+          "ok": true
+        }
+      ]
+    },
+    "testes_por_mod": {
+      "BetterCombatText": [
+        {
+          "arquivo": "t_bct_aplicador.py",
+          "nome": "bct-aplicador",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_caminho_legado.py",
+          "nome": "bct-caminho-legado",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_defaults.py",
+          "nome": "bct-defaults",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_desligar.py",
+          "nome": "bct-desligar-inerte",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_diagnostico.py",
+          "nome": "bct-diagnostico",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_idempotencia.py",
+          "nome": "bct-idempotencia",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_precondicao_shader.py",
+          "nome": "bct-precondicao-shader",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_regra_de_ouro.py",
+          "nome": "bct-regra-de-ouro",
+          "esperado": "passar",
+          "estado": "REPROVOU"
+        },
+        {
+          "arquivo": "t_bct_sem_acoplamento.py",
+          "nome": "bct-sem-acoplamento",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_sem_vazamento_no_levelup.py",
+          "nome": "bct-sem-vazamento-no-levelup",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_sombra_adaptativa.py",
+          "nome": "bct-sombra-adaptativa",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_sombra_contraste_letra.py",
+          "nome": "bct-sombra-contraste-letra",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_sombra_polaridade_fonte.py",
+          "nome": "bct-sombra-polaridade-fonte",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bct_sombra_visivel_fundo_escuro.py",
+          "nome": "bct-sombra-visivel-fundo-escuro",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        }
+      ],
+      "BetterFont": [
+        {
+          "arquivo": "t_bf_decisao_texto.py",
+          "nome": "bf-decisao-texto",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_defaults.py",
+          "nome": "bf-defaults",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_diag_orcamento.py",
+          "nome": "bf-diag-orcamento",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_falha_segura.py",
+          "nome": "bf-falha-segura",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_gate_material.py",
+          "nome": "bf-gate-material",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_nao_regride.py",
+          "nome": "bf-nao-regride",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_preservacao.py",
+          "nome": "bf-preservacao",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_sem_acoplamento.py",
+          "nome": "bf-sem-acoplamento",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_bf_sombra_inerte.py",
+          "nome": "bf-sombra-inerte",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        }
+      ],
+      "RoguelikeDebugger": [
+        {
+          "arquivo": "t_debugger_estabilidade.py",
+          "nome": "debugger-estabilidade",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_debugger_parser_contrato.py",
+          "nome": "debugger-parser-contrato",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_debugger_reflexao_cast.py",
+          "nome": "debugger-reflexao-cast",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "t_debugger_saneamento.py",
+          "nome": "debugger-saneamento",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        }
+      ]
+    },
+    "iscas_por_mod": {
+      "BetterFont": [
+        {
+          "arquivo": "cp_bf_diag_orcamento.py",
+          "nome": "contra-prova-bf-diag-orcamento",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bf_gate_shader.py",
+          "nome": "contra-prova-bf-gate-shader",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bf_sombra_por_alfa.py",
+          "nome": "contra-prova-bf-sombra-por-alfa",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        }
+      ],
+      "BetterCombatText": [
+        {
+          "arquivo": "cp_bt_composicao_idem_isca.py",
+          "nome": "contra-prova-bt-composicao-idem",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_composicao_isca.py",
+          "nome": "contra-prova-bt-composicao-ordem",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_composicao_ok.py",
+          "nome": "contra-prova-bt-composicao-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "cp_bt_guard_isca.py",
+          "nome": "contra-prova-bt-guard",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_guard_ok.py",
+          "nome": "contra-prova-bt-guard-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "cp_bt_substituicao_isca.py",
+          "nome": "contra-prova-bt-substituicao",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_substituicao_ok.py",
+          "nome": "contra-prova-bt-substituicao-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "cp_bt_texto_ausente_isca.py",
+          "nome": "contra-prova-bt-texto-ausente",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_texto_ausente_ok.py",
+          "nome": "contra-prova-bt-texto-ausente-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "cp_bt_token_isca.py",
+          "nome": "contra-prova-bt-token",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_token_ok.py",
+          "nome": "contra-prova-bt-token-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        },
+        {
+          "arquivo": "cp_bt_uma_entrada_isca.py",
+          "nome": "contra-prova-bt-uma-entrada",
+          "esperado": "reprovar",
+          "estado": "PROVA_OK"
+        },
+        {
+          "arquivo": "cp_bt_uma_entrada_ok.py",
+          "nome": "contra-prova-bt-uma-entrada-ok",
+          "esperado": "passar",
+          "estado": "PASSOU"
+        }
+      ]
+    }
+  }
+}

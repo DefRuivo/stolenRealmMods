@@ -1,0 +1,817 @@
+{
+  "tarefa": "t_cd1332d7 (COR-AUT7-F2)",
+  "execucao": "430",
+  "fonte_dos_achados": "COR-AUT7R (t_11839818, execucao 408)",
+  "revisao_da_rodada_1": "execucao 425 (parecer: A6 nao fechado - a fotografia nao cobria as ENTRADAS lidas pelos testes; ver `achados.A6_entradas`, fase 1.5)",
+  "runtime": "NAO EXERCITADO",
+  "achados": {
+    "A6_entradas": {
+      "sandbox": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo",
+      "sandbox_copia_de": "C:\\dev\\stolen-realm",
+      "fixture_medida": "tools/fixtures/bf-efeito-no-boot.json",
+      "criterio": "bf-diag-orcamento",
+      "teste": "tools/testes/testes/puros/t_bf_diag_orcamento.py",
+      "E1_primeira_leitura": {
+        "exit": 0,
+        "cache_valido": true,
+        "ok_de_suite": 43,
+        "amostra_ok": [
+          "AUT-7/BetterCombatText/puro/bct-aplicador",
+          "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+          "AUT-7/BetterCombatText/puro/bct-defaults",
+          "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+        ],
+        "criterio_medido": [
+          [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+            "OK"
+          ]
+        ],
+        "criterio_medido_ok": [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+        ],
+        "suites": {
+          "puros": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          },
+          "contra_prova": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          }
+        },
+        "arquivos": 3615,
+        "artefatos": 33,
+        "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E1-sem-suite-baseline.estilo.json"
+      },
+      "E1": {
+        "exit": 0,
+        "cache_valido": true,
+        "ok_de_suite": 43,
+        "amostra_ok": [
+          "AUT-7/BetterCombatText/puro/bct-aplicador",
+          "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+          "AUT-7/BetterCombatText/puro/bct-defaults",
+          "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+        ],
+        "criterio_medido": [
+          [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "OK"
+          ],
+          [
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+            "OK"
+          ]
+        ],
+        "criterio_medido_ok": [
+          "AUT-7/BetterFont/puro/bf-diag-orcamento",
+          "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+        ],
+        "suites": {
+          "puros": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          },
+          "contra_prova": {
+            "exit_runner": null,
+            "erro": "cache atual verificado"
+          }
+        },
+        "arquivos": 3615,
+        "artefatos": 33,
+        "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E1-sem-suite-baseline.estilo.json"
+      },
+      "E2": {
+        "exit": 0,
+        "contagem": {
+          "PASSOU": 1
+        },
+        "testes": [
+          {
+            "arquivo": "t_bf_diag_orcamento.py",
+            "nome": "bf-diag-orcamento",
+            "estado": "PASSOU",
+            "esperado": "passar",
+            "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+          }
+        ]
+      },
+      "E3_fotografia": {
+        "arquivos_antes": 3615,
+        "arquivos_depois": 3614,
+        "fotografia_mudou": true,
+        "caminhos_que_sairam": [
+          "tools/fixtures/bf-efeito-no-boot.json"
+        ],
+        "a_fixture_saiu": true,
+        "artefatos_intactos": true
+      },
+      "E3_rodada_viva": {
+        "exit": 1,
+        "contagem": {
+          "REPROVOU": 1
+        },
+        "testes": [
+          {
+            "arquivo": "t_bf_diag_orcamento.py",
+            "nome": "bf-diag-orcamento",
+            "estado": "REPROVOU",
+            "esperado": "passar",
+            "detalhe": "a medicao dos textos COM EFEITO no boot nao esta em tools\\fixtures\\bf-efeito-no-boot.json (era ela que o teste digitava como 5)"
+          }
+        ]
+      },
+      "E3_sem_suite": {
+        "exit": 0,
+        "cache_valido": false,
+        "ok_de_suite": 0,
+        "amostra_ok": [],
+        "criterio_medido": [],
+        "criterio_medido_ok": [],
+        "suites": {
+          "puros": {
+            "exit_runner": null,
+            "erro": "cache ausente/obsoleto: rerodar suite"
+          },
+          "contra_prova": {
+            "exit_runner": null,
+            "erro": "cache ausente/obsoleto: rerodar suite"
+          }
+        },
+        "arquivos": 3614,
+        "artefatos": 33,
+        "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E3-sem-suite-com-a-prova-velha.estilo.json"
+      },
+      "E3_consolidador": {
+        "exit": 1,
+        "criterio": [],
+        "ok_vinculantes_do_criterio": [],
+        "criterios_do_mod_afetado": [
+          [
+            "AUT-7/BetterFont/suite-ausente",
+            "NAO_EXERCITADO"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-preservacao-estilo",
+            "NAO_EXERCITADO"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-config",
+            "NAO_EXERCITADO"
+          ],
+          [
+            "AUT-7/BetterFont/runtime-visual",
+            "NAO_EXERCITADO"
+          ]
+        ],
+        "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E3-consolidador-sem-a-fixture.aceite.json"
+      },
+      "E4": {
+        "restaurada_byte_a_byte": true,
+        "sha_antes": "ab9ad7f24844f692408572fa997f3e9926280fcd16526529ba887a0688b6f5d4",
+        "sha_depois": "ab9ad7f24844f692408572fa997f3e9926280fcd16526529ba887a0688b6f5d4",
+        "fotografia_igual_a_antes": true,
+        "rodada_viva": {
+          "exit": 0,
+          "contagem": {
+            "PASSOU": 1
+          },
+          "testes": [
+            {
+              "arquivo": "t_bf_diag_orcamento.py",
+              "nome": "bf-diag-orcamento",
+              "estado": "PASSOU",
+              "esperado": "passar",
+              "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+            }
+          ]
+        },
+        "sem_suite": {
+          "exit": 0,
+          "cache_valido": true,
+          "ok_de_suite": 43,
+          "amostra_ok": [
+            "AUT-7/BetterCombatText/puro/bct-aplicador",
+            "AUT-7/BetterCombatText/puro/bct-caminho-legado",
+            "AUT-7/BetterCombatText/puro/bct-defaults",
+            "AUT-7/BetterCombatText/puro/bct-desligar-inerte"
+          ],
+          "criterio_medido": [
+            [
+              "AUT-7/BetterFont/puro/bf-diag-orcamento",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+              "OK"
+            ]
+          ],
+          "criterio_medido_ok": [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+          ],
+          "suites": {
+            "puros": {
+              "exit_runner": null,
+              "erro": "cache atual verificado"
+            },
+            "contra_prova": {
+              "exit_runner": null,
+              "erro": "cache atual verificado"
+            }
+          },
+          "arquivos": 3615,
+          "artefatos": 33,
+          "saida": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E4-sem-suite-restaurado.estilo.json"
+        },
+        "consolidador": {
+          "exit": 1,
+          "criterio": [
+            [
+              "AUT-7/BetterFont/puro/bf-diag-orcamento",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+              "OK"
+            ]
+          ],
+          "ok_vinculantes_do_criterio": [
+            "AUT-7/BetterFont/puro/bf-diag-orcamento",
+            "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento"
+          ],
+          "criterios_do_mod_afetado": [
+            [
+              "AUT-7/BetterFont/puro/bf-decisao-texto",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-defaults",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-diag-orcamento",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-falha-segura",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-gate-material",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-nao-regride",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-preservacao",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-sem-acoplamento",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/puro/bf-sombra-inerte",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/controle-negativo/contra-prova-bf-diag-orcamento",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/controle-negativo/contra-prova-bf-gate-shader",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/controle-negativo/contra-prova-bf-sombra-por-alfa",
+              "OK"
+            ],
+            [
+              "AUT-7/BetterFont/runtime-preservacao-estilo",
+              "NAO_EXERCITADO"
+            ],
+            [
+              "AUT-7/BetterFont/runtime-config",
+              "NAO_EXERCITADO"
+            ],
+            [
+              "AUT-7/BetterFont/runtime-visual",
+              "NAO_EXERCITADO"
+            ]
+          ],
+          "arquivo": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\f2-evidencias\\E4-consolidador-restaurado.aceite.json"
+        }
+      },
+      "E5": {
+        "arquivos_lidos": 376,
+        "dirs_listados": 302,
+        "entradas_cobertas": 324,
+        "por_origem": {
+          "raiz BetterCombatText": 8,
+          "artefato <Mod>/bin/**/*.dll": 4,
+          "raiz BetterFont": 4,
+          "raiz BetterStats": 4,
+          "raiz BetterTooltips": 14,
+          "padrao **/*.props": 1,
+          "raiz ReloadProbe": 2,
+          "raiz RoguelikeDebugger": 14,
+          "raiz RoguelikeSkillTreeVisualizer": 16,
+          "artefato dist/*.zip": 1,
+          "raiz docs/cobertura": 9,
+          "raiz scratch": 8,
+          "raiz tools": 239
+        },
+        "derivados_lidos": [
+          "tools/__pycache__/census.cpython-314.pyc",
+          "tools/__pycache__/checa_shrines.cpython-314.pyc",
+          "tools/__pycache__/check_chave_compartilhada.cpython-314.pyc",
+          "tools/__pycache__/check_dependencias.cpython-314.pyc",
+          "tools/__pycache__/check_deploy_optin.cpython-314.pyc",
+          "tools/__pycache__/check_dupes.cpython-314.pyc",
+          "tools/__pycache__/check_fix_keys.cpython-314.pyc",
+          "tools/__pycache__/check_notas_redundantes.cpython-314.pyc",
+          "tools/__pycache__/check_omissao.cpython-314.pyc",
+          "tools/__pycache__/check_patches.cpython-314.pyc",
+          "tools/__pycache__/check_scaling.cpython-314.pyc",
+          "tools/__pycache__/check_versoes.cpython-314.pyc",
+          "tools/__pycache__/gera_shrines_esperado.cpython-314.pyc",
+          "tools/__pycache__/pack-thunderstore.cpython-314.pyc",
+          "tools/__pycache__/preserva_curado.cpython-314.pyc",
+          "tools/__pycache__/review_ledger.cpython-314.pyc",
+          "tools/__pycache__/tabelas.cpython-314.pyc",
+          "tools/automacao/aut6/__pycache__/cobertura.cpython-314.pyc",
+          "tools/automacao/aut6/__pycache__/observacoes_fixture.cpython-314.pyc",
+          "tools/automacao/aut6/__pycache__/prova.cpython-314.pyc",
+          "tools/automacao/aut6/__pycache__/suporte_testes.cpython-314.pyc",
+          "tools/automacao/aut6/__pycache__/validacoes.cpython-314.pyc",
+          "tools/automacao/ciclo/__pycache__/decisao.cpython-314.pyc",
+          "tools/automacao/runtime/__pycache__/coletor.cpython-314.pyc",
+          "tools/testes/__pycache__/arcabouco.cpython-314.pyc",
+          "tools/testes/__pycache__/recorte.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_bct.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_bf.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_bf_estilo.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_bt_texto.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_cor.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_debugger.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_formato.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_nivel3.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rel.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv11.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv11b.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv12.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv13.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv14.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv16.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv18.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv19.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv21.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv26.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv27.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv27_valor.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rstv28.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rv30.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_rv50.cpython-314.pyc",
+          "tools/testes/__pycache__/regras_shrine.cpython-314.pyc"
+        ],
+        "nao_cobertos": [],
+        "cobertura_declarada": {
+          "raizes": [
+            "BetterFont",
+            "BetterCombatText",
+            "BetterStats",
+            "RoguelikeDebugger",
+            "BetterTooltips",
+            "RoguelikeSkillTreeVisualizer",
+            "tools",
+            "lib",
+            "docs/cobertura",
+            "ReloadProbe",
+            "scratch"
+          ],
+          "arquivos_soltos": [
+            "docs/PLANO-DE-TESTES.md"
+          ],
+          "padroes": [
+            "**/*.csproj",
+            "**/*.props",
+            "**/*.targets"
+          ],
+          "fora": [
+            ".git",
+            ".worktrees",
+            "bin",
+            "obj",
+            "__pycache__",
+            "node_modules",
+            ".vs"
+          ]
+        },
+        "gancho": "sys.addaudithook em open/os.listdir/os.scandir/glob.glob (sitecustomize)"
+      },
+      "leitura": "A fotografia passou a cobrir as ENTRADAS que a suite LE - 6 mods, `tools/**`, `lib/**`, `docs/cobertura/**`, `ReloadProbe/**`, `scratch/**`, `docs/PLANO-DE-TESTES.md` e os projetos `*.csproj`/`*.props`/`*.targets` da arvore - alem dos artefatos de build que ela MEDE. Apagar a `tools/fixtures/bf-efeito-no-boot.json` (lida por `t_bf_diag_orcamento`) muda a fotografia: a rodada viva REPROVA (E3) e o `--sem-suite` com a prova velha nao reusa nada (cache INVALIDO, 0 OK de suite, 0 OK_VINCULANTE no consolidador). Restaurada byte a byte, tudo volta (E4) - a invalidacao vem da ENTRADA, nao de ruido. A cobertura e AUDITADA (E5): todo arquivo lido sob o repo na rodada viva esta coberto pelas raizes/padroes/artefatos declarados.",
+      "fechou": true
+    },
+    "A3": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "superficies_medidas": [
+        "BossHealthbar",
+        "DiceRoller",
+        "DiceRollingManager",
+        "PlayerInfoWindow",
+        "StatusIcon",
+        "Tooltip"
+      ],
+      "motivo_estilo": "superficies canonicas ausentes: Healthbar",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_produtor": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "canonicas": [
+        "BossHealthbar",
+        "PlayerInfoWindow",
+        "StatusIcon",
+        "DiceRollingManager",
+        "DiceRoller",
+        "Tooltip",
+        "Healthbar"
+      ],
+      "leituras_enviadas": [
+        "BossHealthbar",
+        "PlayerInfoWindow",
+        "StatusIcon",
+        "DiceRollingManager",
+        "DiceRoller",
+        "Tooltip"
+      ],
+      "esperado": "NOT_OK: sem leitura da superficie `Healthbar`, o criterio tem de ser LACUNA nominal (nunca OK/OK_VINCULANTE)",
+      "falso_OK_sumiu": true
+    },
+    "A3b_controle": {
+      "estado_estilo": "OK",
+      "superficies_medidas": [
+        "BossHealthbar",
+        "DiceRoller",
+        "DiceRollingManager",
+        "Healthbar",
+        "PlayerInfoWindow",
+        "StatusIcon",
+        "Tooltip"
+      ],
+      "motivo_estilo": "todos os controles completos confrontados",
+      "classificacao_consolidador": "OK_VINCULANTE",
+      "ok_vinculante": true,
+      "exit_produtor": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "OK (controle): o criterio continua satisfazivel",
+      "controle_ok": true
+    },
+    "A1": {
+      "estado_estilo": "REPROVADO",
+      "superficies_medidas": null,
+      "motivo_estilo": "Tooltip.Title: cores com chave de um lado so: _ExtraDoMod",
+      "classificacao_consolidador": "FALHA_AUTOMATICA",
+      "ok_vinculante": false,
+      "exit_produtor": 1,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "chave_extra": "_ExtraDoMod",
+      "esperado": "REPROVADO: chave que existe SO de um lado e diferenca medida",
+      "falso_OK_sumiu": true
+    },
+    "A1b_controle": {
+      "estado_estilo": "NAO_EXERCITADO",
+      "superficies_medidas": null,
+      "motivo_estilo": "procedencia fixture: testa o AVALIADOR, nao comprova runtime; procedencia fixture: testa o AVALIADOR, nao comprova runtime",
+      "classificacao_consolidador": "NAO_CONTA_COMO_PROVA",
+      "ok_vinculante": false,
+      "exit_produtor": 0,
+      "exit_consolidador": 1,
+      "sintetico": true,
+      "esperado": "nao REPROVADO (controle): a diferenca do A1 vem da chave, nao do resto",
+      "controle_ok": true
+    },
+    "A2": {
+      "sem_hash_na_identidade": {
+        "estado_estilo": "NAO_EXERCITADO",
+        "motivo_estilo": "config: a identidade da rodada nao declara hash de config - bytes conferidos, mas sem procedencia declarada o criterio nao fecha OK (anexar `config_sha` na identidade do `--identidade`)",
+        "ok_vinculante": false,
+        "exit_produtor": 0,
+        "exit_consolidador": 1,
+        "identidade": "identidade.json",
+        "sintetico": true,
+        "esperado": "NAO_EXERCITADO (LACUNA declarada) - antes era REPROVADO: criterio insatisfazivel / falso-REPROVADO de config legitimo",
+        "corrigido": true
+      },
+      "com_hash_na_identidade": {
+        "estado_estilo": "OK",
+        "motivo_estilo": "todos os controles completos confrontados",
+        "ok_vinculante": true,
+        "exit_produtor": 0,
+        "exit_consolidador": 1,
+        "identidade": "identidade-com-config.json",
+        "sintetico": true,
+        "esperado": "OK (criterio satisfazivel: a identidade declara o config_sha)",
+        "corrigido": true
+      },
+      "hash_errado": {
+        "estado_estilo": "REPROVADO",
+        "motivo_estilo": "config: sha declarado difere do hash de config da identidade da rodada",
+        "ok_vinculante": false,
+        "exit_produtor": 1,
+        "exit_consolidador": 1,
+        "identidade": "identidade-config-errada.json",
+        "sintetico": true,
+        "esperado": "REPROVADO (hash de config de OUTRA rodada)",
+        "corrigido": true
+      },
+      "config_sha_real": "bdfe08938301168b422693fe18563539c9f2226418adb41e9cdca0a957a05642"
+    },
+    "A7": {
+      "X5a-evidencia-inexistente": {
+        "classificacao": [],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/resultado-malformado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "X5b-rotulo-arquivo-qualquer": {
+        "classificacao": [
+          [
+            "NAO_EXERCITADO",
+            "FALHA_AUTOMATICA"
+          ]
+        ],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/item-nao-vinculado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "X5c-identidade-divergente": {
+        "classificacao": [
+          [
+            "NAO_EXERCITADO",
+            "FALHA_AUTOMATICA"
+          ]
+        ],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/item-nao-vinculado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "X5d-sem-evidencia": {
+        "classificacao": [],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/resultado-malformado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "X5e-sha-divergente": {
+        "classificacao": [],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/resultado-malformado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "X5f-resultado-de-outra-rodada": {
+        "classificacao": [
+          [
+            "NAO_EXERCITADO",
+            "FALHA_AUTOMATICA"
+          ]
+        ],
+        "ok_vinculante": [],
+        "lacunas_canonicas": [
+          "AUT-6/identidade-divergente",
+          "AUT-6/item-nao-vinculado"
+        ],
+        "exit": 1,
+        "sintetico": true
+      },
+      "controle-item-com-identidade-propria": {
+        "classificacao": [
+          [
+            "OK",
+            "OK_VINCULANTE"
+          ]
+        ],
+        "ok_vinculante": [
+          "AUT-6/sint/legitimo"
+        ],
+        "lacunas_canonicas": [],
+        "exit": 1,
+        "sintetico": true
+      },
+      "_leitura": "X5a/X5d/X5e: item inadmissivel (lacuna canonica de malformado); X5b/X5c/X5f: item REBAIXADO para NAO_EXERCITADO e NAO vinculante; o controle com identidade propria continua seguindo OK - a frente real nao foi enfraquecida."
+    },
+    "A8": {
+      "modulo_preferido": "tools\\automacao\\aut6\\cobertura.py",
+      "carregou": true,
+      "rotulo": "aut6/cobertura.py::avaliar (integracoes COR-AUT6)",
+      "itens": 26,
+      "ids_amostra": [
+        "S-rv26-receptor-duas-pessoas/receptor/bonus=0",
+        "S-rv26-receptor-duas-pessoas/source/bonus=100",
+        "S-rv28-omnism-horn-cadeia/sem-bonus/bonus=0",
+        "S-rv28-omnism-horn-cadeia/omnism2/bonus=20",
+        "S-rv28-omnism-horn-cadeia/horn/bonus=100"
+      ],
+      "adaptador_em_todos": true,
+      "algum_avaliador_indisponivel": false,
+      "algum_tooltips_shrines": false,
+      "sha_do_modulo": "e33fb037ab0303e33765331ba5cd06194bb4e1343d534fcbcab9726290ea8c0d",
+      "proibicao_do_fallback_mantida": true
+    },
+    "A5": {
+      "o_que_a_doc_dizia": "73 reconhecidas pelo parser real",
+      "medido": {
+        "arquivos": [
+          "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+          "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs"
+        ],
+        "contagens_por_predicado": [
+          {
+            "predicado": "' | ' in linha (separador real, com espacos)",
+            "total": 68
+          },
+          {
+            "predicado": "'desc=' in linha",
+            "total": 5
+          },
+          {
+            "predicado": "' | ' in linha or 'desc=' in linha (o predicado da correcao anterior - e o TOTAL)",
+            "total": 73
+          },
+          {
+            "predicado": "'desc=' in linha E ' | ' NOT in linha (o que o campo mal rotulado chamava de 'estrito')",
+            "total": 5
+          },
+          {
+            "predicado": "'\" | \"' in linha or 'desc=' in linha (aspas literais)",
+            "total": 5
+          }
+        ],
+        "linhas_do_fonte_com_pipe_ou_desc": 73,
+        "linhas_do_fonte_reconhecidas_pelo_LINE": 0,
+        "o_que_o_LINE_do_censo_reconhece": "o parser `LINE` do censo (tools/census.py) exige o formato `k=\"v\"` sem pipes: reconhece 0 linhas dos fontes C# medidos"
+      },
+      "leitura": "73 e o numero de LINHAS dos .cs que contem ` | ` ou `desc=` (o predicado da correcao anterior) - fonte C#, nao log; o `LINE` do censo reconhece 0 delas. Cada numero deste bloco vem com o predicado que o produz.",
+      "artefato": "dump-do-produto.json (lista COMPLETA das linhas, com a flag do parser)"
+    },
+    "A6": {
+      "sandbox": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo",
+      "sandbox_copia_de": "C:\\dev\\stolen-realm",
+      "pacote": "dist/gumatos-BetterCombatText-0.1.1.zip",
+      "dll_de_bin": "BetterCombatText/bin/Release/netstandard2.1/BetterCombatText.dll",
+      "R1": {
+        "exit": 0,
+        "criterio": "AUT-7/BetterCombatText/puro/bct-regra-de-ouro",
+        "estado": "OK",
+        "segundos": 96.6,
+        "cache_gravado": true,
+        "fotografia_arquivos": 3615,
+        "fotografia_artefatos": 33,
+        "pacote_na_fotografia": true,
+        "dll_de_bin_na_fotografia": true
+      },
+      "cache_anterior_guardado": [
+        "suite-contra-prova.json",
+        "suite-puros.json",
+        "suite-vinculo.json"
+      ],
+      "R2": {
+        "zip_sha_antes": "c6ab6bc46c7643d340e9d7a5378dcea16da19dd38086eee59627b6b1d9e3284d",
+        "zip_sha_depois": "f6f6d38eec97775229839036e02c4da6154ac6b6f4385f5f9386b5fa275c4feb",
+        "zip_mudou": true,
+        "fotografia_mudou": true,
+        "artefato_do_pacote_na_foto_mudou": true,
+        "arquivos_de_fonte_intactos": true
+      },
+      "R3": {
+        "exit": 1,
+        "criterio": "AUT-7/BetterCombatText/puro/bct-regra-de-ouro",
+        "estado": "REPROVADO",
+        "detalhe": "estado no runner=REPROVOU",
+        "defeito_detectado": true
+      },
+      "R4": {
+        "exit": 0,
+        "cache_valido": false,
+        "estado_do_criterio": null,
+        "ok_de_suite_reusados": 0,
+        "amostra": [],
+        "falso_OK_sumiu": true
+      },
+      "R4b_controle": {
+        "cache_no_formato_anterior_aceito": false,
+        "estado_do_criterio": null,
+        "leitura": "fotografia sem `artefatos` (formato pre-correcao) nao e aceita: e o caminho exato do falso-OK do A6"
+      },
+      "R5": {
+        "exit": 1,
+        "classificacao": null,
+        "ok_vinculantes": [],
+        "algum_vinculante_do_artefato": false
+      },
+      "R6": {
+        "exit": 0,
+        "cache_valido": false,
+        "estado_do_criterio": null,
+        "fotografia_mudou": true,
+        "artefato_de_bin_na_foto_mudou": true,
+        "falso_OK_sumiu": true
+      },
+      "R7": {
+        "exit": 0,
+        "zip_restaurado_byte_a_byte": true,
+        "dll_de_bin_restaurada_byte_a_byte": true,
+        "fotografia_igual_a_R1": true,
+        "cache_valido": true,
+        "estado_do_criterio": "OK",
+        "ok_de_suite": 49
+      },
+      "leitura": "com a fotografia cobrindo os artefatos MEDIDOS (dist/*.zip e <Mod>/bin/**/*.dll), qualquer defeito plantado SO no artefato muda a fotografia: a rodada viva REPROVA (R3) e o `--sem-suite` com a prova velha nao reusa nada (R4/R6). Restaurado byte a byte, o cache volta a valer (R7) - a invalidacao vem do artefato, nao de ruido. As ENTRADAS que a suite LE (fora dist/bin) sao medidas na FASE 1.5 (`refutar_cor_aut7f2_entradas.py`, secoes E1-E5), que fecha o ponto levantado pela revisao independente da rodada 425."
+    },
+    "A4": {
+      "o_que_a_doc_dizia": "`|` dentro de valor e quebra de linha => REPROVADO",
+      "limite_medido": "so vale com o `|` COLADO ao valor (`tags=fogo|gelo`); no separador real (\" | \") o `FIELD = [^|]+` trunca em silencio e a linha passa por valida",
+      "onde": "tools/census.py:53 (FIELD/DESC) + tools/testes/regras_debugger.py:170",
+      "correcao": "frase qualificada no doc + limite comentado no ponto que decide (estilo_atributos.py, aspecto de contrato do dump)"
+    }
+  },
+  "hashes": {
+    "tools/automacao/estilo/estilo_atributos.py": "49cd80b641bff189f822ca28d89a6c9f659ccf845092a47f468ee82c518cc975",
+    "tools/automacao/estilo/test_estilo_atributos.py": "67db3f44a99439b3ddb4417da7c7acd72eb59a3c687504dcacb1feb4d3c8bf4b",
+    "tools/automacao/estilo/refutar_cor_aut7f2.py": "8284b169f2ee0e20b9706372d0fafc93c77e1175e088fbc59d0c34368827d0a9",
+    "tools/automacao/estilo/refutar_cor_aut7f2_entradas.py": "c4cc4d983388f4b2505f27b12ce1f0fc52857d68a3ec0df77f0b2927d726493d",
+    "tools/automacao/estilo/hashes_da_entrega.py": "0044846174c92914f44e1298f74a1f7d3f90a7c8b27e13706f12df79788869a1",
+    "tools/automacao/estilo/fechar_cor_aut7f2.py": "a43cad62b3f6352f6d5b258040211da9d1a473c811c57eb6cfb2c69f4f44dcc0",
+    "tools/automacao/aceite/relatorio_aceite.py": "0ea9c942ffc5f7b2ff8f36e49313e1cb133aa1f2e45cf9a26e79b7136e6b01b1",
+    "tools/automacao/aceite/test_relatorio_aceite.py": "1d253c3820923600ef4ead6df71862a8f80677d8698189c77bb47208e1b38b3b",
+    "docs/automacao/AUT-7-relatorio.md": "2ca2bb08c2c9551db3bff44de1e1e4d9f05e0fe2e79d9c8092789de220173e7b",
+    "docs/automacao/AUT-7-resultado.json": "a8a2f55250b7bc0afcd360493cb4940948be0edaa3566540fd9c226898e47d7c"
+  },
+  "suites": {
+    "suite-estilo": {
+      "linha_total": "total: 28 | falhas: 0",
+      "reprovadas": null,
+      "exit": 0
+    },
+    "suite-aceite": {
+      "linha_total": "total: 15 | falhas: 0",
+      "reprovadas": null,
+      "exit": 0
+    }
+  },
+  "docs": {
+    "antes": {
+      "docs\\automacao\\AUT-7-relatorio.md": "3c53c2c226205c840279efcebac4a27ba06ad70138d6c9f4b48e0c64e066fd77",
+      "docs\\automacao\\AUT-7-resultado.json": "eb1a40e6bc0247b0c4633609acd993934c8e914cb66668383bd7c03ec4bf15b0"
+    },
+    "depois": {
+      "docs\\automacao\\AUT-7-relatorio.md": "2ca2bb08c2c9551db3bff44de1e1e4d9f05e0fe2e79d9c8092789de220173e7b",
+      "docs\\automacao\\AUT-7-resultado.json": "a8a2f55250b7bc0afcd360493cb4940948be0edaa3566540fd9c226898e47d7c"
+    },
+    "exit_regeracao": 1,
+    "evidencia": "docs-antes.txt",
+    "fontes": {
+      "tools/automacao/estilo/estilo_atributos.py": "49cd80b641bff189f822ca28d89a6c9f659ccf845092a47f468ee82c518cc975",
+      "tools/automacao/estilo/test_estilo_atributos.py": "67db3f44a99439b3ddb4417da7c7acd72eb59a3c687504dcacb1feb4d3c8bf4b",
+      "tools/automacao/estilo/refutar_cor_aut7f2.py": "8284b169f2ee0e20b9706372d0fafc93c77e1175e088fbc59d0c34368827d0a9",
+      "tools/automacao/estilo/refutar_cor_aut7f2_entradas.py": "c4cc4d983388f4b2505f27b12ce1f0fc52857d68a3ec0df77f0b2927d726493d",
+      "tools/automacao/estilo/hashes_da_entrega.py": "0044846174c92914f44e1298f74a1f7d3f90a7c8b27e13706f12df79788869a1",
+      "tools/automacao/estilo/fechar_cor_aut7f2.py": "a43cad62b3f6352f6d5b258040211da9d1a473c811c57eb6cfb2c69f4f44dcc0",
+      "tools/automacao/aceite/relatorio_aceite.py": "0ea9c942ffc5f7b2ff8f36e49313e1cb133aa1f2e45cf9a26e79b7136e6b01b1",
+      "tools/automacao/aceite/test_relatorio_aceite.py": "1d253c3820923600ef4ead6df71862a8f80677d8698189c77bb47208e1b38b3b",
+      "docs/automacao/AUT-7-relatorio.md": "2ca2bb08c2c9551db3bff44de1e1e4d9f05e0fe2e79d9c8092789de220173e7b",
+      "docs/automacao/AUT-7-resultado.json": "a8a2f55250b7bc0afcd360493cb4940948be0edaa3566540fd9c226898e47d7c"
+    },
+    "mudou": {
+      "docs\\automacao\\AUT-7-relatorio.md": true,
+      "docs\\automacao\\AUT-7-resultado.json": true
+    }
+  },
+  "fase": "achados (A1-A9) + fecho (suites + docs): evidencia completa"
+}

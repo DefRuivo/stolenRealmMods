@@ -1,0 +1,21 @@
+	}
+
+	public virtual void ClearMesh(bool uploadGeometry)
+	{
+	}
+
+	public virtual string GetParsedText()
+	{
+		if (m_textInfo == null)
+		{
+			return string.Empty;
+		}
+		int characterCount = m_textInfo.characterCount;
+		char[] array = new char[characterCount];
+		for (int i = 0; i < characterCount && i < m_textInfo.characterInfo.Length; i++)
+		{
+			array[i] = m_textInfo.characterInfo[i].character;
+		}
+		return new string(array);
+	}
+

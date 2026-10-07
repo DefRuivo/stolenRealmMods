@@ -1,0 +1,20 @@
+# ===========================================================================
+# FIXTURE SINTETICA - NAO e uma sessao de jogo real. (AUT-6, RV-26/27)
+# ---------------------------------------------------------------------------
+# O CORPO renderizado de uma tooltip de shrine, como o AUT-4 o leria do objeto vivo
+# (`campos.texto_renderizado`). Nao existe emissao disso no log do mod - e por isso que, sem o
+# coletor runtime, este criterio sai NAO_EXERCITADO.
+#
+# Os dois fragmentos conferidos sao STRINGS ESTAVEIS documentadas no repositorio:
+#   * a LINHA azul (RV-26/27/31): "Your active shrine auras:" com um item por atributo no
+#     formato `<contribuicao> (total <total da ficha>%)` - CHANGELOG do BetterTooltips (RV-44) e
+#     docs/cobertura/revisao/RV-19-shrines.md §9/§10;
+#   * a NOTA da familia (TX-1): "The value shown already includes the Shrine Effect Bonus (...)"
+#     - CHANGELOG (RV-44) e docs/cobertura/revisao/ANTES-E-DEPOIS.md.
+# A aura usada aqui e a Rogue (base 20, eixo Target), com bonus 100 -> contribuicao 40.
+# ===========================================================================
+Increases dodge chance by 40%.
+
+Your active shrine auras: Dodge +40% (total +57%)
+
+<color=#C8B090>Base 20%. The value shown already includes the Shrine Effect Bonus (your current bonus: +100%).</color>

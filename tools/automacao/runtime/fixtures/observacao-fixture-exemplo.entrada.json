@@ -1,0 +1,22 @@
+{
+  "esquema": "AUT-4/1",
+  "procedencia": "fixture",
+  "rotulo_fixture": "observacao-fixture-exemplo",
+  "evidencia_runtime": false,
+  "aviso": "RÓTULO INEQUÍVOCO: isto e uma FIXTURE que imita o formato de uma observacao de runtime. NAO foi lida do jogo e NAO pode ser apresentada como evidencia.",
+  "observacao": {
+    "objeto": "Tooltip.Title",
+    "caminho": "GUI Manager/Tooltip/Title",
+    "ativo_na_hierarquia": true,
+    "texto_bruto": "AUT4-MARCADOR-TITULO",
+    "texto_renderizado": "AUT4-MARCADOR-TITULO",
+    "fonte": "LiberationSans SDF",
+    "material": "LiberationSans SDF Material",
+    "shader": "TextMeshPro/Distance Field",
+    "keywords": ["OUTLINE_ON"],
+    "cores": {"face": "#FFFFFFFF", "contorno": "#000000FF"},
+    "geometria": {"caixa_na_tela_px": {"x": 10, "y": 20, "largura": 300, "altura": 40}, "escala": 1.0},
+    "owners": ["com.gumatos.bettertooltips", "com.gumatos.betterfont"],
+    "personagem": {"nome": "(fixture)", "gui_state": "(fixture)"}
+  }
+}

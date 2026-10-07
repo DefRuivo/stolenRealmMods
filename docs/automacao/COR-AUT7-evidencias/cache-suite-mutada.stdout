@@ -1,0 +1,579 @@
+{
+  "esquema": "AUT-7/estilo/1",
+  "tarefa": "t_674c5976",
+  "identidade": {
+    "fonte_sha": "2831d21197fd4b2fa141446126e56b256a4e265c0c9d33277591cbde1875fb76",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "suficiente": true,
+    "erro": null
+  },
+  "mods": [
+    "BetterFont",
+    "BetterCombatText",
+    "BetterStats",
+    "RoguelikeDebugger"
+  ],
+  "total": 21,
+  "contagem": {
+    "OK": 6,
+    "REPROVADO": 0,
+    "NAO_EXERCITADO": 15,
+    "INDETERMINADO": 0
+  },
+  "por_mod": {
+    "BetterFont": {
+      "OK": 0,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 4,
+      "INDETERMINADO": 0
+    },
+    "BetterCombatText": {
+      "OK": 0,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 4,
+      "INDETERMINADO": 0
+    },
+    "BetterStats": {
+      "OK": 6,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 4,
+      "INDETERMINADO": 0
+    },
+    "RoguelikeDebugger": {
+      "OK": 0,
+      "REPROVADO": 0,
+      "NAO_EXERCITADO": 3,
+      "INDETERMINADO": 0
+    }
+  },
+  "criterios": [
+    {
+      "id": "AUT-7/BetterFont/suite-ausente",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "familia de teste puro do mod na suite do projeto (`t_bf_*`)",
+      "observado": "nenhum teste do mod na suite",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA de medicao offline: sem familia de teste puro na suite, a prova deste mod tem de vir de outra via",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterCombatText/suite-ausente",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "familia de teste puro do mod na suite do projeto (`t_bct_*`)",
+      "observado": "nenhum teste do mod na suite",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA de medicao offline: sem familia de teste puro na suite, a prova deste mod tem de vir de outra via",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/suite-ausente",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "familia de teste puro do mod na suite do projeto (`t_bs_*`)",
+      "observado": "nenhum teste do mod na suite",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA de medicao offline: sem familia de teste puro na suite, a prova deste mod tem de vir de outra via",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/suite-ausente",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "familia de teste puro do mod na suite do projeto (`t_debugger_*`)",
+      "observado": "nenhum teste do mod na suite",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA de medicao offline: sem familia de teste puro na suite, a prova deste mod tem de vir de outra via",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/base-do-savedmap",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "a base exibida sai do valor PURO do personagem (`character.SavedMap[baseAttr.Guid]`), com fallback declarado para o valor do motor",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/final-do-motor",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "o valor COMBINADO sai da lista FINAL do motor (`LevelableCharacterAttributesFinal` + `character[finalAttrs[i].name]`), com o par base em `LevelableCharacterAttributes`",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/sem-gameplay",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "o mod NAO escreve em atributo/`SavedMap` do personagem (so reescreve o texto exibido)",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/geometria-deslocada-uma-vez",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "a coluna de valores e deslocada UMA vez (guarda `_shiftedValues`); deslocar a cada quadro acumularia e jogaria o texto para fora do painel",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/falha-segura",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "os dois ganchos sao try/catch e guardam nulo (personagem, holder, StatValues): o diagnostico nunca derruba a UI",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterStats/estrutural/formato-base-combinado",
+      "mod": "BetterStats",
+      "estado": "OK",
+      "classe": "offline",
+      "procedencia": "execucao",
+      "esperado": "base == combinado mostra SO o base (sem `10 (10)`) e o parentese encolhe pela tag `<size=` do TMP quando o quadrado e estreito",
+      "observado": "estrutura encontrada no fonte",
+      "evidencia": [
+        {
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        },
+        {
+          "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+          "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+        }
+      ],
+      "motivo": "recorte estrutural (chaves) do BetterStats/Plugin.cs",
+      "tarefa_origem": "t_674c5976"
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-preservacao-estilo",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "fonte trocada preservando TODAS propriedades efetivas e keywords",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "controle ligado/desligado no mesmo objeto ausente"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "controle ligado/desligado no mesmo objeto ausente",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "controle ligado/desligado no mesmo objeto ausente",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-config",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "config real: bytes, identidade, chaves e defaults confrontados",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "config/chaves/valores ausentes"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "config/chaves/valores ausentes",
+      "tarefa_origem": "t_674c5976",
+      "config_relevante": true,
+      "config_sha": null,
+      "lacuna_probe": "config/chaves/valores ausentes",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterFont/runtime-visual",
+      "mod": "BetterFont",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "em jogo: a fonte aplicada e legivel e coerente com a UI (hierarquia, tamanho, entrelinha) e nenhuma tela ficou com texto cortado",
+      "observado": "julgamento humano ainda nao pronunciado",
+      "evidencia": [],
+      "motivo": "o DoD exige revisao de UI/UX para alteracao de fonte: o dado tecnico nao substitui o olho no jogo",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "julgamento_visual",
+      "autorizacao_necessaria": true,
+      "julgamento_humano": "Abrir o jogo com o BetterFont ativo e conferir, em tooltip, texto de combate e UI, se a fonte ficou legivel e sem corte; registrar o aceite.",
+      "instrucoes_humanas": "Abrir o jogo com o BetterFont ativo e conferir, em tooltip, texto de combate e UI, se a fonte ficou legivel e sem corte; registrar o aceite."
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-superficies-contraste",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "todas superficies canonicas com cor/alfa/contraste/polaridade",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+      "tarefa_origem": "t_674c5976",
+      "superficies_medidas": [],
+      "lacuna_probe": "superficies canonicas ausentes: BossHealthbar, DiceRoller, DiceRollingManager, Healthbar, PlayerInfoWindow, StatusIcon, Tooltip",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-idempotencia",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "mesmo objeto/sessao; estagios/eventos/leituras distintos e efeito estavel",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "nenhum alvo BCT relido"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "nenhum alvo BCT relido",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "nenhum alvo BCT relido",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterCombatText/runtime-sem-vazamento-levelup",
+      "mod": "BetterCombatText",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "execucao",
+      "esperado": "level-up real: todos tipos e alvos comparados ao estilo nativo desligado",
+      "observado": {
+        "objetos": [],
+        "erros": [],
+        "lacunas": [
+          "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow"
+        ]
+      },
+      "evidencia": [],
+      "motivo": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+      "tarefa_origem": "t_674c5976",
+      "tipos_do_levelup": [
+        "RoguelikeManager",
+        "SectionLabelText",
+        "LevelUpStage",
+        "SkillSelectWindow"
+      ],
+      "lacuna_probe": "tipos level-up ausentes: LevelUpStage, RoguelikeManager, SectionLabelText, SkillSelectWindow",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false,
+      "sessao": null,
+      "fonte_sha": null,
+      "dll_sha": null,
+      "prova_runtime": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-base-vs-final",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "na ficha/level-up o texto sai `base (final)`, com a base do valor PURO investido e o final do motor; `character[nome]` NAO serve como base",
+      "observado": "nenhum texto `base (final)` nas observacoes",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA dupla: (a) a rodada runtime nao foi autorizada e (b) o probe nao emite os valores de atributo do personagem (SavedMap x final), sem os quais o texto exibido nao pode ser confrontado com a fonte do numero",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "valores de atributo do personagem (SavedMap + final) por atributo, para confrontar com o texto medido",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-geometria",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "a caixa do texto de valores cabe DENTRO do painel de atributos (sem clipping/saida lateral), com deslocamento unico e nao acumulado",
+      "observado": "nenhuma observacao com `geometria`",
+      "evidencia": [],
+      "motivo": "lacuna TECNICA: o probe emite a caixa do TEXTO (`caixa_na_tela_px` + `tela`), mas NAO a caixa do PAINEL de atributos - sem a do painel nao ha contra o que comparar",
+      "tarefa_origem": "t_674c5976",
+      "lacuna_probe": "caixa (bbox) do painel de atributos, alem da do texto",
+      "tipo_pendencia": "coleta_tecnica",
+      "autorizacao_necessaria": false
+    },
+    {
+      "id": "AUT-7/BetterStats/runtime-visual",
+      "mod": "BetterStats",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "em jogo: a coluna de valores cabe no painel nas DUAS telas (ficha e level-up)",
+      "observado": "julgamento humano ainda nao pronunciado (BS-1a aguarda validacao visual)",
+      "evidencia": [],
+      "motivo": "so a estrutura foi medida offline; numeros/geometria runtime seguem nao comprovados; aceite visual separado",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "julgamento_visual",
+      "autorizacao_necessaria": true,
+      "julgamento_humano": "Com o BetterStats ativo, abrir a ficha de personagem (painel Attributes) e a tela de level-up: conferir que `base (final)` cabe no painel, sem vazar a borda e sem quebra de linha.",
+      "instrucoes_humanas": "Com o BetterStats ativo, abrir a ficha de personagem (painel Attributes) e a tela de level-up: conferir que `base (final)` cabe no painel, sem vazar a borda e sem quebra de linha."
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/runtime-contrato-dump",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "no LogOutput.log do MESMO boot: as linhas do dump saem com `desc=` por ULTIMO, sem `|` e sem quebra de linha no valor",
+      "observado": "nenhum log de boot NOVO com a DLL atual",
+      "evidencia": [],
+      "motivo": "rodada runtime ainda nao autorizada: log de sessao anterior NAO prova os bytes atuais (precedente AUT-4R: log velho nao assina fonte nova). O contrato e o saneamento ja tem prova ESTRUTURAL na suite pura (t_debugger_*)",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "autorizacao",
+      "autorizacao_necessaria": true,
+      "lacuna_probe": "LogOutput.log de um boot com a DLL atual (sessao + hash)",
+      "instrucoes_humanas": "Autorizar UMA rodada de boot com os mods atuais (SEM carregar save): abrir o jogo ate o menu com o RoguelikeDebugger ativo e encerrar; o LogOutput.log dessa sessao e a evidencia."
+    },
+    {
+      "id": "AUT-7/RoguelikeDebugger/runtime-censo",
+      "mod": "RoguelikeDebugger",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "runtime",
+      "esperado": "as categorias e colunas do censo saem do dump do boot atual (nenhum campo desaparece); o censo NAO e regenerado aqui (escreve doc curada)",
+      "observado": "nenhum dump de boot novo para ler o censo",
+      "evidencia": [],
+      "motivo": "rodada runtime ainda nao autorizada (mesmo log do boot do criterio de contrato); o `census.py` NAO e executado nesta frente porque reescreve doc curada",
+      "tarefa_origem": "t_674c5976",
+      "tipo_pendencia": "autorizacao",
+      "autorizacao_necessaria": true,
+      "lacuna_probe": "dump do boot atual para conferir categorias/colunas do censo"
+    }
+  ],
+  "medicao": {
+    "esquema": "AUT-7/estilo/1",
+    "tarefa": "t_674c5976",
+    "repo": "C:\\dev\\stolen-realm",
+    "out_dir": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias",
+    "suites": {
+      "puros": {
+        "arquivo": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-puros.json",
+        "exit_runner": null,
+        "erro": "cache ausente/obsoleto: rerodar suite",
+        "contagem": null,
+        "sha256": "328832ace2904d92baed4bc69291b0ce7853f90b3314e470306f8b5ff0fa0959"
+      },
+      "contra_prova": {
+        "arquivo": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-evidencias\\suite-contra-prova.json",
+        "exit_runner": null,
+        "erro": "cache ausente/obsoleto: rerodar suite",
+        "contagem": null,
+        "sha256": "275e6da19ac33c1aa18b725ec51d712c313a013041c610a58ae4cb071eb4320e"
+      }
+    },
+    "fontes": {
+      "BetterFont": [
+        {
+          "rel": "BetterFont/Plugin.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterFont\\Plugin.cs",
+          "sha256": "9605c00956bb144018765237ac020b2a35aabaebd73e42b63e381ede70da1ac1"
+        }
+      ],
+      "BetterCombatText": [
+        {
+          "rel": "BetterCombatText/Plugin.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterCombatText\\Plugin.cs",
+          "sha256": "77a5f63eeadeb98c17b2c592d9390a44c88a5131dd2e8bbc8856021747cba6af"
+        },
+        {
+          "rel": "BetterCombatText/TextStyler.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterCombatText\\TextStyler.cs",
+          "sha256": "0b5a0742e0cd92e84727583852afd6ddf9e7a1c52368c35137f838a13e325b6b"
+        },
+        {
+          "rel": "BetterCombatText/Configuracao.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterCombatText\\Configuracao.cs",
+          "sha256": "d9cef26eca89fd4e8b16add176e5d598ab088e801bd92624856a876f352b5bd9"
+        },
+        {
+          "rel": "BetterCombatText/Patches.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterCombatText\\Patches.cs",
+          "sha256": "c66eb24fced182c6fcbb71e812735e611675207f4b6c96ec8e832c4fef6df18b"
+        }
+      ],
+      "BetterStats": [
+        {
+          "rel": "BetterStats/Plugin.cs",
+          "caminho": "C:\\dev\\stolen-realm\\BetterStats\\Plugin.cs",
+          "sha256": "f4e32c436f081477ba82c31b1994fe303a799356e242200004b11c1d62d01765"
+        }
+      ],
+      "RoguelikeDebugger": [
+        {
+          "rel": "RoguelikeDebugger/EfeitosInfo.cs",
+          "caminho": "C:\\dev\\stolen-realm\\RoguelikeDebugger\\EfeitosInfo.cs",
+          "sha256": "69ffbf2ccaae4471e0ba882b494a6e512e8c2fec9a3aa0bc226b83e2e45a450b"
+        },
+        {
+          "rel": "RoguelikeDebugger/Patches/SkillInventoryPatch.cs",
+          "caminho": "C:\\dev\\stolen-realm\\RoguelikeDebugger\\Patches\\SkillInventoryPatch.cs",
+          "sha256": "629d1d1f07e697996da020fa0a9f6c30b7cc592b01a48c83f53bf406ff6e02b1"
+        },
+        {
+          "rel": "RoguelikeDebugger/Patches/ActionStatusInventoryPatch.cs",
+          "caminho": "C:\\dev\\stolen-realm\\RoguelikeDebugger\\Patches\\ActionStatusInventoryPatch.cs",
+          "sha256": "77748b53441feecdf8c92310867e0f3d0953d67519b939ebc44190f0d598e140"
+        }
+      ]
+    },
+    "mods": [
+      "BetterFont",
+      "BetterCombatText",
+      "BetterStats",
+      "RoguelikeDebugger"
+    ],
+    "identidade": {
+      "fonte_sha": "2831d21197fd4b2fa141446126e56b256a4e265c0c9d33277591cbde1875fb76",
+      "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+      "dlls": {
+        "BetterCombatText": "06dae5aa7b5e",
+        "BetterFont": "2c07f5e959af",
+        "BetterStats": "5a3c001ad424",
+        "BetterTooltips": "270f311b0f7b",
+        "RoguelikeDebugger": "99c156799380",
+        "RoguelikeSkillTreeVisualizer": "454587a031a3"
+      }
+    },
+    "cache_valido": false,
+    "betterstats": {
+      "fonte": "BetterStats/Plugin.cs",
+      "checks": [
+        {
+          "id": "base-do-savedmap",
+          "ok": true
+        },
+        {
+          "id": "final-do-motor",
+          "ok": true
+        },
+        {
+          "id": "sem-gameplay",
+          "ok": true
+        },
+        {
+          "id": "geometria-deslocada-uma-vez",
+          "ok": true
+        },
+        {
+          "id": "falha-segura",
+          "ok": true
+        },
+        {
+          "id": "formato-base-combinado",
+          "ok": true
+        }
+      ]
+    },
+    "testes_por_mod": {},
+    "iscas_por_mod": {}
+  }
+}

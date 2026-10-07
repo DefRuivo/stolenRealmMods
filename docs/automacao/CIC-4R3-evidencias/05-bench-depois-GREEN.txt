@@ -1,0 +1,14 @@
+### cmd: python bench.py --modulo C:/dev/stolen-realm/tools/automacao/cenarios/tooltips_shrines.py --suite   (bytes NOVOS 65c0f3b2)
+MODULO C:/dev/stolen-realm/tools/automacao/cenarios/tooltips_shrines.py
+[OK ] V0-completa              modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERDE)
+[OK ] V1-sem-tooltip           modulo: NAO_EXERCITADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 NAO_EXERCITADO | sem a superficie TOOLTIP do personagem 'ChkRA' bonus=0: o criterio e 'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca OK (lacun
+      S-dois-personagens-rogue/source/bonus=100 NAO_EXERCITADO | sem a superficie TOOLTIP do personagem 'Raven' bonus=100: o criterio e 'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca OK (lac
+[OK ] V3-tooltip-fixture       modulo: NAO_EXERCITADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 NAO_EXERCITADO | contra-prova (TOOLTIP) de 'ChkRA' NAO autenticada: procedencia='fixture' - o criterio 'feed vs tooltip' so fecha com a segunda superficie da MESMA rod
+      S-dois-personagens-rogue/source/bonus=100 NAO_EXERCITADO | contra-prova (TOOLTIP) de 'Raven' NAO autenticada: procedencia='fixture' - o criterio 'feed vs tooltip' so fecha com a segunda superficie da MESMA rod
+[OK ] V3b-tooltip-outra-build  modulo: INDETERMINADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+   SUITE: passaram=28 reprovaram=0
+TOTAL falhas=0
+GREEN CONFIRMADO: o modulo sob prova satisfaz as regras dos achados A/B
+EXIT=0

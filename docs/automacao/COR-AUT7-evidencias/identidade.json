@@ -1,0 +1,14 @@
+{
+  "fonte_sha": "2831d21197fd4b2fa141446126e56b256a4e265c0c9d33277591cbde1875fb76",
+  "fonte_arquivos": 627,
+  "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+  "dlls": {
+    "BetterCombatText": "06dae5aa7b5e",
+    "BetterFont": "2c07f5e959af",
+    "BetterStats": "5a3c001ad424",
+    "BetterTooltips": "270f311b0f7b",
+    "RoguelikeDebugger": "99c156799380",
+    "RoguelikeSkillTreeVisualizer": "454587a031a3"
+  },
+  "sessao": "cor-aut7-sintetica-sem-runtime"
+}

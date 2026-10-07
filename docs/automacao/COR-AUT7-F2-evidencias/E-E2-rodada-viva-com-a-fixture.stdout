@@ -1,0 +1,20 @@
+{
+  "modo": "teste unico: tools\\testes\\testes\\puros\\t_bf_diag_orcamento.py",
+  "raiz": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\cor-aut7f2-sandbox\\repo\\tools\\testes\\testes\\puros",
+  "exit_code": 0,
+  "contagem": {
+    "PASSOU": 1
+  },
+  "excluidos_por_categoria": {},
+  "ignorados_fora_do_padrao": [],
+  "testes": [
+    {
+      "arquivo": "t_bf_diag_orcamento.py",
+      "nome": "bf-diag-orcamento",
+      "categoria": "pura",
+      "esperado": "passar",
+      "estado": "PASSOU",
+      "detalhe": "BF-2R/BF-3: orcamento do diagnostico POR CENA, com teto proprio para o pulado pelo escape - a linha de combate sai depois de centenas de textos"
+    }
+  ]
+}

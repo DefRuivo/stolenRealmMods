@@ -1,0 +1,98 @@
+### cmd: python tools/audita_docs.py
+== documentacao versionada: 78 arquivos .md ==
+   BetterCombatText             2
+   BetterFont                   2
+   BetterStats                  2
+   BetterTooltips               2
+   README.md                    1
+   RoguelikeDebugger            2
+   RoguelikeSkillTreeVisualizer 2
+   docs                         63
+   tools                        2
+
+== 2) nome ANTIGO do mod (BetterTexts) ainda aparece? ==
+   arquivos com "BetterTexts": 2
+   ok-hist README.md:167  (o proprio texto diz que e o nome antigo)
+        And if you had the old `BetterTexts`, delete that folder: it was renamed to **BetterTooltips**,
+   ok-hist README.md:576  (o proprio texto diz que e o nome antigo)
+        - **Você tinha a versão antiga do mod de textos.** O `BetterTexts` mudou de nome para
+   ok-hist README.md:577  (o proprio texto diz que e o nome antigo)
+        `BetterTooltips`: se a pasta `BetterTexts` ainda estiver em `plugins\`, **apague-a** antes de usar
+   ok-ref README.md:591  (referencia cruzada ao caso explicado no mesmo arquivo)
+        instalar **dois mods que consertam a mesma coisa** (ver o caso do `BetterTexts` acima) e conferir
+   ok-hist docs/README.md:365  (o proprio texto diz que e o nome antigo)
+        | `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/pl
+
+== 3) contagens declaradas x LocalizePatch.cs ==
+   LocalizePatch.cs existe: True (2937 linhas)
+   check_dupes.py diz: TextFixes 101 entradas | duplicadas: nenhuma TextAppends 197 entradas | duplicadas: nenhuma
+   contagem OFICIAL (entrada = item do dicionario): TextAppends 197, TextFixes 101
+   numeros de contagem citados nos docs: [2, 3, 4, 5, 6, 7, 21, 86, 101, 133, 197, 280, 393, 2280]
+
+== 3b) docs/README.md x docs/cobertura/revisao ==
+   pasta: 51 relatorios .md | titulo declara 48 | tabela lista 48
+   VER o titulo diz 48 e a pasta tem 51 relatorios
+   VER esta na pasta e nao esta no indice: RSTV-26R-revisao.md
+   VER esta na pasta e nao esta no indice: RSTV-27R-body.md
+   VER esta na pasta e nao esta no indice: RSTV-27R-revisao.md
+
+== 4) ferramentas: listadas x existentes ==
+   existem: 224 | nao citadas em nenhum doc: ['Program.cs', 'Program.cs', 'bf-prova-reprovando.log', 'check_deploy_optin.py', 'check_patches.py', 'cp_bf_sombra_por_alfa.py', 'cp_cor_nota_fundida_ok.py', 'cp_rel_artefato_velho_aceito.py', 'cp_rel_artefato_velho_recusado.py', 'cp_rstv11_atalho_sem_guard_de_chat.py', 'cp_rstv16_aba_fora_do_array.py', 'cp_rstv16_bard_incluido.py', 'cp_rstv18_escala_1.py', 'cp_rstv19_container_no_rodape.py', 'cp_rstv21_ao_fechar_sem_reset.py', 'cp_rstv21_botao_fechar_sem_fechar.py', 'cp_rstv21_clique_volta_inventario.py', 'cp_rstv21_entrada_sem_sair_do_modo.py', 'cp_rstv21_fechou_sem_aviso.py', 'cp_rstv21_fechou_sem_inscricao.py', 'cp_rstv21_fundo_sem_raycast.py', 'cp_rstv21_janela_sem_dono.py', 'cp_rstv21_mostrar_sem_construir.py', 'cp_rstv21_mostrar_sem_guarda.py', 'cp_rstv21_polaridade_do_gatilho.py', 'cp_rstv21_tooltip_assimetrico.py', 'cp_rstv21_tooltip_raiz.py', 'oraculo_excesso_shrine.csproj', 'oraculo_soma_aura.csproj', 'parser1-prova-comentario.log', 'regras_rstv.py', 'regras_rstv11.py', 'regras_rstv11b.py', 'regras_rstv12.py', 'regras_rstv13.py', 'regras_rstv14.py', 'regras_rstv16.py', 'regras_rstv18.py', 'regras_rstv19.py', 'regras_rstv21.py', 'rstv11-prova-reprovando.log', 'rstv15-prova-reprovando.log', 'rstv19-prova-reprovando.log', 't_bf_decisao_texto.py', 't_bf_defaults.py', 't_bf_falha_segura.py', 't_bf_nao_regride.py', 't_bf_preservacao.py', 't_bf_sem_acoplamento.py', 't_bf_sombra_inerte.py', 't_deploy_optin_guarda.py', 't_deploy_optin_repo.py', 't_pkg4_versao_4_lugares.py', 't_pkg5_dep_publicada_passa.py', 't_pkg5_dep_versao_inexistente_reprova.py', 't_pkg5_mao_dupla_reprova.py', 't_pkg5_ordem_envio.py', 't_rel3_release_check_sem_deploy.py', 't_rstv11_atalho_f10.py', 't_rstv16_aba_arvores.py', 't_rstv18_escala_nos.py', 't_rstv19_posicao_nos.py', 't_rv18_atributo_runtime.py', 't_trava_artefato_fonte.py']
+   (aviso) existem no disco mas AINDA nao versionados: ['FORMATO-6-varredura.md', 'FORMATO-7-faixa-e-janela-binaria.md', 'ocr_tela.ps1']
+   citadas nos docs mas INEXISTENTES: ['analisa_nature.py', 'check_keys_mod.py', 'check_patches_janela.py', 'scan_proc_actions.py', 'valida_pacotes.py']
+   ok-bancada: analisa_nature.py so aparece como script de bancada/scratch (docs/cobertura/revisao/RV-8b-2e-fechamento.md:46)
+   ok-bancada: check_keys_mod.py so aparece como script de bancada/scratch (docs/cobertura/revisao/RV-19-shrines.md:455)
+   ok-bancada: check_patches_janela.py so aparece como script de bancada/scratch (tools/testes/README.md:166)
+   ok-bancada: scan_proc_actions.py so aparece como script de bancada/scratch (docs/cobertura/revisao/RV-19-shrines.md:85)
+   ok-ci: valida_pacotes.py vive em .github/scripts/ (ferramenta de CI, nao de tools/)
+
+== 5) versoes: csproj x manifest x README x docs ==
+   BetterCombatText               manifest 0.1.1    csproj 0.1.1    plugin 0.1.1    ALINHADO | dep ok
+   BetterFont                     manifest 1.0.2    csproj 1.0.2    plugin 1.0.2    ALINHADO | dep ok
+   BetterStats                    manifest 1.0.1    csproj 1.0.1    plugin 1.0.1    ALINHADO | dep ok
+   BetterTooltips                 manifest 0.1.3    csproj 0.1.3    plugin 0.1.3    ALINHADO | dep ok
+   RoguelikeDebugger              manifest 0.1.1    csproj 0.1.1    plugin 0.1.1    ALINHADO | dep ok
+   RoguelikeSkillTreeVisualizer   manifest 0.3.2    csproj 0.3.2    plugin 0.3.2    ALINHADO | dep ok
+
+== 6) links relativos nas documentacoes ==
+   links relativos quebrados: 0
+
+== 7) docs citam como parte do repo algo que saiu do historico? ==
+   ok-explica README.md:325 cita ReloadProbe - o texto explica a ausencia (projeto de bancada, fora do repo)
+   ok-explica docs/MODS-PARA-AMIGOS.md:42 cita ReloadProbe - o texto explica a ausencia (projeto de bancada, fora do repo)
+   ok-explica docs/README.md:5 cita KANBAN.md - o texto explica a ausencia (nota de trabalho na raiz (fora do git de proposito))
+   ok-explica docs/README.md:38 cita ReloadProbe - o texto explica a ausencia (projeto de bancada, fora do repo)
+   ok-explica docs/README.md:40 cita ReloadProbe - o texto explica a ausencia (projeto de bancada, fora do repo)
+   ok-explica docs/README.md:365 cita KANBAN.md - o texto explica a ausencia (nota de trabalho na raiz (fora do git de proposito))
+   ok-quadro docs/cobertura/revisao/RV-13-auditoria-cobertura.md:232 cita KANBAN.md como quadro interno, nao como arquivo do repo
+   ok-quadro docs/cobertura/revisao/RV-9-censo.md:5 cita KANBAN.md como quadro interno, nao como arquivo do repo
+
+== 8) a dependencia do Thunderstore esta escrita igual em todo lugar? ==
+   ok  BetterCombatText/CHANGELOG.md:216 BepInEx-BepInExPack-5.4.2305
+   ok  BetterFont/CHANGELOG.md:55 BepInEx-BepInExPack-5.4.2305
+   ok-pacote README.md:371 BepInEx-BepInExPack (mencao de prosa ao pacote, sem declarar versao)
+   ok-pacote docs/PUBLICACAO.md:93 BepInEx-BepInExPack (mencao de prosa ao pacote, sem declarar versao)
+   ok  docs/README.md:404 BepInEx-BepInExPack-5.4.2305
+   ok-pacote docs/README.md:408 BepInEx-BepInExPack (mencao de prosa ao pacote, sem declarar versao)
+   ok-pacote docs/README.md:428 BepInEx-BepInExPack (mencao de prosa ao pacote, sem declarar versao)
+
+==============================================================
+!! 4 PENDENCIAS:
+   - docs/README.md: o titulo de docs/cobertura/revisao diz 48 relatorios, a pasta tem 51
+   - docs/README.md: o relatorio docs/cobertura/revisao/RSTV-26R-revisao.md nao esta listado no indice
+   - docs/README.md: o relatorio docs/cobertura/revisao/RSTV-27R-body.md nao esta listado no indice
+   - docs/README.md: o relatorio docs/cobertura/revisao/RSTV-27R-revisao.md nao esta listado no indice
+
+Cada linha acima e uma AFIRMACAO da doc que nao bate com o disco/indice do git.
+Conserte o DOCUMENTO. Falso positivo de regra: ajuste a regra AQUI e diga o porque.
+EXIT=1
+
+### cmd: python tools/checa_citacoes.py
+checa_citacoes: 174 citacao(oes)/mencao(oes) de arquivo em 127 documento(s) - 170 conferidas, 4 pendencia(s)
+
+!! PENDENCIAS (a citacao aponta para o vazio - conserte a DOC, nao a ferramenta):
+   - docs/automacao/AUT-4-preparacao.md:56 cita o caminho `AUT4Probe/AUT4ProbePlugin.cs`, que NAO existe no repositorio
+   - docs/cobertura/revisao/RSTV-27R-body.md:15 cita o caminho `Users/Pichau/AppData/Local/hermes/cache/scratch/cs/Assembly-CSharp.decompiled.cs`, que NAO existe no repositorio
+   - docs/cobertura/revisao/RSTV-27R-revisao.md:32 cita o caminho `Users/Pichau/AppData/Local/hermes/cache/scratch/cs/Assembly-CSharp.decompiled.cs`, que NAO existe no repositorio
+   - docs/cobertura/revisao/RSTV-27R-revisao.md:32 cita o caminho `cache/scratch/rstv26/dec/Tooltip.decompiled.cs`, que NAO existe no repositorio
+EXIT=1

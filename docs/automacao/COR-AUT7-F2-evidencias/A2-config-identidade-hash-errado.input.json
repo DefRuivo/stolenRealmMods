@@ -1,0 +1,25 @@
+[
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\config-bf.obs.json",
+        "sha256": "525c625fd32760e798309c3bb7102d1b01dc8c92e3384a1b70fee2c8fc5c284d"
+      }
+    ],
+    "objeto": "BetterFont.cfg",
+    "config_sha": "bdfe08938301168b422693fe18563539c9f2226418adb41e9cdca0a957a05642",
+    "config": {
+      "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\config\\com.gumatos.betterfont.cfg",
+      "sha256": "bdfe08938301168b422693fe18563539c9f2226418adb41e9cdca0a957a05642",
+      "valores": {
+        "PreservarEstilo": true,
+        "PularTextosEstilizados": false,
+        "LogDiagnosticoEstilo": false
+      }
+    }
+  }
+]

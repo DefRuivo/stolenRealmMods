@@ -1,0 +1,87 @@
+[
+  {
+    "objeto": "Tooltip.Title",
+    "procedencia": "fixture",
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    },
+    "shader_keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+    ],
+    "propriedades_material": {
+      "_FaceColor": "#FFFFFFFF",
+      "_OutlineColor": "#FFFFFFFF",
+      "_UnderlayColor": "#FFFFFFFF",
+      "_FaceDilate": 0.5,
+      "_OutlineWidth": 0.5,
+      "_OutlineSoftness": 0.5,
+      "_UnderlayOffsetX": 0.5,
+      "_UnderlayOffsetY": 0.5,
+      "_UnderlayDilate": 0.5,
+      "_UnderlaySoftness": 0.5,
+      "_VertexOffsetX": 0.5,
+      "_VertexOffsetY": 0.5,
+      "_MaskSoftnessX": 0.5,
+      "_MaskSoftnessY": 0.5,
+      "_ClipRect": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fonte": "Serifa_Nova",
+    "mod_ativo": true,
+    "cores": {
+      "texto": "#FFFFFFFF (a=1)",
+      "face": "#FF0000FF (a=1)",
+      "contorno": "#000000FF (a=1)",
+      "sombra": "#000000FF (a=1)",
+      "_ExtraDoMod": "extra_so_no_lado_ligado"
+    }
+  },
+  {
+    "objeto": "Tooltip.Title",
+    "procedencia": "fixture",
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    },
+    "shader_keywords": [
+      "OUTLINE_ON",
+      "UNDERLAY_ON"
+    ],
+    "propriedades_material": {
+      "_FaceColor": "#FFFFFFFF",
+      "_OutlineColor": "#FFFFFFFF",
+      "_UnderlayColor": "#FFFFFFFF",
+      "_FaceDilate": 0.5,
+      "_OutlineWidth": 0.5,
+      "_OutlineSoftness": 0.5,
+      "_UnderlayOffsetX": 0.5,
+      "_UnderlayOffsetY": 0.5,
+      "_UnderlayDilate": 0.5,
+      "_UnderlaySoftness": 0.5,
+      "_VertexOffsetX": 0.5,
+      "_VertexOffsetY": 0.5,
+      "_MaskSoftnessX": 0.5,
+      "_MaskSoftnessY": 0.5,
+      "_ClipRect": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ]
+    },
+    "fonte": "Serifa_Original",
+    "mod_ativo": false,
+    "cores": {
+      "texto": "#FFFFFFFF (a=1)",
+      "face": "#FF0000FF (a=1)",
+      "contorno": "#000000FF (a=1)",
+      "sombra": "#000000FF (a=1)"
+    }
+  }
+]

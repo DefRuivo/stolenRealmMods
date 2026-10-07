@@ -1,0 +1,163 @@
+[
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-100-BossHealthbar.obs.json",
+        "sha256": "b6cf422ee4d0841402ed1add374305d42f6f4af2a07f2488441bc5d193511491"
+      }
+    ],
+    "objeto": "BossHealthbar_Text",
+    "caminho": "Canvas/HUD/BossHealthbar/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-101-PlayerInfoWindow.obs.json",
+        "sha256": "fe01eaeead23bd206df3056da22e79e88985abc263b611f7eb6180c0e7d4e0ef"
+      }
+    ],
+    "objeto": "PlayerInfoWindow_Text",
+    "caminho": "Canvas/HUD/PlayerInfoWindow/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-102-StatusIcon.obs.json",
+        "sha256": "137a5af3e5f981b340a12f612ca69145764c73496ac99c4cb65722af71055408"
+      }
+    ],
+    "objeto": "StatusIcon_Text",
+    "caminho": "Canvas/HUD/StatusIcon/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-103-DiceRollingManager.obs.json",
+        "sha256": "5c8237c6c9af3ad5cf20afba5d35fc838625bc07bbe0e775f53670370bb3fbee"
+      }
+    ],
+    "objeto": "DiceRollingManager_Text",
+    "caminho": "Canvas/HUD/DiceRollingManager/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-104-DiceRoller.obs.json",
+        "sha256": "4ce5e185d34228e95737f5fb787b5dc895e96db4a4d90e2d7895ab2ebf1a7734"
+      }
+    ],
+    "objeto": "DiceRoller_Text",
+    "caminho": "Canvas/HUD/DiceRoller/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-105-Tooltip.obs.json",
+        "sha256": "81159ef148da8d968f5ff69ea5ccfea63e492c12dbdcddf38b63b3b8ce0b7260"
+      }
+    ],
+    "objeto": "Tooltip_Text",
+    "caminho": "Canvas/HUD/Tooltip/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  },
+  {
+    "procedencia": "runtime",
+    "sessao": "cor-aut7f2-sintetica",
+    "fonte_sha": "ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+    "dll_sha": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "evidencia": [
+      {
+        "caminho": "C:\\dev\\stolen-realm\\docs\\automacao\\COR-AUT7-F2-evidencias\\obs\\bct-106-Healthbar.obs.json",
+        "sha256": "767f46c6b7ca8d05658ed82f790fcfb6855abc2bfc7c5ccb74a9929bb29584ac"
+      }
+    ],
+    "objeto": "Healthbar_Text",
+    "caminho": "Canvas/HUD/Healthbar/Text",
+    "componente": "TextMeshProUGUI",
+    "cores": {
+      "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+      "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+    },
+    "keywords": {
+      "OUTLINE_ON": true,
+      "UNDERLAY_ON": true
+    }
+  }
+]

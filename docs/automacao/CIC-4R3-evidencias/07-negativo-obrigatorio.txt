@@ -1,0 +1,43 @@
+### cmd: python neutro.py    (gera as copias FORA do repo)
+PRODUTO  65c0f3b226fde23401131028f603bf01577d99896a3cae1244b632c20e673199  C:\dev\stolen-realm\tools\automacao\cenarios\tooltips_shrines.py
+COPIA    65c0f3b226fde23401131028f603bf01577d99896a3cae1244b632c20e673199  C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_9f5f2a53\bench\copia\tooltips_shrines_copia.py  (copia fiel: IDENTICA)
+NEUTRO   a7c11da176df3a3c2bc6ad818221f1123988b94b7d68bca84be1c182a5cc1c4e  C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_9f5f2a53\bench\copia\tooltips_shrines_neutro.py
+--- linhas neutralizadas (grep) ---
+tooltips_shrines_neutro.py:520:     return (None, None)  # NEUTRALIZADO CIC-4R3 - achado B (autenticacao da contra-prova) desligada
+tooltips_shrines_neutro.py:691:         if False:  # NEUTRALIZADO CIC-4R3 - achado A (exigencia da 2a superficie) desligada
+EXIT=0
+
+### NEGATIVO: bench --modulo copia/tooltips_shrines_neutro.py --suite   (superficie TOOLTIP sem a trava => espera RED)
+MODULO C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_9f5f2a53/bench/copia/tooltips_shrines_neutro.py
+[OK ] V0-completa              modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERDE)
+[FALHA] V1-sem-tooltip           modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+      S-dois-personagens-rogue/source/bonus=100 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+[FALHA] V3-tooltip-fixture       modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+      S-dois-personagens-rogue/source/bonus=100 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+[FALHA] V3b-tooltip-outra-build  modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      SUITE|REPROVOU|controle-negativo|controle negativo NAO pego: N8-sem-contra-prova-tooltip: S-dois-personagens-rogue/receptor/bonus=0 esperado=NAO_EXERCITADO obtido=OK; N9-contra-prova-de-fixture: S-dois-p
+      SUITE|REPROVOU|sem-tooltip-nao-fecha-ok|rodada sem a superficie TOOLTIP devia NAO_EXERCITADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confron
+      SUITE|REPROVOU|contra-prova-fixture-nao-autentica|contra-prova de fixture fechou o criterio: OK
+      SUITE|REPROVOU|contra-prova-outra-build-indeterminado|tooltip de outra build devia INDETERMINADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com 
+      SUITE|REPROVOU|contra-prova-outra-sessao-indeterminado|contra-prova de outra sessao devia INDETERMINADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontado
+   SUITE: passaram=23 reprovaram=5
+TOTAL falhas=8
+RED CONFIRMADO: o modulo sob prova NAO satisfaz as regras dos achados A/B
+EXIT=1
+
+### RESTAURADO: bench --modulo copia/tooltips_shrines_copia.py --suite  (copia fiel => espera GREEN)
+MODULO C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_9f5f2a53/bench/copia/tooltips_shrines_copia.py
+[OK ] V0-completa              modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERDE)
+[OK ] V1-sem-tooltip           modulo: NAO_EXERCITADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 NAO_EXERCITADO | sem a superficie TOOLTIP do personagem 'ChkRA' bonus=0: o criterio e 'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca OK (lacun
+      S-dois-personagens-rogue/source/bonus=100 NAO_EXERCITADO | sem a superficie TOOLTIP do personagem 'Raven' bonus=100: o criterio e 'feed vs tooltip' e faltou a segunda superficie - NAO_EXERCITADO, nunca OK (lac
+[OK ] V3-tooltip-fixture       modulo: NAO_EXERCITADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 NAO_EXERCITADO | contra-prova (TOOLTIP) de 'ChkRA' NAO autenticada: procedencia='fixture' - o criterio 'feed vs tooltip' so fecha com a segunda superficie da MESMA rod
+      S-dois-personagens-rogue/source/bonus=100 NAO_EXERCITADO | contra-prova (TOOLTIP) de 'Raven' NAO autenticada: procedencia='fixture' - o criterio 'feed vs tooltip' so fecha com a segunda superficie da MESMA rod
+[OK ] V3b-tooltip-outra-build  modulo: INDETERMINADO=2 OK=5 com_prova_runtime=5 total=7 exit=2 | ciclo: por_mod=NAO_EXERCITADO ok_vinculantes=5 falhas_automaticas=2 pendencias_humanas=0 pronto=False -> VERMELHO  (esperado VERMELHO)
+   SUITE: passaram=28 reprovaram=0
+TOTAL falhas=0
+GREEN CONFIRMADO: o modulo sob prova satisfaz as regras dos achados A/B
+EXIT=0

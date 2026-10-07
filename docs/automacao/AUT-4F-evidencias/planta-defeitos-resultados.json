@@ -1,0 +1,155 @@
+{
+  "esquema": "AUT-4F/1",
+  "repo_original": "C:\\dev\\stolen-realm",
+  "scratch": "C:\\Users\\Pichau\\AppData\\Local\\Temp\\aut4f-planta",
+  "controle_sem_defeito": {
+    "exit_suite": 1,
+    "contra_prova_exit": 1
+  },
+  "defeitos": [
+    {
+      "id": "A1",
+      "titulo": "driver confirma sem prova de execucao (provas sempre 'ok')",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_execucao.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "A2",
+      "titulo": "alvo NAO_APLICAVEL (objeto inativo) nao vira lacuna",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_costura_probe.py",
+        "testes\\t_aut4_execucao.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "A3",
+      "titulo": "rotulo de fixture do artefato perde para a intencao do chamador",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_costura_probe.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "A4",
+      "titulo": "status/fase terminal de falha do probe nao rebaixa o veredito",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_costura_probe.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "A5",
+      "titulo": "rollback remove diretorio pre-existente",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_execucao.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "A6",
+      "titulo": "a prova de ida-e-volta aceita 'conferiu' sem o marcador do driver",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_execucao.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "S-3",
+      "titulo": "campo EXTRA declarado alvo nunca vira lacuna",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "R-1",
+      "titulo": "adaptador confronta hash_fonte (sha da DLL) com fonte_sha",
+      "arquivo": "tools/automacao/cenarios/rstv.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 0,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "R-2",
+      "titulo": "abspath antes do gate: --executar sem --perfil estoura",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 0,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "R-3",
+      "titulo": "a espera para so pela 'fase' e queima o teto num status=ERRO",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "R-4",
+      "titulo": "encerramento derruba TODAS as instancias da imagem",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "R-5",
+      "titulo": "runner de contra-prova aceita crash (excecao) como prova",
+      "arquivo": "tools/automacao/runtime/roda_testes_runtime.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    },
+    {
+      "id": "S-2",
+      "titulo": "_alvos_do_plano ignora os cenarios 2+",
+      "arquivo": "tools/automacao/runtime/coletor.py",
+      "exit_suite_com_defeito": 1,
+      "exit_contra_prova_com_defeito": 1,
+      "testes_que_reprovaram": [
+        "testes\\t_aut4_cic5r.py"
+      ],
+      "travado_por_teste": true
+    }
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "esquema": "CIC-4/shrines/1",
+  "tarefa_origem": "t_775eb4ae",
+  "controle_negativo": true,
+  "descricao": "Defeitos PLANTADOS para o teste do avaliador: cada caso tem a observacao defeituosa e o ESTADO que o avaliador TEM de devolver para o id alvo. Um avaliador que 'passa' tudo aqui nao mede nada.",
+  "casos": [
+    {
+      "id": "N1-dois-personagens-somados",
+      "defeito": "a MESMA aura contada SOMANDO os dois personagens (20 do receptor + 40 do source = 60). O motor nunca soma entre personagens.",
+      "espera": {"S-dois-personagens-rogue/receptor/bonus=0": "REPROVADO"},
+      "identidade": null,
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +60% (total +77%)"
+        }
+      ]
+    },
+    {
+      "id": "N2-bonus-do-source-ignorado",
+      "defeito": "o personagem 'source' (bonus 100) sai com o valor do receptor (bonus 0), como se o bonus do proprio personagem nao contasse.",
+      "espera": {"S-dois-personagens-rogue/source/bonus=100": "REPROVADO"},
+      "identidade": null,
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=Raven bonus=100 -> Dodge +20% (total +52%)"
+        }
+      ]
+    },
+    {
+      "id": "N3-identidade-insuficiente",
+      "defeito": "observacao de RUNTIME com o valor CERTO, mas sem fonte_sha/dll_sha: o contrato v1 diz que runtime NUNCA vira OK sem identidade suficiente.",
+      "espera": {"S-dois-personagens-rogue/receptor/bonus=0": "NAO_EXERCITADO"},
+      "identidade": {},
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "runtime",
+          "sessao": "sessao-fixture-negativa",
+          "hash_fonte": "aaaa0000000000000000000000000000000000000000000000000000000000aa",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+        }
+      ]
+    },
+    {
+      "id": "N4-build-de-outra-rodada",
+      "defeito": "observacao de runtime com hash_fonte (sha da DLL no coletor CIC-5) DIFERENTE do dll_sha da identidade da rodada: a evidencia e de OUTRA build. R-1: hash_fonte casa com dll_sha, NUNCA com fonte_sha.",
+      "espera": {"S-dois-personagens-rogue/receptor/bonus=0": "INDETERMINADO"},
+      "identidade": {"fonte_sha": "bbbb1111111111111111111111111111111111111111111111111111111111bb", "dll_sha": "dddd2222222222222222222222222222222222222222222222222222222222dd"},
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "runtime",
+          "sessao": "sessao-fixture-negativa",
+          "hash_fonte": "aaaa0000000000000000000000000000000000000000000000000000000000aa",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+        }
+      ]
+    },
+    {
+      "id": "N5-dado-ausente",
+      "defeito": "o FEED nao traz o personagem observado: dado inexistente NAO pode virar OK (nem pedido humano).",
+      "espera": {"S-dois-personagens-dwarven/chkdw0/bonus=0": "NAO_EXERCITADO"},
+      "identidade": null,
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+        }
+      ]
+    },
+    {
+      "id": "N6-feed-e-tooltip-divergem",
+      "defeito": "o FEED diz +20% e a TOOLTIP desenha +40% para o MESMO personagem/bonus: as duas superficies tem de bater.",
+      "espera": {"S-dois-personagens-rogue/receptor/bonus=0": "REPROVADO"},
+      "identidade": null,
+      "observacoes": [
+        {
+          "objeto": "LogOutput.log (marcadores [Shrine RV-23])",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+        },
+        {
+          "objeto": "Tooltip.LinhaAzul (ChkRA)",
+          "personagem": "ChkRA",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "texto_renderizado": "Your active shrine auras: Dodge +40% (total +57%)."
+        }
+      ]
+    },
+    {
+      "id": "N7-regressao-bug34-vaza-no-feed",
+      "defeito": "a nota de Armor REAPARECE no feed de combate (regressao do BUG-34, aceite humano de 05/10). Reprova como REGRESSAO, sem reabrir o diagnostico.",
+      "espera": {"S-regressao-bug34-armor": "REPROVADO"},
+      "identidade": null,
+      "observacoes": [
+        {
+          "objeto": "FeedDeCombate (aplicacao de Armor)",
+          "procedencia": "fixture",
+          "rotulo_fixture": "shrines-controle-negativo",
+          "texto_renderizado": "Increased Armor Applied\nArmor blocks damage: each 10 Armor reduces damage taken by 1 (capped at 90% of the damage)."
+        }
+      ]
+    },
+    {
+        "id": "N8-sem-contra-prova-tooltip",
+        "defeito": "rodada runtime do FEED COMPLETA e identificada (sessao + hash confrontado + evidencia do artefato lido), mas SEM a segunda superficie: o criterio declarado e 'feed vs tooltip' - faltando a TOOLTIP o que falta sai NAO_EXERCITADO, nunca OK (achado A do CIC-4R2).",
+        "espera": {
+            "S-dois-personagens-rogue/receptor/bonus=0": "NAO_EXERCITADO"
+        },
+        "identidade": {
+            "fonte_sha": "abababababababababababababababababababababababababababababababab",
+            "dll_sha": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+        },
+        "observacoes": [
+            {
+                "objeto": "tools/fixtures/shrines-rv46-dedupe.log",
+                "procedencia": "runtime",
+                "sessao": "sessao-fixture-negativa",
+                "hash_fonte": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+                "evidencia": [
+                    "tools/fixtures/shrines-rv46-dedupe.log"
+                ],
+                "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+            }
+        ]
+    },
+    {
+        "id": "N9-contra-prova-de-fixture",
+        "defeito": "o FEED e runtime completo e a TOOLTIP desenha o valor certo, mas vem declarada `fixture`: ela fecha a COMPARACAO (feed_vs_tooltip=IGUAL) e NAO autentica o criterio - a contra-prova tem de passar a mesma cadeia/sessao da rodada (achado B do CIC-4R2).",
+        "espera": {
+            "S-dois-personagens-rogue/receptor/bonus=0": "NAO_EXERCITADO"
+        },
+        "identidade": {
+            "fonte_sha": "abababababababababababababababababababababababababababababababab",
+            "dll_sha": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd"
+        },
+        "observacoes": [
+            {
+                "objeto": "tools/fixtures/shrines-rv46-dedupe.log",
+                "procedencia": "runtime",
+                "sessao": "sessao-fixture-negativa",
+                "hash_fonte": "cdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcdcd",
+                "evidencia": [
+                    "tools/fixtures/shrines-rv46-dedupe.log"
+                ],
+                "feed": "[Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+            },
+            {
+                "objeto": "Tooltip.LinhaAzul (ChkRA)",
+                "personagem": "ChkRA",
+                "procedencia": "fixture",
+                "rotulo_fixture": "shrines-controle-negativo",
+                "texto_renderizado": "Your active shrine auras: Dodge +20% (total +37%)."
+            }
+        ]
+    }
+  ]
+}

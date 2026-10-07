@@ -1,0 +1,19 @@
+### cmd: python bench.py --modulo .../tooltips_shrines_antes.py --suite   (bytes ANTIGOS df3258e8)
+MODULO C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_278bbb07/tooltips_shrines_antes.py
+[OK ] V0-completa              modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERDE)
+[FALHA] V1-sem-tooltip           modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+      S-dois-personagens-rogue/source/bonus=100 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+[FALHA] V3-tooltip-fixture       modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      S-dois-personagens-rogue/receptor/bonus=0 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+      S-dois-personagens-rogue/source/bonus=100 OK | valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com a identidade)
+[FALHA] V3b-tooltip-outra-build  modulo: OK=7 com_prova_runtime=7 total=7 exit=0 | ciclo: por_mod=OK ok_vinculantes=7 falhas_automaticas=0 pendencias_humanas=0 pronto=True -> VERDE  (esperado VERMELHO)
+      SUITE|REPROVOU|controle-negativo|controle negativo NAO pego: N8-sem-contra-prova-tooltip: S-dois-personagens-rogue/receptor/bonus=0 esperado=NAO_EXERCITADO obtido=OK; N9-contra-prova-de-fixture: S-dois-p
+      SUITE|REPROVOU|sem-tooltip-nao-fecha-ok|rodada sem a superficie TOOLTIP devia NAO_EXERCITADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confron
+      SUITE|REPROVOU|contra-prova-fixture-nao-autentica|contra-prova de fixture fechou o criterio: OK
+      SUITE|REPROVOU|contra-prova-outra-build-indeterminado|tooltip de outra build devia INDETERMINADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontados com 
+      SUITE|REPROVOU|contra-prova-outra-sessao-indeterminado|contra-prova de outra sessao devia INDETERMINADO, veio OK (valor bateu com o esperado independente e a cadeia de runtime fecha (sessao/hash/manifest/evidencia confrontado
+   SUITE: passaram=23 reprovaram=5
+TOTAL falhas=8
+RED CONFIRMADO: o modulo sob prova NAO satisfaz as regras dos achados A/B
+EXIT=1
