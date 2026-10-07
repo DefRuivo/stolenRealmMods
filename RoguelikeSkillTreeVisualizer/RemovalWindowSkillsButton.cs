@@ -31,7 +31,7 @@ namespace RoguelikeSkillTreeVisualizer
     ///     botao. Se a janela em si for recriada (instancia nova), o clone antigo e destruido antes.
     ///  2. LISTENER SERIALIZADO (RSTV-12): o botao molde carrega um `onClick` PERSISTENTE no prefab
     ///     (o do Cancel — fecharia o modal). O `RemoveAllListeners()` NAO limpa a lista serializada;
-    ///     por isso a INSTANCIA do evento e trocada (`SelectPartyButton.ClearClickListeners`) antes de
+    ///     por isso a INSTANCIA do evento e trocada (`NativeUiHelpers.ClearClickListeners`) antes de
     ///     instalar o nosso listener.
     ///
     /// READ-ONLY (o que NAO precisa ser blindado aqui): o viewer continua sendo SOMENTE LEITURA pelas
@@ -102,8 +102,9 @@ namespace RoguelikeSkillTreeVisualizer
 
             if (!Plugin.RemocaoBotaoLigado)
             {
-                // Pedido explicito no config: nao e falha, e o comportamento desejado.
-                Fail("AtivarBotaoNaRemocao=false no arquivo de config", false);
+                // Pedido explicito no config: nao e falha, e o comportamento desejado. RSTV-29F: o
+                // motivo nomeia a chave que DE FATO desligou (a mestra AtivarBotao ou a especifica).
+                Fail(Plugin.MotivoDoBotaoDoModalDesligado, false);
                 return;
             }
 
@@ -259,7 +260,7 @@ namespace RoguelikeSkillTreeVisualizer
 
             // O rotulo/estado nao podem ser reescritos pelos localizadores do jogo (o clone herda os
             // componentes do molde).
-            SelectPartyButton.DisableLocalizers(clone);
+            NativeUiHelpers.DisableLocalizers(clone);
             EnsureLabel(clone);
 
             Button botao = clone.GetComponent<Button>();
@@ -271,7 +272,7 @@ namespace RoguelikeSkillTreeVisualizer
 
             // RSTV-12: trocar a INSTANCIA do evento descarta o onClick SERIALIZADO do molde (o
             // "Cancel" fecharia o modal) antes de instalar o listener read-only.
-            SelectPartyButton.ClearClickListeners(botao);
+            NativeUiHelpers.ClearClickListeners(botao);
             botao.onClick.AddListener(new UnityAction(OnClick));
             botao.interactable = true;
 

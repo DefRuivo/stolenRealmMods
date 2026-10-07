@@ -238,7 +238,7 @@ namespace RoguelikeSkillTreeVisualizer
                 clone.SetActive(true);
                 clone.transform.SetAsLastSibling();
 
-                SelectPartyButton.DisableLocalizers(clone);
+                NativeUiHelpers.DisableLocalizers(clone);
 
                 TextMeshProUGUI rotulo = clone.GetComponentInChildren<TextMeshProUGUI>(true);
                 if (rotulo != null)
@@ -267,7 +267,7 @@ namespace RoguelikeSkillTreeVisualizer
                 {
                     // RSTV-12: trocar a INSTANCIA do evento descarta os listeners PERSISTENTES
                     // (serializados no prefab) que o `RemoveAllListeners()` nao remove.
-                    SelectPartyButton.ClearClickListeners(botao);
+                    NativeUiHelpers.ClearClickListeners(botao);
                     botao.onClick.AddListener(new UnityAction(SelecionarEMostrar));
                 }
                 else
@@ -1333,7 +1333,7 @@ namespace RoguelikeSkillTreeVisualizer
                 botao.name = "RstvClassButton_" + tipo;
                 botao.SetActive(true);
 
-                SelectPartyButton.DisableLocalizers(botao);
+                NativeUiHelpers.DisableLocalizers(botao);
 
                 SkillTreeTab tab = botao.GetComponent<SkillTreeTab>();
                 if (tab != null)
@@ -1378,7 +1378,7 @@ namespace RoguelikeSkillTreeVisualizer
                 Button bt = botao.GetComponent<Button>();
                 if (bt != null)
                 {
-                    SelectPartyButton.ClearClickListeners(bt);
+                    NativeUiHelpers.ClearClickListeners(bt);
                     SkillType capturado = tipo;
                     bt.onClick.AddListener(new UnityAction(delegate { TrocarClasse(capturado); }));
                 }
@@ -1914,10 +1914,13 @@ namespace RoguelikeSkillTreeVisualizer
             }
 
             // RSTV-24b: diagnostico — quantas linhas ficaram ativas e se tem sprite (para achar por que
-            // as linhas de dependencia nao desenham na tela).
+            // as linhas de dependencia nao desenham na tela). AUT5-F1: a contagem tambem sai POR TIER —
+            // sem ela o confronto linhas x Dependency (RSTV-25) so fecha no TOTAL e o RSTV-25b fica
+            // indeterminado (o `RSTV-24b` e o unico lugar onde as linhas ATIVAS existem por tier).
             int ativas = 0;
             int comSprite = 0;
             string corPrimeira = "?";
+            int[] ativasPorTier = new int[6];
             for (int i = 0; i < _itens.Count; i++)
             {
                 SkillTreeItem item = _itens[i];
@@ -1926,6 +1929,10 @@ namespace RoguelikeSkillTreeVisualizer
                     continue;
                 }
                 ativas++;
+                if (item.SkillInfo != null && item.SkillInfo.Tier >= 1 && item.SkillInfo.Tier <= 5)
+                {
+                    ativasPorTier[item.SkillInfo.Tier]++;
+                }
                 if (item.DependencyLine.sprite != null)
                 {
                     comSprite++;
@@ -1935,8 +1942,14 @@ namespace RoguelikeSkillTreeVisualizer
                     corPrimeira = item.DependencyLine.color.ToString();
                 }
             }
+            string linhasPorTier = "";
+            for (int t = 1; t <= 5; t++)
+            {
+                linhasPorTier += (linhasPorTier.Length == 0 ? "" : ", ") + "T" + t + ":" + ativasPorTier[t];
+            }
             Plugin.Log.LogInfo("RSTV-24b: " + ativas + " linha(s) de dependencia ativa(s), " + comSprite +
-                               " com sprite (de " + _itens.Count + " no(s)); cor da 1a = " + corPrimeira + ".");
+                               " com sprite (de " + _itens.Count + " no(s)); cor da 1a = " + corPrimeira +
+                               "; por tier: " + linhasPorTier + ".");
 
             // RSTV-25: diagnostico do T4->T5 — quantos nos por tier TEM Dependency (para entender por que
             // o tier 5 fica sem linha de entrada na tela).
@@ -2103,8 +2116,22 @@ namespace RoguelikeSkillTreeVisualizer
 
     /// <summary>
     /// Tooltip read-only do no: o tooltip NATIVO da skill aparece no hover, o que da utilidade a arvore
-    /// sem nenhuma escrita (o <c>Tooltip.ShowSkillTooltip(SkillTreeItem)</c> so LE). Defensivo: sem
-    /// GUIManager/tooltip, nao faz nada.
+    /// sem nenhuma escrita (o <c>Tooltip.ShowSkillTooltip</c> so LE). Defensivo: sem GUIManager/tooltip,
+    /// nao faz nada.
+    ///
+    /// RSTV-26: o overload <c>ShowSkillTooltip(SkillTreeItem)</c> resolve o dano/expressoes contra
+    /// <c>Tooltip.TooltipCharacter</c> (= <c>GameLogic.CurrentlySelectedCharacter</c>), que e NULL na
+    /// tela Party Select (onde vive o modal "Remove Skill Trees"); com character null os placeholders
+    /// '*N'/'[N]' saem LITERAIS ('*0'). Aqui passamos o personagem do MODAL
+    /// (<c>ReadOnlySession.Target</c>, o mesmo do AcceptSkillChanges/Initialize) e
+    /// <c>showCanLevelDetail: false</c> (read-only de verdade, sem 'Skill Point Cost'/'Select To Learn').
+    /// Alvo null -> cai no comportamento antigo (sem crash).
+    ///
+    /// RSTV-27: o MESMO alvo vai TAMBEM ao RODAPE da tooltip (mana/cooldown/alcance/duracao) — o
+    /// argumento nao alcanca esse trecho, que o <c>ShowSkillTooltip</c> monta com o
+    /// <c>TooltipCharacter</c> proprio. O alvo e armado em <c>TooltipCharacterRodapePatch</c>
+    /// (Patches.cs) SO' em volta da chamada, em <c>try</c>/<c>finally</c>; o postfix do getter so'
+    /// PREENCHE o null (o valor do jogo vence e, sem alvo, nada muda).
     /// </summary>
     internal class RstvSkillHover : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
     {
@@ -2126,7 +2153,33 @@ namespace RoguelikeSkillTreeVisualizer
                     return;
                 }
 
-                gui.tooltip.ShowSkillTooltip(Item);
+                // RSTV-26: resolve o dano/expressoes contra o personagem do MODAL. O overload
+                // `ShowSkillTooltip(Item)` usa `TooltipCharacter` (= CurrentlySelectedCharacter),
+                // NULL no Party Select -> '*N'/'[N]' literais. `showCanLevelDetail: false` mantem
+                // o read-only de verdade. Alvo null -> comportamento antigo, sem crash.
+                //
+                // RSTV-27: o personagem do modal vai TAMBEM ao RODAPE (mana/cooldown/alcance/duracao)
+                // — o `ShowSkillTooltip` monta esse trecho com o `TooltipCharacter` PROPRIO (getter,
+                // singleton null na Party Select) e ignora o argumento. O alvo fica armado SO' em
+                // volta desta chamada (try/finally) e o gancho do getter (TooltipCharacterRodapePatch,
+                // Patches.cs) so' PREENCHE o null: sem alvo, tudo segue como o jogo faz.
+                Character alvo = ReadOnlySession.Target;
+                if (alvo != null)
+                {
+                    TooltipCharacterRodapePatch.ComAlvo(alvo);
+                    try
+                    {
+                        gui.tooltip.ShowSkillTooltip(Item.SkillInfo, alvo, showCanLevelDetail: false);
+                    }
+                    finally
+                    {
+                        TooltipCharacterRodapePatch.SemAlvo();
+                    }
+                }
+                else
+                {
+                    gui.tooltip.ShowSkillTooltip(Item);
+                }
 
                 // RSTV-23f/24e: marca o no sob o mouse. O `Hover` nativo e sutil demais (anel 48 vs 38-43),
                 // entao alem dele adicionamos um OUTLINE dourado no icone — bem mais visivel.

@@ -19,30 +19,62 @@ namespace RoguelikeSkillTreeVisualizer
     }
 
     /// <summary>
-    /// RSTV-5: alvo do botao DURANTE A RUN e o PORTAO DE SEGURANCA (o coracao desta etapa).
+    /// O ALVO do clique DURANTE A RUN e o PORTAO QUE DECIDE SE O CLIQUE PODE ABRIR.
     ///
-    /// Contexto provado no decompilado:
+    /// RSTV-30 (06/10, pedido do dono em jogo) — O QUE MUDOU AQUI
+    /// ---------------------------------------------------------
+    /// Este portao deixou de decidir a VISIBILIDADE do botao: ele decide so se o clique pode
+    /// ABRIR. O botao vive na barra de baixo do HUD (`RunButton`, RSTV-30), entao quem manda na
+    /// presenca dele e o proprio HUD (o JOGO desliga o HUD inteiro no menu, na janela de evento,
+    /// no level-up, na loja e em `ChoosingCharacter`/`CreatingCharacter` — `GUIManager.Update`
+    /// l.120485). Enquanto o portao escondia o botao, o dono via o defeito: "o botao some e depois
+    /// reaparece" quando qualquer personagem agia, e "nao aparece enquanto estamos fora de combate".
+    ///
+    /// GUARDAS QUE SAIRAM NA RSTV-30 (com o defeito que cada uma causava — guarda sem justificativa
+    /// e defeito, nao seguranca):
+    ///   * `StateAllowed` (whitelist InBattle/InWorldMap/InTown) — o JOGO ja desliga o HUD inteiro
+    ///     fora desses estados (l.120485) e a regra nativa do botao 'Skills' do HUD (l.120491)
+    ///     cobre exatamente esse conjunto; a whitelist so escondia o botao em estados em que o HUD
+    ///     esta visivel (`GUIState.ChoosingCharacter` — o log de 06/10 16:59 mostra o botao
+    ///     escondido exatamente por ela);
+    ///   * `Root.IsPlayerTurnAndReady` — fica no ULTIMO valor do combate anterior (`GameLogic`
+    ///     l.111904 seta false no fim do turno), ou seja, escondia o botao fora do turno do jogador
+    ///     (o "nao aparece fora de combate" do dono) sem proteger nada: abrir o menu de personagem
+    ///     no turno do inimigo e permitido pelo proprio jogo (o botao nativo continua clicavel);
+    ///   * `Root.AnyActingCharactersInBattle` e `Root.AnyMovingCharactersInBattle` — eram a causa
+    ///     DIRETA do piscar: qualquer personagem agindo/movendo fechava o portao e o botao sumia.
+    ///     Nao protegiam nada: a unica escrita do caminho de abertura (definir
+    ///     `GameLogic.CurrentlySelectedCharacter` quando NENHUM esta selecionado) nao cancela
+    ///     animacao nenhuma, e o jogo deixa abrir o inventario durante elas.
+    ///
+    /// GUARDAS QUE FICARAM, cada uma com a justificativa de DANO REAL que ela evita (RSTV-30):
+    ///   * GUARDA 1 (tecnica) `GUIManager.instance` — sem o manager nao ha estado de UI para ler;
+    ///   * GUARDA 2 (escopo) `Root.PlayingRoguelike` — o botao e da RUN; a campanha tem o proprio
+    ///     botao nativo de skills, que ESCREVE pontos (nao duplicar uma superficie de escrita);
+    ///   * GUARDA 3 (dano real) `GUIManager.PingModeActive` — abrir aqui cancela o apontar o hex;
+    ///   * GUARDA 4 (dano real) `UIWindowManager.AnyUIWindowOpen` — nao empilhar janelas: o
+    ///     caminho de abertura ABRE o inventario (`SkillTreesTab.Abrir`), e abrir por cima de uma
+    ///     janela ja aberta deixa a UI em estado que nao e o do jogo;
+    ///   * GUARDA 5 (dano real, SO em batalha) `HexCellManager.CurrentState == PlayerState.Action`
+    ///     — a MIRA de skill: escrever `GameLogic.CurrentlySelectedCharacter` durante a mira forca
+    ///     `CurrentState = Movement` (l.110065) e CANCELA o apontar hex;
+    ///   * GUARDA 6 (dano real, SO em batalha) `Root.SpawnPlacementActive` — o posicionamento
+    ///     inicial da batalha: a abertura mexe no personagem selecionado justamente quando o jogo
+    ///     esta posicionando o time.
+    ///
+    /// Contexto do alvo, provado no decompilado:
     ///   - `CurrentCharacterUI.pingBtn` (l.329889) -> `ButtonPressedPing()` (l.330452) ->
-    ///     `GUIManager.TogglePingMode()` (l.120930). Hierarquia: GUI Manager -> In Game GUI -> Ping Button
-    ///     (irmaos: End Turn Button, End Turn Button Backup, Flee Button, Ping Button, Resume Turn Button).
+    ///     `GUIManager.TogglePingMode()` (l.120930);
     ///   - `HexCellManager.CurrentState` (l.123371, enum `PlayerState` l.160171 = Waiting/Movement/Action):
-    ///     `Action` e o MODO DE MIRA. Escrever `GameLogic.CurrentlySelectedCharacter` durante a mira forca
-    ///     `CurrentState = Movement` (l.110065) e CANCELA o apontar hex — por isso a mira e um portao.
+    ///     `Action` e o MODO DE MIRA — por isso a mira e uma guarda;
     ///   - `PlayerMovement.ProcessLeftMouseClick` (l.158281) trata o clique no hex; o branch de ACAO
     ///     (l.158397-158400) NAO checa `GUIManager.PointerOverUIObject` (o de movimento checa, l.158288).
     ///
-    /// O portao e conservador de proposito: em qualquer duvida (inclusive excecao ao ler o estado do
-    /// jogo) o botao fica escondido/desabilitado e o motivo vai para o log — ver `RunButton`.
+    /// Lado seguro: em qualquer duvida (inclusive excecao ao ler o estado do jogo) o portao RECUSA —
+    /// e o clique que nao abre; o botao continua na tela e o motivo vai para o log — ver `RunButton`.
     /// </summary>
     internal static class RunTargets
     {
-        /// <summary>GUIStates em que a janela pode existir durante a run (whitelist do RSTV-5).</summary>
-        private static readonly GUIState[] AllowedStates =
-        {
-            GUIState.InBattle,
-            GUIState.InWorldMap,
-            GUIState.InTown
-        };
 
         // RSTV-7: o fallback e reavaliado 10x por segundo pelo `RunButton.Mirror`. Sem esta guarda,
         // um estado estavel "sem personagem selecionado" re-logaria a MESMA linha a cada 0,1 s — o
@@ -50,17 +82,17 @@ namespace RoguelikeSkillTreeVisualizer
         // o alvo de fallback ja avisado; rearma quando o jogo volta a ter personagem selecionado.
         private static string _fallbackLogado;
 
-        internal static bool StateAllowed(GUIState state)
+        /// <summary>
+        /// RSTV-30: a MESMA lista que o JOGO usa para habilitar os botoes de personagem do HUD
+        /// (`GUIManager.Update` l.120491: `CurrentGuiState` em InTown/InWorldMap/InCutscene/InBattle).
+        /// Ela substitui a antiga `StateAllowed` (whitelist do mod, removida na RSTV-30): e a mesma
+        /// ideia, mas lida do jogo — e quem usa e o ATALHO de teclado, que nao tem botao nativo para
+        /// espelhar. Nos outros estados o HUD inteiro esta desligado (l.120485).
+        /// </summary>
+        internal static bool EstadoPermiteMenuDePersonagem(GUIState estado)
         {
-            for (int i = 0; i < AllowedStates.Length; i++)
-            {
-                if (AllowedStates[i] == state)
-                {
-                    return true;
-                }
-            }
-
-            return false;
+            return estado == GUIState.InTown || estado == GUIState.InWorldMap ||
+                   estado == GUIState.InCutscene || estado == GUIState.InBattle;
         }
 
         /// <summary>
@@ -142,14 +174,20 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
-        /// PORTAO 4 — o botao so aparece/quando pode abrir se TODAS estas condicoes fecharem.
-        /// Cada motivo e uma frase pronta para o log (nada de "estado invalido" generico).
+        /// O portao do CLIQUE (RSTV-30): devolve true quando abrir a arvore AGORA e seguro. Ele NAO
+        /// decide mais se o botao aparece — a visibilidade e do HUD, que e dono da barra de baixo em
+        /// que o clone mora (ver o cabecalho da classe). Cada guarda carrega a sua justificativa (o
+        /// dano real que evita) e cada motivo e uma frase pronta para o log (nada de "estado
+        /// invalido" generico).
         /// </summary>
         internal static bool GateOk(out string motivo)
         {
             motivo = null;
             try
             {
+                // GUARDA 1 (tecnica) — `GUIManager.instance`. Justificativa: e nele que moram TODAS
+                // as outras leituras deste portao (ping, janela, GUIState); sem ele nao ha estado de
+                // UI para ler.
                 GUIManager gui = GUIManager.instance;
                 if (gui == null)
                 {
@@ -157,16 +195,13 @@ namespace RoguelikeSkillTreeVisualizer
                     return false;
                 }
 
+                // GUARDA 2 (escopo) — `Root.PlayingRoguelike`. Justificativa: o botao e da RUN. Na
+                // campanha o HUD tem o botao nativo de skill tree, que ESCREVE pontos
+                // (`SkillTreeManager.AcceptSkillChanges`, l.177650) — duplicar aquela superficie com
+                // uma que so LE deixaria duas coisas diferentes com a mesma cara no mesmo lugar.
                 if (!Roguelike)
                 {
                     motivo = "fora do modo Roguelike (Root.PlayingRoguelike=false)";
-                    return false;
-                }
-
-                GUIState estado = gui.CurrentGuiState;
-                if (!StateAllowed(estado))
-                {
-                    motivo = "GUIState " + estado + " fora da whitelist da run (InBattle/InWorldMap/InTown)";
                     return false;
                 }
 
@@ -174,39 +209,43 @@ namespace RoguelikeSkillTreeVisualizer
                 // `GameLogic.CurrentlySelectedCharacter` para o personagem SENDO NIVELADO
                 // (OpenSkillSelectWindow: l.168929 define; l.168932 guarda em
                 // `CurrentRoguelikeSkillSelectingCharacter`; o Close devolve o antigo: l.169094-169097).
-                // Isso NAO e motivo para esconder o botao: o level-up e EXATAMENTE quando o jogador
-                // quer consultar a arvore. A janela do level-up ainda convive com o PostBattleManager
-                // em `UIWindowManager.OpenedWindows` (o `OpenWindow` dele e l.332398), entao os portoes
-                // abaixo - que descrevem a RUN em andamento (mira, ping, janela, spawn, turno,
-                // animacao) - ficam SUSPENSOS neste menu modal. O que NAO se perde e a ORIGEM do alvo:
-                // `Resolve` le o personagem nivelado do PROPRIO manager, nunca do
-                // `CurrentlySelectedCharacter` (que e justamente o que o manager troca).
+                // Isso NAO e motivo para esconder o botao: o nivel-up e EXATAMENTE quando o jogador
+                // quer consultar a arvore. O que NAO se perde e a ORIGEM do alvo: `Resolve` le o
+                // personagem nivelado do PROPRIO manager, nunca do `CurrentlySelectedCharacter` (que
+                // e justamente o que o manager troca).
                 if (LevelUpAberto())
                 {
                     return true;
                 }
 
                 // ------------------------------------------------------------------------------
-                // RSTV-13 — QUAIS PORTOES VALEM EM CADA ESTADO (mapa x batalha)
+                // RSTV-13/RSTV-30 — QUAIS GUARDAS VALEM EM CADA ESTADO (mapa x batalha)
                 //
-                // Os portoes abaixo descrevem UMA BATALHA EM ANDAMENTO (mira de skill, animacao,
-                // turno, posicionamento inicial). Aplicados ao MAPA-MUNDO eles escondem o botao
-                // justamente enquanto o jogador passeia — o sintoma do dono. `IsPlayerTurnAndReady`
-                // fica no ULTIMO valor do combate anterior (l.111904 seta false no fim do turno) e
-                // `SpawnPlacementActive` so existe no setup da batalha (l.112152 liga, l.112165
-                // desliga). Por isso os portoes de batalha moram DENTRO do ramo `InBattle`; no mapa
-                // (`InWorldMap`) e na cidade (`InTown`) valem apenas os que descrevem a JANELA
-                // (ping, UI aberta) e o alvo — o botao APARECE no mapa-mundo.
+                // Os portoes que sobraram descrevem UMA BATALHA EM ANDAMENTO (mira de skill,
+                // posicionamento inicial) e por isso moram DENTRO do ramo `InBattle`: aplicados ao
+                // MAPA-MUNDO eles esconderiam o botao justamente enquanto o jogador passeia — o
+                // sintoma que o dono relatou. As guardas de turno/animacao que existiam aqui foram
+                // REMOVIDAS na RSTV-30 (o defeito de cada uma esta no cabecalho da classe): eram elas
+                // que faziam o botao piscar quando qualquer personagem agia.
                 // ------------------------------------------------------------------------------
 
-                // Universal (InBattle/InWorldMap/InTown): modo de apontar o hex.
+                // GUARDA 3 (dano real, universal) — modo de apontar o hex.
+                // Justificativa: abrir a arvore ESCREVE `GameLogic.CurrentlySelectedCharacter`
+                // (`SkillTreeReadOnly`: define o alvo quando o jogo nao tem nenhum selecionado) e
+                // escrever esse campo durante a mira forca `CurrentState = Movement` (l.110065),
+                // CANCELANDO o apontar o hex que o jogador tinha comecado.
                 if (gui.PingModeActive)
                 {
                     motivo = "modo de apontar o hex ligado (GUIManager.PingModeActive)";
                     return false;
                 }
 
-                // Universal: qualquer janela de UI aberta (inventario, pause, event window...) => nao empilhar.
+                // GUARDA 4 (dano real, universal) — qualquer janela de UI aberta (inventario, pause,
+                // event window...). Justificativa: o caminho de abertura ABRE O INVENTARIO
+                // (`SkillTreesTab.Abrir`, a aba de todas as arvores) e o poe em
+                // `UIWindowManager.OpenedWindows`; abrir por cima de uma janela que o jogo ja abriu
+                // deixa a UI num estado que nao e o do jogo (o inventario aparece sem o jogo te-lo
+                // pedido, com o `CurrentGuiState`/`InMenus` do estado anterior).
                 UIWindowManager wm = UIWindowManager.Instance;
                 if (wm != null && wm.AnyUIWindowOpen)
                 {
@@ -221,10 +260,12 @@ namespace RoguelikeSkillTreeVisualizer
                     return false;
                 }
 
-                if (estado == GUIState.InBattle)
+                if (gui.CurrentGuiState == GUIState.InBattle)
                 {
-                    // Daqui para baixo: portoes que SO existem em batalha (RSTV-13).
-
+                    // GUARDA 5 (dano real, SO em batalha) — mira de skill ativa.
+                    // Justificativa: mesma familia da GUARDA 3, no modo `Action` do
+                    // `HexCellManager.CurrentState` (l.123371): o clique no hex na mira NAO checa
+                    // `PointerOverUIObject` (l.158397-158400) e a abertura cancela o apontar.
                     HexCellManager hcm = HexCellManager.instance;
                     if (hcm != null && hcm.CurrentState == PlayerState.Action)
                     {
@@ -232,29 +273,13 @@ namespace RoguelikeSkillTreeVisualizer
                         return false;
                     }
 
+                    // GUARDA 6 (dano real, SO em batalha) — posicionamento inicial da batalha.
+                    // Justificativa: e a fase em que o JOGO esta posicionando o time e mexendo no
+                    // personagem selecionado (`Root.SpawnPlacementActive`, l.112152 liga /
+                    // l.112165 desliga); a abertura tambem mexe nesse campo, entao ela espera.
                     if (root.SpawnPlacementActive)
                     {
                         motivo = "posicionamento inicial em andamento (Root.SpawnPlacementActive)";
-                        return false;
-                    }
-
-                    // `IsPlayerTurnAndReady` fica no ultimo valor do combate anterior (l.111904 seta
-                    // false no fim do turno) e bloquearia o botao no mapa do mundo inteiro.
-                    if (!root.IsPlayerTurnAndReady)
-                    {
-                        motivo = "nao e o turno do jogador (Root.IsPlayerTurnAndReady=false)";
-                        return false;
-                    }
-
-                    if (root.AnyActingCharactersInBattle)
-                    {
-                        motivo = "algum personagem esta executando acao (Root.AnyActingCharactersInBattle)";
-                        return false;
-                    }
-
-                    if (root.AnyMovingCharactersInBattle)
-                    {
-                        motivo = "algum personagem esta em movimento (Root.AnyMovingCharactersInBattle)";
                         return false;
                     }
                 }
@@ -263,7 +288,8 @@ namespace RoguelikeSkillTreeVisualizer
             }
             catch (Exception e)
             {
-                // Lado seguro: NAO abrir. O pior caso e o jogador nao ver a arvore agora.
+                // Lado seguro: NAO abrir. O pior caso e o jogador nao ver a arvore agora — e o
+                // botao continua na tela (RSTV-30: quem e escondido por engano era o defeito).
                 motivo = "falha ao avaliar o estado do jogo (" + e.GetType().Name + ": " + e.Message + ")";
                 return false;
             }

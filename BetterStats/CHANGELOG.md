@@ -1,5 +1,13 @@
 # Changelog — BetterStats
 
+## 1.0.2
+
+**Documentation release. No code change** — this build behaves exactly like 1.0.1; the DLL differs only in the version string it reports.
+
+- **The package page is now in English.** The description and the README were rewritten in English, in the same shape as the other packages of this project (what it does, what it does not do, install, uninstall, build). A short Portuguese summary stays at the end of the README.
+- **The build instructions were wrong about the deploy.** They said that a bare `dotnet build` would also copy the mod into the mod-manager profile. That is no longer true: the deploy is **opt-in** — a bare `dotnet build` installs **nothing**, and only `-p:DeployToBepInEx=true` copies the DLL into `<profile>\BepInEx\plugins\BetterStats\`.
+- **Two notes below were stale about their own version.** The 1.0.0 section said the fix had landed "before any download" and that the version had not gone up. Neither was true: **1.0.0 was published carrying the defect**, and the fix shipped as **1.0.1**. The text now says that, in the past tense.
+
 ## 1.0.1
 
 **Correção do aplicador de ganchos: a 1.0.0 publicada carregava o mod e não aplicava gancho nenhum.**

@@ -67,11 +67,16 @@ namespace BetterTooltips.Patches
     ///   ApplyDescriptionExpressions(string text, string[] expressions,
     ///                               GameFunctionParameters gameFunctionParameters,
     ///                               float fontSize, float rangeMod = 0f)
-    /// logo __0=text, __1=expressions, __2=GameFunctionParameters (o slot 2, NUNCA o __3), __3=float
-    /// fontSize, __4=float rangeMod. O patch declara a assinatura EXPLICITA por TIPO no [HarmonyPatch]
-    /// e le `ref GameFunctionParameters __2`; nenhum parametro e resolvido por nome de metodo. O
-    /// postfix e o MESMO funil por onde passam todos os tooltips de skill/status/powerup/aura — o
-    /// corpo inteiro e try/catch e, em qualquer falha, o texto segue para o jogo como estava.
+    /// O patch declara a assinatura EXPLICITA por TIPO no [HarmonyPatch] e le os DOIS argumentos que
+    /// usa pelo NOME do original (`string text`, `ref GameFunctionParameters gameFunctionParameters`)
+    /// — nenhum parametro por posicao (`__0`/`__2`). A ligacao por nome e a do proprio Harmony
+    /// (`PatchArgumentExtensions.GetArgumentIndex` = `Array.IndexOf` dos nomes do metodo do jogo) e o
+    /// slot 2 e o `GameFunctionParameters`, NUNCA o 3 (float fontSize): foi um `__3` (o slot do float)
+    /// lido como objeto que derrubou o jogo com 112 NullReferenceException. Com o nome, uma renomeacao
+    /// no jogo faz o Harmony RECUSAR o gancho (com o nome no log) em vez de ler o slot errado em
+    /// silencio. O postfix e o MESMO funil por onde passam todos os tooltips de
+    /// skill/status/powerup/aura — o corpo inteiro e try/catch e, em qualquer falha, o texto segue
+    /// para o jogo como estava.
     ///
     /// NAO duplica: a linha so sai quando o texto ainda nao a tem, e o `__result` e remontado a cada
     /// chamada (nada acumula entre frames de hover).
@@ -86,7 +91,7 @@ namespace BetterTooltips.Patches
         [HarmonyPatch(typeof(Tooltip), nameof(Tooltip.ApplyDescriptionExpressions),
             new Type[] { typeof(string), typeof(string[]), typeof(GameFunctionParameters), typeof(float), typeof(float) })]
         [HarmonyPostfix]
-        private static void AcrescentaLinhaDeSinergia(string __0, ref string __result, ref GameFunctionParameters __2)
+        private static void AcrescentaLinhaDeSinergia(string text, ref string __result, ref GameFunctionParameters gameFunctionParameters)
         {
             try
             {
@@ -99,7 +104,7 @@ namespace BetterTooltips.Patches
                     // Ja tem o bloco (defensivo: nunca anexar duas vezes no mesmo texto).
                     return;
                 }
-                StatusComSinergia alvo = StatusDaTooltip(__0, __result, __2);
+                StatusComSinergia alvo = StatusDaTooltip(text, __result, gameFunctionParameters);
                 if (alvo == null)
                 {
                     return;
@@ -108,14 +113,14 @@ namespace BetterTooltips.Patches
                 // (2) DE QUEM E O NUMERO: o MESMO personagem que o motor le na expressao do status.
                 // Com o status vivo, o Source DELE (l.37212-37214); sem status vivo, o Source que o
                 // proprio chamador montou (a Ficha/fortune passa o personagem em foco).
-                Character dono = __2.ActionStatus != null ? __2.ActionStatus.Source : __2.Source;
+                Character dono = gameFunctionParameters.ActionStatus != null ? gameFunctionParameters.ActionStatus.Source : gameFunctionParameters.Source;
                 if (dono == null)
                 {
                     Marca($"status '{alvo.Info.Name}': sem personagem do lado SOURCE — sem linha (nada estimado)");
                     return;
                 }
 
-                string bloco = Bloco(alvo, dono, __2);
+                string bloco = Bloco(alvo, dono, gameFunctionParameters);
                 if (string.IsNullOrEmpty(bloco))
                 {
                     return;

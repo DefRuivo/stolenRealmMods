@@ -33,12 +33,16 @@ namespace BetterTooltips.Patches
     ///   ApplyDescriptionExpressions(string text, string[] expressions,
     ///                               GameFunctionParameters gameFunctionParameters,
     ///                               float fontSize, float rangeMod = 0f)
-    /// logo __0=text, __1=expressions, __2=GameFunctionParameters, __3=float fontSize.
-    /// Este prefix declara a assinatura EXPLÍCITA por TIPO no [HarmonyPatch] (nunca resolução por
-    /// nome) e lê `ref GameFunctionParameters __2` — o slot 2, NUNCA o __3. O prefix antigo lia
-    /// `ref GameFunctionParameters __3` (o slot do float fontSize), interpretava o lixo da memória
-    /// float como GameFunctionParameters e derrubou o jogo com 112 NullReferenceException dentro de
-    /// GUIManager.Update (a batalha travava).
+    /// Este prefix NÃO usa parâmetro por posição (nada de `__0`/`__2`): declara a assinatura
+    /// EXPLÍCITA por TIPO no [HarmonyPatch] E lê o `GameFunctionParameters` pelo NOME do parâmetro
+    /// do original (`gameFunctionParameters`), que é a ligação por nome do próprio Harmony
+    /// (`PatchArgumentExtensions.GetArgumentIndex`: `Array.IndexOf(nomes do original, nome do
+    /// parâmetro do patch)`; 0Harmony 2.x de `lib/`). O prefix antigo declarava a POSIÇÃO (`__3`, o
+    /// slot do float fontSize), o Harmony emitiu a leitura daquele slot como se fosse o objeto,
+    /// o lixo da memória float virou GameFunctionParameters e o jogo caiu com 112
+    /// NullReferenceException dentro de GUIManager.Update (a batalha travava). Com o nome, uma
+    /// renomeação no jogo NÃO vira leitura errada em silêncio: o argumento não é achado e o gancho
+    /// falha ALTO, com o nome no log do plugin (`AplicarPatches`).
     ///
     /// O método roda em TODA tooltip do jogo: todo o corpo é try/catch e, em qualquer falha, os
     /// parâmetros chegam ao original exatamente como estavam.
@@ -46,6 +50,9 @@ namespace BetterTooltips.Patches
     /// RV-23 (30/09) — a LINHA DE ACUMULADO ("Your active shrine auras: ...") foi REESCRITA:
     ///   (a) receptor: o MESMO resolvedor do prefix (`Tooltip.TooltipCharacter` ->
     ///       `Root.WorldCharacter` -> Source) — o WorldCharacter é vazio e nunca tem as auras;
+    ///       RV-50 (03/10): o resolvedor ganhou o PERSONAGEM SOB O CURSOR na frente (party ou
+    ///       inimigo), MENOS quando a tooltip é a do SHRINE (`ShowingGroundEffect`): o hover do
+    ///       shrine mostra só o SELECIONADO e o inimigo passa a sair no tooltip DELE (`Receptor`);
     ///   (b) a aura mostrada é a DESTA tooltip (o status cuja descrição é o texto localizado), não a
     ///       soma de qualquer aura de shrine que o personagem tenha;
     ///   (c) os valores saem do `ActionStatusInfo.AttributeEffects` REAL do status, avaliado pelas
@@ -60,11 +67,11 @@ namespace BetterTooltips.Patches
     ///       mostra a descrição do próprio status com o `[0]` avaliado pela expressão dele.
     ///
     /// O Source da avaliação ERA o `Root.WorldCharacter` (o personagem VAZIO do shrine) — premissa do
-    /// RV-26/33 DERRUBADA em 30/09 pela medição em jogo do dono do jogo (RV-34): Decay e Flame TAMBÉM
-    /// escalam com o bônus do personagem, e com o perk `Worship` o dano DOBRA. Hoje o fator das duas
-    /// auras de perigo é avaliado com `Source` = `Target` = o PRÓPRIO personagem avaliado (ver RV-34
-    /// adiante), e o `Source` vazio do shrine também é trocado pelo receptor no prefix (sem ele, o
-    /// `[0]` da linha do Decay sairia na base enquanto o dano real dobra).
+    /// RV-26/33 DERRUBADA em 30/09 (RV-34). Hoje SÓ o `Target` vazio é preenchido pelo prefix; o
+    /// `Source` NÃO é mais tocado (RV-30 correção, 03/10). As duas auras de PERIGO (Decay/Flame) leem
+    /// `Source[ShrineEffectBonus]` — o bônus do SHRINE, não o do jogador — e injetar o receptor nesse
+    /// slot foi o defeito que produziu o "dobro" atribuído (a um perk `Worship` que NÃO existe; ver a
+    /// retificação do RV-30 adiante).
     ///
     /// RV-29 (30/09) — a LINHA SÓ APARECE PARA QUEM TEM A AURA ATIVA. O defeito: a decisão (e) acima
     /// derivou a aura da DEFINIÇÃO do shrine aberto e nunca olhou o estado do personagem em foco, então
@@ -80,25 +87,25 @@ namespace BetterTooltips.Patches
     /// dentro de `GameLogic.ProcessGroundEffects` quando o personagem entra/termina o movimento
     /// (decompilado l.112652 e l.34445).
     ///
-    /// RV-30 (30/09) — "valor DOBRADO": NÃO havia dobra na aritmética deste arquivo, e o número do
-    /// jogador não foi mudado. O que a investigação provou (logs do jogo do usuário + assets):
-    ///   (1) o valor sai de UMA avaliação da expressão do próprio status — `ValorDaExpressao`
-    ///       (l.444-467) chama `TryParseWithEnglishCulture` e, se falhar, `Game.TryEval<float>` UMA vez;
-    ///       o motor usa exatamente a mesma ordem na caminhada de atributos (decompilado l.37256-37263),
-    ///       e o ÚNICO multiplicador extra do motor é `parsed2 *= TotalStacks` (l.37263), que não é
-    ///       reescrito aqui;
-    ///   (2) a diferença entre personagens é do PERSONAGEM, não do código: no log do usuário a MESMA
-    ///       chave/base 20 saiu 20 para Ashley e 40 para Raven (`Crit Chance +20%` / `Crit Chance +40%`),
-    ///       o que só se explica por `Target["ShrineEffectBonus"]` = 0 e 100 no receptor;
-    ///   (3) o +100 tem nome nos assets do jogo: o perk `Worship` — "100% increased effect from Shrines"
-    ///       com valor 100 (`resources.assets` @1519682848-1519682905), ao lado do CharacterInfo
-    ///       `T2_Worshiper`/@1519682296, no mesmo arquivo que define o atributo `ShrineEffectBonus`
-    ///       (@1519625600). É o termo que o usuário citou — e o único +100% de shrine além do roll de
-    ///       100 do Horn of Devotion.
-    ///   Logo: a aura de um Worshiper vale ×2 DE VERDADE (base 20 -> 40); o que fazia isso parecer
-    ///   invenção era (a) a linha sair também para quem não tinha a aura (RV-29, corrigido acima) e
-    ///   (b) a nota do mod citar só Omnism I/II e Horn como fontes do bônus (LocalizePatch, corrigido).
-    ///   O log do acumulado passa a imprimir `bonus=` do receptor, para o usuário conferir a origem.
+    /// RV-30 (30/09) — "valor DOBRADO": NÃO há dobra na aritmética deste arquivo, e o número do jogador
+    /// não é ajustado. O valor sai de UMA avaliação da expressão do próprio status — `ValorDaExpressao`
+    /// (l.444-467) chama `TryParseWithEnglishCulture` e, se falhar, `Game.TryEval<float>` UMA vez; o
+    /// motor usa exatamente a mesma ordem na caminhada de atributos (decompilado l.37256-37263) e o
+    /// ÚNICO multiplicador extra é `parsed2 *= TotalStacks` (l.37263), não reescrito aqui. A diferença
+    /// entre personagens é do PERSONAGEM: no log do usuário a MESMA chave/base 20 saiu 20 para Ashley e
+    /// 40 para Raven (`Crit Chance +20%` / `Crit Chance +40%`), por `Target["ShrineEffectBonus"]` = 0 e
+    /// 100 no receptor. O log do acumulado imprime `bonus=` do receptor para o usuário conferir a origem.
+    ///
+    /// ⚠ RETIFICAÇÃO (RV-30 correção, 03/10 · RV-48) — o item (3) de 30/09 dizia que o +100 é o "perk
+    /// `Worship`" do JOGADOR. É FABRICAÇÃO: `worship` tem ZERO ocorrências no código do jogo
+    /// (Assembly-CSharp do build atual; `Worshiper` idem). O único rastro do termo é a habilidade
+    /// homônima ("100% increased effect from Shrines", valor 100) do **CharacterInfo de INIMIGO**
+    /// `T2_Worshiper` (`resources.assets` @1519682296) — NÃO existe perk de jogador com esse nome.
+    /// O "dobro" que o dono registrou (RV-34) era o DEFEITO do próprio mod: o prefix do RV-34 injetava
+    /// o receptor no `Source` e as duas auras de PERIGO leem `Source[ShrineEffectBonus]` (o bônus do
+    /// SHRINE) — o número saía "como se o personagem tivesse um bônus". Não é a aura de um "Worshiper"
+    /// que vale ×2 DE VERDADE. PENDÊNCIA (RV-49): o conserto contradiz a medição em jogo do dono e
+    /// aguarda medição/decisão — não está commitado.
     ///
     /// RV-31 (30/09) — a linha VOLTA A SOMAR TODAS AS AURAS VIVAS (defeito relatado pelo usuário: a
     /// linha "Your active shrine auras" mostrava só a aura do shrine cuja tooltip estava aberta).
@@ -123,20 +130,22 @@ namespace BetterTooltips.Patches
     ///
     /// RV-44 (30/09) — O TOTAL SAIU DA FRENTE DO ITEM. Defeito relatado com print do dono: a linha se
     /// chama "Your active shrine auras" e mostrava aura + skill + equipamento num número só — no
-    /// Goblin Battle Standard (Fury) o tooltip do shrine dizia 25% (50% com `Worship`) e a linha dizia
-    /// 50% (75%), e no Rogue Shrine dizia `Dodge +57%` com a aura entregando 40% (20 × 2 do Worship).
+    /// Goblin Battle Standard (Fury) o tooltip do shrine dizia 25% (50% com bônus 100) e a linha dizia
+    /// 50% (75%), e no Rogue Shrine dizia `Dodge +57%` com a aura entregando 40% (20 × 2 do bônus 100).
     /// Na tela isso é indistinguível de "a aura dá 57%". Agora cada item é
     /// **`<o que as auras dão> (total <o total do personagem>%)`** — ex.: `Dodge +40% (total +57%)`,
     /// `Damage +25% (total +50%)` —, com a contribuição saindo do `AttributeEffects` REAL das auras
     /// VIVAS (a mesma expressão que o tooltip do shrine mostra, avaliada pelo motor: 20 × (1+bônus/100))
     /// e o total continuando a ser o indexador. Um item por atributo (RV-31) e a ordem canônica não
     /// mudam; **duas auras no mesmo atributo SOMAM as contribuições** (`Warrior + Fury` em `DamageMod`).
-    /// Prova com as telas do dono (30/09) — as contas fecham de forma aditiva nas duas:
-    ///   Fury sem Worship: aura 25 / total 50 (resto da ficha +25); Damage taken: aura 25 / total 5
+    /// Prova com as telas do dono (30/09) — as contas fecham de forma aditiva nas duas (os rótulos
+    /// originais do relato eram "sem/com `Worship`"; ver a retificação do RV-30 — não há perk de
+    /// jogador, o bônus de 100 é o do caso antigo):
+    ///   Fury bônus 0: aura 25 / total 50 (resto da ficha +25); Damage taken: aura 25 / total 5
     ///     (`DamageReduction` −25 / −5 -> resto +20).
-    ///   Fury com Worship: aura 50 / total 75 (resto +25); Damage taken: aura 50 / total 30
+    ///   Fury bônus 100: aura 50 / total 75 (resto +25); Damage taken: aura 50 / total 30
     ///     (`DamageReduction` −50 / −30 -> resto +20).
-    ///   Rogue Shrine com Worship: `Dodge +40% (total +57%)` (resto +17).
+    ///   Rogue Shrine bônus 100: `Dodge +40% (total +57%)` (resto +17).
     /// O parênteses é o número que o jogador lê na ficha, então o resto é constatável em tela — o log
     /// `RV-44 item ...: aura=... total=... resto=...` imprime as três parcelas em cada hover.
     ///
@@ -178,29 +187,48 @@ namespace BetterTooltips.Patches
     ///     DESCONHECIDO no hover, um número único por atacante é impossível — limitação do jogo, não do
     ///     mod. O que sai é a escala na nota + UM ITEM POR PERSONAGEM que está na área da aura (a lista
     ///     de `FraseAlvosDoFlame`), cada um com a conta feita sobre a vida máxima E o tipo DELE.
-    ///   - DE QUEM É O `ShrineEffectBonus` DO FATOR (fechado em 30/09 pelo teste do dono do jogo, RV-34):
-    ///     é o do PRÓPRIO PERSONAGEM AVALIADO. A dúvida nasceu porque o executor do gatilho é
-    ///     `UseTriggerSource && TriggerSource != null ? TriggerSource : this` (l.41051) com
-    ///     `TriggerSource = actionStatus.Source` (l.33501) — mas a MEDIÇÃO em jogo venceu a leitura de
-    ///     asset (hierarquia de fontes do projeto): com o perk `Worship` (+100 em `ShrineEffectBonus`,
-    ///     um PERK DO PERSONAGEM) o dano por turno que o jogador RECEBE é o DOBRO. Logo o fator vale 2
-    ///     nesse caso, e a origem do bônus é o personagem na aura (a vítima no Decay; cada alvo da lista
-    ///     no Flame), não o personagem vazio do shrine. Prova no log do próprio jogo (30/09):
-    ///     `RV-31 acumulado: ... char=Raven bonus=100` ao lado de `RV-33 linha do Decay: Raven
-    ///     MaxHealth=233 -> ... (23 damage per turn for you)` — o número era 10% (23) com o bônus 100
-    ///     que a aura de buff do MESMO personagem já aplicava (Life Steal +16 = base 8 × 2).
+    ///   - DE QUEM É O `ShrineEffectBonus` DO FATOR — ⚠ RETIFICADO em 03/10 (RV-30 correção · RV-48).
+    ///     A conclusão de 30/09 (RV-34) era que o fator lê o bônus do PRÓPRIO personagem avaliado, com
+    ///     base num "perk `Worship`" do jogador. Esse perk NÃO EXISTE (`worship` = 0 ocorrências no
+    ///     código do jogo; só o CharacterInfo de INIMIGO `T2_Worshiper`). O que havia era o DEFEITO do
+    ///     prefix: ele injetava o receptor no `Source`, e as duas auras de PERIGO leem
+    ///     `Source[ShrineEffectBonus]` — o bônus do SHRINE (o `Source` é o personagem do ground effect,
+    ///     criado por `GameLogic.CreateActionStatus(Source = shrine, Target = player, ...)`). O RV-30
+    ///     (03/10) para de escrever em `Source` e avalia com a constante SEM o fator e `Source = null`.
+    ///     O log do jogo (30/09) `RV-31 acumulado: ... char=Raven bonus=100` ao lado de `RV-33 linha do
+    ///     Decay: Raven MaxHealth=233 -> ... (23 damage per turn for you)` mostrava 10% (23): o número
+    ///     SEM o fator, com o bônus 100 presente no MESMO personagem pela aura de buff (Life Steal +16 =
+    ///     base 8 × 2). PENDÊNCIA (RV-49): o conserto contradiz a medição do dono e aguarda decisão.
+    ///     ⚠ RV-49 — EVIDÊNCIA NOVA (t_d02f9212, 06/10): a parte acima que afirma que o `Source` das
+    ///     auras de perigo e o personagem do ground effect NAO se sustenta para a ACAO. O `Source` da
+    ///     acao e o EXECUTOR do gatilho, e o asset do `Flame Shrine Aura` tem `UseTriggerSource = 0`
+    ///     (dump estrutural do status: pathID 2543240, @1517120720) -> o executor e `this` = o
+    ///     personagem que TEM a aura (l.41935: `(trigger.UseTriggerSource && trigger.TriggerSource !=
+    ///     null) ? trigger.TriggerSource : this`; l.34381-34383 so escreve `TriggerSource =
+    ///     actionStatus.Source` quando `UseTriggerSource`). Cadeia completa e numerada no docstring de
+    ///     `FraseAlvosDoFlame`. O que CONTINUA valendo: o numero EXIBIDO e avaliado com a constante SEM
+    ///     o fator (RV-30, regra cobrada por `tools/testes/regras_rv30.py`) — NADA foi mudado no
+    ///     numero nesta rodada; decidir qual versao fica e o RV-49 (medição em jogo com/sem
+    ///     Omnism/Horn).
     ///
-    /// RV-34 (30/09) — O FATOR ENTRA NA CONTA DAS DUAS AURAS DE PERIGO. As constantes de fórmula passam
-    /// a ser o RHS do asset COPIADO BYTE A BYTE, com o `(1 + (Source["ShrineEffectBonus"] / 100))`
-    /// dentro:
+    /// RV-34 (30/09) — O FATOR DO ASSET DAS DUAS AURAS DE PERIGO (⚠ o número EXIBIDO não o usa; ver a
+    /// retificação abaixo). As constantes de fórmula são o RHS do asset COPIADO BYTE A BYTE, com o
+    /// `(1 + (Source["ShrineEffectBonus"] / 100))` dentro:
     ///   Flame: `Mathf.Max(1,  Mathf.Round((Target["MaxHealth"] * Target.GetValueByEnemyType(.025f,
     ///           .08f, .1f, .12f, .14f, .05f)) * (1 + (Source["ShrineEffectBonus"] / 100))))`
     ///   Decay: `Mathf.Round((Target["MaxHealth"] * Target.GetValueByEnemyType(.05f, .1f, .12f, .15f,
     ///           .2f, .1f)) * (1 + (Source["ShrineEffectBonus"] / 100)))`
     /// (assets @1519546098 len 187 e @1519519282 len 171; o texto COMPLETO, com o prefixo
-    ///  `TargetStored["XDamage"] = `, é a chave do cache compilado l.87116/87156.)
-    /// A avaliação usa `Source` = `Target` = o PERSONAGEM AVALIADO (`ValorDaExpressao` com os dois
-    /// parâmetros): é ele quem leva o dano e é o `ShrineEffectBonus` DELE que o fator lê.
+    ///  `TargetStored["XDamage"] = `, é a chave do cache compilado — l.87922/87882 no dump regenerado
+    ///  nesta rodada por `ilspycmd 8.2.0` sobre `lib/Assembly-CSharp.dll` (no dump antigo, podado:
+    ///  l.87156/87116; mesma `ilspycmd` 8.2.0). Cada string vive DENTRO do objeto da acao: o
+    ///  `Flame Aura Proc` e o objeto @1519544344 (pathID 2544297, 3160 bytes) e o campo `Action` do
+    ///  `Effects[0]` (`Burst2Flame.GeneralEffect`) comeca em @1519546081; a string da formula esta em
+    ///  @1519546098 — lida byte a byte na janela, e o objeto resolvido pela PPtr `Actions` do status.)
+    /// ⚠ RV-30 (correção, 03/10 · RV-48) — a avaliação do número EXIBIDO NÃO usa `Source` = `Target` =
+    /// o personagem avaliado: o fator lê o `Source` do PRÓPRIO status (o personagem do SHRINE). Quem
+    /// chama passa a constante SEM o fator e `Source` = null. A medição do dono e a decisão de qual
+    /// versão fica estão em aberto (RV-49).
     ///
     /// SEM O ATRIBUTO NO BUILD, O NÚMERO FICA COMO ESTAVA: `Character[atributo]` LANÇA para nome
     /// desconhecido (l.32662-32675), então antes de avaliar qualquer fórmula com o fator confere-se
@@ -258,7 +286,7 @@ namespace BetterTooltips.Patches
     ///       `'Rogue Aura' Base +40% (stacks=1)`, ou seja **1 stack por instância**: 3 × 40 = 120.
     ///     Mecânica (decompilado do build atual):
     ///       - `Character.GetAttributeValueByMethod` percorre TODAS as entradas de `ActionStatuses`
-    ///         (Character.cs:8494) e soma o efeito de cada uma × `TotalStacks` (Character.cs:8563) —
+    ///         (Character.cs:37194) e soma o efeito de cada uma × `TotalStacks` (Character.cs:37263) —
     ///         não há dedupe no motor;
     ///       - quem CRIA a segunda instância é o próprio ground effect: `GroundEffect.AddGroundEffectedPlayer`
     ///         (l.102) só sai cedo se o jogador JÁ está em `EffectedPlayers` (l.104-110) e, ao aplicar,
@@ -267,7 +295,7 @@ namespace BetterTooltips.Patches
     ///         (dump `[Status] ... | maxStk=100`). Logo: sair e voltar à área (ou terminar o movimento
     ///         nela) ACUMULA instâncias do mesmo status até a duração de 3 turnos expirar.
     ///     Por que o TOTAL (75) não fecha com 120 — e não é erro do mod: os atributos do jogo têm TETO
-    ///     (`Character.GetAttribute`, Character.cs:11871-11878: `if (HasMax && num > MaxValue) num = MaxValue`).
+    ///     (`Character.GetAttribute`, Character.cs:40607: `if (HasMax && num > MaxValue) num = MaxValue`).
     ///     No asset, `DodgeChance` tem `HasMax` com **MaxValue = 75** (`resources.assets` @1519604232;
     ///     os dois bools imediatamente antes são HasMax=1/UseMaxAttribute=0) e `DamageReduction` tem
     ///     **MaxValue = 50** (@1519603860). A medição bate: o índice `Character[atributo]` sai 51.9 com
@@ -279,7 +307,7 @@ namespace BetterTooltips.Patches
     ///     `AurasUnicas` (abaixo) desduplica a lista viva pelo status (nome + descrição) para os
     ///     ITENS e para a soma; as repetições vão para o log (`instancias=[nome xN]` na âncora e
     ///     `RV-46 instancias`), nunca para o número. O multiplicador por `TotalStacks` CONTINUA
-    ///     (é regra do motor, Character.cs:8563) — no caso do print os stacks eram 1, então ele não
+    ///     (é regra do motor, Character.cs:37263) — no caso do print os stacks eram 1, então ele não
     ///     era a causa; fica só o que o motor realmente usa.
     ///     Teto vai no log (`RV-46 teto '<atributo>'`): com o total no teto o `resto` deixa de ser
     ///     comparável e quem lê o log precisa saber disso. Nenhum texto mudou por causa do teto.
@@ -307,8 +335,9 @@ namespace BetterTooltips.Patches
     ///     (`RV-46 AVISO`), nunca sumindo calada.
     ///
     /// ASSINATURA: nada muda no Harmony aqui — este arquivo segue com a assinatura explícita por TIPO
-    /// no único patch (`ApplyDescriptionExpressions`, 5 tipos, `ref __2`) e nenhum parâmetro por índice
-    /// novo. Todo o trabalho novo é código de leitura, dentro de try/catch.
+    /// no único patch (`ApplyDescriptionExpressions`, 5 tipos) e com o parâmetro lido pelo NOME do
+    /// original (`ref GameFunctionParameters gameFunctionParameters`), nunca por índice (`__0`/`__2`).
+    /// Todo o trabalho novo é código de leitura, dentro de try/catch.
     ///
     /// DWA-2 (30/09) — A DEDUPE DO RV-46 ERA AMPLA DEMAIS: ela é por TIPO DE EFEITO, não por aura.
     ///
@@ -367,7 +396,7 @@ namespace BetterTooltips.Patches
     ///     Conserto: o marcador passa a olhar `HasMin`/`MinValue` também e emite a linha própria
     ///     `RV-46 piso '<atributo>': MinValue=<valor> ... no-piso=sim|nao` — o mesmo tratamento que o
     ///     teto já tinha (a convenção do jogo é a MESMA dos dois lados: `Character.GetAttribute`
-    ///     corta em `HasMax`/`MaxValue` (decompilado l.11871-11878/11879-11882) e o
+    ///     corta em `HasMax`/`MaxValue` (decompilado l.40607) e o
     ///     `CharacterAttribute` carrega `HasMin`/`MinValue` — sem `UseMinAttribute`, é um bool e um
     ///     float). No asset: `ManaCostMod` tem `HasMin` com **MinValue = −75** (`resources.assets`
     ///     @1519616544, o float logo depois do bool do `HasMin`) e `HasMax` AUSENTE — é o caso que
@@ -381,7 +410,7 @@ namespace BetterTooltips.Patches
     ///     calcula ANTES do corte — o patch replica a lógica de
     ///     `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NÃO chamado pelo patch;
     ///     `CalculateAttribute` sobre o `SavedMap`, decompilado l.8252-8274, chamado em `GetAttribute`
-    ///     l.11852-11869, com o corte DEPOIS, l.11871-11882). Falha de leitura = sem campo `cru`
+    ///     l.40599-40606, com o corte DEPOIS, l.40607). Falha de leitura = sem campo `cru`
     ///     (número provado ou nada).
     ///
     /// Os dois campos são de LOG: nenhum item da linha azul e nem o texto do jogo mudam por causa
@@ -432,14 +461,18 @@ namespace BetterTooltips.Patches
 
         // ============================================================================
         // RV-22 — os PARÂMETROS da expressão (nunca o texto).
-        // Assinatura explícita em 5 tipos: __0=string text, __1=string[] expressions,
-        // __2=GameFunctionParameters, __3=float fontSize, __4=float rangeMod.
+        // Assinatura explícita no [HarmonyPatch] em 5 tipos (string, string[], GameFunctionParameters,
+        // float, float) e os parâmetros do patch presos por TIPO + NOME do método do jogo
+        // (`string[] expressions`, `ref GameFunctionParameters gameFunctionParameters`) — nenhum
+        // `__0`/`__2` (auditoria t_b62183cc, 06/10): quem decide de quem é cada argumento é o NOME, não
+        // o slot, e um nome que desapareça faz o Harmony RECUSAR o gancho (com o nome no log do plugin)
+        // em vez de ler o slot errado em silêncio.
         // O método roda em TODA tooltip do jogo.
         // ============================================================================
         [HarmonyPatch(typeof(Tooltip), nameof(Tooltip.ApplyDescriptionExpressions),
             new Type[] { typeof(string), typeof(string[]), typeof(GameFunctionParameters), typeof(float), typeof(float) })]
         [HarmonyPrefix]
-        private static void FixShrineExpressionParams(Tooltip __instance, string[] expressions, ref GameFunctionParameters __2)
+        private static void FixShrineExpressionParams(Tooltip __instance, string[] expressions, ref GameFunctionParameters gameFunctionParameters)
         {
             try
             {
@@ -451,22 +484,27 @@ namespace BetterTooltips.Patches
                 if (!_vivo)
                 {
                     _vivo = true;
-                    Plugin.Log.LogInfo("[Shrine RV-22] prefix de parametros ativo em ApplyDescriptionExpressions (__2 = GameFunctionParameters)");
+                    Plugin.Log.LogInfo("[Shrine RV-22] prefix de parametros ativo em ApplyDescriptionExpressions (gameFunctionParameters lido pelo NOME do original)");
                 }
 
-                // RV-34 — o Source do personagem VAZIO do shrine TAMBÉM é trocado pelo receptor: é o
-                // que faz o `[0]` das duas auras de perigo sair com o bônus REAL. Prova no asset
-                // (status serializados em UTF-8): a expressão do status do Decay é
-                // `Mathf.Round(10 * (1 + (Source["ShrineEffectBonus"] / 100)))` e a do Flame,
-                // `Mathf.Round(5 * (1 + (Source[...] / 100)))` — as DUAS leem `Source`, e o hover do
-                // shrine entrega `Source = Root.WorldCharacter` (l.214179/214182), o personagem sem
-                // bônus: sem esta troca a linha diria "Take 10%" enquanto o dano real dobra. Só é
-                // trocado quando o Source é EXATAMENTE esse personagem (`EhPersonagemVazioDoShrine`);
-                // `Source` de skill/status com personagem de verdade (o caster) não é tocado.
-                bool alvoVazio = __2.Target == null;
-                bool fonteVazia = __2.Source == null;
-                bool fonteEhMundoDoShrine = !fonteVazia && EhPersonagemVazioDoShrine(__2.Source);
-                if (!alvoVazio && !fonteVazia && !fonteEhMundoDoShrine)
+                // RV-30 (correcao, 03/10) — AQUI SO O `Target` VAZIO E PREENCHIDO. O `Source` do hover do
+                // shrine NAO e mais trocado pelo receptor. As UNICAS expressoes da familia que leem
+                // `Source[...]` sao as DUAS auras de perigo (Decay/Flame — `DescriptionExpressions[0]` =
+                // `Mathf.Round(10|5 * (1 + (Source[ShrineEffectBonus] / 100)))`; dump de boot:
+                // `[Status] 'Decay Shrine Aura' | expr=Mathf.Round(10 * (1 + (Source[ShrineEffectBonus] / 100)))`),
+                // e o motor le esse slot do PROPRIO STATUS, nunca do personagem em foco:
+                // `Character.CalculateAttributeWalkOnce` monta
+                // `GameFunctionParameters { Source = actionStatus3.Source, Target = actionStatus3.Target }`
+                // (decompilado l.38119-38120), e um status de ground effect e criado por
+                // `GameLogic.CreateActionStatus(Source = shrine, Target = player, ...)` chamado de
+                // `GroundEffect.AddGroundEffectedPlayer` (decompilado l.118539) — o `Source` e o personagem
+                // do SHRINE (`GroundEffect.Source`, `ConvertToGroundEffect` l.118871-118873). Trocar esse
+                // `Source` pelo observador injetava o `ShrineEffectBonus` do jogador nas duas auras de
+                // perigo, que NAO o usam — o numero saia como se o personagem tivesse um bonus que a aura
+                // nao lhe da (o defeito do RV-30). O `Target` continua sendo preenchido: as 9 auras de
+                // BUFF leem `Target[...]` e o motor usa `actionStatus3.Target` = quem RECEBE a aura.
+                bool alvoVazio = gameFunctionParameters.Target == null;
+                if (!alvoVazio)
                 {
                     return;
                 }
@@ -480,27 +518,19 @@ namespace BetterTooltips.Patches
                 }
 
                 // (4) receptor: TooltipCharacter -> Root.WorldCharacter -> Source existente.
-                Character receptor = Receptor(__instance, __2);
+                Character receptor = Receptor(__instance, gameFunctionParameters);
                 if (receptor == null)
                 {
                     Marca("nenhum receptor disponivel — parametros intactos ([0] fica na base)");
                     return;
                 }
 
-                // Preenche o que está vazio e troca o Source VAZIO do shrine pelo receptor: o número
-                // passa a ser calculado com o bônus REAL do receptor (Omnism I/II +8/+12 = 20; perk
-                // Worship = 100; item Horn of Devotion {50,100}).
-                if (fonteVazia || fonteEhMundoDoShrine)
-                {
-                    __2.Source = receptor;
-                }
-                if (alvoVazio)
-                {
-                    __2.Target = receptor;
-                }
-                Marca($"params: Target{(alvoVazio ? "(vazio)->" : "(intacto)")}{receptor.CharacterName}"
-                    + $" Source{(fonteVazia ? "(vazio)->" : fonteEhMundoDoShrine ? "(shrine)->" : "(intacto)")}"
-                    + $"{(fonteVazia || fonteEhMundoDoShrine ? receptor.CharacterName : "(mantido)")}");
+                // RV-30 (correcao) — so o `Target` e preenchido. O `Source` NAO e tocado: o bonus do
+                // receptor (Omnism I/II +8/+20; item Horn of Devotion {50,100}) vale para as 9 auras de
+                // BUFF, cujas expressoes leem `Target[...]` — que e o slot que o motor preenche com quem
+                // RECEBE a aura.
+                gameFunctionParameters.Target = receptor;
+                Marca($"params: Target(vazio)->{receptor.CharacterName} Source({(gameFunctionParameters.Source == null ? "vazio" : "shrine")}, mantido pelo RV-30)");
             }
             catch (Exception ex)
             {
@@ -515,18 +545,49 @@ namespace BetterTooltips.Patches
 
         /// <summary>
         /// Receptor do efeito da aura — quem tem o `ShrineEffectBonus` que o jogador quer ver.
-        /// Ordem: personagem em foco na UI -> WorldCharacter -> Source existente.
+        /// Ordem: personagem SOB O CURSOR (RV-50; exceto no tooltip do shrine) -> personagem em
+        /// foco na UI (selecionado) -> WorldCharacter -> Source existente.
         /// NUNCA o "máximo da party" (o número é de um personagem concreto).
+        ///
+        /// RV-50 (03/10 · card t_9fc78584) — O DEFEITO: a linha só olhava `Tooltip.TooltipCharacter`,
+        /// que É `GameLogic.instance.CurrentlySelectedCharacter` (decompilado l.213124-213133) — o
+        /// personagem SELECIONADO. Em QUALQUER tooltip de um status de shrine (o ícone de buff de um
+        /// INIMIGO ou de outro aliado, `Tooltip.ShowActionStatusTooltip(StatusIcon)`, l.214067-214073),
+        /// a linha "Your active shrine auras" saía com os valores do SELECIONADO, nunca com os de QUEM
+        /// a tooltip descreve — o inimigo via o número de outro personagem no tooltip DELE. A spec do
+        /// dono: a linha e o hover do SHRINE mostram só o SELECIONADO (`ShowingGroundEffect`), e um
+        /// personagem sob o cursor mostra os valores DELE no tooltip DELE.
         /// </summary>
         private static Character Receptor(Tooltip tooltip, GameFunctionParameters parametros)
         {
+            Tooltip t = tooltip;
+            if (t == null && GUIManager.instance != null)
+            {
+                t = GUIManager.instance.tooltip;
+            }
+
+            // RV-50 — O PERSONAGEM SOB O CURSOR VENCE, MENOS no tooltip do SHRINE. O `ShowingGroundEffect`
+            // é ligado no começo de `Tooltip.ShowGroundEffectTooltip` (l.214157) e desligado no fim do
+            // `ShowTooltip` (l.215141): enquanto a descrição do ground effect é montada (é aí que o
+            // `LocalizePatch` anexa a linha), ele está ligado -> o shrine continua com o SELECIONADO.
             try
             {
-                Tooltip t = tooltip;
-                if (t == null && GUIManager.instance != null)
+                if (t == null || !t.ShowingGroundEffect)
                 {
-                    t = GUIManager.instance.tooltip;
+                    Character sobOCursor = PersonagemSobOCursor();
+                    if (sobOCursor != null)
+                    {
+                        return sobOCursor;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-50] leitura do personagem sob o cursor falhou: {ex.GetType().Name}: {ex.Message}");
+            }
+
+            try
+            {
                 if (t != null)
                 {
                     // Tooltip.TooltipCharacter = GameLogic.instance.CurrentlySelectedCharacter
@@ -560,15 +621,47 @@ namespace BetterTooltips.Patches
         }
 
         /// <summary>
+        /// RV-50 — O PERSONAGEM SOB O CURSOR, party ou INIMIGO. É a MESMA fonte que o jogo usa para o
+        /// hover em combate: `HexCellManager.CurrentlyHoveringHexCell` chama
+        /// `playerInfoWindow.ShowPlayerInfoWindow(player)` para QUALQUER personagem do hex, inclusive
+        /// inimigo (`ShouldShowPlayerInfoWindow` aceita `TeamIndex != 0`, decompilado l.121521-121526 +
+        /// l.151776-151786), e a JANELA guarda esse personagem em `PlayerInfoWindow.currentCharacter`
+        /// (l.151757). Enquanto o mouse está sobre a UI do painel (o ícone de status), o
+        /// `CurrentlyHoveringHexCell` vira nulo mas a célula do setter SÓ troca o painel quando o novo
+        /// hex TEM personagem — sobre a UI o `currentCharacter` do inimigo é PRESERVADO (l.121505-121533,
+        /// o `HidePlayerInfoWindow` só quando `value.Player == null`). É por isso que ele serve à tooltip
+        /// do status; devolve `null` quando não há personagem sob o cursor (o SHRINE) ou fora do combate
+        /// (`ShouldShowPlayerInfoWindow` exige `GUIState.InBattle`, l.151778).
+        /// </summary>
+        private static Character PersonagemSobOCursor()
+        {
+            try
+            {
+                PlayerInfoWindow janela = GUIManager.instance != null ? GUIManager.instance.playerInfoWindow : null;
+                if (janela != null && janela.gameObject.activeSelf)
+                {
+                    return janela.currentCharacter;
+                }
+            }
+            catch (Exception ex)
+            {
+                Plugin.Log.LogWarning($"[Shrine RV-50] personagem sob o cursor indisponivel: {ex.GetType().Name}: {ex.Message}");
+            }
+            return null;
+        }
+
+        /// <summary>
         /// RV-34 — o `Source` que o hover do shrine entrega é o `Root.WorldCharacter`: o personagem
         /// VAZIO do ground effect (`Root.CreateNewGroundEffectCharacter` -> `Observable.New&lt;Character&gt;()`,
-        /// decompilado l.110814/143680), sem nome, sem vida e SEM `ShrineEffectBonus`. O motor o usa como
-        /// origem da aura, mas o bônus que o jogador quer ver é o do receptor: a MEDIÇÃO em jogo (RV-34)
-        /// mostrou o dano do Decay DOBRANDO com o perk `Worship`, e as expressões dos status do Decay e
-        /// do Flame leem `Source[...]` (asset) — com o personagem vazio elas sairiam sempre na base.
+        /// decompilado l.110814/143680), sem nome, sem vida e SEM `ShrineEffectBonus`.
         ///
-        /// A troca é por IDENTIDADE contra esse personagem exato: nenhum `Source` de skill/status (que
-        /// é o caster, um personagem de verdade) entra aqui.
+        /// ⚠ RV-30 (correção, 03/10 · RV-48) — este helper ficou MORTO: o prefix NÃO troca mais o
+        /// `Source` (só o `Target` vazio). A troca era o DEFEITO: as expressões dos status das duas
+        /// auras de PERIGO (Decay/Flame) leem `Source["ShrineEffectBonus"]` — o bônus do SHRINE, não o
+        /// do jogador — e injetar o receptor ali produzia o número "como se o personagem tivesse um
+        /// bônus". O "dobro com `Worship`" do relato não é de um perk de jogador (esse nome não existe
+        /// no código; só o CharacterInfo de INIMIGO `T2_Worshiper`). PENDÊNCIA (RV-49): aguarda
+        /// medição/decisão do dono.
         /// </summary>
         private static bool EhPersonagemVazioDoShrine(Character fonte)
         {
@@ -601,12 +694,43 @@ namespace BetterTooltips.Patches
         /// RV-26 (30/09), reescrito no RV-33 e no RV-34 — o NÚMERO do Flame Shrine por ALVO NA ÁREA DA
         /// AURA.
         ///
+        /// DECISÃO (RV-33 · cartao t_d02f9212, 06/10) — a LINHA fica com a opcao (a): UM ITEM POR
+        /// PERSONAGEM NA ÁREA, cada um PROJETADO como o atacante ("if it were the attacker"), e a
+        /// legenda diz EXPLICITAMENTE que a vida máxima da conta é a DO ATACANTE. As outras duas
+        /// opcoes foram recusadas com motivo: (b) a ESCALA por tipo (2,5/8/10/12/14/5) o proprio dono
+        /// tirou da tooltip no TX-1 ("tooltip nao e lugar de tabela"; a escala vive em
+        /// `docs/cobertura/revisao/RV-19-shrines.md` §4.3 e na tabela gerada
+        /// `tools/dados/shrines-percentuais.csv`) e (c) as duas juntas so alongariam a nota sem
+        /// acrescentar numero nenhum. O hover NAO sabe quem vai atacar: um numero por ATACANTE e
+        /// impossivel — limitacao do JOGO, nao do mod (registrada no cabecalho desta classe).
+        ///
         /// DE QUEM É A VIDA MÁXIMA (o ponto que a RV-26 deixou indecidido e agora está fechado): o `Target`
-        /// da fórmula é QUEM LEVA O DANO, e quem leva é o ATACANTE que disparou a aura — TriggerType =
-        /// `OnGettingHitDamaging` no asset + Condition `Source.IsEnemy(Target)` + `Targets =
-        /// Cell.IsCurrentHex(Target)`, avaliados com `Source = this` (quem foi acertado) e `Target` = o
-        /// atacante. Prova completa no cabeçalho desta classe. NÃO é a vida máxima do personagem que
-        /// apenas está parado na aura.
+        /// da fórmula é QUEM LEVA O DANO, e quem leva é o ATACANTE que disparou a aura. Cadeia provada
+        /// elo por elo (asset E motor, cada um com a fonte):
+        ///   1. o status `Flame Shrine Aura` (pathID 2543240, objeto @1517120720 — dump ESTRUTURAL com
+        ///      UnityPy 1.25.3, `scratch/le_status_um.py`) tem UM `SkillTrigger` com `TriggerType = 1`
+        ///      (`OnGettingHitDamaging`, enum l.46511), `Condition = "Source.IsEnemy(Target)"`,
+        ///      `Targets = "Cell.IsCurrentHex(Target)"`, `UseTriggerSource = 0` e `Actions = [2544297]`
+        ///      (`Flame Aura Proc`);
+        ///   2. quem consome esse gatilho e `target.ProcessSkillTriggers(source, ..., 
+        ///      TriggerType.OnGettingHitDamaging, ...)` (l.40959) — `this` = quem FOI ACERTADO (o
+        ///      portador da aura) e o PARAMETRO `target` do gatilho = o ATACANTE (a assinatura esta em
+        ///      l.41756 e o irmao `OnHittingDamaging` logo acima e `source.ProcessSkillTriggers(target,
+        ///      ...)`, o que fixa quem e quem);
+        ///   3. a `Condition` e o `Targets` do gatilho sao avaliados com `Source = this` e
+        ///      `Target = <atacante>` (l.41865 e l.41881): `Source.IsEnemy(Target)` le "quem me acertou
+        ///      e meu inimigo" (por isso aliado nao dispara) e `Cell.IsCurrentHex(Target)` = a celula DO
+        ///      ATACANTE;
+        ///   4. a ação `Flame Aura Proc` roda na celula alvo e o personagem dela vira o `target` da
+        ///      expressao: `ApplyAction(delay, actionInfo, this, character2, ...)` (l.42632, com
+        ///      `character2` saindo das celulas do alvo — l.42623) e `GetActionDamage` avalia a string
+        ///      com `Source = source, Target = target` (l.39490-39494; a definicao que recebe o par esta
+        ///      em l.40157);
+        ///   5. a expressao `TargetStored["FireDamage"] = ...` (campo `Effects[0].Action` do objeto da
+        ///      ação, pathID 2544297, objeto @1519544344, string UTF-16LE @1519546098 — len 187) le
+        ///      `Target["MaxHealth"]` e `Target.GetValueByEnemyType(...)` (def. l.39235: NAO-AI devolve
+        ///      o 6o argumento = `player`) — logo a conta e vida maxima E tipo DO ATACANTE.
+        /// NÃO é a vida máxima do personagem que apenas está parado na aura.
         ///
         /// O QUE A TOOLTIP MOSTRA (especificação do dono do jogo, 30/09): a aura aplica o status a quem
         /// está na área, então dá para ENUMERAR os alvos — varre-se quem TEM o status do Flame vivo
@@ -614,20 +738,41 @@ namespace BetterTooltips.Patches
         /// ataca é desconhecido no hover: um número único por atacante é impossível; o número por ALVO
         /// na área é exatamente o que a fórmula do jogo dá (limitação do jogo, não do mod).
         ///
-        /// RV-34 — CRU e COMPLETO, como pedido: `Mathf.Max(1, Mathf.Round(MaxHealth ×
-        /// GetValueByEnemyType(...) × (1 + Source["ShrineEffectBonus"]/100)))`. O `Mathf.Max(1,` é do
-        /// jogo; o fator do bônus ENTRA (medido em jogo: com `Worship` o dano dobra) e é lido do PRÓPRIO
-        /// ALVO (`Source` = `Target` = o alvo da vez). Não entra redução de dano, resistência nem
+        /// RV-34 — CRU, como pedido: `Mathf.Max(1, Mathf.Round(MaxHealth ×
+        /// GetValueByEnemyType(...)))`; o `Mathf.Max(1,` é do jogo. O fator
+        /// `(1 + Source["ShrineEffectBonus"]/100)` NÃO entra no número exibido: a avaliação usa a
+        /// constante SEM o fator e `Source` = null (RV-30 correção, 03/10 · RV-48 — a regra e cobrada no
+        /// fonte por `tools/testes/regras_rv30.py`). Não entra redução de dano, resistência nem
         /// modificador posterior — a marca "before damage reduction" está na nota da chave.
+        ///
+        /// ⚠ RV-49 (PENDENTE — NADA MUDOU NO NUMERO POR CAUSA DISTO) — DE QUEM E O BONUS DO FATOR. O
+        /// cartao t_d02f9212 fechou a evidencia que faltava e ela APONTA PARA O CONTRARIO do que o
+        /// RV-30/RV-48 assumiu: o `Source` da ACAO e o EXECUTOR do gatilho (elo 4 acima), o asset do
+        /// Flame tem `UseTriggerSource = 0` e o motor escolhe o executor em l.41935
+        /// (`(trigger.UseTriggerSource && trigger.TriggerSource != null) ? trigger.TriggerSource :
+        /// this`) — ou seja o `Source` e` `this` = O PERSONAGEM QUE TEM A AURA (quem foi acertado), e
+        /// nao o personagem vazio do SHRINE (l.34381-34383 so escreve `TriggerSource =
+        /// actionStatus.Source` quando `UseTriggerSource`, que aqui e 0). A medição do dono (30/09: o
+        /// dano por turno do Decay DOBRAVA com bônus 100) e coerente com isso. A decisao de qual versao
+        /// fica continua sendo o RV-49 (medição em jogo com/sem Omnism e Horn) e NAO pertence a este
+        /// cartao; aqui a unica consequencia e de TEXTO: o número exibido nao usa o fator, entao a
+        /// legenda nao afirma que ele usa.
         ///
         /// TX-1 (01/10) — ONDE ESTA FRASE ENTRA: no COMECO do bloco da nota da chave (`LocalizePatch`,
         /// trecho `original == ShrineAuraPatch.ChaveFlame`), colada na linha branca do jogo — valor
-        /// primeiro, explicacao curta depois. O TEXTO da frase nao mudou: continua dizendo que o numero e
-        /// `raw damage` (PRE-REDUCAO) e que sai da vida maxima E do Shrine Effect Bonus DO PROPRIO
-        /// personagem avaliado como atacante.
+        /// primeiro, explicacao curta depois. RV-33 (t_d02f9212, 06/10) — A LEGENDA mudou em dois
+        /// pontos, e so isso: (1) o dono da vida maxima aparece com o nome — `the attacker's own Max
+        /// Health`, no lugar de `its own Max Health` (o "it" podia ser lido como o personagem parado na
+        /// aura, que e o OPOSTO da formula); (2) saiu o `and its own Shrine Effect Bonus`, que o número
+        /// exibido NUNCA usou (o fator e do personagem que TEM a aura, nao de quem ataca — ver o RV-49
+        /// acima). O resto da frase (o valor e `raw`/PRE-REDUCAO) nao mudou, e a NOTA da chave no
+        /// `LocalizePatch` continua INTEIRA como estava (RV-43: ela ja diz "the attacker takes this
+        /// damage in return, based on its own Max Health and not on the health of the one it
+        /// attacked").
         ///
         /// Devolve "" quando nenhum alvo tem o status vivo, ou em qualquer falha: nenhum número é
-        /// inventado e o texto do jogo (com a escala na nota) fica como está.
+        /// inventado e o texto do jogo (a nota da chave, com a escala documentada fora da tooltip)
+        /// fica como está.
         /// </summary>
         public static string FraseAlvosDoFlame(string chaveDaTooltip)
         {
@@ -652,9 +797,18 @@ namespace BetterTooltips.Patches
                         continue;
                     }
                     float dano;
-                    // RV-34: Source = Target = o alvo — o alvo é quem leva o dano e é o
-                    // `ShrineEffectBonus` DELE que o fator `(1 + Source[...]/100)` lê (Worship -> dobro).
-                    if (!ValorDaExpressao(FormulaDoDano(FormulaDanoFlameCru, FormulaDanoFlameSemBonus), alvo, alvo, out dano))
+                    // RV-30 (correcao, 03/10) — A AURA DE PERIGO NAO USA O BONUS DO PERSONAGEM. A
+                    // formula do asset le `Source[ShrineEffectBonus]` e o motor le esse slot do PROPRIO
+                    // status (`CalculateAttributeWalkOnce`: Source = actionStatus.Source = o personagem do
+                    // SHRINE), nunca de quem esta na area. Aqui entra a constante SEM o fator e com
+                    // `Source` = null: o observador nao ganha um bonus que a aura nao lhe da.
+                    // ⚠ RV-49 (evidencia do t_d02f9212, 06/10) — ATENCAO A ATRIBUICAO ACIMA: aquele
+                    // `Source = actionStatus.Source` e a caminhada de ATRIBUTO (`GetAttributeValueByMethod`,
+                    // l.37891/38109), que as duas auras de PERIGO NAO usam (nao tem `AttributeEffects`).
+                    // O `Source` do DANO e o EXECUTOR do gatilho e, com `UseTriggerSource = 0` no asset,
+                    // e o personagem que TEM a aura (l.41935/42632). O numero exibido continua SEM o
+                    // fator (decisao deste trecho); quem decide qual versao fica e o RV-49.
+                    if (!ValorDaExpressao(FormulaDanoFlameSemBonus, alvo, null, out dano))
                     {
                         Marca($"RV-34 Flame alvo '{alvo.CharacterName}' sem numero: formula nao avaliada");
                         continue;
@@ -664,7 +818,11 @@ namespace BetterTooltips.Patches
                     // Mathf.Round(...))` na fórmula do asset (inteiro por construção).
                     partes.Add(nome + " " + dano.ToString("0.#"));
                     // Item 6 da especificação: o log diz DE QUAL ALVO saiu cada número, com a vida máxima,
-                    // o tipo e o BÔNUS dele que entraram na conta, para a conferência em jogo.
+                    // o tipo e o bônus DELE, para a conferência em jogo. ⚠ RV-33 (t_d02f9212) — o `bonus=`
+                    // daqui é o do ALVO e NÃO entra no número (a avaliação usa a constante SEM o fator,
+                    // RV-30; o fator do asset lê o `Source` do ato, que é o personagem que TEM a aura —
+                    // RV-49). O MARCADOR não mudou de forma de propósito: `tools/checa_shrines.py` casa
+                    // `bonus=<b> dano=<d>` por regex e os fixtures versionados trazem esse formato.
                     Marca($"RV-34 Flame alvo '{nome}': MaxHealth={alvo.MaxHealth.ToString("0.#")}"
                         + $" tipo={TipoDoAlvo(alvo)} bonus={BonusDoReceptor(alvo)} dano={dano.ToString("0.#")}");
                 }
@@ -672,8 +830,13 @@ namespace BetterTooltips.Patches
                 {
                     return "";
                 }
-                return "In the aura now (raw damage it takes as the attacker, from its own Max Health"
-                    + " and its own Shrine Effect Bonus): " + string.Join("; ", partes.ToArray()) + ".";
+                // RV-33 (t_d02f9212, 06/10) — A LEGENDA DIZ O DONO DA VIDA MAXIMA PELO NOME: o numero e
+                // DA VIDA MAXIMA DO ATACANTE (o alvo listado, projetado como atacante). O `and its own
+                // Shrine Effect Bonus` saiu: o numero exibido nao usa esse fator (RV-30/RV-48) e o fator
+                // do asset e de quem TEM a aura, nao de quem ataca (RV-49). O resto das palavras (o
+                // `raw`/PRE-REDUCAO e a projecao) ficou.
+                return "In the aura now (raw damage it takes as the attacker, from the attacker's own"
+                    + " Max Health): " + string.Join("; ", partes.ToArray()) + ".";
             }
             catch (Exception ex)
             {
@@ -860,15 +1023,15 @@ namespace BetterTooltips.Patches
         /// o `[0]` é PRESERVADO de propósito: quem troca o `[0]` pela % do status é o motor
         /// (`ApplyDescriptionExpressions`). A expressão do status no asset (`Decay Shrine Aura`, UTF-8)
         /// é `Mathf.Round(10 * (1 + (Source["ShrineEffectBonus"] / 100)))` e ela lê `Source` — o
-        /// `ShrineAuraPatch` (prefix, RV-34) entrega aí o personagem em foco, de modo que a % E o dano
-        /// saem com o MESMO bônus e não se contradizem (com Worship: "20%" e o dobro do dano).
+        /// `Source` é o do PRÓPRIO status (o personagem do SHRINE), NÃO o do portador da aura (RV-30
+        /// correção, 03/10). O número sai da constante SEM o fator, com `Source` = null.
         ///
-        /// O `Target`/`Source` da avaliação é o personagem em foco (o `ReceptorDaTooltip`, resolvido como
-        /// a TooltipCharacter): é ele quem está na aura, é quem o proc do Decay acerta no começo do turno
+        /// O `Target` da avaliação é o personagem em foco (o `ReceptorDaTooltip`, resolvido como a
+        /// TooltipCharacter): é ele quem está na aura e quem o proc do Decay acerta no começo do turno
         /// dele (TriggerType `OnTurnStart` + `Targets = Cell.IsCurrentHex(Source)` com `Source = this` =
-        /// o portador — prova no cabeçalho desta classe) e é o `ShrineEffectBonus` DELE que o fator lê
-        /// (medido em jogo: com Worship o dano dobra). Um personagem de 100 de vida COM Worship mostra
-        /// "20 damage per turn for you"; sem o perk, "10".
+        /// o portador — prova no cabeçalho desta classe). ⚠ O "com Worship o dano dobra" do RV-34 virou
+        /// retificação (`worship` não existe no código; o dobro vinha do `Source` injetado pelo defeito
+        /// — RV-30 correção): um personagem de 100 de vida mostra "10 damage per turn for you".
         ///
         /// O número é ANTES DAS REDUÇÕES DE DANO (RV-34) — a marca está na nota da chave no
         /// `LocalizePatch` ("before damage reduction").
@@ -896,21 +1059,30 @@ namespace BetterTooltips.Patches
                     return null;
                 }
                 float dano;
-                // RV-34: Source = Target = o personagem na aura — ele é quem leva o dano (o proc roda no
-                // começo do turno DELE) e é o ShrineEffectBonus DELE que o fator lê (com Worship, o dobro).
-                if (!ValorDaExpressao(FormulaDoDano(FormulaDanoDecay, FormulaDanoDecaySemBonus), naAura, naAura, out dano))
+                // RV-30 (correcao, 03/10) — A AURA DE PERIGO NAO USA O BONUS DO PERSONAGEM. A formula do
+                // asset (`Decay Aura Proc`) le `Source[ShrineEffectBonus]`, e o motor le esse slot do
+                // PROPRIO status (`CalculateAttributeWalkOnce`: Source = actionStatus.Source = o
+                // personagem do SHRINE), nunca do portador. Aqui entra a constante SEM o fator, com
+                // `Source` = null — o observador nao ganha um bonus que a aura nao lhe da.
+                // ⚠ RV-49 (evidencia do t_d02f9212, 06/10) — ATENCAO A ATRIBUICAO ACIMA: `Source =
+                // actionStatus.Source` e a caminhada de ATRIBUTO (`GetAttributeValueByMethod`,
+                // l.37891/38109), que o Decay NAO usa (sem `AttributeEffects`). No DANO, `Source` e o
+                // EXECUTOR do gatilho = o proprio portador (asset `UseTriggerSource = 0`; l.41935/42632) —
+                // por isso a medicao do dono (dobrava com bonus 100) bate com o motor. Nada mudou aqui;
+                // a decisao do display e o RV-49.
+                if (!ValorDaExpressao(FormulaDanoDecaySemBonus, naAura, null, out dano))
                 {
                     // Reserva: a MESMA conta, com a % lida pelo interpretador (o Decay NÃO tem
-                    // Mathf.Max(1, então o 0 é um resultado legítimo) e o fator do bônus lido do
-                    // personagem pelo indexador — 1 quando o atributo não existe: nada é estimado.
+                    // Mathf.Max(1, então o 0 é um resultado legítimo). SEM o fator do bonus do
+                    // personagem: o fator do Decay e do shrine, nao do portador (RV-30).
                     float pct;
-                    if (!ValorDaExpressao(PorcentagemDoDecay, naAura, naAura, out pct))
+                    if (!ValorDaExpressao(PorcentagemDoDecay, naAura, null, out pct))
                     {
                         Marca("RV-34 Decay sem numero: formula e % nao avaliadas pelo interpretador");
                         return null;
                     }
-                    dano = Mathf.Round(naAura.MaxHealth * pct * FatorDoBonus(naAura));
-                    Marca("RV-34 Decay reserva: formula completa nao avaliada; dano montado a partir da % e do bonus do personagem");
+                    dano = Mathf.Round(naAura.MaxHealth * pct);
+                    Marca("RV-34 Decay reserva: formula completa nao avaliada; dano montado a partir da % do portador, SEM bonus de personagem (RV-30)");
                 }
                 // A linha do jogo termina em ponto: o número entra antes dele, e o `[0]` fica no lugar.
                 // RV-45: o `0.#` aqui NÃO pode imprimir fração — o número vem do `Mathf.Round` da
@@ -1116,7 +1288,7 @@ namespace BetterTooltips.Patches
                 {
                     Marca($"RV-46 instancias repetidas na lista viva de {receptor.CharacterName}:"
                         + $" [{string.Join(", ", repeticoes.ToArray())}] — o motor soma cada instancia"
-                        + " (Character.cs:8494 + TotalStacks em Character.cs:8563) e o TETO do atributo"
+                        + " (Character.cs:37194 + TotalStacks em Character.cs:37263) e o TETO do atributo"
                         + " corta o total; a CONTRIBUICAO conta cada aura UMA vez (e o numero que a linha"
                         + " branca do proprio shrine mostra)");
                 }
@@ -1234,8 +1406,8 @@ namespace BetterTooltips.Patches
 
                 string efeito = string.Join("; ", partes.ToArray());
                 // RV-30: o `bonus=` entra no log de propósito — é a ÚNICA entrada que multiplica o
-                // valor da aura, e sai do ATRIBUTO do próprio personagem (ex.: perk Worship = 100),
-                // nunca de uma segunda aplicação do mod. Aqui ele é o bonus de quem tem as auras, e
+                // valor da aura, e sai do ATRIBUTO do próprio personagem (ex.: Horn of Devotion;
+                // `worship` não existe no código — RV-30 correção), nunca de uma segunda aplicação do mod. Aqui ele é o bonus de quem tem as auras, e
                 // serve para o usuário conferir a origem do número. Os nomes das auras agregadas vão
                 // no log para a conferência em jogo dizer QUAIS auras entraram na conta.
                 // RV-46: `instancias=[...]` só sai quando a lista viva trazia a MESMA aura repetida —
@@ -1546,7 +1718,7 @@ namespace BetterTooltips.Patches
         /// <summary>
         /// RV-46 — o TETO do atributo, quando o asset define um (`CharacterAttribute.HasMax`), e o
         /// registro de que o total está batendo nele. O motor corta o valor no teto
-        /// (`Character.GetAttribute`, decompilado l.11871-11878) — então, com o total no teto, o
+        /// (`Character.GetAttribute`, decompilado l.40607) — então, com o total no teto, o
         /// `resto` do item (`total − contribuição`) NÃO é "a parte da ficha que não é aura" e não pode
         /// ser comparado entre hovers. O teto vai no log para quem confere saber; NENHUM texto muda por
         /// causa dele (o número exibido continua o do motor).
@@ -1559,7 +1731,7 @@ namespace BetterTooltips.Patches
         ///     com DOIS Guardians lia `total` 50 (o `MaxValue`) e o cru (90) só podia ser INFERIDO da
         ///     soma por instância provada no RV-46;
         ///   * a linha `RV-46 piso '<atributo>'` — o MESMO tratamento do teto para o PISO
-        ///     (`HasMin`/`MinValue`; `Character.GetAttribute` corta embaixo em l.11879-11882). Antes
+        ///     (`HasMin`/`MinValue`; `Character.GetAttribute` corta embaixo em l.40611). Antes
         ///     um atributo só de piso (`ManaCostMod`: `HasMin` MinValue −75, `HasMax` ausente,
         ///     `resources.assets` @1519616544) NÃO gerava linha nenhuma e o piso não podia nem ser
         ///     provado nem negado pelo log.
@@ -1579,7 +1751,7 @@ namespace BetterTooltips.Patches
                 {
                     Marca($"RV-46 teto '{nome}': MaxValue={teto.ToString("0.#")} char={receptor.CharacterName}"
                         + $" total={ComSinal(total)}%{campoCru} no-teto={(total >= teto ? "sim" : "nao")}"
-                        + " (HasMax do atributo no asset: acima disso o motor corta — Character.cs:11871-11878)");
+                        + " (HasMax do atributo no asset: acima disso o motor corta — Character.cs:40607)");
                 }
 
                 float piso;
@@ -1587,7 +1759,7 @@ namespace BetterTooltips.Patches
                 {
                     Marca($"RV-46 piso '{nome}': MinValue={piso.ToString("0.#")} char={receptor.CharacterName}"
                         + $" total={ComSinal(total)}%{campoCru} no-piso={(total <= piso ? "sim" : "nao")}"
-                        + " (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:11879-11882)");
+                        + " (HasMin do atributo no asset: abaixo disso o motor corta — Character.cs:40611)");
                 }
             }
             catch (Exception ex)
@@ -1622,7 +1794,7 @@ namespace BetterTooltips.Patches
         /// <summary>
         /// MAN-2/REV-47 — o PISO do atributo pelo PRÓPRIO objeto do jogo. O `CharacterAttribute` NÃO
         /// tem `UseMinAttribute` (o teto tem): o piso é só o bool `HasMin` + o `MinValue` — os MESMOS
-        /// campos que o `Character.GetAttribute` lê para cortar embaixo (decompilado l.11879-11882).
+        /// campos que o `Character.GetAttribute` lê para cortar embaixo (decompilado l.40611).
         /// `false` = atributo sem piso neste build (nada sai no log).
         /// </summary>
         private static bool PisoDoAtributo(CharacterAttribute atributo, Character receptor, out float piso)
@@ -1639,13 +1811,13 @@ namespace BetterTooltips.Patches
         /// <summary>
         /// MAN-2/REV-47 — O VALOR **CRU** DO ATRIBUTO: o que o MOTOR soma ANTES de cortar no
         /// `HasMax`/`HasMin`. O `Character[atributo]` que os itens da linha azul usam já vem CORTADO
-        /// (`Character.GetAttribute`, decompilado l.11871-11882) — com DOIS Guardians o total lê 50 (o
+        /// (`Character.GetAttribute`, decompilado l.40607) — com DOIS Guardians o total lê 50 (o
         /// `MaxValue`) enquanto o cru é 90, e sem este campo o corte era invisível na conta (o 90 tinha
         /// de ser inferido à mão).
         ///
         /// O número NÃO é uma conta nova: é a MESMA conta do motor ANTES do corte — o patch replica a
         /// lógica de `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NÃO chamado pelo patch;
-        /// l.8252-8274, chamado por `GetAttribute` em l.11852-11869 — o `Set` absoluto vence, senão
+        /// l.8252-8274, chamado por `GetAttribute` em l.40599-40606 — o `Set` absoluto vence, senão
         /// `SavedMap` + `CalculateAttribute` (Base/Percentage/Multiplicative) e, se o atributo pede,
         /// a segunda passada). O `CharacterEffectMethod` e o `CalculateAttribute` são públicos (o
         /// `AtributoPercentualPatch` já usa o MESMO `GetAttributeValueByMethod`).
@@ -1816,7 +1988,9 @@ namespace BetterTooltips.Patches
                     return null;
                 }
                 float dano;
-                if (!ValorDaExpressao(FormulaDoDano(FormulaDanoDecay, FormulaDanoDecaySemBonus), receptor, receptor, out dano))
+                // RV-30 — a aura de perigo nao usa o bonus do personagem (o fator do asset le o `Source`
+                // do PROPRIO status = o personagem do shrine). Constante SEM fator, `Source` = null.
+                if (!ValorDaExpressao(FormulaDanoDecaySemBonus, receptor, null, out dano))
                 {
                     motivo = "formula do Decay nao avaliada pelo interpretador do motor";
                     return null;
@@ -1840,7 +2014,9 @@ namespace BetterTooltips.Patches
                         continue;
                     }
                     float dano;
-                    if (!ValorDaExpressao(FormulaDoDano(FormulaDanoFlameCru, FormulaDanoFlameSemBonus), alvo, alvo, out dano))
+                    // RV-30 — idem: a aura de perigo nao usa o bonus do alvo (fator do asset = `Source`
+                    // do proprio status = personagem do shrine).
+                    if (!ValorDaExpressao(FormulaDanoFlameSemBonus, alvo, null, out dano))
                     {
                         continue;
                     }
@@ -2160,10 +2336,11 @@ namespace BetterTooltips.Patches
         /// `Character.GetAttributeWalk`).
         ///
         /// RV-34 — `gameSource` é QUEM o fator `Source["ShrineEffectBonus"]` lê, e `gameTarget` é quem
-        /// tem a vida máxima/percentual lidos. Nas DUAS auras de perigo os dois são o MESMO personagem
-        /// avaliado (medido em jogo: com `Worship` o dano dobra), então quem chama passa o personagem
-        /// nas duas posições. Antes desta revisão o `Source` era o `Root.WorldCharacter` (o personagem
-        /// VAZIO do shrine) — era isso que fazia o fator valer 1 e o número sair na base.
+        /// tem a vida máxima/percentual lidos. ⚠ RV-30 (correção, 03/10 · RV-48): nas DUAS auras de
+        /// perigo o fator lê o `Source` do PRÓPRIO status (o personagem do SHRINE), não o do avaliado —
+        /// quem chama passa a constante SEM o fator e `Source` = null (o "com `Worship` o dano dobra"
+        /// do RV-34 virou retificação; `worship` não existe no código). Antes do RV-34 o `Source` era o
+        /// `Root.WorldCharacter` (o personagem VAZIO do shrine).
         ///
         /// BT-20 (02/10) — vira `internal` para o `ConvercaoAtributoPatch` REUSAR o MESMO avaliador (a
         /// conversao `Source["Stat"] * N` das skills de Armor/Magic Armor é a mesma forma de expressão

@@ -1300,55 +1300,63 @@ namespace BetterTooltips.Patches
             // explicacao cabe em UMA frase. "Textos muito grandes nao necessariamente sao bons".
             // O QUE SAIU do tooltip e VIVE no documento (docs/cobertura/revisao/RV-19-shrines.md
             // §2.2/§3/§4.3/§6.1): a tabela de % por tipo de inimigo, a lista de fontes do Shrine Effect
-            // Bonus (Omnism I/II, perk Worship, Horn of Devotion), o "Minimum 1" do Flame e a repeticao
+            // Bonus (Omnism I/II, Horn of Devotion), o "Minimum 1" do Flame e a repeticao
             // da projecao — tooltip nao e lugar de tabela.
             // O QUE NAO PODE CAIR e continua em toda nota que fala do dano: (1) o numero do Flame e o
             // dano de RETORNO de quem ATACA; (2) ele sai da vida maxima DO ATACANTE, nao da de quem
             // apenas esta na aura; (3) e PRE-REDUCAO de dano.
-            // RV-30 (30/09): a lista de fontes do bonus ganhou o PERK do jogo "Worship" ("100% increased
-            // effect from Shrines", valor 100 nos assets, ao lado do CharacterInfo T2_Worshiper) porque
-            // era exatamente o caso do usuario em jogo: com o perk, a aura sai ×2 e a nota nao explicava
-            // o dobro (parecia numero inventado pelo mod). Nenhum numero foi "ajustado" — o valor da
-            // expressao do jogo e o do personagem; o que faltava era a procedencia estar completa.
-            // RV-34 (30/09) — O FATOR DO ShrineEffectBonus ENTRA NAS DUAS AURAS DE PERIGO, e a nota do
-            // FLAME volta a falar dele. O RV-26/33 tinha concluido que o `Source` da formula era o
-            // personagem VAZIO do shrine (`Source = Root.WorldCharacter`, o que o hover entrega —
-            // l.214179/214182) e que, por isso, `(1 + Source["ShrineEffectBonus"]/100)` valia 1: o fator
-            // foi OMITIDO das duas formulas. O dono do jogo MEDIU em jogo (30/09): com o perk `Worship`
-            // (+100 em `ShrineEffectBonus`, um PERK DO PERSONAGEM) o dano por turno DOBRA. O fator vale 2
-            // e quem ele le e o PROPRIO personagem que leva o dano (a vitima no Decay; cada alvo da lista
-            // no Flame). Correcao no `ShrineAuraPatch`: as constantes passaram a ser o RHS do asset byte
-            // a byte e a avaliacao usa `Source` = `Target` = o personagem avaliado; o prefix tambem troca
-            // o Source VAZIO do shrine pelo receptor (as expressoes dos status do Decay e do Flame leem
-            // `Source[...]`: sem isso a linha diria "Take 10%" enquanto o dano real dobra). Medicao em
-            // jogo vence leitura de asset — hierarquia de fontes do projeto.
+            // RV-30 (30/09) — RETIFICADO em 03/10 (RV-30 correção · RV-48). A lista de fontes tinha
+            // ganhado o "perk Worship" DO JOGADOR ("100% increased effect from Shrines", 100 nos
+            // assets). Isso e FABRICACAO: `worship` tem ZERO ocorrencias no codigo do jogo; o unico
+            // rastro do termo e a habilidade homonima do CharacterInfo de INIMIGO T2_Worshiper
+            // (`resources.assets` @1519682296), nao um perk do jogador. O "caso do usuario em jogo"
+            // (a aura aparentemente ×2) era o DEFEITO do `Source` injetado pelo prefix (RV-34), nao
+            // um perk: o RV-30 (03/10) para de escrever em `Source`. A lista de fontes do bonus, na
+            // tela, e Omnism I/II e Horn of Devotion (a nota viva ao lado do texto nao cita mais
+            // "Worship").
+            // RV-34 (30/09) — SUPERADO pelo RV-30 (correcao, 03/10). O RV-34 concluiu que o fator do
+            // ShrineEffectBonus ENTRAVA nas duas auras de PERIGO, com `Source` = `Target` = o personagem
+            // avaliado e o prefix trocando o `Source` vazio do shrine pelo receptor. RETIFICACAO (RV-48):
+            // a atribuicao a um "perk Worship do jogador" e FABRICACAO (`worship` = 0 ocorrencias no
+            // codigo; so o CharacterInfo de INIMIGO T2_Worshiper). O DEFEITO era o proprio `Source`
+            // injetado: as auras de perigo leem `Source[ShrineEffectBonus]` (o bonus do SHRINE, nunca do
+            // jogador) e o numero saia "como se o personagem tivesse um bonus". O RV-30 (03/10) para de
+            // escrever em `Source` e avalia com a constante SEM o fator e `Source` = null. A decisao
+            // final (o conserto contradiz a medicao do dono) esta em aberto — RV-49.
             // RV-33 (30/09) — DE QUEM E A VIDA MAXIMA: o dano do Flame e % da vida maxima DE QUEM
             // DISPARA a aura, o ATACANTE (TriggerType `OnGettingHitDamaging` no asset + Condition
             // `Source.IsEnemy(Target)` + `Targets = Cell.IsCurrentHex(Target)`; e a chamada do motor e
             // `target.ProcessSkillTriggers(source, ..., OnGettingHitDamaging)` — decompilado l.40075 —
             // com `this` = quem FOI acertado e o `target` do gatilho = o atacante). Ou seja: a acao roda
-            // na celula do atacante. RV-43 (01/10): no HOVER ninguem sabe quem vai atacar, entao a lista
-            // por alvo e uma PROJECAO — cada ocupante da aura e projetado COMO SE fosse o atacante, e o
-            // numero sai da vida maxima DELE (hipotese explicita, aceita pelo dono). O texto da nota diz
-            // isso ("if this character attacked") e NAO afirma mais que a vida usada nao e a de quem esta
-            // na aura: essa frase contradizia a propria lista. Prova
-            // completa no cabecalho do ShrineAuraPatch. Aqui fica so o texto FIXO (a regra e a escala);
-            // a lista DINAMICA por alvo (`FraseAlvosDoFlame`) entra DENTRO deste mesmo bloco de cor para
-            // nao existirem dois blocos iguais. RV-34: o numero E a % saem com o MESMO fator do
-            // ShrineEffectBonus (o do proprio personagem avaliado) e o texto diz, em uma marca curta, que
-            // o valor e ANTES DAS REDUCOES DE DANO — pedido explicito do dono do jogo (sem isso o numero
-            // parece prometer o dano que aparece na tela e nao bate).
+            // na celula do atacante (a cadeia completa, elo por elo e com as linhas do decompilado
+            // regenerado, esta no docstring de `ShrineAuraPatch.FraseAlvosDoFlame`). RV-43 (01/10): no
+            // HOVER ninguem sabe quem vai atacar, entao a lista por alvo e uma PROJECAO — cada ocupante
+            // da aura e projetado COMO SE fosse o atacante, e o numero sai da vida maxima DELE (hipotese
+            // explicita, aceita pelo dono). Quem diz isso ao jogador e o PREFIXO DINAMICO da lista
+            // ("raw damage it takes as the attacker, from the attacker's own Max Health") — a NOTA
+            // abaixo nao repete a projecao.
+            // RV-33 (t_d02f9212, 06/10) — OPCAO (a) travada: um numero por ocupante projetado como
+            // atacante, com o dono da vida maxima NOMEADO na legenda (`the attacker's own Max Health`).
+            // A escala por tipo (opcao b) continua FORA da tooltip — o proprio dono a tirou no TX-1
+            // ("tooltip nao e lugar de tabela"); ela vive em `docs/cobertura/revisao/RV-19-shrines.md`
+            // §4.3 e na tabela gerada `tools/dados/shrines-percentuais.csv`. O `ShrineEffectBonus` NAO
+            // e citado na legenda porque o numero exibido nao o usa (RV-30 correção · RV-48, regra
+            // cobrada por `tools/testes/regras_rv30.py`); de quem e o fator do asset (o `Source` e o
+            // EXECUTOR do gatilho = o personagem que TEM a aura, nao o atacante) fica como pendencia de
+            // MEDICAO no RV-49 — nenhum numero mudou por causa disso.
             // TX-1 (01/10): a nota virou UMA frase ("The attacker takes this damage in return, based on
             // its own Max Health and not on the health of the one it attacked, before damage reduction.")
-            // e a LISTA por alvo subiu para o comeco do bloco (`FraseAlvosDoFlame`). Os tres fatos
-            // acima estao, palavra por palavra, nessa frase — nenhum numero e nenhuma afirmacao de
-            // mecanica saiu dela; o que saiu foi a TABELA (percentuais por tipo, fontes do bonus,
-            // minimo 1), que ja esta no documento.
+            // e a LISTA por alvo subiu para o comeco do bloco (`FraseAlvosDoFlame`). Os DOIS fatos que
+            // importam (a vida maxima usada e DO ATACANTE e o valor e PRE-REDUCAO) estao, palavra por
+            // palavra, nessa frase — nenhuma afirmacao de mecanica saiu dela; o que saiu foi a TABELA
+            // (percentuais por tipo, fontes do bonus, minimo 1), que ja esta no documento.
             { "Attackers take Fire Damage.",
               "\n<color=#C8B090>The attacker takes this damage in return, based on its own Max Health and not on the health of the one it attacked, before damage reduction.</color>" },
             // RV-33/RV-34 (30/09) — o dano do Decay e % da vida maxima DO PROPRIO PORTADOR da aura (Target
-            // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE) VEZES o ShrineEffectBonus
-            // DELE (RV-34: medido em jogo, com Worship dobra). O numero literal sai na linha
+            // do proc = quem esta na aura; o gatilho roda no inicio do turno DELE). RETIFICACAO (RV-30
+            // correcao, 03/10 · RV-48): o fator NAO e "o ShrineEffectBonus DELE"; a aura de perigo le o
+            // `Source[ShrineEffectBonus]` do PROPRIO status (o personagem do SHRINE), nao do portador, e
+            // o "com Worship dobra" era o defeito do `Source` injetado. O numero literal sai na linha
             // (LinhaDecayComValor); aqui ficam a escala, a origem do bonus, o fato de nao existir minimo e
             // a marca de que o valor e ANTES DAS REDUCOES DE DANO.
             // TX-1 (01/10): a nota virou UMA frase ("Raw damage, before damage reduction: your own Max
@@ -1360,8 +1368,28 @@ namespace BetterTooltips.Patches
             // preserva e a vida maxima DO PORTADOR ("your own Max Health"), o fator do bonus DELE e a
             // marca de PRE-REDUCAO — sem os dois primeiros o numero pareceria sair da vida de outra
             // pessoa (erro da familia, corrigido em RV-33/RV-34).
+            // RV-30 (correcao, 03/10) — A AURA DE PERIGO NAO ESCALA COM O BONUS DO PERSONAGEM. A formula
+            // do asset le `Source[ShrineEffectBonus]` e o motor le esse slot do PROPRIO status (o
+            // personagem do SHRINE, `CalculateAttributeWalkOnce`): o fator do Decay/Flame e do shrine.
+            // A redacao do TX-1 ("...which already includes your own Shrine Effect Bonus...") afirmava um
+            // bonus do PORTADOR que a aura nao usa — a nota passa a dizer a origem CERTA do fator.
+            // ⚠ RV-49 (evidencia do t_d02f9212, 06/10) — a atribuicao a `CalculateAttributeWalkOnce` NAO
+            // descreve o caminho do DANO: aquele `Source = actionStatus.Source` e a caminhada de ATRIBUTO
+            // (`GetAttributeValueByMethod`, l.37891/38109), que o Decay/Flame nao usam (sem
+            // `AttributeEffects`). No gatilho, `Source` e o EXECUTOR e vale o personagem que TEM a aura
+            // (asset `UseTriggerSource = 0`; `ShrineAuraPatch`, cabecalho + docstring de
+            // `FraseAlvosDoFlame`). O numero exibido segue SEM o fator; quem decide e o RV-49.
+            // AUDITORIA t_b62183cc (06/10) — A NOTA NAO AFIRMA DE QUEM E O FATOR. A redacao do RV-30
+            // correcao ("This aura scales with the shrine's own Shrine Effect Bonus, not with yours")
+            // fazia uma afirmacao de MECANICA contrariada pela evidencia acima: com `UseTriggerSource = 0`
+            // o `Source` do ATO e o personagem que TEM a aura — para o Decay, o PROPRIO portador, ou seja
+            // o "yours" que a frase negava. Nenhum dos dois lados esta medido (RV-49), entao a nota nao
+            // diz nem "seu" nem "do shrine": ela so afirma o que e PROVADO e usado pelo numero exibido
+            // (vida maxima x % do tipo, ANTES das reducoes, e pode ser 0). O fator continua fora da conta
+            // exibida (RV-30, cobrado por `tools/testes/regras_rv30.py`), e a decisao de qual versao fica
+            // com o RV-49.
             { "Take [0]% of your Max Health in Shadow Damage per turn.",
-              "\n<color=#C8B090>Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown, which already includes your own Shrine Effect Bonus, and it can be 0.</color>" },
+              "\n<color=#C8B090>Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown; the damage can be 0.</color>" },
             { "Damage increased by [0]%. ",
               "\n<color=#C8B090>Base 20%; the value shown already includes the Shrine Effect Bonus.</color>" },
             { "Reduces Damage taken by [0]%. ",
@@ -2119,6 +2147,128 @@ namespace BetterTooltips.Patches
             "Reduced Resistances III",
         };
 
+        /// <summary>
+        /// BUG-34 (04/10) — CONTEXTO DE TEXTO DE FEED/COMBATE.
+        ///
+        /// A nota de Armor/Resistencia so pode entrar no CORPO da tooltip. O funil deste patch
+        /// ve TODO texto localizado, entao um texto de feed que case a regra de afixo (verbo +
+        /// "Armor"/"Resistance") recebia a nota — a prova no log do dono e
+        /// `explicacao adicionada a 'Increased Armor Applied'`.
+        ///
+        /// POR QUE ESSE TEXTO NAO E UMA TOOLTIP: o texto flutuante de combate e montado em
+        /// `Character.ShowOverheadMessageStatus` como `"[status name] Applied"` com o nome
+        /// dentro, e SO e localizado na hora de exibir, em
+        /// `OverheadMessageDisplay.SpawnOverheadMessage` (`OptionsManager.Localize(message)`) —
+        /// o texto final "Increased Armor Applied" casa a regra de afixo. O feed de texto/battle
+        /// log passa por `Root.SendMessageWindowMessage`. Nos DOIS a nota vazava. (O BUG-33
+        /// protegeu so os 4 NOMES exatos; o template/nome composto escapa daquela lista.)
+        ///
+        /// COMO ISTO E RESOLVIDO: uma flag de CONTEXTO, nao uma lista de textos — um prefix de
+        /// cada um dos dois pontos de feed liga a flag e o finalizer desliga; dentro do
+        /// contexto, o bloco de afixo (Armor/Resistencia) NAO anexa a nota. Cobre QUALQUER
+        /// template do feed, nao so os 4 nomes. O corpo da tooltip
+        /// (`Tooltip.ShowActionStatusTooltip` / `ShowSkillTooltip` / `ShowItemTooltip`) localiza
+        /// a DESCRICAO por fora desse contexto e continua recebendo a nota.
+        ///
+        /// CONTADOR (nao booleano): se um caminho de feed chamar o outro (ou reentrar), o
+        /// primeiro a sair NAO apaga o contexto que o de fora ainda usa. O finalizer roda mesmo
+        /// se o metodo do jogo lancar, entao a flag nunca fica presa. `[ThreadStatic]` porque o
+        /// funil roda no thread que chama `Localize`.
+        /// </summary>
+        [ThreadStatic]
+        private static int _profundidadeTextoDeFeed;
+
+        /// <summary>Diagnostico 1x por texto: prova no log que a nota foi barrada no feed.</summary>
+        private static readonly HashSet<string> _notasBarradasNoFeed = new HashSet<string>(StringComparer.Ordinal);
+
+        /// <summary>true quando a localizacao atual acontece dentro de um ponto de feed/combate.</summary>
+        private static bool EmTextoDeFeed()
+        {
+            return _profundidadeTextoDeFeed > 0;
+        }
+
+        /// <summary>Entra no contexto de feed. Par do `SairTextoDeFeed` (chamado no finalizer).</summary>
+        private static void EntrarTextoDeFeed()
+        {
+            _profundidadeTextoDeFeed++;
+        }
+
+        /// <summary>Sai do contexto de feed. Guarda contra subflow: nunca vai abaixo de zero.</summary>
+        private static void SairTextoDeFeed()
+        {
+            if (_profundidadeTextoDeFeed > 0)
+            {
+                _profundidadeTextoDeFeed--;
+            }
+        }
+
+        /// <summary>
+        /// BUG-34 — o FEED DE TEXTO (battle log/chat) localiza por
+        /// `Root.SendMessageWindowMessage`. A flag fica ativa enquanto ele roda, e o funil pula
+        /// a nota de Armor/Resistencia. Alvo por TIPO + NOME (`nameof`), nunca por indice.
+        /// </summary>
+        [HarmonyPatch(typeof(Root), nameof(Root.SendMessageWindowMessage))]
+        internal static class SemNotaNoFeedDeTexto
+        {
+            private static void Prefix()
+            {
+                try
+                {
+                    EntrarTextoDeFeed();
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError("BetterTooltips: falha ao entrar no contexto do feed de texto (BUG-34): " + e.Message);
+                }
+            }
+
+            private static void Finalizer()
+            {
+                try
+                {
+                    SairTextoDeFeed();
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError("BetterTooltips: falha ao sair do contexto do feed de texto (BUG-34): " + e.Message);
+                }
+            }
+        }
+
+        /// <summary>
+        /// BUG-34 — o TEXTO FLUTUANTE de combate localiza a mensagem ja montada (nome do status
+        /// incluso) em `OverheadMessageDisplay.SpawnOverheadMessage`; e o ponto exato do log do
+        /// dono (`'Increased Armor Applied'`). Mesmo par prefix/finalizer. Metodo PRIVADO do
+        /// jogo: alvo por TIPO + NOME (string), nunca por posicao.
+        /// </summary>
+        [HarmonyPatch(typeof(OverheadMessageDisplay), "SpawnOverheadMessage")]
+        internal static class SemNotaNoTextoFlutuanteDeCombate
+        {
+            private static void Prefix()
+            {
+                try
+                {
+                    EntrarTextoDeFeed();
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError("BetterTooltips: falha ao entrar no contexto do texto flutuante (BUG-34): " + e.Message);
+                }
+            }
+
+            private static void Finalizer()
+            {
+                try
+                {
+                    SairTextoDeFeed();
+                }
+                catch (Exception e)
+                {
+                    Plugin.Log.LogError("BetterTooltips: falha ao sair do contexto do texto flutuante (BUG-34): " + e.Message);
+                }
+            }
+        }
+
         private static string BuildArmorNote()
         {
             var gs = GlobalSettingsManager.instance?.globalSettings;
@@ -2132,46 +2282,135 @@ namespace BetterTooltips.Patches
                 "% of the incoming damage). Armor and Magic Armor do not reduce Shadow damage.";
         }
 
-        private static string BuildAttributeEffects(string attribute)
+        /// <summary>
+        /// RV-18 (03/10) — OS TEXTOS das notas de "Effects per point" dos powerups de ATRIBUTO,
+        /// exatamente como as propostas do censo (`scratch/rv10-12-vereditos.json`), com os CAMPOS
+        /// do GlobalSettings entre chaves (`{Campo}`).
+        ///
+        /// O texto da tabela NAO vai literal para a tela: `ResolverCamposDeAtributo` troca CADA
+        /// `{Campo}` pelo valor lido em runtime do MESMO `GlobalSettingsManager.instance.globalSettings`
+        /// que o tooltip de stats do jogo usa (`Tooltip.ShowMainStatTooltip`) — o mesmo dado que o
+        /// `AttributePowerupRegex` ja lia. Se QUALQUER token sobrar (campo ausente, nome errado,
+        /// valor nulo ou GlobalSettings ainda nao carregado), a nota INTEIRA e descartada: um
+        /// placeholder resolvido pela metade (ou cru) e PIOR que nao ter nota (regra do RV-18).
+        ///
+        /// Uma entrada por ATRIBUTO (nao por nivel): os cinco powerups `+ N to <atributo>`
+        /// compartilham a MESMA frase de efeito por ponto, entao os 25 vereditos (5 atributos x
+        /// 5 niveis) usam estas cinco frases. Sem duplicata de chave (o lookup e por atributo).
+        /// </summary>
+        private static readonly Dictionary<string, string> AttributePowerupNotes = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            { "Might", "Effects per point:\n+{AbilityPwrPerMight}% Damage & Healing\n+{AbilityPwrPerMightSummon}% Summon Damage\n+{ArmorPercPerMight}% Armor & Magic Armor" },
+            { "Dexterity", "Effects per point:\n+{CritRatingPerDex} Crit Rating\n+{CritDamagePerDex}% Crit Damage\n1 Movement Per {MovementPointPerDexInterval} Dex (Max 3)" },
+            { "Intelligence", "Effects per point:\n+{ManaPerInt} Max Mana\n+{MaxManaPercPerInt}% Max Mana\n1 Skill Range Per {RangePerIntInterval} Int (Max 3)\n+{SummonLifePerInt}% Summon Health" },
+            { "Vitality", "Effects per point:\n+{MaxHealthPerVit} Max Health\n+{MaxHealthPercPerVit}% Max Health" },
+            { "Reflex", "Effects per point:\n+{DodgeRatingPerReflex} Dodge Rating\n+{DodgeCounterChancePerReflex}% Dodge Counter Chance\n+{OppAttackPercDmgPerReflex}% Opportunity Attack Damage\n+{OppAttackPercDmgPerReflex}% Counter Attack Damage\n1 Counter Attack a turn Per {ExtraCounterAttacksPerReflexInterval} Reflex (Max 3)" },
+        };
+
+        /// <summary>
+        /// O CAMPO de cada token, pelo NOME que a nota escreve entre chaves — o MESMO dado (e o
+        /// MESMO formato) que o `BuildAttributeEffects` ja lia a mao: campos de
+        /// `GlobalSettingsManager.instance.globalSettings`, os que o tooltip de stats do jogo usa.
+        /// Os floats saem em `"0.##"` e os intervalos (inteiros) no `ToString()` simples, como
+        /// sempre sairam. Devolve null quando o GlobalSettings ainda nao esta carregado (a nota
+        /// nao sai: melhor nao mostrar do que mostrar errado).
+        /// </summary>
+        private static Dictionary<string, string> CamposDeAtributoDoGlobalSettings()
         {
             var gs = GlobalSettingsManager.instance?.globalSettings;
             if (gs == null)
             {
                 return null;
             }
-
-            switch (attribute)
+            return new Dictionary<string, string>(StringComparer.Ordinal)
             {
-                case "Might":
-                    return "\nEffects per point:\n" +
-                        $"+{gs.AbilityPwrPerMight.ToString("0.##")}% Damage & Healing\n" +
-                        $"+{gs.AbilityPwrPerMightSummon.ToString("0.##")}% Summon Damage\n" +
-                        $"+{gs.ArmorPercPerMight.ToString("0.##")}% Armor & Magic Armor";
-                case "Dexterity":
-                    return "\nEffects per point:\n" +
-                        $"+{gs.CritRatingPerDex.ToString("0.##")} Crit Rating\n" +
-                        $"+{gs.CritDamagePerDex.ToString("0.##")}% Crit Damage\n" +
-                        $"1 Movement Per {gs.MovementPointPerDexInterval} Dex (Max 3)";
-                case "Intelligence":
-                    return "\nEffects per point:\n" +
-                        $"+{gs.ManaPerInt.ToString("0.##")} Max Mana\n" +
-                        $"+{gs.MaxManaPercPerInt.ToString("0.##")}% Max Mana\n" +
-                        $"1 Skill Range Per {gs.RangePerIntInterval} Int (Max 3)\n" +
-                        $"+{gs.SummonLifePerInt.ToString("0.##")}% Summon Health";
-                case "Vitality":
-                    return "\nEffects per point:\n" +
-                        $"+{gs.MaxHealthPerVit.ToString("0.##")} Max Health\n" +
-                        $"+{gs.MaxHealthPercPerVit.ToString("0.##")}% Max Health";
-                case "Reflex":
-                    return "\nEffects per point:\n" +
-                        $"+{gs.DodgeRatingPerReflex.ToString("0.##")} Dodge Rating\n" +
-                        $"+{gs.DodgeCounterChancePerReflex.ToString("0.##")}% Dodge Counter Chance\n" +
-                        $"+{gs.OppAttackPercDmgPerReflex.ToString("0.##")}% Opportunity Attack Damage\n" +
-                        $"+{gs.OppAttackPercDmgPerReflex.ToString("0.##")}% Counter Attack Damage\n" +
-                        $"1 Counter Attack a turn Per {gs.ExtraCounterAttacksPerReflexInterval} Reflex (Max 3)";
-                default:
-                    return null;
+                { "AbilityPwrPerMight", gs.AbilityPwrPerMight.ToString("0.##") },
+                { "AbilityPwrPerMightSummon", gs.AbilityPwrPerMightSummon.ToString("0.##") },
+                { "ArmorPercPerMight", gs.ArmorPercPerMight.ToString("0.##") },
+                { "CritRatingPerDex", gs.CritRatingPerDex.ToString("0.##") },
+                { "CritDamagePerDex", gs.CritDamagePerDex.ToString("0.##") },
+                { "MovementPointPerDexInterval", gs.MovementPointPerDexInterval.ToString() },
+                { "ManaPerInt", gs.ManaPerInt.ToString("0.##") },
+                { "MaxManaPercPerInt", gs.MaxManaPercPerInt.ToString("0.##") },
+                { "RangePerIntInterval", gs.RangePerIntInterval.ToString() },
+                { "SummonLifePerInt", gs.SummonLifePerInt.ToString("0.##") },
+                { "MaxHealthPerVit", gs.MaxHealthPerVit.ToString("0.##") },
+                { "MaxHealthPercPerVit", gs.MaxHealthPercPerVit.ToString("0.##") },
+                { "DodgeRatingPerReflex", gs.DodgeRatingPerReflex.ToString("0.##") },
+                { "DodgeCounterChancePerReflex", gs.DodgeCounterChancePerReflex.ToString("0.##") },
+                { "OppAttackPercDmgPerReflex", gs.OppAttackPercDmgPerReflex.ToString("0.##") },
+                { "ExtraCounterAttacksPerReflexInterval", gs.ExtraCounterAttacksPerReflexInterval.ToString() },
+            };
+        }
+
+        /// <summary>
+        /// A ROTA DE SUBSTITUICAO EM RUNTIME (RV-18): troca cada `{Campo}` do texto pelo valor do
+        /// mapa. PURA de proposito: nao toca no jogo, recebe o mapa pronto — por isso o teste de
+        /// prova (`t_rv18_atributo_runtime.py`) pode exercita-la com um mapa de valores.
+        ///
+        /// Devolve false (e NAO entrega texto) quando: o texto ou o mapa e vazio; uma `{` nao
+        /// fecha; ou o token nao tem valor no mapa. E a guarda que impede o campo CRU na tela.
+        /// </summary>
+        private static bool ResolverCamposDeAtributo(string texto, Dictionary<string, string> campos, out string resolvido)
+        {
+            resolvido = null;
+            if (string.IsNullOrEmpty(texto) || campos == null)
+            {
+                return false;
             }
+            var sb = new System.Text.StringBuilder(texto.Length);
+            int i = 0;
+            while (i < texto.Length)
+            {
+                int abre = texto.IndexOf('{', i);
+                if (abre < 0)
+                {
+                    sb.Append(texto, i, texto.Length - i);
+                    break;
+                }
+                int fecha = texto.IndexOf('}', abre + 1);
+                if (fecha < 0)
+                {
+                    return false;
+                }
+                sb.Append(texto, i, abre - i);
+                string token = texto.Substring(abre + 1, fecha - abre - 1);
+                string valor;
+                if (!campos.TryGetValue(token, out valor) || valor == null)
+                {
+                    return false;
+                }
+                sb.Append(valor);
+                i = fecha + 1;
+            }
+            resolvido = sb.ToString();
+            return true;
+        }
+
+        /// <summary>
+        /// A frase de "Effects per point" de um atributo, com os valores LIDOS EM RUNTIME: pega o
+        /// template da tabela `AttributePowerupNotes` e resolve os `{Campo}` com
+        /// `CamposDeAtributoDoGlobalSettings`. Devolve null quando o atributo nao tem nota OU quando
+        /// a resolucao falha (campo ausente) — nos dois casos o funil NAO anexa nada (o texto do
+        /// jogo fica intacto, sem placeholder cru). O `\n` inicial e o que os chamadores ja esperavam.
+        /// </summary>
+        private static string BuildAttributeEffects(string attribute)
+        {
+            if (string.IsNullOrEmpty(attribute))
+            {
+                return null;
+            }
+            string template;
+            if (!AttributePowerupNotes.TryGetValue(attribute, out template))
+            {
+                return null;
+            }
+            string resolvido;
+            if (!ResolverCamposDeAtributo(template, CamposDeAtributoDoGlobalSettings(), out resolvido))
+            {
+                return null;
+            }
+            return "\n" + resolvido;
         }
 
         /// <summary>
@@ -2441,7 +2680,20 @@ namespace BetterTooltips.Patches
                                 + $"status '{original}' (BUG-33: o feed de combate localiza o nome; "
                                 + "a explicacao continua na descricao do status)");
                         }
-                        if (!ehRotuloDeStatus && hasVerb && ArmorAffixRegex.IsMatch(original) &&
+                        // BUG-34: dentro de um ponto de FEED/COMBATE (`Root.SendMessageWindowMessage`
+                        // ou o texto flutuante de `OverheadMessageDisplay.SpawnOverheadMessage`) a
+                        // nota de Armor/Resistencia NAO entra — nao e tooltip. A flag de contexto
+                        // (`_profundidadeTextoDeFeed`) cobre QUALQUER template, nao so os 4 nomes.
+                        bool ehTextoDeFeed = EmTextoDeFeed();
+                        if (ehTextoDeFeed && hasVerb &&
+                            (ArmorAffixRegex.IsMatch(original) || ResistAffixRegex.IsMatch(original)) &&
+                            _notasBarradasNoFeed.Add(original))
+                        {
+                            Plugin.Log.LogInfo($"BetterTooltips: nota de mecanica NAO anexada a "
+                                + $"'{original}' (BUG-34: texto de feed/combate; a explicacao "
+                                + "continua no corpo da tooltip)");
+                        }
+                        if (!ehTextoDeFeed && !ehRotuloDeStatus && hasVerb && ArmorAffixRegex.IsMatch(original) &&
                             !ArmorValueSourceRegex.IsMatch(original) &&
                             !original.Contains("blocks damage"))
                         {
@@ -2459,7 +2711,7 @@ namespace BetterTooltips.Patches
                                 appended = true;
                             }
                         }
-                        else if (!ehRotuloDeStatus && hasVerb && ResistAffixRegex.IsMatch(original) &&
+                        else if (!ehTextoDeFeed && !ehRotuloDeStatus && hasVerb && ResistAffixRegex.IsMatch(original) &&
                             !original.Contains("Summon resistance") &&
                             !original.Contains("resistances reduce"))
                         {

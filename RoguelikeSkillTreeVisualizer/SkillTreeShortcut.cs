@@ -21,10 +21,11 @@ namespace RoguelikeSkillTreeVisualizer
     /// DUAS DIFERENCAS DELIBERADAS em relacao a transcricao literal, e o porque de cada uma:
     ///
     ///  1. `GUIState.ChoosingCharacter` NAO bloqueia: e o estado EXATO da tela "Select Party"
-    ///     (`OpenCharacterChoiceManager` o escreve, l.328705), que este atalho atende pelo mesmo
-    ///     caminho do botao da RSTV-2. Bloquear aqui tornaria morto o ramo de despacho da tela de
-    ///     party que o proprio cartao pede. `CreatingCharacter`/`InMainMenu` continuam bloqueando (nao
-    ///     ha alvo nem sessao read-only valida neles).
+    ///     (`OpenCharacterChoiceManager` o escreve, l.328705), que este atalho atende pelo ramo de
+    ///     despacho PROPRIO da tela de party (RSTV-29 removeu o BOTAO daquela tela; o atalho — RSTV-11a
+    ///     — continua abrindo a arvore read-only ali). Bloquear aqui tornaria morto esse ramo.
+    ///     `CreatingCharacter`/`InMainMenu` continuam bloqueando (nao ha alvo nem sessao read-only
+    ///     valida neles).
     ///  2. O guard de janela (l.133449) leva a MESMA excecao de LEVEL-UP do portao da RSTV-8
     ///     (`RunTargets.JanelaDoLevelUpAberta`): durante o level-up o jogo mantem a janela modal
     ///     aberta e o portao da RSTV-8 LIBERA de proposito — sem a excecao, a tecla nao funcionaria
@@ -207,8 +208,8 @@ namespace RoguelikeSkillTreeVisualizer
             // `Ensure` e idempotente.
             RstvHost.Ensure();
 
-            // 1) TELA SELECT PARTY — o MESMO caminho do botao da RSTV-2 (SelectPartyButton.OnClick):
-            //    alvo pelo PartyTargets (a ordem de adicao LOCAL) e contexto PartyScreen.
+            // 1) TELA SELECT PARTY — caminho PROPRIO do atalho desde a RSTV-29: alvo pelo PartyTargets (a
+            //    ordem de adicao LOCAL) e contexto PartyScreen (o botao injetado na tela foi removido).
             CharacterChoiceManager telaParty = CharacterChoiceManager.IsNotNullAndIsActive
                 ? CharacterChoiceManager.Instance
                 : null;
@@ -228,8 +229,11 @@ namespace RoguelikeSkillTreeVisualizer
                 return;
             }
 
-            // 2) RUN — espelha o OnClick do RunButton (l.568): whitelist de estado, PORTAO ja validado
-            //    e alvo resolvido na hora. A tecla nao inventa caminho nenhum de escrita.
+            // 2) RUN — espelha o OnClick do RunButton: a MESMA lista de estados que o JOGO usa para
+            //    habilitar os botoes de personagem do HUD (RSTV-30: `EstadoPermiteMenuDePersonagem`
+            //    le a regra de `GUIManager.Update` l.120491, no lugar da whitelist propria que o mod
+            //    tinha), o PORTAO ja validado e o alvo resolvido na hora. A tecla nao inventa caminho
+            //    nenhum de escrita.
             GUIManager gui = GUIManager.instance;
             if (gui == null)
             {
@@ -237,11 +241,11 @@ namespace RoguelikeSkillTreeVisualizer
                 return;
             }
 
-            if (!RunTargets.StateAllowed(gui.CurrentGuiState))
+            if (!RunTargets.EstadoPermiteMenuDePersonagem(gui.CurrentGuiState))
             {
                 Plugin.Log.LogWarning("RSTV-11: atalho " + tecla + " ignorado — GUIState " +
-                                      gui.CurrentGuiState + " fora da whitelist da run " +
-                                      "(InBattle/InWorldMap/InTown).");
+                                      gui.CurrentGuiState + " nao permite abrir o menu de personagem " +
+                                      "(InTown/InWorldMap/InCutscene/InBattle).");
                 return;
             }
 

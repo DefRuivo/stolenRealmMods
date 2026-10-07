@@ -10,20 +10,25 @@ using UnityEngine;
 namespace RoguelikeSkillTreeVisualizer
 {
     /// <summary>
-    /// RoguelikeSkillTreeVisualizer (RSTV) — RSTV-2 implementada.
+    /// RoguelikeSkillTreeVisualizer (RSTV) — abre a Skill Tree NATIVA do jogo
+    /// (<c>SkillTreeManager</c>, l.177201 — a mesma do Campaign -> Change Skills) em modo SOMENTE
+    /// LEITURA, com o contexto real do personagem. Nenhum ponto e gasto, nada e gravado.
     ///
-    /// Na tela "Roguelike -> Select Party" (classe <c>CharacterChoiceManager</c>, l.328519 do
-    /// decompilado) um botao QUADRADO aparece a DIREITA do "Choose Powerups"
-    /// (<c>CharacterChoiceManager.roguelikePowerupButton</c>, l.328521) e abre a Skill Tree
-    /// NATIVA (<c>SkillTreeManager</c>, l.177201 — a mesma do Campaign -> Change Skills) em modo
-    /// SOMENTE LEITURA, com o contexto real do personagem (o ultimo que o jogador local adicionou
-    /// a party). Nenhum ponto e gasto, nada e gravado.
+    /// Superficies (botoes 'Skills') que existem:
+    ///   - o HUD DA RUN (RSTV-5), ancorado no Ping Button — <c>RunButton</c>;
+    ///   - o CABECALHO do modal "Remove Skill Trees" (RSTV-20) — <c>RemovalWindowSkillsButton</c>;
+    ///   - o ATALHO de teclado (RSTV-11a) — <c>SkillTreeShortcut</c>.
+    ///
+    /// HISTORICO: ate a RSTV-29 havia tambem um botao na tela Select Party, injetado ao lado do
+    /// "Choose Powerups" (`CharacterChoiceManager.roguelikePowerupButton`, l.328521). Em 06/10 o
+    /// dono decidiu REMOVER aquela superficie (nao era confiavel e o botao do modal ja a atende);
+    /// o <c>SelectPartyButton</c> foi apagado e os ganchos daquela tela sumiram (ver `Patches.cs`).
     ///
     /// Pecas do mod:
-    ///   - <c>SelectPartyButton</c>  — clona o botao nativo da tela Select Party e compensa a largura da linha;
-    ///   - <c>RunButton</c>          — RSTV-5: o mesmo botao no HUD DA RUN, ancorado no Ping Button;
+    ///   - <c>RunButton</c>          — RSTV-5: o botao no HUD DA RUN, ancorado no Ping Button;
+    ///   - <c>RemovalWindowSkillsButton</c> — RSTV-20: o botao do cabecalho do modal;
     ///   - <c>RunTargets</c>         — RSTV-5: alvo do clique na run + PORTAO DE SEGURANCA (estado do jogo);
-    ///   - <c>PartyTargets</c>       — ordem de adicao local (o jogo NAO guarda essa ordem);
+    ///   - <c>PartyTargets</c>       — ordem de adicao local, usada pelo atalho na tela Select Party;
     ///   - <c>SkillTreeReadOnly</c>  — abertura nativa + sessao de somente leitura (blindagens 1/2/3/5/6);
     ///   - <c>Patches</c>            — os ganchos Harmony (cada um com a linha do decompilado);
     ///   - <c>RstvHost</c>           — MonoBehaviour criado de forma preguicosa.
@@ -45,21 +50,33 @@ namespace RoguelikeSkillTreeVisualizer
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.3.2";
+        public const string Version = "0.3.3";
 
         internal static ManualLogSource Log { get; private set; }
 
         /// <summary>
-        /// Opcao de config para DESLIGAR o botao. O padrao e <c>true</c> = o comportamento de
-        /// sempre: quem nao abrir o arquivo de config nao ve diferenca nenhuma.
+        /// RSTV-29: CHAVE-MESTRA dos botoes 'Skills' que RESTAM — o do HUD da run, o da janela de
+        /// LEVEL-UP e o do modal "Remove Skill Trees" (a tela Select Party nao tem mais botao). Com
+        /// <c>false</c> NENHUM deles e' injetado; as chaves especificas
+        /// (<c>AtivarBotaoNaRun</c>/<c>AtivarBotaoNaRemocao</c>) continuam valendo por superficie.
+        /// Padrao <c>true</c> = o comportamento de sempre: quem nao abrir o arquivo de config nao ve
+        /// diferenca nenhuma.
+        ///
+        /// RSTV-29F (achado A da RSTV-29R): a decisao e' MANTER a chave-mestra (nao separar) e deixar
+        /// o ALCANCE explicito. Antes da RSTV-29 esta chave controlava SO' o botao da tela Select
+        /// Party; hoje o MESMO nome desliga tambem o HUD da run, o botao da janela de level-up e o
+        /// modal — logo quem ja tinha <c>false</c> no arquivo (para tirar so' o botao da tela de
+        /// party) perde os outros. O perfil do dono usa <c>true</c>, entao isso nao o afeta hoje. O
+        /// alcance fica escrito na descricao do config (abaixo) e nos docs.
         /// Arquivo: <c>BepInEx/config/com.gumatos.roguelikeskilltreevisualizer.cfg</c>.
         /// </summary>
         internal static ConfigEntry<bool> AtivarBotao { get; private set; }
 
         /// <summary>
         /// RSTV-5: opcao de config PROPRIA do botao que aparece DURANTE A RUN, ao lado do botao de
-        /// apontar o hex (Ping Button) do HUD. Padrao <c>true</c> (ligado). Desligar aqui NAO desliga
-        /// o botao da tela Select Party e vice-versa. O PORTAO DE SEGURANCA
+        /// apontar o hex (Ping Button) do HUD. Padrao <c>true</c> (ligado). Desligar aqui desliga SO'
+        /// o botao da run; a chave-mestra <c>AtivarBotao</c> e a do modal sao independentes (o botao
+        /// so' aparece com ESTA chave E a mestra ligadas). O PORTAO DE SEGURANCA
         /// (<c>RunTargets.GateOk</c>) continua valendo mesmo com a opcao ligada: em estado de risco o
         /// botao fica escondido e o log diz por que.
         /// </summary>
@@ -68,7 +85,7 @@ namespace RoguelikeSkillTreeVisualizer
         /// <summary>
         /// RSTV-11a: liga/desliga o ATALHO de teclado (proposta D) que abre a MESMA skill tree
         /// read-only, sem depender do botao do HUD. Padrao <c>true</c> (ligado). Desligar aqui nao
-        /// mexe nos botoes (a tela Select Party e o HUD da run seguem com o comportamento de sempre).
+        /// mexe nos botoes (o HUD da run e o modal seguem com o comportamento de sempre).
         /// </summary>
         internal static ConfigEntry<bool> AtalhoSkillTree { get; private set; }
 
@@ -87,18 +104,19 @@ namespace RoguelikeSkillTreeVisualizer
         internal static ConfigEntry<bool> AtivarBotaoNaRemocao { get; private set; }
 
         /// <summary>
-        /// Forma SEGURA de consultar a opcao: se por algum motivo o config nao pode ser lido/criado,
-        /// o mod continua com o comportamento de sempre (botao ligado) em vez de morrer no boot.
+        /// Forma SEGURA de consultar a chave-mestra: se por algum motivo o config nao pode ser
+        /// lido/criado, o mod continua com o comportamento de sempre (botoes ligados) em vez de
+        /// morrer no boot.
         /// </summary>
         internal static bool BotaoLigado
         {
             get { return AtivarBotao == null || AtivarBotao.Value; }
         }
 
-        /// <summary>Mesma regra para o botao da run: config ilegivel = botao LIGADO (com o portao 4).</summary>
+        /// <summary>Botao da run: a chave-mestra E a da run; config ilegivel = LIGADO (com o portao 4).</summary>
         internal static bool RunBotaoLigado
         {
-            get { return AtivarBotaoNaRun == null || AtivarBotaoNaRun.Value; }
+            get { return BotaoLigado && (AtivarBotaoNaRun == null || AtivarBotaoNaRun.Value); }
         }
 
         /// <summary>Mesma regra para o atalho: config ilegivel = atalho LIGADO (com os guards do jogo).</summary>
@@ -107,10 +125,48 @@ namespace RoguelikeSkillTreeVisualizer
             get { return AtalhoSkillTree == null || AtalhoSkillTree.Value; }
         }
 
-        /// <summary>Mesma regra para o botao do modal "Remove Skill Trees": config ilegivel = LIGADO.</summary>
+        /// <summary>Botao do modal "Remove Skill Trees": chave-mestra E a do modal; ilegivel = LIGADO.</summary>
         internal static bool RemocaoBotaoLigado
         {
-            get { return AtivarBotaoNaRemocao == null || AtivarBotaoNaRemocao.Value; }
+            get { return BotaoLigado && (AtivarBotaoNaRemocao == null || AtivarBotaoNaRemocao.Value); }
+        }
+
+        /// <summary>
+        /// RSTV-29F (achado B da RSTV-29R): POR QUE o botao da run esta desligado, nomeando a chave que
+        /// de fato o desligou. Com a chave-mestra <c>false</c> a especifica pode estar <c>true</c>, e o
+        /// log NAO pode mentir dizendo "AtivarBotaoNaRun=false". Cobre o HUD da run E o botao da janela
+        /// de level-up (os dois consomem <c>RunBotaoLigado</c>).
+        /// </summary>
+        internal static string MotivoDoBotaoDaRunDesligado
+        {
+            get
+            {
+                if (!BotaoLigado)
+                {
+                    return "AtivarBotao=false no arquivo de config (chave-mestra: desliga o botao da " +
+                           "run, o da janela de level-up e o do modal)";
+                }
+
+                return "AtivarBotaoNaRun=false no arquivo de config";
+            }
+        }
+
+        /// <summary>
+        /// RSTV-29F (achado B): idem para o botao do modal — com a mestra <c>false</c> o motivo passa a
+        /// nomear <c>AtivarBotao</c>, nunca a especifica que continua <c>true</c>.
+        /// </summary>
+        internal static string MotivoDoBotaoDoModalDesligado
+        {
+            get
+            {
+                if (!BotaoLigado)
+                {
+                    return "AtivarBotao=false no arquivo de config (chave-mestra: desliga o botao da " +
+                           "run, o da janela de level-up e o do modal)";
+                }
+
+                return "AtivarBotaoNaRemocao=false no arquivo de config";
+            }
         }
 
         /// <summary>A tecla do atalho; sem config, o padrao do mod e <c>KeyCode.F10</c>.</summary>
@@ -129,18 +185,24 @@ namespace RoguelikeSkillTreeVisualizer
                     "Geral",
                     "AtivarBotao",
                     true,
-                    "Injeta o botao 'Skills' na tela Select Party do modo Roguelike. Padrao: true. " +
-                    "Com false o mod carrega e registra os ganchos, mas nao cria botao nenhum na tela.");
+                    "CHAVE-MESTRA dos botoes 'Skills' que restam (RSTV-29): o do HUD da run, o da " +
+                    "janela de LEVEL-UP e o do modal 'Remove Skill Trees'. Padrao: true. Com false o " +
+                    "mod carrega e registra os ganchos, mas NAO cria botao nenhum em lugar nenhum — " +
+                    "desliga o HUD da run, o botao da janela de level-up E o modal de uma vez (para " +
+                    "desligar so' uma superficie use a chave especifica dela). A tela Select Party " +
+                    "nao tem mais botao (a superficie foi removida).");
 
                 AtivarBotaoNaRun = Config.Bind(
                     "Geral",
                     "AtivarBotaoNaRun",
                     true,
-                    "Injeta o botao 'Skills' no HUD DURANTE A RUN (ao lado do Ping Button, o botao de " +
-                    "apontar o hex). Padrao: true. Com false o mod nao cria esse botao. ATENCAO: o " +
-                    "portao de seguranca (RunTargets.GateOk) vale mesmo com true — em mira de skill, " +
-                    "turno do inimigo, personagem agindo/movendo, level-up pendente ou GUIState fora de " +
-                    "InBattle/InWorldMap/InTown o botao fica escondido e o log diz por que.");
+                    "Injeta o botao 'Skills' no HUD DURANTE A RUN, na BARRA DE BAIXO — na mesma " +
+                    "linha dos botoes nativos de inventario e de skills, no vao livre medido antes do " +
+                    "controle que rotaciona a barra de skills (RSTV-30). Padrao: true. Com false (ou " +
+                    "com a chave-mestra AtivarBotao=false) o mod nao cria esse botao. ATENCAO: o " +
+                    "portao da run (RunTargets.GateOk) vale mesmo com true — em mira de hex ou de " +
+                    "skill, com uma janela de UI aberta ou no posicionamento inicial da batalha o " +
+                    "botao fica SEM CLIQUE (continua visivel, na barra) e o log diz por que.");
 
                 AtalhoSkillTree = Config.Bind(
                     "Geral",
@@ -165,7 +227,8 @@ namespace RoguelikeSkillTreeVisualizer
                     true,
                     "Injeta o botao 'Skills' no CABECALHO do modal 'Remove Skill Trees' (canto superior " +
                     "direito do titulo), que abre a arvore read-only do personagem do proprio modal. " +
-                    "Padrao: true. Com false o mod nao cria esse botao (os outros nao mudam).");
+                    "Padrao: true. Com false (ou com a chave-mestra AtivarBotao=false) o mod nao cria " +
+                    "esse botao.");
             }
             catch (Exception e)
             {
@@ -175,20 +238,20 @@ namespace RoguelikeSkillTreeVisualizer
 
             // Marcador de vida: se esta linha nao aparecer no LogOutput.log, o plugin nem carregou.
             Log.LogInfo("Roguelike Skill Tree Visualizer " + Version +
-                        " carregado (RSTV-5: botao na tela Select Party + botao no HUD da run, " +
-                        "ancorado no Ping Button, skill tree read-only).");
+                        " carregado (RSTV-29: botoes 'Skills' no HUD da run e no modal 'Remove Skill " +
+                        "Trees', mais o atalho de teclado; a arvore nativa abre em skill tree read-only).");
 
             AplicarPatches();
 
-            Log.LogInfo("RSTV DIAG: botao 'Skills' da tela Select Party " + (BotaoLigado ? "HABILITADO" : "DESABILITADO") +
-                        " nesta sessao (AtivarBotao=" + BotaoLigado + " no config); botao 'Skills' do HUD da run " +
-                        (RunBotaoLigado ? "HABILITADO" : "DESABILITADO") +
-                        " (AtivarBotaoNaRun=" + RunBotaoLigado + "); portao 4 sempre ativo no botao da run; " +
-                        "atalho " + (AtalhoLigado ? ("LIGADO na tecla " + TeclaAtalho) : "DESABILITADO") +
-                        " (RSTV-11a: guards do KeybindManager replicados; sem acao nativa); " +
+            Log.LogInfo("RSTV DIAG: chave-mestra AtivarBotao=" + BotaoLigado + " — botao 'Skills' do HUD " +
+                        "da run " + (RunBotaoLigado ? "HABILITADO" : "DESABILITADO") +
+                        " (AtivarBotaoNaRun=" + (AtivarBotaoNaRun == null || AtivarBotaoNaRun.Value) + "; RSTV-30: " +
+                        "na BARRA DE BAIXO, visivel com o HUD — o portao da run decide so' o CLIQUE); " +
                         "botao 'Skills' do modal 'Remove Skill Trees' " +
                         (RemocaoBotaoLigado ? "HABILITADO" : "DESABILITADO") +
-                        " (AtivarBotaoNaRemocao=" + RemocaoBotaoLigado + ").");
+                        " (AtivarBotaoNaRemocao=" + (AtivarBotaoNaRemocao == null || AtivarBotaoNaRemocao.Value) + "); " +
+                        "atalho " + (AtalhoLigado ? ("LIGADO na tecla " + TeclaAtalho) : "DESABILITADO") +
+                        " (RSTV-11a: guards do KeybindManager replicados; sem acao nativa).");
         }
 
         /// <summary>

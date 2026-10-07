@@ -1,11 +1,11 @@
 {
   "name": "BetterCombatText",
-  "version_number": "0.1.1",
+  "version_number": "0.1.2",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Outlines combat text: enemy names, buff/debuff labels and the dice numbers in roll events. Each surface toggles in the .cfg. No gameplay change; the visual result is not yet verified in game.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305",
-    "DefRuivo_StolenRealmMods-BetterFont-1.0.2"
+    "DefRuivo_StolenRealmMods-BetterFont-1.0.3"
   ],
   "extra": {
     "author": "gumatos"

@@ -1,11 +1,10 @@
 # BetterCombatText
 
-Makes combat text easier to read: an **outline/halo** around the letters (default: **black
-at 10% alpha**) on enemy names and buff/debuff labels, plus the **dice text** in roll
-events. **No gameplay change.**
+Makes combat text easier to read: an **outline** around the letters on enemy names and
+buff/debuff labels, plus the **dice text** in roll events. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettercombattext`
-- **Version:** 0.1.1
+- **Version:** 0.1.2
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 and **BetterFont**.
 
@@ -15,11 +14,11 @@ Each surface is switched on/off **independently** in the `.cfg`. The effect alwa
 **per-text copy of the material** — never the shared one — so the rest of the interface
 does not get an outline.
 
-| Surface | What it gets |
+| Surface | What it gets (defaults) |
 |---|---|
-| Enemy names in combat | soft outline/halo + soft shadow |
-| Buff/debuff labels in combat | hard outline + shadow + bold (see *What it does not do*) |
-| Dice text in roll events | soft outline/halo + shadow |
+| Enemy names in combat | hard, opaque black outline (`LarguraContorno` 0.22, `SuavidadeContorno` 0.05, `AlfaContorno` 0.95) + short shadow |
+| Buff/debuff labels in combat | hard black outline at 10% + shadow + bold (see *What it does not do*) |
+| Dice text in roll events | soft outline/halo at 35% + shadow |
 | Health number (extra, **off** by default) | soft outline/halo |
 
 The **shadow color follows the background**, because a shadow only shows when it contrasts
@@ -61,7 +60,8 @@ File: `BepInEx\config\com.gumatos.bettercombattext.cfg` (edit in Notepad).
 - **Turn everything off in one line:** section `1. Geral`, `Ativar = false`. The mod then
   applies nothing — the game runs fully original.
 - **Stronger/lighter outline:** `LarguraContorno` (thickness) and `AlfaContorno`
-  (opacity, default `0.10` = the 10%).
+  (opacity). The default is **per surface** — `0.10` on the buff/debuff labels, `0.35` on
+  the dice text, `0.95` on the enemy names.
 - **Softer or harder halo:** `SuavidadeContorno` — high = soft, `0` = hard.
 - **Soft shadow:** `Sombra` + `SombraOffsetX` / `SombraOffsetY` / `SombraSuavidade` /
   `AlfaSombra`.
@@ -105,17 +105,16 @@ dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterCombatText.dll`. The reference DLLs come from the
-game and are **never distributed**. The flag keeps the build local: **without it the
-`DeployToBepInEx` target also copies the DLL into
-`<r2modman profile>\BepInEx\plugins\BetterCombatText\` on the machine that built it** — a bare
-`dotnet build` installs.
+game and are **never distributed**. The deploy is **opt-in** (DEPLOY-2): a bare
+`dotnet build` installs **nothing** — the `DeployToBepInEx` target runs only with
+`-p:DeployToBepInEx=true`, which copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterCombatText\` on the machine that built it.
 
 ---
 
 ## Português (BR)
 
-Deixa o **texto de combate** mais legível: um **contorno/halo** (padrão **preto a 10%**)
-nos nomes de inimigos e nos rótulos de buff/debuff, mais o **texto do dado** nos eventos
+Deixa o **texto de combate** mais legível: **nomes de inimigos** com contorno duro e sombra automática, **rótulos de buff/debuff** com contorno/halo a 10%, mais o **texto do dado** nos eventos
 de rolagem. Cada superfície liga/desliga no `.cfg`. **Não altera gameplay.**
 
 A **cor da sombra segue o FUNDO** (chave `Fundo` por superfície), porque a sombra só aparece

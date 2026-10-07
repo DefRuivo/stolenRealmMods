@@ -1,6 +1,6 @@
 {
   "name": "BetterFont",
-  "version_number": "1.0.2",
+  "version_number": "1.0.3",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Swaps the game's UI font for a serif one (Times New Roman; Georgia or Liberation Serif as fallback), keeping colour, outline and shadow. Texts styled by another mod may keep the original font. No gameplay change.",
   "dependencies": [

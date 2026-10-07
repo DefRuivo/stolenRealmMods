@@ -1,8 +1,8 @@
 {
   "name": "RoguelikeSkillTreeVisualizer",
-  "version_number": "0.3.2",
+  "version_number": "0.3.3",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Adds a 'Skills' button next to Choose Powerups (party screen) and in the run HUD that opens the game's native skill tree read-only, on the selected character. No skill point is spent. No gameplay change.",
+  "description": "Adds a 'Skills' button (run HUD bottom bar, Remove Skill Trees modal and the level-up window) that opens the game's native skill tree read-only for the character in view, plus the shortcut F10. No skill point is spent; no gameplay change.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305"
   ],

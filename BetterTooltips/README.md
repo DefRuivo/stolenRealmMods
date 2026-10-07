@@ -4,7 +4,7 @@ Rewrites the game's skill and status tooltips so they stop **leaving out what ma
 and fixes small text defects. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettertooltips`
-- **Version:** 0.1.3
+- **Version:** 0.1.4
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 
@@ -28,9 +28,11 @@ be observed at that moment, the note says what is assumed.
 ## Shrine auras
 
 The game's shrine tooltips always showed the **base** value, even for a character with
-the bonus that multiplies the aura. The mod does the maths with the **real bonus of the
-character in focus** — the *Shrine Effect Bonus* (**Omnism I/II**, the **Worship** perk
-and the **Horn of Devotion**). A base `20%` becomes the number you actually receive.
+the bonus that multiplies the aura. The mod does the maths with the **Shrine Effect Bonus
+of the character in focus** — **Omnism I/II** and the **Horn of Devotion**. A base `20%`
+becomes the number you actually receive. The two **danger** auras (**Decay** and **Flame**)
+are handled apart and their number is **not** multiplied by that bonus in this version —
+that is an open question, see *Verification* below.
 
 It also adds a line listing **every shrine aura the character is receiving right now**,
 with two numbers per aura: what the auras give you, and your total in that attribute
@@ -43,10 +45,26 @@ with two numbers per aura: what the auras give you, and your total in that attri
 
 ## Verification
 
-The numbers were written against the game's code and data, and the Worship doubling was
-**measured in game**. The final visual check of the new lines on screen had **not** been
-done at the last revision — if a line does not match what you see, that is where to
-report it.
+The numbers were written against the game's code and data. Three earlier statements in this
+file were wrong and are corrected here:
+
+- **The *Worship* label, not the number.** No player perk by that name was **found in the
+  game's code and data we read** — the only located trace of the word is an *enemy*
+  CharacterInfo, `T2_Worshiper`. That is "not found here", **not** a proof the perk does not
+  exist elsewhere in the game's data: an absence in the censuses is not an absence in the
+  assets.
+- **The doubling seen in game is correct.** A character with the bonus really does get the
+  doubled number — it is what the game's own damage path produces, and it is **not** a
+  defect of this mod. What was wrong was the *label* an earlier note put on it, not the
+  number.
+- The two **danger** auras (Decay/Flame) do **not** scale with the shrine's own bonus, as an
+  earlier note claimed: in the damage path the bonus belongs to the character **the aura is
+  on**. Whether the tooltip line should show that bonus is **still open (tracked as
+  RV-49)**; this version shows the number **without** it. That call is made by an in-game
+  measurement, not by this text.
+
+The final visual check of the new lines on screen had **not** been done at the last
+revision — if a line does not match what you see, that is where to report it.
 
 ## What it does not do
 
@@ -83,10 +101,10 @@ dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterTooltips.dll`. The reference DLLs come from the
-game and are **never distributed**. The flag keeps the build local: **without it the
-`DeployToBepInEx` target also copies the DLL into
-`<r2modman profile>\BepInEx\plugins\BetterTooltips\` on the machine that built it** — a bare
-`dotnet build` installs.
+game and are **never distributed**. The deploy is **opt-in** (DEPLOY-2): a bare
+`dotnet build` installs **nothing** — the `DeployToBepInEx` target runs only with
+`-p:DeployToBepInEx=true`, which copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterTooltips\` on the machine that built it.
 
 ---
 
@@ -95,5 +113,6 @@ game and are **never distributed**. The flag keeps the build local: **without it
 Reescreve os tooltips de skills e status para pararem de **omitir o que decide**: qual
 atributo alimenta o número, limite de stacks, duração, quem é afetado, o gatilho, o número
 de golpes. Acrescenta a explicação que falta no fim do tooltip, na cor especial do jogo,
-e corrige erros simples de texto. As auras de shrine passam a mostrar o número com o
-**seu** bônus real. **Não altera gameplay.**
+e corrige erros simples de texto. As auras de shrine de **buff** passam a mostrar o número
+com o **seu** bônus real; as duas de **perigo** (Decay/Flame) seguem sem o fator — pendência
+aberta (RV-49). **Não altera gameplay.**

@@ -11,8 +11,8 @@
          Version do Plugin.cs (usada pelo [BepInPlugin(...)]). Depois de subir a versao
          aqui, rode o empacotador com a opcao de sincronizar versao (ver docs/README.md,
          secao "Fonte unica de versao"). -->
-    <Version>0.3.2</Version>
-    <Description>Botao na tela Select Party e no HUD da run (ao lado do Ping Button) que abre a Skill Tree nativa em modo somente leitura.</Description>
+    <Version>0.3.3</Version>
+    <Description>Adds a 'Skills' button (run HUD bottom bar, Remove Skill Trees modal and the level-up window) that opens the game's native skill tree read-only for the character in view, plus the shortcut F10. No skill point is spent; no gameplay change.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 

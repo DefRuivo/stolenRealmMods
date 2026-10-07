@@ -1,118 +1,295 @@
 # Changelog — BetterTooltips
 
-## 0.1.3 — passivas de inimigo com valor + Armor/Magic Armor absoluto (BT-18..20)
+## 0.1.4 — the Armor note stops leaking into the combat feed
 
-**Passivas de inimigo (BT-18/19):** o tooltip das passivas (`SpecialEffect`) passa a mostrar o que faltava — Regenerating (20% de Max Health por turno), Teleporting (não dispara enraizado/atordoado), Cursed (só habilidade nociva sem Curse), Vengeful (morte de aliado). O **Redemptive** ganha nota qualitativa honesta (a cura vem da habilidade lançada ao morrer; o número exato aguarda medição em jogo).
+**What a player sees:** the explanation of how Armor works also showed up in the **combat feed**
+(the line `Increased Armor Applied`); it now appears **only** inside item/skill tooltips. The two
+**danger** shrine auras (Decay/Flame) keep the number the previous version showed — see the note on
+**RV-49** below, which is **still open** and is **not** closed by this file.
 
-**Armor/Magic Armor absoluto (BT-20):** skills de conversão plana (ex.: **Body and Soul** = Vitality×5 → Armor, Intelligence×5 → Magic Armor) mostram o valor calculado com os stats atuais. Skills cujo valor já aparece pelo token do motor (Invulnerable Winter) ficam de fora.
+- **BUG-34 — the Armor/Resistance note no longer leaks into the combat feed.** The note went into the
+  funnel that localises **every** text in the game, and the feed builds its line from a template
+  (`[status] Applied`) — the mod was guarding only the status NAME, not the template. The mod now knows
+  **where** the text came from (tooltip body × feed) and the note goes **only** into the tooltip body. The
+  legitimate tooltip notes still apply.
+- **RV-30 (correction) — danger auras (Decay/Flame): the number shown does not include the bonus.**
+  The mod used to write the focused character into the slot where those two auras' formula reads the
+  *Shrine Effect Bonus*. The correction stops writing there, and the number those lines show is now
+  evaluated **without** the bonus. **Whether that is the right number is an OPEN decision (RV-49), not
+  a settled fact.** The owner confirmed the *doubling* seen in game is correct, and a later reading of
+  the damage path (`t_d02f9212`, 06/10) found that slot holds the bonus of the character **who has the
+  aura** (`UseTriggerSource = 0`) — which is exactly where the doubling comes from. What decides
+  whether the tooltip should show the number **with** or **without** that bonus is an in-game
+  measurement (`docs/CONFERENCIA-DONO-06-10.md` §4.1), **not** this text.
+- **NOT A FACT — kept on the record for correction (REL-BT-014, 07/10).** Three statements an earlier
+  draft of this file made are wrong and must not be read as approved:
+  - "the doubling was a **defect of this mod**" — **wrong**: the owner confirmed the doubling is
+    **correct** and the game's own damage path produces it (see RV-30 above);
+  - "the danger auras scale with the **shrine's** bonus, not yours" — **wrong**: in the damage path the
+    action's `Source` is the character **the aura is on**, not the shrine's empty character;
+  - "there is **no** player *Worship* perk" — this may only be said as **"not found in the code and
+    data we read"**: the word's only located trace is an *enemy* CharacterInfo, `T2_Worshiper`. An
+    absence in the censuses/code is **not** an absence in the game's assets, so it is not evidence
+    against the doubling.
+- **BUG-34 has the owner's in-game acceptance (registered 05/10 and 06/10).** It is **not** reopened
+  here, and no new acceptance is requested for it.
+- **RV-28 (hardening) — the Sustenance healing number can no longer bring the tooltip down.** To compute
+  the globules' healing the mod reads the maximum health and mana of the character in focus; outside a
+  player context (inspection, shop, the shrine's empty character) that attribute **does not exist** and
+  the engine read **threw**. The attribute is now checked **before** the read: without it, the tooltip
+  stays **as the game wrote it** and the log says why (nothing is estimated).
+- **Hook robustness (TRV-1).** The synergy line read the game method's arguments by **position**; one of
+  them is a `float`, and read as an object it brought the game down with 112 exceptions per frame. The
+  hooks now read the arguments **by name** — if the game renames something, the hook is refused with the
+  name in the log, instead of silently reading the wrong slot.
+- **Documentation (RV-48 / TX-1) — corrected 07/10.** The older note stated that there is **no**
+  player `Worship` perk (the term having zero occurrences in the game's code; the only trace being an
+  *enemy*, `T2_Worshiper`). It may only be stated as **"not found in the code and data we read"** —
+  zero occurrences in the code is not proof of absence in the assets — and the owner confirmed the
+  *doubling* registered in game is **correct**. **No displayed number changed because of this.**
+- **Version:** 0.1.3 -> **0.1.4** in the four places (`<Version>` in the `.csproj`, `version_number` in the
+  `manifest.json`, the literal in `[BepInPlugin(...)]` in `Plugin.cs`, and the `- **Version:**` line in the
+  `README.md`).
 
-## 0.1.2 — valor dinâmico nas passivas + marcador de log das auras de shrine
+## RV-48 (03/10) — documentation retraction: the player "`Worship` perk" does NOT exist
 
-As passivas (**Reaper's Toll**, **Hunger**, **Berserker's Blood**) e as skills de **atributo em %** passam a mostrar o valor **calculado dinâmico** (BT-10..BT-13). O marcador de log das auras de shrine também publica o **piso** e o **valor cru** (MAN-2/REV-47, só log — nenhum texto que o jogador vê muda).
+> ⚠ **CORRECTED on 07/10 (REL-BT-014).** This section holds two statements that **do not stand up**,
+> flagged in the 0.1.4 section above: (1) that the "doubling" was a **defect of the mod itself** — the
+> owner confirmed the doubling is **correct** and the engine produces it; (2) that the danger auras read
+> the **shrine's** bonus — in the damage path the action's `Source` is the character who **has the aura**.
+> The text below stays as **history**; nothing in it closes RV-49.
 
-## MAN-2 / REV-47 (02/10) — o marcador de LOG passa a publicar o PISO e o VALOR CRU (so log; nada empacotado)
+**Text/comment correction only** (no formula and no displayed number changed). The RV-30 investigation
+(closed on 03/10) proved that **`worship` has ZERO occurrences in the game's code** (Assembly-CSharp of the
+current build; `Worshiper` likewise). The term's only trace is the homonymous skill ("100% increased
+effect from Shrines", value 100) of the **ENEMY CharacterInfo** `T2_Worshiper` (`resources.assets`
+@1519682296) — **there is no player perk with that name**. The old mentions of a "`Worship` perk"
+(the list of *Shrine Effect Bonus* sources, the "`Worship` factor" and the explanation of the "doubled
+damage") are FABRICATION. The "doubling" registered in game (RV-34) was the **defect of the mod itself**:
+the RV-34 prefix injected the receiver into `Source` and the two DANGER auras (Decay/Flame) read
+`Source["ShrineEffectBonus"]` — the **SHRINE's bonus**, not the player's; the number came out "as if the
+character had a bonus". RV-30 (03/10) stops writing into `Source`. **OPEN item (RV-49):** the fix
+contradicts the owner's in-game measurement and waits for a measurement/decision — it is not committed.
+The REAL sources of *Shrine Effect Bonus*, on screen, are **Omnism I/II** (Chaos) and the
+**Horn of Devotion**.
 
-Conserto de **dois buracos do marcador de log/despejo** das auras de shrine (achados 3 e 1 da REV-47).
-**Marcas de LOG apenas**: nenhum texto que o jogador ve, nenhuma formula e nenhuma convencao de numero
-(o inteiro da ficha do RV-45, o sinal unico do 46acd97) mudam — o numero exibido continua o do motor.
+## 0.1.3 — enemy passives with values + absolute Armor/Magic Armor (BT-18..20)
 
-- **O PISO era invisivel.** `MarcaTeto`/`TetoDoAtributo` (`ShrineAuraPatch.cs`) so olhavam o `HasMax`:
-  um atributo com PISO (`HasMin`/`MinValue`) **nunca gerava linha**, e pelo log nao dava para provar NEM
-  negar o piso — o `ManaCostMod` parecia "sem teto nenhum" (o dado so apareceu lendo o asset a mao).
-  O marcador agora olha `HasMin`/`MinValue` e emite a linha propria
-  `RV-46 piso '<atributo>': MinValue=<valor> total=...% cru=...% no-piso=sim|nao`. No asset,
-  `ManaCostMod` tem `HasMin` com MinValue **−75** (`resources.assets` @1519616544) e `HasMax` ausente.
-- **O valor CRU nao existia.** O marcador imprimia so o total **ja cortado** — com **DOIS** `Guardian
-  Aura` o `Damage taken` lia `total=+50%` (o `MaxValue`) e o cru (90) tinha de ser **inferido** da soma
-  por instancia provada no RV-46. O campo `cru=` entrou ao lado do `total` nas duas linhas de limite, e
-  o valor **nao e estimado**: e o numero que o motor calcula ANTES do corte, pelo caminho publico dele
-  (`GetAttributeValueByMethod` + `SavedMap` + `CalculateAttribute`) — o patch replica a logica de
-  `Character.CalculateAttributeViaSweeps` (PRIVADO no decompilado, NAO chamado pelo patch); sem leitura,
-  o campo simplesmente nao sai.
+**Enemy passives (BT-18/19):** the tooltip of passives (`SpecialEffect`) now shows what was missing —
+Regenerating (20% of Max Health per turn), Teleporting (does not trigger while rooted/stunned), Cursed
+(only a harmful skill without Curse), Vengeful (death of an ally). **Redemptive** gets an honest
+qualitative note (the healing comes from the skill cast on death; the exact number waits for an in-game
+measurement).
 
-Nada de Harmony mudou (segue o prefixo unico em `ApplyDescriptionExpressions`, `ref __2`); todo o
-trabalho novo e codigo de leitura dentro de try/catch. O `tools/checa_shrines.py` passou a ler o
-`cru=` (opcional, para log de build anterior) e a linha do piso, mostrou os dois na secao
-`LIMITES DO ATRIBUTO NO LOG` e usa o piso (como ja usava o teto) no bloco de ADITIVIDADE.
+**Absolute Armor/Magic Armor (BT-20):** flat-conversion skills (eg **Body and Soul** = Vitality×5 → Armor,
+Intelligence×5 → Magic Armor) show the value computed with the current stats. Skills whose value already
+appears through the engine's token (Invulnerable Winter) stay out.
 
-## RV-46 (30/09) — os dois defeitos da linha azul das auras de shrine (saiu na **0.1.1**, no ar desde 01/10)
+## 0.1.2 — dynamic value in passives + log marker for the shrine auras
 
-> **Historico do titulo:** esta secao nasceu como "Nao publicado" (bc394e7, 30/09) — e o RV-46 era mesmo
-> inedito quando a nota foi escrita; o que envelheceu foi o titulo. O RV-46 foi empacotado dentro da
-> **0.1.1** (publicada em 01/10/2026, substituindo a 0.1.0) e o zip publicado carrega este changelog
-> verbatim, com `AurasUnicas`, `RV-46` e `instancias=` na DLL.
+The passives (**Reaper's Toll**, **Hunger**, **Berserker's Blood**) and the **% attribute** skills now
+show the **computed dynamic** value (BT-10..BT-13). The log marker for the shrine auras also publishes the
+**floor** and the **raw** value (MAN-2/REV-47, log only — no text the player sees changes).
 
-Conserto de **dois defeitos** na linha `Your active shrine auras:`. **Nenhuma formula de dano, nenhuma
-convencao de formatacao (o Ceil do RV-45, o sinal unico do 46acd97) e nenhuma das 12 notas de texto
-mudaram** — o que mudou foi QUAL numero entra em cada item e QUAIS auras viram item.
+## MAN-2 / REV-47 (02/10) — the LOG marker now publishes the FLOOR and the RAW value (log only; nothing packaged)
 
-- **RV-46 — a contribuicao das auras estava MULTIPLICADA (`Dodge +120%` com a aura valendo 40).** Causa
-  provada: `AurasVivas` devolve TODAS as entradas de `Character.ActionStatuses` que casam com a familia e
-  a contribuicao somava por ENTRADA — e a lista viva carrega a **MESMA aura repetida**, porque cada
-  (re)entrada na area do ground effect cria um status NOVO (`GroundEffect.AddGroundEffectedPlayer`) e o
-  motor so remove status `Infinite` (a aura do shrine nao e). No log do jogo do dono (30/09) o mesmo hover
-  mostra a lista com `Rogue Aura` **tres** vezes e `aura=+120%`, com o `RV-44 soma` dizendo `stacks=1` em
-  cada instancia: 3 × 40. **Nao era stack.** Conserto: a contribuicao conta **cada aura UMA vez**
-  (`AurasUnicas`) — 40, que e o numero da linha branca do proprio shrine e o que o motor avalia na
-  expressao do asset. **O total continua o do motor** (`Character[atributo]`): ele para em 75 porque os
-  atributos do jogo tem TETO (`CharacterAttribute.HasMax`; `DodgeChance` **MaxValue 75** e
-  `DamageReduction` **MaxValue 50** no asset) e o motor corta o total ali (`Character.GetAttribute`).
-  As repeticoes e o teto vao para o LOG (`instancias=[Nome xN]`, `RV-46 teto`), nunca para o numero.
-- **RV-46 — aura viva fora da lista: o Dwarven nao aparecia.** Causa: os itens saem por ATRIBUTO de
-  personagem e o efeito do Dwarven **nao e atributo** — o valor mora na **chance do gatilho**
-  (`OnHittingDamaging` -> `Stunned`, `SkillTriggers[].ActionStatusChanceEquations`): no asset
-  (`Dwarven Totem Aura Status`, `resources.assets` @1517115056) a formula
-  `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))` aparece 2× (@1517115395, ao lado da
-  descricao, e @1517115647, dentro do gatilho) e o valor com `Worship` e 40 — o mesmo da linha branca do
-  shrine. Conserto: item proprio **`Stun chance +40%`**, avaliado pelo motor com o personagem em foco.
-  Pela mesma regra entraram as outras duas das 12 auras sem atributo de personagem: Decay
-  (`Shadow damage per turn N`) e Flame (`Fire damage to attackers: …`).
-- **Regra que fica (dono, 30/09):** a linha se chama "Your active shrine auras" e se apresenta como
-  COMPLETA — aura viva que nao virar item sai no LOG com o motivo (`RV-46 AVISO`), nunca em silencio.
-- **Conferencia mecanica:** `tools/checa_shrines.py` passou a ler o campo `instancias=`, os itens sem
-  atributo e o `RV-46 teto`; o caso do **Dwarven deixou de ser `NAO-VER`** (compara o item com a coluna
-  `contribuicao_esperada` da tabela) e o hover com varias auras (o do print do dono) passa a ser
-  conferivel. Contra-prova em `tools/fixtures/shrines-rv46-dedupe.log` (exit 0).
+Fix of **two holes in the log/dump marker** for the shrine auras (findings 3 and 1 of REV-47).
+**LOG marks only**: no text the player sees, no formula and no number convention
+(the sheet integer of RV-45, the single sign of 46acd97) change — the displayed number is still the engine's.
+
+- **The FLOOR was invisible.** `MarcaTeto`/`TetoDoAtributo` (`ShrineAuraPatch.cs`) only looked at the `HasMax`:
+  an attribute with a FLOOR (`HasMin`/`MinValue`) **never produced a line**, and from the log one could prove
+  NEITHER side — `ManaCostMod` looked like "no ceiling at all" (the data only showed up when the asset was read
+  by hand). The marker now looks at `HasMin`/`MinValue` and emits its own line
+  `RV-46 piso '<atributo>': MinValue=<valor> total=...% cru=...% no-piso=sim|nao`. In the asset,
+  `ManaCostMod` has `HasMin` with MinValue **−75** (`resources.assets` @1519616544) and no `HasMax`.
+- **The RAW value did not exist.** The marker printed only the total **already clamped** — with **TWO**
+  `Guardian Aura` the `Damage taken` read `total=+50%` (the `MaxValue`) and the raw value (90) had to be
+  **inferred** from the sum per instance proved in RV-46. The field `cru=` was added next to `total` in both
+  limit lines, and the value **is not estimated**: it is the number the engine computes BEFORE the clamp,
+  through its public path (`GetAttributeValueByMethod` + `SavedMap` + `CalculateAttribute`) — the patch
+  replicates the logic of `Character.CalculateAttributeViaSweeps` (PRIVATE in the decompiled source, NOT
+  called by the patch); without a reading, the field simply is not emitted.
+
+No Harmony changed (still the single prefix in `ApplyDescriptionExpressions`, `ref __2`); all the new work
+is read-only code inside try/catch. `tools/checa_shrines.py` now reads the `cru=` (optional, for a log from
+an older build) and the floor line, showed both in the section `LIMITES DO ATRIBUTO NO LOG` and uses the
+floor (as it already used the ceiling) in the ADITIVIDADE block.
+
+## RV-46 (30/09) — the two defects of the blue shrine-aura line (shipped in **0.1.1**, live since 01/10)
+
+> **Title history:** this section was born as "Not published" (bc394e7, 30/09) — and RV-46 really was
+> unpublished when the note was written; what grew old was the title. RV-46 was packaged inside
+> **0.1.1** (published on 01/10/2026, replacing 0.1.0) and the published zip carries this changelog
+> verbatim, with `AurasUnicas`, `RV-46` and `instancias=` in the DLL.
+
+Fix of **two defects** in the `Your active shrine auras:` line. **No damage formula, no formatting
+convention (the Ceil of RV-45, the single sign of 46acd97) and none of the 12 text notes changed** — what
+changed was WHICH number goes into each item and WHICH auras become an item.
+
+- **RV-46 — the auras' contribution was MULTIPLIED (`Dodge +120%` with the aura worth 40).** Proven cause:
+  `AurasVivas` returns ALL `Character.ActionStatuses` entries matching the family and the contribution was
+  summed per ENTRY — and the live list carries the **SAME aura repeated**, because every (re)entry into the
+  area of the ground effect creates a NEW status (`GroundEffect.AddGroundEffectedPlayer`) and the engine
+  only removes `Infinite` statuses (the shrine aura is not one). In the owner's game log (30/09) the same
+  hover shows the list with `Rogue Aura` **three** times and `aura=+120%`, with the `RV-44 soma` saying
+  `stacks=1` in each instance: 3 × 40. **It was not a stack.** Fix: the contribution counts **each aura
+  ONCE** (`AurasUnicas`) — 40, which is the number on the shrine's own white line and what the engine
+  evaluates in the asset's expression. **The total is still the engine's** (`Character[atributo]`): it stops
+  at 75 because the game's attributes have a CEILING (`CharacterAttribute.HasMax`; `DodgeChance`
+  **MaxValue 75** and `DamageReduction` **MaxValue 50** in the asset) and the engine clamps the total there
+  (`Character.GetAttribute`). The repeats and the ceiling go to the LOG (`instancias=[Nome xN]`,
+  `RV-46 teto`), never into the number.
+- **RV-46 — live aura outside the list: the Dwarven did not appear.** Cause: the items come out per
+  CHARACTER attribute and the Dwarven effect **is not an attribute** — the value lives in the **trigger
+  chance** (`OnHittingDamaging` -> `Stunned`, `SkillTriggers[].ActionStatusChanceEquations`): in the asset
+  (`Dwarven Totem Aura Status`, `resources.assets` @1517115056) the formula
+  `Mathf.Round(20 * (1 + (Target["ShrineEffectBonus"] / 100)))` appears 2× (@1517115395, next to the
+  description, and @1517115647, inside the trigger) and the value with bonus 100 is 40 — the same as the
+  shrine's white line. Fix: its own item **`Stun chance +40%`**, evaluated by the engine with the focused
+  character. By the same rule the other two of the 12 auras without a character attribute came in: Decay
+  (`Shadow damage per turn N`) and Flame (`Fire damage to attackers: …`).
+- **Rule that stays (owner, 30/09):** the line is called "Your active shrine auras" and presents itself as
+  COMPLETE — a live aura that does not become an item goes to the LOG with the reason (`RV-46 AVISO`),
+  never silently.
+- **Mechanical check:** `tools/checa_shrines.py` now reads the `instancias=` field, the items without an
+  attribute and the `RV-46 teto`; the **Dwarven case stopped being `NAO-VER`** (it compares the item with the
+  `contribuicao_esperada` column of the table) and a hover with several auras (the owner's screenshot) became
+  checkable. Counter-proof in `tools/fixtures/shrines-rv46-dedupe.log` (exit 0).
 
 ## 0.1.1
 
-Conserto de **texto/rotulo** nos tooltips de shrine (RV-43). **Nenhum numero, formula ou logica de calculo mudou NESTES consertos de texto** — a auditoria independente confirmou 9/9 dos valores das auras de buff (mais Flame e Decay). **A 0.1.1 que está no ar leva mais que rotulo:** o RV-44 (bullet abaixo) e o RV-46 (secao acima) entraram nesta MESMA versao e mudaram QUAL numero entra na linha — a versao nao subiu de novo; a frase "nada de calculo mudou" envelheceu e vale só para os consertos de texto.
+Fix of **text/label** in the shrine tooltips (RV-43). **No number, formula or calculation logic changed in
+THESE text fixes** — the independent audit confirmed 9/9 of the buff-aura values (plus Flame and Decay).
+**The 0.1.1 that is live carries more than a label:** RV-44 (bullet below) and RV-46 (section above) went
+into this SAME version and changed WHICH number goes into the line — the version did not go up again; the
+sentence "no calculation changed" grew old and holds only for the text fixes.
 
-- **RV-43 — a nota do `Fury` era a unica das 9 auras de shrine sem a base e sem a cadeia do bonus.** Causa: a chave `Damage increased by [0]%. Damage taken increased by [0]%. ` estava em `TextAppends` com a nota antiga do `RV-9` (so a frase de cura) — nao dizia que e aura de shrine, nao dava a base e nao citava o *Shrine Effect Bonus*. Conserto: a nota passou a `Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).` e a **frase de cura ficou** (nao era falsa: o motor soma `DamageMod` a cura) — a nota agora tambem cobre o shrine. A base 25/25 sai do asset (`status.csv:205`: `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"]/100))` e o `DamageReduction` espelhado em -25). A chave continua **so** em `TextAppends`: o texto original do jogo nao mudou, entao nada migrou para `TextFixes` (a mesma chave nas duas tabelas derruba o mod — INC-1; `check_chave_compartilhada.py --estrito` = 0).
-- **RV-43 — o rotulo de `ManaCostMod` (Energy Coil) quebrava com total POSITIVO.** Causa: `Format` fazia `"Mana Costs reduced by " + (-v)`, assumindo total negativo. Existem fontes POSITIVAS reais do mesmo atributo — `Forbidden Power` `ManaCostMod:Base:50` (`status.csv:191`) e `Fuel for the Flames I/II` +20/+30 (`skills.csv:178-179`): um personagem de Fire com +70 dentro do Energy Coil (-50) tem total **+20** e a linha imprimia `Mana Costs reduced by -20%`. Conserto: total <= 0 = `Mana Costs reduced by |v|`; total > 0 = `Mana Costs increased by v`.
-- **RV-43 — a mesma classe de sinal nos outros atributos (defeito latente).** Causa: `DamageMod`, `CritChance`, `DodgeChance`, `LifeOnHit`, `HealthPerTurnPercent` e `ManaPerTurnPercent` montavam `+` fixo e imprimiriam `+ -X%` com total negativo. Conserto: todos passam pelo mesmo helper de sinal (`+` para positivo/zero, `−` para negativo), no formato do rotulo de atributo desconhecido. **O texto do total positivo — o comportamento correto de hoje — nao mudou.**
-- **RV-43 — a nota do `Flame Shrine` se contradizia.** Causa: a nota afirmava que a vida maxima usada nao era a de quem esta na aura, mas a lista por alvo usa exatamente o `MaxHealth` do ocupante — o mod projeta cada ocupante COMO SE fosse o atacante, porque no hover nao se sabe quem vai atacar (hipotese explicita, aceita pelo dono). Conserto: a clausula agora diz `the number is the projection of THIS character as the attacker - if this character attacked` e a frase contraditoria saiu; a escala, a marca "antes das reducoes" e a origem do bonus ficaram como estavam.
-- **RV-44 — a linha `Your active shrine auras:` mostrava o TOTAL do personagem, não o que as auras entregam.** Causa (provada no código): o item saía direto do indexador do motor, `Character[atributo]` (`ShrineAuraPatch.cs`, `AcumuladoShrines` — era `float valor = receptor[nome];`), que é o total final da ficha (base + gear + skills + auras). Numa aura de 25% a linha dizia o total do personagem, o que na tela lê como "a aura dá 50%". Prints do dono (30/09): Goblin Battle Standard (Fury) sem `Worship` -> tooltip do shrine `25%` / linha `Damage +50%` e `Damage taken +5%`; com `Worship` -> `50%` / `Damage +75%` e `Damage taken +30%`; Rogue Shrine com `Worship` -> tooltip `40%` / linha `Dodge +57%`. Conserto: cada item passou a ser **`<o que as auras entregam> (total <o total do personagem>%)`** — `Damage +25% (total +50%)`, `Damage taken +25% (total +5%)`, `Dodge +40% (total +57%)` —, com a contribuição saindo do **`AttributeEffects` real de cada aura VIVA** (a MESMA expressão que o tooltip do shrine mostra: `Mathf.Round(20 * (1 + Target["ShrineEffectBonus"]/100))` etc., avaliada pelo motor), e **duas auras no mesmo atributo somam as contribuições** (Warrior + Fury em `Damage`), nunca o total da ficha. O total continua entre parênteses, lido do indexador: é o número da ficha (BetterStats). **Nenhuma fórmula de aura, texto ou nota mudou** — a nota do Rogue (`Increases dodge chance by [0]%.` -> `Base 20%. The value shown already includes the Shrine Effect Bonus (...)`) é a mesma da 0.1.1 e continua correta na tela. Fallback: sem contribuição separável (efeito `Multiplicative`/`Set` — a família não tem nenhum: as 9 auras de buff, todas as que têm `AttributeEffects`, são `Base`), o item sai com o total, como antes.
-- **Versão:** 0.1.0 -> **0.1.1** nos três lugares (`<Version>` do `.csproj`, `version_number` do `manifest.json`, literal do `[BepInPlugin(...)]` no `Plugin.cs`).
+- **RV-43 — the `Fury` note was the only one of the 9 shrine auras without the base and without the bonus
+  chain.** Cause: the key `Damage increased by [0]%. Damage taken increased by [0]%. ` was in `TextAppends`
+  with the old `RV-9` note (just the healing sentence) — it did not say it is a shrine aura, it gave no base
+  and did not cite the *Shrine Effect Bonus*. Fix: the note became `Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).` and the **healing sentence stayed** (it was not
+  false: the engine adds `DamageMod` to healing) — the note now also covers the shrine. ⚠ **RETRACTION
+  (RV-30 correction, 03/10 · RV-48):** that version of the note cited the "Worship perk", a FABRICATED term
+  (0 occurrences in the code; only the ENEMY CharacterInfo `T2_Worshiper`); TX-1 trimmed the note and the
+  version that is LIVE does not cite "Worship". The 25/25 base comes from the asset (`status.csv:205`:
+  `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"]/100))` and the `DamageReduction`
+  mirrored at -25). The key stays **only** in `TextAppends`: the game's original text did not change, so
+  nothing migrated to `TextFixes` (the same key in both tables brings the mod down — INC-1;
+  `check_chave_compartilhada.py --estrito` = 0).
+- **RV-43 — the `ManaCostMod` label (Energy Coil) broke with a POSITIVE total.** Cause: `Format` did
+  `"Mana Costs reduced by " + (-v)`, assuming a negative total. Real POSITIVE sources of the same attribute
+  exist — `Forbidden Power` `ManaCostMod:Base:50` (`status.csv:191`) and `Fuel for the Flames I/II` +20/+30
+  (`skills.csv:178-179`): a Fire character with +70 inside the Energy Coil (-50) has a total of **+20** and
+  the line printed `Mana Costs reduced by -20%`. Fix: total <= 0 = `Mana Costs reduced by |v|`; total > 0 =
+  `Mana Costs increased by v`.
+- **RV-43 — the same class of sign in the other attributes (a latent defect).** Cause: `DamageMod`,
+  `CritChance`, `DodgeChance`, `LifeOnHit`, `HealthPerTurnPercent` and `ManaPerTurnPercent` built a fixed
+  `+` and would print `+ -X%` with a negative total. Fix: all of them go through the same sign helper (`+`
+  for positive/zero, `−` for negative), in the format of the unknown-attribute label. **The text for a
+  positive total — today's correct behaviour — did not change.**
+- **RV-43 — the `Flame Shrine` note contradicted itself.** Cause: the note stated that the maximum health
+  used was not that of whoever is inside the aura, but the per-target list uses exactly the occupant's
+  `MaxHealth` — the mod projects each occupant AS IF it were the attacker, because on hover one does not know
+  who will attack (an explicit hypothesis, accepted by the owner). Fix: the clause now reads `the number is the projection of THIS character as the attacker - if this character attacked` and the contradictory
+  sentence came out; the scale, the "before the reductions" mark and the origin of the bonus stayed as they
+  were.
+- **RV-44 — the `Your active shrine auras:` line showed the character's TOTAL, not what the auras deliver.**
+  Cause (proved in the code): the item came straight from the engine's indexer, `Character[atributo]`
+  (`ShrineAuraPatch.cs`, `AcumuladoShrines` — it was `float valor = receptor[nome];`), which is the sheet's
+  final total (base + gear + skills + auras). On a 25% aura the line said the character's total, which on
+  screen reads as "the aura gives 50%". Owner's screenshots (30/09): Goblin Battle Standard (Fury) without
+  `Worship` -> shrine tooltip `25%` / line `Damage +50%` and `Damage taken +5%`; with `Worship` -> `50%` /
+  `Damage +75%` and `Damage taken +30%`; Rogue Shrine with `Worship` -> tooltip `40%` / line `Dodge +57%`.
+  Fix: each item became **`<what the auras deliver> (total <the character's total>%)`** —
+  `Damage +25% (total +50%)`, `Damage taken +25% (total +5%)`, `Dodge +40% (total +57%)` —, with the
+  contribution coming from the **real `AttributeEffects` of each LIVE aura** (the SAME expression the shrine
+  tooltip shows: `Mathf.Round(20 * (1 + Target["ShrineEffectBonus"]/100))` etc., evaluated by the engine),
+  and **two auras on the same attribute add their contributions** (Warrior + Fury on `Damage`), never the
+  sheet's total. The total stays in parentheses, read from the indexer: it is the sheet's number (BetterStats).
+  **No aura formula, text or note changed** — the Rogue note (`Increases dodge chance by [0]%.` ->
+  `Base 20%. The value shown already includes the Shrine Effect Bonus (...)`) is the same as in 0.1.1 and
+  remains correct on screen. Fallback: with no separable contribution (a `Multiplicative`/`Set` effect — the
+  family has none: the 9 buff auras, all the ones that have `AttributeEffects`, are `Base`), the item comes
+  out with the total, as before. ⚠ **RETRACTION (RV-30 correction, 03/10 · RV-48):** the "with/without
+  `Worship`" labels on the screenshots are from the original report — there is no player perk
+  (`worship` = 0 occurrences; only the ENEMY CharacterInfo `T2_Worshiper`); the 100 bonus was the defect of
+  the `Source` injected by the RV-34 prefix.
+- **Version:** 0.1.0 -> **0.1.1** in the three places (`<Version>` in the `.csproj`, `version_number` in the
+  `manifest.json`, the literal in `[BepInPlugin(...)]` in the `Plugin.cs`).
 
 ## 0.1.0
 
-Primeira versão publicada.
+First published version.
 
-- **Reescreve tooltips de skills e status que eram omitidos**: quando o texto oficial esconde algo que muda a decisão do jogador (de que atributo depende o número, limite de stacks, duração, quem é afetado, gatilho, número de golpes), a explicação que falta é acrescentada ao fim do tooltip.
-- **Corrige defeitos objetivos de texto** — grafia (`benefical`, `additonal`), pontuação e espaço duplo — por tabela de correção casada pelo texto exato.
-- A nota de mecânica entra na **cor de texto especial do próprio jogo** e é posicionada **depois dos custos e do alcance**, no fim do corpo do tooltip.
-- **Sem qualquer alteração de gameplay**: o mod só reescreve strings no funil de localização (`OptionsManager.Localize`).
+- **Rewrites skill and status tooltips that were incomplete**: when the official text hides something that
+  changes the player's decision (which attribute the number depends on, stack limit, duration, who is
+  affected, trigger, number of hits), the missing explanation is added at the end of the tooltip.
+- **Fixes objective text defects** — spelling (`benefical`, `additonal`), punctuation and double spaces — via
+  a correction table matched by the exact text.
+- The mechanic note goes in the **game's own special text colour** and is positioned **after the costs and the
+  range**, at the end of the tooltip body.
+- **No gameplay change whatsoever**: the mod only rewrites strings in the localisation funnel
+  (`OptionsManager.Localize`).
 
-### Números dinâmicos de shrine
+### Dynamic shrine numbers
 
-O texto do jogo para as auras de shrine mostrava **sempre o valor base**, mesmo para quem tinha o bônus que multiplica a aura. O mod passou a calcular com o **bônus real do personagem em foco** (30/09):
+> ⚠ **History with a correction (07/10, REL-BT-014):** the passages below that attribute the doubling to the
+> "`Worship` perk", that call the doubling a **defect of the mod**, or that say the danger auras use the
+> **shrine's** bonus, are corrected — see the **0.1.4** section at the top. In short: the owner confirmed the
+> **doubling is correct** (the engine produces it), the action's `Source` is whoever **has the aura**, and
+> RV-49 (with or without the factor in the displayed number) **is still open**.
 
-- **Auras de buff (as 12 chaves da família)**: o valor da linha sai já multiplicado pelo *Shrine Effect Bonus* do personagem — **Omnism I/II** (Chaos), o perk **`Worship`** do Worshiper (`100% increased effect from Shrines`) e o **Horn of Devotion**. Uma base fixa de `20%` deixa de ser exibida como `20%` para quem tem o bônus.
-- **Linha `Your active shrine auras:`**: um bloco próprio (na cor especial do jogo) que lista **todas as auras de shrine vivas no personagem em foco**, um item por atributo. Ela só aparece para quem **está de fato** dentro da aura — quem está fora não vê linha nenhuma. O valor lido é o total final do personagem (`Character[atributo]`), o mesmo número que a ficha mostra: o mod **não soma nem aplica o fator por fora**.
-- **Decay Shrine — dano por turno com número**: a linha `Take [0]% of your Max Health in Shadow Damage per turn.` ganha o **dano literal** ao lado (ex.: `20 damage per turn for you`), calculado com a **vida máxima** e o **Shrine Effect Bonus** do próprio personagem (com `Worship`, o dobro).
-- **Flame Shrine — dano por alvo**: no hover ainda não se sabe **quem vai atacar**, então um número único por atacante é impossível (limitação do jogo). O que sai é a lista de **cada personagem que está na área da aura** (party e inimigos), com o dano calculado sobre a vida máxima, o **tipo** e o **bônus dele**.
-- **Fator do `Worship`**: com o perk `Worship` o dano das duas auras de perigo **dobra**. Isso foi **medido em jogo** pelo autor (30/09) — a mesma aura vale 10% para um personagem e 20% para o Worshiper. O `Source` vazio do shrine deixou de ser usado na conta: o fator é lido do **próprio personagem avaliado**.
-- **Marca "antes das reduções"**: as duas notas (Decay e Flame) começam com **`Raw damage, before damage reduction:`** e dizem que o fator já está incluído — sem armadura, resistência ou qualquer mitigação posterior.
-- **Cura dinâmica do `Sustenance I/II`**: o tooltip de todo **globule** (Health, Mana, Cleansing, Energy, Power, Refreshing) e dos **pickups de poção** (Minor / Healing / Major, vida e mana) passa a mostrar a cura real, sobre a vida e a mana máximas do personagem em foco. A porcentagem sai das tiers que **o jogo tem ativas** (`Character.Skills`, já resolvida por `SkillsThatReplace`): 8% com só a I, 20% com só a II (se a II substitui a I) ou 28% com as duas (se não substitui) — o mod não decide qual é o caso, ele mostra o que está ativo.
-- **Quando não há prova, o texto do jogo fica intacto**: atributo ausente neste build, personagem fora da aura ou expressão não avaliável = **nenhum número** é exibido e o log diz o motivo. O mod não estima.
+The game's text for the shrine auras always showed the **base value**, even for a character who had the bonus
+that multiplies the aura. The mod started computing with the **real bonus of the character in focus** (30/09):
 
-### Não entra neste mod
+- **Buff auras (the family's 12 keys)**: the line's value comes out already multiplied by the character's
+  *Shrine Effect Bonus* — **Omnism I/II** (Chaos) and the **Horn of Devotion**. A fixed base of `20%` is no
+  longer shown as `20%` to whoever has the bonus. (The old "`Worship` perk" was FABRICATION — see the RV-48
+  retraction at the top.)
+- **The `Your active shrine auras:` line**: its own block (in the game's special colour) listing **every
+  shrine aura alive on the character in focus**, one item per attribute. It only appears to whoever **is in
+  fact** inside the aura — whoever is outside sees no line at all. The value read is the character's final
+  total (`Character[atributo]`), the same number the sheet shows: the mod **does not add nor apply the factor
+  on top**.
+- **Decay Shrine — damage per turn with a number**: the line `Take [0]% of your Max Health in Shadow Damage per turn.` gains the **literal damage** next to it (eg `10 damage per turn for you`), computed with the
+  character's own **maximum health** — **without** the character's Shrine Effect Bonus (RV-30 correction,
+  03/10 · RV-48: the danger aura reads the `Source` of the status itself, the shrine's).
+- **Flame Shrine — damage per target**: on hover one still does not know **who will attack**, so a single
+  number per attacker is impossible (a limitation of the game). What comes out is the list of **every
+  character inside the aura's area** (party and enemies), with the damage computed over maximum health, the
+  **type** and **that character's** bonus.
+- **The `Worship` factor — RETRACTED (RV-48)**: **there is no player `Worship` perk** (`worship` = 0
+  occurrences in the code; only the ENEMY CharacterInfo `T2_Worshiper`). The "doubled damage" the author
+  registered in game (30/09) was the **DEFECT** of the `Source` injected by the RV-34 prefix: the danger auras
+  read `Source["ShrineEffectBonus"]` (the SHRINE's bonus) and the number came out "as if the character had a
+  bonus". RV-30 (03/10) stops writing into `Source`. Decision pending (RV-49).
+- **The "before the reductions" mark**: both notes (Decay and Flame) start with **`Raw damage, before damage reduction:`** and say the value is before reductions — without armour, resistance or any later mitigation.
+  (The live Decay note came to say the aura scales with the *Shrine Effect Bonus* **of the shrine**, not the
+  character's — RV-30 correction, 03/10.)
+- **`Sustenance I/II` dynamic healing**: the tooltip of every **globule** (Health, Mana, Cleansing, Energy,
+  Power, Refreshing) and of the **potion pickups** (Minor / Healing / Major, health and mana) now shows the
+  real healing, over the maximum health and mana of the character in focus. The percentage comes from the
+  tiers **the game has active** (`Character.Skills`, already resolved by `SkillsThatReplace`): 8% with only
+  I, 20% with only II (if II replaces I) or 28% with both (if it does not replace) — the mod does not decide
+  which case it is, it shows what is active.
+- **When there is no proof, the game's text stays intact**: an attribute missing from this build, a character
+  outside the aura or an expression that cannot be evaluated = **no number** is shown and the log says why.
+  The mod does not estimate.
 
-- A árvore do **Chaos** é omitida de propósito: ela sorteia um resultado e o texto não revela quais são — é a graça da árvore, não um defeito.
-- O mod **não mostra número quando não há prova** — prefere deixar o texto original a inventar um valor.
-- O mod **não aplica mitigação** ao número que exibe: ele é o cru da fórmula do jogo.
+### Not in this mod
 
-### Conferência
+- The **Chaos** tree is left out on purpose: it draws a result and the text does not reveal which ones — that
+  is the tree's fun, not a defect.
+- The mod **does not show a number when there is no proof** — it prefers to leave the original text rather
+  than invent a value.
+- The mod **does not apply mitigation** to the number it shows: it is the raw result of the game's formula.
 
-Os números foram escritos contra o decompilado e os assets do jogo. O **fator do `Worship` (o dano dobra)** foi **medido em jogo** pelo autor em 30/09. O que falta é a **conferência visual final em jogo** das linhas novas (a linha do Decay, a lista do Flame e o bloco `Your active shrine auras:`) depois da última revisão — o conjunto de tooltips de shrine ainda não foi revalidado olhando a tela.
+### Checking
+
+The numbers were written against the decompiled code and the game's assets. The old **"`Worship` factor (the
+damage doubles)"** was **RETRACTED (RV-30 correction, 03/10 · RV-48)**: `worship` does not exist in the game's
+code and the "doubling" was the defect of the `Source` injected by the prefix. The owner's measurement and
+the decision on which version stays remain open (RV-49). What is missing is the **final visual check in game**
+of the new lines (the Decay line, the Flame list and the `Your active shrine auras:` block) after the latest
+revision — the shrine tooltip set has not yet been revalidated by looking at the screen.

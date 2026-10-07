@@ -28,7 +28,7 @@ namespace BetterCombatText
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.bettercombattext";
-        public const string Versao = "0.1.1";
+        public const string Versao = "0.1.2";
 
         internal static ManualLogSource Log { get; private set; }
         internal static Configuracao Cfg { get; private set; }

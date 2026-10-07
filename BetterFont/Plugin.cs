@@ -62,7 +62,7 @@ namespace BetterFont
     ///      cria a entrada com o default do Bind (false) e usa o caminho novo. Corrigido aqui,
     ///      no README e no CHANGELOG.
     /// </summary>
-    [BepInPlugin("com.gumatos.betterfont", "Better Font", "1.0.2")]
+    [BepInPlugin("com.gumatos.betterfont", "Better Font", "1.0.3")]
     public class Plugin : BaseUnityPlugin
     {
         internal static ManualLogSource Log { get; private set; }
