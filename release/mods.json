@@ -30,43 +30,43 @@
     {
       "nome": "BetterCombatText",
       "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-10-01T02:00:04.251384Z",
+      "versao_publicada": "0.1.2",
+      "publicado_em": "2026-10-07T21:25:22.356125Z",
       "motivo": "PUBLICAR 0.1.1 (substitui a 0.1.0, no ar desde 01/10/2026). A 0.1.1 leva o contorno preto duro/opaco no nome do inimigo (UI/UX: _OutlineWidth 0.22, softness 0.05, alfa 0.95) + sombra adaptativa por contraste com a fonte. Revisado pelo dono em jogo. Depende de BetterFont-1.0.2 (sobe DEPOIS do BetterFont)."
     },
     {
       "nome": "BetterFont",
       "publicar": true,
-      "versao_publicada": "1.0.2",
-      "publicado_em": "2026-10-03T00:18:59.651529Z",
+      "versao_publicada": "1.0.3",
+      "publicado_em": "2026-10-07T21:24:48.179123Z",
       "motivo": "PUBLICAR 1.0.2 (substitui a 1.0.1, no ar desde 01/10/2026). A 1.0.2 leva o transporte de estilo entre VARIANTES de shader (BF-1) e a sombra fantasma corrigida (SombraDesenhada, BF-5). Categoria 'Mods'. Ordem: sobe ANTES do BetterCombatText 0.1.1 (que depende de BetterFont-1.0.2)."
     },
     {
       "nome": "BetterStats",
       "publicar": true,
-      "versao_publicada": "1.0.1",
-      "publicado_em": "2026-10-01T01:59:37.514600Z",
+      "versao_publicada": "1.0.2",
+      "publicado_em": "2026-10-07T21:24:55.260838Z",
       "motivo": "PUBLICADO: 1.0.1 no ar desde 2026-10-01T01:59:37Z (run 36801937843), substituindo a 1.0.0. A 1.0.0 era a build ANTERIOR ao aplicador gancho a gancho e ao conserto A-1 do filtro de gancho; como versao publicada e imutavel na Thunderstore, o conserto so podia sair como bump de PATCH - e saiu."
     },
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": "0.1.3",
-      "publicado_em": "2026-10-03T22:48:02.110130Z",
+      "versao_publicada": "0.1.4",
+      "publicado_em": "2026-10-07T21:25:01.979953Z",
       "motivo": "PUBLICAR 0.1.3 (substitui a 0.1.2, no ar desde 03/10/2026). A 0.1.3 leva os valores nas passivas de inimigo (BT-18/19: Redemptive qualitativo, Regenerating, Teleporting, Cursed, Vengeful) e o Armor/Magic Armor absoluto nas skills de conversao plana (BT-20: Body and Soul = Vitality*5 / Intelligence*5)."
     },
     {
       "nome": "RoguelikeDebugger",
       "publicar": true,
-      "versao_publicada": "0.1.1",
-      "publicado_em": "2026-10-01T01:59:51.397143Z",
+      "versao_publicada": "0.1.2",
+      "publicado_em": "2026-10-07T21:25:08.937329Z",
       "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:51Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva o aplicador gancho a gancho, o conserto A-1 e o dump de efeitos por tipo concreto, com o icone novo de 256x256. Categoria 'Tools': e ferramenta de desenvolvimento, nao mod de jogador."
     },
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.3.2",
-      "publicado_em": "2026-10-04T05:39:36.232626Z",
+      "versao_publicada": "0.3.3",
+      "publicado_em": "2026-10-07T21:25:15.910227Z",
       "motivo": "PUBLICAR 0.3.2 (substitui a 0.3.1, no ar desde 03/10/2026). A 0.3.2 abre a skill tree numa janela read-only propria ao clicar em 'Skills' no modal Remove Skill Trees (RSTV-21/22), com visual nativo (fundo/moldura/titulo/Close do proprio modal + barra de classes com icone) e revisao de design completa (RSTV-23/24/25: linhas de dependencia com rotacao/comprimento exato, centralizacao na area com clamps, highlight 0.12, tooltip com Outline + contorno dourado no hover, subtitulo 'All Skill Trees - Classe'). Revisada pelo dono em jogo."
     }
   ]
