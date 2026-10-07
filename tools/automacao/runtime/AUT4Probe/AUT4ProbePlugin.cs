@@ -147,6 +147,10 @@ namespace Aut4Probe
             _res["aviso"] = "Coleta SOMENTE leitura; nenhum mod do pacote foi alterado.";
             _res["sessao"] = _sessao;
             _res["hash_fonte"] = _hashFonte.Value;
+            // L1 (AUD-1): IDENTIDADE do instrumento dentro do proprio JSON — o hash do
+            // fonte declarado pelo driver E o sha256 da DLL calculado AGORA, no runtime,
+            // sobre o assembly carregado. Sem isto a evidencia nao diz QUAL binario leu.
+            _res["identidade"] = IdentidadeDoProbe.Identidade(_hashFonte.Value);
             _res["aplicacao"] = Aplicacao();
             _res["passos"] = _passos;
             _res["observacoes"] = _observacoes;
@@ -349,6 +353,18 @@ namespace Aut4Probe
                         // A6: ida-e-volta OPT-IN (LEITURA): so quando o cfg manda.
                         if (_demostrar.Value) { try { DemostrarIdaEVolta(); } catch (Exception e) { _passos["ida_e_volta"] = "erro: " + e.GetType().Name + ": " + e.Message; } }
                         try { _res["owners_harmony"] = OwnersHarmony(); } catch (Exception e) { _passos["owners"] = "erro: " + e.GetType().Name; }
+                        var ownersFunil = OwnersDosFunils();
+                        // AGREGADOS (AUD-1: porte do CAP-1, componente isolado
+                        // `LeituraAgregados`): inventario por shader/fonte, fontes em
+                        // memoria (com o shader de referencia do TMP) e a lista dos textos
+                        // DESENHADOS. Contexto da rodada — NAO sao campos de observacao.
+                        try { _res["inventario"] = LeituraAgregados.Inventario(_maxTextos.Value,
+                            t => Leitura(t, ownersFunil)); }
+                        catch (Exception e) { _passos["inventario"] = "erro: " + e.GetType().Name; }
+                        try { _res["fontes"] = LeituraAgregados.Fontes(); }
+                        catch (Exception e) { _passos["fontes"] = "erro: " + e.GetType().Name; }
+                        try { _res["textos_visiveis"] = LeituraAgregados.TextosVisiveis(_maxTextos.Value); }
+                        catch (Exception e) { _passos["textos_visiveis"] = "erro: " + e.GetType().Name; }
                         try { _res["rollback"] = Rollback(); } catch (Exception e) { _passos["rollback"] = "erro: " + e.GetType().Name; }
                         if (_navegar.Value) TentarNavegar();
                         PedirPrint("01-ui");
@@ -418,7 +434,10 @@ namespace Aut4Probe
             _res["lidos"] = lidos;
         }
 
-        private Dictionary<string, object> Leitura(TMP_Text t, List<object> ownersFunil)
+        // Material em uso, shader, keyword, cores: tudo do OBJETO VIVO.
+        // `internal` (nao `private`): o componente isolado `LeituraAgregados` reusa ESTE
+        // leitor como amostra do inventario (um unico critério de leitura no probe).
+        internal Dictionary<string, object> Leitura(TMP_Text t, List<object> ownersFunil)
         {
             var mat = t.fontSharedMaterial;
             var fonte = t.font;
@@ -934,7 +953,7 @@ namespace Aut4Probe
             }
         }
 
-        private static Type Tipo(string nome)
+        internal static Type Tipo(string nome)
         {
             foreach (var asm in AppDomain.CurrentDomain.GetAssemblies())
             {
@@ -976,16 +995,16 @@ namespace Aut4Probe
             try { return Resources.FindObjectsOfTypeAll<T>(); } catch { return new T[0]; }
         }
 
-        private static string Nome(Shader s) { return s == null ? null : s.name; }
+        internal static string Nome(Shader s) { return s == null ? null : s.name; }
 
-        private static string Trunc(string s, int max)
+        internal static string Trunc(string s, int max)
         {
             if (s == null) return null;
             s = s.Replace("\r", "\\r").Replace("\n", "\\n");
             return s.Length <= max ? s : s.Substring(0, max) + "...(truncado em " + max + ")";
         }
 
-        private static string Caminho(Transform t)
+        internal static string Caminho(Transform t)
         {
             try
             {
@@ -997,7 +1016,7 @@ namespace Aut4Probe
             catch { return null; }
         }
 
-        private static Dictionary<string, object> Geometria(TMP_Text t)
+        internal static Dictionary<string, object> Geometria(TMP_Text t)
         {
             try
             {

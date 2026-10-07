@@ -56,5 +56,40 @@
   ],
   "manifest": {"esquema": "AUT-4/1", "total": 1, "artefatos": [{"arquivo": "aut4probe.json"}]},
   "rollback": {"nota": "(fixture)"},
-  "prints": []
+  "prints": [],
+  "identidade": {
+    "criterio": "(fixture) hash do fonte/DLL medido entra no JSON DO INSTRUMENTO (L1 da AUD-1)",
+    "hash_fonte_declarado": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "hash_dll_do_probe": "(fixture) sha256 calculado no runtime sobre o assembly carregado",
+    "arquivo_dll_do_probe": "(fixture)/BepInEx/plugins/AUT4Probe/AUT4Probe.dll",
+    "bytes_dll_do_probe": 0,
+    "calculo": "(fixture)",
+    "conferencia_do_driver": "(fixture) o driver confere contra a DLL em disco (provar_atualidade)",
+    "erro": null
+  },
+  "inventario": {
+    "total_tmp_text": 3,
+    "textos_com_efeito_no_material": 1,
+    "textos_sem_efeito_no_material": 2,
+    "criterio_de_efeito": "(fixture) espelho do criterio do BetterFont (TemEfeitoNoMaterial + SombraDesenhada + TexturaDeEfeito): contorno (_OutlineWidth>0 ou _OutlineSoftness>0 ou OUTLINE_ON), sombra DESENHADA (UNDERLAY_ON/UNDERLAY_INNER ou |_UnderlayOffsetX|/|_UnderlayOffsetY|/_UnderlayDilate > 0.0001), GLOW_ON/BEVEL_ON e _FaceTex/_BumpMap DE VERDADE; a cor da sombra com alfa NAO conta por si (sombra INERTE, BF-5)",
+    "com_texto_nao_vazio": 2,
+    "ativos_na_hierarquia": 2,
+    "por_shader": {"TextMeshPro/Distance Field": 3},
+    "por_fonte": {"LiberationSans SDF": 3},
+    "por_combo_shader_fonte": {"TextMeshPro/Distance Field | LiberationSans SDF": 3},
+    "amostra": [],
+    "amostra_regra": "(fixture) todos os TMP_Text com texto nao vazio (ate 400) + os componentes de tooltip por NOME",
+    "leitura": "(fixture) TMP_Text.text / GetParsedText() / fontSharedMaterial.shader / material + geometria de tela"
+  },
+  "fontes": {
+    "total_tmp_fontasset_em_memoria": 1,
+    "fontes": [{"nome": "LiberationSans SDF", "arquivo_de_origem": "(fixture)", "material": "LiberationSans SDF Material", "shader": "TextMeshPro/Distance Field", "shader_suportado": true, "atlas": "1024x1024", "glifos": 0, "multi_atlas": false}],
+    "shader_de_referencia_mobile_sdf_do_tmp": "TextMeshPro/Mobile/Distance Field",
+    "erro_shader_de_referencia": null,
+    "shader_find_mobile_distance_field": "TextMeshPro/Mobile/Distance Field",
+    "observacao": "(fixture)"
+  },
+  "textos_visiveis": [
+    {"objeto": "Tooltip.Title", "caminho": "GUI Manager/Tooltip/Title", "texto_renderizado": "AUT4-MARCADOR-TITULO", "shader_em_uso": "TextMeshPro/Distance Field", "geometria_tela": {"escala": 1.0, "tela": "1920x1080"}}
+  ]
 }

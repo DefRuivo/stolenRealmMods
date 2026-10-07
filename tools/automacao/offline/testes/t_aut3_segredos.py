@@ -29,7 +29,7 @@ import aut3_lib  # noqa: E402
 RESULTADOS = []
 PY = sys.executable
 # token FALSO, nunca um valor real; quebrado em pedacos para nao virar literal.
-TOKEN_FALSO = "tss_" + "A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6"
+TOKEN_FALSO = "tss_" + "A1b2C3d4E5f6G7h8" + "I9j0K1l2M3n4O5p6"
 
 
 def checar(nome, cond, detalhe=""):
@@ -78,7 +78,7 @@ def test_mascara_sem_prefixo(tmp):
     """O detector generico monta a mensagem sem prefixo do valor."""
     sys.path.insert(0, os.path.join(TOOLS_REAIS, "tools"))
     import check_padroes_segredo as cps  # noqa: E402
-    valor = "A1b2C3d4E5f6G7h8I9j0K1l2M3n4O5p6Q7r8S9t0"
+    valor = "A1b2C3d4E5f6G7h8" + "I9j0K1l2M3n4O5p6" + "Q7r8S9t0"
     msg = cps.mascara(valor)
     checar("mascara NAO traz o valor", valor not in msg)
     checar("mascara NAO traz os 14 primeiros chars", valor[:14] not in msg)

@@ -26,8 +26,21 @@ SEGURANCA (por que o default e offline)
     existia no perfil nao e removido (A5).
   * a rodada so CONCLUI com as tres provas de execucao (sessao DESTA rodada no JSON
     e mais novo que o lancamento; log com chainloader + linha de vida do probe;
-    prints existentes, com bytes>0 e POSTERIORES ao lancamento) e com o instrumento
-    declarando status de conclusao (A1/A4).
+    prints existentes, com bytes>0 e POSTERIORES ao lancamento) e com o
+    instrumento declarando status de conclusao (A1/A4).
+  * ARVORE VIGIADA (AUD-1/L1): o rollback nao olha so os nomes do contrato — varre
+    `BepInEx/plugins/**` e `BepInEx/config/**` inteiros (o BepInEx varre `plugins/`
+    RECURSIVAMENTE: arquivo que nasce ali vira mod carregado), entao arquivo criado
+    pela rodada num caminho NAO previsto tambem entra em `criados` e volta. Depois do
+    rollback o driver CONFERE a restauracao (`verificar_sem_residuo`): residuo =>
+    status RESIDUO / exit != 0, nunca "rodada limpa".
+  * o fechamento do jogo e em DUAS ETAPAS (AUD-1/L2): primeiro o fechamento
+    GRACIOSO (`CloseMainWindow()` — funciona em rodada sem usuario, onde `taskkill`
+    e bloqueado) e so depois o FORCADO por PID; sem medicao dos PIDs a decisao de
+    encerrar e RECUSADA (fail-closed).
+  * o `LogOutput.log` e arquivado ANTES do lancamento (`backup_do_log`) porque um
+    boot TRUNCA o log; o registro do backup (bytes/sha256) e o rollback restauram o
+    original byte a byte.
 
 Reuso: le as fixtures no formato do CAP-1 / `capprobe.json`; nao reconstroi nada
 de `scratch/cap1/`. O QUE AINDA NAO ESTA PROVADO: nada disto foi exercitado em
@@ -100,6 +113,13 @@ PRELOADER_REL = os.path.join("BepInEx", "core", "BepInEx.Preloader.dll")
 PROBE_REL_PADRAO = os.path.join("BepInEx", "plugins", "AUT4Probe", "AUT4Probe.dll")
 CFG_REL_PADRAO = os.path.join("BepInEx", "config", "com.gumatos.aut4probe.cfg")
 LOG_REL_PADRAO = os.path.join("BepInEx", "LogOutput.log")
+# AUD-1/L1: alem dos nomes do contrato, a rodada VIGIA estas arvores inteiras.
+# O BepInEx varre `plugins/` RECURSIVAMENTE (memoria do projeto: arquivo que nasce
+# ali vira mod carregado), entao "arquivo criado durante a coleta" nao e so o que o
+# contrato previu. `config/` guarda os `.cfg` que o probe pode criar sozinho.
+ARVORES_VIGIADAS = (os.path.join("BepInEx", "plugins"), os.path.join("BepInEx", "config"))
+# AUD-1/L2: prazo do fechamento gracioso antes de cair no forcado por PID.
+ESPERA_FECHAMENTO_GRACIOSO_S = 5.0
 # Fases do JSON do probe que ja autorizam encerrar a espera (com teto de tempo).
 FASES_TERMINAIS = ("concluido", "nao-exercitado", "sem_ui", "erro", "orcamento_estourado")
 
@@ -130,6 +150,36 @@ CFG_CHAVES = ("Autorizado", "OutDir", "OrcamentoSegundos", "Navegar", "PerfilDir
 # Rotulos que NUNCA podem ser maquiados como valor medido.
 AUSENTES = ("AUSENTE", "NAO EXERCITADO", "NÃO EXERCITADO", "NAO_EXERCITADO",
             "INDETERMINADO", "INDETERMINATE", "-")
+
+# ------------------------------------------------------------------ detector
+# t_a5994af0: o DETECTOR DE AUSENCIA/INDETERMINADO tem um vocabulario FECHADO. A
+# pergunta que ele responde nao e "deu certo?", e sim "eu TENHO uma leitura valida?".
+# Sem leitura valida nao existe CONFIRMADA: os quatro veredictos negativos abaixo sao
+# terminais e nenhum deles carrega exit 0 nem `dados_sinteticos=True`.
+VEREDITO_CONFIRMA = "CONFIRMADA"
+VEREDITO_NAO_EXERCITADO = "NAO_EXERCITADO"
+VEREDITO_AUSENTE = "AUSENTE"
+VEREDITO_NO = "NO"
+VEREDITO_INCOMPLETO = "INCOMPLETO"
+VEREDITOS_NEGATIVOS = (VEREDITO_NO, VEREDITO_AUSENTE,
+                       VEREDITO_NAO_EXERCITADO, VEREDITO_INCOMPLETO)
+
+# Traducao status-do-driver -> veredicto-do-detector. TUDO que nao e conclusao
+# declarada cai em INCOMPLETO: plano invalido, fixture, residuo, erro, indeterminado
+# e — principalmente — status ausente ("silencio nao e aprovacao").
+_STATUS_PARA_VEREDITO = {
+    "CONCLUIDO": VEREDITO_CONFIRMA,
+    "CONFIRMADA": VEREDITO_CONFIRMA,
+    "NAO_EXERCITADO": VEREDITO_NAO_EXERCITADO,
+    "AUSENTE": VEREDITO_AUSENTE,
+    "NO": VEREDITO_NO,
+    "INCOMPLETO": VEREDITO_INCOMPLETO,
+    "INDETERMINADO": VEREDITO_INCOMPLETO,
+    "ERRO": VEREDITO_INCOMPLETO,
+    "FIXTURE": VEREDITO_INCOMPLETO,
+    "PLANO_INVALIDO": VEREDITO_INCOMPLETO,
+    "RESIDUO": VEREDITO_INCOMPLETO,
+}
 
 
 class PlanoInvalido(ValueError):
@@ -193,9 +243,19 @@ def validar_plano(plano):
     return saida
 
 
-def decidir_autorizacao(autorizado, jogo_disponivel, confirmacao=None):
-    """Decide se a rodada pode coletar. Default: NAO_EXERCITADO, sem dado sintetico."""
+def decidir_autorizacao(autorizado, jogo_disponivel, confirmacao=None, frente_ativa=False):
+    """Decide se a rodada pode coletar. Default: NAO_EXERCITADO, sem dado sintetico.
+
+    `frente_ativa=True` declara que OUTRA frente ja esta controlando o jogo: a regra
+    "uma unica frente por vez" e uma trava, nao uma recomendacao — a rodada sai
+    NAO_EXERCITADO mesmo autorizada.
+    """
     base = {"dados_sinteticos": False, "observacoes": [], "screenshot": None}
+    if frente_ativa:
+        base.update({"status": "NAO_EXERCITADO", "pode_coletar": False, "modo": "frente-duplicada",
+                     "motivo": "OUTRA frente ja controla o jogo: uma unica frente por vez "
+                               "(NAO_EXERCITADO, jamais dado fabricado)"})
+        return base
     if not autorizado:
         base.update({"status": "NAO_EXERCITADO", "pode_coletar": False, "modo": "offline",
                      "motivo": "coleta NAO autorizada (default do repositorio): nenhuma "
@@ -358,6 +418,96 @@ def montar_manifest(raiz, arquivos):
     return {"esquema": ESQUEMA, "raiz": raiz, "total": len(artefatos), "artefatos": artefatos}
 
 
+def caminhos_vigiados(perfil_dir, explicitos=()):
+    """AUD-1/L1: o que a rodada VIGIA = os nomes do contrato + as arvores inteiras.
+
+    `snapshot_arquivos` de lista fechada nao enxerga o arquivo que o probe cria num
+    caminho que o contrato nao previu — e o BepInEx varre `plugins/` RECURSIVAMENTE:
+    arquivo que nasce ali vira mod carregado. Vigiar `BepInEx/plugins/**` e
+    `BepInEx/config/**` inteiros e o que faz "inclusive arquivos criados durante a
+    coleta" ser verdade em vez de intencao.
+    """
+    rels = {str(r) for r in (explicitos or ())}
+    for sub in ARVORES_VIGIADAS:
+        base = os.path.join(perfil_dir, sub)
+        if not os.path.isdir(base):
+            continue
+        for pasta, _dirs, arquivos in os.walk(base):
+            for nome in arquivos:
+                rels.add(os.path.relpath(os.path.join(pasta, nome), perfil_dir))
+    return sorted(rels)
+
+
+def backup_do_log(caminho_log, destino_dir, nome="log-anterior.log"):
+    """Arquiva o `LogOutput.log` ANTES do lancamento e o REMOVE do perfil.
+
+    Um boot TRUNCA o log (`File.Create`), entao o log anterior e o unico jeito de
+    saber o que havia antes — e o rollback devolve o original a partir do backup.
+    Devolve o REGISTRO do backup (origem/existia/bytes/sha256) para o manifesto:
+    ausencia de log e declarada, nunca inventada.
+    """
+    registro = {"origem": caminho_log, "existia": os.path.isfile(caminho_log)}
+    if registro["existia"]:
+        os.makedirs(destino_dir, exist_ok=True)
+        destino = os.path.join(destino_dir, nome)
+        shutil.copy2(caminho_log, destino)
+        registro["backup"] = destino
+        registro["bytes"] = os.path.getsize(destino)
+        registro["sha256"] = _sha256(destino)
+        os.remove(caminho_log)
+        registro["acao"] = ("arquivado como %s e removido do perfil (o boot desta "
+                            "rodada passa a ser o unico log lido)" % nome)
+    else:
+        registro["acao"] = "nao havia log anterior: nada a arquivar"
+    return registro
+
+
+def montar_manifest_da_rodada(out_dir, perfil_dir, relativos, antes, depois, backups=None):
+    """Auditoria da rodada: (a) artefatos de evidencia, (b) arquivos tocados, (c) backups.
+
+    (a) varre o `out_dir` e descreve cada artefato por bytes/sha256; (b) confronta o
+    estado ANTES/DEPOIS de cada arquivo vigiado do perfil e o CLASSIFICA
+    (criado/modificado/removido/intocado) — inclusive o que a rodada criou num
+    caminho nao previsto; (c) nomeia o backup que permite restaurar cada arquivo.
+    Nada e inventado: o que esta em disco e medido, o que falta e declarado ausente.
+    """
+    artefatos = []
+    for pasta, _dirs, arquivos in os.walk(out_dir):
+        for nome in sorted(arquivos):
+            caminho = os.path.join(pasta, nome)
+            item = {"arquivo": os.path.relpath(caminho, out_dir)}
+            try:
+                item["bytes"] = os.path.getsize(caminho)
+                item["sha256"] = _sha256(caminho)
+            except OSError as erro:
+                item["erro"] = str(erro)
+            artefatos.append(item)
+    arquivos_perfil = []
+    for rel in sorted(set(list(antes or {})) | set(list(depois or {}))):
+        de_antes = (antes or {}).get(rel)
+        de_depois = (depois or {}).get(rel)
+        if de_antes is None and de_depois is not None:
+            estado = "criado"
+        elif de_antes is not None and de_depois is None:
+            estado = "removido"
+        elif de_antes != de_depois:
+            estado = "modificado"
+        else:
+            estado = "intocado"
+        arquivos_perfil.append({"arquivo": rel, "estado": estado,
+                                "sha256_antes": de_antes, "sha256_depois": de_depois,
+                                "backup": (backups or {}).get(rel)})
+    return {
+        "esquema": ESQUEMA, "perfil": perfil_dir, "out_dir": out_dir,
+        "artefatos": sorted(artefatos, key=lambda i: i["arquivo"]),
+        "total_artefatos": len(artefatos),
+        "arquivos_vigiados": arquivos_perfil,
+        "criados": [i["arquivo"] for i in arquivos_perfil if i["estado"] == "criado"],
+        "modificados": [i["arquivo"] for i in arquivos_perfil if i["estado"] == "modificado"],
+        "removidos": [i["arquivo"] for i in arquivos_perfil if i["estado"] == "removido"],
+    }
+
+
 def planejar_rollback(antes, depois, dirs_antes=None, dirs_depois=None):
     """Classifica o que o probe CRIOU/MUDOU/REMOVEU — inclusive arquivo nascido sozinho.
 
@@ -458,12 +608,245 @@ def consolidar(plano, observacoes, procedencia, contexto=None, alvos=None):
     return resultado, (EXIT_FALHOU if incompletos else EXIT_OK)
 
 
+# ------------------------------------------------- identidade do resultado (t_a5994af0)
+
+def identificacao_do_resultado(*, dll_probe=None, hash_fonte=None, configuracao=None,
+                               cenario=None, observado=None, esperado=None,
+                               evidencia=None, lacunas=None):
+    """Bloco de IDENTIDADE: todo veredito diz QUAL instrumento mediu, com QUE
+    configuracao, em QUE cenario, o que OBSERVOU x o que ESPERAVA, qual a EVIDENCIA
+    (artefato em disco) e quais LACUNAS sobraram.
+
+    Sem este bloco um "NO" nao e auditavel: nao da para saber de qual build/fonte,
+    com qual config, em qual cenario a negativa saiu. O hash de fonte e o sha256 da
+    DLL do probe (medido em disco, nunca "compila igual").
+    """
+    ident = {
+        "dll_sha256": None,
+        "hash_fonte": str(hash_fonte).strip() or None if hash_fonte else None,
+        "configuracao": configuracao if configuracao is not None else None,
+        "cenario": cenario if cenario is not None else None,
+        "observado": observado if observado is not None else None,
+        "esperado": esperado if esperado is not None else None,
+        "evidencia": evidencia if evidencia is not None else None,
+        "lacunas": sorted(str(l) for l in (lacunas or [])),
+    }
+    if dll_probe and os.path.isfile(dll_probe):
+        ident["dll_sha256"] = _sha256(dll_probe)
+        if not ident["hash_fonte"]:
+            ident["hash_fonte"] = ident["dll_sha256"]
+    return ident
+
+
+def veredito_do_status(status):
+    """Traduz o status do driver para o vocabulario do detector.
+
+    Status DESCONHECIDO — inclusive `None` (silencio) — NAO confirma: vira INCOMPLETO
+    ("silencio nao e aprovacao"). So `CONCLUIDO`/`CONFIRMADA` viram CONFIRMADA.
+    """
+    return _STATUS_PARA_VEREDITO.get(str(status or "").strip().upper(), VEREDITO_INCOMPLETO)
+
+
+def _esperados_do_cenario(plano, cenario=None):
+    """Expectativas DECLARADAS do plano: `{campo: valor_esperado}`.
+
+    Aceita no topo (`plano["esperado"]`) e em cada cenario (`cenarios[i]["esperado"]`),
+    como `campos_alvo` (S-2: nenhum cenario pode ser descartado em silencio). Sem
+    expectativa declarada nao ha o que NEGAR: o detector so pode confirmar/declarar
+    ausencia/lacuna.
+    """
+    if not isinstance(plano, dict):
+        return {}
+    if cenario is not None:
+        for c in plano.get("cenarios") or []:
+            if isinstance(c, dict) and c.get("nome") == cenario:
+                return dict(c.get("esperado") or {})
+        return {}
+    esperado = dict(plano.get("esperado") or {})
+    for c in plano.get("cenarios") or []:
+        if isinstance(c, dict) and isinstance(c.get("esperado"), dict):
+            esperado.update(c["esperado"])
+    return esperado
+
+
+def decidir_com_jogo_aberto(*, jogo_aberto, probe_carregado, reiniciar_autorizado=False):
+    """Rodada com o jogo JA ABERTO: so LE o que a instrumentacao JA CARREGADA entrega.
+
+    Com o jogo aberto NAO se instala probe. Se o probe nao esta carregado nesta sessao,
+    nao ha o que ler: a rodada declara REINICIO NECESSARIO e sai NAO_EXERCITADO. O
+    driver NUNCA promete hot-reload (`hot_reload: False` sempre) — trocar a DLL exigiria
+    reiniciar o jogo, e reiniciar o jogo exige autorizacao explicita do dono.
+    """
+    base = {"jogo_aberto": bool(jogo_aberto), "probe_carregado": bool(probe_carregado),
+            "hot_reload": False, "reiniciar_autorizado": bool(reiniciar_autorizado),
+            "reinicio_necessario": False, "dados_sinteticos": False}
+    if not jogo_aberto:
+        base.update({"status": "NAO_EXERCITADO", "pode_ler": False,
+                     "motivo": "nao ha jogo aberto: nada a ler — sem jogo nao se inventa leitura"})
+        return base
+    if not probe_carregado:
+        base.update({"status": "NAO_EXERCITADO", "pode_ler": False, "reinicio_necessario": True,
+                     "motivo": "o probe NAO esta carregado nesta sessao: exigiria REINICIAR o jogo "
+                               "para carregar a instrumentacao (nao ha hot-reload); reiniciar exige "
+                               "autorizacao explicita do dono"})
+        return base
+    base.update({"status": "PRONTO_PARA_LER", "pode_ler": True,
+                 "motivo": "jogo aberto COM o probe carregado: a rodada so LE — nao instala, nao "
+                           "reinicia, nao encerra"})
+    return base
+
+
+# --------------------------------------------------- detector que sabe dizer NAO
+
+def detectar_leitura(observacoes=None, plano=None, *, exercitado=True, procedencia="runtime",
+                     contexto=None, alvos=None, status_probe=None, fase=None, provas=None,
+                     reinicio_necessario=False, cenario=None, configuracao=None,
+                     dll_probe=None, hash_fonte=None, evidencia=None, motivo=None):
+    """DETECTOR DE AUSENCIA/INDETERMINADO — o detector que SABE DIZER NAO.
+
+    Devolve `(resultado, exit_code)` com o veredito num vocabulario FECHADO:
+    `CONFIRMADA` | `NO` | `AUSENTE` | `NAO_EXERCITADO` | `INCOMPLETO`. As regras sao
+    aplicadas nesta ordem (a primeira que casa manda):
+
+      1. `reinicio_necessario` ou `exercitado=False`  -> NAO_EXERCITADO (exit 2)
+         (sem rodada/sem instrumentacao carregada: nada foi lido)
+      2. provas de execucao incompletas / instrumento em estado terminal de falha /
+         instrumento sem status de conclusao          -> INCOMPLETO (exit 1)
+      3. nenhuma observacao / nenhum campo-alvo lido   -> AUSENTE (exit 1)
+      4. leitura VALIDA e a expectativa declarada NAO casa -> NO (exit 1)
+         (NO exige leitura: campo nao lido NAO vira NO, vira AUSENTE)
+      5. lacuna (alvo declarado nao lido)              -> INCOMPLETO (exit 1)
+      6. so entao                                      -> CONFIRMADA (exit 0)
+
+    INVARIANTE: sem leitura valida NENHUM caminho devolve CONFIRMADA, e
+    `dados_sinteticos` e sempre `False` — o detector nunca fabrica dado. Todo resultado
+    carrega o bloco `identificacao` (hash de fonte/DLL, configuracao, cenario,
+    observado/esperado, evidencia e lacunas).
+    """
+    observacoes = list(observacoes or [])
+    if alvos is None:
+        alvos = _alvos_do_plano(plano)
+    else:
+        alvos = validar_alvos(alvos)
+    esperados = _esperados_do_cenario(plano, cenario)
+    ident = identificacao_do_resultado(
+        dll_probe=dll_probe, hash_fonte=hash_fonte, configuracao=configuracao,
+        cenario=(cenario if cenario is not None
+                 else (plano.get("nome") if isinstance(plano, dict) else None)),
+        observado=len(observacoes), esperado=(esperados or None), evidencia=evidencia)
+
+    def _fecha(veredito, codigo, texto, lacunas=(), observado=None, esperado=None,
+               normalizadas=None, ident_extra=None):
+        resultado = {
+            "esquema": ESQUEMA,
+            "detector": "ausencia/indeterminado",
+            "veredito": veredito,
+            "status": veredito,              # compatibilidade com os status do driver
+            "negativo": veredito in VEREDITOS_NEGATIVOS,
+            "incompleto": veredito != VEREDITO_CONFIRMA,
+            "dados_sinteticos": False,       # NUNCA fabrica
+            "hot_reload": False,             # nunca promete hot-reload
+            "motivo": texto,
+            "lacunas": sorted(str(l) for l in lacunas),
+            "observado": observado,
+            "esperado": esperado if esperado is not None else (esperados or None),
+            "observacoes": normalizadas or [],
+            "identificacao": dict(ident, **(ident_extra or {})),
+        }
+        return resultado, codigo
+
+    if reinicio_necessario:
+        return _fecha(VEREDITO_NAO_EXERCITADO, EXIT_NAO_RODOU,
+                      "a instrumentacao necessaria NAO esta carregada: a rodada exige REINICIO "
+                      "(sem hot-reload — nada e prometido, nada e lido)", ident_extra={"reinicio": True})
+    if str(procedencia or "").strip().lower() == "fixture":
+        # FIXTURE nao prova runtime: mesmo com a expectativa casando, o veredito NUNCA
+        # confirma. A leitura rotulada e material de teste, nao evidencia de jogo.
+        return _fecha(VEREDITO_INCOMPLETO, EXIT_NAO_RODOU,
+                      "procedencia 'fixture': fixture rotulada NAO prova runtime (nunca confirma)")
+    if not exercitado:
+        return _fecha(VEREDITO_NAO_EXERCITADO, EXIT_NAO_RODOU,
+                      motivo or "a leitura NAO foi exercitada (sem autorizacao/sem acesso ao jogo): "
+                                "NAO_EXERCITADO, nenhum dado fabricado")
+    if provas is not None and not provas.get("ok"):
+        return _fecha(VEREDITO_INCOMPLETO, EXIT_FALHOU,
+                      "provas de execucao incompletas: %s" % "; ".join(provas.get("faltas") or []))
+    st = str(status_probe or "").strip().upper()
+    fa = str(fase or "").strip().lower()
+    if st in STATUS_PROBE_FALHA or fa in FASES_PROBE_FALHA:
+        return _fecha(VEREDITO_INCOMPLETO, EXIT_FALHOU,
+                      "estado terminal de falha do instrumento (%s / %s): nao confirma desfecho"
+                      % (st or "sem status", fa or "sem fase"))
+    # t_a5994af0 (AUT-4R rodada 1): o status de conclusao e OBRIGATORIO — ausente/vazio
+    # NAO pode passar. Antes, o curto-circuito `if st and ...` deixava `status` ausente
+    # ou "" escapar para CONFIRMADA, contradizendo esta regra 2, o irmao
+    # `consolidar_probe` (que trata silencio como INCOMPLETO) e `veredito_do_status(None)`.
+    # "silencio nao e aprovacao": sem status declarado o detector NAO confirma.
+    if st not in STATUS_PROBE_OK:
+        return _fecha(VEREDITO_INCOMPLETO, EXIT_FALHOU,
+                      "o instrumento nao declarou status de conclusao (%r): silencio nao e "
+                      "aprovacao" % st)
+    if not observacoes:
+        return _fecha(VEREDITO_AUSENTE, EXIT_FALHOU,
+                      "nenhuma observacao foi lida: AUSENTE (o objeto nao foi lido — nao 'passou')")
+
+    normalizadas = [
+        normalizar_observacao(
+            o, procedencia,
+            rotulo_fixture=(o.get("rotulo_fixture") if isinstance(o, dict) else None),
+            contexto=contexto, alvos=alvos)
+        for o in observacoes
+    ]
+    alvos_efetivos = set(alvos) if alvos is not None else set(CAMPOS)
+    lidos = sorted({c for n in normalizadas for c in alvos_efetivos
+                    if n["campos"].get(c, {}).get("estado") == "PRESENTE"})
+    lacunas = sorted({l for n in normalizadas for l in n["lacunas"]})
+    if not lidos:
+        return _fecha(VEREDITO_AUSENTE, EXIT_FALHOU,
+                      "nenhum campo-alvo foi lido (vazios/AUSENTES: %s): AUSENTE"
+                      % ", ".join(sorted(alvos_efetivos)),
+                      lacunas=lacunas, observado="AUSENTE", normalizadas=normalizadas)
+
+    negados = []
+    for campo, valor in sorted(esperados.items()):
+        valores = [n["campos"].get(campo, {}).get("valor") for n in normalizadas
+                   if n["campos"].get(campo, {}).get("estado") == "PRESENTE"]
+        if not valores:
+            return _fecha(VEREDITO_AUSENTE, EXIT_FALHOU,
+                          "a expectativa de %r nao foi lida: AUSENTE (nao da para dizer NO sobre "
+                          "campo que o probe nao leu)" % campo,
+                          lacunas=sorted(set(lacunas) | {campo}), normalizadas=normalizadas)
+        if not any(v == valor for v in valores):
+            negados.append((campo, valor, valores))
+    if negados:
+        return _fecha(VEREDITO_NO, EXIT_FALHOU,
+                      "leitura VALIDA e a expectativa NAO casa: NO (%s)"
+                      % "; ".join("%s esperado %r, lido %r" % (c, e, v) for c, e, v in negados),
+                      lacunas=lacunas, observado=[v for _c, _e, v in negados],
+                      esperado={c: e for c, e, _v in negados}, normalizadas=normalizadas)
+    if lacunas:
+        return _fecha(VEREDITO_INCOMPLETO, EXIT_FALHOU,
+                      "ha lacuna: alvo(s) nao lido(s) %s — AUSENTE/INDETERMINADO nunca e OK"
+                      % ", ".join(lacunas), lacunas=lacunas, normalizadas=normalizadas)
+    observado_final = {}
+    for n in normalizadas:
+        for c in lidos:
+            if n["campos"].get(c, {}).get("estado") == "PRESENTE":
+                observado_final.setdefault(c, []).append(n["campos"][c]["valor"])
+    return _fecha(VEREDITO_CONFIRMA, EXIT_OK,
+                  "leitura valida e a expectativa declarada casa" if esperados
+                  else "leitura valida (sem expectativa declarada: nada a negar)",
+                  observado=observado_final, normalizadas=normalizadas)
+
+
 # ------------------------------------------------------------------ driver
 
-def planejar_rodada(plano, autorizado, jogo_disponivel, confirmacao=None, perfil_dir=None):
+def planejar_rodada(plano, autorizado, jogo_disponivel, confirmacao=None, perfil_dir=None,
+                    frente_ativa=False):
     """Plano completo da rodada (instalar/ler/remover). Offline devolve NAO_EXERCITADO."""
     plano = validar_plano(plano)
-    decisao = decidir_autorizacao(autorizado, jogo_disponivel, confirmacao)
+    decisao = decidir_autorizacao(autorizado, jogo_disponivel, confirmacao,
+                                  frente_ativa=frente_ativa)
     rodada = {
         "esquema": ESQUEMA,
         "decisao": decisao,
@@ -783,6 +1166,29 @@ def executar_rollback(raiz, plano_rb, backups, preservar=None):
     return acoes
 
 
+def verificar_sem_residuo(raiz, relativos, antes, dirs_antes=None):
+    """AUD-1: prova de RESTAURACAO EXATA (pos-rollback), sem efeito residual.
+
+    Confronta o estado AGORA com o estado de ANTES e nomeia cada divergencia:
+    arquivo criado que sobrou (`residuos`), restaurado com hash diferente
+    (`divergentes`), removido que nao voltou (`faltando`) e diretorio criado pela
+    rodada que sobrou (`dirs_residuo`). `limpo` so e True com as quatro listas
+    vazias — e o driver usa isso para nao apresentar rodada suja como limpa.
+    """
+    agora = snapshot_arquivos(raiz, caminhos_vigiados(raiz, relativos))
+    dirs_agora = snapshot_dirs(raiz, caminhos_vigiados(raiz, relativos))
+    antes = antes or {}
+    residuos = sorted(k for k in agora if k not in antes)
+    divergentes = sorted(k for k in agora if k in antes and agora[k] != antes[k])
+    faltando = sorted(k for k in antes if k not in agora)
+    dirs_residuo = sorted(set(dirs_agora) - set(dirs_antes or ()))
+    return {
+        "limpo": not (residuos or divergentes or faltando or dirs_residuo),
+        "residuos": residuos, "divergentes": divergentes, "faltando": faltando,
+        "dirs_residuo": dirs_residuo, "vigiados_agora": sorted(agora),
+    }
+
+
 # --------------------------------------------------- atualidade (fonte/dll/manifest)
 
 def provar_atualidade(perfil_dir, out_dir, hash_fonte, saida_probe=None, arquivos=None):
@@ -1012,10 +1418,93 @@ def planejar_encerramento(imagem, pids_antes, pids_depois):
                        "steam.exe, NAO o jogo (no Windows o jogo e processo a parte)")}
 
 
+def comandos_de_fechamento(pid):
+    """AUD-1/L2: como fechar UM PID, em ORDEM — o GRACIOSO primeiro.
+
+    `taskkill` e bloqueado em rodada sem usuario (memoria do projeto) e matar por
+    imagem atinge TODAS as instancias; por isso o primeiro caminho e pedir ao jogo
+    que feche a propria janela (`CloseMainWindow()`) e o forcado por PID fica como
+    FALLBACK, so quando o processo continua vivo. Puro: devolve os comandos, nao os
+    executa.
+    """
+    pid = int(pid)
+    return [
+        {"modo": "gracioso",
+         "argv": ["powershell", "-NoProfile", "-NonInteractive", "-Command",
+                  "(Get-Process -Id %d -ErrorAction SilentlyContinue).CloseMainWindow()" % pid],
+         "motivo": "fecha a janela principal (CloseMainWindow) — nao depende de taskkill"},
+        {"modo": "forcado", "argv": ["taskkill", "/F", "/PID", str(pid)],
+         "motivo": "fallback: SO o PID que nasceu nesta rodada"},
+    ]
+
+
+def _pid_vivo(pid):
+    """True/False se o PID existe agora; None quando NAO deu para medir.
+
+    A duvida e da MEDICAO (tasklist ausente/sem permissao), nunca da decisao: quem
+    nao mediu nao decide encerrar nada por conta propria.
+    """
+    try:
+        proc = subprocess.run(["tasklist", "/FI", "PID eq %d" % int(pid), "/FO", "CSV", "/NH"],
+                              stdout=subprocess.PIPE, stderr=subprocess.DEVNULL,
+                              universal_newlines=True, timeout=30)
+    except Exception:
+        return None
+    if proc.returncode != 0:
+        return None
+    for linha in (proc.stdout or "").splitlines():
+        campos = [c.strip().strip('"') for c in linha.split(",")]
+        if len(campos) >= 2:
+            try:
+                if int(campos[1]) == int(pid):
+                    return True
+            except ValueError:
+                continue
+    return False
+
+
+def encerrar_processos(plano_encerramento, executar=None, pid_vivo=None,
+                       espera_s=ESPERA_FECHAMENTO_GRACIOSO_S, dormir=time.sleep):
+    """AUD-1/L2: executa a decisao de `planejar_encerramento` — gracioso -> forcado.
+
+    RECUSA (ou nada a encerrar) nao executa NADA: fail-closed. Para cada PID tenta o
+    gracioso, espera `espera_s` e SO escala para o forcado se o processo continuar
+    vivo (vivo=False para). `executar`/`pid_vivo`/`dormir` sao injetaveis para o
+    teste provar a ORDEM e o fallback sem fechar processo nenhum.
+    """
+    acoes = []
+    if not isinstance(plano_encerramento, dict):
+        return acoes
+    if plano_encerramento.get("recusado") or not plano_encerramento.get("pids"):
+        return acoes
+    aplicar = executar or (lambda argv: subprocess.run(
+        argv, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL, timeout=30))
+    medir = pid_vivo or _pid_vivo
+    for pid in plano_encerramento["pids"]:
+        registro = {"pid": pid, "tentativas": [], "fechado": None}
+        for comando in comandos_de_fechamento(pid):
+            tentativa = {"modo": comando["modo"], "argv": comando["argv"], "ok": False}
+            try:
+                aplicar(comando["argv"])
+                tentativa["ok"] = True
+            except Exception as erro:
+                tentativa["erro"] = "%s: %s" % (type(erro).__name__, erro)
+            registro["tentativas"].append(tentativa)
+            if comando["modo"] == "gracioso" and espera_s:
+                dormir(espera_s)
+            vivo = medir(pid)
+            registro["fechado"] = (vivo is False)
+            if vivo is False:
+                break                      # ja saiu: nao escala para o forcado
+        acoes.append(registro)
+    return acoes
+
+
 def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
                     jogo_disponivel=False, confirmacao=None, steam=None, comando_lancamento=None,
                     appid=APPID, hash_fonte=None, orcamento=120, timeout_s=180, poll_s=0.5,
-                    encerrar_imagem=None):
+                    encerrar_imagem=None, fechar_executar=None, pid_vivo=None,
+                    pids_medir=None, frente_ativa=False):
     """CAMINHO EXECUTAVEL: instala o probe no perfil INDICADO (isolado), escreve o
     `.cfg` derivado, lanca pelos ARGUMENTOS de doorstop, espera ESTADO (log + JSON
     novos) e faz o rollback EXATO no `finally`.
@@ -1033,18 +1522,57 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
     inclusive a que o dono ja tinha aberta. Agora o driver fotografia os PIDs da
     imagem ANTES de lancar e encerra SO os PIDs NOVOS; se nao der para medir, o
     encerramento e RECUSADO e registrado em `resultado["encerramento"]`.
+
+    AUD-1/L1: a rodada VIGIA `BepInEx/plugins/**` e `BepInEx/config/**` inteiros
+    (`caminhos_vigiados`) — arquivo criado pelo probe em caminho nao previsto entra
+    em `criados` e volta no rollback; `resultado["manifest"]` descreve artefatos,
+    estado antes/depois de cada arquivo vigiado e os backups; e
+    `resultado["restauracao"]` prova (pos-rollback) que o perfil voltou EXATO — se
+    sobrar residuo, o status vira `RESIDUO`/exit != 0, nunca "rodada limpa".
+
+    AUD-1/L2: o jogo e fechado em DUAS ETAPAS (`encerrar_processos`): gracioso
+    (`CloseMainWindow`) e, so se o PID continuar vivo, forcado por PID. `pid_vivo`/
+    `fechar_executar`/`pids_medir` sao injetaveis para o teste exercitar a ordem e o
+    fallback offline, sem fechar processo nenhum.
     """
     # R-2 (CIC-5R): o GATE vem ANTES de normalizar caminhos. Com `os.path.abspath`
     # antes de `decidir_autorizacao`, `--executar` sem `--perfil` estourava
     # `TypeError` (exit 1) em vez do NAO_EXERCITADO/exit 2 prometido pelo default.
-    decisao = decidir_autorizacao(autorizado, jogo_disponivel, confirmacao)
+    decisao = decidir_autorizacao(autorizado, jogo_disponivel, confirmacao,
+                                  frente_ativa=frente_ativa)
     resultado = {"esquema": ESQUEMA, "rotina": "execucao-runtime", "decisao": decisao,
                  "perfil": perfil_dir, "out_dir": out_dir, "passos": [],
                  "efeitos_colaterais": [], "exit_code": EXIT_NAO_RODOU}
+
+    def _fechar(res, codigo):
+        """Fecha o resultado com IDENTIDADE + veredito do detector (t_a5994af0).
+
+        Todo resultado do caminho executavel identifica hash de fonte/DLL, configuracao,
+        cenario, observado/esperado, evidencia e lacunas — e traz o veredito no
+        vocabulario do detector (nunca CONFIRMADA sem status de conclusao). O driver
+        NUNCA promete hot-reload: `hot_reload` e sempre False.
+        """
+        veredito = veredito_do_status(res.get("status"))
+        consolidado = res.get("consolidado") or {}
+        res["detector"] = {"veredito": veredito, "negativo": veredito in VEREDITOS_NEGATIVOS,
+                           "dados_sinteticos": False, "hot_reload": False}
+        res["hot_reload"] = False
+        res["identificacao"] = identificacao_do_resultado(
+            dll_probe=(dll_probe if isinstance(dll_probe, str) and os.path.isfile(dll_probe) else None),
+            hash_fonte=(hash_fonte if isinstance(hash_fonte, str) else None),
+            configuracao=res.get("configuracao"),
+            cenario=(plano.get("nome") if isinstance(plano, dict) else None),
+            observado=(len(consolidado.get("observacoes") or []) or None),
+            esperado=(_esperados_do_cenario(plano) or None),
+            evidencia=res.get("out_dir"),
+            lacunas=(consolidado.get("lacunas") or []))
+        res["exit_code"] = codigo
+        return res, codigo
+
     if not decisao["pode_coletar"]:
         resultado["status"] = "NAO_EXERCITADO"
         resultado["motivo"] = decisao["motivo"]
-        return resultado, EXIT_NAO_RODOU
+        return _fechar(resultado, EXIT_NAO_RODOU)
     sem_destino = [nome for nome, valor in (("perfil_dir", perfil_dir), ("out_dir", out_dir))
                    if not str(valor or "").strip()]
     if sem_destino:
@@ -1053,7 +1581,7 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
         resultado["status"] = "NAO_EXERCITADO"
         resultado["motivo"] = ("rodada autorizada sem %s explicito: sem destino nao ha rodada "
                                "(nunca o perfil do dono por acidente)" % ", ".join(sem_destino))
-        return resultado, EXIT_NAO_RODOU
+        return _fechar(resultado, EXIT_NAO_RODOU)
     perfil_dir = os.path.abspath(perfil_dir)
     out_dir = os.path.abspath(out_dir)
     resultado["perfil"] = perfil_dir
@@ -1067,11 +1595,11 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
     except PlanoInvalido as erro:
         resultado["status"] = "PLANO_INVALIDO"
         resultado["motivo"] = "%s: %s" % (type(erro).__name__, erro)
-        return resultado, EXIT_NAO_RODOU
+        return _fechar(resultado, EXIT_NAO_RODOU)
     if not (dll_probe and os.path.isfile(dll_probe)):
         resultado["status"] = "NAO_EXERCITADO"
         resultado["motivo"] = "DLL do probe nao encontrada: %r" % (dll_probe,)
-        return resultado, EXIT_NAO_RODOU
+        return _fechar(resultado, EXIT_NAO_RODOU)
 
     dll_probe = os.path.abspath(dll_probe)
     hash_fonte = hash_fonte or _sha256(dll_probe)
@@ -1091,16 +1619,22 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
     preloader = os.path.join(perfil_dir, PRELOADER_REL)
     alvos_rel = [PROBE_REL_PADRAO, CFG_REL_PADRAO, LOG_REL_PADRAO]
 
-    antes = snapshot_arquivos(perfil_dir, alvos_rel)
-    dirs_antes = snapshot_dirs(perfil_dir, alvos_rel)     # A5: existencia de diretorios
+    # AUD-1/L1: vigia o contrato MAIS as arvores inteiras — arquivo que o probe criar
+    # num caminho nao previsto entra em `criados` (e o BepInEx varre plugins/ recursivo).
+    vigiados_antes = caminhos_vigiados(perfil_dir, alvos_rel)
+    antes = snapshot_arquivos(perfil_dir, vigiados_antes)
+    dirs_antes = snapshot_dirs(perfil_dir, vigiados_antes)   # A5: existencia de diretorios
     bkdir = os.path.join(out_dir, "rollback-backup")
     os.makedirs(bkdir, exist_ok=True)
     backups = {}
-    for rel in alvos_rel:
-        if antes.get(rel) is not None:
-            bkp = os.path.join(bkdir, rel.replace(os.sep, "__").replace("/", "__"))
+    for rel in sorted(antes):
+        bkp = os.path.join(bkdir, rel)       # espelha a arvore (sem colisao de basename)
+        os.makedirs(os.path.dirname(bkp), exist_ok=True)
+        try:
             shutil.copy2(os.path.join(perfil_dir, rel), bkp)
             backups[rel] = bkp
+        except OSError:
+            pass                             # sem backup: o rollback declara "sem-backup"
 
     eh_stub = bool(comando_lancamento)
     cmd = (list(comando_lancamento) if comando_lancamento else [steam or STEAM_PADRAO])
@@ -1115,24 +1649,21 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
         os.makedirs(os.path.dirname(caminho_dll), exist_ok=True)
         shutil.copy2(dll_probe, caminho_dll)
         resultado["passos"].append("2. escrever o cfg derivado (Autorizado/HashFonte/PerfilDir/Navegar=false/Sessao)")
-        texto_cfg = escrever_cfg(caminho_cfg, derivar_config(perfil_dir, out_dir, True,
-                                                             hash_fonte=hash_fonte,
-                                                             orcamento=orcamento,
-                                                             sessao=sessao_rodada,
-                                                             demostrar=exigir_ida_volta,
-                                                             marcador=marcador_ida_volta))
+        configuracao = derivar_config(perfil_dir, out_dir, True, hash_fonte=hash_fonte,
+                                      orcamento=orcamento, sessao=sessao_rodada,
+                                      demostrar=exigir_ida_volta, marcador=marcador_ida_volta)
+        resultado["configuracao"] = configuracao      # t_a5994af0: a config entra na IDENTIDADE
+        texto_cfg = escrever_cfg(caminho_cfg, configuracao)
         with open(os.path.join(out_dir, "cfg-instalado.cfg"), "w", encoding="utf-8") as fh:
             fh.write(texto_cfg)
         resultado["passos"].append("3. arquivar o LogOutput.log anterior (um boot trunca o log)")
-        if os.path.isfile(caminho_log):
-            shutil.copy2(caminho_log, os.path.join(out_dir, "log-anterior.log"))
-            os.remove(caminho_log)
+        resultado["backup_log"] = backup_do_log(caminho_log, out_dir)
         resultado["passos"].append("4. lancar pelos argumentos de doorstop")
         resultado["lancamento"] = {"argv": cmd, "stub": eh_stub}
         # R-4: fotografa os PIDs da imagem ANTES do lancamento — so os que nascerem
         # depois podem ser encerrados (o dono pode ter o jogo aberto).
-        if encerrar_imagem and not eh_stub:
-            pids_antes_imagem = pids_da_imagem(encerrar_imagem)
+        if encerrar_imagem:
+            pids_antes_imagem = (pids_medir or pids_da_imagem)(encerrar_imagem)
         lancamento_epoca = time.time()          # A1: o JSON desta rodada tem de ser mais novo
         proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         pid = proc.pid
@@ -1222,27 +1753,48 @@ def executar_rodada(plano, *, perfil_dir, out_dir, dll_probe, autorizado=False,
                         proc.kill()
             except Exception:
                 pass
-            if encerrar_imagem and not eh_stub:
+            if encerrar_imagem:
+                medir_imagem = pids_medir or pids_da_imagem
                 plano_enc = planejar_encerramento(encerrar_imagem, pids_antes_imagem,
-                                                  pids_da_imagem(encerrar_imagem))
+                                                  medir_imagem(encerrar_imagem))
+                # AUD-1/L2: gracioso primeiro; forcado por PID so se o processo continuar vivo.
+                plano_enc["acoes"] = encerrar_processos(plano_enc, executar=fechar_executar,
+                                                        pid_vivo=pid_vivo)
                 resultado["encerramento"] = plano_enc
-                for alvo_pid in plano_enc["pids"]:
-                    try:
-                        subprocess.run(["taskkill", "/F", "/PID", str(alvo_pid)],
-                                       stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                       timeout=30)
-                    except Exception:
-                        pass
-        depois = snapshot_arquivos(perfil_dir, alvos_rel)
-        dirs_depois = snapshot_dirs(perfil_dir, alvos_rel)      # A5
+        vigiados_depois = caminhos_vigiados(perfil_dir, alvos_rel)
+        depois = snapshot_arquivos(perfil_dir, vigiados_depois)
+        dirs_depois = snapshot_dirs(perfil_dir, vigiados_depois)      # A5
         plano_rb = planejar_rollback(antes, depois, dirs_antes, dirs_depois)
-        acoes = executar_rollback(perfil_dir, plano_rb, backups,
-                                  preservar=plano_rb["dirs_pre_existentes"])
+        try:
+            acoes = executar_rollback(perfil_dir, plano_rb, backups,
+                                      preservar=plano_rb["dirs_pre_existentes"])
+        except Exception as erro:
+            # AUD-1: o rollback FALHOU (arquivo travado / sem permissao). Nao derrubar
+            # o driver: registra o erro e deixa a PROVA de restauracao acusar — o
+            # veredito vira RESIDUO/exit != 0, nunca "rodada limpa".
+            acoes = []
+            resultado["rollback_erro"] = "%s: %s" % (type(erro).__name__, erro)
         resultado["rollback"] = {"plano": plano_rb, "acoes": acoes}
+        # AUD-1: PROVA pos-rollback de que o perfil voltou ao estado de antes.
+        resultado["restauracao"] = verificar_sem_residuo(
+            perfil_dir, caminhos_vigiados(perfil_dir, alvos_rel), antes, dirs_antes)
+        resultado["manifest"] = montar_manifest_da_rodada(out_dir, perfil_dir,
+                                                          vigiados_depois, antes, depois,
+                                                          backups)
         resultado["efeitos_colaterais"] = [a for a in acoes if a["acao"] != "sem-backup"]
 
+    # AUD-1: restauracao NAO exata => a rodada NAO pode ser apresentada como limpa.
+    restauracao = resultado.get("restauracao") or {}
+    if restauracao and not restauracao.get("limpo"):
+        sujeira = ((restauracao.get("residuos") or []) + (restauracao.get("divergentes") or [])
+                   + (restauracao.get("faltando") or []) + (restauracao.get("dirs_residuo") or []))
+        resultado["status"] = "RESIDUO"
+        resultado["motivo"] = ("restauracao NAO exata: efeito residual no perfil (%s)"
+                               % "; ".join(str(x) for x in sujeira))
+        codigo = EXIT_FALHOU
+
     resultado["exit_code"] = codigo
-    return resultado, codigo
+    return _fechar(resultado, codigo)
 
 
 # ------------------------------------------------------------------ CLI
@@ -1276,13 +1828,54 @@ def main(argv=None):
     ap.add_argument("--timeout", type=int, default=180, help="teto da espera de estado, em segundos")
     ap.add_argument("--encerrar-imagem", default=None,
                     help="fecha o jogo por imagem SO em rodada real (nunca contra stub)")
+    # t_a5994af0: detector de ausencia/indeterminado e a trava da frente unica.
+    ap.add_argument("--detectar", action="store_true",
+                    help="com --saida-probe: julga com o DETECTOR (veredito CONFIRMADA/NO/AUSENTE/"
+                         "NAO_EXERCITADO/INCOMPLETO) em vez de so consolidar")
+    ap.add_argument("--frente-ativa", action="store_true",
+                    help="declara que OUTRA frente ja controla o jogo: a rodada NAO age (uma frente por vez)")
+    ap.add_argument("--jogo-aberto", action="store_true",
+                    help="o jogo JA esta aberto: com jogo aberto so se LE instrumentacao ja carregada")
+    ap.add_argument("--probe-carregado", action="store_true",
+                    help="com --jogo-aberto: o probe JA esta carregado nesta sessao "
+                         "(sem ele a rodada declara REINICIO NECESSARIO, sem hot-reload)")
     args = ap.parse_args(argv)
 
     with open(args.plano, encoding="utf-8") as fh:
         plano = json.load(fh)
 
     try:
-        if args.saida_probe:
+        if args.jogo_aberto:
+            resultado = decidir_com_jogo_aberto(jogo_aberto=True,
+                                                probe_carregado=args.probe_carregado)
+            codigo = EXIT_OK if resultado["pode_ler"] else EXIT_NAO_RODOU
+        elif args.detectar:
+            # O detector julga a saida do probe: sem leitura nao ha o que julgar e o
+            # caminho sai NAO_EXERCITADO (nunca um veredito inventado).
+            #
+            # LACUNA DECLARADA (AUT-4R rodada 1): este lane LE um artefato JA EXISTENTE e
+            # NAO passa `provas`: nem `provas.ok` nem a atualidade da sessao sao checados
+            # aqui (a prova de execucao — sessao desta rodada + log + prints — so existe no
+            # caminho `--executar`, onde o driver GERA a sessao e o lancamento). O QUE ESTE
+            # LANE GARANTE: o status de conclusao do instrumento e OBRIGATORIO — ausente/
+            # vazio sai INCOMPLETO/exit 1 ("silencio nao e aprovacao", alinhado com
+            # consolidar_probe). Quem precisar da prova de execucao usa `--executar`.
+            if not args.saida_probe:
+                resultado = {"esquema": ESQUEMA, "detector": "ausencia/indeterminado",
+                             "veredito": VEREDITO_NAO_EXERCITADO, "status": VEREDITO_NAO_EXERCITADO,
+                             "negativo": True, "dados_sinteticos": False, "hot_reload": False,
+                             "motivo": "--detectar exige --saida-probe: sem leitura nao ha o que julgar",
+                             "observacoes": []}
+                codigo = EXIT_NAO_RODOU
+            else:
+                saida = carregar_saida_probe(args.saida_probe)
+                contexto = {"sessao": saida.get("sessao"), "hash_fonte": saida.get("hash_fonte")}
+                resultado, codigo = detectar_leitura(
+                    anexar_contexto(saida.get("observacoes") or [], contexto), plano,
+                    contexto=contexto, alvos=args.alvos, status_probe=saida.get("status_probe"),
+                    fase=saida.get("fase"), dll_probe=args.dll_probe,
+                    evidencia=args.saida_probe)
+        elif args.saida_probe:
             resultado, codigo = consolidar_probe(args.saida_probe, plano, alvos=args.alvos)
         elif args.executar:
             resultado, codigo = executar_rodada(plano, perfil_dir=args.perfil, out_dir=args.out_dir,
@@ -1290,7 +1883,8 @@ def main(argv=None):
                                                 jogo_disponivel=args.jogo_disponivel,
                                                 confirmacao=args.confirmar_coleta, steam=args.steam,
                                                 timeout_s=args.timeout,
-                                                encerrar_imagem=args.encerrar_imagem)
+                                                encerrar_imagem=args.encerrar_imagem,
+                                                frente_ativa=args.frente_ativa)
         elif args.procedencia and args.observacoes:
             obs = []
             for caminho in args.observacoes:
@@ -1299,7 +1893,8 @@ def main(argv=None):
             resultado, codigo = consolidar(plano, obs, args.procedencia)
         else:
             rodada, codigo = planejar_rodada(plano, args.autorizado, args.jogo_disponivel,
-                                             args.confirmar_coleta)
+                                             args.confirmar_coleta,
+                                             frente_ativa=args.frente_ativa)
             resultado = rodada
     except (PlanoInvalido, ObservacaoInvalida) as erro:
         # A2/A3: plano ou observacao fora do contrato NAO pode "rodar" nem virar OK:
