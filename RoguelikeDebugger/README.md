@@ -7,7 +7,7 @@ Writes the game's internal data to `LogOutput.log`, so a mechanic can be checked
 code instead of guessed. **No gameplay change.**
 
 - **GUID:** `com.gumatos.roguelikedebugger`
-- **Version:** 0.1.1
+- **Version:** 0.1.2
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 
@@ -24,6 +24,11 @@ code instead of guessed. **No gameplay change.**
 - **Powerups** — one line per level.
 - **Loot, gold and experience** — the roll decisions, the modifiers applied and the
   values granted.
+- **Shrine aura procs** (tag `[FlameRV49]`) — when a Decay/Flame shrine aura fires: the
+  expression the game evaluated, which character the engine put in `Source`/`Target`, the
+  percentage it resolved and the final damage, plus a matrix that re-evaluates the same
+  expression with a fixed `ShrineEffectBonus` (0 / 8 / 20 / 100). Written for an open
+  investigation (RV-49); it only reads.
 
 The dump is **huge**: it writes thousands of lines per game start and makes the log hard
 to read for anyone who just wants to play.
@@ -33,6 +38,14 @@ to read for anyone who just wants to play.
 - **No gameplay or save change** — the only output is text in `LogOutput.log`.
 - **Does not improve the game on screen** — it is an investigation tool, not a player mod.
 - **Sends no data anywhere** — everything stays in the local log, on your machine.
+
+### What is not verified in game yet
+
+The `[FlameRV49]` probe (shrine aura procs) was written against the decompiled game code
+and the game's own assets, and **its output has not been exercised in a game session
+yet** — the run it exists for (RV-49) is still pending. Treat those lines as unverified.
+The other sections (skills, status, items, powerups, loot) are the ones already read from
+a boot dump and used by this project.
 
 ## Install
 
@@ -65,10 +78,10 @@ dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\RoguelikeDebugger.dll`. The reference DLLs come from the
-game and are **never distributed**. The flag keeps the build local: **without it the
-`DeployToBepInEx` target also copies the DLL into
-`<r2modman profile>\BepInEx\plugins\RoguelikeDebugger\` on the machine that built it** — a bare
-`dotnet build` installs.
+game and are **never distributed**. The deploy is **opt-in** (DEPLOY-2): a bare
+`dotnet build` installs **nothing** — the `DeployToBepInEx` target runs only with
+`-p:DeployToBepInEx=true`, which copies the DLL into
+`<r2modman profile>\BepInEx\plugins\RoguelikeDebugger\` on the machine that built it.
 
 ---
 
