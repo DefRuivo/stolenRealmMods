@@ -1,0 +1,44 @@
+$ python -B C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3r2/diff_fixtures.py   # trava: procuracao de OK NOVO antigo->atual
+rstv-observacoes.entrada.json      antigo={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+                                   atual ={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+rstv-controles.entrada.json        antigo={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+                                   atual ={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+rstv-lacunas.entrada.json          antigo={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+                                   atual ={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+rstv-ausente.entrada.json          antigo={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+                                   atual ={"RSTV-6-readonly-personagem": "NAO_EXERCITADO", "RSTV-6-readonly-skills-pontos": "NAO_EXERCITADO", "RSTV-21-janela-ciclo": "NAO_EXERCITADO", "RSTV-21-tooltip-restauracao": "NAO_EXERCITADO", "RSTV-26-placeholders": "NAO_EXERCITADO", "RSTV-25b-dependencia": "NAO_EXERCITADO", "RSTV-geometria-clipping": "NAO_EXERCITADO"}
+rstv-positivo.entrada.json         antigo={"RSTV-6-readonly-personagem": "OK", "RSTV-6-readonly-skills-pontos": "OK", "RSTV-21-janela-ciclo": "OK", "RSTV-21-tooltip-restauracao": "OK", "RSTV-26-placeholders": "OK", "RSTV-25b-dependencia": "OK", "RSTV-geometria-clipping": "OK"}
+                                   atual ={"RSTV-6-readonly-personagem": "OK", "RSTV-6-readonly-skills-pontos": "OK", "RSTV-21-janela-ciclo": "OK", "RSTV-21-tooltip-restauracao": "OK", "RSTV-26-placeholders": "OK", "RSTV-25b-dependencia": "OK", "RSTV-geometria-clipping": "OK"}
+
+=== DIFERENCAS DE ESTADO (antigo -> atual) ===
+  F1a-pontos-nunca-lidos         RSTV-6-readonly-skills-pontos    OK -> NAO_EXERCITADO
+  F1b-skills-nunca-lidas         RSTV-6-readonly-skills-pontos    OK -> NAO_EXERCITADO
+  F2a-janelas-null               RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F2b-janelas-negativo           RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F2c-janelas-bool               RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F2d-janelas-lista              RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F2e-janelas-string             RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F2f-duplicata-nao-booleana     RSTV-21-tooltip-restauracao      OK -> NAO_EXERCITADO
+  F3a-contagem-diferente         RSTV-25b-dependencia             OK -> REPROVADO
+  F3b-valores-invalidos          RSTV-25b-dependencia             OK -> INDETERMINADO
+  F4a-nan-x                      RSTV-geometria-clipping          OK -> NAO_EXERCITADO
+  F4b-nan-largura                RSTV-geometria-clipping          OK -> NAO_EXERCITADO
+  F4c-x-infinito                 RSTV-geometria-clipping          REPROVADO -> NAO_EXERCITADO
+  F5a-hash-contraditorio         RSTV-21-janela-ciclo             OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-21-tooltip-restauracao      OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-25b-dependencia             OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-26-placeholders             OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-6-readonly-personagem       OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-6-readonly-skills-pontos    OK -> INDETERMINADO
+  F5a-hash-contraditorio         RSTV-geometria-clipping          OK -> INDETERMINADO
+  F6a-cru-sem-render             RSTV-26-placeholders             OK -> NAO_EXERCITADO
+  F7a-sessoes-misturadas         RSTV-21-janela-ciclo             OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-21-tooltip-restauracao      OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-25b-dependencia             OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-26-placeholders             OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-6-readonly-personagem       OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-6-readonly-skills-pontos    OK -> INDETERMINADO
+  F7a-sessoes-misturadas         RSTV-geometria-clipping          OK -> INDETERMINADO
+
+=== OK NOVO (antigo nao-OK -> atual OK): 0 ===
+EXIT=0

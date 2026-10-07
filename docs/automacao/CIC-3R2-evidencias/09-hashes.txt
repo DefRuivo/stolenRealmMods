@@ -1,0 +1,29 @@
+$ sha256sum <arquivos do objeto e dependencias medidas nesta revisao>
+2fad23a3bc3dc48c7b2dd5cda3feda64a18d9e3d802c54dbef63696a8a032252 *tools/automacao/cenarios/rstv.py
+51f7100791fbe3d179be7f88234f88e545a9f5831d8bdafcdfc6fd4f26b1c073 *tools/automacao/cenarios/test_rstv.py
+4565ef326296f839c42ef62f9428ff6edc40ae0c3dcc35b68f4d800900e61a3a *docs/automacao/COR-CIC3-correcao.md
+a8416a4800180a37d309cb020e54abd9a60f4e95c41a415db51a7c196c2cb33b *docs/automacao/CIC-3R-revisao.md
+b063dfef3c359bde7bee340b5cd527b1f547903080afebdbf73b5edb2510d3b2 *docs/automacao/CICLO-VALIDACAO-escopo.md
+6a67cf8ac06aa620b14738cc91485a697800a7538c8556f7e44fe395e6ef3aab *docs/automacao/CIC-3-entrega.md
+d6de959e73a090e43da2b5438a12ba1739d32be2bd9494c0fe9f0d84d9163933 *tools/automacao/ciclo/decisao.py
+c7032285e2e9828d8b3c3c9ffd41420f3a0ccebe0f75440a0b67533135f8ddae *tools/automacao/runtime/coletor.py
+5a51abaa439b90263e3b202e01a0b2b3b343fabc8cb71c9de8b3ac97b343bdd3 *tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs
+fd774259b5e8813f2f3b29e2ff805f12cb0cdab4c277116fcc8bbb7e7e3bffdd *tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll
+
+=== anexos do cartao t_7bec518b ===
+5578740f351b92d1d7e1139a0cd4fa9f4767f0776ff56818e5b6c9de80f280b7 *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/ab_log_real.txt
+58ecb94772c92c3c0d73bc29890b17bc41b690abb9033408249f83d7b8885f56 *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/gate_puros.txt
+7070157d9807ccdd2fcc94cfb8fafaa6762923db505211c48f93a74c3aacc9f6 *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/n1_verde_global.txt
+47f95040e709bf8ee5f42dc56809a898ad8fc04a8b29f42143b80640aeac21ce *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/prova_green_final.txt
+a42bc2eb382247edf03736f46abc9a66b0babb3ec5fd20f58bfd3199f6d49099 *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/prova_red_f1f7.py
+968d10d5c81a5820d40c40826fa2ff0e2b2000aa454da8eb7e30f3b5c42172fa *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/prova_red_final.txt
+524f719757977436b843bdceb8337b10db4003cba9da64ff3fea788ef327d320 *C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/rstv_524f7197.py
+
+=== mtimes ===
+-rw-r--r-- 1 Pichau 197121 12900 2026-10-06 13:51:57.503081500 -0300 docs/automacao/COR-CIC3-correcao.md
+-rwxr-xr-x 1 Pichau 197121 49742 2026-10-06 13:48:42.740801900 -0300 tools/automacao/cenarios/rstv.py
+-rwxr-xr-x 1 Pichau 197121 31001 2026-10-06 13:47:26.851327800 -0300 tools/automacao/cenarios/test_rstv.py
+-rwxr-xr-x 1 Pichau 197121 36990 2026-10-05 20:00:11.642265700 -0300 tools/automacao/ciclo/decisao.py
+-rw-r--r-- 1 Pichau 197121 50040 2026-10-06 13:53:18.532089300 -0300 tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs
+-rwxr-xr-x 1 Pichau 197121 39936 2026-10-06 13:57:50.482579200 -0300 tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll
+-rwxr-xr-x 1 Pichau 197121 52797 2026-10-06 13:59:22.058196000 -0300 tools/automacao/runtime/coletor.py

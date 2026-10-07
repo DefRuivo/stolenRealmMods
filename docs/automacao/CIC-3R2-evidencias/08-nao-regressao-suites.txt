@@ -1,0 +1,86 @@
+=== suites de regressao (medidas nesta revisao) ===
+$ python -B tools/automacao/ciclo/test_decisao.py
+EXIT=0
+
+total: 127 | falhas: 0
+TUDO OK
+
+$ python -B tools/automacao/aceite/test_relatorio_aceite.py
+EXIT=0
+  [OK   ] consolidacao: frente vazia mantem lacuna no resultado (por_frente > 0)
+total: 15 | falhas: 0
+TUDO OK
+
+$ python -B tools/automacao/ciclo/test_ciclo.py
+EXIT=0
+Ran 48 tests in 18.634s
+
+OK
+
+$ python -B tools/automacao/offline/testes/t_aut3_lib.py
+EXIT=0
+
+total: 25 | falhas: 0
+TUDO OK
+
+$ python -B tools/automacao/aut6/test_cobertura_aut6.py
+EXIT=0
+PASSOU  t_teto_diferente_do_asset
+
+TOTAL|rodaram=24 reprovaram=0
+
+$ python -B tools/automacao/aut6/test_regressoes_cor_aut6.py
+EXIT=0
+Ran 26 tests in 0.379s
+
+OK
+
+$ python -B tools/automacao/runtime/testes/t_aut4_autorizacao.py
+EXIT=0
+RESULTADO|PASSOU|aut4-autorizacao|default offline: coleta so com autorizacao E confirmacao E jogo; qualquer falta devolve NAO_EXERCITADO sem liberar coleta
+
+$ python -B tools/automacao/runtime/testes/t_aut4_controle_negativo.py
+EXIT=0
+RESULTADO|PASSOU|aut4-controle-negativo|todo caso invalidado (sem procedencia, runtime sem hash, AUSENTE como OK) e recusado
+
+$ python -B tools/automacao/runtime/testes/t_aut4_manifest_rollback.py
+EXIT=0
+RESULTADO|PASSOU|aut4-manifest-rollback|manifest com sha256 e rollback que enxerga arquivo CRIADO pelo probe (nao so a pasta)
+
+$ python -B tools/automacao/runtime/testes/t_aut4_observacao.py
+EXIT=0
+RESULTADO|PASSOU|aut4-observacao|procedencia obrigatoria, runtime exige hash/sessao, AUSENTE nunca e OK
+
+$ python -B tools/automacao/runtime/testes/t_aut4_costura_probe.py
+EXIT=0
+RESULTADO|PASSOU|aut4-costura-probe|topo->observacao (B1), extras preservados (B2), alvo por cenario governa o veredito (A2), procedencia do artefato vence (A3), status de falha rebaixa (A4)
+
+$ python -B tools/automacao/runtime/testes/t_aut4_plano.py
+EXIT=0
+RESULTADO|PASSOU|aut4-plano|validar_plano aceita o plano completo e recusa o que falta cenario/alvo/autorizacao E recusa campos_alvo fora do schema (A2)
+
+$ python -B tools/automacao/runtime/testes/t_aut4_probe_contrato.py
+EXIT=0
+RESULTADO|PASSOU|aut4-probe-contrato|probe traz gate de autorizacao, NAO_EXERCITADO, PlayerLoop, ScreenCapture, owners Harmony, manifest/rollback, sessao do driver (A1) e ida-e-volta opt-in (A6); csproj SEM deploy
+
+$ python -B tools/automacao/aut5/test_aut5.py
+EXIT=1
+HARNESS|selected_null|REPROVADO|OFFLINE
+HARNESS|selected_other|REPROVADO|OFFLINE
+HARNESS|selected_same|REPROVADO|OFFLINE
+HARNESS|inactive_session|NAO_EXERCITADO|OFFLINE
+HARNESS|null_target|NAO_EXERCITADO|OFFLINE
+RESULTADO|REPROVOU|aut5-rstv|log-real: a DLL do perfil deveria casar com a build do repo (identidade)
+  + log-real: boot esperado OK (versao + DLL atual), veio INDETERMINADO
+  + log-real: RSTV-25b-dependencia voltou a fila de agente (campo ja emitido pelo AUT5-F1)
+  + log-real: RSTV-25b-dependencia nao exercitado tem de estar no roteiro humano (autorizacao)
+  + log-real: AUT5-RSTV-25b-conectores-log voltou a fila de agente (campo ja emitido pelo AUT5-F1)
+  + log-real: AUT5-RSTV-25b-conectores-log nao exercitado tem de estar no roteiro humano (autorizacao)
+
+$ PYTHONDONTWRITEBYTECODE=1 bash tools/testes/roda.sh --puros
+EXIT=0
+   rodaram:    88
+   passaram:   88
+   reprovaram: 0
+   nao rodaram:0
+ VEREDITO: VERDE (exit 0)

@@ -1,0 +1,12 @@
+=== conferencia final da revisao (mesmo instante) ===
+ter,  6 de out de 2026 17:44:22
+2fad23a3bc3dc48c7b2dd5cda3feda64a18d9e3d802c54dbef63696a8a032252 *tools/automacao/cenarios/rstv.py
+51f7100791fbe3d179be7f88234f88e545a9f5831d8bdafcdfc6fd4f26b1c073 *tools/automacao/cenarios/test_rstv.py
+4565ef326296f839c42ef62f9428ff6edc40ae0c3dcc35b68f4d800900e61a3a *docs/automacao/COR-CIC3-correcao.md
+
+$ python -B tools/automacao/cenarios/test_rstv.py
+RESULTADO|PASSOU|cic3-rstv|avaliador RSTV: fixture nao vira OK, lacunas nao viram OK, controles reprovam, runtime identifica
+EXIT=0
+$ python -B tools/automacao/cenarios/test_rstv.py --contra-prova
+CONTRA-PROVA|PASSOU|isca 'sempre OK' deixou os 10 controles passarem (o REPROVADO real vem da regra)
+EXIT=0

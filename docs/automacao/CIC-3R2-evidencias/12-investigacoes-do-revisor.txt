@@ -1,0 +1,9 @@
+=== investigacao do campo arestas_inventadas (classe F2/F3, fora dos sete itens) ===
+X1: arestas_inventadas="2" (string) no caso COMPLETO -> estado do criterio:
+  estado=OK motivo=leitura runtime completa com identidade suficiente
+X2: arestas_inventadas=2 (numero) no mesmo caso -> estado do criterio:
+  estado=REPROVADO motivo=DEFEITO: aresta de dependencia INVENTADA (sem Dependency real)
+
+=== isca meta: a contra-prova discrimina 'sempre OK' de 'quebrar sempre'? ===
+  isca sempre-OK: controles ainda REPROVADOS=0 -> contra-prova diria PASSOU
+  isca explode-sempre: controles ainda REPROVADOS=0 -> contra-prova diria PASSOU

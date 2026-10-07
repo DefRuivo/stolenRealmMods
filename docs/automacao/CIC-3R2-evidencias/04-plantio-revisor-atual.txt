@@ -1,0 +1,109 @@
+$ python -B C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3r2/plantio.py   # plantio INDEPENDENTE do revisor nos bytes ATUAIS (CLI real)
+====================================================================================================
+CASO BASE-sem-defeito | exit=0 | contagem={'OK': 7}
+  RSTV-21-janela-ciclo             OK
+  RSTV-21-tooltip-restauracao      OK
+  RSTV-25b-dependencia             OK
+  RSTV-26-placeholders             OK
+  RSTV-6-readonly-personagem       OK
+  RSTV-6-readonly-skills-pontos    OK
+  RSTV-geometria-clipping          OK
+====================================================================================================
+CASO X1-arestas-inventadas-string | exit=0 | contagem={'OK': 7}
+  ALVO RSTV-25b-dependencia -> OK
+  motivo: leitura runtime completa com identidade suficiente
+====================================================================================================
+CASO X2-arestas-inventadas-numero | exit=1 | contagem={'OK': 6, 'REPROVADO': 1}
+  ALVO RSTV-25b-dependencia -> REPROVADO
+  motivo: DEFEITO: aresta de dependencia INVENTADA (sem Dependency real)
+====================================================================================================
+CASO X3-pontos-string | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-6-readonly-skills-pontos -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — pontos: valor nao numerico (antes='4', depois='4')
+====================================================================================================
+CASO F1a-pontos-nunca-lidos | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-6-readonly-skills-pontos -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — pontos: dimensao NUNCA lida (nenhum par antes/depois completo) — nao se afirma 'skills e pontos inalterados'
+====================================================================================================
+CASO F1b-skills-nunca-lidas | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-6-readonly-skills-pontos -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — skills: dimensao NUNCA lida (nenhum par antes/depois completo) — nao se afirma 'skills e pontos inalterados'
+====================================================================================================
+CASO F1c-pontos-par-incompleto | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-6-readonly-skills-pontos -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — pontos: par antes/depois incompleto; pontos: dimensao NUNCA lida (nenhum par antes/depois completo) — nao se afirma 'skills e pontos inalterados'
+====================================================================================================
+CASO F2a-janelas-null | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (None): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+====================================================================================================
+CASO F2b-janelas-negativo | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (-1): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+====================================================================================================
+CASO F2c-janelas-bool | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (False): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+====================================================================================================
+CASO F2d-janelas-lista | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA ([]): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+====================================================================================================
+CASO F2e-janelas-string | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA ('0'): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+====================================================================================================
+CASO F2f-duplicata-nao-booleana | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — duplicata MALFORMADA (None): esperado booleano — declaracao invalida nao prova ausencia
+====================================================================================================
+CASO F2g-janelas-ausente | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-21-tooltip-restauracao -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — contagem de janelas duplicadas AUSENTE
+====================================================================================================
+CASO F3a-contagem-diferente | exit=1 | contagem={'OK': 6, 'REPROVADO': 1}
+  ALVO RSTV-25b-dependencia -> REPROVADO
+  motivo: DEFEITO: T4: linhas=1 != Dependency=3 (o criterio declara 'linhas == Dependency real')
+====================================================================================================
+CASO F3b-valores-invalidos | exit=0 | contagem={'OK': 6, 'INDETERMINADO': 1}
+  ALVO RSTV-25b-dependencia -> INDETERMINADO
+  motivo: campo AUSENTE/incompleto nao vira OK — T4: valor INVALIDO no confronto (linhas='abc', Dependency=-2) — contagem observada (numero finito >= 0) e obrigatoria dos dois lados
+====================================================================================================
+CASO F3c-linhas-ausentes | exit=0 | contagem={'OK': 6, 'INDETERMINADO': 1}
+  ALVO RSTV-25b-dependencia -> INDETERMINADO
+  motivo: campo AUSENTE/incompleto nao vira OK — linhas por tier AUSENTES
+====================================================================================================
+CASO F4a-nan-x | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-geometria-clipping -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — caixa_na_tela_px MALFORMADA (x='NaN'): exigido numero finito em x/y/largura/altura — 'NaN'/infinito nao mede dimensao
+====================================================================================================
+CASO F4b-nan-largura | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-geometria-clipping -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — caixa_na_tela_px MALFORMADA (largura=nan): exigido numero finito em x/y/largura/altura — 'NaN'/infinito nao mede dimensao
+====================================================================================================
+CASO F4c-x-infinito | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-geometria-clipping -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — caixa_na_tela_px MALFORMADA (x=inf): exigido numero finito em x/y/largura/altura — 'NaN'/infinito nao mede dimensao
+====================================================================================================
+CASO F4d-tela-malformada | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-geometria-clipping -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — geometria.tela MALFORMADA ('fullscreen'): esperado 'LARGURAxALTURA'
+====================================================================================================
+CASO F5a-hash-contraditorio | exit=2 | contagem={'INDETERMINADO': 7}
+  ALVO RSTV-6-readonly-skills-pontos -> INDETERMINADO
+  motivo: hash (dll_sha) declarado com VALORES DIFERENTES na mesma observacao: declaracao contraditoria, nunca OK
+====================================================================================================
+CASO F5b-hash_dll-contraditorio | exit=2 | contagem={'INDETERMINADO': 7}
+  ALVO RSTV-6-readonly-skills-pontos -> INDETERMINADO
+  motivo: hash (dll_sha) declarado com VALORES DIFERENTES na mesma observacao: declaracao contraditoria, nunca OK
+====================================================================================================
+CASO F6a-cru-sem-render | exit=0 | contagem={'OK': 6, 'NAO_EXERCITADO': 1}
+  ALVO RSTV-26-placeholders -> NAO_EXERCITADO
+  motivo: campo AUSENTE/incompleto nao vira OK — texto RENDERIZADO nao observado (so o cru): nao da para afirmar que o placeholder foi resolvido
+====================================================================================================
+CASO F7a-sessoes-misturadas | exit=2 | contagem={'INDETERMINADO': 7}
+  ALVO RSTV-6-readonly-skills-pontos -> INDETERMINADO
+  motivo: observacoes de SESSOES diferentes (sessao-A, sessao-B) na mesma capacidade: nao e prova de um UNICO ciclo
+
+GRAVADO C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3r2\resultado_plantio.json
+EXIT=0
