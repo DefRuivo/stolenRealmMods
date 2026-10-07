@@ -66,6 +66,7 @@ Discharge,Lightning,,TargetStored['LightningDamage'] = Source.SpellPower('Lightn
 Dismiss Shapeshift,None,,,0,0,,,,,,pendente
 Dispelling Shot,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1f,0,1,,,,,,pendente
 Disperse,None,,,0,0,,,,,,pendente
+Displacement,None,,,0,0,,,,,,pendente
 Divine Intervention,Healing,,TargetStored['Healing'] = Target['MaxHealth'],0,1,,,,,,pendente
 Dodging Strikes,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f,0,1,,,,,,pendente
 Double Edge,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f; SourceStored['DamageReturned'] = 15,0,2,,,,,,pendente
@@ -77,6 +78,7 @@ Dragonkin Shadow Orb,Fire,,TargetStored['ShadowDamage'] = Source.SpellPower('Sha
 Dragonkin Sun Fire,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2.2f,0,1,,,,,,pendente
 Dragonkin Thunder Blast,Fire,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 2.1f,0,1,,,,,,pendente
 Dreadful Dissonance,None,,,0,0,,,,,,pendente
+Echo,Physical,,TargetStored['PhysicalDamage'] = DamageTaken * .5f,0,1,,,,,,pendente
 Elemental Protection,None,,,0,0,,,,,,pendente
 Enchant Cold,Cold,TargetStored['ColdDamage'] = Source['EnchantColdValue'],"Target['EnchantColdValue'] = Source.GetCustomActionDamage('Enchant Cold', 'TargetStored[\'ColdDamage\'] = Source.SpellPower(\'Cold\') * .15f')",1,1,Enchant Cold Tick,,,,,pendente
 Enchant Cold Tick,None,,TargetStored['ColdDamage'] = Source['EnchantColdValue'],0,1,,,,,,pendente
@@ -89,6 +91,7 @@ Escape,None,,,0,0,,,,,,pendente
 Evasion,None,,Target['EvasionCharges'] = 1,0,1,,,,,,pendente
 Exorcism,Shadow,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,1,1,Exorcism Proc,,,,,pendente
 Exorcism Proc,None,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 1f,0,1,,,,,,pendente
+Fabricate,None,,,0,0,,,,,,pendente
 Faerie Swarm,Physical,,,0,0,,Faerie Swarm,,,,pendente
 Falcon Dash,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
 Finale,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * .35f * Source.DamageModPhysical,0,1,,,,,,pendente
@@ -140,6 +143,7 @@ Light's Beckon,None,,,0,0,,,,,,pendente
 Lightning Breath,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * 1.6f,0,1,,,,,,pendente
 Lightning Shield,Lightning,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .15f,,1,0,Lightning Shield Tick,,,,,pendente
 Lightning Shield Tick,None,,TargetStored['LightningDamage'] = Source.SpellPower('Lightning') * .15f,0,1,,,,,,pendente
+Lingering Light,None,,,0,0,,,,,,pendente
 Living Armor,None,,,0,0,,Living Armor,,,,pendente
 Long Shot,Weapon,,TargetStored[Source.WeaponDamageType] = (Source.AttackPower * 1f) *  (1 + ((Source.Cell.Distance(Target.Cell) - 1) * .1f)),0,1,,,,,,pendente
 Magic Hat I,None,,,0,0,,,,,,pendente
@@ -161,6 +165,7 @@ Meteor Shower,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * .7f
 Mind Blossom,None,,,0,0,,,,,,pendente
 Mortal Fracture,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * .8f,0,1,,,,,,pendente
 Move Object,None,,,0,0,,,,,,pendente
+Natural Succession Proc,None,,SourceStored['Healing'] = Source.MaxHealth * .05f; SourceStored['ManaDamage'] = Source.MaxMana * -.05f,0,2,,,,,,pendente
 Nature Summoning I,None,,,0,0,,,,,,pendente
 Nature Summoning I  [Pack Summoning],None,,,0,0,,,,,,pendente
 Nature Summoning II,None,,,0,0,,,,,,pendente
@@ -182,6 +187,7 @@ Purge,None,,TargetStored['ManaDamage'] = Target.MaxMana * .2f; SourceStored['Man
 Purify,None,,,0,0,,,,,,pendente
 Quaking Fist,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 2.5f,0,1,,,,,,pendente
 Quick Draw,Physical,,,0,0,,,,,,pendente
+Quickening,None,,,0,0,,,,,,pendente
 Rage,None,,,0,0,,,,,,pendente
 Rage Spores,None,,,0,0,,,,,,pendente
 Rainstorm,None,,,0,0,,,,,,pendente
@@ -193,10 +199,13 @@ Rally,None,,,0,0,,,,,,pendente
 Ranged Attack,Weapon,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
 Ranged Attack Healing,Physical,,TargetStored[Source.WeaponDamageType] = Source.BasicAttackPower,0,1,,,,,,pendente
 Reaper's Scythe,Shadow,,TargetStored['ShadowDamage'] = Source.SpellPower('Shadow') * 10.0f *  Target.HealthRatioInverse,0,1,,,,,,pendente
+Reaper's Toll Proc,None,,TargetStored['Healing'] = Target['MaxHealth'] * .10f,0,1,,,,,,pendente
+Redemption,None,,Target['Health'] = Target['MaxHealth']; Target['Mana'] = Target['MaxMana'],0,2,,,,,,pendente
 Regenerate,Healing,,,0,0,,Regenerate,,,,pendente
 Relocate,None,,,0,0,,,,,,pendente
 Replicate,None,,,0,0,,,,,,pendente
 Resonating Refrain,None,,,0,0,,,,,,pendente
+Reverberate,Healing,,TargetStored['ColdDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Cold') * 0.5f : 0; TargetStored['FireDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Fire') * 0.5f : 0; TargetStored['LightningDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Lightning') * 0.5f : 0; TargetStored['PhysicalDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Physical') * 0.5f : 0; TargetStored['ShadowDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Shadow') * 0.5f : 0; TargetStored['HolyDamage'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.5f : 0; TargetStored['Healing'] = Source.GetRollResult(50) ? Source.SpellPower('Light') * 0.5f : 0,0,7,,,,,,pendente
 Rhythm of Recovery,None,,,0,0,,,,,,pendente
 Rune of Exploding,Fire,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,,1,0,Rune of Exploding Proc,,,,,pendente
 Rune of Exploding Proc,Fire,,TargetStored['FireDamage'] = Source.SpellPower('Fire') * 2f,0,1,,,,,,pendente
@@ -243,6 +252,8 @@ Stun Spores,None,,,0,0,,,,,,pendente
 Stunning Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.5f,0,1,,,,,,pendente
 Stunning Slam,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 1.8f,0,1,,,,,,pendente
 Sunder,Weapon,,TargetStored[Source.WeaponDamageType] = Source.AttackPower * 2f; SourceStored['HealingForced'] = (Source['MaxHealth'] * .25f),0,2,,,,,,pendente
+Sustenance I Proc,Lightning,,TargetStored['Healing'] = Target.MaxHealth * .08f; TargetStored['ManaDamage'] = Target.MaxMana * -.08f,0,2,,,,,,pendente
+Sustenance II Proc,Lightning,,TargetStored['Healing'] = Target.MaxHealth * .20f; TargetStored['ManaDamage'] = Target.MaxMana * -.20f,0,2,,,,,,pendente
 Swan Song,None,,,0,0,,,,,,pendente
 Sweeping Kick,Physical,,TargetStored['PhysicalDamage'] = Source.AttackPower * 1.6f,0,1,,,,,,pendente
 Switcheroo,None,,,0,0,,,,,,pendente

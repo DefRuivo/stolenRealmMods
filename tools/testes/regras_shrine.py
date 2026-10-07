@@ -26,6 +26,11 @@ DE ONDE VEM CADA COISA (nada aqui e "de cabeca")
   tipo de inimigo), §9.1/§9.2 (as telas do dono e a aditividade).
 * O TEXTO E A REGRA DA LINHA: `BetterTooltips/Patches/ShrineAuraPatch.cs` - cada
   funcao cita `arquivo:linha` da regra que transcreve.
+* O EIXO (Source x Target) de cada aura — RV-30 (03/10): as 9 de BUFF e o Dwarven
+  leem `Target[...]` (o bonus do RECEPTOR = o caso do jogador); as duas de PERIGO
+  (Decay/Flame) leem `Source[...]` (o personagem vazio do shrine = `BONUS_DA_FONTE`,
+  0). O eixo de cada aura sai da coluna `eixo` da tabela gerada e `bonus_do_eixo()`
+  e quem o aplica. Um item de Decay/Flame NAO muda com o bonus do jogador.
 * OS NUMEROS (bases e percentuais): `tools/dados/shrines-esperado.csv` e
   `tools/dados/shrines-percentuais.csv`, GERADOS por
   `tools/gera_shrines_esperado.py` a partir de `docs/cobertura/status.csv` (o
@@ -50,9 +55,16 @@ import arcabouco as arc
 
 # ------------------------------------------------------------------ fontes do bonus
 
-# RV-19 §3: as 5 fontes do `ShrineEffectBonus`. `Omnism II` e `Worship` valem 100
-# e 20; os 20 e 100 aparecem tambem como `caso_bonus` na tabela gerada e o teste
-# confere essa coincidencia.
+# RV-19 §3 + RV-30 (03/10): as fontes do `ShrineEffectBonus` que existem nos assets sao
+# 5, mas SO TRES sao do JOGADOR: `Omnism I` (+8) e `Omnism II` (+20, que substitui a I) e o
+# item `Horn of Devotion` ({50,100}). A quarta e o `T2_Worshiper` — um CharacterInfo de
+# INIMIGO unico (cluster `T2_*`/`T3_*`, asset `resources.assets@1519682296`), cuja habilidade
+# se chama literalmente `Worship` ("100% increased effect from Shrines", valor 100, asset
+# @1519682848..@1519682984, GUID bdc5e34c8c6bd64ba4212f88fc6a1003). Ou seja: `Worship` NAO e
+# um perk do jogador (o RV-30 antigo afirmava isso — era FABRICACAO: varredura por
+# `worship`/`Worshiper` no censo e no decompilado da ZERO ocorrencias). Aqui o rotulo
+# `Worship` vale 100 porque e o MESMO numero do roll maximo do Horn — e ele e usado como
+# `caso_bonus` da tabela gerada; o teste confere essa coincidencia.
 FONTES = {
     "Omnism I": 8,
     "Omnism II": 20,
@@ -68,6 +80,16 @@ FONTES = {
 SUBSTITUI = {
     "Omnism I": "Omnism II",
 }
+
+# RV-30 (03/10) — O BONUS DO SOURCE. As duas auras de PERIGO (Decay/Flame) leem
+# `Source["ShrineEffectBonus"]`; num status de ground effect o `Source` e o personagem VAZIO do
+# shrine (`GroundEffect.AddGroundEffectedPlayer` -> `GameLogic.CreateActionStatus(Source, player, ...)`
+# com `Source = GroundEffect.Source`; `Root.CreateNewGroundEffectCharacter` = `Observable.New<Character>()`,
+# sem atributo nenhum), logo o fator delas e `1 + 0/100 = 1`. As 9 de BUFF e o Dwarven leem
+# `Target[...]` -> o bonus e o de QUEM RECEBE a aura (o caso do jogador). Fonte:
+# docs/cobertura/revisao/RV-19-shrines.md §5/§8 + tools/testes/regras_rv30.py + o prefix do mod
+# (`ShrineAuraPatch.FixShrineExpressionParams`, RV-30: so preenche `Target`, nunca escreve `Source`).
+BONUS_DA_FONTE = 0.0
 
 # RV-19 §9.1/§10.5 e o print do dono: o resto (total - contribuicao) e o pedaco da
 # ficha que NAO e aura e ele e CONSTANTE entre hovers do mesmo personagem.
@@ -118,6 +140,17 @@ def escala(base, bonus):
     fator = arc.f32(1.0 + arc.f32(arc.f32(bonus) / arc.f32(100.0)))
     produto = arc.f32(arc.f32(base) * fator)
     return int(round(produto))
+
+
+def bonus_do_eixo(eixo, caso_bonus):
+    """O bonus que MULTIPLICA a aura, pelo EIXO dela (RV-30).
+
+    `Target` -> o bonus de quem RECEBE a aura = o caso do jogador (`caso_bonus`);
+    `Source` -> o do SOURCE, que num ground effect e o personagem vazio do shrine (`BONUS_DA_FONTE`,
+    0). As duas auras de PERIGO (Decay/Flame) sao de eixo `Source`: o valor delas NAO depende do
+    bonus do jogador. O eixo de cada aura vem da coluna `eixo` da tabela gerada.
+    """
+    return caso_bonus if eixo == "Target" else BONUS_DA_FONTE
 
 
 def inteiro_do_jogo(v):
@@ -182,14 +215,20 @@ def item(atributo, contribuicao, total):
     return formatar(atributo, contribuicao) + " (total " + total_com_sinal(atributo, total) + ")"
 
 
-def dano(maxhealth, pct, bonus, minimo1):
+def dano(maxhealth, pct, bonus_fonte, minimo1):
     """O dano das duas auras de perigo (RV-19 §4.2).
 
     Flame: `Mathf.Max(1,  Mathf.Round((MaxHealth * pct) * (1 + bonus/100)))` -
     tem minimo 1. Decay: a MESMA conta SEM o `Mathf.Max(1,` - pode dar 0.
     `pct` ja em fracao (0.05 = 5%), lido do `shrines-percentuais.csv`.
+
+    RV-30 (03/10) — `bonus_fonte` e o bonus do EIXO da aura, NAO o do jogador: as duas de perigo
+    leem `Source["ShrineEffectBonus"]` e o `Source` do ground effect e o personagem VAZIO do shrine
+    (`BONUS_DA_FONTE`, 0). Quem chama passa `bonus_do_eixo(eixo, caso)` — o modelo da linha usa
+    `BONUS_DA_FONTE` para elas. A formula em SI nao mudou (ela e generica no bonus): o que mudou foi
+    QUAL bonus entra.
     """
-    fator = arc.f32(1.0 + arc.f32(arc.f32(bonus) / arc.f32(100.0)))
+    fator = arc.f32(1.0 + arc.f32(arc.f32(bonus_fonte) / arc.f32(100.0)))
     bruto = arc.f32(arc.f32(arc.f32(maxhealth) * arc.f32(pct)) * fator)
     d = int(round(bruto))
     return max(1, d) if minimo1 else d
@@ -247,6 +286,28 @@ def auras_da_tabela():
     return auras
 
 
+def eixos_das_auras():
+    """{aura: eixo} da coluna `eixo` da tabela gerada (`Target`/`Source`, RV-30).
+
+    O eixo e o slot que a aura le e e ele que diz QUEM paga o `ShrineEffectBonus`: `Target` = quem
+    RECEBE a aura (o caso do jogador); `Source` = o do shrine (`BONUS_DA_FONTE`, 0). A coluna e
+    GERADA pelo `tools/gera_shrines_esperado.py` a partir da fonte (status.csv / resources.assets) -
+    nunca digitada aqui. Tabela sem a coluna = tabela anterior ao RV-30: FALHA pedindo para regerar.
+    """
+    eixos = {}
+    for linha in tabela_esperado():
+        if int(linha["caso_bonus"]) != 0:
+            continue
+        eixo = linha.get("eixo")
+        if not eixo:
+            raise arc.Falhou(
+                "tools/dados/shrines-esperado.csv sem a coluna `eixo` (tabela anterior ao RV-30): "
+                "rode `python tools/gera_shrines_esperado.py` para regerar (o eixo das auras de "
+                "PERIGO e `Source`, bonus `BONUS_DA_FONTE`)")
+        eixos[linha["aura"]] = eixo
+    return eixos
+
+
 # ------------------------------------------------------------------ a cadeia do bonus
 
 
@@ -282,6 +343,7 @@ def contexto(entrada):
     pct, minimo1 = percentuais()
     return {
         "auras": auras_da_tabela(),
+        "eixos": eixos_das_auras(),
         "pct": pct,
         "minimo1": minimo1,
         "bonus": tabela_de_bonus(entrada),
@@ -328,7 +390,10 @@ def contribuicao_do_motor(unicas, atributo, bonus, stacks, ctx):
         base = ctx["auras"].get(aura, {}).get(atributo)
         if base is None:
             continue
-        total += escala(base, bonus) * stacks[aura]
+        # RV-30: o bonus que multiplica sai do EIXO da aura (`Target` = o caso do jogador;
+        # `Source` = o do shrine, 0). As auras de atributo sao `Target` hoje - isto e explicito
+        # para que uma aura futura de eixo `Source` nao herde o bonus do jogador por engano.
+        total += escala(base, bonus_do_eixo(ctx["eixos"].get(aura, "Target"), bonus)) * stacks[aura]
         entrou.append(aura)
     return total, entrou
 
@@ -444,6 +509,10 @@ def agregar(cena, ctx):
             avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                           " (efeito sem atributo de personagem e sem etiqueta conhecida)" % aura)
             continue
+        # RV-30: o fator do bonus sai do EIXO da aura, nao do jogador. As 3 sem atributo sao de
+        # GATILHO; o Dwarven le `Target[...]` (o caso do jogador) e o Decay/Flame leem `Source[...]`
+        # (o personagem vazio do shrine, bonus 0) -> o item deles e IGUAL nos 3 casos do jogador.
+        bonus_fonte = bonus_do_eixo(ctx["eixos"].get(aura, "Target"), bonus)
         texto = None
         if aura == "Dwarven Aura":
             if not any(v["aura"] == aura and v.get("expressao", True) for v in cena["vivas"]):
@@ -456,7 +525,7 @@ def agregar(cena, ctx):
                 avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
                               " (receptor sem MaxHealth)" % aura)
                 continue
-            d = dano(cena["maxhealth"], ctx["pct"][(aura, cena["tipo_receptor"])], bonus,
+            d = dano(cena["maxhealth"], ctx["pct"][(aura, cena["tipo_receptor"])], bonus_fonte,
                      ctx["minimo1"][aura])
             texto = rotulo + " " + ("%g" % d)
         elif aura == "Flame Shrine Aura":
@@ -464,8 +533,10 @@ def agregar(cena, ctx):
             for alvo in cena["alvos"]:
                 if float(alvo["maxhealth"]) <= 0.0:
                     continue
-                b = ctx["bonus"][alvo["bonus_id"]]
-                d = dano(alvo["maxhealth"], ctx["pct"][(aura, alvo["tipo"])], b, ctx["minimo1"][aura])
+                # RV-30: mesmo o alvo do Flame sendo quem LEVA o dano, o FATOR e o do eixo da aura
+                # (`Source` = o shrine). O `bonus_id` do alvo NAO entra no fator.
+                d = dano(alvo["maxhealth"], ctx["pct"][(aura, alvo["tipo"])], bonus_fonte,
+                         ctx["minimo1"][aura])
                 valores.append(alvo["nome"] + " " + ("%g" % d))
             if not valores:
                 avisos.append("RV-46 AVISO: a aura viva '%s' NAO virou item da linha"
