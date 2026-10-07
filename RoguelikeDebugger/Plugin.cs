@@ -11,7 +11,7 @@ namespace RoguelikeDebugger
     /// RoguelikeDebugger — mod de INVESTIGAÇÃO: apenas logs, nenhuma alteração de gameplay.
     /// Registra mecânicas internas no LogOutput.log para confirmarmos como o jogo funciona.
     /// </summary>
-    [BepInPlugin("com.gumatos.roguelikedebugger", "Roguelike Debugger", "0.1.1")]
+    [BepInPlugin("com.gumatos.roguelikedebugger", "Roguelike Debugger", "0.1.2")]
     public class Plugin : BaseUnityPlugin
     {
         internal static ManualLogSource Log { get; private set; }

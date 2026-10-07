@@ -1,6 +1,6 @@
 {
   "name": "RoguelikeDebugger",
-  "version_number": "0.1.1",
+  "version_number": "0.1.2",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Development tool, not a player mod: dumps the game's internal data (skills, status, items, loot, gold, experience) into LogOutput.log for investigation. No gameplay change.",
   "dependencies": [

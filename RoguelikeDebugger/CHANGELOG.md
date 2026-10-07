@@ -2,6 +2,21 @@
 
 > Ferramenta de **desenvolvimento**, não mod de jogador.
 
+## 0.1.2
+
+**Nada muda no jogo: o que muda é o TEXTO do log.** Esta versão leva o que ficou pronto depois de a 0.1.1 subir (01/10) — o dump de status mais completo e resistente, a instrumentação de uma investigação aberta e o texto público em inglês.
+
+- **O dump de status não trunca mais por campo (RD-2F).** Antes havia um `try/catch` ÚNICO em volta do laço inteiro: uma exceção em qualquer campo (os campos novos leem arrays `IEffectInfo[]` por reflexão) abortava o laço e **o resto dos statuses sumia do log em silêncio**. Agora cada campo sai sob guarda e a falha vira um **marcador no próprio campo** (`!erro:<Tipo>`) — a linha e todas as seguintes saem normalmente. O laço também itera uma **CÓPIA** da lista (uma inserção durante a iteração tinha o mesmo efeito). O corte por tamanho (`90`/`110` chars) saiu de vez: ele cortava a mecânica.
+- **Campos novos no `[Status]` (RD-2):** `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) e `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`). Dentro do `trigEf` do status: `~alvos=` (o campo `SkillTrigger.Targets`), `~acoes=` (as ações do gatilho **com os efeitos delas** — ação de gatilho nunca entra no inventário `[Action]`), `~chances=` e `~cd=`. Foi o `~alvos=` que respondeu a seção 7 do RV-19: `Flame Shrine Aura` dispara com `Targets="Cell.IsCurrentHex(Target)"` (`TriggerType=1`) e `Decay Shrine Aura` com `"Cell.IsCurrentHex(Source)"` (`TriggerType=4`) — o proc **não** passa pelo caminho de tick.
+- **Medição desses campos no asset do jogo** (leitor offline, **não** em jogo): 421 dos 424 `ActionStatusInfo` legíveis; `expr` em 138, `refAcao`/`refStatus` em 19/7, `StatusEffectsOnTick` em 6, `auraSts` em 40 e `TickTargets`/`ActionsOnTick*` em **0**.
+- **Instrumentação `[FlameRV49]` (RV-49) — NÃO EXERCITADA EM JOGO.** Quando o proc de uma aura de shrine de perigo (Decay/Flame) dispara, o log ganha a expressão avaliada, **quem o motor colocou em `Source` e em `Target`**, o percentual resolvido, o dano final e uma **matriz** que reavalia a mesma expressão com o `ShrineEffectBonus` fixado em 0 / 8 / 20 / 100 (Omnism I/II, Horn of Devotion). É instrumentação de diagnóstico para uma pergunta ainda aberta: nenhum personagem é alterado (a matriz usa dicionários novos e devolve `Game.CurrentGameFunctionParameters` ao valor anterior). Filtro: só a expressão que cita `ShrineEffectBonus` gera linha.
+- **Instruções de build (DEPLOY-2):** o deploy no perfil do r2modman virou **opt-in explícito** — `dotnet build` sozinho **não instala mais nada**; instalar é `-p:DeployToBepInEx=true`.
+- **Texto público em inglês:** o README passa a ser em inglês (com a seção final em português, como nos outros mods) e a **descrição da listagem**, que na 0.1.1 saiu em português, passa a sair em inglês. O README declara o que ainda **não** foi exercitado em jogo.
+
+### O que esta versão NÃO prova
+
+- **Nenhum campo novo desta versão foi lido numa sessão de jogo.** O `[FlameRV49]` é instrumentação nova e o RV-49 continua pendente de rodada autorizada do dono; os campos do RD-2 foram medidos no asset pelo leitor offline. Quem abrir o jogo é quem confere.
+
 ## 0.1.1
 
 **Correção do aplicador de ganchos: a 0.1.0 publicada carregava a ferramenta e não aplicava gancho nenhum — nenhum dump saía.**
