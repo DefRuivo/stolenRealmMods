@@ -1,0 +1,7 @@
+$ python -B check_cit.py docs/automacao/COR-CIC3-correcao.md
+DOC docs/automacao/COR-CIC3-correcao.md
+citacoes arquivo:linha encontradas = 18; resolvem = 18; pendentes = 0
+
+=== e o checa_citacoes do projeto para o MESMO doc (cegueira conhecida) ===
+checa_citacoes: 0 citacao(oes)/mencao(oes) de arquivo em 1 documento(s) - 0 conferidas, 0 pendencia(s)
+   toda citacao aponta para arquivo que existe, com a linha dentro dele.

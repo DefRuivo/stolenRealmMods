@@ -1,0 +1,4 @@
+$ cd C:/dev/stolen-realm
+$ python -B tools/automacao/cenarios/test_rstv.py
+RESULTADO|PASSOU|cic3-rstv|avaliador RSTV: fixture nao vira OK, lacunas nao viram OK, controles reprovam, runtime identifica
+EXIT=0

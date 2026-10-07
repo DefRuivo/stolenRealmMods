@@ -1,0 +1,17 @@
+$ python -B tools/audita_docs.py    (trecho final)
+
+Cada linha acima e uma AFIRMACAO da doc que nao bate com o disco/indice do git.
+Conserte o DOCUMENTO. Falso positivo de regra: ajuste a regra AQUI e diga o porque.
+EXIT=0
+
+mencoes a COR-CIC3 nas reclamacoes do audita_docs:
+0
+
+$ python -B tools/checa_citacoes.py --verboso   (trecho final)
+   - docs/cobertura/revisao/RSTV-27R-body.md:15 cita o caminho `Users/Pichau/AppData/Local/hermes/cache/scratch/cs/Assembly-CSharp.decompiled.cs`, que NAO existe no repositorio
+   - docs/cobertura/revisao/RSTV-27R-revisao.md:32 cita o caminho `Users/Pichau/AppData/Local/hermes/cache/scratch/cs/Assembly-CSharp.decompiled.cs`, que NAO existe no repositorio
+   - docs/cobertura/revisao/RSTV-27R-revisao.md:32 cita o caminho `cache/scratch/rstv26/dec/Tooltip.decompiled.cs`, que NAO existe no repositorio
+EXIT=0
+
+mencoes a COR-CIC3 nas reclamacoes do checa_citacoes:
+0

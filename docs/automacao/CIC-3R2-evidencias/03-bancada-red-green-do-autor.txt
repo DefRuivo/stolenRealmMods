@@ -1,0 +1,87 @@
+$ python -B C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/prova_red_f1f7.py --modulo C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/rstv_524f7197.py --lente red
+MODULO C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/rstv_524f7197.py sha256=524f719757977436b843bdceb8337b10db4003cba9da64ff3fea788ef327d320
+TESTE _fixture_nao_vira_ok   SEM_FALHA falhas=0
+TESTE _ausente               SEM_FALHA falhas=0
+TESTE _lacunas               SEM_FALHA falhas=0
+TESTE _controles             SEM_FALHA falhas=0
+TESTE _caminho_ok            SEM_FALHA falhas=0
+TESTE _cadeia                SEM_FALHA falhas=0
+TESTE _fechamento_f1_f7      SEM_FALHA falhas=56
+   FALHA F1-skills-sem-pontos: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F1-skills-sem-pontos nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F1-skills-sem-pontos: o motivo tem de nomear o defeito ('pontos: dimensao NUNCA lida'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F1-skills-sem-pontos: nao-OK nao pode declarar prova_runtime
+   FALHA F1-pontos-sem-skills: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F1-pontos-sem-skills nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F1-pontos-sem-skills: o motivo tem de nomear o defeito ('skills: dimensao NUNCA lida'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F1-pontos-sem-skills: nao-OK nao pode declarar prova_runtime
+   FALHA F2-duplicadas-null: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F2-duplicadas-null nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F2-duplicadas-null: o motivo tem de nomear o defeito ('janelas_duplicadas MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F2-duplicadas-null: nao-OK nao pode declarar prova_runtime
+   FALHA F2-duplicadas-negativo: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F2-duplicadas-negativo nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F2-duplicadas-negativo: o motivo tem de nomear o defeito ('janelas_duplicadas MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F2-duplicadas-negativo: nao-OK nao pode declarar prova_runtime
+   FALHA F2-duplicadas-bool: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F2-duplicadas-bool nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F2-duplicadas-bool: o motivo tem de nomear o defeito ('janelas_duplicadas MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F2-duplicadas-bool: nao-OK nao pode declarar prova_runtime
+   FALHA F2-duplicadas-lista: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F2-duplicadas-lista nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F2-duplicadas-lista: o motivo tem de nomear o defeito ('janelas_duplicadas MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F2-duplicadas-lista: nao-OK nao pode declarar prova_runtime
+   FALHA F2-duplicata-nao-booleana: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F2-duplicata-nao-booleana nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F2-duplicata-nao-booleana: o motivo tem de nomear o defeito ('duplicata MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F2-duplicata-nao-booleana: nao-OK nao pode declarar prova_runtime
+   FALHA F3-contagem-diferente: esperado REPROVADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'REPROVADO', obtido 'OK'
+   FALHA F3-contagem-diferente nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F3-contagem-diferente: o motivo tem de nomear o defeito ('linhas=1 != Dependency=3'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F3-contagem-diferente: nao-OK nao pode declarar prova_runtime
+   FALHA F3-valores-invalidos: esperado INDETERMINADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'INDETERMINADO', obtido 'OK'
+   FALHA F3-valores-invalidos nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F3-valores-invalidos: o motivo tem de nomear o defeito ('valor INVALIDO no confronto'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F3-valores-invalidos: nao-OK nao pode declarar prova_runtime
+   FALHA F4-nan-x: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F4-nan-x nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F4-nan-x: o motivo tem de nomear o defeito ('caixa_na_tela_px MALFORMADA'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F4-nan-x: nao-OK nao pode declarar prova_runtime
+   FALHA F4-nan-largura: esperado NAO_EXERCITADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F4-nan-largura nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F4-nan-largura: o motivo tem de nomear o defeito ('largura=nan'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F4-nan-largura: nao-OK nao pode declarar prova_runtime
+   FALHA F5-hash-contraditorio: esperado INDETERMINADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'INDETERMINADO', obtido 'OK'
+   FALHA F5-hash-contraditorio nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F5-hash-contraditorio: o motivo tem de nomear o defeito ('VALORES DIFERENTES'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F5-hash-contraditorio: nao-OK nao pode declarar prova_runtime
+   FALHA F6-cru-sem-render: esperado NAO_EXERCITADO, obtido OK (motivo='tooltip renderizado resolvido (sem placeholder)'): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F6-cru-sem-render nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F6-cru-sem-render: o motivo tem de nomear o defeito ('RENDERIZADO nao observado'); veio 'tooltip renderizado resolvido (sem placeholder)'
+   FALHA F6-cru-sem-render: nao-OK nao pode declarar prova_runtime
+   FALHA F7-sessoes-misturadas: esperado INDETERMINADO, obtido OK (motivo='leitura runtime completa com identidade suficiente'): esperado 'INDETERMINADO', obtido 'OK'
+   FALHA F7-sessoes-misturadas nao pode fechar OK (achado do parecer CIC-3R)
+   FALHA F7-sessoes-misturadas: o motivo tem de nomear o defeito ('SESSOES diferentes'); veio 'leitura runtime completa com identidade suficiente'
+   FALHA F7-sessoes-misturadas: nao-OK nao pode declarar prova_runtime
+TESTE _canonico_excecao      SEM_FALHA falhas=0
+TESTE _adaptadores           SEM_FALHA falhas=2
+   FALHA indice no texto CRU: template legitimo, mas sem render nao fecha OK (F6): esperado 'NAO_EXERCITADO', obtido 'OK'
+   FALHA F6: o motivo tem de dizer que o render nao foi observado: 'tooltip renderizado resolvido (sem placeholder)'
+TOTAL falhas=58
+RED CONFIRMADO: o modulo sob prova NAO satisfaz os testes (defeito presente)
+EXIT=0
+
+$ python -B C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/prova_red_f1f7.py --modulo C:/dev/stolen-realm/tools/automacao/cenarios/rstv.py --lente green
+MODULO C:/dev/stolen-realm/tools/automacao/cenarios/rstv.py sha256=2fad23a3bc3dc48c7b2dd5cda3feda64a18d9e3d802c54dbef63696a8a032252
+TESTE _fixture_nao_vira_ok   SEM_FALHA falhas=0
+TESTE _ausente               SEM_FALHA falhas=0
+TESTE _lacunas               SEM_FALHA falhas=0
+TESTE _controles             SEM_FALHA falhas=0
+TESTE _caminho_ok            SEM_FALHA falhas=0
+TESTE _cadeia                SEM_FALHA falhas=0
+TESTE _fechamento_f1_f7      SEM_FALHA falhas=0
+TESTE _canonico_excecao      SEM_FALHA falhas=0
+TESTE _adaptadores           SEM_FALHA falhas=0
+TOTAL falhas=0
+GREEN CONFIRMADO: 0 falhas no modulo atual
+EXIT=0

@@ -1,0 +1,457 @@
+$ diff -u <rstv_524f7197.py (anexo, bytes ANTIGOS)> <tools/automacao/cenarios/rstv.py (bytes ATUAIS)>
+--- /tmp/cic3r2_antigo.py	2026-10-06 14:42:48.851746800 -0300
++++ /tmp/cic3r2_atual.py	2026-10-06 14:42:48.876280200 -0300
+@@ -48,6 +48,33 @@
+   quando dado malformado derruba uma capacidade (id por nome de funcao, nunca
+   derivado de split de string).
+ 
++FECHAMENTO F1-F7 (parecer CIC-3R) — verde GLOBAL exige leitura COMPLETA e
++BEM-FORMADA de CADA dimensao do criterio
++-----------------------------------------------------------------------
++O funil reprovava o valor ERRADO, mas fechava verde quando a dimensao nao tinha
++sido lida ou a contagem vinha `null` (achado A3 do parecer). Cada achado F1-F7
++virou regra explicita:
++
++* **F1** `RSTV-6-readonly-skills-pontos`: o criterio anuncia skills E pontos —
++  ler um par so NAO fecha OK; a dimensao nunca lida vira lacuna declarada.
++* **F2** `RSTV-21-tooltip-restauracao`: `janelas_duplicadas` so prova AUSENCIA
++  com contagem OBSERVADA valida (numero finito >= 0); `null`/negativo/bool/lista
++  = leitura malformada, nunca OK.
++* **F3** `RSTV-25b-dependencia`: valor por tier tem de ser contagem valida E a
++  contagem tem de CONDIZER com a Dependency real (o `esperado` declarado e
++  "linhas == Dependency"); truthiness deixou de valer como confronto.
++* **F4** `RSTV-geometria-clipping`: bbox exige numero FINITO ('NaN'/infinito =
++  malformado) junto da tela — dado nao mensuravel nunca fecha OK.
++* **F5** cadeia de hash: `hash_fonte`/`hash_dll`/`dll_sha` declarados na MESMA
++  observacao com valores DIFERENTES sao contradicao — o alias do coletor nao
++  sobrescreve a divergencia declarada.
++* **F6** `RSTV-26-placeholders`: o OK passa a exigir o texto RENDERIZADO
++  observado; sem render nao se afirma "placeholder resolvido" (nao observado
++  nao e o mesmo que resolvido).
++* **F7** sessoes: observacoes de SESSOES diferentes na mesma capacidade nao sao
++  prova de um unico ciclo (INDETERMINADO) — e nenhuma sessao e copiada para o
++  criterio como se fosse a do conjunto inteiro.
++
+ LACUNAS DO PROBE ATUAL (declaradas; NAO sao OK, nao sao maquiadas)
+ ------------------------------------------------------------------
+ O `AUT4Probe`/coletor de hoje emite UMA leitura por TMP_Text ativo e um contexto
+@@ -68,6 +95,7 @@
+ """
+ import argparse
+ import json
++import math
+ import re
+ import sys
+ 
+@@ -94,6 +122,8 @@
+ # `coletor.derivar_config`/`provar_atualidade` e CIC-5-entrega ("a identidade do
+ # probe (`hash_fonte`) casa com `dll_sha`"). Logo `hash_fonte` e `hash_dll` sao
+ # AMBOS a cadeia da DLL; `fonte_sha` so casa por nome explicito (R-1 do CIC-5R).
++# F5: o alias ACRESCENTA um valor a chave canonica — nunca sobrescreve um valor
++# explicito declarado na mesma observacao (divergencia declarada nao se apaga).
+ _ALIAS_HASH = (("hash_fonte", "dll_sha"), ("hash_dll", "dll_sha"))
+ 
+ # ------------------------------------------------------------------ placeholders
+@@ -221,31 +251,51 @@
+ 
+ 
+ def _hashes_obs(obs):
+-    """Hashes que a OBSERVACAO declara (`*_sha` + aliases do coletor CIC-5).
++    """Hashes que a OBSERVACAO declara, por chave canonica: `{chave: [valores]}`.
+ 
+     O `hash_fonte` do coletor CIC-5 e o sha da DLL: entra sob a chave canonica
+     `dll_sha`. Nomes explicitos (`fonte_sha`/`dll_sha`) tambem contam.
++
++    F5: o valor NAO e um escalar. Duas declaracoes da mesma chave canonica com
++    valores diferentes ficam AMBAS na lista — o alias do coletor nao sobrescreve
++    (nem e sobrescrito por) o valor explicito. Quem confronta detecta a
++    contradicao; antes, o ultimo alias lido apagava a divergencia declarada.
+     """
+-    d = {}
++    por_chave = {}
++
++    def _adiciona(chave, valor):
++        if _txt(valor):
++            por_chave.setdefault(chave, set()).add(_txt(valor))
++
+     for k, v in obs.items():
+-        if isinstance(k, str) and k.endswith("_sha") and _txt(v):
+-            d[k] = _txt(v)
++        if isinstance(k, str) and k.endswith("_sha"):
++            _adiciona(k, v)
+     for alias, canonico in _ALIAS_HASH:
+-        if _txt(obs.get(alias)):
+-            d[canonico] = _txt(obs.get(alias))
+-    return d
++        _adiciona(canonico, obs.get(alias))
++    return {chave: sorted(valores) for chave, valores in por_chave.items()}
++
++
++def _hashes_obs_contraditorios(obs):
++    """F5: chaves canonicas que a observacao declara com mais de um valor."""
++    return sorted(chave for chave, valores in _hashes_obs(obs).items() if len(valores) > 1)
+ 
+ 
+ def _checagem_hashes(obs, identidade):
+     """(divergentes, nao_confirmados) entre os hashes declarados e a identidade.
+ 
+-    * divergente     -> a observacao mediu bytes DIFERENTES da build atual;
++    * divergente     -> a observacao mediu bytes DIFERENTES da build atual, OU
++      declara a mesma chave canonica com dois valores diferentes (F5: a
++      contradicao nao se resolve a favor do alias);
+     * nao_confirmado -> a observacao declara um hash que a identidade NAO conhece
+       (cadeia incompleta) — nenhum dos dois pode fechar OK.
+     """
+     conhecidos = _hashes_identidade(identidade)
+     divergentes, nao_confirmados = [], []
+-    for chave, valor in _hashes_obs(obs).items():
++    for chave, valores in _hashes_obs(obs).items():
++        if len(valores) > 1:
++            divergentes.append(chave)  # contradicao declarada: nao ha valor "bom"
++            continue
++        valor = valores[0]
+         if chave in conhecidos:
+             if conhecidos[chave] != valor:
+                 divergentes.append(chave)
+@@ -350,7 +400,11 @@
+         impossivel);
+       * sem dado -> NAO_EXERCITADO;
+       * so fecha OK com procedencia runtime, sessao/hash_fonte e identidade
+-        suficiente, com os hashes declarados casando com a identidade.
++        suficiente, com os hashes declarados casando com a identidade;
++      * F5: hash declarado com DOIS valores na mesma observacao e contradicao ->
++        INDETERMINADO (o alias do coletor nao sobrescreve o valor explicito);
++      * F7: contrib de SESSOES diferentes nao e prova de um unico ciclo ->
++        INDETERMINADO (e nenhuma sessao e copiada para o criterio).
+     """
+     proc = "execucao"
+     if contrib:
+@@ -368,9 +422,27 @@
+         base = ("campo AUSENTE/incompleto nao vira OK — " + "; ".join(motivos))
+         return ((INDETERMINADO if indeterminado else NAO_EXERCITADO), proc, base)
+ 
++    # F7: a capacidade fala de UM ciclo. Observacoes de sessoes diferentes nao
++    # sao prova de um unico ciclo (e nenhuma sessao pode ser copiada como se
++    # fosse a do conjunto).
++    sessoes = sorted({_txt(o.get("sessao")) for o in contrib if _txt(o.get("sessao"))})
++    if len(sessoes) > 1:
++        return INDETERMINADO, proc, ("observacoes de SESSOES diferentes (%s) na mesma "
++                                     "capacidade: nao e prova de um UNICO ciclo"
++                                     % ", ".join(sessoes))
++
+     runtime_ok = all(_evidencia_runtime(o, identidade) for o in contrib)
+     if runtime_ok:
+         return OK, proc, "leitura runtime completa com identidade suficiente"
++
++    # F5: a MESMA observacao declarando valores diferentes para a mesma chave
++    # canonica de hash e contradicao declarada — nunca se resolve a favor do alias.
++    contraditorios = sorted({ch for o in contrib for ch in _hashes_obs_contraditorios(o)})
++    if contraditorios:
++        return INDETERMINADO, proc, ("hash (%s) declarado com VALORES DIFERENTES na mesma "
++                                     "observacao: declaracao contraditoria, nunca OK"
++                                     % ", ".join(contraditorios))
++
+     if not _identidade_ok(identidade):
+         return NAO_EXERCITADO, proc, ("sem identidade suficiente (fonte_sha/dll_sha): "
+                                       "nunca OK sem identidade")
+@@ -441,8 +513,27 @@
+     return isinstance(v, (int, float)) and not isinstance(v, bool)
+ 
+ 
++def _contagem_observada(v):
++    """Contagem OBSERVADA valida (F2): numero finito >= 0.
++
++    `None`, booleano, texto, lista ou negativo NAO sao contagem — a chave presente
++    com valor malformado nao prova ausencia de duplicata.
++    """
++    if isinstance(v, bool) or not isinstance(v, (int, float)):
++        return None
++    f = float(v)
++    return f if math.isfinite(f) and f >= 0 else None
++
++
+ def _cap_skills_pontos(obs_list, identidade):
++    """Guarda de leitura somente: skills E pontos inalterados antes/depois.
++
++    F1: o criterio anuncia as DUAS dimensoes (skills e pontos). Ler um par so
++    NAO fecha OK — a dimensao que nunca foi lida vira lacuna declarada, em vez de
++    "ambas inalteradas" afirmado com metade da leitura.
++    """
+     contrib, defeitos, dados, motivos = [], [], False, []
++    lidas = set()  # dimensoes com par antes/depois COMPLETO em alguma leitura
+     for o in obs_list:
+         achou = False
+         # pares explicitos
+@@ -456,6 +547,7 @@
+             if antes is None or depois is None:
+                 motivos.append("%s: par antes/depois incompleto" % rotulo)
+                 continue
++            lidas.add(rotulo)
+             if rotulo == "pontos":
+                 if not (_numerico(antes) and _numerico(depois)):
+                     motivos.append("pontos: valor nao numerico (antes=%r, depois=%r)"
+@@ -486,23 +578,37 @@
+                     motivos.append("snapshot pontos: par antes/depois incompleto")
+                 elif not (_numerico(pa) and _numerico(pb)):
+                     motivos.append("snapshot pontos: valor nao numerico")
+-                elif pb != pa:
+-                    defeitos.append("GASTO/mudanca de pontos no snapshot: antes=%s, depois=%s" % (pa, pb))
++                else:
++                    lidas.add("pontos")
++                    if pb != pa:
++                        defeitos.append("GASTO/mudanca de pontos no snapshot: antes=%s, depois=%s"
++                                        % (pa, pb))
+             if tem_s:
+                 ka, kb = sa.get("skills"), sb.get("skills")
+                 if ka is None or kb is None:
+                     motivos.append("snapshot skills: par antes/depois incompleto")
+                 elif not (_lista_de_str(ka) and _lista_de_str(kb)):
+                     motivos.append("snapshot skills: campo malformado — esperado lista de strings")
+-                elif sorted(ka) != sorted(kb):
+-                    defeitos.append("skills mudaram no snapshot: antes=%s, depois=%s" % (ka, kb))
++                else:
++                    lidas.add("skills")
++                    if sorted(ka) != sorted(kb):
++                        defeitos.append("skills mudaram no snapshot: antes=%s, depois=%s" % (ka, kb))
+         if achou:
+             contrib.append(o)
+             dados = True
++    if dados:
++        # F1: sem o par COMPLETO da dimensao nao ha como afirmar que ela ficou
++        # inalterada — a ausencia de leitura e lacuna, nunca OK.
++        for dimensao in ("skills", "pontos"):
++            if dimensao not in lidas:
++                motivos.append("%s: dimensao NUNCA lida (nenhum par antes/depois "
++                               "completo) — nao se afirma 'skills e pontos inalterados'"
++                               % dimensao)
+     ev = [e for o in contrib for e in _evidencia(o)]
+     estado, proc, motivo = _fecha(contrib, defeitos, dados, identidade,
+                                   "skills e pontos inalterados (leitura somente)",
+-                                  "pares antes/depois inspecionados: %d" % len(contrib), motivos)
++                                  "dimensoes lidas: %s; leituras: %d"
++                                  % (sorted(lidas) or "nenhuma", len(contrib)), motivos)
+     extra = _extras(estado, proc, identidade, contrib, lacuna=LACUNA_SKILLS)
+     return _criterio("RSTV-6-readonly-skills-pontos", estado, proc,
+                      "skills/pontos inalterados", "ver observado", motivo, ev, extra=extra)
+@@ -559,6 +665,26 @@
+             motivos.append("tooltip indice: antes/depois AUSENTE")
+         if not tem_dup:
+             motivos.append("contagem de janelas duplicadas AUSENTE")
++        else:
++            # F2: a chave PRESENTE nao basta. Provar AUSENCIA de duplicata exige
++            # CONTAGEM OBSERVADA valida; `null`/negativo/bool/lista e leitura
++            # malformada (antes disso, o funil tratava qualquer coisa como zero).
++            if "janelas_duplicadas" in o:
++                dup = o.get("janelas_duplicadas")
++                n = _contagem_observada(dup)
++                if n is None:
++                    motivos.append("janelas_duplicadas MALFORMADA (%r): contagem observada "
++                                   "valida (numero finito >= 0) e obrigatoria para provar "
++                                   "ausencia de janela duplicada" % (dup,))
++                elif n > 0:
++                    defeitos.append("janela DUPLICADA: janelas_duplicadas=%s" % (dup,))
++            if "duplicata" in o:
++                d = o.get("duplicata")
++                if not isinstance(d, bool):
++                    motivos.append("duplicata MALFORMADA (%r): esperado booleano — "
++                                   "declaracao invalida nao prova ausencia" % (d,))
++                elif d:
++                    defeitos.append("janela duplicada (duplicata=true)")
+         for rotulo, ka, kb in (("pai", "tooltip_pai_antes", "tooltip_pai_depois"),
+                                ("indice", "tooltip_indice_antes", "tooltip_indice_depois")):
+             a, b = o.get(ka), o.get(kb)
+@@ -568,11 +694,6 @@
+                 continue
+             if a != b:
+                 defeitos.append("tooltip %s NAO restaurado: antes=%r, depois=%r" % (rotulo, a, b))
+-        dup = o.get("janelas_duplicadas")
+-        if isinstance(dup, (int, float)) and not isinstance(dup, bool) and dup > 0:
+-            defeitos.append("janela DUPLICADA: janelas_duplicadas=%s" % dup)
+-        if o.get("duplicata") is True:
+-            defeitos.append("janela duplicada (duplicata=true)")
+     ev = [e for o in contrib for e in _evidencia(o)]
+     estado, proc, motivo = _fecha(contrib, defeitos, dados, identidade,
+                                   "tooltip devolvido ao pai/indice original; sem duplicata",
+@@ -602,7 +723,7 @@
+ 
+ 
+ def _cap_placeholders(obs_list, identidade):
+-    contrib, defeitos, dados = [], [], False
++    contrib, defeitos, dados, motivos = [], [], False, []
+     for o in obs_list:
+         achados, tem = _marcadores(o)
+         if not tem:
+@@ -612,15 +733,22 @@
+         for a in achados:
+             defeitos.append("placeholder %s em %s: %r"
+                             % (a["marcador"], a["campo"], a["trecho"]))
++        if not _texto(o, "texto_renderizado"):
++            # F6: o template CRU pode ser legitimo (o '[N]' e o proprio motor), mas
++            # nao prova o RENDER. Sem o texto renderizado nao se declara
++            # "placeholder resolvido" — nao observado != resolvido.
++            motivos.append("texto RENDERIZADO nao observado (so o cru): nao da para "
++                           "afirmar que o placeholder foi resolvido")
+     ev = [e for o in contrib for e in _evidencia(o)]
+     estado, proc, motivo = _fecha(contrib, defeitos, dados, identidade,
+                                   "nenhum '*0'/indice/@atributo@ literal no texto",
+-                                  "textos inspecionados: %d" % len(contrib), None)
++                                  "textos inspecionados: %d" % len(contrib), motivos)
+     if estado == OK:
+-        motivo = "tooltip renderizado resolvido (sem placeholder)"
++        motivo = "tooltip RENDERIZADO observado e sem placeholder literal"
+     extra = _extras(estado, proc, identidade, contrib)
+     return _criterio("RSTV-26-placeholders", estado, proc,
+-                     "texto sem placeholder literal", "ver observado", motivo, ev, extra=extra)
++                     "texto renderizado sem placeholder literal", "ver observado",
++                     motivo, ev, extra=extra)
+ 
+ 
+ # --------------------------------------- capacidade: linhas de dependencia (RSTV-25b)
+@@ -645,18 +773,38 @@
+             motivos.append("Dependency real AUSENTE — confronto impossivel")
+             indeterminado = True
+         if isinstance(linhas, dict) and isinstance(dep, dict):
+-            for tier in set(list(linhas) + list(dep)):
++            for tier in sorted(set(list(linhas) + list(dep))):
+                 n_lin, n_dep = linhas.get(tier), dep.get(tier)
+-                if tier == "T5" and not n_dep:
++                # F3: o confronto exige CONTAGEM VALIDA dos dois lados. Truthiness
++                # ('abc', -2) e a comparacao que nunca acontece (1 x 3) deixam de
++                # fechar o criterio — o proprio `esperado` declara
++                # "linhas == Dependency real".
++                invalidos = []
++                if tier in linhas and _contagem_observada(n_lin) is None:
++                    invalidos.append("linhas=%r" % (n_lin,))
++                if tier in dep and _contagem_observada(n_dep) is None:
++                    invalidos.append("Dependency=%r" % (n_dep,))
++                if invalidos:
++                    motivos.append("%s: valor INVALIDO no confronto (%s) — contagem observada "
++                                   "(numero finito >= 0) e obrigatoria dos dois lados"
++                                   % (tier, ", ".join(invalidos)))
++                    indeterminado = True
++                    continue
++                v_lin = _contagem_observada(n_lin) if tier in linhas else None
++                v_dep = _contagem_observada(n_dep) if tier in dep else None
++                if tier == "T5" and not v_dep:
+                     # T5 sem Dependency e AUSENCIA LEGITIMA (nao se inventa aresta).
+-                    if n_lin:
++                    if v_lin:
+                         defeitos.append("T5 tem linha mas nao tem Dependency: aresta INVENTADA")
+                     continue
+-                if n_dep and not n_lin:
++                if v_dep and not v_lin:
+                     defeitos.append("%s com Dependency=%s e nenhuma linha (conector ausente)"
+                                     % (tier, n_dep))
+-                if n_lin and not n_dep:
++                elif v_lin and not v_dep:
+                     defeitos.append("%s com linha e Dependency=0 (aresta INVENTADA)" % tier)
++                elif v_lin is not None and v_dep is not None and v_lin != v_dep:
++                    defeitos.append("%s: linhas=%s != Dependency=%s (o criterio declara "
++                                    "'linhas == Dependency real')" % (tier, n_lin, n_dep))
+         elif (linhas is not None and not isinstance(linhas, dict)) \
+                 or (dep is not None and not isinstance(dep, dict)):
+             motivos.append("linhas/Dependency em formato incompleto — confronto parcial")
+@@ -672,29 +820,75 @@
+ 
+ # ------------------------------------------- capacidade: geometria/clipping
+ 
++def _numero_finito(v):
++    """Numero FINITO da leitura (aceita texto numerico, como `float()` aceitava).
++
++    F4: 'NaN'/'Infinity' passavam por `float()` e viravam comparacoes sempre
++    falsas — nao medem dimensao nenhuma. Nao finito NAO e numero.
++    """
++    if isinstance(v, bool):
++        return None
++    if isinstance(v, (int, float)):
++        f = float(v)
++    elif isinstance(v, str):
++        try:
++            f = float(v.strip())
++        except ValueError:
++            return None
++    else:
++        return None
++    return f if math.isfinite(f) else None
++
++
+ def _bbox(o):
++    """(caixa, motivo) da geometria da observacao.
++
++    * `(None, None)`   -> nao ha leitura de caixa nesta observacao (AUSENTE);
++    * `(None, motivo)` -> ha leitura, mas ela e INVALIDA (F4: valor presente que
++      nao e numero finito, ou `tela` malformada) — dado nao mensuravel nunca OK;
++    * `(dict, None)`   -> caixa mensuravel (valores finitos) + `tela` lida.
++    """
+     g = _campo(o, "geometria")
+     if not isinstance(g, dict):
+-        return None
++        return None, None
+     caixa = g.get("caixa_na_tela_px")
+     if not isinstance(caixa, dict):
+-        return None
+-    try:
+-        x = float(caixa.get("x")); y = float(caixa.get("y"))
+-        w = float(caixa.get("largura")); h = float(caixa.get("altura"))
+-    except (TypeError, ValueError):
+-        return None
++        return None, None
++    valores, invalidos = {}, []
++    for nome in ("x", "y", "largura", "altura"):
++        if nome not in caixa:
++            return None, None  # leitura incompleta do campo: sem dado (AUSENTE)
++        f = _numero_finito(caixa.get(nome))
++        if f is None:
++            invalidos.append("%s=%r" % (nome, caixa.get(nome)))
++        else:
++            valores[nome] = f
++    if invalidos:
++        return None, ("caixa_na_tela_px MALFORMADA (%s): exigido numero finito em "
++                      "x/y/largura/altura — 'NaN'/infinito nao mede dimensao"
++                      % ", ".join(invalidos))
+     tela = None
+-    m = _RE_TELA.search(str(g.get("tela") or ""))
++    bruto_tela = g.get("tela")
++    m = _RE_TELA.search(str(bruto_tela or ""))
+     if m:
+         tela = (float(m.group(1)), float(m.group(2)))
+-    return {"x": x, "y": y, "largura": w, "altura": h, "tela": tela}
++    elif _txt(bruto_tela):
++        return None, ("geometria.tela MALFORMADA (%r): esperado 'LARGURAxALTURA'"
++                      % (bruto_tela,))
++    return {"x": valores["x"], "y": valores["y"], "largura": valores["largura"],
++            "altura": valores["altura"], "tela": tela}, None
+ 
+ 
+ def _cap_geometria(obs_list, identidade):
+     contrib, defeitos, dados, motivos = [], [], False, []
+     for o in obs_list:
+-        b = _bbox(o)
++        b, invalido = _bbox(o)
++        if invalido:
++            # leitura presente e MALFORMADA: e dado (entra em contrib), mas nunca OK
++            contrib.append(o)
++            dados = True
++            motivos.append(invalido)
++            continue
+         if b is None:
+             continue
+         contrib.append(o)
+EXIT=1 (1 = ha diferencas, esperado)
+
+=== hunks ===
+@@ -48,6 +48,33 @@
+@@ -68,6 +95,7 @@
+@@ -94,6 +122,8 @@
+@@ -221,31 +251,51 @@
+@@ -350,7 +400,11 @@
+@@ -368,9 +422,27 @@
+@@ -441,8 +513,27 @@
+@@ -456,6 +547,7 @@
+@@ -486,23 +578,37 @@
+@@ -559,6 +665,26 @@
+@@ -568,11 +694,6 @@
+@@ -602,7 +723,7 @@
+@@ -612,15 +733,22 @@
+@@ -645,18 +773,38 @@
+@@ -672,29 +820,75 @@

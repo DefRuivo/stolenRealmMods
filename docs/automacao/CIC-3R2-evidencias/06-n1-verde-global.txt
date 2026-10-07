@@ -1,0 +1,14 @@
+$ python -B C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3r2/n1.py   # variante N1 (A3 do parecer) nas DUAS CLIs reais
+== ANTIGO (rstv=rstv_524f7197.py)
+   rstv exit=0 contagem={'OK': 7}
+   decisao exit=0 pronto_para_decisao=True falhas_automaticas=0 pendencias_humanas=0
+   motivo=null
+
+== ATUAL (rstv=rstv.py)
+   rstv exit=0 contagem={'OK': 5, 'NAO_EXERCITADO': 2}
+   criterio RSTV-6-readonly-skills-pontos: NAO_EXERCITADO | campo AUSENTE/incompleto nao vira OK — pontos: dimensao NUNCA lida (nenhum par antes/depois completo) — nao se afirma 'skills e pontos inalterados'
+   criterio RSTV-21-tooltip-restauracao: NAO_EXERCITADO | campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (None): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela d
+   decisao exit=1 pronto_para_decisao=False falhas_automaticas=2 pendencias_humanas=0
+   motivo=null
+
+EXIT=0

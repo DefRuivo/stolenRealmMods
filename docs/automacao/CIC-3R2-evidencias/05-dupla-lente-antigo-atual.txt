@@ -1,0 +1,32 @@
+$ python -B C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3r2/dupla_lente.py   # mesmos casos nos bytes ANTIGOS e ATUAIS (importlib)
+ANTIGO importlib.util
+ANTIGO C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_7bec518b/rstv_524f7197.py sha256=524f719757977436b843bdceb8337b10db4003cba9da64ff3fea788ef327d320
+ATUAL C:/dev/stolen-realm/tools/automacao/cenarios/rstv.py sha256=2fad23a3bc3dc48c7b2dd5cda3feda64a18d9e3d802c54dbef63696a8a032252
+F1a-pontos-nunca-lidos       RSTV-6-readonly-skills-pontos    antigo=OK              atual=NAO_EXERCITADO  CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — pontos: dimensao NUNCA lida (nenhum par antes/depois completo) — nao se afirma 'skills e pontos inalterados'
+F2a-janelas-null             RSTV-21-tooltip-restauracao      antigo=OK              atual=NAO_EXERCITADO  CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (None): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+F2c-janelas-bool             RSTV-21-tooltip-restauracao      antigo=OK              atual=NAO_EXERCITADO  CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — janelas_duplicadas MALFORMADA (False): contagem observada valida (numero finito >= 0) e obrigatoria para provar ausencia de janela duplicada
+F3a-contagem-diferente       RSTV-25b-dependencia             antigo=OK              atual=REPROVADO       CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: DEFEITO: T4: linhas=1 != Dependency=3 (o criterio declara 'linhas == Dependency real')
+F3b-valores-invalidos        RSTV-25b-dependencia             antigo=OK              atual=INDETERMINADO   CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — T4: valor INVALIDO no confronto (linhas='abc', Dependency=-2) — contagem observada (numero finito >= 0) e obrigatoria dos dois lados
+F4a-nan-x                    RSTV-geometria-clipping          antigo=OK              atual=NAO_EXERCITADO  CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — caixa_na_tela_px MALFORMADA (x='NaN'): exigido numero finito em x/y/largura/altura — 'NaN'/infinito nao mede dimensao
+F5a-hash-contraditorio       RSTV-6-readonly-skills-pontos    antigo=OK              atual=INDETERMINADO   CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: hash (dll_sha) declarado com VALORES DIFERENTES na mesma observacao: declaracao contraditoria, nunca OK
+F6a-cru-sem-render           RSTV-26-placeholders             antigo=OK              atual=NAO_EXERCITADO  CONFIRMA
+      antigo motivo: tooltip renderizado resolvido (sem placeholder)
+      atual  motivo: campo AUSENTE/incompleto nao vira OK — texto RENDERIZADO nao observado (so o cru): nao da para afirmar que o placeholder foi resolvido
+F7a-sessoes-misturadas       RSTV-6-readonly-skills-pontos    antigo=OK              atual=INDETERMINADO   CONFIRMA
+      antigo motivo: leitura runtime completa com identidade suficiente
+      atual  motivo: observacoes de SESSOES diferentes (sessao-A, sessao-B) na mesma capacidade: nao e prova de um UNICO ciclo
+EXIT=0
