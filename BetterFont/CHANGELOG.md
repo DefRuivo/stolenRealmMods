@@ -1,5 +1,12 @@
 # Changelog — BetterFont
 
+## 1.0.3
+
+**Documentation release. No code change** — this build behaves exactly like 1.0.2; the DLL differs only in the version string it reports.
+
+- **The build instructions were wrong about the deploy.** They said that a bare `dotnet build` would also copy the mod into the mod-manager profile. That is no longer true: the deploy is **opt-in** — a bare `dotnet build` installs **nothing**, and only `-p:DeployToBepInEx=true` copies the DLL into `<profile>\BepInEx\plugins\BetterFont\`. The README now says it correctly.
+- **Why a text fix needs a new version:** a published version is immutable, so the README that travels inside the package cannot be corrected afterwards. Fixing it for whoever downloads the package means publishing a new one — and the code is untouched.
+
 ## 1.0.2
 
 **O BF-1 recusava exatamente o caso que ele existe para consertar: os textos de combate.** O gate do "não dá para reproduzir" barrava por **variante de shader diferente** e o texto ficava intocado.

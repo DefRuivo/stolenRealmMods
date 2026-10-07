@@ -1,5 +1,13 @@
 # Changelog — BetterCombatText
 
+## 0.1.2
+
+**Documentation release. No code change** — this build behaves exactly like 0.1.1; the DLL differs only in the version string it reports.
+
+- **The build instructions were wrong about the deploy.** They said that a bare `dotnet build` would also copy the mod into the mod-manager profile. That is no longer true: the deploy is **opt-in** — a bare `dotnet build` installs **nothing**, and only `-p:DeployToBepInEx=true` copies the DLL into `<profile>\BepInEx\plugins\BetterCombatText\`.
+- **The README described the wrong outline for the enemy names.** It said "soft outline/halo, default black at 10% alpha". That was true of the first release, not of 0.1.1: since then the enemy name gets a **hard, opaque black outline** (`LarguraContorno` 0.22, `SuavidadeContorno` 0.05, `AlfaContorno` 0.95), the **10% is the buff/debuff label**, and the enemy name's shadow is short and visible (`AlfaSombra` 0.75, offset ±0.35, softness 0.05), with its side following the background and the letter's brightness deciding when `Fundo = auto`. The table of surfaces and the configuration section now state the real defaults.
+- **Still not verified on screen.** The visual result of this mod has never been confirmed in game — a startup diagnostic proved the effect is *possible* on those texts, but nobody has confirmed it on the screen. This release does **not** change that, and the README and the package description keep saying it.
+
 ## 0.1.1 — contorno preto duro/opaco (UI/UX) + sombra adaptativa por contraste
 
 O nome do inimigo (cor de qualidade) ganhou **contorno preto DURO e OPACO** (`_OutlineWidth` 0.22, `_OutlineSoftness` 0.05 — era 0.50, o defeito que borrava o contorno até sumir, `_OutlineColor` alfa 0.95) e a **sombra** virou um seguro curto (`_Underlay` offset ±0.35 — era ±2, fora do range ±1 do shader — alfa 0.75, softness 0.05). A sombra adaptativa escolhe o lado pelo **contraste com a FONTE** (fonte clara → sombra escura, e vice-versa). Revisão de UI/UX: a cor de preenchimento **não muda** — é a linguagem de raridade (`QualityColors[EnemyType]`).

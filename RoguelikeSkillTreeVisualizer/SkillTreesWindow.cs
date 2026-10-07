@@ -433,7 +433,7 @@ namespace RoguelikeSkillTreeVisualizer
                 TextMeshProUGUI clone = UnityEngine.Object.Instantiate(molde, cabecalho);
                 clone.gameObject.name = TitleName;
                 clone.gameObject.SetActive(true);
-                SelectPartyButton.DisableLocalizers(clone.gameObject);
+                NativeUiHelpers.DisableLocalizers(clone.gameObject);
                 titulo = clone;
             }
             else
@@ -573,14 +573,14 @@ namespace RoguelikeSkillTreeVisualizer
 
             // O clone herda o onClick SERIALIZADO do molde (o X do SkillTreeManager FECHARIA a arvore
             // de campanha). RSTV-12: trocar a INSTANCIA do evento descarta a lista persistente.
-            SelectPartyButton.DisableLocalizers(botao);
+            NativeUiHelpers.DisableLocalizers(botao);
             Button componente = botao.GetComponent<Button>();
             if (componente == null)
             {
                 componente = botao.AddComponent<Button>();
             }
 
-            SelectPartyButton.ClearClickListeners(componente);
+            NativeUiHelpers.ClearClickListeners(componente);
             componente.onClick.AddListener(new UnityAction(Fechar));
             componente.interactable = true;
 

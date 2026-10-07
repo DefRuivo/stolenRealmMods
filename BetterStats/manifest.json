@@ -1,6 +1,6 @@
 {
   "name": "BetterStats",
-  "version_number": "1.0.1",
+  "version_number": "1.0.2",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Shows attributes as base (combined) on the character sheet and the level-up screen: the value you invested and the final value with powerups, gear and skills. No gameplay change.",
   "dependencies": [

@@ -7,41 +7,25 @@ using UnityEngine;
 namespace RoguelikeSkillTreeVisualizer
 {
     // ---------------------------------------------------------------------------------------------
-    // RSTV-2a — injecao do botao
+    // RSTV-29 (06/10, decisao do dono em jogo) — a tela Select Party deixou de ter botao
     //
-    // Ancora: `CharacterChoiceManager.OpenCharacterChoiceManager()` (l.328703) — o gancho publico e
-    // idempotente por abertura de tela (a tela e resetada antes por ResetCharacterChoice, l.328644).
-    // NAO usar o `Update()` da tela (l.328656) como gancho: ele roda todo frame e ja mexe em
-    // `acceptBtn` (l.328660) e `roguelikePowerupButton` (l.328661).
+    // Ate a RSTV-28 havia DOIS ganchos que existiam SO' para injetar o clone 'Skills' na tela Select
+    // Party: `CharacterChoiceManager.OpenCharacterChoiceManager` (o ponto original da RSTV-2a) e
+    // `CharacterChoiceManager.OpenWindow` (a reinjecao da RSTV-28, que cobria o caminho do 'Continue'
+    // — `GUIManager.CurrentGuiState` -> `OpenWindow`, l.120035). O dono decidiu REMOVER aquela
+    // superficie: o botao da tela de escolha de grupo nao existe mais e o `SelectPartyButton.cs` foi
+    // apagado. Sem superficie para injetar, os dois ganchos nao tem o que fazer — mante-los so' para
+    // garantir o `RstvHost` seria codigo morto anunciando uma feature que nao existe.
     //
-    // Assinatura declarada por TIPO (array vazio = metodo sem parametros). Nunca por indice (__1/__2):
-    // foi um `ref` amarrado no slot errado que derrubou o jogo com 112 NullReferenceException.
+    // O `RstvHost` continua sendo criado (de forma preguicosa, ja' com cena viva) pelos ganchos das
+    // superficies que RESTAM — `CharacterMenusManager.OpenWindow` (aba do inventario),
+    // `CurrentCharacterUI.InitSingleton` (HUD da run) e `RoguelikeSkillTreeRemovalWindow.Open` (modal
+    // 'Remove Skill Trees') — e pelo `SkillTreeShortcut`; todos chamam `RstvHost.Ensure()`, que e'
+    // idempotente.
+    //
+    // O que sobrou da tela Select Party no mod e' so' o `CharacterChoiceTogglePatch` (abaixo), que
+    // alimenta o `PartyTargets` do ATALHO de teclado (RSTV-11a) — feature que NAO foi removida.
     // ---------------------------------------------------------------------------------------------
-    [HarmonyPatch(typeof(CharacterChoiceManager), nameof(CharacterChoiceManager.OpenCharacterChoiceManager), new Type[0])]
-    internal static class CharacterChoiceOpenPatch
-    {
-        private static bool _firstCallLogged;
-
-        [HarmonyPostfix]
-        private static void Postfix(CharacterChoiceManager __instance)
-        {
-            try
-            {
-                if (!_firstCallLogged)
-                {
-                    _firstCallLogged = true;
-                    Plugin.Log.LogInfo("RSTV-2: gancho da tela Select Party ATIVO (OpenCharacterChoiceManager).");
-                }
-
-                RstvHost.Ensure();
-                SelectPartyButton.Ensure(__instance);
-            }
-            catch (Exception e)
-            {
-                Plugin.Log.LogError("RSTV: falha no postfix de OpenCharacterChoiceManager: " + e);
-            }
-        }
-    }
 
     // ---------------------------------------------------------------------------------------------
     // RSTV-2b — rastreio de "o ultimo personagem que EU adicionei a party"
@@ -695,6 +679,97 @@ namespace RoguelikeSkillTreeVisualizer
             catch (Exception e)
             {
                 Plugin.Log.LogError("RSTV: falha no postfix de RoguelikeSkillTreeRemovalWindow.Open: " + e);
+            }
+        }
+    }
+
+    // ---------------------------------------------------------------------------------------------
+    // RSTV-27 — o RODAPE da tooltip (mana/cooldown/alcance/duracao) ainda lia o `TooltipCharacter`
+    //
+    // O DEFEITO (achado da verificacao do RSTV-26, 05/10): o conserto do RSTV-26 passa o personagem do
+    // MODAL como ARGUMENTO do `ShowSkillTooltip`, e isso alimenta so' o CORPO da tooltip — o dano
+    // (`GetDamageString`) e as expressoes (`ApplyDescriptionExpressions`). O RODAPE NAO usa esse
+    // argumento: o metodo monta um local proprio, `tooltipCharacter = TooltipCharacter` (IL_0c46 na
+    // `ShowSkillTooltip(SkillInfo, Character, bool, bool, bool)` da DLL real do jogo), e le' TODO o
+    // rodape dele — `GetManaCost`, `GetActionCooldown`, `GetSimpleRange`, `GetSimpleBlastRange` e a
+    // duracao (`Game.Eval` de `Duration` / `GroundDuration`). `Tooltip.TooltipCharacter` e' propriedade
+    // GET-ONLY que devolve `GameLogic.CurrentlySelectedCharacter` — NULL na tela Party Select, onde
+    // vive o modal "Remove Skill Trees" (a MESMA causa do '*0' da RSTV-26). Com ele null o rodape cai
+    // nos overloads SEM personagem (`GetManaCost()`, ...) e a duracao em `Duration[0]` cru: numeros de
+    // BASE, sem os modificadores do personagem que o jogador esta vendo.
+    //
+    // O CONSERTO: o hover do RSTV (`RstvSkillHover.OnPointerEnter`, SkillTreesTab.cs) passa o alvo do
+    // modal TAMBEM a esses campos, por um estado explicito armado SO' em volta da montagem da tooltip
+    // (`ComAlvo`/`SemAlvo`, em `try`/`finally`), e este POSTFIX do getter PREENCHE o valor quando — e
+    // so' quando — o jogo devolve null. As tres regras do conserto:
+    //   * o valor do JOGO vence: `__result != null` sai do gancho sem tocar em nada (no inventario,
+    //     onde o jogo TEM personagem selecionado, nada muda — nenhuma regressao);
+    //   * FALLBACK: sem alvo do modal armado, sai do gancho e o jogo segue exatamente como antes;
+    //   * a troca vale SO' enquanto a NOSSA chamada esta armada: nenhuma outra tooltip do jogo passa a
+    //     ler o personagem do modal.
+    // O gancho e' FAIL-SAFE (try/catch): uma excecao aqui nao pode derrubar o hover.
+    //
+    // POR QUE UM GANCHO NO GETTER (e nao no chamador): a propriedade e' GET-ONLY e o `Tooltip` e' do
+    // jogo (a `Assembly-CSharp` nao se modifica). O caminho do RSTV-26 (personagem como ARGUMENTO) nao
+    // alcanca esse local. Precedente no repo: o RoguelikeDebugger ja' patcheia getters (`Game.get_Skills`
+    // etc.) e o censo gerado em jogo prova que esses ganchos pegam.
+    //
+    // Assinatura por TIPO + nome do metodo do jogo (nunca por indice `__N`), como os outros ganchos.
+    // ---------------------------------------------------------------------------------------------
+    [HarmonyPatch(typeof(Tooltip), "get_TooltipCharacter")]
+    internal static class TooltipCharacterRodapePatch
+    {
+        /// <summary>
+        /// O personagem do MODAL enquanto a tooltip do RSTV esta sendo montada. null fora dessa janela:
+        /// e' o FALLBACK que mantem o comportamento do jogo quando nao ha alvo do modal.
+        /// </summary>
+        private static Character _alvoDoModal;
+
+        private static bool _primeiroPreenchimentoLogado;
+
+        /// <summary>Arma o alvo do modal para a montagem da tooltip do RSTV (RSTV-27).</summary>
+        internal static void ComAlvo(Character alvo)
+        {
+            _alvoDoModal = alvo;
+        }
+
+        /// <summary>Desarma o alvo (fim da montagem): volta ao comportamento do jogo.</summary>
+        internal static void SemAlvo()
+        {
+            _alvoDoModal = null;
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(ref Character __result)
+        {
+            try
+            {
+                if (__result != null)
+                {
+                    // O valor do JOGO vence — o gancho so' PREENCHE um null (por isso e' postfix).
+                    return;
+                }
+
+                Character alvo = _alvoDoModal;
+                if (alvo == null)
+                {
+                    // FALLBACK: sem alvo do modal (fora da nossa tooltip) nada muda.
+                    return;
+                }
+
+                __result = alvo;
+
+                if (!_primeiroPreenchimentoLogado)
+                {
+                    _primeiroPreenchimentoLogado = true;
+                    Plugin.Log.LogInfo("RSTV-27: rodape da tooltip resolvido pelo personagem do MODAL " +
+                                       "(TooltipCharacter era null) — alvo=" +
+                                       (alvo.CharacterName ?? "?") + ".");
+                }
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogWarning("RSTV-27: falha no postfix de Tooltip.TooltipCharacter: " + e.Message);
             }
         }
     }

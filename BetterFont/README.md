@@ -5,7 +5,7 @@ Liberation Serif as fallback), keeping the colour, outline and shadow of the tex
 **No gameplay change.**
 
 - **GUID:** `com.gumatos.betterfont`
-- **Version:** 1.0.2
+- **Version:** 1.0.3
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 
@@ -102,10 +102,10 @@ dotnet build -p:DeployToBepInEx=false
 ```
 
 Output: `bin\Debug\netstandard2.1\BetterFont.dll`. The reference DLLs come from the game
-and are **never distributed**. The flag keeps the build local: **without it the
-`DeployToBepInEx` target also copies the DLL into
-`<r2modman profile>\BepInEx\plugins\BetterFont\` on the machine that built it** — a bare
-`dotnet build` installs.
+and are **never distributed**. The deploy is **opt-in** (DEPLOY-2): a bare
+`dotnet build` installs **nothing** — the `DeployToBepInEx` target runs only with
+`-p:DeployToBepInEx=true`, which copies the DLL into
+`<r2modman profile>\BepInEx\plugins\BetterFont\` on the machine that built it.
 
 ---
 

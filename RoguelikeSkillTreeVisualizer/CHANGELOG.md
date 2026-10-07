@@ -1,265 +1,302 @@
 # Changelog — RoguelikeSkillTreeVisualizer
 
-## 0.3.2 — janela read-only própria no botão "Skills" do modal (RSTV-21) + UI/UX revision (RSTV-22)
+`RSTV-nn` codes are the change identifiers used across this mod's notes; an `F` suffix marks a fix
+that came out of a review.
 
-O botão **Skills** do modal **Remove Skill Trees** estava **morto** na tela de Party Select: o clique
-chamava `SkillTreesTab.Abrir`, que abre o INVENTÁRIO — e `CharacterMenusManager.OpenCharacterMenu`
-não abre ali (o personagem não está em `AllMyCharacters`), então o pedido morria no teto de 5 s sem
-mostrar nada.
+## 0.3.3 — right numbers in the read-only window, the party screen loses its button, the run button moves home
 
-Agora o clique abre uma **janela read-only própria do mod** (`SkillTreesWindow`: Canvas em overlay,
-escalado como o jogo) mostrando **todas** as skill trees — as mesmas classes e a mesma árvore da aba
-"All Trees", sem depender do inventário. O personagem do modal entra como alvo (`AbrirJanela`), a
-sessão read-only continua barrando qualquer escrita, e a janela segue o ciclo de vida do modal
-(fechar o modal fecha a janela; a raiz é `DontDestroyOnLoad` e reusada entre aberturas).
+**In one sentence:** the read-only tree now shows damage, expressions and the tooltip footer
+(mana / cooldown / range / duration) with the numbers of **the character the window is showing**,
+and the run button left the hex-marker button's row for the HUD's **bottom bar**, where it stays
+visible as long as the HUD does.
 
-**Tooltip legível (RSTV-22):** a janela é um Canvas próprio acima de tudo, mas o tooltip de skill
-vive no canvas **raiz** da UI do jogo — a primeira tentativa de "erguer" o canvas do tooltip
-(`overrideSorting`) ou escondia a janela inteira (quando pegava o canvas raiz `GUI Manager`) ou não
-fazia nada (não havia canvas nested para erguer). A solução final é **reparentar** o
-`gui.tooltip` para DENTRO da janela (`SetParent` + `SetAsLastSibling`) enquanto ela está aberta e
-devolvê-lo ao jogo no fechar (`RestaurarTooltip`, guardando o pai/índice antigos) — o hover no nó
-volta a mostrar o tooltip completo, acima do fundo escuro.
+- **RSTV-26 — the literal `*0` and `[N]` are gone.** Hovering a node in the window opened from the
+  *Remove Skill Trees* modal showed every damage as `*0` and every expression as `[N]`, unresolved.
+  Cause: that window lives on the party screen, where the game's own character context is **null** —
+  and the game only resolves `*N`/`[N]` when it has a character. The mod now hands it **the
+  character the modal is showing**; when there is no such target the window falls back to the old
+  behaviour (nothing breaks).
+- **RSTV-27 — the tooltip footer belongs to the character in view.** The same null character sent
+  the footer (mana / cooldown / range / duration) to the wrong character. The footer now reads the
+  **same** target as the window and **follows a change of the character in view**.
+- **RSTV-29 — the `Skills` button on the Select Party screen was REMOVED** (the author's decision,
+  in game, 06/10). That screen is served by the *Remove Skill Trees* modal button and by the
+  shortcut. See RSTV-29 below.
+- **RSTV-30 — the run button moved to the bottom bar and stopped blinking.** It left the row of the
+  button that marks the hex and joined the row of the native inventory and skills buttons; as a
+  child of that bar it appears and disappears **with the HUD** — the hide-and-reappear on every
+  character action is gone. The run gate now decides only whether the **click** may open. See
+  RSTV-30 below.
+- **Version:** 0.3.2 -> **0.3.3** in the four places that carry it (the project file, the manifest,
+  the plugin version behind `[BepInPlugin(...)]` and the README version line).
 
-**Visual nativo (RSTV-22):** o fundo, a moldura, o título e o botão fechar passam a clonar os moldes
-do próprio modal (`Fade`, `PanelBackground`, `TitleText`, `CancelButton`) em vez de cor sólida/option
-row; e a barra de classes, quando o `SkillTreeManager` nativo não está carregado (cena sem a aba),
-monta cada botão do zero com o **ícone** da classe (asset `TreeIcons`) + nome, no layout 64×64 do
-nativo — nada mais de fileira de abas de menu sem ícone. **Ajuste de posicionamento (04/10):** o ícone
-sobe 7px (`+7`), o nome usa fonte FIXA 13px (sem `autoSizing`, que estourava) e caixa **64×14** com
-**wrap desligado** (a caixa herdada do prefab, 37.86×40, era estreita demais e quebrava nomes como
-"Lightning" em 2 linhas — a 1ª linha subia para cima do ícone). Resultado: ícone acima, nome como
-legenda em uma linha logo abaixo.
+### RSTV-30 — the run button moved to the bottom bar and no longer blinks
 
-**Revisão de design da janela (RSTV-23/24/25, 04/10 — medida pixel a pixel):**
-- **Linhas de dependência agora aparecem.** Antes eram só posicionadas no ponto médio, herdavam
-  rotação 0 (ficavam verticais ao lado dos nós) e o `Distance/1.5` deixava vão na ponta. Agora entram
-  no **container dos nós** (escala 1.7, como o nativo), recebem rotação `Atan2(dy,dx) − 90` e
-  comprimento `distanciaMundo / lossyScale` (cobrem a distância exata) — as pré-requisites voltam a
-  ser comunicadas.
-- **Árvore centralizada na área** (não na janela): o container é posicionado pelo bbox dos nós, com
-  **clamp do topo** (nenhum nó invade a barra de classes) e **clamp de escala** (classes largas
-  encolhem para caber na moldura).
-- **Barra de classes:** ícone `+4`, legenda `−29` em fonte 15 (caixa 64×16), wrap desligado; o
-  **highlight da seleção** caiu de alfa 0.22 para 0.12 (contraste do rótulo ~6:1, WCAG).
-- **Cabeçalho:** altura 64u, botão **Close** 56u recuado 22u da borda, divisor de 2px sob o título,
-  margem base 48u (simétrica ao topo).
-- **Tooltip e hover:** o tooltip ganhou **Outline** preto (não some mais no fundo escuro) e o nó sob o
-  mouse ganhou **contorno dourado** no ícone (destaque visível).
-- **Subtítulo da classe:** o título mostra "All Skill Trees — \<Classe\>" (atualizado a cada troca).
+**What the author asked for (06/10, in game):** the skills button was not always visible — when
+anyone took an action it disappeared and came back, and it did not show outside combat; instead of
+being rendered next to the button that marks the hex, it should be rendered on the **bottom bar, on
+the left, next to the inventory and skills buttons and before the control that rotates the skill
+bar**.
 
-- **Testes:** `t_rstv21_janela_propria.py` + 14 iscas `cp_rstv21_*` (volta ao inventário, janela sem
-  dono, tooltip sem reparent, simetria do tooltip, fundo sem clique, fechamento sem aviso, etc.) e as
-  provas de fogo do RSTV-21/22.
+- **New home.** The button is now a child of the game's own container of the inventory and skills
+  buttons, in the free gap measured before the control that rotates the skill bar. The position is
+  **measured at runtime** and the clone is excluded from the container's layout group, so **no
+  native button moves, shrinks or is covered**.
+- **Reference-frame fix (RSTV-30F, found in review).** The placement arithmetic mixed two reference
+  frames, so the measured gap came out about 75 px instead of about 19 px and the button landed
+  **after** the control it was supposed to sit before — the opposite of the request. Both edges are
+  now measured in the same frame and the arithmetic is pinned by a test.
+- **Looks.** The clone uses the **native button of that same row** (the skills button): same
+  background, sprite, states and the game's own skill-tree icon. The unspent-points badge is
+  switched off.
+- **Visibility = the HUD.** The button is no longer hidden by game state. As a child of the bottom
+  bar it comes and goes **with the HUD**; the game itself turns the whole HUD off in menus, event
+  windows, level-up, the shop and character choice/creation. That hide-and-reappear was what the
+  author saw whenever any character acted.
+- **The gate decides only the CLICK.** The run gate refuses only where opening would cause **real
+  harm** (hex or skill aiming, an open UI window, the battle's initial placement) and the click is
+  also crossed with the game's own rule for the HUD's skills button. When it refuses, the button
+  **stays on screen** and the reason goes to the log.
+- **Guards removed**, each with the defect it caused: the game-state allow-list, the "it is the
+  player's turn and the game is ready" check and the "someone is acting / moving in battle" checks —
+  these were what hid the button during another character's action and outside combat. The guards
+  that stayed carry, in the code, a numbered marker and a justification line naming the real harm
+  they prevent.
 
-## 0.3.1 — botão "Skills" no modal Remove Skill Trees (RSTV-20)
+### RSTV-29 — the `Skills` button on the Select Party screen was removed
 
-Novo botão **Skills** no canto superior direito do modal **Remove Skill Trees** (Party Select), abrindo o visualizador de skill tree em read-only para o personagem do modal.
+**The author's decision (06/10, in game):** remove the button from the party-select screen and keep
+only the one that opens with the *Skill Tree removal* window. That screen's surface is gone
+entirely; the *Remove Skill Trees* modal button and the shortcut cover it.
 
-## 0.3.0 — aba "All Skill Trees" + botão/atalho + escala/posição nativa (RSTV-13..19)
+- **What is not in the build any more:** the button on the party screen, its hooks into the game's
+  party-screen manager, its mirror in the mod's own per-frame updater and its boot log line (a log
+  line announcing a feature that no longer exists).
+- **Config `AtivarBotao`:** it is now the **master switch of the buttons that remain** (the run HUD,
+  the level-up window and the modal). The per-surface keys `AtivarBotaoNaRun` and
+  `AtivarBotaoNaRemocao` still work on their own.
+- **What did not change:** the *Remove Skill Trees* modal button, the run HUD button and the
+  keyboard shortcut, which still opens the read-only tree, including from the party screen.
 
-**RSTV-13 — o botao `Skills` do HUD volta a APARECER passeando no MAPA-MUNDO.** O `RunTargets.GateOk`
-aplicava ao mapa portoes que descrevem UMA BATALHA: `Root.SpawnPlacementActive` (so existe no setup da
-batalha, l.112152 liga / l.112165 desliga) e `HexCellManager.CurrentState == PlayerState.Action` (a
-mira de skill) eram checados em QUALQUER estado — no mapa eles escondiam o botao justamente enquanto o
-jogador passeia (sintoma 5 do dono). O `IsPlayerTurnAndReady` ja estava dentro do ramo `InBattle`, mas
-a separacao estava implicita. Agora ela e explicita: os portoes de batalha (mira, posicionamento
-inicial, turno, `AnyActingCharactersInBattle`, `AnyMovingCharactersInBattle`) moram DENTRO do ramo
-`if (estado == GUIState.InBattle)`; no mapa/cidade valem so os universais (modo de apontar o hex, UI
-aberta, alvo). A seguranca EM BATALHA nao mudou — cada portao continua bloqueando la.
+#### RSTV-29F — findings of the independent review
 
-**RSTV-14 — o botao DENTRO da janela do level-up segue o CICLO DE VIDA (deixa de "voar").** O
-`LevelUpWindowButton` era criado SO no postfix de `OpenSkillSelectWindow` e nunca reavaliado: o jogo
-troca o estagio do level-up SEM fechar a janela (`CurLevelUpStage`, l.168697, liga
-`SkillSection`/`ItemSectionInventory`/`AttributeSection`), o painel `Content` muda de metragem e o
-clone — filho do `SkillSelectWindow` — continuava visivel no estagio de ATRIBUTOS, preso ao canto
-ANTIGO do painel (sintoma 3). Agora um `LevelUpWindowButton.Refresh()` (chamado a cada quadro pelo
-`RstvHost.Update` e tambem no fim do `Ensure`) mostra o clone SO com a janela ativa, da mesma
-instancia, no estagio `LevelUpStage.Skills` — nos outros estagios (Items/Attributes/Currency) ele
-some, e ao VOLTAR ao estagio de skills ele e re-ancorado no canto atual do `Content`. O `Ensure`
-recusa injetar com a janela fechada ("nao injetar fora de hora"). O sintoma (6) ("aperto Skills e o
-botao some") e o flapping do portao de "janela aberta", tratado na RSTV-5: a arvore read-only nao
-deixa a janela presa em `UIWindowManager.OpenedWindows`, entao o botao do HUD VOLTA ao fechar.
+- **The master switch was kept, with its reach made explicit.** `AtivarBotao=false` turns off the
+  three remaining buttons at once; a single surface is switched off with its own key. The reach is
+  written in the config description and in the README, which previously omitted the level-up window
+  button. Note: an old config file with `false` therefore also loses the run HUD and the modal
+  buttons (the author's own profile uses `true`).
+- **The log no longer names the wrong key.** With the master switch off and a per-surface key on,
+  the messages name the key that **actually** switched it off.
+- **The absence is now pinned by the property, not by a name.** The test that guarantees the
+  party-screen button stays gone no longer settles for the class name and one spelling: it looks for
+  any hook in the source that points at the game's party-screen methods, in any form of writing, and
+  the escape route that the reviewer measured now fails.
 
-- **Testes**: `t_rstv13_gate_mapa.py` (suite pura; modelo puro do portao por estado) e
-  `t_rstv14_botao_ciclo_levelup.py` (suite pura; ciclo de vida + opcoes de estagio). Iscas:
-  `cp_rstv13_batalha_no_mapa.py`, `cp_rstv14_refresh_morto_no_host.py`,
-  `cp_rstv14_refresh_sem_estagio.py`. Prova de fogo FISICA: os tres defeitos foram plantados nos
-  fontes REAIS (`RunTargets.cs`, `RstvHost.cs`, `LevelUpWindowButton.cs`), o teste saiu `REPROVOU`
-  (exit 1) pelo motivo certo e os arquivos foram restaurados byte a byte (sha256 conferido). Log:
-  `tools/testes/rstv13-14-prova-reprovando.log`. A RSTV-8 teve o modelo do portao ajustado (mira e
-  spawn agora contam como portoes de batalha no cenario puro).
+## 0.3.2 — its own read-only window on the modal's `Skills` button, plus a UI/UX revision
 
-## Nao publicado (RSTV-12) — **precisa de conferencia em jogo**
+The `Skills` button of the *Remove Skill Trees* modal was **dead** on the party-select screen: the
+click called the inventory path, which does not open there, and the request died at the five-second
+ceiling without showing anything.
 
-**RSTV-12 — o clique dos botoes `Skills` passa a chegar ao mod (nao ao `onClick` do prefab).** O log
-de 02/10 mostrou os dois sintomas: o botao do HUD **pingava** em vez de abrir a arvore, e o da janela
-do level-up disparava `ConfirmLevelUpSelection` (**11 NullReferenceException**). Causa raiz lida do IL
-de `UnityEngine.CoreModule.dll` deste build: o `UnityEvent` guarda DUAS listas — `m_PersistentCalls`
-(os listeners serializados no prefab, ex.: `ButtonPressedPing`/`ConfirmLevelUpSelection`) e
-`m_RuntimeCalls` (os de script) — e `RemoveAllListeners()` chama `InvokableCallList.Clear()`, que
-esvazia **so** a de runtime. Pior: `PrepareInvoke()` concatena as persistentes **antes** das de
-runtime, entao o listener do jogo roda primeiro e, se ele lancar, o `Invoke()` **aborta** e o nosso
-nem chega a rodar.
+The click now opens a **read-only window of the mod's own** showing **all** skill trees — the same
+classes and the same tree as the game's own "All Trees" tab — without depending on the inventory.
+The character the modal is showing is passed in as the target, the read-only session keeps blocking
+every write, and the window follows the modal's lifecycle (closing the modal closes the window; its
+root survives scene loads and is reused between openings).
 
-- **Conserto**: novo helper `SelectPartyButton.ClearClickListeners(Button)` — troca a **instancia** do
-  evento (`button.onClick = new Button.ButtonClickedEvent()`), descartando junto a lista persistente
-  serializada; o listener do mod e instalado no evento limpo. Aplicado nos **tres** clones (HUD, janela
-  do level-up e tela Select Party).
-- **Nao era** sobreposicao/raycast (o log mostra o NOSSO `OpenForTarget` sendo chamado no clone do HUD)
-  **nem** re-bind de componente (`UIButtonController`, l.336107, so troca cores — nao mexe em onClick).
-- **Testes**: `t_rstv12_onclick_roteamento.py` (suite pura) + `cp_rstv12_clique_no_original.py` (isca).
-  O modelo puro do `UnityEvent` reproduz o clique que cai no original (`pingou` no HUD / `levelup-nre`
-  no level-up) e aprova o conserto (`abriu`). Prova de fogo fisica: o defeito foi plantado no
-  `RunButton.cs` e no `LevelUpWindowButton.cs` REAIS, o teste saiu `REPROVOU` (exit 1) e os fontes
-  foram restaurados byte a byte (sha256 conferido). Log: `tools/testes/rstv12-prova-reprovando.log`.
+- **Readable tooltip.** The window is its own canvas above everything, but the skill tooltip lives
+  on the game's **root** UI canvas: raising the tooltip canvas either hid the whole window (when it
+  grabbed the root canvas) or did nothing (there was no nested canvas to raise). The final solution
+  **re-parents** the game's tooltip **inside** the window while it is open and hands it back to the
+  game when it closes — hovering a node shows the complete tooltip, above the dark background.
+- **Native look.** Background, frame, title and close button clone the modal's own prefabs instead
+  of a flat colour and a menu-style row; and the class bar — when the game's own tree manager is not
+  loaded, which happens in a scene without that tab — builds each class button from the class
+  **icon** asset plus its name, in the native 64×64 layout. Positioning pass (04/10): a fixed 13 px
+  font with auto-sizing off (it was overflowing and wrapping names such as "Lightning" onto a second
+  line over the icon), ending with the icon above and the name as a one-line caption below it.
+- **Window design revision (04/10, measured pixel by pixel).**
+  - **Prerequisite lines now appear.** They used to be positioned at the midpoint, kept a zero
+    rotation (so they stood vertically beside the nodes) and stopped short of the target. They are
+    now built inside the **node container**, rotated to the actual segment angle and sized to the
+    exact world distance, so requirements read correctly again.
+  - **The tree is centred in the available area** (not in the window): the container is placed by
+    the bounding box of the nodes, with a top clamp (no node invades the class bar) and a scale
+    clamp (wide classes shrink to fit the frame).
+  - **Class bar:** icon and caption spacing retuned, caption in a 15 px font with wrapping off, and
+    the selection highlight lowered from alpha 0.22 to 0.12 for a comfortable contrast against the
+    label.
+  - **Header:** 64u tall, a 56u Close button inset 22u from the edge, a 2 px divider under the title
+    and a 48u base margin, symmetric with the top.
+  - **Tooltip and hover:** the tooltip gained a black outline (it no longer disappears on the dark
+    background) and the node under the mouse a **gold outline** on its icon.
+  - **Class subtitle:** the title reads `All Skill Trees — <class>` and follows the selected class.
 
-## Nao publicado (RSTV-11b) — **precisa de conferencia em jogo**
+## 0.3.1 — `Skills` button on the *Remove Skill Trees* modal
 
-**RSTV-11b — o botao `Skills` passa a existir DENTRO da janela do level-up.** O re-parent da RSTV-9 foi
-**aposentado**: o clone do HUD nao muda mais de casa (a entrada da RSTV-9 abaixo fica como historico). No
-lugar dele, o postfix de `RoguelikeManager.OpenSkillSelectWindow` clona o `AcceptButton` como filho
-**direto** do `SkillSelectWindow` (TELA CHEIA), **fora** do filho `Content` — que tem `VerticalLayoutGroup`
-+ `ContentSizeFitter`, e um filho ali reflui o painel inteiro. O botao nasce no canto superior direito do
-painel visivel (o `Content`, ~293x536 px), com o `onClick` SERIALIZADO limpo (`RemoveAllListeners` — ele
-chamava `ConfirmLevelUpSelection`, escrita) e apontando para o `RunButton.OpenForTarget`. O `Ensure` e
-**idempotente por janela** (o gancho roda de novo a cada personagem da fila de level-up, sobre o mesmo
-`SkillSelectWindow`).
+New **Skills** button in the top-right corner of the *Remove Skill Trees* modal (party-select
+screen), opening the read-only skill-tree viewer for the character that modal is showing.
 
-**RSTV-11b — `RunButton.OpenForTarget()` e o corpo unico.** Extraido do antigo `OnClick`, e reusado pelo
-botao do HUD, pelo botao da janela do level-up e pelo atalho F10 (RSTV-11a), que antes duplicava o corpo.
-A maquinaria do re-parent (`HomeInLevelUp`/`HomeInRow`/`CaptureHome`, campos `_home*`, constante
-`LadoMinimoLevelUp`) saiu do `RunButton`.
+## 0.3.0 — "All Skill Trees" tab, button and shortcut, native scale and position
 
-**Testes:** `t_rstv11b_botao_janela_levelup.py` (suite pura) + `cp_rstv11b_sem_idempotencia.py` e
-`cp_rstv11b_clone_no_content.py` (iscas). Os dois defeitos — 'sem idempotencia' (2o botao) e 'clone no
-Content' (reflow) — foram plantados **no fonte real**, o teste saiu `REPROVOU` (exit 1) e o arquivo foi
-restaurado byte a byte (sha256 conferido). Log: `tools/testes/rstv11b-prova-reprovando.log`.
-
-## Historico (RSTV-8 + RSTV-9) — **precisa de conferencia em jogo**
-
-**RSTV-8 — o botao da run deixa de ser escondido no level-up.** O portao `RunTargets.GateOk` escondia o
-botao com `if (RoguelikeManager.IsNotNullAndIsActive) return false`, mas isso significa "o manager foi
-CARREGADO" — o GameObject dele fica ativo a run inteira depois do primeiro level-up. A janela de verdade
-e o filho `SkillSelectWindow.activeSelf` (o mesmo criterio que o jogo usa em `GUIManager.Update`).
-Agora o level-up **libera** o botao, e o alvo passa a sair do PROPRIO manager
-(`CurrentRoguelikeSkillSelectingCharacter`, fallback `CharactersWaitingForLevelUp[0].Character`), nunca
-do `CurrentlySelectedCharacter` que ele troca. Os demais portoes (mira/ping/janela/spawn/turno/animacao)
-continuam.
-
-**RSTV-9 — o botao RENDERIZAR durante o level-up (caso a parte). [SUPERADO pela RSTV-11b — o re-parent
-abaixo foi APOSENTADO; o level-up agora tem um botao PROPRIO dentro da janela, `LevelUpWindowButton`.]**
-Achado critico da RSTV-8: nesse
-instante o jogo desliga o HUD INTEIRO (`GUIManager.Update`, l.120492, faz
-`CurrentCharacterUI.gameObject.SetActive(false)` enquanto `SkillSelectWindow` esta ativo) e o clone da
-RSTV-5 e filho desse HUD — o portao liberar era NECESSARIO, mas o botao NAO renderizava. Agora, enquanto
-a janela do level-up esta aberta, o `RunButton` realoca o clone para DENTRO do `SkillSelectWindow`
-(canto superior direito, ultimo irmao para desenhar/clicar por cima, lado no minimo `LadoMinimoLevelUp`
-= 44 px) e o devolve para a linha do Ping Button quando ela fecha, restaurando a geometria original
-(sem reaplicar o `ApplySquareLayout`). **O caso normal — tela Select Party e run no mapa-mundo E em
-combate — NAO muda**: a realocacao so ocorre dentro do ramo de level-up; o tamanho da linha (Ping
-Button) segue intacto.
-
-**Testes:** `t_rstv9_render_levelup.py` (suite pura) + `cp_rstv9_botao_no_hud_desligado.py` (isca). A
-prova de fogo fisica plantou o defeito no `RunButton.cs` real (o teste saiu `REPROVOU`, exit 1) e
-restaurou o fonte byte a byte.
+- **RSTV-13 — the HUD's `Skills` button appears again while walking the world map.** The run gate
+  applied battle-only gates (skill aiming, initial placement, the turn, someone acting or moving) in
+  **every** game state, so on the map they hid the button exactly while the player was walking
+  through it. The battle gates now live inside the battle branch; on the map and in town only the
+  universal ones apply (hex-marking mode, an open UI window, no target). Safety **in battle** is
+  unchanged — each gate still blocks there.
+- **RSTV-14 — the button inside the level-up window follows the window's lifecycle.** It was created
+  once and never re-evaluated, so it stayed visible — stuck to the old corner of the panel — when
+  the game switched the level-up to its attributes stage without closing the window. It is now
+  refreshed every frame and shown only in the skills stage of the window that is actually open,
+  re-anchored when that stage comes back; it is never injected while the window is closed.
+- **Tests for RSTV-13/14** cover the gate across game states and the level-up lifecycle, and each
+  defect they describe was planted in the real sources, caught with the right reason, and the
+  sources restored byte-for-byte.
 
 ## 0.2.0
 
-**RSTV-5 — o botão `Skills` agora existe DURANTE A RUN**, ancorado no **Ping Button** (o botão de
-apontar o hex) do HUD, ao lado dele, na mesma linha. A janela é a MESMA Skill Tree nativa, no mesmo
-modo somente leitura. **Nada disto foi conferido em jogo ainda** — o roteiro está no `README.md`.
+**RSTV-5 — the `Skills` button now exists DURING A RUN**, anchored in the HUD next to the button
+that marks the hex, on the same row. The window is the **same native skill tree**, in the same
+read-only mode.
 
-- **Botão no HUD da run**: clone do botão nativo `CurrentCharacterUI.pingBtn` (l.209464, handler
-  `ButtonPressedPing` l.210027 → `GUIManager.TogglePingMode` l.119299), injetado como irmão à direita
-  dele com a mesma compensação de largura já validada na tela de party (reusa o
-  `SelectPartyButton.ApplySquareLayout` nos 3 modos de layout). Injeção 1× pelo postfix de
-  `CurrentCharacterUI.InitSingleton` (l.209626, o ponto em que o jogo instancia o HUD) e espelhamento
-  no `RstvHost.Update` do mod — **nunca** no `Update`/`UIUpdate` do próprio HUD (l.209655, que roda
-  todo frame e mexe no `endTurnButton`).
-- **Alvo resolvido no clique**: o personagem **selecionado no momento**; se o jogo estiver sem
-  ninguém selecionado, o **primeiro personagem local da party** (fallback documentado).
-- **Portão de segurança (sempre ativo, mesmo com o botão ligado)**: o botão **some e recusa a
-  abertura**, com o motivo no log, quando há **mira de skill ativa** (`HexCellManager.CurrentState ==
-  Action`), **modo de apontar hex ligado**, **não é o turno do jogador**, alguém **agindo/movendo**,
-  **posicionamento inicial**, **level-up pendente** (`RoguelikeManager`), **janela de UI aberta** ou
-  `GUIState` fora de `InBattle`/`InWorldMap`/`InTown`. Em dúvida (até numa exceção ao ler o estado),
-  não abre.
+- **Button in the run HUD:** a clone of the native hex-marker button, injected once when the game
+  builds the HUD and mirrored by the mod's own updater — **never** in the HUD's own per-frame
+  update, which touches the end-turn button.
+- **Target resolved on click:** the character **selected at that moment**; with nobody selected, the
+  **first local character of the party** (documented fallback). Level and gear are read at click
+  time, never cached.
+- **Safety gate (always on, even with the button enabled):** the button **hid itself and refused to
+  open**, with the reason in the log, during skill aiming, hex-marking mode, another character's
+  turn, someone acting or moving, the initial placement, a pending level-up, an open UI window, or a
+  game state outside battle / world map / town. In doubt — including on an exception while reading
+  the state — it did not open.
 
-### Blindagens implementadas (cada uma com a linha do decompilado no código)
+### Safety work in 0.2.0 (each with the engine line cited in the code)
 
-1. **Ciclo de vida** — a guarda deixou de ser "a tela de party está aberta" (durante a run ela está
-   desligada e a árvore fecharia no frame seguinte): agora é "a instância nativa ainda está ativa" +
-   whitelist de `GUIState` para o contexto de run; a checagem da tela de party continua só no
-   contexto de party.
-2. **Escrita de `GameLogic.CurrentlySelectedCharacter`** (setter l.108082) — só escreve quando é
-   **inofensivo**: se o alvo **já é** o selecionado (o setter retorna cedo, l.108097 → zero efeito) ou
-   se o jogo está **sem ninguém selecionado** (a metade perigosa do setter só roda com um personagem
-   anterior). O valor anterior é **guardado e devolvido** no fechamento (padrão do próprio jogo,
-   l.163711/163942). Com **outro** personagem selecionado, a abertura é **recusada** — se não, o
-   setter marcaria `IsPartyLeader`, travaria a câmera, **forçaria `HexCellManager.CurrentState =
-   Movement`** (cancelando a mira) e chamaria `NotifyPlayerOfTheirTurn` em outro personagem.
-3. **Slot único de `CancelInterceptor`** (`UIWindowManager.CancelInterceptor`, l.215982) — o mod
-   **fotografa** quem tinha o slot antes de abrir (antes do `SetActive(true)`, que dispara o
-   `OnEnable` do jogo, l.172890) e **devolve esse delegate** no fechamento (antes deixava `null`).
-   O Esc **deixa de ser consumido** quando a janela do topo não é a nossa, a `CharacterMenusManager`
-   ou a tela de party (mesmo critério do jogo, l.172924) — a mochila por cima continua fechando no Esc.
-4. **Portão do botão** — ver acima.
-5. **Clique do hex** — o branch de **Action** do `PlayerMovement.ProcessLeftMouseClick` (l.153393-153397)
-   **não** checa `PointerOverUIObject` (o de movimento checa, l.153342). Duas camadas: a janela passa a
-   ser registrada em `UIWindowManager.OpenedWindows` (→ `GUIManager.InMenus`, l.118297, faz
-   `ProcessUpdateInputs` l.152986 retornar antes do clique) **e** um prefixo Harmony em
-   `ProcessLeftMouseClick(HexCell)` (l.153277) consome o clique enquanto a sessão está ativa. Uma rede
-   de segurança no host retira a entrada de `OpenedWindows` se a janela fechar por fora, para o input
-   de batalha não ficar morto.
-6. **Troca de personagem / de estado** — se o jogo trocar o personagem selecionado ou sair de
-   `InBattle`/`InWorldMap`/`InTown`, a sessão é **fechada** (nada de janela read-only com contexto errado).
+1. **Lifecycle** — the guard became "the native instance is still active" plus a game-state
+   allow-list for the run context, instead of "the party screen is open" (during a run that screen
+   is off and the tree would close on the next frame).
+2. **Writing the game's selected character** — only written when harmless: when the target already
+   **is** the selected one, or when nobody is selected. The previous value is saved and restored on
+   close. With **another** character selected the opening is **refused** — otherwise the game would
+   mark a party leader, lock the camera, force the map out of aiming and announce the turn to
+   another character.
+3. **Single cancel-interceptor slot** — the mod photographs whoever held the slot before opening
+   and gives that delegate back on close, so `Esc` stops being swallowed when the top window is not
+   ours; the inventory on top still closes with `Esc`.
+4. **Button gate** — see above.
+5. **Hex click** — the window registers itself as open UI (which makes the game's input update
+   return early, before the click reaches the map) **and** a hook consumes the click while the
+   session is active. A safety net removes the registration if the window closes from outside, so
+   battle input never stays dead.
+6. **Character or state change** — if the game swaps the selected character or leaves battle /
+   world map / town, the session is **closed** (no read-only window with the wrong context).
 
 ### Config
 
-- `Geral` → **`AtivarBotaoNaRun`** (padrão `true`): liga/desliga **só** o botão da run. O portão 4
-  vale mesmo com `true`.
-- `Geral` → **`AjustarZOrder`** (padrão `true`): ajusta o índice de irmão para a árvore ficar por cima
-  do HUD na run. Desligue se o tooltip do jogo aparecer atrás da árvore.
-- `Geral` → `AtivarBotao` continua sendo o da tela Select Party (inalterado).
+- `AtivarBotaoNaRun` (default `true`): switches **only** the run button. The gate above applies even
+  when it is `true`.
+- `AjustarZOrder` (default `true`): adjusts the sibling order so the tree stays above the HUD in a
+  run. Turn it off if the game's tooltip appears behind the tree.
 
-### Outras mudanças
+### Other changes in 0.2.0
 
-- **Ganchos**: 8 → **10** (novos: postfix de `CurrentCharacterUI.InitSingleton`, prefixo de
-  `PlayerMovement.ProcessLeftMouseClick`). A contagem do boot vira `10/10 ganchos, 10 metodos do jogo`.
-- **Diagnóstico**: o botão da run diz **por que** está escondido, com throttle de 5 s por motivo, e
-  avisa quando volta a aparecer; a abertura registra a geometria da linha, o `targetGraphic` do clone
-  e quantos gráficos herdados foram desligados.
-- `SkillTreeReadOnly` ganhou contexto (`PartyScreen`/`Run`) e a sessão ganhou as guardas de
-  ciclo de vida, a devolução da seleção e a limpeza de `OpenedWindows`.
+- **Hooks:** 8 -> **10**; the boot count became `10/10 hooks, 10 game methods`.
+- **Diagnostics:** the run button says **why** it is hidden (throttled to one line per reason every
+  5 s) and announces when it is back; opening logs the row geometry, the clone's target graphic and
+  how many inherited graphics were switched off.
+
+### RSTV-12 — the button clicks reach the mod, not the prefab's own click
+
+The log showed two symptoms: the HUD button **pinged** instead of opening the tree, and the level-up
+one fired the game's confirmation path and threw (11 null references, one per frame). Root cause
+read from the engine: a Unity click event keeps **two** listener lists — the ones serialized into
+the prefab and the ones added by script — and the usual "remove all listeners" call empties **only**
+the script list. Worse, the serialized list runs **first**, so if it throws, the mod's own listener
+never runs at all.
+
+- **Fix:** the mod replaces the whole click **event instance** on the clone, discarding the
+  serialized list together with it, and installs its listener on the clean event. Applied to all
+  three clones (run HUD, level-up window and the party screen, which still existed then).
+- **Not** an overlap/raycast problem (the log showed the mod's own handler being called on the HUD
+  clone) and **not** a component rebind (the game's button controller only changes colours).
+
+### RSTV-11b — the `Skills` button exists inside the level-up window
+
+- The HUD clone's earlier re-parenting approach was **retired**: the HUD button no longer changes
+  home. Instead, when the game opens the level-up window, the mod clones the window's accept button
+  as a **direct** child of the full-screen window — **outside** the scrolling content panel, which
+  has a layout group and a size fitter, so a child inside it would reflow the whole panel. The
+  button is born in the top-right corner of the visible panel, with the prefab's serialized click
+  cleared (it called the game's own confirmation, a write) and pointing at the mod's shared open
+  routine.
+- The injection is **idempotent per window**: the hook runs again for each queued level-up
+  character, over the same window, and does not create a second button.
+- **RSTV-11b also unified the open routine.** `OpenForTarget()` was extracted and is now shared by
+  the HUD button, the level-up button and the F10 shortcut, which used to duplicate the same body.
+  The re-parenting machinery was removed from the run button.
+
+### History: RSTV-8 and RSTV-9
+
+- **RSTV-8 — the run button stops being hidden during level-up.** The gate hid the button whenever
+  the game's roguelike manager was active, but "active" means "the manager was **loaded**" — its
+  object stays active for the whole run after the first level-up. The real window is the level-up
+  window's own active state, the same criterion the game uses. The button is now **released** during
+  level-up, and the target comes from the level-up manager itself (with a documented fallback),
+  never from the character the game currently has selected.
+- **RSTV-9 — rendering the button during level-up (superseded by RSTV-11b).** The finding was that
+  during level-up the game switches the **whole HUD off**, and the HUD clone is a child of it — so
+  letting the gate through was necessary, but the button still did not render. The interim solution
+  re-parented the clone into the level-up window, at the top-right corner and drawn last so it takes
+  clicks, and gave it back to the hex-marker row when the window closed, restoring the original
+  geometry. **RSTV-11b retired that re-parenting** in favour of a button of its own inside the
+  window; the entry stays here as history. The normal case — the party screen, and the run on the
+  world map and in battle — was never touched by it.
 
 ## 0.1.0
 
-Primeira versão. O mod **ainda não foi conferido em jogo** — a conferência está no roteiro do `README.md`.
+First version.
 
-- **Botão `Skills` na tela Select Party** do modo Roguelike: quadrado, na mesma linha e colado à direita do *Choose Powerups*. É um clone do **botão nativo** (mesmo sprite e estados); a largura do *Choose Powerups* encolhe só o necessário, a linha **não cresce** e o *Accept Party* não muda de tamanho.
-- **Abre a Skill Tree NATIVA** do jogo (a mesma de *Campaign → Change Skills*) com o contexto **real** do personagem: nível, equipamento, atributos e estado das skills. A janela nativa é reaproveitada — o mod **não reimplementa** a árvore.
-- **Modo somente leitura de verdade**: tooltips (com os números do personagem certo), zoom, troca de abas e requisitos continuam funcionando; **nada é aprendido, removido ou gasto**. O clique no nó é bloqueado, o *Respec Build* fica escondido e o rodapé mostra `0 points available`.
-- **Alvo do botão**: o **último personagem que VOCÊ adicionou** à party, resolvido **no clique** (nível e equipamento sempre atuais, sem cache). Cada jogador usa os seus; party local vazia = botão desabilitado.
-- **Config**: `Geral` → `AtivarBotao` em `BepInEx/config/com.gumatos.roguelikeskilltreevisualizer.cfg` (padrão `true`). Só serve para **desligar** o botão — quem não abrir o arquivo não vê diferença.
-- **Diagnóstico**: cada gancho Harmony é aplicado e logado **individualmente** (um gancho que falha não derruba os outros — antes o `PatchAll()` era tudo-ou-nada); o resumo do boot traz a **contagem real** (`RSTV: patches Harmony aplicados (8/8 ganchos, 8 metodos do jogo)`); e se o botão não for injetado o log diz **por quê** (botão nativo ausente, sem `RectTransform`, exceção, config desligado) com o estado da tela.
+- **`Skills` button on the Roguelike party-select screen:** square, on the same row as *Choose
+  Powerups* and glued to its right. A clone of the **native** button (same sprite and states); the
+  *Choose Powerups* width shrinks only as much as needed, the row **does not grow** and *Accept
+  Party* does not change size.
+- **Opens the game's NATIVE skill tree** (the same one as *Campaign -> Change Skills*) with the
+  character's **real** context: level, gear, attributes and the state of the skills. The game's own
+  window is reused — the mod does **not** reimplement the tree.
+- **Really read-only:** tooltips (with the right character's numbers), zoom, tab switching and
+  requirements keep working; **nothing is learned, removed or spent**. Clicking a node is blocked,
+  *Respec Build* is hidden and the footer shows `0 points available`.
+- **Button target:** the **last character you added** to the party, resolved **on click**, so level
+  and gear are always current and never cached. Each player uses their own; an empty local party
+  disables the button.
+- **Config:** `Geral -> AtivarBotao` in
+  `BepInEx/config/com.gumatos.roguelikeskilltreevisualizer.cfg` (default `true`). It only ever
+  **switches the button off** — whoever does not open the file sees no difference.
+- **Diagnostics:** every hook is applied and logged **individually** (one failing hook does not take
+  the others down, where before it was all-or-nothing); the boot summary carries the **real count**;
+  and if the button is not injected, the log says **why** (native button missing, no rectangle
+  transform, an exception, the config switched off) with the state of the screen.
 
-### Correções da auditoria estática (contra o decompilado do jogo, sem rodar o jogo)
+### Static-audit fixes (against the game's decompiled code, without running the game)
 
-- **Segundo ponto de gravação fechado:** `SkillTreeManager.ResetSkillPoints()` (l.173274) chama
-  `Character.ResetSkills()` — que zera todas as skills do personagem e enfileira o save (l.37474) —
-  **sem passar pelo `AcceptSkillChanges`**. É gancho novo (8º) e é bloqueado no modo somente leitura.
-- **Árvore órfã:** se a tela Select Party fechar por fora com a árvore aberta (aceitar a party muda o
-  `GUIState` e o jogo fecha a tela em l.118416/l.133307/l.215520), nada no jogo fechava o
-  `SkillTreeManager` — a árvore ficaria por cima do mapa com o interceptor de Esc instalado. Agora o
-  host fecha a árvore quando a tela de party não está mais aberta.
-- O que **não** mudou de propósito (precisa de teste em jogo, está em *Riscos conhecidos* do
-  `README.md`): `CheckSkillDependancies(Character)` (l.172328, sem chamador no assembly),
-  `resetButton`/`closeButton` (ligados só no prefab) e o slot único de `CancelInterceptor`.
+- **Second write point closed:** the game's own "reset skill points" entry point calls a full skill
+  reset — which zeroes the character's skills and queues a save — **without** passing through the
+  sanitised write path. It got its own hook and is blocked in read-only mode.
+- **Orphan tree:** if the party screen closed from outside with the tree open, nothing in the game
+  closed the tree manager — the tree would stay over the map with `Esc` still intercepted. The
+  mod's updater now closes the tree when the party screen is no longer open.
+- Deliberately unchanged (it needs an in-game test, tracked in the README's *known risks*): the
+  internal skill-dependency check with no caller in the assembly, the reset and close buttons that
+  are wired only in the prefab, and the single cancel-interceptor slot.
 
-### Notas de implementação
+### Implementation notes
 
-- O jogo **não** tem um modo somente leitura nativo: a garantia vem de **higienizar o ponto de gravação antes que ele execute**, e não de bloqueá-lo. Se essa higienização falhar, o mod **não deixa o original rodar** e fecha a janela por conta própria — zero escrita em qualquer estado.
-- Nenhum arquivo do jogo é modificado; desinstalar é apagar a pasta do mod.
-- Compatibilidade declarada: Stolen Realm **v1.3.1**.
-- Ícone: arte do autor redimensionada para 256×256. O original de 1254×1254 **não está versionado** no repositório (ver a seção *Ícone* do `README.md`).
+- The game has **no** native read-only mode: the guarantee comes from **sanitising the write point
+  before it runs**, not from blocking it. If that sanitisation fails, the mod does not let the
+  original run and closes the window itself — zero writes in any state.
+- No game file is modified; uninstalling is deleting the mod folder.
+- Declared compatibility: Stolen Realm **v1.3.1**.
+- Icon: the author's art resized to 256×256. The 1254×1254 original is **not** versioned in the
+  repository.

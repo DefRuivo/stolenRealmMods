@@ -85,8 +85,9 @@ namespace RoguelikeSkillTreeVisualizer
 
             if (!Plugin.RunBotaoLigado)
             {
-                // Pedido explicito no config: nao e falha, e o comportamento desejado.
-                Fail("AtivarBotaoNaRun=false no arquivo de config", false);
+                // Pedido explicito no config: nao e falha, e o comportamento desejado. RSTV-29F: o
+                // motivo nomeia a chave que DE FATO desligou (a mestra AtivarBotao ou a especifica).
+                Fail(Plugin.MotivoDoBotaoDaRunDesligado, false);
                 return;
             }
 
@@ -173,7 +174,7 @@ namespace RoguelikeSkillTreeVisualizer
             // O nome/rotulo nao podem ser reescritos pelos localizadores do jogo (o clone herda os
             // componentes do AcceptButton). O rotulo "Accept/Next" e escrito no ORIGINAL pelo
             // CurLevelUpStage (l.168718); aqui o clone e limpo e rotulado como `Skills`.
-            SelectPartyButton.DisableLocalizers(clone);
+            NativeUiHelpers.DisableLocalizers(clone);
             EnsureLabel(clone);
 
             AnchorToContentCorner(rt, janelaRt, contentRt);
@@ -189,7 +190,7 @@ namespace RoguelikeSkillTreeVisualizer
             // = ESCRITA): RSTV-12 — o `RemoveAllListeners()` NAO basta (ele limpa so a lista de
             // runtime e o persistente continua), entao a INSTANCIA do evento e trocada para descartar
             // a lista serializada antes de instalar o listener read-only.
-            SelectPartyButton.ClearClickListeners(button);
+            NativeUiHelpers.ClearClickListeners(button);
             button.onClick.AddListener(new UnityAction(RunButton.OpenForTarget));
             button.interactable = true;
 

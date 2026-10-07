@@ -6,23 +6,23 @@ namespace RoguelikeSkillTreeVisualizer
     /// <summary>
     /// MonoBehaviour do mod. REGRA DO PROJETO: nada de criar GameObject no `Awake()` do plugin —
     /// ele roda durante o chainloader do BepInEx, antes de existir cena, e a Unity destrui o objeto
-    /// na primeira carga de cena (o `Update()` nunca chega). A criacao aqui e PREGUICOSA, a partir
-    /// do postfix de `CharacterChoiceManager.OpenCharacterChoiceManager` — cena viva, comprovada.
+    /// na primeira carga de cena (o `Update()` nunca chega). A criacao aqui e PREGUICOSA, ja' com
+    /// cena viva, a partir de um dos ganchos das superficies que RESTAM (a aba do inventario, o HUD
+    /// da run, o modal 'Remove Skill Trees') ou do atalho de teclado — todos chamam `Ensure()`, que
+    /// e' idempotente. Ate a RSTV-29 havia tambem o gancho da tela Select Party; com aquela
+    /// superficie removida ele deixou de existir (ver `Patches.cs`).
     ///
     /// Trabalho do Update (timeScale na UI e 0: nada de coroutine com WaitForSeconds):
     ///   1. o CICLO DE VIDA da aba "All Skill Trees" (RSTV-16) — a sessao read-only nasce e morre com
     ///      a aba selecionada (SkillTreesTab.Tick), lendo o proprio sistema de abas do inventario;
-    ///   2. manter o clone do botao da tela Select Party em sincronia com o original (visibilidade e
-    ///      interactable) — 0,2 s;
-    ///   3. o mesmo para o botao da RUN, que alem disso reavalia o PORTAO 4
-    ///      (`RunTargets.GateOk`) — 0,1 s, porque o estado que o portao olha (mira, turno, animacao)
-    ///      muda rapido. O Update do proprio HUD (`CurrentCharacterUI.UIUpdate`, l.330080) roda todo
-    ///      frame e mexe no `endTurnButton` — nao e lugar para o mod.
+    ///   2. o botao da RUN segue o original e reavalia o PORTAO 4 (`RunTargets.GateOk`) — 0,1 s,
+    ///      porque o estado que o portao olha (mira, turno, animacao) muda rapido. O Update do proprio
+    ///      HUD (`CurrentCharacterUI.UIUpdate`, l.330080) roda todo frame e mexe no `endTurnButton` —
+    ///      nao e lugar para o mod.
     /// </summary>
     internal class RstvHost : MonoBehaviour
     {
         private static RstvHost _instance;
-        private float _nextMirror;
         private float _nextRunMirror;
         private float _lastErrorLog;
 
@@ -58,14 +58,6 @@ namespace RoguelikeSkillTreeVisualizer
                     _nextRunMirror = Time.realtimeSinceStartup + 0.1f;
                     RunButton.Mirror();
                 }
-
-                if (Time.realtimeSinceStartup < _nextMirror)
-                {
-                    return;
-                }
-
-                _nextMirror = Time.realtimeSinceStartup + 0.2f;
-                SelectPartyButton.Mirror();
             }
             catch (Exception e)
             {
