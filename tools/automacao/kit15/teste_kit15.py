@@ -22,6 +22,7 @@ AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 
 try:
+    import contra_prova_kit15  # noqa: E402
     import descoberta  # noqa: E402
     import instalador  # noqa: E402
     import pacote  # noqa: E402
@@ -425,6 +426,81 @@ class TesteScan(unittest.TestCase):
         rc, ver = pacote.verificar(zpath)
         self.assertEqual(rc, 1)
         self.assertEqual(ver["veredito"], "ACHADO")
+
+
+class TesteContraProva(unittest.TestCase):
+    """KIT15-D6-CRLF: a ancora da contra-prova tem de discriminar no checkout LF E no CRLF.
+
+    Antes da correcao, aplicar_defeito ancorava so no estilo LF: num clone Windows com
+    core.autocrlf=true (arquivos CRLF) a ancora MULTILINE do D6 nao casava, o defeito virava
+    MUTACAO-INVALIDA e a contra-prova fechava "baseline verde, 6/7" -- falso verde de
+    ferramenta. Estes testes usam arquivos SINTETICOS proprios, e nao o modulo vivo, para
+    continuarem validos mesmo quando o defeito D6 esta aplicado na copia sandbox.
+    """
+
+    CONTEUDO = ("def alvo(explicito=None):\n"
+                "    if explicito:\n"
+                "        return explicito\n"
+                "    return None\n")
+    DEFEITO = {
+        "id": "sintetico-ancora-multiline",
+        "arquivo": "alvo.py",
+        "patches": [("    if explicito:\n        return explicito",
+                     "    if False:\n        return explicito")],
+        "alvo": ["sintetico"],
+    }
+
+    def _sandbox(self, nome, dados):
+        sb = os.path.join(_TMP, "contra-prova", nome)
+        os.makedirs(sb, exist_ok=True)
+        caminho = os.path.join(sb, self.DEFEITO["arquivo"])
+        with open(caminho, "wb") as fh:
+            fh.write(dados)
+        return sb, caminho
+
+    def test_19_ancora_multiline_casa_em_lf_e_em_crlf(self):
+        for rotulo, quebra, crlf_esperado in (("lf", "\n", 0), ("crlf", "\r\n", 4)):
+            sb, caminho = self._sandbox(rotulo, self.CONTEUDO.replace("\n", quebra).encode("utf-8"))
+            ok, motivo = contra_prova_kit15.aplicar_defeito(sb, self.DEFEITO)
+            self.assertTrue(ok, "%s: ancora multiline nao casou: %s" % (rotulo, motivo))
+            dados = open(caminho, "rb").read()
+            esperado = self.CONTEUDO.replace("    if explicito:", "    if False:") \
+                                    .replace("\n", quebra).encode("utf-8")
+            self.assertEqual(dados, esperado,
+                             "%s: so o trecho ancorado pode mudar (estilo de quebra intacto)" % rotulo)
+            self.assertEqual(dados.count(b"\r\n"), crlf_esperado)
+        self.assertEqual(contra_prova_kit15.estilo_de_quebra(b"a\r\nb\r\n"), "\r\n")
+        self.assertEqual(contra_prova_kit15.estilo_de_quebra(b"a\nb\n"), "\n")
+        self.assertIsNone(contra_prova_kit15.estilo_de_quebra(b"a\r\nb\n"))
+
+    def test_20_ancora_ausente_ou_ambigua_e_recusada_sem_tocar_bytes(self):
+        original = self.CONTEUDO.encode("utf-8")
+        # (a) ancora ausente: 0 ocorrencias
+        sb, caminho = self._sandbox("ausente", original.replace(b"    if explicito:\n", b""))
+        antes = open(caminho, "rb").read()
+        ok, motivo = contra_prova_kit15.aplicar_defeito(sb, self.DEFEITO)
+        self.assertFalse(ok, "ancora ausente NAO pode ser aceita como mutacao")
+        self.assertIn("0 vezes", motivo)
+        self.assertEqual(open(caminho, "rb").read(), antes, "recusa nao pode escrever no arquivo")
+
+        # (b) ancora ambigua: 2 ocorrencias
+        sb, caminho = self._sandbox("ambigua", original + original[original.index(b"    if explicito"):])
+        antes = open(caminho, "rb").read()
+        ok, motivo = contra_prova_kit15.aplicar_defeito(sb, self.DEFEITO)
+        self.assertFalse(ok, "ancora ambigua NAO pode ser aceita como mutacao")
+        self.assertIn("2 vezes", motivo)
+        self.assertEqual(open(caminho, "rb").read(), antes)
+
+    def test_21_quebras_mistas_nao_sao_adivinhadas(self):
+        sb, caminho = self._sandbox("misto", b"# cabecalho\r\n"
+                                             b"def alvo(explicito=None):\n"
+                                             b"    if explicito:\n"
+                                             b"        return explicito\n")
+        antes = open(caminho, "rb").read()
+        ok, motivo = contra_prova_kit15.aplicar_defeito(sb, self.DEFEITO)
+        self.assertFalse(ok, "quebras mistas tem de virar recusa explicita, nunca adivinhacao")
+        self.assertIn("mistas", motivo)
+        self.assertEqual(open(caminho, "rb").read(), antes)
 
 
 if __name__ == "__main__":

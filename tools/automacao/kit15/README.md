@@ -60,7 +60,7 @@ python tools/descoberta.py --destino-sugerido
 
 ### Garantias do instalador
 
-Garantias **medidas** pela suíte offline deste pacote (`tools/teste_kit15.py`, 18 testes) e pelos
+Garantias **medidas** pela suíte offline deste pacote (`tools/teste_kit15.py`, 21 testes) e pelos
 oráculos de revisão KIT-15R (27 + 3 testes):
 
 - toda escrita é conferida por **hash lido de volta**; divergência dispara **rollback automático** e exit 1;
@@ -98,7 +98,7 @@ vira "limpo": ela é reportada como erro de I/O e o exit é `2` (infraestrutura)
 ## Testes (offline, sem jogo)
 
 ```bash
-python tools/teste_kit15.py                # suite: 18 testes
+python tools/teste_kit15.py                # suite: 21 testes
 python tools/contra_prova_kit15.py         # defeitos plantados TEM de reprovar (RED)
 bash  tools/roda_testes_kit15.sh           # suite + contra-prova + exit 0/1/2
 ```
@@ -122,7 +122,8 @@ bash  tools/roda_testes_kit15.sh           # suite + contra-prova + exit 0/1/2
 **Medido nesta entrega:** Windows 11 + Python 3.14 (somente biblioteca padrão); a suíte do pacote e a
 contra-prova rodando na árvore **extraída**, sem o repositório do autor e sem variáveis do autor; a
 geração e a verificação do zip; o runner de shell `tools/roda_testes_kit15.sh` sob **bash do Git for
-Windows (MSYS)**.
+Windows (MSYS)**; a contra-prova discriminando os 7 defeitos em checkout **LF** e em checkout
+**CRLF** (clone Windows com `core.autocrlf=true`).
 
 **NÃO medido:** Linux/macOS e outros shells; o `bash` do WSL (não enxerga caminhos `C:\...` — o runner
 precisa de um bash que entenda caminhos do Windows); compilar Core/Adapter/SDK (exige .NET SDK 6+ e as

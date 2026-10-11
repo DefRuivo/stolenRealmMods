@@ -19,6 +19,13 @@ contra-prova. Sem isso, um erro de setup era aceito como "verde que pega defeito
 Nenhum arquivo do repositorio vivo e editado: so a copia sandbox. Nada abre jogo, instala,
 publica ou usa rede.
 
+KIT15-D6-CRLF: as ancoras dos defeitos sao escritas com "\n" (o estilo do repositorio) e sao
+REESCRITAS no estilo de quebra de linha do arquivo em disco antes de casar. Assim a MESMA
+contra-prova discrimina no checkout LF do autor e no checkout CRLF de um clone Windows
+(core.autocrlf=true), sem normalizar os bytes fora do trecho ancorado. Antes disso a ancora
+multiline do D6 nunca casava em CRLF: o defeito virava MUTACAO-INVALIDA e a prova de
+discriminacao se perdia (baseline verde, 6/7).
+
     python tools/automacao/kit15/contra_prova_kit15.py [--saida <dir>] [--json]
 
 Exit: 0 = baseline verde e TODOS os defeitos recusados com RED honesto; 1 = algum defeito
@@ -38,7 +45,20 @@ import time
 AQUI = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, AQUI)
 
-MODULOS = ["instalador.py", "descoberta.py", "pacote.py", "scan.py", "teste_kit15.py", "manifesto.json"]
+MODULOS = ["instalador.py", "descoberta.py", "pacote.py", "scan.py", "teste_kit15.py",
+           "contra_prova_kit15.py", "manifesto.json"]
+
+# KIT15-D6-CRLF: a suite procura ESTE numero de testes. Constante explicita (e nao ">= 1")
+# porque um suite truncado por engano nao pode passar por baseline verde.
+TESTS_ESPERADOS = 21
+
+# Estilos de quebra de linha reconhecidos. A ancora dos defeitos e escrita com "\n" (o estilo
+# do repositorio) e e REESCRITA no estilo do arquivo em disco antes de casar: o mesmo defeito
+# tem de valer no checkout LF do autor E no checkout CRLF de um clone Windows
+# (core.autocrlf=true). Sem isso a ancora multiline do D6 nunca casava em CRLF, o defeito
+# virava MUTACAO-INVALIDA e a contra-prova perdia a discriminacao (falso verde de ferramenta).
+NL_LF = "\n"
+NL_CRLF = "\r\n"
 
 DEFEITOS = [
     {
@@ -72,6 +92,9 @@ DEFEITOS = [
         "alvo": ["test_17_scan_controle_negativo_e_limpo"],
     },
     {
+        # KIT15-D6-CRLF: unica ancora MULTILINE do conjunto -- e exatamente a que nao casava
+        # num checkout CRLF. A ancora continua declarada com "\n"; aplicar_defeito a reescreve
+        # no estilo do arquivo alvo.
         "id": "D6-descoberta-ignora-argumento-explicito",
         "arquivo": "descoberta.py",
         "patches": [('    if explicito:\n        return os.path.abspath(explicito), "argumento"',
@@ -118,20 +141,58 @@ def _rodar_suite(sandbox, base, resultado_json):
     return proc.returncode, saida, resumo
 
 
+def estilo_de_quebra(dados):
+    """Estilo de quebra de linha de um arquivo em BYTES: '\\r\\n', '\\n' ou None (misto/vazio).
+
+    Misto devolve None de proposito: reescrever a ancora num estilo que so casa parte do
+    arquivo esconderia um defeito, entao a contra-prova recusa alto (MUTACAO-INVALIDA) em vez
+    de adivinhar.
+    """
+    crlf = dados.count(b"\r\n")
+    lf = dados.count(b"\n") - crlf
+    if crlf and not lf:
+        return NL_CRLF
+    if lf and not crlf:
+        return NL_LF
+    if not crlf and not lf:
+        return NL_LF  # arquivo de uma linha so: qualquer ancora casa
+    return None
+
+
+def _no_estilo(ancora, estilo):
+    """Reescreve a ancora (declarada com '\\n') no estilo de quebra do arquivo alvo."""
+    return ancora.replace(NL_CRLF, NL_LF).replace(NL_LF, estilo)
+
+
 def aplicar_defeito(sandbox, defeito):
+    """Aplica as substituicoes textuais do defeito na COPIA sandbox, uma unica vez cada.
+
+    Trabalha em BYTES: le o arquivo cru, troca SO o trecho ancorado e grava de volta. Nenhuma
+    quebra de linha fora do alvo e normalizada/convertida (o clone CRLF continua CRLF e o
+    checkout LF continua LF) -- se a ancora nao casar exatamente 1 vez, a mutacao e recusada
+    com motivo, nunca "aproximada".
+    """
     caminho = os.path.join(sandbox, defeito["arquivo"])
-    with open(caminho, "r", encoding="utf-8", newline="") as fh:
-        texto = fh.read()
-    original = texto
+    if not os.path.isfile(caminho):
+        return False, "arquivo ausente na copia: %s" % defeito["arquivo"]
+    with open(caminho, "rb") as fh:
+        dados = fh.read()
+    estilo = estilo_de_quebra(dados)
+    if estilo is None:
+        return False, ("quebras de linha mistas em %s: a ancora nao pode ser ancorada sem "
+                       "adivinhar estilo" % defeito["arquivo"])
+    original = dados
     for de, para in defeito["patches"]:
-        ocorrencias = texto.count(de)
+        de_b = _no_estilo(de, estilo).encode("utf-8")
+        para_b = _no_estilo(para, estilo).encode("utf-8")
+        ocorrencias = dados.count(de_b)
         if ocorrencias != 1:
             return False, "texto alvo aparece %d vezes (esperado 1): %r" % (ocorrencias, de[:60])
-        texto = texto.replace(de, para, 1)
-    if texto == original:
+        dados = dados.replace(de_b, para_b, 1)
+    if dados == original:
         return False, "nenhuma substituicao efetiva"
-    with open(caminho, "w", encoding="utf-8", newline="") as fh:
-        fh.write(texto)
+    with open(caminho, "wb") as fh:
+        fh.write(dados)
     return True, "ok"
 
 
@@ -164,7 +225,7 @@ def main(argv=None):
     sb_base = _copiar_modulos(os.path.join(base_saida, "baseline"))
     rc, saida, resumo = _rodar_suite(sb_base, base, os.path.join(base_saida, "resultado-baseline.json"))
     ds = resumo or {}
-    baseline_ok = (rc == 0 and ds.get("tests") == 18 and not ds.get("failures")
+    baseline_ok = (rc == 0 and ds.get("tests") == TESTS_ESPERADOS and not ds.get("failures")
                    and not ds.get("errors") and not ds.get("skipped") and ds.get("ok") is True)
     resultados.append({"id": "baseline-intacto", "eh_defeito": False, "esperado": "GREEN", "rc": rc,
                        "tests": ds.get("tests"), "errors": len(ds.get("errors") or []),
