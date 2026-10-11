@@ -36,6 +36,25 @@ docs/cobertura/DUMP-*.md
 # ENT-2: README/CHANGELOG e os metadados do pacote Thunderstore na raiz de cada
 # mod (manifest.json = nome/versao/dependencias; icon.png = icone da pagina).
 !*/README.md
+# ---------------------------------------------------------------------------
+# INST-1 (decisao do dono, 11/10/2026): arquivos de INSTRUCAO DE IA sao BLOAT
+# para o repositorio e nao entram no versionamento. O '*.md' acima ja cobre os
+# de extensao .md; aqui ficam explicitos os que NAO tem .md (dotfiles de
+# ferramentas de IA) e os nomes consagrados, para a regra ser lida de proposito
+# e nao por acidente. Nenhuma dessas linhas afeta fonte de mod, docs/ ou tools/.
+CLAUDE.md
+CLAUDE.local.md
+AGENTS.md
+GEMINI.md
+QWEN.md
+.cursorrules
+.cursor/
+.windsurfrules
+.clinerules
+.aider*
+.mcp.json
+copilot-instructions.md
+
 !*/CHANGELOG.md
 !*/manifest.json
 !*/icon.png
