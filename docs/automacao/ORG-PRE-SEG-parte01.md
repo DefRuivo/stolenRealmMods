@@ -38,7 +38,7 @@ A sessão AUT4 nua possui 29 caracteres e já estava fora de CANDIDATO. O teste 
 | Scanner anterior, recomposto em memória a partir de 8b575c6, sobre a árvore atual | exit 1; 72 ocorrências herdadas |
 | Scanner genérico ajustado na cópia, sobre o índice real | exit 0 |
 | `python -B tools/check_segredos.py` com implementação ajustada | exit 0 |
-| `python -B tools/testes/test_check_segredos.py` | exit 0; 15 testes unittest, zero falhas |
+| `python -B tools/testes/test_check_segredos.py` | exit 0; 16 testes unittest, zero falhas (ver adendo) |
 | `python -B tools/automacao/offline/testes/t_aut3_segredos.py` | exit 0; 12 verificações, zero falhas |
 | Comparação integral de candidatos original/ajustado | exatamente 72 decisões diferentes, todas no inventário abaixo |
 | Igualdade de FORMATOS, ISENTOS, CANDIDATO e limiares | todas satisfeitas |
@@ -107,3 +107,13 @@ Evidência desta rodada: ORG-PRE-SEG-evidencias.zip, anexo do cartão, com inven
 Para reproduzir a trava e a suíte basta o checkout versionado, Python e Git; a rechecagem dos hashes históricos da proveniência usa a bancada local preservada. Nenhum limiar global foi relaxado. Não se afirma que a heurística detecta toda forma possível de segredo: mantiveram-se os limites/exceções legados; esta frente corrigiu exclusivamente os falsos positivos demonstrados. O scanner usa git ls-files e o conteúdo atual dos arquivos; este aceite não é varredura do histórico Git inteiro, revisão de arquivos ignorados nem autorização de publicação.
 
 Não houve push, rewrite de histórico, deploy, build de mod, abertura/fechamento de jogo, operação de conta ou rotação. Se aparecer achado sem proveniência pública ou credencial real, bloquear para operação humana; não incluir valor em relatório. O aceite é SEG, não validação completa de CI/release nem autorização dos gates humanos. O saneamento documental e os gates posteriores permanecem com seus próprios cartões.
+
+## Adendo (rodada 2): a armadilha de auto-achado
+
+A rodada 1 mediu o aceite com a suíte ainda **não versionada**. O scanner usa `git ls-files`, que não lista arquivo por commitar: o gate ficou verde e só passaria a reprovar depois do commit. Com a entrega commitada o achado apareceu de fato — `tools/testes/test_check_segredos.py:48  FORMATO  chave privada PEM` — porque a isca sintética de chave privada era um cabeçalho PEM **contíguo no fonte**, e o detector roda sobre o texto versionado.
+
+Correção estreita, sem isenção nova e sem tocar no detector: o cabeçalho da isca passou a ser montado em partes (`PEM_CAB = '-----BEGIN ' + 'RSA PRIVATE KEY-----'`), como as demais iscas do arquivo já faziam. A isca montada em tempo de execução continua íntegra e continua reprovando — o caso `private_key` permanece em `test_cli_formatos_conhecidos` —, e nada nos padrões, limiares ou isenções foi alterado.
+
+Foi acrescentado o teste `test_cli_entrega_nao_e_achado`, que versiona os três arquivos da entrega num repositório Git temporário e exige `exit 0` dos dois scanners. É o guarda que faltava contra essa classe de erro; ele não isenta caminho nenhum.
+
+Estado depois do commit (entrega versionada): `python -B tools/check_segredos.py` exit 0 e suíte com **16 testes**, zero falhas. Os controles mutantes seguem discriminando 11/12/46. Verificação independente posterior reproduziu, sem valor em log: 72 achados herdados em 35 arquivos (35 marcador-aut4, 15 criterio-kit09, 12 sessao-kit14, 5 sha256-rotulado, 3 ensaio-int-r1, 2 sessao-aut4) e zero achados depois do ajuste; o digest de `lib/Assembly-CSharp.dll` recalculado coincide com o rotulado no doc; `FORMATOS`, `CANDIDATO`, limiares e `ISENTOS` idênticos a HEAD.

@@ -33,6 +33,10 @@ KIT14 = 'KIT14-run704-' + 'without-passive-readonly-' + '20261009-185146'
 PUBLICOS = [SESSAO, 'sessao=' + SESSAO, MARCADOR, MARCADOR + '-CORPO',
             CRITERIO, ENSAIO, KIT14, 'RESTORED_SHA=' + HEX,
             'sha256Alvo=' + HEX, 'SHA256' + HEX]
+# Cabecalho PEM montado em partes: o arquivo de provas e VERSIONADO, e o scanner
+# procura o cabecalho contiguo. Montar em partes mantem a isca real em tempo de
+# execucao e impede que a propria suite vire achado do scanner (sem isencao nova).
+PEM_CAB = '-----BEGIN ' + 'RSA PRIVATE KEY-----'
 
 
 def formatos_sinteticos():
@@ -45,7 +49,7 @@ def formatos_sinteticos():
               ('google', 'AI' + 'za' + OPACO[:35]),
               ('gitlab', 'gl' + 'pat-' + OPACO),
               ('npm', 'np' + 'm_' + OPACO[:36]),
-              ('private_key', '-----BEGIN RSA PRIVATE KEY-----\n' + OPACO * 2),
+              ('private_key', PEM_CAB + '\\n' + OPACO * 2),
               ('url_push', 'x-access-' + 'token:' + OPACO),
               ('basic', 'Basic ' + OPACO),
               ('assignment', 'token = ' + OPACO)]
@@ -186,6 +190,28 @@ class ScannersReais(unittest.TestCase):
     def test_cli_verde_apos_remocao(self):
         self.rodar(('valor = ' + OPACO).encode(), 1, (OPACO,))
         self.rodar(b'sem segredo\n', 0)
+
+    def test_cli_entrega_nao_e_achado(self):
+        # O scanner so olha arquivos VERSIONADOS: uma isca montada no fonte passa a
+        # ser varrida depois do commit. Este teste versiona os proprios arquivos da
+        # entrega num repo temporario e exige verde - sem acrescentar isencao.
+        with tempfile.TemporaryDirectory(prefix='org-pre-seg-entrega-',
+                                         dir=os.environ.get('TMPDIR')) as tmp:
+            raiz = Path(tmp)
+            (raiz / 'tools' / 'testes').mkdir(parents=True)
+            for rel in ('tools/check_segredos.py', 'tools/check_padroes_segredo.py',
+                        'tools/testes/test_check_segredos.py'):
+                shutil.copyfile(TOOLS.parent / rel, raiz / rel)
+            subprocess.run(['git', 'init', '-q'], cwd=raiz, check=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            subprocess.run(['git', 'add', '--', 'tools'], cwd=raiz, check=True,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+            r = subprocess.run([sys.executable, '-B', str(raiz / 'tools' / 'check_segredos.py')],
+                               cwd=raiz, stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                               timeout=60)
+            out = (r.stdout + r.stderr).decode('utf-8', 'replace')
+            self.assertEqual(r.returncode, 0, msg='entrega versionada virou achado do scanner')
+            self.assertIn('nenhum padrao de credencial encontrado', out)
 
 
 if __name__ == '__main__':
