@@ -92,7 +92,7 @@ pasta **e** aqui, senão o CI reprova — foi assim que 5 relatórios entraram s
 `RoguelikeDebugger`):
 
 ```bash
-bash scratch/test-cycle.sh 30 "Inventário"   # abre o jogo, coleta o dump, fecha
+bash tools/test-cycle.sh 30 "Inventário"   # abre o jogo, coleta o dump, fecha
 python tools/census.py                       # regrava os CSVs de docs/cobertura/
 ```
 
@@ -238,13 +238,21 @@ o backup como se fosse mod — ver `AMBIENTE.md`).
 ### Passo 7 — ciclo do jogo e leitura do log
 
 ```bash
-bash scratch/test-cycle.sh 12 "padrão1|padrão2"
+bash tools/test-cycle.sh 12 "padrão1|padrão2"
 ```
 
 O script encerra a instância anterior, limpa o `LogOutput.log`, lança o jogo pela Steam
 com o doorstop do perfil, espera o plugin carregar, filtra o log pelo padrão que você
 passou e fecha o jogo. O segundo argumento é um `grep -E` — ex.:
-`bash scratch/test-cycle.sh 20 "Better Font carregado|Better Tooltips carregado"`.
+`bash tools/test-cycle.sh 20 "Better Font carregado|Better Tooltips carregado"`.
+
+A implementação mantida fica em `tools/`. O caminho antigo `scratch/test-cycle.sh`
+continua versionado apenas como shim: delega com `exec bash` e preserva todos os
+argumentos e o código de saída. Comandos de relatórios históricos continuam resolvendo.
+A captura de tela continua opcional e privada: procura `shot.ps1` em `scratch/`
+e escreve `shot.png` na mesma pasta; se o script local não existir, pula a captura.
+Para outra pasta privada, defina `TEST_CYCLE_ARTIFACT_DIR` (caminho absoluto aceito
+pelo Git Bash). Não é necessário mover nem versionar esses artefatos.
 
 **Critério de aprovação — no `LogOutput.log` do perfil:**
 
@@ -335,6 +343,7 @@ reprova e a release para.
 
 | Script | O que faz | Quando rodar |
 |---|---|---|
+| `test-cycle.sh` | Encerra a instância anterior, limpa o log, abre o jogo modded pela Steam, espera o plugin, captura screenshot local opcional, filtra o log e fecha o jogo. | **Passo 7 do ritual, com autorização para agir no jogo**; não é check offline nem etapa do fluxo normal de release. |
 | `census.py` | Lê o dump de boot do `RoguelikeDebugger` no log e gera os CSVs de `docs/cobertura/` (preserva a coluna `status`). | Manutenção do censo, depois de um ciclo de jogo que produziu o dump. |
 | `censo_status.py` | Cria/mantém o censo de revisão dos **status** (RV-9). | Junto do `census.py`, ao revisar status (buff/debuff). |
 | `gera_shrines_esperado.py` | **CHK-1:** GERA (não digita) `tools/dados/shrines-esperado.csv` e `tools/dados/shrines-percentuais.csv` — as bases das 12 auras de shrine saem do censo (`docs/cobertura/status.csv`, coluna `efeitos`) e do `resources.assets` (Dwarven/Decay/Flame e as % por tipo), cada uma com a citação `arquivo:linha` / `assets@offset`. **FALHA** (exit 1) se uma base não tiver fonte — nunca chuta. `--check` compara a tabela versionada com o que as fontes geram. | Depois de mexer em censo/asset ou quando o `--check` acusar diferença; antes de uma rodada de conferência dos shrines. |

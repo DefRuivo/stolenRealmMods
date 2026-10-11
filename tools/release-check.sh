@@ -59,7 +59,7 @@
 #                   TextAppends nunca roda e a nota nao existe em jogo, em
 #                   silencio. As SUSPEITAS de texto compartilhado NESTA MESMA
 #                   ferramenta seguem aviso: dependem de decisao humana.)
-#   8. CICLO      — SO no modo --instalar-no-perfil: scratch/test-cycle.sh
+#   8. CICLO      — SO no modo --instalar-no-perfil: tools/test-cycle.sh
 #                   (abre/fecha o jogo) + analise do LogOutput.log: 0
 #                   TypeInitializationException, 0 ArgumentException, 0 '[Error'.
 #                   No fluxo normal este passo NAO RODA: ele abre o jogo e so
@@ -525,8 +525,8 @@ if [ "$INSTALAR_NO_PERFIL" -eq 0 ]; then
   echo "     bash tools/release-check.sh --instalar-no-perfil"
   passo_pendente "8. CICLO" "NAO RODOU no fluxo normal (abre o jogo e exige a DLL no perfil) — use --instalar-no-perfil"
 else
-echo "   $ bash scratch/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
-SAIDA_CICLO="$(bash scratch/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
+echo "   $ bash tools/test-cycle.sh $SEGUNDOS_CICLO \"$PADRAO_CICLO\""
+SAIDA_CICLO="$(bash tools/test-cycle.sh "$SEGUNDOS_CICLO" "$PADRAO_CICLO" 2>&1)"; rc_ciclo=$?
 printf '%s\n' "$SAIDA_CICLO" | sed 's/^/   | /'
 
 # --- analise do log ---------------------------------------------------------

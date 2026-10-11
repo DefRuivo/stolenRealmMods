@@ -53,9 +53,9 @@ mods são DLLs .NET gerenciadas (`netstandard2.1`), compiladas contra
 | Saída de build | `<Mod>\bin\Debug\netstandard2.1\<Mod>.dll` |
 | Referências de compilação | `C:\dev\stolen-realm\lib\` (`Assembly-CSharp.dll`, `BepInEx.dll`, `UnityEngine.dll`, `UnityEngine.CoreModule.dll`, `0Harmony.dll`, `Sirenix.*`) — **gitignored** (são DLLs do jogo), só para compilar |
 | **Backup de DLL** | `C:\dev\stolen-realm\scratch\backups\` |
-| Steam (para o ciclo de teste) | `C:\Program Files (x86)\Steam\steam.exe` (o `scratch/test-cycle.sh` aceita `$STEAM`) |
+| Steam (para o ciclo de teste) | `C:\Program Files (x86)\Steam\steam.exe` (o `tools/test-cycle.sh` aceita `$STEAM`) |
 
-**Lançamento modded** (é o que o `scratch/test-cycle.sh` faz, e o que o r2modman faz
+**Lançamento modded** (é o que o `tools/test-cycle.sh` faz, e o que o r2modman faz
 pelo botão *Start modded*): o jogo é aberto com o doorstop apontando para o preloader
 **do perfil**, sem tocar na pasta do jogo —
 

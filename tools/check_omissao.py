@@ -106,7 +106,7 @@ def main():
     filtro = sys.argv[1].lower() if len(sys.argv) > 1 else None
 
     if not os.path.isfile(LOG):
-        print("sem log: rode bash scratch/test-cycle.sh 30 \"Debugger\" antes")
+        print("sem log: rode bash tools/test-cycle.sh 30 \"Debugger\" antes")
         return 1
 
     props, descs = {}, {}

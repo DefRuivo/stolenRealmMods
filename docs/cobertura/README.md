@@ -64,7 +64,7 @@ Vale para toda categoria (é a regra do projeto):
 O censo sai do dump de boot do **RoguelikeDebugger** (nenhuma leitura manual):
 
 ```bash
-bash scratch/test-cycle.sh 30 "Inventário"   # abre o jogo, coleta o dump, fecha
+bash tools/test-cycle.sh 30 "Inventário"   # abre o jogo, coleta o dump, fecha
 python tools/census.py                       # gera/atualiza os CSVs desta pasta
 ```
 
