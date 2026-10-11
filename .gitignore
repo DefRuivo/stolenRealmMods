@@ -45,8 +45,10 @@ docs/cobertura/DUMP-*.md
 ReloadProbe/
 *.code-workspace
 
-# Scratch: defasados (test-cycle.sh segue rastreado)
-scratch/
+# Scratch: defasados. ORG-R2: a regra geral ignora o CONTEUDO de scratch/ — a pasta
+# em si deixa de ser ignorada para permitir as excecoes NOMINAIS de arquivo rastreado
+# declaradas no bloco ORG-R2 no fim deste arquivo. test-cycle.sh segue rastreado.
+/scratch/*
 scratch/old/
 scratch/tooltip.cs
 scratch/shot.ps1
@@ -56,8 +58,9 @@ scratch/shot.png
 # ATENCAO — scratch/backups/ guarda a DLL de TERCEIRO biblioteca-de-terceiros (biblioteca
 # do Thunderstore que falha neste build do jogo): redistribuir nao e nosso direito.
 # Tambem ficam fora os logs de ciclo, os JSONs de saida de agente e os scripts de
-# analise avulsos. O test-cycle.sh segue rastreado porque tools/release-check.sh
-# depende dele.
+# analise avulsos. ORG-R3 promove a implementacao de test-cycle para tools/ e
+# conserva apenas o shim de compatibilidade em scratch/; tools/release-check.sh
+# continua chamando o script mantido.
 scratch/backups/
 scratch/ciclo-*.txt
 scratch/*.json
@@ -83,3 +86,55 @@ secrets*.json
 secrets*
 *.pem
 *.key
+
+# ---------------------------------------------------------------------------
+# ORG-R2 (t_f03077f4): politica de indice. Nenhum `git rm --cached` nesta frente:
+# a lista aprovada de remocoes do indice e VAZIA. Os caminhos rastreados que casam
+# com alguma regra de ignore sao FERRAMENTA + FIXTURES/PROVAS + guia de ferramenta,
+# e devem continuar no indice. As excecoes abaixo sao NOMINAIS (um caminho por
+# linha, nunca uma arvore) e existem para zerar
+# `git ls-files -ci --exclude-standard` sem desindexar nem apagar nada.
+# ---------------------------------------------------------------------------
+# ORG-R2: worktrees locais sao repos independentes, nunca gitlinks do repo principal.
+/.worktrees/
+# ORG-R2: impedir o banco-isca local e sidecars de entrarem no indice; hoje ausentes.
+/kanban/kanban.db*
+# ORG-R2: arquivo reservado criado por redirecionamento local; ignorar, nao apagar.
+/nul
+# ORG-R2: ferramenta mantida; depois de ORG-R3 sera somente shim legado.
+!/scratch/test-cycle.sh
+# ORG-R2: guia de ferramenta rastreado (casaria com a regra *.md da linha 20).
+!/tools/automacao/kit15/docs/primeiro-uso.md
+# ORG-R2: fixtures e provas intencionais, nao dumps efemeros. Escopo por arquivo.
+!/tools/automacao/aut5/fixtures/log-completo.log
+!/tools/fixtures/bf-shaders-em-jogo.log
+!/tools/fixtures/bf-varredura-em-jogo.log
+!/tools/fixtures/shrines-exemplo.log
+!/tools/fixtures/shrines-piso-cru.log
+!/tools/fixtures/shrines-rv46-dedupe.log
+!/tools/testes/bancada2-prova-linha-antes-do-range.log
+!/tools/testes/bct-prova-reprovando.log
+!/tools/testes/bct2-sombra-prova-reprovando.log
+!/tools/testes/bct3-sombra-visivel-prova-reprovando.log
+!/tools/testes/bct4-contraste-prova-reprovando.log
+!/tools/testes/bct5-polaridade-fonte-prova-reprovando.log
+!/tools/testes/bf-fix8-reset-e-teto.log
+!/tools/testes/bf-prova-reprovando.log
+!/tools/testes/bt10-reaper-prova.log
+!/tools/testes/bt11-13-prova-de-fogo.log
+!/tools/testes/bt12f-prova-de-fogo.log
+!/tools/testes/formato4-prova-regras-bf-343.log
+!/tools/testes/formato5-prova-regras-bf-343.log
+!/tools/testes/formato7-prova-faixa.log
+!/tools/testes/formato8-prova-casadores.log
+!/tools/testes/formato9-prova-janela.log
+!/tools/testes/man2-prova-de-fogo.log
+!/tools/testes/niv3-texto-prova.log
+!/tools/testes/parser1-prova-comentario.log
+!/tools/testes/rstv11-prova-reprovando.log
+!/tools/testes/rstv11b-prova-reprovando.log
+!/tools/testes/rstv12-prova-reprovando.log
+!/tools/testes/rstv13-14-prova-reprovando.log
+!/tools/testes/rstv15-prova-reprovando.log
+!/tools/testes/rstv19-prova-reprovando.log
+!/tools/testes/rv28-globule-prova-de-fogo.log
