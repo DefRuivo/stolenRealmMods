@@ -138,7 +138,7 @@ namespace RoguelikeLevelProgression.Harness
             File.WriteAllLines(Path.Combine(_outDir, "harness-results.txt"), _lines, new UTF8Encoding(false));
             var sb = new StringBuilder();
             sb.Append("{\n  \"harness\":\"RoguelikeLevelProgression.Harness\",\n");
-            sb.Append("  \"task\":\"t_918314e9\",\n");
+            sb.Append("  \"task\":\"t_021bdd67\",\n");
             sb.Append("  \"pass\":").Append(_pass).Append(", \"fail\":").Append(_fail)
               .Append(", \"not_exercised\":").Append(_not).Append(",\n");
             sb.Append("  \"results\":[\n    ").Append(string.Join(",\n    ", _json.ToArray())).Append("\n  ]\n}\n");
@@ -154,6 +154,7 @@ namespace RoguelikeLevelProgression.Harness
             RunSuite("transpiler", TestTranspiler);
             RunSuite("registry", TestPatchTargets);
             RunSuite("policy", TestPolicyMatrix);
+            RunSuite("loadclamp", TestLoadClamp);
             RunSuite("xpcurve", TestXpCurve);
             RunSuite("xpbackend", TestXpBackend);
             RunSuite("ledger", TestLedger);
@@ -774,6 +775,200 @@ namespace RoguelikeLevelProgression.Harness
                     "20->21 e 21->22 avancam (duas vitorias, um nivel cada) e a decisao e determinista",
                     "duas vitorias falharam: " + v1 + "/" + v2 + "/" + v1b);
             }
+        }
+
+        // ---- CLAMP DE CARGA (R3-01): Character.Load(int) x Character.MaxLevel patcheado -------
+
+        /// <summary>Character.Load(int) da DLL real (a sobrecarga que contem o clamp de carga).</summary>
+        private static MethodInfo FindCharacterLoadInt()
+        {
+            var t = _acs.GetType("Character");
+            if (t == null) return null;
+            return t.GetMethod("Load",
+                BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic,
+                null, new[] { typeof(int) }, null);
+        }
+
+        /// <summary>
+        /// Janela estrutural do clamp de carga de Character.Load(int) (corpus.cs:36462; IL real
+        /// IL_0883..IL_089a):
+        ///   ldarg.0; ldarg.0; call Character.get_MaxLevel; ldarg.0;
+        ///   call Character.get_CharacterSaveFile; callvirt CharacterSaveFile.get_ExperienceLevel;
+        ///   call Mathf.Min(float,float); callvirt Character.set_ExperienceLevel
+        /// Sem indice de local, offset de IL nem imediato chumbado.
+        /// </summary>
+        private static bool IsLoadClampAt(IList<CodeInstruction> ins, int i)
+        {
+            if (i + 7 >= ins.Count) return false;
+            if (ins[i].opcode != OpCodes.Ldarg_0) return false;
+            if (ins[i + 1].opcode != OpCodes.Ldarg_0) return false;
+            if (ins[i + 2].opcode != OpCodes.Call || !SameName(ins[i + 2].operand, "Character", "get_MaxLevel")) return false;
+            if (ins[i + 3].opcode != OpCodes.Ldarg_0) return false;
+            if (ins[i + 4].opcode != OpCodes.Call || !SameName(ins[i + 4].operand, "Character", "get_CharacterSaveFile")) return false;
+            if (ins[i + 5].opcode != OpCodes.Callvirt || !SameName(ins[i + 5].operand, "CharacterSaveFile", "get_ExperienceLevel")) return false;
+            var min = ins[i + 6].operand as MethodInfo;
+            if (ins[i + 6].opcode != OpCodes.Call || min == null || min.Name != "Min") return false;
+            if (min.DeclaringType == null || min.DeclaringType.Name != "Mathf") return false;
+            if (min.GetParameters().Length != 2 || min.ReturnType != typeof(float)) return false;
+            if (ins[i + 7].opcode != OpCodes.Callvirt || !SameName(ins[i + 7].operand, "Character", "set_ExperienceLevel")) return false;
+            return true;
+        }
+
+        private static int FindLoadClampWindow(IList<CodeInstruction> ins)
+        {
+            for (int i = 0; i + 7 < ins.Count; i++) if (IsLoadClampAt(ins, i)) return i;
+            return -1;
+        }
+
+        private static int CountLoadClampWindows(IList<CodeInstruction> ins)
+        {
+            int n = 0;
+            for (int i = 0; i + 7 < ins.Count; i++) if (IsLoadClampAt(ins, i)) n++;
+            return n;
+        }
+
+        /// <summary>
+        /// Escreve um campo de AdvanceInputs por reflexao. Antes da correcao o campo nao existe:
+        /// a ausencia e tratada como "defeito presente" (o piso de carga nao foi alimentado), em
+        /// vez de quebrar a compilacao — assim reverter a correcao deixa a suite VERMELHA por
+        /// verificacao, nao por erro de build.
+        /// </summary>
+        private static void TrySetField(ref AdvanceInputs i, string field, object value)
+        {
+            var f = typeof(AdvanceInputs).GetField(field);
+            if (f == null) return;
+            object box = i;
+            f.SetValue(box, value);
+            i = (AdvanceInputs)box;
+        }
+
+        /// <summary>
+        /// Reproduz o par (MaxLevel efetivo do getter patcheado, ExperienceLevel salvo) do clamp
+        /// REAL de Character.Load(int) — corpus.cs:36462 / IL real IL_0883..IL_089a — alimentando
+        /// o PolicyCore REAL exatamente como Policy.EffectiveMaxLevel o alimenta durante a carga:
+        /// Level ~ 1 (ExperienceLevel ainda nao atribuido) e o nivel salvo vindo de
+        /// CharacterSaveFile. Devolve o valor do getter patcheado; o teste aplica o Mathf.Min.
+        /// </summary>
+        private static double LoadTimeEffectiveMaxLevel(int voluntaryCap, int safetyBound, double vanillaMaxLevel, double savedLevel, bool loading)
+        {
+            var i = new AdvanceInputs
+            {
+                ModEnabled = true,
+                IsAi = false,
+                IsRoguelikeCharacter = true,
+                IsMultiplayer = false,
+                IsRoguelikeMode = true,
+                Level = 1,
+                VanillaCap = 20,
+                VoluntaryCap = voluntaryCap,
+                SafetyBound = safetyBound,
+                CurveUsable = true,
+                NextLevelRepresentable = true,
+                StatBudgetOk = true,
+                TargetsPresent = true,
+            };
+            TrySetField(ref i, "VanillaMaxLevel", vanillaMaxLevel);
+            TrySetField(ref i, "IsLoading", loading);
+            TrySetField(ref i, "SavedLoadLevel", savedLevel);
+            return PolicyCore.EffectiveMaxLevel(in i);
+        }
+
+        private static void TestLoadClamp()
+        {
+            Section("CLAMP DE CARGA DE Character.Load(int) x Character.MaxLevel PATCHEADO (R3-01)");
+
+            if (_acs == null) { Fail("loadclamp.no_assembly", "Assembly-CSharp de referencia nao carregada"); return; }
+
+            // (A) ancora na IL REAL da DLL: o clamp existe, e unico e usa EXATAMENTE o getter patcheado.
+            var load = FindCharacterLoadInt();
+            Check(load != null, "loadclamp.load_method_present",
+                "Character.Load(int saveIndex) encontrado na DLL real (" + Describe2(load) + ")",
+                "Character.Load(int) NAO encontrado na DLL real");
+            if (load == null) return;
+
+            List<CodeInstruction> il;
+            try { il = IlLoader.Read(load); }
+            catch (Exception ex) { Fail("loadclamp.il_read", Flatten(ex)); return; }
+            Check(il.Count > 500, "loadclamp.load_il_decoded",
+                "IL real de Character.Load(int) decodificada em " + il.Count + " instrucoes",
+                "poucas instrucoes decodificadas: " + il.Count);
+
+            int w = FindLoadClampWindow(il);
+            Check(w >= 0, "loadclamp.clamp_window_present_in_real_il",
+                "clamp de carga presente na IL real (indice " + w + "): Mathf.Min(Character.get_MaxLevel, CharacterSaveFile.get_ExperienceLevel) -> Character.set_ExperienceLevel",
+                "janela do clamp NAO encontrada na IL real de Character.Load(int)");
+            int count = CountLoadClampWindows(il);
+            Check(count == 1, "loadclamp.clamp_window_unique",
+                "exatamente 1 janela de clamp em Character.Load(int)",
+                "esperava 1 janela de clamp, encontrei " + count);
+            if (w < 0) return;
+
+            var clampedGetter = il[w + 2].operand as MethodInfo;
+            var patchedGetter = Reflect.PropertyGetter(typeof(Character), "MaxLevel");
+            Check(clampedGetter != null && patchedGetter != null && clampedGetter == patchedGetter,
+                "loadclamp.clamped_getter_is_the_patched_one",
+                "o getter lido pelo clamp e o MESMO alvo do postfix do mod (Character.get_MaxLevel)",
+                "getter do clamp != alvo do postfix: clamp=" + DescribeMaybe(il[w + 2]) + " patch=" + (patchedGetter == null ? "(nulo)" : patchedGetter.Name));
+
+            List<PatchRegistry.Plan> plans;
+            List<string> missing;
+            PatchRegistry.TryBuildPlans(out plans, out missing);
+            PatchRegistry.Plan plan = null;
+            if (plans != null)
+                foreach (var p in plans) if (p.Id == "Character.get_MaxLevel") plan = p;
+            Check(plan != null && plan.Target == patchedGetter && plan.Postfix != null
+                  && plan.Postfix.DeclaringType == typeof(MaxLevelPatches),
+                "loadclamp.maxlevel_postfix_registered",
+                "PatchRegistry registra o postfix MaxLevelPatches::Postfix no getter que o clamp le",
+                "plano do postfix de MaxLevel inesperado: " + (plan == null ? "(ausente)" : (plan.Postfix == null ? "postfix nulo" : plan.Postfix.DeclaringType.Name + "::" + plan.Postfix.Name)));
+
+            // (B) comportamento REAL do clamp: Mathf.Min(MaxLevel efetivo, nivel salvo) nunca rebaixa.
+            double savedA = 30d;
+            double effA = LoadTimeEffectiveMaxLevel(25, 4000, 0d, savedA, true);
+            double loadedA = Math.Min(effA, savedA);
+            Check(loadedA >= savedA, "loadclamp.voluntary_cap_does_not_downgrade_saved",
+                "teto voluntario 25 com save " + savedA + ": MaxLevel(patcheado)=" + effA + " -> ExperienceLevel apos Mathf.Min = " + loadedA + " (nivel salvo preservado)",
+                "DOWNGRADE no clamp de carga com teto voluntario: MaxLevel=" + effA + " saved=" + savedA + " -> " + loadedA);
+
+            double savedB = 35d;
+            double effB = LoadTimeEffectiveMaxLevel(0, 0, 30d, savedB, true);
+            double loadedB = Math.Min(effB, savedB);
+            Check(loadedB >= savedB, "loadclamp.vanilla_fallback_does_not_truncate_above_30",
+                "fallback vanilla (MaxLevel observado 30) com save " + savedB + ": MaxLevel(patcheado)=" + effB + " -> " + loadedB + " (30 NAO e usado como teto de carga)",
+                "TRUNCADO no fallback vanilla: MaxLevel=" + effB + " saved=" + savedB + " -> " + loadedB);
+
+            double savedC = 31d;
+            double effC = LoadTimeEffectiveMaxLevel(0, 4000, 0d, savedC, true);
+            double loadedC = Math.Min(effC, savedC);
+            Check(loadedC >= savedC, "loadclamp.default_config_preserves_saved",
+                "config default (sem teto voluntario) com save " + savedC + ": clamp preserva o nivel salvo",
+                "downgrade com config default: MaxLevel=" + effC + " saved=" + savedC + " -> " + loadedC);
+
+            double savedD = 25d;
+            double effD = LoadTimeEffectiveMaxLevel(21, 4000, 0d, savedD, true);
+            Check(Math.Min(effD, savedD) >= savedD, "loadclamp.lower_cap_does_not_downgrade_saved",
+                "teto 21 abaixo do save 25: Mathf.Min(MaxLevel=" + effD + ", salvo=25) preserva 25 (reducao voluntaria de teto nao rebaixa)",
+                "downgrade com teto abaixo do save: MaxLevel=" + effD);
+
+            // (C) o piso e SOMENTE de carga: fora da carga o teto voluntario continua valendo.
+            double effE = LoadTimeEffectiveMaxLevel(25, 4000, 0d, 35d, false);
+            Check(effE == 25d, "loadclamp.floor_only_while_loading",
+                "fora da carga (IsLoaded true) o teto voluntario 25 e mantido mesmo com nivel salvo maior (piso nao vaza)",
+                "piso de carga vazou para fora da carga: " + effE + " (esperava 25)");
+
+            // (D) GiveExperience (math.min(MaxLevel, novo)) continua sem rebater abaixo do atual.
+            var gi = BaseInputs(30);
+            gi.VoluntaryCap = 25;
+            double effG = PolicyCore.EffectiveMaxLevel(in gi);
+            double give = Math.Min(effG, 31d);
+            Check(give >= 30d, "loadclamp.give_experience_no_downgrade",
+                "GiveExperience com nivel 30 e teto 25: Mathf.Min(MaxLevel=" + effG + ", novoNivel=31) = " + give + " (nao rebate abaixo do atual)",
+                "GiveExperience rebaixou o personagem: " + give);
+        }
+
+        private static string Describe2(MethodBase m)
+        {
+            return m == null ? "(nulo)" : m.DeclaringType.Name + "." + m.Name + "(" + m.GetParameters().Length + " parametros)";
         }
 
         private static void TestXpCurve()

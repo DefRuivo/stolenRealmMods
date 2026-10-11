@@ -4,7 +4,7 @@ Lets a Roguelike run go past level 20 — **singleplayer only, v0.1**.
 
 - **GUID:** `com.gumatos.roguelikelevelprogression`
 - **Harmony owner id:** the same GUID (the mod unpatches by id, never by type).
-- **Version:** 0.1.0
+- **Version:** 0.1.1
 - **Works with:** Stolen Realm (Roguelike mode).
 - **Needs:** BepInEx 5 (r2modman installs it for you) and nothing else — no ModAPI, no BetterStats.
 - **BepInEx display name:** `Roguelike Level Progression`
@@ -19,6 +19,12 @@ rest of the flow — the XP curve, the level-up queue, the UI — coherent above
 - **One level per victory.** Above 20 the reward stage is still one entry per victory: the
   comparison that decides whether the character levels becomes
   `Policy.CanAdvance(Character, RoguelikeSettings)`.
+- **Loading a saved character never loses levels.** `Character.Load(int)` clamps the saved level
+  with `Mathf.Min(Character.MaxLevel, CharacterSaveFile.ExperienceLevel)`, and `Character.MaxLevel`
+  is exactly the getter this mod patches — before that assignment the character's own level is
+  still ~1, so it cannot protect the save. While a character is loading (`IsLoaded == false`) the
+  patched getter is therefore floored by the saved `CharacterSaveFile.ExperienceLevel`, on **every**
+  path including the vanilla fallback (so a save above level 30 is never truncated to 30).
 - **Extended XP after 20 (linear, O(1)).** `F(20)`/`D(20)` are read from the game itself
   (`Character.GetExperienceFloorForLevel(20)` and `(21)`), and for `level > 20`
   `F(L) = F20 + D20 * (L - 20)`. Nothing is hardcoded: if those numbers are unusable

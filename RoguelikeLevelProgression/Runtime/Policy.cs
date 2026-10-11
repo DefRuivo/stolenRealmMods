@@ -119,17 +119,35 @@ namespace RoguelikeLevelProgression.Runtime
         /// <summary>
         /// Teto efetivo para o getter Character.MaxLevel (postfix, apenas roguelike nao-IA).
         /// Nao escreve em GlobalSettings nem em asset; nao devolve nao-finito.
+        ///
+        /// Piso de CARGA (R3-01). Character.Load(int) executa
+        ///   ExperienceLevel = Mathf.Min(MaxLevel, CharacterSaveFile.ExperienceLevel)
+        /// ANTES de ExperienceLevel ser atribuido, entao Character.Level ainda e ~1 e a protecao
+        /// do getter nao cobre o nivel salvo. Enquanto o personagem nao esta carregado
+        /// (IsLoaded == false) o getter nunca devolve valor abaixo de
+        /// CharacterSaveFile.ExperienceLevel — inclusive no caminho de fallback vanilla (grupo nao
+        /// aplicado / multiplayer / backend indisponivel), para nao truncar saves acima de 30.
         /// </summary>
         public static double EffectiveMaxLevel(Character character, double vanillaValue)
         {
             if (character == null) return vanillaValue;
             try
             {
+                // Fora do escopo do mod o comportamento vanilla fica intacto (sem piso de carga).
                 if (character.IsAI || !character.IsRoguelikeCharacter) return vanillaValue;
                 if (!PluginState.Enabled) return vanillaValue;
-                if (!PluginState.GameplayGroupApplied) return vanillaValue;
-                if (GameState.IsMultiplayer()) return vanillaValue;
-                if (!XpBackend.EnsureReady()) return vanillaValue;
+
+                bool loading = !character.IsLoaded;
+                double savedLoadLevel = 0d;
+                if (loading)
+                {
+                    var save = character.CharacterSaveFile;
+                    if (save != null) savedLoadLevel = save.ExperienceLevel;
+                }
+
+                bool extended = PluginState.GameplayGroupApplied
+                                && !GameState.IsMultiplayer()
+                                && XpBackend.EnsureReady();
 
                 var inputs = new AdvanceInputs
                 {
@@ -140,13 +158,17 @@ namespace RoguelikeLevelProgression.Runtime
                     IsRoguelikeMode = true,
                     Level = character.Level,
                     VanillaCap = XpCurve.VanillaCapLevel,
-                    VoluntaryCap = PluginState.MaxLevelConfig,
-                    SafetyBound = XpBackend.SafetyBound,
+                    VoluntaryCap = extended ? PluginState.MaxLevelConfig : 0,
+                    SafetyBound = extended ? XpBackend.SafetyBound : 0,
+                    VanillaMaxLevel = vanillaValue,
+                    IsLoading = loading,
+                    SavedLoadLevel = savedLoadLevel,
                     CurveUsable = true,
                     NextLevelRepresentable = true,
                     StatBudgetOk = true,
                     TargetsPresent = true,
                 };
+
                 double result = PolicyCore.EffectiveMaxLevel(in inputs);
                 if (!XpCurve.IsUsableNumber(result)) return vanillaValue;
                 return result;

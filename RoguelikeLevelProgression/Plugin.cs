@@ -18,7 +18,7 @@ namespace RoguelikeLevelProgression
     {
         public const string PluginGuid = "com.gumatos.roguelikelevelprogression";
         public const string PluginName = "Roguelike Level Progression";
-        public const string PluginVersion = "0.1.0";
+        public const string PluginVersion = "0.1.1";
 
         internal static Plugin Instance { get; private set; }
 

@@ -1,5 +1,34 @@
 # Changelog — RoguelikeLevelProgression
 
+## 0.1.1
+
+**Correção de perda silenciosa de nível salvo ao carregar (R3-01, achado ALTO da revisão LEVEL-R3).**
+
+### Correções
+
+- **`Character.Load(int)` rebaixava o nível salvo.** O clamp de carga
+  `ExperienceLevel = Mathf.Min(MaxLevel, CharacterSaveFile.ExperienceLevel)` usa exatamente a
+  propriedade `Character.MaxLevel` que este mod patcheia, e roda **antes** de `ExperienceLevel` ser
+  atribuído — nesse instante `Character.Level` ainda é ~1 e não protege o nível salvo. Com um teto
+  voluntário `Progression.MaxLevel = N` (≥ 21) um save acima de `N` era rebaixado a `N`; e o caminho
+  de fallback (grupo não aplicado / rede indisponível / backend indisponível) devolvia o teto
+  vanilla **30**, truncando saves acima de 30. O valor clampado era persistido
+  (`CharacterSaveFile.ExperienceLevel`), ou seja, a perda era silenciosa e durável.
+  Correção: enquanto o personagem não está carregado (`IsLoaded == false`) o getter patcheado nunca
+  devolve valor abaixo de `CharacterSaveFile.ExperienceLevel` — em **todos** os caminhos, inclusive
+  o fallback vanilla. Fora da carga o comportamento não muda; campanha/IA/out-of-scope continuam
+  vanilla. O caminho de `GiveExperience` continua sem rebater abaixo do nível atual.
+- Cobertura nova na bancada (12 verificações, suite `loadclamp`): âncora estrutural na IL real de
+  `Character.Load(int)` (janela única `Mathf.Min(get_MaxLevel, CharacterSaveFile.get_ExperienceLevel)`
+  → `set_ExperienceLevel`), prova de que o getter do clamp é o mesmo alvo do postfix, e reprodução
+  do clamp com o par (MaxLevel efetivo, nível salvo) — verde com a correção e **vermelha** com o
+  defeito replantado.
+
+### Compatibilidade
+
+- Sem mudança de comportamento para campanha, IA, multiplayer ou personagens já carregados.
+  Configuração, GUID e decisões de escopo da 0.1.0 permanecem intactas.
+
 ## 0.1.0
 
 **Primeira versão.** Mod novo (nenhum arquivo de mod existente foi alterado), standalone
