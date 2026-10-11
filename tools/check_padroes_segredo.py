@@ -13,6 +13,7 @@ import re
 import subprocess
 import sys
 from collections import Counter
+from datetime import datetime
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,13 +40,54 @@ LIMIAR_ENTROPIA = 4.0       # bits por caractere
 LIMIAR_COMPRIMENTO = 32
 
 
-def parece_segredo(v):
-    """Decide por CARACTERISTICA, sem lista de excecoes (excecao apodrece).
+# ORG-PRE-SEG: gramaticas PUBLICAS demonstradas por fonte/evidencia, nao uma
+# isencao por arquivo/pasta nem aumento dos limiares. fullmatch e datas validas
+# impedem que prefixos/sufixos opacos herdem a classificacao. FORMATOS continua
+# independente: uma atribuicao token=... ou formato conhecido ainda reprova.
+_CAMPO_SECRETO_ANTES = re.compile(
+    r'''(?i)\b(?:pass(?:word|wd)?|secret|token|api[_-]?key|auth)\b["']?\s*[:=]\s*["']?$''')
+_SESSAO_AUT4 = r'AUT4-(?P<data>[0-9]{8})-(?P<hora>[0-9]{6})-[0-9a-f]{8}'
+_SESSAO_KIT14 = (r'KIT14-run[0-9]{3}-'
+                r'(?:(?:without-passive|with-passive|late-with-passive)-)?'
+                r'readonly-(?P<data>[0-9]{8})-(?P<hora>[0-9]{6})')
 
-    Credencial de verdade: alta entropia, varios DIGITOS, mistura de maiuscula e minuscula,
-    e nao parece caminho, URL, hash hex nem nome de arquivo/classe. Calibrado contra os 10
-    falsos positivos reais do repositorio (todos tinham 0 ou 1 digito).
+
+def classificar_dado_publico(v):
+    """Retorna a natureza estrutural provada, nunca o valor (ou None).
+
+    Proveniencia e limites: docs/automacao/ORG-PRE-SEG-parte01.md.
+    Nao carrega listas do repo: um literal novo nao se autoautoriza.
     """
+    if re.fullmatch(r'(?:RESTORED_SHA=|sha256Alvo=|SHA256)[0-9a-f]{64}', v):
+        return 'sha256-rotulado'
+    if v == 'KIT09-RSTV25b-sem-aresta-inventada':
+        return 'criterio-kit09'
+    if re.fullmatch(r'm10-publicacao-propaga-excecao-(?:baseline|RED|restaurado)-P15', v):
+        return 'ensaio-int-r1'
+    for pat, natureza in (
+            (_SESSAO_AUT4, 'sessao-aut4'),
+            (r'sessao=' + _SESSAO_AUT4, 'sessao-aut4'),
+            (r'AUT4-IDA-E-VOLTA-' + _SESSAO_AUT4 + r'(?:-CORPO)?', 'marcador-aut4'),
+            (_SESSAO_KIT14, 'sessao-kit14')):
+        m = re.fullmatch(pat, v)
+        if not m:
+            continue
+        try:
+            datetime.strptime(m.group('data') + m.group('hora'), '%Y%m%d%H%M%S')
+        except ValueError:
+            return None
+        return natureza
+    return None
+
+
+def parece_segredo(v):
+    """Heuristica estrutural; formatos conhecidos sao avaliados separadamente.
+
+    Mantem os filtros/limiares anteriores e reconhece somente as gramaticas
+    publicas demonstradas na triagem ORG-PRE-SEG, sem isentar seus arquivos.
+    """
+    if classificar_dado_publico(v) is not None:
+        return False
     if any(c in v for c in '/@:<>') or chr(92) in v:   # caminho, URL, e-mail, separador
         return False
     if re.search(r'[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}', v):
@@ -120,6 +162,13 @@ def main():
                 continue
             for m in CANDIDATO.finditer(linha):
                 v = m.group(0)
+                # Nem mesmo um dado publico ganha excecao em campo de segredo.
+                # Inclui JSON e valores rotulados com '=' interno, que o formato
+                # de atribuicao antigo pode nao alcançar por inteiro.
+                if (classificar_dado_publico(v) is not None
+                        and _CAMPO_SECRETO_ANTES.search(linha[:m.start()])):
+                    achados.append('%s:%d  FORMATO  dado publico em campo de credencial' % (f, i))
+                    continue
                 if not parece_segredo(v) or len(v) < LIMIAR_COMPRIMENTO:
                     continue
                 achados.append('%s:%d  ENTROPIA %s' % (f, i, mascara(v)))
