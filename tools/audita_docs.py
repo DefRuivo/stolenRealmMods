@@ -41,6 +41,12 @@ FALSOS POSITIVOS QUE ELE JA CONHECE (marca em vez de reprovar)
     versionados - e as mencoes ao quadro interno que nao sao citacao de caminho do repo;
   * scripts de BANCADA citados por caminho de scratch (`%LOCALAPPDATA%\\...\\scratch\\`) -
     nao sao ferramentas do repo;
+  * proveniencia explicita de ocorrencias em snapshots historicos imutaveis:
+    `tools/audita_docs_proveniencia.json` declara documento, linha, classe, nome,
+    origem e justificativa, com SHA-256 da linha e do documento completo (CRLF
+    normalizado). Nova citacao/edicao/catalogo stale REPROVA; nenhum skip de pasta;
+  * ferramenta fora de tools/ citada pelo seu caminho EXATO versionado (api/tools/),
+    nunca uma aprovacao global do basename;
   * mencao de PROSA ao pacote do BepInEx sem versao (`BepInEx-BepInExPack`): so a declaracao
     de dependencia (linha de `dependencies`/manifest) e conferida.
 
@@ -59,6 +65,8 @@ import re
 import subprocess
 import sys
 from collections import defaultdict
+
+from docs_proveniencia import carregar as carregar_proveniencia, reconhece
 
 # RAIZ = repo: este arquivo mora em <repo>/tools/, entao sobe um nivel.
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -100,6 +108,13 @@ def casa_algum(padroes, texto):
 
 # ---------------------------------------------------------------- 1) docs existentes
 docs = [f for f in rsh('git', 'ls-files').splitlines() if f.endswith('.md')]
+# Erratas de snapshots imutaveis, nunca whitelist de docs/automacao. A chave inclui
+# documento + linha + classe + nome e SHA-256 da linha E do documento completo.
+# Uma citacao nova/editada ou um catalogo invalido continua reprovando.
+proveniencia, erros_proveniencia = carregar_proveniencia(RAIZ, docs)
+problemas.extend(erros_proveniencia)
+for erro in erros_proveniencia:
+    print('   VER ' + erro)
 print('== documentacao versionada: %d arquivos .md ==' % len(docs))
 por_pasta = defaultdict(int)
 for d in docs:
@@ -268,6 +283,23 @@ print('   citadas nos docs mas INEXISTENTES: %s' % (inexistentes or 'nenhuma'))
 # Script de BANCADA (scratch/%LOCALAPPDATA%) nao e ferramenta do repo: so reprova se o doc
 # apresenta o nome como ferramenta do projeto (sem contexto de scratch na mesma secao).
 BANCADA = (r'scratch', r'localappdata', r'appdata', r'hermes', r'bancada')
+tracked = set(rsh('git', 'ls-files').splitlines())
+
+
+def ferramenta_fora_de_tools(linha, nome, documento):
+    """Caminho EXPLICITO versionado, da raiz ou relativo ao documento.
+
+    tools/check_ui_contract.py continua falso fora da arvore api/, mesmo existindo
+    api/tools/check_ui_contract.py. Um basename solto nao ganha aprovacao global.
+    """
+    caminhos = re.findall(r'(?:[A-Za-z0-9_.-]+/)+' + re.escape(nome)
+                          + r'(?![A-Za-z0-9_.-])', linha)
+    base = os.path.dirname(documento)
+    return bool(caminhos) and all(
+        p in tracked or os.path.normpath(os.path.join(base, p)).replace('\\', '/') in tracked
+        for p in caminhos)
+
+
 for c in inexistentes:
     if c in reais_ci:
         print('   ok-ci: %s vive em .github/scripts/ (ferramenta de CI, nao de tools/)' % c)
@@ -281,9 +313,13 @@ for c in inexistentes:
         linhas = ler(d).splitlines()
         for i, l in enumerate(linhas, 1):
             if c in l:
-                ocorrencias.append((d, i, casa_algum(BANCADA, ' '.join(paragrafo(linhas, i - 1)).lower())))
-    if ocorrencias and all(bancada for _, _, bancada in ocorrencias):
-        print('   ok-bancada: %s so aparece como script de bancada/scratch (%s:%d)'
+                contexto = (casa_algum(BANCADA, ' '.join(paragrafo(linhas, i - 1)).lower())
+                            or ferramenta_fora_de_tools(l, c, d)
+                            or reconhece(proveniencia, d, i, 'ferramenta-local', c))
+                ocorrencias.append((d, i, contexto))
+    if ocorrencias and all(contexto for _, _, contexto in ocorrencias):
+        print('   ok-contexto: %s so aparece com origem local declarada ou caminho '
+              'explicito versionado (%s:%d)'
               % (c, ocorrencias[0][0], ocorrencias[0][1]))
         continue
     problemas.append('doc cita ferramenta inexistente: %s' % c)
@@ -432,6 +468,10 @@ for d in docs:
             if casa_algum(EXPLICA, bloco):
                 print('   ok-explica %s:%d cita %s - o texto explica a ausencia (%s)'
                       % (d, i, nome, nota))
+            elif reconhece(proveniencia, d, i, 'caminho-historico', nome):
+                print('   ok-snapshot %s:%d cita %s - proveniencia local/historica '
+                      'declarada por ocorrencia e hash (nao e promessa de fonte no clone)'
+                      % (d, i, nome))
             elif familia_quadro and not citacao_de_caminho(l, nome):
                 print('   ok-quadro %s:%d cita %s como quadro interno, nao como arquivo do repo'
                       % (d, i, nome))

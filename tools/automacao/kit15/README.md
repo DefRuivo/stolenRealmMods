@@ -9,9 +9,14 @@ Core + Adapter + Recorder são obrigatórios; Runner, Viewer, Integração e SDK
 
 ## Para quem não programa
 
-O passo a passo está em [`primeiro-uso.md`](primeiro-uso.md) (PT-BR) — dentro do pacote este
-guia fica **ao lado** deste README, na pasta `docs/`; no repositório de origem, em
-`tools/automacao/kit15/docs/primeiro-uso.md`.
+O passo a passo em PT-BR tem estes caminhos, conforme o layout:
+
+- **Repositório de origem:** `tools/automacao/kit15/docs/primeiro-uso.md`
+  (caminho relativo a este README: `docs/primeiro-uso.md`).
+- **Pacote extraído:** `docs/primeiro-uso.md`, **ao lado** de `docs/README.md`.
+
+Este README é copiado sem alteração para o pacote. Os caminhos são apresentados
+como texto para não oferecer um link relativo que só funcione em um dos layouts.
 Resumo: você precisa de **Python 3** (só a biblioteca padrão) para instalar/atualizar/remover/scan;
 se `python` não estiver disponível, existe o **modo manual** (extrair o zip e apagar a pasta),
 também descrito lá. Compilar C# é **opcional** e só para quem for usar Core/Adapter em jogo.

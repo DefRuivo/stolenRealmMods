@@ -201,7 +201,7 @@ Ela responde as três perguntas do aceite: **carrega?** (Core/Hooks carregam e a
 deixando zero patch) — e, para a família UI, **o alvo existe?** (vinculo fail-closed, delegação e guardas).
 Os alvos Unity do smoke são **fixtures artificiais** com as mesmas assinaturas: provam a mecânica no CLR,
 **não** provam comportamento do jogo. O CLR do smoke (net472) não carrega `RealmApi.dll` (netstandard2.1);
-por isso os 5 tipos públicos são conferidos por metadados (`Inspect ui` + `check_ui_contract.py`) e o smoke
+por isso os 5 tipos públicos são conferidos por metadados (`Inspect ui` + `api/tools/check_ui_contract.py`) e o smoke
 só checa presença/ausência de stub por metadados (`ui-public-surface-in-plugin-metadata`).
 
 ## Como atualizar quando o jogo mudar
