@@ -1,0 +1,44 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>RoguelikeLevelProgression</AssemblyName>
+    <RootNamespace>RoguelikeLevelProgression</RootNamespace>
+    <!-- PKG-2 (mesma convencao dos outros mods do repo): este <Version> manda.
+         Espelhos conferidos: manifest.json:version_number e o literal de [BepInPlugin] no Plugin.cs. -->
+    <Version>0.1.0</Version>
+    <Description>Remove o teto de nivel 20 do modo Roguelike (singleplayer): um nivel por vitoria, XP estendido apos o 20 e recompensas Skills/Itens/Atributos com recibo duravel quando o pool de skills esgota.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <!-- LEVEL-R2: este projeto vive no WORKTREE do cartao. A `lib` comum do repo fica fora
+         do worktree (C:/dev/stolen-realm/lib) e e usada apenas como referencia de leitura,
+         nunca copiada para dentro do worktree. -->
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\lib</CommonLibDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(CommonLibDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(CommonLibDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(CommonLibDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(CommonLibDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(CommonLibDir)\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(CommonLibDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization"><HintPath>$(CommonLibDir)\Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization.Config"><HintPath>$(CommonLibDir)\Sirenix.Serialization.Config.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes"><HintPath>$(CommonLibDir)\Sirenix.OdinInspector.Attributes.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Utilities"><HintPath>$(CommonLibDir)\Sirenix.Utilities.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <!-- DEPLOY-2: opt-in explicito. Um `dotnet build` comum (ou -c Release) NAO instala nada.
+       Para instalar de proposito: dotnet build -p:DeployToBepInEx=true -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
+    <PropertyGroup>
+      <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginsDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)" />
+    <Message Importance="high" Text="RLP: $(TargetFileName) copiado para $(PluginsDir)" />
+  </Target>
+
+</Project>
