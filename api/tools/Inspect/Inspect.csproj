@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net6.0</TargetFramework><LangVersion>10</LangVersion><ImplicitUsings>enable</ImplicitUsings>
+    <BepInExCoreDir Condition="'$(BepInExCoreDir)' == ''">$(USERPROFILE)/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/core</BepInExCoreDir>
+  </PropertyGroup>
+  <ItemGroup><Reference Include="Mono.Cecil"><HintPath>$(BepInExCoreDir)/Mono.Cecil.dll</HintPath></Reference></ItemGroup>
+</Project>

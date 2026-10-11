@@ -1,0 +1,51 @@
+==============================================================================
+ COBERTURA DAS TABELAS DO BetterTooltips via hook ui.localized
+ observacao : docs/automacao/INT-R1-C5-evidencias/observacao-fixture.jsonl
+ procedencia: FIXTURE   (FIXTURE nunca e evidencia de jogo)
+==============================================================================
+ linhas observadas .....: 264
+ chaves distintas ......: 264
+ entradas na tabela ....: TextFixes=101  TextAppends=197
+ COBERTOS (mod agiu) ...: 264
+ LACUNAS (sem entrada) .: 0
+ ENTRADAS QUE NAO RODARAM: 0
+ nUNCA SERVIDAS (mortas).: 34
+ chave nas DUAS tabelas .: 0 
+
+--- resumo por categoria ----------------------------------------------
+ categoria  servidos cobertos  lacunas na tabela
+ skills           85       85        0        85
+ status          107      107        0       107
+ itens             9        9        0         9
+ afixos            9        9        0         9
+ powerups         54       54        0        54
+ acoes             0        0        0         0
+ invocacoes        0        0        0         0
+
+--- resumo por arquivo (censo) ---------------------------------------
+ arquivo             no censo servidos cobertos  lacunas
+ skills.csv               451       85       85        0
+ status.csv               545      107      107        0
+ itens.csv                192        9        9        0
+ afixos.csv               285        9        9        0
+ powerups.csv              79       54       54        0
+ acoes.csv                  0        0        0        0
+ invocacoes.csv             0        0        0        0
+
+--- NUNCA SERVIDAS (candidata a chave morta): 34
+   [TextFixes  ] Recover [0]% of maximum mana each turn. 
+   [TextFixes  ] Recover [0]% of maximum health each turn. 
+   [TextFixes  ] Dash to an enemy dealing *0 weapon damage then quickly dash to an enemy within 2 hexes t
+   [TextFixes  ] Resist Divine
+   [TextFixes  ] Resistance Divine
+   [TextFixes  ] Shops are refreshed every time your party completes a quest.  Check back often for new l
+   [TextFixes  ] A well timed healing or mana potion can turn the tide of battle. 
+   [TextFixes  ] Completely negates the next attack.  Lasts until hit. 
+   [TextFixes  ] Crush the target's soul dealing *0 @Shadow Damage@ increased by your Max Health. 
+   [TextFixes  ] Increase the range of all non-melee abilites by 1 hex. 
+   [TextFixes  ] Deals *0 weapon damage.  Every hex between you and your target increases the damage of b
+   [TextFixes  ] Deals *0 weapon damage.  Every hex between you and your target increases the damage of b
+   ... e mais 22 (lista completa no JSON)
+==============================================================================
+relatorio JSON: docs/automacao/INT-R1-C5-evidencias/relatorio-fixture.json
+baseline gravado: docs/automacao/INT-R1-C5-evidencias/baseline-fixture.json (264 chaves cobradas, procedencia FIXTURE)

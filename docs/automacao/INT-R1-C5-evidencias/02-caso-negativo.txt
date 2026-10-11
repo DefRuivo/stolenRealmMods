@@ -1,0 +1,11 @@
+entrada real removida na copia: '10% chance to cast Level [level value] {SKL=Meteor} when Striking.' (tabela TextFixes)
+copia mutada   : scratch/int-r1-c5-negativo\LocalizePatch-sem-uma-entrada.cs
+arquivo do mod : C:\dev\stolen-realm\BetterTooltips\Patches\LocalizePatch.cs  (NAO foi tocado)
+
+--- 1) METADE VERDE: o fonte INTACTO contra o MESMO baseline ---
+   violacoes: 0 -> TRAVA VERDE
+--- 2) METADE VERMELHA: a copia SEM a entrada, mesmo baseline ---
+   [entrada-removida] '10% chance to cast Level [level value] {SKL=Meteor} when Striking.' esperada em TextFixes
+
+veredito: intacto -> exit 0 (verde) | sem a entrada -> exit 1 (REPROVADO)
+CASO NEGATIVO PROVADO: vermelho->verde pela remocao de UMA entrada real.

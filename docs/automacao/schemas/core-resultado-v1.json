@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gumatos/stolen-realm-mods/blob/main/docs/automacao/schemas/core-resultado-v1.json",
+  "title": "Schema do Resultado Consolidado do Core KIT-04",
+  "version": "1.0.0",
+  "description": "Forma do objeto devolvido por CorePlugin.ResultadoFinal(). Duas formas: desabilitado (NAO_EXERCITADO) ou habilitado (sessao+identidade+eventos).",
+  "type": "object",
+  "oneOf": [
+    {
+      "title": "Core desabilitado (opt-in off)",
+      "required": ["status"],
+      "properties": {
+        "status": { "const": "NAO_EXERCITADO" }
+      },
+      "additionalProperties": true
+    },
+    {
+      "title": "Core habilitado",
+      "required": ["sessao", "identidade", "eventos"],
+      "properties": {
+        "sessao": { "type": ["string", "null"] },
+        "identidade": { "$ref": "#/definitions/identidade" },
+        "eventos": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["tipo", "detalhe", "timestamp", "dados"],
+            "properties": {
+              "tipo": { "type": "string" },
+              "detalhe": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" },
+              "dados": { "type": "object" }
+            }
+          }
+        },
+        "ultima_captura_png": {
+          "type": "object",
+          "properties": {
+            "caminho": { "type": "string" },
+            "tamanho_bytes": { "type": "integer" },
+            "timestamp": { "type": "string", "format": "date-time" },
+            "status": { "type": "string", "enum": ["sucesso", "erro"] }
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  ],
+  "definitions": {
+    "identidade": {
+      "type": "object",
+      "required": ["hash_fonte_declarado", "hash_dll_do_core", "arquivo_dll_do_core", "bytes_dll_do_core", "erro"],
+      "properties": {
+        "criterio": { "type": "string" },
+        "hash_fonte_declarado": { "type": ["string", "null"] },
+        "hash_dll_do_core": { "type": ["string", "null"], "description": "SHA256 do assembly carregado; null quando nao calculavel" },
+        "arquivo_dll_do_core": { "type": ["string", "null"] },
+        "bytes_dll_do_core": { "type": ["integer", "null"] },
+        "calculo": { "type": "string" },
+        "conferencia_do_driver": { "type": "string" },
+        "erro": { "type": ["string", "null"] }
+      },
+      "additionalProperties": true
+    }
+  }
+}

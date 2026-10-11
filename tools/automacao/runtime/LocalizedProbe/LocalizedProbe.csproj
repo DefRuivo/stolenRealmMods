@@ -1,0 +1,41 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- INT-R1-C5: INSTRUMENTO de bancada (nao e mod, nao entra no pacote publicado, sem
+       alvo de deploy). Assina o hook `ui.localized` da API propria e grava os pares
+       (chave, resultado) que o jogo serviu - a ENTRADA do instrumento de cobertura
+       `tools/cobertura_ui_localized.py`.
+
+       Regras que este csproj respeita:
+         * NAO referencia o Assembly-CSharp do jogo (o assembly e resolvido por NOME em
+           runtime) - mesma regra do modulo api/ (teste `no-game-assembly-dependency`);
+         * NAO tem alvo de deploy: compilar NUNCA escreve no perfil do dono (DEPLOY-2);
+         * `Autorizado=false` por padrao: sem a chave o plugin NAO instala hook, NAO le e
+           grava `{"status":"NAO_EXERCITADO"}`. -->
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>LocalizedProbe</AssemblyName>
+    <RootNamespace>Gumatos.LocalizedProbe</RootNamespace>
+    <Version>0.1.0</Version>
+    <Description>INT-R1-C5: probe opt-in do hook ui.localized (texto servido x texto pedido), somente leitura.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <GameLibDir Condition="'$(GameLibDir)' == ''">$(MSBuildThisFileDirectory)../../../../lib</GameLibDir>
+    <ApiDir Condition="'$(ApiDir)' == ''">$(MSBuildThisFileDirectory)../../../../api</ApiDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="$(ApiDir)/Core/RealmApi.Core.csproj" />
+    <ProjectReference Include="$(ApiDir)/Hooks/RealmApi.Hooks.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>$(GameLibDir)/BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(GameLibDir)/0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameLibDir)/UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameLibDir)/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

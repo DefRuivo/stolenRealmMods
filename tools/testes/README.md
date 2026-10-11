@@ -84,9 +84,40 @@ tools/testes/
 ├── roda.sh                        atalho: escolhe python/python3 e chama o runner
 ├── arcabouco.py                   biblioteca comum: asserts, fixtures, requisitos, META
 ├── regras_shrine.py               TST-2: as regras do excesso de shrine (biblioteca da familia)
+├── regras_rv30.py                 RV-30: a FONTE do bonus (o prefix nao escreve no `Source`; as auras de perigo sem o fator)
 ├── regras_bf.py                   BF-2/BF-2R: as regras do portao de material e do orcamento do diagnostico do BetterFont (lidas do fonte vivo)
 ├── regras_cor.py                  COR-2: as regras de COR dos tres niveis (leitura datada do jogo + a bancada da trava)
+├── regras_bf_estilo.py            TST-7: a DECISAO DE ESTILO do BetterFont, lida do FONTE vivo (o resto do BF-1/BF-2)
+├── regras_bct.py                  TST-8: as regras do BetterCombatText (fonte vivo + IL da DLL), par do regras_bf
+├── regras_bt_texto.py             TST-3: as regras de TEXTO do BetterTooltips (fora de shrine) em Python, o par do regras_bf
+├── regras_formato.py              FORMATO: a regra de formato das notas (RV-17) em codigo, e o material real dela
+├── regras_nivel3.py               NIV3-1: a bancada do nivel 3 que NAO e a linha de auras (sinergia x ordem)
+├── regras_rel.py                  REL-1: o plantio do mod de mentira (a trava de mtime entre a fonte e a DLL)
+├── regras_debugger.py             TST-5: as regras do DUMP (census.py + reflexao x cast + Limpa/Valor)
+├── recorte.py                     recorte ESTRUTURAL de fonte C# (casamento de chaves, NUNCA janela de caracteres)
 ├── README.md                      este contrato
+├── bt10-reaper-prova.log                  BT-10T: a prova fisica no fonte real (3 iscas, sha256 conferido)
+├── bt11-13-prova-de-fogo.log              BT-16: as 13 iscas do BT-11/BT-12/BT-13
+├── bt12f-prova-de-fogo.log                BT-12F: a prova do formato no fonte real (2 iscas)
+├── tst3-bt-texto-prova-reprovando.log     TST-3: a prova de reprovacao do texto do BetterTooltips (isca x teste x metade OK)
+├── niv3-texto-prova.log                   NIV3-2: a prova do texto do nivel 3 (sem defeito PASSA; com defeito REPROVA)
+├── bct-prova-reprovando.log               TST-8: a prova dos ganchos, da regra de ouro e das chaves
+├── bct2-sombra-prova-reprovando.log       BCT-2: a sombra ADAPTATIVA
+├── bct3-sombra-visivel-prova-reprovando.log   BCT-3: a sombra VISIVEL (o FUNDO manda)
+├── bct4-contraste-prova-reprovando.log        BCT-4 + R2: o contraste com a LETRA e o sem-vazamento no level-up
+├── bct5-polaridade-fonte-prova-reprovando.log BCT-5: a polaridade do FONTE (a letra manda o LADO)
+├── formato4-prova-regras-bf-343.log       FORMATO-4: a varredura das janelas de caractere do regras_bf
+├── formato5-prova-regras-bf-343.log       FORMATO-5: o fonte vivo x a migracao para o recorte estrutural
+├── formato5-prova-regras-bf-343.py        FORMATO-5: a bancada reproduzivel da migracao (fora da suite: nome sem t_/cp_)
+├── formato7-prova-faixa.log               FORMATO-7: a FAIXA (inicio, fim) x o texto, no fonte real
+├── formato7-prova-faixa.py                FORMATO-7: a bancada reproduzivel da FAIXA do recorte.py (fora da suite)
+├── formato8-prova-casadores.log           FORMATO-8: a prova dos casadores de chave locais
+├── formato8-prova-casadores.py            FORMATO-8: a bancada reproduzivel dos casadores locais (fora da suite)
+├── formato9-prova-janela.log              FORMATO-9: as 3 janelas da aura no asset (antes x depois)
+├── formato9-prova-janela.py               FORMATO-9: a bancada reproduzivel das 3 janelas (fora da suite: o runner conta como ignorado)
+├── bancada2-prova-linha-antes-do-range.log BANCADA-2: a linha em branco antes de linha de custo SEGUINTE (que o jogo nunca escreve)
+├── debugger-prova-de-fogo.log             TST-5: a prova fisica no census.py e no EfeitosInfo.cs (4 iscas, sha256 conferido)
+├── debugger-prova-de-fogo.py              TST-5: a bancada reproduzivel da prova (fora da suite: o runner conta como ignorado)
 ├── testes/                        A SUITE (descoberta: t_*.py dentro daqui)
 │   ├── puros/                     categoria "pura" - roda sem o jogo
 │   │   ├── t_exemplo_soma_aura.py     EXEMPLO de teste puro (usa fixture)
@@ -99,7 +130,47 @@ tools/testes/
 │   │   ├── t_shrine_excesso_agregado.py    TST-2: a linha agregada item por item
 │   │   ├── t_shrine_excesso_dano.py        TST-2: o dano do Flame e do Decay
 │   │   ├── t_shrine_excesso_formatacao.py  TST-2: as bordas de formato
-│   │   └── t_shrine_contra_prova.py        TST-2: a prova de fogo das 5 iscas
+│   │   ├── t_shrine_contra_prova.py        TST-2: a prova de fogo das 6 iscas
+│   │   ├── t_rv30_shrine_fonte.py         RV-30: o bonus do ShrineEffectBonus nao entra nas auras de PERIGO (o numero dobrado)
+│   │   ├── t_bt10_reaper_toll.py           BT-10T: o Reaper's Toll - fail-safe, procedencia e o formato do sufixo
+│   │   ├── t_bt11_hunger.py                BT-11: a vida MAXIMA do motor e a % do asset em runtime (ancora em `health`)
+│   │   ├── t_bt12_berserkers_blood.py      BT-12/BT-12A/BT-12F: o fator do asset, a ancora por EQUIVALENCIA e o formato
+│   │   ├── t_bt13_atributo_percentual.py   BT-13: `final x pct / (100 + soma)` (e nao `pct` por cento do final)
+│   │   ├── t_bt18_passivas_inimigo.py      BT-18: a tabela da Onda 1 das descricoes de EnemyMod (nota sem eco)
+│   │   ├── t_bt20_conversao_atributo.py    BT-20: a conversao de atributo em Armor/Magic Armor, do interpretador do motor
+│   │   ├── t_bt_uma_entrada_por_texto.py   TST-3: uma entrada por TEXTO (morde o check_dupes e a chave compartilhada)
+│   │   ├── t_bt_substituicao_segura.py     TST-3: o mod so troca quando o exibido e o ingles ORIGINAL (lookup exato, nunca substring)
+│   │   ├── t_bt_regra_do_token.py          TST-3: nenhuma NOTA carrega o token `[N]` (o motor o leria como expressao)
+│   │   ├── t_bt_texto_ausente.py           TST-3: com o texto ausente/inesperado o texto fica INTACTO + motivo, nunca metade
+│   │   ├── t_bt_guard_avaliador.py         TST-3: o GUARD antes do indexador (atributo inexistente LANCA no motor)
+│   │   ├── t_bt_composicao_tooltip.py      TST-3: a COMPOSICAO da tooltip (ordem, uma linha em branco, idempotencia)
+│   │   ├── t_bt_contra_prova.py            TST-3: a prova de fogo da familia de texto (isca + teste da suite + metade OK)
+│   │   ├── t_nivel3_sinergia.py            NIV3-1: o bloco `Your skills on this status` entra no laco da ordem (linha azul por ultimo)
+│   │   ├── t_nivel3_texto.py               NIV3-2: o TEXTO da linha de nivel 3 preso pela FONTE (prefixo, formato, cor)
+│   │   ├── t_bct_aplicador.py              TST-8: gancho a gancho sem PatchAll; o filtro so aceita `[HarmonyPatch]` no TIPO
+│   │   ├── t_bct_regra_de_ouro.py          TST-8: o material e sempre a COPIA por componente (o IL da DLL nao tem setter)
+│   │   ├── t_bct_idempotencia.py           TST-8: aplicar 2x nao acumula (registro por InstanceID; piso no tamanho original)
+│   │   ├── t_bct_defaults.py               TST-8: tooltip de status DESLIGADO, eventos/dado LIGADO e a chave mestra LIGADA
+│   │   ├── t_bct_desligar.py               TST-8: com Ativar=false nenhum gancho age (Awake sai antes; postfix guardado)
+│   │   ├── t_bct_caminho_legado.py         TST-8: UI.Text legado recebe contorno DURO (Outline/Shadow), sem distance field
+│   │   ├── t_bct_diagnostico.py            TST-8: o diagnostico de arranque (5s, PARADA no 1o sucesso, a chave que zera)
+│   │   ├── t_bct_precondicao_shader.py     TST-8: confirma a precondicao do shader antes de aplicar (nao confia por nome)
+│   │   ├── t_bct_sem_acoplamento.py        TST-8: o BCT nao cita o BetterFont (a ligacao e o material por componente)
+│   │   ├── t_bct_sem_vazamento_no_levelup.py  R2: o BCT fica nas 7 superficies dele e NAO toca a janela do level-up
+│   │   ├── t_bct_sombra_adaptativa.py      BCT-2: a sombra ADAPTATIVA (cor -> luminancia -> balde -> hex)
+│   │   ├── t_bct_sombra_contraste_letra.py BCT-4/BCT-5: a sombra fica do LADO OPOSTO ao da letra
+│   │   ├── t_bct_sombra_polaridade_fonte.py BCT-5: a sombra CONTRASTA com a FONTE (letra clara -> sombra escura)
+│   │   ├── t_bct_sombra_visivel_fundo_escuro.py  BCT-3/BCT-4/BCT-5: o FUNDO propoe e a LETRA VETA
+│   │   ├── t_recorte_estrutural.py         FORMATO-3: o recorte de fonte E estrutural, e isso e provado nos DOIS sentidos
+│   │   ├── t_formato_notas.py              RV-17: a linha em branco EXATA e a ORDEM dos blocos (nivel 3 por ultimo)
+│   │   ├── t_formato6_check_patches_janela.py  FORMATO-6: a janela de 2000 chars do check_patches virou recorte estrutural
+│   │   ├── t_formato7_faixa_recorte.py     FORMATO-7: o recorte estrutural devolve a FAIXA (inicio, fim) alem do texto
+│   │   ├── t_formato8_casadores_locais.py  FORMATO-8: os casadores de chave locais delegam ao recorte.py
+│   │   ├── t_formato9_janela_aura.py       FORMATO-9: a base da aura no asset exige UMA formula do eixo documentado
+│   │   ├── t_debugger_parser_contrato.py   TST-5: o contrato do parser do censo (desc por ultimo; '|' e quebra de linha)
+│   │   ├── t_debugger_reflexao_cast.py     TST-5: reflexao x cast (tipo novo de IEffectInfo sai sem recompilar)
+│   │   ├── t_debugger_saneamento.py        TST-5: Limpa/Valor x valores sujos e campos ausentes
+│   │   └── t_debugger_estabilidade.py      TST-5: as 7 categorias e as colunas do censo (nenhuma some)
 │   └── jogo/                      categoria "jogo" - precisa da lib/
 │       └── t_exemplo_referencias_lib.py   EXEMPLO de teste de jogo
 ├── contra-prova/                  A ISCA: testes que TEM de reprovar (cp_*.py)
@@ -113,7 +184,29 @@ tools/testes/
 │   ├── cp_shrine_bonus_somado_a_mao.py   TST-2: as duas tiers somadas (28 no lugar de 20)
 │   ├── cp_shrine_dwarven_sumido.py       TST-2: a aura viva que sumia da lista
 │   ├── cp_shrine_gatilho_uma_instancia.py TST-2: o gatilho repetido contado 1x (a Dwarven que nao stackava, DWA-2)
-│   └── cp_shrine_fracao_e_porcento.py    TST-2: o formato pre-RV-45 (53.4 e dois `%`)
+│   ├── cp_rv30_source_injetado.py        RV-30: o bonus do jogador injetado no `Source` das auras de perigo -> REPROVA
+│   ├── cp_shrine_fracao_e_porcento.py    TST-2: o formato pre-RV-45 (53.4 e dois `%`)
+│   ├── cp_formato_notas_isca.py          FORMATO: a isca da linha em branco/ordem das notas -> REPROVA
+│   ├── cp_formato_notas_ok.py            FORMATO: o mesmo teste, sem o defeito -> PASSA
+│   ├── cp_formato_linha_antes_do_range_isca.py  FORMATO: a linha em branco antes do `Range` -> REPROVA
+│   ├── cp_formato_linha_antes_do_range_ok.py    FORMATO: o mesmo, sem o defeito -> PASSA
+│   ├── cp_formato_quebra_do_jogo_isca.py        FORMATO: a quebra do jogo (AP Cost) lida como do mod -> REPROVA
+│   ├── cp_formato_quebra_do_jogo_ok.py          FORMATO: o mesmo, sem o defeito -> PASSA
+│   ├── cp_nivel3_sinergia_isca.py        NIV3-1: a nota remanejada DEPOIS da linha azul -> REPROVA
+│   ├── cp_nivel3_sinergia_ok.py          NIV3-1: o mesmo, sem o defeito -> PASSA
+│   ├── cp_bt_uma_entrada_isca.py         TST-3/1: o fonte plantado com chave repetida (a isca acredita que esta limpo) -> REPROVA
+│   ├── cp_bt_uma_entrada_ok.py           TST-3/1: o mesmo teste sobre o LocalizePatch real (limpo) -> PASSA
+│   ├── cp_bt_substituicao_isca.py        TST-3/2: trocar por SUBSTRING, em vez do exibido == original -> REPROVA
+│   ├── cp_bt_substituicao_ok.py          TST-3/2: a regra de hoje (lookup exato) -> PASSA
+│   ├── cp_bt_token_isca.py               TST-3/3: uma NOTA carrega o token `[0]` -> REPROVA
+│   ├── cp_bt_token_ok.py                 TST-3/3: as tabelas de verdade, sem token -> PASSA
+│   ├── cp_bt_texto_ausente_isca.py       TST-3/4: o funil SEM guarda deixa a excecao escapar -> REPROVA
+│   ├── cp_bt_texto_ausente_ok.py         TST-3/4: a regra de hoje (snapshot + try/catch) -> PASSA
+│   ├── cp_bt_guard_isca.py               TST-3/5: indexar SEM o guard, o atributo inexistente explode -> REPROVA
+│   ├── cp_bt_guard_ok.py                 TST-3/5: a regra de hoje (guard antes do indexador) -> PASSA
+│   ├── cp_bt_composicao_isca.py          TST-3/6: a linha de auras anexada ANTES das notas (a ORDEM) -> REPROVA
+│   ├── cp_bt_composicao_idem_isca.py     TST-3/6: anexar SEM extrair, a nota duplica (a IDEMPOTENCIA) -> REPROVA
+│   └── cp_bt_composicao_ok.py            TST-3/6: a regra de hoje (ordem + 1 linha em branco + idempotente) -> PASSA
 └── fixtures/                      entradas e saidas esperadas, versionadas
     ├── README.md                  convencao de nome + procedencia
     ├── soma-aura.entrada.json
@@ -213,7 +306,9 @@ build/execucao falhou por falta de dependencia -> `arc.NaoRodou`; teste falhou -
 ## A familia TST-2 (excesso de shrine)
 
 Quatro testes PUROS + cinco iscas, sobre um dataset UNICO de fixture
-(`excesso-shrine`), gerado por um oraculo proprio:
+(`excesso-shrine`), gerado por um oraculo proprio. O RV-30 acrescenta
+`t_rv30_shrine_fonte.py` e a isca `cp_rv30_source_injetado.py` — os dois sobre o
+FONTE VIVO (`regras_rv30.py`), nao sobre a fixture:
 
 | teste | o que ele trava |
 |---|---|
@@ -221,7 +316,8 @@ Quatro testes PUROS + cinco iscas, sobre um dataset UNICO de fixture
 | `t_shrine_excesso_agregado.py` | a linha `Your active shrine auras:`: a aura repetida conta 1x (`Dodge +120%` -> `+40%`), auras no mesmo atributo somam, o Dwarven nunca some — e, pelo TIPO do efeito (DWA-2), a aura de GATILHO conta por INSTANCIA (`Stun chance +40%; Stun chance +40%` com dois Dwarven), nunca somada a mao |
 | `t_shrine_excesso_dano.py` | o dano do Flame/Decay (minimo 1 so no Flame, vida maxima 3/100, half-to-even, um alvo por item) |
 | `t_shrine_excesso_formatacao.py` | as bordas de formato (Ceil da ficha, `.5`, `-0.4`, inteiro sem `.0`, um `%` por rotulo, U+2212) |
-| `t_shrine_contra_prova.py` | roda as 5 iscas e exige que cada uma reprove PELO MOTIVO CERTO, e que o teste da suite passe |
+| `t_shrine_contra_prova.py` | roda as 6 iscas (as 5 do TST-2 + a do RV-30) e exige que cada uma reprove PELO MOTIVO CERTO, e que o teste da suite passe |
+| `t_rv30_shrine_fonte.py` | RV-30: o prefix `FixShrineExpressionParams` NAO escreve no `Source` e as QUATRO avaliacoes de perigo (Decay/Flame) usam a constante SEM o fator com `Source` = null; as 9 auras de BUFF seguem com o receptor nos dois slots (`Target[...]` = quem RECEBE). A isca prova que a checagem morde (o trecho do RV-34 e acusado) e que `gameFunctionParameters.Source ==` (LEITURA de log) nao e confundido com a ESCRITA |
 
 **Uma fixture para a familia inteira.** A convencao `<nome-do-teste>.<papel>.<ext>` vale por
 teste; aqui os quatro testes compartilham o caso `excesso-shrine` de proposito: e UM oraculo e UM
@@ -437,6 +533,38 @@ tela: a ligacao com o motor e a ESTRUTURA do fonte (recorte por casamento de cha
 O que o teste amarra e que o botao SAI de sob o HUD e passa a morar na janela ativa; a posicao exata
 (canto superior direito) e o tamanho (`LadoMinimoLevelUp`) podem ser ajustados depois de ver em jogo —
 quem confirma a tela e o dono.
+
+---
+
+## A familia TST-5 (o dump do RoguelikeDebugger)
+
+Quatro testes PUROS e uma prova de fogo FISICA, sobre o `tools/census.py` (o parser do
+dump) e o fonte VIVO do dump (`RoguelikeDebugger/`). A regra que a familia existe para
+tornar executavel: **um campo novo no dump pode quebrar o censo em silencio** (`desc=`
+precisa continuar por ULTIMO; um `|` DENTRO de um valor TRUNCA o campo; uma quebra de
+linha perde a linha inteira), e **um tipo concreto novo de `IEffectInfo` tem de sair no
+dump por REFLEXAO, sem recompilar** (o cast `as GeneralEffect` apagava o dado COM O TIPO
+junto - o defeito real que a RV-8b-0g consertou). A familia vive em `regras_debugger.py`.
+
+| teste | o que ele trava |
+|---|---|
+| `t_debugger_parser_contrato.py` | as tres regexes do censo contra a linha no formato ATUAL (campo a campo LIDO do `ActionStatusInventoryPatch.cs`, nao digitado) e no ANTIGO (a fixture versionada `debugger-parser-contrato.entrada.log`, verbatim de `shrines-exemplo.log`); `desc=` e o ULTIMO campo, nenhum valor tem `|` nem quebra de linha, e as chaves que o censo LE para `Status` estao todas entre as emitidas (senao a coluna vira vazia em silencio). Iscas: campo depois do `desc`, `|` no valor, quebra de linha, campo renomeado (vira chave ausente) e o fonte reordenado |
+| `t_debugger_reflexao_cast.py` | o MODELO reflexao x cast com as DUAS implementacoes reais e uma TERCEIRA SIMULADA (`TerceiroEffectInfo`): a reflexao publica os TRES tipos, o cast so o `GeneralEffect` (perde o resto em silencio); e o FONTE VIVO (`EfeitosInfo.cs`): `Descreve`/`DescreveCore`/`Um` leem por `GetType`/`GetFields`/`GetValue`, publicam `t.Name` e nao fazem cast na interface; o patch publica `efTipos` por `EfeitosInfo.Descreve(s.Effects)`. Iscas: o cast de volta no `Um`, a enumeracao sem `GetValue`, o nome do tipo nao publicado e o campo trocado |
+| `t_debugger_saneamento.py` | o `Limpa` (`|`->`/`, aspas->`'`, LF/CR->espaco, Trim, vazio/nulo->"") e o `Valor` (nulo/vazio->`-`, array->`[N]`) no MODELO e no FONTE; o marcador `!erro:<Tipo>` do RD-2F e seguro para o parser; a PROVA, no parser real, de que um `|` no valor TRUNCA o campo; e os campos AUSENTES (a linha antiga vira chave ausente; o `[Summon]` nao tem `desc=` por desenho). Iscas: o `Limpa` sem cada troca, o marcador com `|` |
+| `t_debugger_estabilidade.py` | as SETE categorias do censo continuam; as colunas de cada uma sao o PREFIXO do CSV VERSIONADO `docs/cobertura/<arquivo>` (procedencia: o CSV e o artefato, nada digitado) - nenhuma coluna some nem muda de ordem; e toda chave lida com `f.get(...)` existe no `FIELD` (senao a coluna vira vazia). Iscas: coluna removida, ordem trocada, chave fora do `FIELD` e o CSV encurtado |
+
+**A prova de fogo FISICA.** O script `tools/testes/debugger-prova-de-fogo.py` (fora da
+suite: nome sem `t_`/`cp_`) planta UM defeito no arquivo REAL de cada teste
+(`tools/census.py` e `RoguelikeDebugger/EfeitosInfo.cs`), roda o teste pelo runner e
+RESTAURA o arquivo byte a byte com sha256 conferido; o resultado esta em
+`tools/testes/debugger-prova-de-fogo.log`. Cada teste tambem traz a isca EMBUTIDA (o
+defeito numa copia em memoria, e a checagem tem de reprovar pela razao certa), como no
+BT-10, no MAN-2 e na RSTV-8.
+
+**O que esta familia NAO prova.** Nao roda o `parse()` do censo (ele ESCREVE os CSVs de
+`docs/cobertura/`) nem executa o C# do mod (pediria a `lib/` do jogo e um harness por
+test): a ligacao com o motor e a ESTRUTURA do fonte vivo (recorte por casamento de
+chaves) e o log VERSIONADO que reproduz o formato do dump.
 
 ---
 

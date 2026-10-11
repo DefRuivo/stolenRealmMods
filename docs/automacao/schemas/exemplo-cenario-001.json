@@ -1,0 +1,60 @@
+{
+  "$schema": "../schemas/cenario-v1.json",
+  "id": "kit-02-exemplo-001",
+  "titulo": "Exemplo: Verificação de Atributo de Personagem",
+  "descricao": "Cenário de teste simples para demonstrar o formato JSON executável",
+  "versao": "1.0.0",
+  "dependencias": [],
+  "requisitos": {
+    "versao_jogo": "2022.3.62f3",
+    "versao_bepinex": "5.4.23.5",
+    "mods_necessarios": ["biblioteca-de-terceiros"]
+  },
+  "passos": [
+    {
+      "ordem": 1,
+      "acao": "aguardar",
+      "parametros": { "segundos": 2 },
+      "timeout_ms": 5000
+    },
+    {
+      "ordem": 2,
+      "acao": "ler_dado",
+      "parametros": {
+        "caminho": "SavedMap['Player'].Guid",
+        "nome_dado": "player_guid"
+      },
+      "timeout_ms": 2000
+    },
+    {
+      "ordem": 3,
+      "acao": "verificar",
+      "parametros": {
+        "dado": "player_guid",
+        "operador": "ne",
+        "valor": null
+      },
+      "timeout_ms": 2000
+    },
+    {
+      "ordem": 4,
+      "acao": "gravar_evento",
+      "parametros": {
+        "tipo": "data_read",
+        "nivel": "info",
+        "contexto": { "janela": "inventory" },
+        "dados": { "player_guid": "{{player_guid}}" }
+      }
+    }
+  ],
+  "esperadas": [
+    {
+      "evento": "data_read",
+      "verificacao": {
+        "campo": "dados.player_guid",
+        "operador": "ne",
+        "valor": null
+      }
+    }
+  ]
+}

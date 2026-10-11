@@ -1,0 +1,30 @@
+{
+  "caso": "rstv27-rodape-valor",
+  "procedencia": "oraculo_rstv27 (C#) - GERADO, nunca somado a mao: o caminho de conta do motor transcrito do decompilado do ActionInfo (lib/Assembly-CSharp.dll), com aritmetica FLOAT e as conversoes Mathf.CeilToInt / Mathf.FloorToInt / Mathf.Max",
+  "gerado_por": "tools/testes/fixtures/geradores/oraculo_rstv27",
+  "caminhos": {
+    "sem_personagem": "Tooltip.ShowSkillTooltip com `tooltipCharacter = TooltipCharacter` null: ActionInfo.GetManaCost() / GetActionCooldown() / GetSimpleRange(TargetInfo)",
+    "com_personagem": "Tooltip.ShowSkillTooltip com `tooltipCharacter` != null: ActionInfo.GetManaCost(Character) / GetActionCooldown(Character) / GetSimpleRange(Character, TargetInfo)"
+  },
+  "sem_personagem": {
+    "mana": 10,
+    "cooldown": 3,
+    "alcance": 4
+  },
+  "por_personagem": {
+    "Outro": {
+      "mana": 15,
+      "cooldown": 3,
+      "alcance": 4
+    },
+    "Raven": {
+      "mana": 8,
+      "cooldown": 1,
+      "alcance": 5
+    }
+  },
+  "personagens_com_divergencia": [
+    "Outro",
+    "Raven"
+  ]
+}

@@ -1,0 +1,60 @@
+{
+  "assembly": {
+    "caminho": "E:\\SteamLibrary\\steamapps\\common\\Stolen Realm\\Stolen Realm_Data\\Managed\\Assembly-CSharp.dll",
+    "sha256": "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a"
+  },
+  "decompilado": {
+    "caminho": "evidencias/codigo/Assembly-CSharp.decompiled.cs",
+    "sha256": "e0cf932f9bac1eced40a5769dbd0b3d591f3132d05a40964efe519a581432fe9",
+    "linhas": 371804,
+    "ferramenta": "ilspycmd 8.2.0.7535"
+  },
+  "build_info_literal": "Build from JJS_DESKTOP at 09/10/2026 14:39:09",
+  "assets": [
+    {
+      "arquivo": "globalgamemanagers",
+      "bytes": 149560180,
+      "sha256": "7d36bb68b2f708ec3e631b0c08b54dd4ba83dc13c9435afa04c407487eb62760"
+    },
+    {
+      "arquivo": "globalgamemanagers.assets",
+      "bytes": 495400,
+      "sha256": "4aa8eaa5e2eb271362dc4b8b60593705a6ccdaa69ba220515091321c529df0f9"
+    },
+    {
+      "arquivo": "level0",
+      "bytes": 23328,
+      "sha256": "5ebb0f37b08e3a25b45afb1a462ec5bfcdc4ed13e8807710a315be807eaea388"
+    },
+    {
+      "arquivo": "level1",
+      "bytes": 2472012,
+      "sha256": "03351ac899698bf96f7e10d4b4eeb2e34980cae77fcf8959f146a58f322e298f"
+    },
+    {
+      "arquivo": "level2",
+      "bytes": 11504,
+      "sha256": "8e6e731d573a6928bddcb348b50088464fc9287dd6bfbe721e92135a54881cee"
+    },
+    {
+      "arquivo": "resources.assets",
+      "bytes": 1723507220,
+      "sha256": "cbdfcd0fa8ecc338029024acfeb6f939593aa99a1f291ae65f4776fcb0dbc012"
+    },
+    {
+      "arquivo": "sharedassets0.assets",
+      "bytes": 726144,
+      "sha256": "9193c01343a1af7a64b74c6251c37142904efb82bff08cf77647bb3e1eab53e7"
+    },
+    {
+      "arquivo": "sharedassets1.assets",
+      "bytes": 26264008,
+      "sha256": "d8cc82daf54887820e92976108ec924fa3b30c518730914ea5d9d96e9feb5671"
+    },
+    {
+      "arquivo": "sharedassets2.assets",
+      "bytes": 1324,
+      "sha256": "029c29c56b0fefd4459b4ba8ce5484cb7156ce0e33a58d20d8ea3aca11c45bd3"
+    }
+  ]
+}

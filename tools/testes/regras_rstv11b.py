@@ -19,7 +19,7 @@ para nao refluir o painel.
    dentro do `Content` reflui o painel inteiro — o defeito que a isca planta.
 3. O clone e o `AcceptButton` [503691] como molde: herda o `Button.onClick` SERIALIZADO (que chama
    `ConfirmLevelUpSelection` = escrita). O `RemoveAllListeners()` NAO o remove (limpa so a lista de
-   runtime — RSTV-12); a limpeza troca a INSTANCIA do evento (`SelectPartyButton.ClearClickListeners`)
+   runtime — RSTV-12); a limpeza troca a INSTANCIA do evento (`NativeUiHelpers.ClearClickListeners`)
    e so entao instala o listener proprio (`RunButton.OpenForTarget`). O rotulo "Accept/Next" e escrito
    no ORIGINAL pelo `CurLevelUpStage`
    (l.168718); o clone tem o proprio `Text`, desligado dos localizadores (`DisableLocalizers`) e
@@ -230,11 +230,11 @@ def falhas_do_botao_da_janela(src_janela, src_patches):
     # -------------------- 5) onClick SERIALIZADO limpo + o listener UNICO (RunButton.OpenForTarget)
     # RSTV-12: o `RemoveAllListeners()` NAO limpa o listener PERSISTENTE (serializado no prefab):
     # ele esvazia so a lista de runtime (`InvokableCallList.Clear()`) e o persistente roda ANTES do
-    # nosso. A limpeza passou a trocar a INSTANCIA do evento (`SelectPartyButton.ClearClickListeners`),
+    # nosso. A limpeza passou a trocar a INSTANCIA do evento (`NativeUiHelpers.ClearClickListeners`),
     # que descarta junto a lista serializada.
-    if "SelectPartyButton.ClearClickListeners(button)" not in interno:
+    if "NativeUiHelpers.ClearClickListeners(button)" not in interno:
         falhas.append("EnsureInternal nao descarta o onClick SERIALIZADO do AcceptButton "
-                      "(`SelectPartyButton.ClearClickListeners`) — o `ConfirmLevelUpSelection` "
+                      "(`NativeUiHelpers.ClearClickListeners`) — o `ConfirmLevelUpSelection` "
                       "(avanco de level-up = ESCRITA) continuaria no clone")
     if "RemoveAllListeners()" in interno:
         falhas.append("EnsureInternal voltou a usar `RemoveAllListeners()` — ele limpa so a lista de "

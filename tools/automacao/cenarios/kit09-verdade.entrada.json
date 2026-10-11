@@ -1,0 +1,45 @@
+{
+  "esquema": "KIT-09/rstv-cenarios/1",
+  "rotulo_fixture": "kit09-verdade-sintetica",
+  "sintetico": true,
+  "aviso": "ARTEFATO SINTETICO, NAO e leitura de jogo. Existe SO para exercitar o caminho OK do pacote de cenarios do KIT-09 (o teste injeta procedencia=runtime/sessao e usa os hashes declarados como identidade). Nao tem valor probatorio de runtime: fixture nao prova produto. `hash_fonte` segue o contrato REAL do coletor CIC-5 (sha256 da DLL do probe) e por isso casa com `dll_sha`.",
+  "procedencia": "runtime",
+  "sessao": "2026-10-05T00:00:00-sintetica",
+  "hash_fonte": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "identidade": {
+    "fonte_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "dll_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+  },
+  "observacoes": [
+    {
+      "procedencia": "runtime",
+      "sessao": "2026-10-05T00:00:00-sintetica",
+      "hash_fonte": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "janela": {"aberta": true, "fechada": true, "fechado_x": true, "fechado_esc": true},
+      "personagem": {"gui_state": "ChoosingCharacter", "personagem": "Raven"},
+      "personagem_esperado": "Raven",
+      "skills_antes": ["Fireball", "Frostbolt"],
+      "skills_depois": ["Fireball", "Frostbolt"],
+      "pontos_antes": 5,
+      "pontos_depois": 5,
+      "texto_bruto": "Deals [2] fire damage.",
+      "texto_renderizado": "Deals 12 fire damage.",
+      "tooltip_pai_antes": "GUI Manager/Tooltips / Popups",
+      "tooltip_pai_depois": "GUI Manager/Tooltips / Popups",
+      "tooltip_indice_antes": 3,
+      "tooltip_indice_depois": 3,
+      "janelas_duplicadas": 0,
+      "linhas_dependencia": {"T1": 2, "T5": 0},
+      "dependency_por_tier": {"T1": 2, "T5": 0},
+      "arestas_inventadas": 0,
+      "geometria": {
+        "caixa_na_tela_px": {"x": 10, "y": 10, "largura": 100, "altura": 50},
+        "tela": "1920x1080"
+      },
+      "handler_invocado": true,
+      "clique_fisico": {"recebido": true, "alvo": "BottomBar/SkillsButton"},
+      "obstrucao": {"avaliada": true, "obstruido": false, "por": ""},
+      "evidencia": ["tools/automacao/cenarios/kit09-verdade.entrada.json"]
+    }
+  ]
+}

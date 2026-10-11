@@ -1,0 +1,72 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gumatos/stolen-realm-mods/blob/main/docs/automacao/schemas/cenario-v1.json",
+  "title": "Schema de Cenário Executável",
+  "version": "1.0.0",
+  "description": "Definição de cenários para execução determinística",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "ID único do cenário"
+    },
+    "titulo": { "type": "string" },
+    "descricao": { "type": "string" },
+    "versao": { "type": "string" },
+    "dependencias": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "IDs de outros cenários que devem ser executados antes"
+    },
+    "requisitos": {
+      "type": "object",
+      "properties": {
+        "versao_jogo": { "type": "string" },
+        "versao_bepinex": { "type": "string" },
+        "mods_necessarios": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "passos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "ordem": { "type": "integer" },
+          "acao": {
+            "type": "string",
+            "enum": ["aguardar", "ler_dado", "verificar", "gravar_evento", "esperar_frame"]
+          },
+          "parametros": { "type": "object" },
+          "timeout_ms": { "type": "integer" }
+        },
+        "required": ["ordem", "acao"]
+      }
+    },
+    "esperadas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "evento": { "type": "string" },
+          "verificacao": {
+            "type": "object",
+            "properties": {
+              "campo": { "type": "string" },
+              "operador": {
+                "type": "string",
+                "enum": ["eq", "ne", "gt", "lt", "regex"]
+              },
+              "valor": { "type": ["string", "number"] }
+            },
+            "required": ["campo", "operador", "valor"]
+          }
+        },
+        "required": ["evento", "verificacao"]
+      }
+    }
+  },
+  "required": ["id", "titulo", "passos", "esperadas"]
+}

@@ -21,8 +21,10 @@ FONTES (todas no repositorio ou no install do jogo - nenhuma "de cabeca"):
   A) `docs/cobertura/status.csv` - censo do dump de boot do RoguelikeDebugger. A coluna `efeitos`
      traz a EXPRESSAO REAL do status do jogo, ex.:
        Warrior Aura, ...,"DamageMod:Base:Mathf.Round(20 * (1 + (Target[\"ShrineEffectBonus\"] / 100)))", ...
-     De la saem a BASE e o ATRIBUTO das 9 auras de buff (Warrior, Guardian, Conqueror, Rogue,
-     Reaper, Seraph, Shaman, Energy, Fury). Citacao: `docs/cobertura/status.csv:<linha>`.
+     De la saem a BASE, o ATRIBUTO e o EIXO (o slot `Target`/`Source`) das 9 auras de buff
+     (Warrior, Guardian, Conqueror, Rogue, Reaper, Seraph, Shaman, Energy, Fury). Citacao:
+     `docs/cobertura/status.csv:<linha>`. As 9 TEM de ler `Target` - uma aura de buff que passe a
+     ler `Source` FALHA aqui (o gerador nao chuta o eixo).
   B) `resources.assets` do install (1,7 GB) - para as 3 auras que o censo NAO le (o `efeitos` delas
      e VAZIO de proposito: Dwarven nao expoe efeito e Decay/Flame usam `Source`, RV-19 §5):
        - Dwarven Aura / `Dwarven Totem Aura Status`: `Mathf.Round(20 * (1 + (Target[...] / 100)))`
@@ -34,11 +36,28 @@ FONTES (todas no repositorio ou no install do jogo - nenhuma "de cabeca"):
      dos 6 parametros e a assinatura real, RV-19 §4.3). Serializadas em UTF-16LE pelo Odin
      (armadilha documentada em RV-19 §1: um grep ASCII nao acha nada dessas formulas).
 
+EIXO (Source x Target) - RV-30 (03/10)
+--------------------------------------
+Cada aura le o `ShrineEffectBonus` de UM slot, e o slot decide QUEM paga o bonus:
+  * as 9 de BUFF leem `Target[...]` -> o bonus e o de QUEM RECEBE a aura (o jogador em foco);
+  * o Dwarven (asset) le `Target[...]` -> igual as de buff;
+  * as DUAS de PERIGO (Decay/Flame, asset) leem `Source[...]`. Num status de ground effect o
+    `Source` e o personagem VAZIO do shrine (RV-30): `BONUS_DA_FONTE = 0`. O valor delas NAO
+    depende do caso_bonus do jogador - a linha do `contribuicao_esperada` sai IGUAL a base nos 3
+    casos, e quem escala e so o eixo `Target`.
+O `eixo` que o gerador LE de cada aura e gravado na coluna `eixo` da tabela (rastreavel); ele
+tambem e COBRADO: aura de buff com eixo != `Target` FALHA aqui, e as de perigo tem de sair `Source`
+(o contrato de `AURAS_ASSET`). Fonte: `docs/cobertura/revisao/RV-19-shrines.md` §5/§8 e
+`tools/testes/regras_rv30.py` (o prefix do mod NAO injeta mais o jogador no `Source`).
+
 SAIDA (versionada; NUNCA editar a mao - rodar de novo):
   * tools/dados/shrines-esperado.csv    - 1 linha por (aura, atributo, caso de bonus). Colunas:
-      aura,atributo,tipo,base,fonte_base,caso_bonus,contribuicao_esperada,total_esperado,
+      aura,atributo,tipo,base,eixo,fonte_base,caso_bonus,contribuicao_esperada,total_esperado,
       resto_esperado,fonte_total
-    `contribuicao_esperada` sai SEMPRE da base citada em `fonte_base`. `total_esperado` /
+    `eixo` e o slot que a aura le (`Target`/`Source`), lido da fonte junto da base. `contribuicao_esperada`
+    sai SEMPRE da base citada em `fonte_base`, multiplicada pelo bonus DO EIXO: `Target` -> o caso do
+    jogador; `Source` -> o do shrine (`BONUS_DA_FONTE`, RV-30). Por isso as duas auras de PERIGO
+    (eixo `Source`) saem IGUAIS a base nos 3 casos. `total_esperado` /
     `resto_esperado` so saem preenchidos nos casos que o repositorio PROVA em jogo (os prints do
     dono em RV-19 §9.1/§10.5: Fury bonus 0 e 100, Rogue bonus 100); nos demais o total depende do
     equipamento do personagem e o campo fica VAZIO - total nao se inventa (a fonte vai em
@@ -91,6 +110,16 @@ RV19 = "docs/cobertura/revisao/RV-19-shrines.md"
 
 # Ordem oficial dos parametros de `Character.GetValueByEnemyType` (decompilado l.38351; RV-19 §4.3).
 ORDEM_TIPOS = ["boss", "champion", "elite", "soldier", "fodder", "player"]
+
+# RV-30 (03/10) — O BONUS DO SOURCE. As duas auras de PERIGO (Decay/Flame) leem
+# `Source["ShrineEffectBonus"]` e num status de ground effect o `Source` e o personagem VAZIO do
+# shrine: `GroundEffect.AddGroundEffectedPlayer` -> `GameLogic.CreateActionStatus(Source, player, ...)`
+# com `Source = GroundEffect.Source` (`ConvertToGroundEffect`), e esse personagem nasce de
+# `Root.CreateNewGroundEffectCharacter` -> `Observable.New<Character>()` — sem atributo nenhum.
+# Logo o fator delas e `1 + 0/100 = 1` e o valor NAO depende do bonus do jogador. Fonte:
+# docs/cobertura/revisao/RV-19-shrines.md §5/§8 + tools/testes/regras_rv30.py + o prefix do mod
+# (`ShrineAuraPatch.FixShrineExpressionParams`, RV-30: so preenche `Target`, nunca escreve `Source`).
+BONUS_DA_FONTE = 0.0
 
 # Candidatos de install do jogo (o primeiro que existir e usado). Tambem pode vir por `--asset`;
 # sem nenhum deles o gerador FALHA em vez de gerar tabela sem fonte.
@@ -178,6 +207,21 @@ def esperado(base, bonus):
     return float(round_half_even(base * (1.0 + bonus / 100.0)))
 
 
+def bonus_do_eixo(eixo, caso_bonus):
+    """O bonus que MULTIPLICA a aura, dado o EIXO dela (RV-30).
+
+    `Target` -> o bonus de quem RECEBE a aura = o caso do jogador (0/20/100 da tabela).
+    `Source` -> o bonus do SOURCE; num ground effect e o personagem vazio do shrine, cujo
+    `ShrineEffectBonus` e `BONUS_DA_FONTE` (0). As duas de perigo (Decay/Flame) caem aqui.
+    """
+    return caso_bonus if eixo == "Target" else BONUS_DA_FONTE
+
+
+def contribuicao_esperada(base, eixo, caso_bonus):
+    """`esperado(base, bonus_do_eixo(eixo, caso_bonus))` - a contribuicao DA AURA no caso."""
+    return esperado(base, bonus_do_eixo(eixo, caso_bonus))
+
+
 def procura_asset():
     for p in CANDIDATOS_ASSET:
         if os.path.isfile(p):
@@ -221,6 +265,12 @@ def bases_do_censo(aura, caminho_csv=None):
                         "(docs/cobertura/status.csv:%d)\n"
                         "  -> o gerador NAO chuta: corrija a fonte ou a forma esperada."
                         % (metodo, aura, expr, linha))
+                if m.group(2) != "Target":
+                    raise SystemExit(
+                        "FALHA: a aura de BUFF '%s' le `%s[\"ShrineEffectBonus\"]` (linha %d de "
+                        "docs/cobertura/status.csv) e as auras de BUFF leem `Target[...]` (o bonus "
+                        "de QUEM RECEBE a aura). Eixo inesperado - o gerador NAO chuta o eixo."
+                        % (aura, m.group(2), linha))
                 achados.append((atributo, float(m.group(1)), m.group(2),
                                 "docs/cobertura/status.csv:%d" % linha))
             if not achados:
@@ -342,15 +392,17 @@ def monta_tabelas(asset, caminho_csv=None):
     saida = []
     for r in registros:
         for caso_nome, bonus in CASOS:
-            contrib = esperado(r["base"], bonus)
+            # RV-30: a contribuicao sai do bonus DO EIXO da aura (Target = caso do jogador;
+            # Source = o do shrine, BONUS_DA_FONTE). Nada aqui usa o bonus do jogador fora do eixo.
+            contrib = contribuicao_esperada(r["base"], r["eixo"], bonus)
             total = resto = fonte_total = ""
             aceite = ACEITES.get((r["aura"], r["atributo"], caso_nome))
             if aceite:
                 total = "%g" % aceite[0]
                 resto = "%g" % aceite[1]
                 fonte_total = "%s:%d" % (RV19, aceite[2])
-            saida.append([r["aura"], r["atributo"], r["tipo"], "%g" % r["base"], r["fonte_base"],
-                          caso_nome, "%g" % contrib, total, resto, fonte_total])
+            saida.append([r["aura"], r["atributo"], r["tipo"], "%g" % r["base"], r["eixo"],
+                          r["fonte_base"], caso_nome, "%g" % contrib, total, resto, fonte_total])
 
     percentuais = percentuais_das_acoes(asset)
     return registros, saida, percentuais
@@ -376,7 +428,7 @@ def main(argv=None):
 
     registros, saida, percentuais = monta_tabelas(asset, censo)
 
-    cab_esperado = ["aura", "atributo", "tipo", "base", "fonte_base", "caso_bonus",
+    cab_esperado = ["aura", "atributo", "tipo", "base", "eixo", "fonte_base", "caso_bonus",
                     "contribuicao_esperada", "total_esperado", "resto_esperado", "fonte_total"]
     cab_perc = ["aura", "acao", "tipo", "percentual", "fonte", "minimo1"]
     txt_esperado = serializa(cab_esperado, saida)

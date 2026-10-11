@@ -54,6 +54,24 @@ def _listar(pasta, prefixo=None):
     return saida
 
 
+def _erros_prosa_testes(texto, n):
+    """Erros da contagem de TESTES em PROSA do doc humano (vazio = conforme).
+
+    KIT-R0F (R2): o guard so olhava "N/N" e "M iscas", entao a linha
+    `... | 15 testes offline ... |` derivava enquanto "16/16" ja estava certo.
+    Extraido para ser exercitavel contra um texto TORTO (a deriva que o guard tem de
+    pegar) sem tocar o doc real.
+    """
+    erros = []
+    if not re.search(r"(?<!\d)%d\s+testes" % n, texto):
+        erros.append("falta a contagem de testes em prosa (%d testes)" % n)
+    prosa = re.findall(r"(?<!\d)(\d+)\s+testes", texto)
+    tortas = sorted({int(v) for v in prosa if int(v) != n})
+    if tortas:
+        erros.append("contagem de testes em prosa != disco (%d): %s" % (n, tortas))
+    return erros
+
+
 def corpo():
     estado_path = os.path.join(C.dir_docs(), "AUT-4-estado.json")
     C.arc.exigir(os.path.isfile(estado_path), "AUT-4-estado.json ausente: %s" % estado_path)
@@ -85,6 +103,18 @@ def corpo():
     C.arc.exigir(str(art.get("probe_dll_identidade") or "").strip(),
                  "A7: a identidade do artefato (hash declarado) tem de estar registrada")
 
+    # KIT-R0F (R2): os OUTROS hashes de driver declarados no estado tambem sao
+    # conferidos — o buraco era o `driver_sha256` derivar CALADO quando `coletor.py`
+    # mudava (nenhum guard olhava esse campo). Mesma classe do achado A7.
+    for campo_path, campo_sha in (("driver", "driver_sha256"),
+                                  ("runner", "runner_sha256"),
+                                  ("driver_controle_negativo", "driver_controle_negativo_sha256")):
+        rel = str(art.get(campo_path) or "").strip()
+        C.arc.exigir(rel, "A7: o estado tem de declarar o caminho de %s" % campo_path)
+        C.arc.igual(art.get(campo_sha),
+                    _sha(os.path.join(C.REPO, rel.replace("/", os.sep))),
+                    "A7: o hash declarado de %s tem de ser o dos bytes em disco" % campo_path)
+
     # ---- A7.3: o doc humano cita os numeros do disco ----
     doc = os.path.join(C.dir_docs(), "AUT-4-preparacao.md")
     C.arc.exigir(os.path.isfile(doc), "AUT-4-preparacao.md ausente: %s" % doc)
@@ -94,6 +124,11 @@ def corpo():
                  "A7: o doc tem de citar a contagem real de testes (%d/%d)" % (n, n))
     C.arc.exigir("%d iscas" % m in texto,
                  "A7: o doc tem de citar a contagem real de iscas (%d iscas)" % m)
+    # A contagem de TESTES em PROSA tambem e travada (KIT-R0F R2): o guard antigo so
+    # olhava "N/N" e "M iscas", entao a linha `... | 15 testes offline ... |` derivava
+    # enquanto "16/16" ja estava certo.
+    for erro in _erros_prosa_testes(texto, n):
+        C.arc.exigir(False, "A7: %s" % erro)
     # Contagens ANTIGAS nao podem sobreviver. A checagem usa fronteira de digito (e nao
     # substring) porque as contagens CRESCERAM: "22 iscas" CONTEM a substring "2 iscas"
     # e "16/16" conteria "6/6" — o guard literal recusaria o proprio numero correto.

@@ -1,0 +1,22 @@
+{
+  "esquema": "KIT-09/rstv-cenarios/1",
+  "rotulo_fixture": "kit09-velho",
+  "sintetico": true,
+  "aviso": "DADO VELHO: observacao com a MESMA identidade/hash da build atual, mas de OUTRA sessao (`sessao` != `sessao_esperada` da identidade). Serve para provar que o criterio `KIT09-sessao-atual` REPROVA em vez de fechar OK: um resultado de outra rodada nao vale para a build medida.",
+  "procedencia": "runtime",
+  "sessao": "2026-09-01T00:00:00-sintetica",
+  "hash_fonte": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "observacoes": [
+    {
+      "procedencia": "runtime",
+      "sessao": "2026-09-01T00:00:00-sintetica",
+      "hash_fonte": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "janela": {"aberta": true, "fechada": true, "fechado_x": true, "fechado_esc": true},
+      "personagem": {"personagem": "Raven"},
+      "personagem_esperado": "Raven",
+      "texto_bruto": "Deals [2] fire damage.",
+      "texto_renderizado": "Deals 12 fire damage.",
+      "evidencia": ["tools/automacao/cenarios/kit09-velho.entrada.json"]
+    }
+  ]
+}

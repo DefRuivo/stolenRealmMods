@@ -94,9 +94,12 @@ def corpo():
         esperado_escala[(e["aura"], e["base"], e["bonus"])] = e["contribuicao"]
     vistas = set()
     for e in esp["escala"]:
-        obtido = reg.escala(e["base"], e["bonus"])
+        # RV-30: a escala de cada aura usa o bonus DO EIXO dela (`Source` -> o do shrine, 0;
+        # `Target` -> o caso do jogador). O eixo vem da fixture (gerada da tabela gerada).
+        obtido = reg.escala(e["base"], reg.bonus_do_eixo(e["eixo"], e["bonus"]))
         arc.igual(obtido, e["contribuicao"],
-                      "escala da aura '%s' (base %s) com bonus %s" % (e["aura"], e["base"], e["bonus"]))
+                      "escala da aura '%s' (base %s, eixo %s) com bonus %s"
+                      % (e["aura"], e["base"], e["eixo"], e["bonus"]))
         vistas.add((e["aura"], e["atributo"]))
     # Toda aura x atributo da tabela gerada tem de estar na matriz (nada de aura sumida).
     da_tabela = {(aura, atributo) for aura, por_atributo in reg.auras_da_tabela().items()
@@ -113,15 +116,40 @@ def corpo():
     # nossa formula e confere o que a fixture diz - os tres tem de concordar.
     linhas = reg.tabela_esperado()
     arc.exigir(linhas, "tools/dados/shrines-esperado.csv sem linhas")
+
+    # ---------------------------------------------------- 3b. o EIXO de CADA aura (RV-30)
+    # O eixo e o slot que a aura le e e ele que diz QUEM paga o `ShrineEffectBonus`. Das 12 da
+    # familia, 10 leem `Target[...]` (o bonus de quem RECEBE = o caso do jogador) e SO as 2 de
+    # PERIGO leem `Source[...]` (o personagem vazio do shrine, `BONUS_DA_FONTE` = 0). O eixo vem da
+    # coluna gerada - nao e digitado aqui.
+    eixos = reg.eixos_das_auras()
+    for a in reg.AURAS_DA_FAMILIA:
+        arc.exigir(a in eixos, "a aura '%s' nao tem eixo na tabela gerada" % a)
+    for a in ("Decay Shrine Aura", "Flame Shrine Aura"):
+        arc.igual(eixos[a], "Source",
+                  "o eixo de '%s' e `Source` (RV-30: o fator e o do shrine, NAO o do jogador)" % a)
+    for a in ("Warrior Aura", "Guardian Aura", "Conqueror Aura", "Rogue Aura", "Reaper Aura",
+              "Seraph Aura", "Shaman Aura", "Energy Aura", "Fury", "Dwarven Aura"):
+        arc.igual(eixos[a], "Target",
+                  "o eixo de '%s' e `Target` (o bonus e o de quem RECEBE a aura)" % a)
+    # ... e a consequencia do eixo `Source`: a contribuicao e IGUAL a base em TODOS os casos do
+    # jogador (o bonus dele nao multiplica a aura de perigo; era o defeito do numero dobrado).
+    for linha in linhas:
+        if linha["eixo"] == "Source":
+            arc.igual(float(linha["contribuicao_esperada"]), float(linha["base"]),
+                      "a aura de eixo Source '%s' (bonus do jogador %s) tem de sair na BASE - o "
+                      "bonus do jogador NAO a multiplica (RV-30)"
+                      % (linha["aura"], linha["caso_bonus"]))
+
     conferidas = 0
     for linha in linhas:
         base = float(linha["base"])
         caso = int(float(linha["caso_bonus"]))
         esperado_csv = float(linha["contribuicao_esperada"])
-        arc.igual(reg.escala(base, caso), esperado_csv,
-                      "tabela gerada: %s/%s base %s com bonus %s (%s)"
+        arc.igual(reg.escala(base, reg.bonus_do_eixo(linha["eixo"], caso)), esperado_csv,
+                      "tabela gerada: %s/%s base %s eixo %s com bonus %s (%s)"
                       % (linha["aura"], linha["atributo"] or "(sem atributo)", linha["base"],
-                         linha["caso_bonus"], linha["fonte_base"]))
+                         linha["eixo"], linha["caso_bonus"], linha["fonte_base"]))
         chave = (linha["aura"], base, caso)
         if chave in esperado_escala:
             arc.igual(esperado_escala[chave], esperado_csv,

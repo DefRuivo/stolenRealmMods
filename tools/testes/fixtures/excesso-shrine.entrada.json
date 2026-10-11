@@ -41,7 +41,7 @@
       "fontes": [
         "Worship"
       ],
-      "nota": "perk Worship (+100)"
+      "nota": "rotulo 'Worship' = 100 (o unico +100 real e o roll maximo do Horn of Devotion); NAO existe perk Worship do jogador (RV-48)"
     },
     {
       "id": "worship-omnism2",
@@ -324,7 +324,7 @@
       "totais": {
         "DamageMod": 155
       },
-      "nota": "STACKS DO MESMO STATUS (TotalStacks = 2): o motor multiplica o valor pelo numero de stacks (Character.cs l.37263; ShrineAuraPatch l.1733) - aqui a contribuicao E 40 x 2 = 80, o contrario do caso da aura repetida (que e a mesma aura, nao mais efeito)."
+      "nota": "STACKS DO MESMO STATUS (TotalStacks = 2): o motor multiplica o valor pelo numero de stacks (Character.cs l.37263; ShrineAuraPatch 1966 · ContribuicaoDasAuras()) - aqui a contribuicao E 40 x 2 = 80, o contrario do caso da aura repetida (que e a mesma aura, nao mais efeito)."
     },
     {
       "id": "teto-guardian-mais-fury",
@@ -418,7 +418,7 @@
       ],
       "alvos": [],
       "totais": {},
-      "nota": "DWA-2 — a MESMA regra numa aura de gatilho que NAO e o Dwarven (prova de que ela e por TIPO, nao por nome): Decay Shrine Aura e `OnTurnStart`, tambem sem atributo de personagem. Com DOIS shrines no alcance o proc de dano roda duas vezes por turno do portador -> dois itens `Shadow damage per turn 20`."
+      "nota": "DWA-2 — a MESMA regra numa aura de gatilho que NAO e o Dwarven (prova de que ela e por TIPO, nao por nome): Decay Shrine Aura e `OnTurnStart`, tambem sem atributo de personagem. Com DOIS shrines no alcance o proc de dano roda duas vezes por turno do portador -> dois itens `Shadow damage per turn 10` (eixo Source = bonus do shrine 0, RV-30: o valor NAO depende do bonus do jogador)."
     },
     {
       "id": "decay-so",
@@ -435,7 +435,7 @@
       ],
       "alvos": [],
       "totais": {},
-      "nota": "Decay sozinho (sem atributo): o item proprio vem do asset avaliado pelo motor - com vida maxima 100 e bonus 100 a % do player (10%) DOBRA: 10 -> 20."
+      "nota": "Decay sozinho (sem atributo): o item proprio vem do asset avaliado pelo motor - com vida maxima 100 e a % do player (10%) sai NA BASE: 10 - o eixo Source (bonus do shrine 0, RV-30) NAO multiplica pelo bonus do jogador; o antigo '10 -> 20' era o Source injetado pelo prefix (RV-34) e o conflito RV-30 x RV-34 e decisao do dono (RV-49)."
     },
     {
       "id": "decay-vida-3",

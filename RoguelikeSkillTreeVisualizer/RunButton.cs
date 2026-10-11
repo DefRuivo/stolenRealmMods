@@ -183,8 +183,12 @@ namespace RoguelikeSkillTreeVisualizer
             }
             else
             {
-                clone = UnityEngine.Object.Instantiate(molde.gameObject, parent);
-                clone.name = ButtonName;
+                // INT-R1-C4: o clone vem da familia `UI` da API (`RstvApiUi.Clonar` ->
+                // `UIFactory.Clone`), que e exatamente o par `Instantiate(molde, pai)` + nome do clone
+                // (o overload de 2 argumentos do jogo cai em `instantiateInWorldSpace: false`, o
+                // mesmo argumento que a API usa — comparacao medida em
+                // docs/automacao/INT-R1-C4-parte02.md). Comportamento, posicao e nome: iguais.
+                clone = RstvApiUi.Clonar(molde.gameObject, parent, ButtonName);
             }
 
             // A ORDEM dos irmaos nao desloca nada: a posicao vem do rect (medido abaixo) e o clone

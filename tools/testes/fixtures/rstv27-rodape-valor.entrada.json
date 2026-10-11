@@ -1,0 +1,57 @@
+{
+  "caso": "rstv27-rodape-valor",
+  "o_que": "RSTV-27 - o RODAPE da tooltip de skill ativa (mana / cooldown / alcance) na janela read-only do modal 'Remove Skill Trees' (tela Party Select). O cenario tem o ALVO DO MODAL definido (ReadOnlySession.Target) e o TooltipCharacter do JOGO nulo. O teste compara o NUMERO que o rodape mostra contra o numero DERIVADO DO ALVO DO MODAL - nunca a base do overload sem personagem.",
+  "procedencia": {
+    "rodape": "Decompilado do Tooltip.ShowSkillTooltip (lib/Assembly-CSharp.dll): o trecho do rodape monta um local PROPRIO `tooltipCharacter = TooltipCharacter` (propriedade GET-ONLY = GameLogic.instance.CurrentlySelectedCharacter, null na Party Select) e le' `GetManaCost(tooltipCharacter)`, `GetActionCooldown(tooltipCharacter)` e `GetSimpleRange(tooltipCharacter, Targets[0])`. O argumento que a RSTV-26 passa NAO alcanca esse trecho.",
+    "formulas": "ActionInfo (lib/Assembly-CSharp.dll), os DOIS caminhos que o rodape escolhe: mana -> `GetManaCost(Character)` = Mathf.Max(0, Ceil(manaCostBase * ratio * (1 + ManaCostMod/100) * (1 + ManaCostMod<SkillType>/100) * (1 + (Level-1) * manaScalePerLevelPercentage/100))) x `GetManaCost()` = Floor(manaCostBase * ratio); cooldown -> `GetActionCooldown(Character)` = Floor(Eval(Cooldown, Source=character)) + CooldownMod + CooldownMod<SkillType>, com Mathf.Max(1, ...) quando > 1 x `GetActionCooldown()` = Floor(Eval(Cooldown, parametros default)); alcance -> `GetSimpleRange(Character, TargetInfo)` = Mathf.Max(SimpleRange != 0 ? 1 : 0, SimpleRange + RangeAdderMelee/Ranged) com o teto de cego x `GetSimpleRange(TargetInfo)` = SimpleRange cru.",
+    "numeros": "NAO ha save do dono versionado: os NUMEROS do cenario sao o CASO declarado (manaCostBase, ratio, cooldown literal e os atributos dos personagens). O que o ORACULO garante e' que a conta sai das FORMULAS do motor acima - e ele proprio FALHA se o cenario nao fizer o valor do alvo DIVERGIR da base (um caso em que os dois caminhos dessem o mesmo numero nao provaria nada).",
+    "limite": "Nao executa o C# do jogo (pediria um harness do Unity): a ligacao com o motor e' a transcricao citada acima (oraculo C#) + a leitura do FONTE VIVO do mod no teste (quem o rodape consulta) + o decompilado. Os numeros de JOGO na tela saem no DoD."
+  },
+  "globais": {
+    "manaCostBase": 10.0,
+    "manaScalePerLevelPercentage": 8.0,
+    "nota": "manaScalePerLevelPercentage entra na formula transcrita, mas o caso usa Level=1 nos dois personagens: o termo vira 1 e o global NAO influencia a conta deste caso."
+  },
+  "skill": {
+    "nome": "Golpe do cenario",
+    "SkillType": "Melee",
+    "ManaCostRatio": 1.0,
+    "Cooldown": "3",
+    "tags": ["Melee"],
+    "target": { "SimpleRange": 4 },
+    "nota": "Cooldown LITERAL: o Eval devolve 3 nos DOIS caminhos; a divergencia do cooldown vem do CooldownMod, que so' o caminho COM personagem soma."
+  },
+  "personagens": {
+    "Raven": {
+      "papel": "alvo do MODAL (ReadOnlySession.Target) - e' o numero dele que o rodape tem de mostrar",
+      "IsAI": false,
+      "Level": 1,
+      "ManaUnlimited": 0.0,
+      "ManaCostMod": -20.0,
+      "ManaCostModDoTipo": 0.0,
+      "CooldownMod": -2.0,
+      "CooldownModDoTipo": 0.0,
+      "RangeAdderMelee": 1,
+      "RangeAdderRanged": 0,
+      "IsBlind": false
+    },
+    "Outro": {
+      "papel": "personagem SELECIONADO do jogo (o inventario, onde o getter NAO e' null) - prova que o gancho nao sobrescreve um valor que o jogo ja' resolveu",
+      "IsAI": false,
+      "Level": 1,
+      "ManaUnlimited": 0.0,
+      "ManaCostMod": 50.0,
+      "ManaCostModDoTipo": 0.0,
+      "CooldownMod": 0.0,
+      "CooldownModDoTipo": 0.0,
+      "RangeAdderMelee": 0,
+      "RangeAdderRanged": 0,
+      "IsBlind": false
+    }
+  },
+  "cenario": {
+    "descricao": "Party Select read-only: o TooltipCharacter do jogo e' null (CurrentlySelectedCharacter) e o alvo do modal e' Raven",
+    "tooltip_character_do_jogo": null,
+    "alvo_do_modal": "Raven"
+  }
+}

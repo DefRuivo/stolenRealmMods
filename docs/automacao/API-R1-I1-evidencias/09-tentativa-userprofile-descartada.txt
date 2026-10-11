@@ -1,0 +1,19 @@
+# Prova 09 â€” tentativa DESCARTADA de ensaio (trocar $USERPROFILE) e por que a via adotada foi -p:PluginsDir
+# data: 2026-10-11 03:55:04 -0300
+# comando testado:
+#   dotnet build api/Plugin/RealmApi.csproj -c Release --no-restore -p:DeployToBepInEx=true -p:USERPROFILE="C:/Users/Pichau/AppData/Local/hermes/cache/scratch/api-r1-i1-sandbox-userprofile"
+
+C:\dev\stolen-realm\api\Core\Contracts.cs(100,13): error CS0518: O tipo pr‚-definido "System.Void" nÆo foi definido ou importado [C:\dev\stolen-realm\api\Core\RealmApi.Core.csproj]
+C:\dev\stolen-realm\api\Core\Contracts.cs(101,20): error CS0518: O tipo pr‚-definido "System.Void" nÆo foi definido ou importado [C:\dev\stolen-realm\api\Core\RealmApi.Core.csproj]
+    0 Aviso(s)
+    146 Erro(s)
+
+Tempo Decorrido 00:00:00.47
+exit=1
+
+## resumo observado
+- erro CS0518/CS0246 em serie (referencia do targeting pack nao resolvida ao trocar USERPROFILE): 146 Erro(s)
+- nenhum arquivo foi criado na arena (a compilacao falhou antes do alvo de deploy)
+# comando: find "/c/Users/Pichau/AppData/Local/hermes/cache/scratch/api-r1-i1-sandbox-userprofile/.." -maxdepth 1 -name "api-r1-i1-sandbox*"
+/c/Users/Pichau/AppData/Local/hermes/cache/scratch/api-r1-i1-sandbox-userprofile
+- conclusao: o ensaio e feito com -p:PluginsDir (Prova 06), que nao mexe no ambiente do SDK

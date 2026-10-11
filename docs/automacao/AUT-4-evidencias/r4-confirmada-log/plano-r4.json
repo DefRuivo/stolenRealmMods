@@ -1,0 +1,27 @@
+{
+  "esquema": "AUT-4/1",
+  "nome": "aut4-runtime-isolado-r3-campos-lidos",
+  "descricao": "PLANO DA RODADA ISOLADA AUT-4 (KIT-G1) — repeticao com o conjunto GOVERNAVEL restrito aos campos que o instrumento mede em TODO objeto lido. Os campos de TEXTO continuam sendo LIDOS e REPORTADOS na evidencia (`texto_bruto`/`texto_renderizado`), mas nao governam o veredito: no boot/menu, sem navegacao (nao autorizada), boa parte dos alvos nomeados (Title/Description/Subtitle) esta INATIVA e sem texto — declarar campos que o cenario autorizado nao pode satisfazer foi exatamente o que produziu o INCOMPLETO medido na rodada r2 (lacuna nomeada). A leitura de TEXTO viva e provada pela porta de ida-e-volta (Tooltip.ShowTooltip + releitura do titulo), que e exigida separadamente pelo driver.",
+  "autorizacao": {
+    "coleta_autorizada": true,
+    "autor": "dono",
+    "observacao": "KIT-G1 t_49c93c37 — rodada minima em ambiente isolado: instalar o probe identificado, iniciar/encerrar a instancia de TESTE e coletar UI. Save e navegacao NAO autorizados."
+  },
+  "orcamento_segundos": 120,
+  "demostrar_tooltip": true,
+  "campos_alvo": ["objeto", "caminho", "componente", "ativo_na_hierarquia", "visivel_na_tela",
+                  "fonte", "material", "shader", "shader_suportado", "keywords", "cores",
+                  "geometria"],
+  "cenarios": [
+    {
+      "nome": "boot-menu-campos-lidos",
+      "espera_estado": "ui-com-texto-renderizado",
+      "navegar": false,
+      "demostrar_tooltip": true,
+      "alvos": ["Tooltip.Title", "TMP_Text@ativo"],
+      "campos_alvo": ["objeto", "caminho", "componente", "ativo_na_hierarquia", "visivel_na_tela",
+                      "fonte", "material", "shader", "shader_suportado", "keywords", "cores",
+                      "geometria"]
+    }
+  ]
+}

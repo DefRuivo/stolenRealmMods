@@ -1,0 +1,42 @@
+COMANDO: ilspycmd -t UnityEngine.Object "C:/dev/stolen-realm/lib/UnityEngine.CoreModule.dll"
+SHA256 do lib/UnityEngine.CoreModule.dll:
+80d43e5f8d52964e3ec0ac514076c3e2ee032af8d9c0c3ef511dfdd9067eee8e *lib/UnityEngine.CoreModule.dll
+
+--- trecho decompilado (UnityEngine.Object) ---
+	}
+
+	[TypeInferenceRule(TypeInferenceRules.TypeOfFirstArgument)]
+	public static Object Instantiate(Object original, Transform parent)
+	{
+		return Instantiate(original, parent, instantiateInWorldSpace: false);
+	}
+
+	[TypeInferenceRule(TypeInferenceRules.TypeOfFirstArgument)]
+	public static Object Instantiate(Object original, Transform parent, bool instantiateInWorldSpace)
+	{
+		if (parent == null)
+		{
+			return Instantiate(original);
+		}
+
+--- fonte da API (a outra ponta da equivalencia) ---
+        /// <summary>Clona `template` sob `parent`, preservando o transform local (convencao de UI).</summary>
+        public static GameObject Clone(GameObject template, Transform parent, string? name = null)
+        {
+            UiFamily.Require(Family, true);
+            if (template == null) throw new ArgumentNullException(nameof(template));
+            if (parent == null) throw new ArgumentNullException(nameof(parent));
+            var clone = UnityEngine.Object.Instantiate(template, parent, false);
+            if (!string.IsNullOrEmpty(name)) clone.name = name;
+            return clone;
+        }
+...
+        /// <summary>Liga `onClick` ao botao nativo do GameObject. Sem `Button` no alvo, falha fechado.</summary>
+        public static void BindClick(GameObject go, UnityAction onClick)
+        {
+            UiFamily.Require(Family, true);
+            if (go == null) throw new ArgumentNullException(nameof(go));
+            if (onClick == null) throw new ArgumentNullException(nameof(onClick));
+            var button = go.GetComponent<Button>() ?? throw new MissingComponentException("Button ausente em " + go.name);
+            button.onClick.AddListener(onClick);
+        }

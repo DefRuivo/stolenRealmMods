@@ -73,7 +73,8 @@ def corpo():
     sem_levelup = dict(cenario)
     sem_levelup["levelup"] = False
     # Universais: bloqueiam em QUALQUER estado permitido (mapa ou batalha).
-    for campo in ("gui", "roguelike", "estado", "ping", "janela"):
+    # RSTV-30: `estado` (whitelist) saiu desta lista junto com o proprio portao.
+    for campo in ("gui", "roguelike", "ping", "janela"):
         bloqueado = dict(sem_levelup)
         bloqueado[campo] = False
         arc.exigir(not reg.portao_novo(bloqueado),

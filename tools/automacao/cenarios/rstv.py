@@ -231,6 +231,71 @@ def _procedencia(obs):
     return p if p in PROCEDENCIAS else "fixture"
 
 
+# --------------------------------------------------------------- alvo (KIT-R0F)
+#
+# F4 da revisao KIT-R0: a geometria do RSTV julgava QUALQUER observacao com
+# `geometria.caixa_na_tela_px` — inclusive objetos do BOOT, INATIVOS e sem nenhum
+# owner do mod sob teste — e acusava REPROVADO de clipping sem o RSTV carregado.
+# Um defeito de um objeto que NAO e alvo do RSTV nao pode ser atribuido ao mod; e um
+# alvo LEGITIMO com defeito continua REPROVANDO (nao se suprime defeito).
+#
+# Regra de alvo (conservadora): o que NAO declara nada e JULGADO (as observacoes
+# sinteticas/offline do proprio avaliador nao trazem `owners` nem atividade);
+# so e EXCLUIDO o que declara, explicitamente, que NAO e alvo:
+#   * objeto INATIVO na hierarquia (bbox/render de objeto oculto nao medem o alvo);
+#   * `owners` nao vazio SEM o GUID do mod sob teste (objeto de outro mod/boot);
+#   * declaracao explicita de OUTRA capacidade.
+MOD_GUIDS = ("com.gumatos.roguelikeskilltreevisualizer",)
+
+
+def _ativo_declarado(obs):
+    v = _campo(obs, "ativo_na_hierarquia")
+    return None if v is None else bool(v)
+
+
+def _owners_declarados(obs):
+    v = _campo(obs, "owners")
+    if isinstance(v, (list, tuple)):
+        return [str(x) for x in v if str(x).strip()]
+    if isinstance(v, str) and v.strip():
+        return [v.strip()]
+    return None
+
+
+def _capacidade_declarada(obs):
+    for chave in ("capacidade", "criterio", "alvo_capacidade"):
+        v = _campo(obs, chave)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
+
+
+def _e_alvo(obs, cid, guids=MOD_GUIDS):
+    """(True|False, motivo_da_exclusao|None) — o alvo da capacidade `cid`."""
+    declarada = _capacidade_declarada(obs)
+    if declarada and declarada != cid:
+        return False, "declara a capacidade %r (nao %s)" % (declarada, cid)
+    if _ativo_declarado(obs) is False:
+        return False, ("objeto INATIVO na hierarquia (bbox/render de objeto oculto "
+                       "nao mede o alvo)")
+    owners = _owners_declarados(obs)
+    if owners and not any(o in guids for o in owners):
+        return False, ("sem owner do mod sob teste (owners=%s)" % ",".join(owners))
+    return True, None
+
+
+def _selecionar_alvos(obs_list, cid):
+    """(alvos, excluidos) — separa os alvos da capacidade das observacoes alheias."""
+    alvos, excluidos = [], {}
+    for o in obs_list:
+        ok, motivo = _e_alvo(o, cid)
+        if ok:
+            alvos.append(o)
+        else:
+            excluidos[motivo] = excluidos.get(motivo, 0) + 1
+    return alvos, excluidos
+
+
 def _identidade_ok(identidade):
     if not isinstance(identidade, dict):
         return False
@@ -956,21 +1021,37 @@ def avaliar(observacoes, identidade):
     Nunca levanta por dado ausente/malformado: capacidade sem leitura sai
     NAO_EXERCITADO; excecao -> INDETERMINADO, mas SEMPRE com o id canonico do
     conjunto (o quadro de 7 e preservado mesmo no caminho de erro).
+
+    KIT-R0F (F4): cada capacidade recebe os SEUS ALVOS (`_selecionar_alvos`),
+    separando atividade/owner/procedencia. Observacao NAO-alvo nao entra no
+    confronto (nao se atribui defeito de boot/objeto oculto/outro mod ao RSTV), e o
+    criterio DECLARA quantas foram excluidas e por que — nunca em silencio. Um alvo
+    legitimo com defeito continua REPROVANDO.
     """
     obs = _obs_lista(observacoes)
     identidade = identidade if isinstance(identidade, dict) else {}
     criterios = []
     for cid, cap in _CAPS:
+        alvos, excluidos = _selecionar_alvos(obs, cid)
         try:
-            criterios.append(cap(obs, identidade))
+            c = dict(cap(alvos, identidade))
         except Exception as erro:  # dado malformado nao derruba o avaliador
-            criterios.append(_criterio(
+            c = _criterio(
                 cid, INDETERMINADO, "execucao",
                 "avaliar sem excecao",
                 "erro ao avaliar: %s: %s" % (type(erro).__name__, erro),
                 "observacao malformada derrubou a capacidade (id canonico preservado)", [],
                 extra=_extras(INDETERMINADO, "execucao", identidade, [],
-                              lacuna=LACUNA_MALFORMADO)))
+                              lacuna=LACUNA_MALFORMADO))
+        c.setdefault("alvos_julgados", len(alvos))
+        if excluidos:
+            c["alvos_excluidos"] = dict(sorted(excluidos.items()))
+            if c.get("estado") == NAO_EXERCITADO:
+                c["motivo"] = ("%s | %d observacao(oes) NAO-alvo excluida(s): %s"
+                               % (c.get("motivo") or "", sum(excluidos.values()),
+                                  "; ".join("%d x %s" % (n, m)
+                                            for m, n in sorted(excluidos.items()))))
+        criterios.append(c)
     return criterios
 
 

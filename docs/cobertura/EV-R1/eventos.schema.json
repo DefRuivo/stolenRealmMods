@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:gumatos:stolen-realm:eventos:1.0.0",
+  "title": "EV-R1 — inventário offline de PartyEvent",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "fontes", "cobertura", "eventos"],
+  "properties": {
+    "schema_version": {"const": "1.0.0"},
+    "fontes": {"type": "object", "required": ["assembly", "decompilado", "assets", "build_info_literal"]},
+    "cobertura": {"type": "object", "required": ["eventos_extraidos", "party_event_cabecalhos", "list_holder_declarados", "roundtrip_bytes_identicos", "categorias", "nao_exercitado"]},
+    "eventos": {"type": "array", "items": {"$ref": "#/$defs/evento"}}
+  },
+  "$defs": {
+    "original": {"type": "object"},
+    "enum": {
+      "type": "object", "additionalProperties": false,
+      "required": ["valor", "nome"],
+      "properties": {"valor": {"type": "integer"}, "nome": {"type": ["string", "null"]}, "motivo": {"type": "string", "minLength": 1}},
+      "if": {"properties": {"nome": {"type": "null"}}}, "then": {"required": ["motivo"]}
+    },
+    "ref": {
+      "type": "object", "required": ["chave", "nome"],
+      "properties": {
+        "chave": {"type": ["string", "null"]}, "nome": {"type": ["string", "null"]},
+        "motivo": {"type": "string", "minLength": 1}, "tipo": {"type": "string"}, "pptr": {"type": "object"},
+        "descricao": {"type": "string"}, "duracao": {"$ref": "#/$defs/enum"}, "status_tipo": {"$ref": "#/$defs/enum"}, "modificadores": {"type": "array"}
+      },
+      "anyOf": [{"properties": {"chave": {"type": "string"}, "nome": {"type": "string"}}}, {"required": ["motivo"]}]
+    },
+    "recompensa": {
+      "type": "object", "additionalProperties": false,
+      "required": ["ouro", "experiencia", "itens", "status", "skills"],
+      "properties": {
+        "ouro": {"type": "object", "required": ["dar", "retirar", "razao", "quantidade_final", "motivo"], "properties": {"dar": {"type": "boolean"}, "retirar": {"type": "boolean"}, "razao": {"type": "number"}, "quantidade_final": {"type": "null"}, "motivo": {"type": "string", "minLength": 1}}},
+        "experiencia": {"type": "object", "required": ["dar", "razao", "quantidade_final", "motivo"], "properties": {"dar": {"type": "boolean"}, "razao": {"type": "number"}, "quantidade_final": {"type": "null"}, "motivo": {"type": "string", "minLength": 1}}},
+        "itens": {"type": "object", "required": ["dar", "pool_tipo", "quantidade_configurada", "tabelas", "restricoes", "sorteio_final", "motivo"], "properties": {"dar": {"type": "boolean"}, "pool_tipo": {"$ref": "#/$defs/enum"}, "quantidade_configurada": {"type": "integer"}, "tabelas": {"type": "array"}, "restricoes": {"type": "object"}, "sorteio_final": {"type": "null"}, "motivo": {"type": "string", "minLength": 1}}},
+        "status": {"type": "object", "required": ["candidatos", "sortear", "quantidade_sorteada_configurada", "resultado_sorteado", "motivo"], "properties": {"candidatos": {"type": "array", "items": {"$ref": "#/$defs/ref"}}, "sortear": {"type": "boolean"}, "quantidade_sorteada_configurada": {"type": "integer"}, "resultado_sorteado": {"type": "null"}, "motivo": {"type": "string", "minLength": 1}}},
+        "skills": {"type": "array", "items": {"$ref": "#/$defs/ref"}}
+      }
+    },
+    "efeito": {
+      "type": "object", "additionalProperties": false,
+      "required": ["vida_mana", "alvo", "recompensas", "remocoes_status", "campos_originais"],
+      "properties": {"vida_mana": {"type": "object", "required": ["percentMaxHealth", "percentMaxMana", "percentCurHealth", "percentCurMana"]}, "alvo": {"type": "object"}, "recompensas": {"$ref": "#/$defs/recompensa"}, "remocoes_status": {"type": "array"}, "campos_originais": {"$ref": "#/$defs/original"}}
+    },
+    "acao": {
+      "type": "object", "additionalProperties": false,
+      "required": ["indice", "texto", "resultado", "limite_rolagem", "texto_efeitos_manual", "efeitos", "overrides", "batalha", "evento_encadeado", "campos_originais"],
+      "properties": {
+        "indice": {"type": "integer", "minimum": 1}, "texto": {"type": "string"}, "resultado": {"$ref": "#/$defs/enum"}, "limite_rolagem": {"type": "integer"}, "texto_efeitos_manual": {"type": "array", "items": {"type": "string"}},
+        "efeitos": {"type": "array", "items": {"$ref": "#/$defs/efeito"}},
+        "overrides": {"type": "array", "items": {"type": "object", "required": ["modo", "efeitos"], "properties": {"modo": {"$ref": "#/$defs/enum"}, "efeitos": {"type": "array", "items": {"$ref": "#/$defs/efeito"}}}}},
+        "batalha": {"type": "object", "required": ["iniciar", "manual", "referencia", "override", "dados_recompensa_final", "motivo"], "properties": {"iniciar": {"type": "boolean"}, "manual": {"type": "boolean"}, "referencia": {"$ref": "#/$defs/ref"}, "override": {"type": "object"}, "dados_recompensa_final": {"type": "null"}, "motivo": {"type": "string", "minLength": 1}}},
+        "evento_encadeado": {"$ref": "#/$defs/ref"}, "campos_originais": {"$ref": "#/$defs/original"}
+      }
+    },
+    "opcao": {
+      "type": "object", "additionalProperties": false,
+      "required": ["indice", "titulo", "texto", "condicoes", "rolagem", "efeitos", "recompensas", "campos_originais"],
+      "properties": {"indice": {"type": "integer", "minimum": 1}, "titulo": {"type": "string"}, "texto": {"type": "string"}, "condicoes": {"type": "object", "required": ["status_requeridos", "ocultar_sem_requisitos", "ocultar_se_status"]}, "rolagem": {"type": "object", "required": ["bonus", "misteriosa", "texto_misterioso"]}, "efeitos": {"type": "array", "items": {"$ref": "#/$defs/acao"}}, "recompensas": {"type": "array"}, "campos_originais": {"$ref": "#/$defs/original"}}
+    },
+    "evento": {
+      "type": "object", "additionalProperties": false,
+      "required": ["chave", "id", "categoria", "titulo", "nome_asset", "texto", "texto_resultados_possiveis", "opcoes", "raridade", "peso", "pool", "condicoes", "modos", "historia", "full_release", "origem", "campos_originais", "ausencias"],
+      "properties": {
+        "chave": {"type": "string", "pattern": "^resources\\.assets:[0-9]+$"}, "id": {"type": ["string", "null"], "format": "uuid"}, "categoria": {"type": "string", "minLength": 1}, "titulo": {"type": "string"}, "nome_asset": {"type": "string"}, "texto": {"type": "string"}, "texto_resultados_possiveis": {"type": "string"}, "opcoes": {"type": "array", "items": {"$ref": "#/$defs/opcao"}}, "raridade": {"$ref": "#/$defs/enum"}, "peso": {"type": "number"}, "pool": {"type": "array", "items": {"$ref": "#/$defs/enum"}}, "condicoes": {"type": "object"}, "modos": {"type": "array", "items": {"$ref": "#/$defs/enum"}}, "historia": {"$ref": "#/$defs/enum"}, "full_release": {"$ref": "#/$defs/enum"}, "origem": {"type": "object", "required": ["arquivo", "path_id", "caminhos_resource", "sha256_objeto", "tipo", "codigo"]}, "campos_originais": {"$ref": "#/$defs/original"}, "ausencias": {"type": "object", "additionalProperties": {"type": "string", "minLength": 1}}
+      }
+    }
+  }
+}

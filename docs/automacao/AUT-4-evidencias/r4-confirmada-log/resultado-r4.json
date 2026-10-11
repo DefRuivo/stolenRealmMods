@@ -1,0 +1,5009 @@
+{
+  "esquema": "AUT-4/1",
+  "rotina": "execucao-runtime",
+  "decisao": {
+    "dados_sinteticos": false,
+    "observacoes": [],
+    "screenshot": null,
+    "status": "AUTORIZADO",
+    "pode_coletar": true,
+    "modo": "runtime",
+    "motivo": "coleta autorizada e confirmada: uma frente runtime por vez"
+  },
+  "perfil": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso",
+  "out_dir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+  "passos": [
+    "1. instalar o probe no perfil isolado",
+    "2. escrever o cfg derivado (Autorizado/HashFonte/PerfilDir/Navegar=false/Sessao)",
+    "3. arquivar o LogOutput.log anterior (um boot trunca o log)",
+    "4. lancar pelos argumentos de doorstop",
+    "5. esperar ESTADO (log chainloader + JSON do probe), com teto",
+    "6. ler a saida do probe, PROVAR a execucao e provar a atualidade"
+  ],
+  "efeitos_colaterais": [
+    {
+      "acao": "removido",
+      "arquivo": "BepInEx\\LogOutput.log"
+    },
+    {
+      "acao": "removido",
+      "arquivo": "BepInEx\\config\\BepInEx.cfg"
+    },
+    {
+      "acao": "removido",
+      "arquivo": "BepInEx\\config\\com.gumatos.aut4probe.cfg"
+    },
+    {
+      "acao": "removido",
+      "arquivo": "BepInEx\\plugins\\AUT4Probe\\AUT4Probe.dll"
+    }
+  ],
+  "exit_code": 0,
+  "sessao_rodada": "AUT4-20261009-185335-54b1bed3",
+  "configuracao": {
+    "Autorizado": true,
+    "OutDir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+    "OrcamentoSegundos": 120,
+    "Navegar": false,
+    "PerfilDir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso",
+    "HashFonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "MaxTextos": 400,
+    "Sessao": "AUT4-20261009-185335-54b1bed3",
+    "DemostrarTooltip": true,
+    "MarcadorIdaEVolta": "AUT4-IDA-E-VOLTA-AUT4-20261009-185335-54b1bed3"
+  },
+  "backup_log": {
+    "origem": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\BepInEx\\LogOutput.log",
+    "existia": false,
+    "acao": "nao havia log anterior: nada a arquivar"
+  },
+  "lancamento": {
+    "argv": [
+      "C:\\Program Files (x86)\\Steam\\steam.exe",
+      "-applaunch",
+      "1330000",
+      "--doorstop-enabled",
+      "true",
+      "--doorstop-target-assembly",
+      "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\BepInEx\\core\\BepInEx.Preloader.dll"
+    ],
+    "stub": false,
+    "pid": 30140,
+    "epoca": 1791582816.044551
+  },
+  "estado": {
+    "log_ok": true,
+    "json_ok": true,
+    "fase": "concluido",
+    "status": "CONCLUIDO",
+    "segundos": 16.535
+  },
+  "atualidade": {
+    "dll_sha": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "probe_hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "fonte_ok": true,
+    "sessao_ok": true,
+    "manifest": {
+      "esquema": "AUT-4/1",
+      "raiz": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+      "total": 1,
+      "artefatos": [
+        {
+          "arquivo": "aut4probe.json",
+          "bruto": "aut4probe.json",
+          "bytes": 634029,
+          "sha256": "c4296aee9957a7ea87e16f45721ecbdbd35efd8f4b02b2a4f14a5b5df8201e13",
+          "auto_referente": true,
+          "autoritativo": false
+        }
+      ]
+    },
+    "manifest_ok": true,
+    "motivos": []
+  },
+  "provas_execucao": {
+    "sessao_rodada": "AUT4-20261009-185335-54b1bed3",
+    "sessao_evidencia": "AUT4-20261009-185335-54b1bed3",
+    "sessao_confere": true,
+    "lancamento_epoca": 1791582816.044551,
+    "json_mtime": 1791582833.1615305,
+    "json_mais_novo": true,
+    "log_chainloader": true,
+    "log_probe": true,
+    "prints": [
+      {
+        "arquivo": "C:/dev/stolen-realm/scratch/aut4-runtime-iso/out4/01-ui.png",
+        "existe": true,
+        "bytes": 2744135,
+        "mtime": 1791582832.7617607,
+        "posterior_ao_lancamento": true
+      },
+      {
+        "arquivo": "C:/dev/stolen-realm/scratch/aut4-runtime-iso/out4/02-final.png",
+        "existe": true,
+        "bytes": 2744171,
+        "mtime": 1791582833.081529,
+        "posterior_ao_lancamento": true
+      }
+    ],
+    "prints_ok": true,
+    "faltas": [],
+    "ok": true,
+    "ida_e_volta_ok": true,
+    "ida_e_volta": {
+      "marcador": "AUT4-IDA-E-VOLTA-AUT4-20261009-185335-54b1bed3",
+      "via": "Tooltip.ShowTooltip(marcador) + releitura de Tooltip.Title (LEITURA ida-e-volta)",
+      "tooltip_encontrado": true,
+      "chamou": true,
+      "titulo_lido": "AUT4-IDA-E-VOLTA-AUT4-20261009-185335-54b1bed3",
+      "titulo_renderizado_lido": "",
+      "conferiu": true
+    }
+  },
+  "consolidado": {
+    "esquema": "AUT-4/1",
+    "status": "CONFIRMADA",
+    "evidencia_runtime": true,
+    "observacoes": [
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Subtitle",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Ready Check Manager/Not Ready Yet/Subtitle",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "<color=#CBB396>JJ</color> wants to start a quest!\\n\\n<color=#CBB396>Roland (Lv 1) </color>\\n<i>250 Exp | 300 Gold</i>",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 1680.87,
+                "y": 622.539,
+                "largura": 208.62,
+                "altura": 99.36
+              },
+              "tamanho_do_rect_px": {
+                "largura": 115.9,
+                "altura": 55.2
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 12,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Higher Level Popup/Content/BG/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "This is a <color=#CBB396>Level 2</color> quest and may be difficult for your party!  You may want to complete <color=#CBB396>Side Quests</color> to prepare for this quest.",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 642.502,
+                "y": 587.261,
+                "largura": 629.165,
+                "altura": 45.619
+              },
+              "tamanho_do_rect_px": {
+                "largura": 364.1,
+                "altura": 26.4
+              },
+              "escala": 1.728,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 12,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Twitch Panel/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Twitch Streamer Mode allows viewers of your stream to use the chat to choose the Events and Battles that you will encounter.  No Twitch permissions are required because Twitch Streamer Mode only reads chat which is already public.",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 425.004,
+                "y": 884.862,
+                "largura": 1084.842,
+                "altura": 30.6
+              },
+              "tamanho_do_rect_px": {
+                "largura": 602.69,
+                "altura": 17
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Pause Menu/Contents/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Game Menu",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 747.681,
+                "y": 892.35,
+                "largura": 424.638,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 235.91,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 16,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Twitch Panel/Twitch Details/Twitch Server Name Layout/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "The channel name is the last part of the viewing url. If the channel is viewable at \"https://www.twitch.tv/stolenrealm\" then the channel name is \"stolenrealm\".",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#989898FF (r=0.594 g=0.594 b=0.594 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 424.284,
+                "y": 610.164,
+                "largura": 1036.782,
+                "altura": 63.378
+              },
+              "tamanho_do_rect_px": {
+                "largura": 575.99,
+                "altura": 35.21
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 16,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Confirm Window/BG/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Message Title",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 596.278,
+                "y": 698.604,
+                "largura": 727.445,
+                "altura": 43.222
+              },
+              "tamanho_do_rect_px": {
+                "largura": 336.78,
+                "altura": 20.01
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Gold Send Window/BG/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Send Gold",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 770.892,
+                "y": 856.662,
+                "largura": 378.216,
+                "altura": 43.222
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.1,
+                "altura": 20.01
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Tutorial Window/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "AUSENTE",
+            "valor": "",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "AUSENTE",
+            "valor": "",
+            "alvo": false
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 526.056,
+                "y": 1188,
+                "largura": 355.752,
+                "altura": 0
+              },
+              "tamanho_do_rect_px": {
+                "largura": 164.7,
+                "altura": 0
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 16,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Tooltip/Header/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Lionheart Breastplate gggg",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 854.916,
+                "y": 609.617,
+                "largura": 292.248,
+                "altura": 86.4
+              },
+              "tamanho_do_rect_px": {
+                "largura": 135.3,
+                "altura": 40
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 10.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Item Stack Split Window/BG/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Split Item",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 770.892,
+                "y": 705.905,
+                "largura": 378.216,
+                "altura": 43.222
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.1,
+                "altura": 20.01
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Text",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Chosen Node Display (KEEP ACTIVE)/Text",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Path Chosen!",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "Path Chosen!",
+            "alvo": false
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Messages",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": true,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 870.54,
+                "y": 906.57,
+                "largura": 178.92,
+                "altura": 42.3
+              },
+              "tamanho_do_rect_px": {
+                "largura": 99.4,
+                "altura": 23.5
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "AUSENTE",
+            "valor": null,
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Failure Popup/Content/BG/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Your party lost the last battle.  How would you like to proceed?",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 645.418,
+                "y": 605.223,
+                "largura": 629.165,
+                "altura": 20.753
+              },
+              "tamanho_do_rect_px": {
+                "largura": 364.1,
+                "altura": 12.01
+              },
+              "escala": 1.728,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 12,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Comp Tooltip/Header/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Lionheart Breastplate gggg",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 854.916,
+                "y": 597.737,
+                "largura": 292.248,
+                "altura": 86.4
+              },
+              "tamanho_do_rect_px": {
+                "largura": 135.3,
+                "altura": 40
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 10.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Video Panel/Dropdown Item (Fullscreen Display)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Fullscreen Display",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 802.584,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Video Panel/Dropdown Item (V-sync)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "V-sync",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 574.488,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Video Panel/Dropdown Item (Display Mode)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Display Mode",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 726.552,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Language Panel/Options Dropdown (Language)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Language",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 802.584,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Video Panel/Dropdown Item (Qualiity)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Quality Preset",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 650.52,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Subtitle",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Gamepad Control Popup/Subtitle",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Activate",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Messages",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": true,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#000000FF (r=0 g=0 b=0 a=1)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 769.56,
+                "y": 542.16,
+                "largura": 380.88,
+                "altura": 7.2
+              },
+              "tamanho_do_rect_px": {
+                "largura": 211.6,
+                "altura": 4
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 14,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Tooltip/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "<color=#FFFFFF>Armor</color><color=#C8C8C8> / </color><color=#BCEDF8>Magic Armor</color>\\n\\n<color=#5166FF>+5 Might</color>\\n<color=#5166FF>+3 Vitality</color>\\n\\n<i><color=#C8C8C8>Item Level 5</color></i> 5000<size= 20> <sprite name=\"Money Icon TMP\"></size>",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 768.516,
+                "y": 303.134,
+                "largura": 378.648,
+                "altura": 181.462
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.3,
+                "altura": 84.01
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 9,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Description",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Comp Tooltip/Description",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "<color=#FFFFFF>Armor</color><color=#C8C8C8> / </color><color=#BCEDF8>Magic Armor</color>\\n\\n<color=#5166FF>+5 Might</color>\\n<color=#5166FF>+3 Vitality</color>\\n\\n<i><color=#C8C8C8>Item Level 5</color></i> 5000<size= 20> <sprite name=\"Money Icon TMP\"></size>",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 768.516,
+                "y": 315.014,
+                "largura": 378.648,
+                "altura": 157.702
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.3,
+                "altura": 73.01
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 9,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Subtitle",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Comp Tooltip/Subtitle",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Rare Armor\\n<color=#FF5353>Requires Level 3 To Equip</color>",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#878787FF (r=0.528 g=0.528 b=0.528 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 768.516,
+                "y": 537.775,
+                "largura": 378.648,
+                "altura": 42.768
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.3,
+                "altura": 19.8
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 9,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Subtitle",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups/Tooltip/Subtitle",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Rare Armor\\n<color=#FF5353>Requires Level 3 To Equip</color>",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Event",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Regular Font (Minion Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": false,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#878787FF (r=0.528 g=0.528 b=0.528 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#000000FF (r=0 g=0 b=0 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 768.516,
+                "y": 549.655,
+                "largura": 378.648,
+                "altura": 42.768
+              },
+              "tamanho_do_rect_px": {
+                "largura": 175.3,
+                "altura": 19.8
+              },
+              "escala": 2.16,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 9,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      },
+      {
+        "esquema": "AUT-4/1",
+        "procedencia": "runtime",
+        "evidencia_runtime": true,
+        "rotulo_fixture": null,
+        "sessao": "AUT4-20261009-185335-54b1bed3",
+        "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "campos": {
+          "objeto": {
+            "estado": "PRESENTE",
+            "valor": "Title",
+            "alvo": true
+          },
+          "caminho": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Options Menu Manager Window/Menu/Video Panel/Dropdown Item (Resolution)/Title",
+            "alvo": true
+          },
+          "ativo_na_hierarquia": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "texto_bruto": {
+            "estado": "PRESENTE",
+            "valor": "Resolution",
+            "alvo": false
+          },
+          "texto_renderizado": {
+            "estado": "NAO_APLICAVEL",
+            "valor": "",
+            "alvo": false,
+            "fallback": "texto_bruto",
+            "motivo": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto."
+          },
+          "fonte": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Hardcore Desc",
+            "alvo": true
+          },
+          "material": {
+            "estado": "PRESENTE",
+            "valor": "Title Font (Trajan Pro Regular) SDF Material",
+            "alvo": true
+          },
+          "shader": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshPro/Distance Field",
+            "alvo": true
+          },
+          "keywords": {
+            "estado": "PRESENTE",
+            "valor": {
+              "OUTLINE_ON": false,
+              "UNDERLAY_ON": false,
+              "UNDERLAY_INNER": false,
+              "GLOW_ON": true,
+              "BEVEL_ON": false
+            },
+            "alvo": true
+          },
+          "cores": {
+            "estado": "PRESENTE",
+            "valor": {
+              "texto": "#CBB396FF (r=0.796 g=0.702 b=0.588 a=1)",
+              "face": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "contorno": "#FFFFFFFF (r=1 g=1 b=1 a=1)",
+              "sombra": "#00000080 (r=0 g=0 b=0 a=0.5)"
+            },
+            "alvo": true
+          },
+          "geometria": {
+            "estado": "PRESENTE",
+            "valor": {
+              "caixa_na_tela_px": {
+                "x": 423.474,
+                "y": 802.584,
+                "largura": 174.87,
+                "altura": 64.8
+              },
+              "tamanho_do_rect_px": {
+                "largura": 97.15,
+                "altura": 36
+              },
+              "escala": 1.8,
+              "tela": "1920x1080"
+            },
+            "alvo": true
+          },
+          "owners": {
+            "estado": "PRESENTE",
+            "valor": [
+              "com.gumatos.aut4probe"
+            ],
+            "alvo": false
+          },
+          "personagem": {
+            "estado": "PRESENTE",
+            "valor": {
+              "gui_state": "ChoosingCharacter",
+              "tem_personagem_selecionado": false,
+              "personagem": null
+            },
+            "alvo": false
+          },
+          "componente": {
+            "estado": "PRESENTE",
+            "valor": "TextMeshProUGUI",
+            "alvo": true
+          },
+          "visivel_na_tela": {
+            "estado": "PRESENTE",
+            "valor": false,
+            "alvo": true
+          },
+          "shader_suportado": {
+            "estado": "PRESENTE",
+            "valor": true,
+            "alvo": true
+          },
+          "tamanho_fonte": {
+            "estado": "PRESENTE",
+            "valor": 15.8,
+            "alvo": false
+          },
+          "nota_texto_renderizado": {
+            "estado": "PRESENTE",
+            "valor": "objeto INATIVO: GetParsedText() sai vazio ate o TMP gerar o mesh; vale o texto_bruto.",
+            "alvo": false
+          },
+          "snapshot_antes": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "snapshot_depois": {
+            "estado": "PRESENTE",
+            "valor": {
+              "personagem": null,
+              "skills": null,
+              "pontos": null
+            },
+            "alvo": false
+          },
+          "tooltip_pai_antes": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_pai_depois": {
+            "estado": "PRESENTE",
+            "valor": "GUI Manager/Tooltips / Popups",
+            "alvo": false
+          },
+          "tooltip_indice_antes": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "tooltip_indice_depois": {
+            "estado": "PRESENTE",
+            "valor": 8,
+            "alvo": false
+          },
+          "janelas_duplicadas": {
+            "estado": "PRESENTE",
+            "valor": 0,
+            "alvo": false
+          }
+        },
+        "lacunas": [],
+        "nao_aplicaveis": [
+          "texto_renderizado"
+        ],
+        "alvos": [
+          "ativo_na_hierarquia",
+          "caminho",
+          "componente",
+          "cores",
+          "fonte",
+          "geometria",
+          "keywords",
+          "material",
+          "objeto",
+          "shader",
+          "shader_suportado",
+          "visivel_na_tela"
+        ],
+        "ok": true
+      }
+    ],
+    "lacunas": [],
+    "nao_aplicaveis": [
+      "texto_renderizado"
+    ],
+    "veredito": "DESFECHO CONFIRMADO nas observacoes medidas. Nota: texto_renderizado marcado(s) NAO_APLICAVEL (fallback inativo declarado) — NAO e leitura renderizada.",
+    "status_probe_declarou": "CONCLUIDO",
+    "fase_probe_declarou": "concluido",
+    "saida_probe": {
+      "status": "CONCLUIDO",
+      "fase": "concluido",
+      "sessao": "AUT4-20261009-185335-54b1bed3",
+      "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+      "total": 24
+    }
+  },
+  "status": "CONCLUIDO",
+  "encerramento": {
+    "imagem": "Stolen Realm.exe",
+    "modo": "por-pid",
+    "recusado": false,
+    "pids_antes": [],
+    "pids_depois": [
+      23996
+    ],
+    "pids": [
+      23996
+    ],
+    "motivo": "encerra SO os PIDs que nasceram nesta rodada; o Popen do lancador e o steam.exe, NAO o jogo (no Windows o jogo e processo a parte)",
+    "acoes": [
+      {
+        "pid": 23996,
+        "tentativas": [
+          {
+            "modo": "gracioso",
+            "argv": [
+              "powershell",
+              "-NoProfile",
+              "-NonInteractive",
+              "-Command",
+              "(Get-Process -Id 23996 -ErrorAction SilentlyContinue).CloseMainWindow()"
+            ],
+            "ok": true
+          }
+        ],
+        "fechado": true
+      }
+    ]
+  },
+  "rollback": {
+    "plano": {
+      "criados": [
+        "BepInEx\\LogOutput.log",
+        "BepInEx\\config\\BepInEx.cfg",
+        "BepInEx\\config\\com.gumatos.aut4probe.cfg",
+        "BepInEx\\plugins\\AUT4Probe\\AUT4Probe.dll"
+      ],
+      "modificados": [],
+      "removidos": [],
+      "dirs_criados": [
+        "BepInEx\\plugins\\AUT4Probe"
+      ],
+      "dirs_pre_existentes": [
+        "BepInEx",
+        "BepInEx\\config",
+        "BepInEx\\plugins"
+      ],
+      "extra": false,
+      "acao": {
+        "criados": "REMOVER (nao existiam antes)",
+        "modificados": "RESTAURAR o conteudo original",
+        "removidos": "REPOR o arquivo original",
+        "dirs_criados": "REMOVER se ficarem vazios (nasceram na rodada)",
+        "dirs_pre_existentes": "PRESERVAR (ja existiam antes da rodada)"
+      }
+    },
+    "acoes": [
+      {
+        "acao": "removido",
+        "arquivo": "BepInEx\\LogOutput.log"
+      },
+      {
+        "acao": "removido",
+        "arquivo": "BepInEx\\config\\BepInEx.cfg"
+      },
+      {
+        "acao": "removido",
+        "arquivo": "BepInEx\\config\\com.gumatos.aut4probe.cfg"
+      },
+      {
+        "acao": "removido",
+        "arquivo": "BepInEx\\plugins\\AUT4Probe\\AUT4Probe.dll"
+      }
+    ]
+  },
+  "restauracao": {
+    "limpo": true,
+    "residuos": [],
+    "divergentes": [],
+    "faltando": [],
+    "dirs_residuo": [],
+    "vigiados_agora": []
+  },
+  "manifest": {
+    "esquema": "AUT-4/1",
+    "perfil": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso",
+    "out_dir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+    "artefatos": [
+      {
+        "arquivo": "01-ui.png",
+        "bytes": 2744135,
+        "sha256": "bd7226e08fd82b1201a1548f567de4f285489daff1b787c9568249b656b5ea11"
+      },
+      {
+        "arquivo": "02-final.png",
+        "bytes": 2744171,
+        "sha256": "207426905243a11511f7557c6ed3ba2bcbdb55bbd829037faca66957a96221f9"
+      },
+      {
+        "arquivo": "LogOutput-copia.log",
+        "bytes": 1312,
+        "sha256": "e1e4e26fac891f50204900f05c9471b90277ebdaa1cfc9d3fa93acfeff992ab7"
+      },
+      {
+        "arquivo": "aut4probe-consumido.json",
+        "bytes": 634029,
+        "sha256": "c4296aee9957a7ea87e16f45721ecbdbd35efd8f4b02b2a4f14a5b5df8201e13"
+      },
+      {
+        "arquivo": "aut4probe.json",
+        "bytes": 634029,
+        "sha256": "c4296aee9957a7ea87e16f45721ecbdbd35efd8f4b02b2a4f14a5b5df8201e13"
+      },
+      {
+        "arquivo": "cfg-instalado.cfg",
+        "bytes": 418,
+        "sha256": "249aa4299b011ae2659f1a4be722789cbd9927bd454e671f5ad36fc9dd0935cf"
+      },
+      {
+        "arquivo": "lancamento.txt",
+        "bytes": 276,
+        "sha256": "a1e389c3831532e51586098b04a72b6586fc721d480f0d5118fc9c793149fb00"
+      }
+    ],
+    "total_artefatos": 7,
+    "arquivos_vigiados": [
+      {
+        "arquivo": "BepInEx\\LogOutput.log",
+        "estado": "criado",
+        "sha256_antes": null,
+        "sha256_depois": "0899b16222e3d3c10a7cf1781aa7df32158ace0e79d4f40c283e618b6716a5c1",
+        "backup": null
+      },
+      {
+        "arquivo": "BepInEx\\config\\BepInEx.cfg",
+        "estado": "criado",
+        "sha256_antes": null,
+        "sha256_depois": "8443d78f427027c263511cf66eec454ddf96dee397d042b4f8e00673d3653719",
+        "backup": null
+      },
+      {
+        "arquivo": "BepInEx\\config\\com.gumatos.aut4probe.cfg",
+        "estado": "criado",
+        "sha256_antes": null,
+        "sha256_depois": "a0705af57facb39ef97c55100f8869dadb0feb723d247ae218ef50ddb69ee28b",
+        "backup": null
+      },
+      {
+        "arquivo": "BepInEx\\plugins\\AUT4Probe\\AUT4Probe.dll",
+        "estado": "criado",
+        "sha256_antes": null,
+        "sha256_depois": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+        "backup": null
+      }
+    ],
+    "criados": [
+      "BepInEx\\LogOutput.log",
+      "BepInEx\\config\\BepInEx.cfg",
+      "BepInEx\\config\\com.gumatos.aut4probe.cfg",
+      "BepInEx\\plugins\\AUT4Probe\\AUT4Probe.dll"
+    ],
+    "modificados": [],
+    "removidos": []
+  },
+  "detector": {
+    "veredito": "CONFIRMADA",
+    "negativo": false,
+    "dados_sinteticos": false,
+    "hot_reload": false
+  },
+  "hot_reload": false,
+  "identificacao": {
+    "dll_sha256": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "hash_fonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "configuracao": {
+      "Autorizado": true,
+      "OutDir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+      "OrcamentoSegundos": 120,
+      "Navegar": false,
+      "PerfilDir": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso",
+      "HashFonte": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+      "MaxTextos": 400,
+      "Sessao": "AUT4-20261009-185335-54b1bed3",
+      "DemostrarTooltip": true,
+      "MarcadorIdaEVolta": "AUT4-IDA-E-VOLTA-AUT4-20261009-185335-54b1bed3"
+    },
+    "cenario": "aut4-runtime-isolado-r3-campos-lidos",
+    "observado": 24,
+    "esperado": null,
+    "evidencia": "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\out4",
+    "lacunas": []
+  }
+}

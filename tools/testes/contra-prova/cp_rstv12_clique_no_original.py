@@ -32,7 +32,7 @@ META = {
 def corpo():
     src_run = reg.fonte(reg.caminho_run())
     src_janela = reg.fonte(reg.caminho_janela())
-    src_select = reg.fonte(reg.caminho_select())
+    src_helpers = reg.fonte(reg.caminho_helpers())
 
     # 1) A ISCA NO FONTE (nos DOIS clones): a limpeza antiga tem de ser pega pelas checagens.
     antigo_run = reg.fonte_com_limpeza_antiga(src_run)
@@ -41,14 +41,14 @@ def corpo():
         raise arc.Falhou("o plantio 'limpeza antiga' nao encontrou a ancora (`%s`): a isca nao esta "
                          "lendo o trecho certo" % reg.CHAMADA_HELPER)
 
-    falhas = reg.falhas_do_roteamento(antigo_run, antigo_janela, src_select)
+    falhas = reg.falhas_do_roteamento(antigo_run, antigo_janela, src_helpers)
     if not falhas:
         raise arc.Falhou("as checagens PASSARAM nos dois clones com a limpeza antiga: a verificacao "
                          "nao vale nada (o clique cai no original e ninguem percebe)")
 
     # 2) A ISCA NO HELPER: voltar a `RemoveAllListeners()` no helper tem de reprovar tambem.
-    helper_antigo = reg.fonte_com_helper_antigo(src_select)
-    if helper_antigo == src_select:
+    helper_antigo = reg.fonte_com_helper_antigo(src_helpers)
+    if helper_antigo == src_helpers:
         raise arc.Falhou("o plantio 'helper antigo' nao encontrou a ancora (`%s`)" % reg.TROCA_INSTANCIA)
     falhas_helper = reg.falhas_do_roteamento(src_run, src_janela, helper_antigo)
     if not falhas_helper:

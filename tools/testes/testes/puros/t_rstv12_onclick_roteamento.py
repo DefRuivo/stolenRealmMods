@@ -4,12 +4,12 @@
 
 O QUE ISTO TRAVA
 ----------------
-1. O helper `SelectPartyButton.ClearClickListeners(Button)` existe e TROCA a INSTANCIA do evento
+1. O helper `NativeUiHelpers.ClearClickListeners(Button)` existe e TROCA a INSTANCIA do evento
    (`button.onClick = new Button.ButtonClickedEvent();`) — a unica forma de descartar o listener
    PERSISTENTE serializado, que o `RemoveAllListeners()` NAO remove (ele limpa so a lista de runtime;
    e a persistente ainda roda ANTES do nosso, no `InvokableCallList.PrepareInvoke()`).
 2. Os dois clones da run — o do HUD (molde `pingBtn`) e o da janela do level-up (molde
-   `AcceptButton`) — e tambem o da tela Select Party chamam o helper ANTES de instalar o listener.
+   `AcceptButton`) — chamam o helper ANTES de instalar o listener.
 3. Nenhum `.cs` do mod cita `RemoveAllListeners()` no codigo efetivo: a classe de defeito esta fechada.
 4. O MODELO PURO da invocacao do `UnityEvent` reproduz os dois sintomas do log de 02/10:
      - HUD (persistente `ButtonPressedPing`, que liga o modo ping): com a limpeza ANTIGA o clique
@@ -42,13 +42,13 @@ META = {
 def corpo():
     src_run = reg.fonte(reg.caminho_run())
     src_janela = reg.fonte(reg.caminho_janela())
-    src_select = reg.fonte(reg.caminho_select())
-    arc.exigir(len(src_run) > 3000 and len(src_janela) > 3000 and len(src_select) > 3000,
+    src_helpers = reg.fonte(reg.caminho_helpers())
+    arc.exigir(len(src_run) > 3000 and len(src_janela) > 3000 and len(src_helpers) > 3000,
                "os fontes vieram vazios/curtos: a leitura mudou de lugar?")
 
     # 1) O FONTE esta de pe: helper correto + os clones limpando ANTES de instalar o listener +
     #    nenhum `RemoveAllListeners()` no mod.
-    falhas = reg.falhas_do_roteamento(src_run, src_janela, src_select, reg.fontes_do_mod())
+    falhas = reg.falhas_do_roteamento(src_run, src_janela, src_helpers, reg.fontes_do_mod())
     arc.exigir(not falhas, "o roteamento do clique regrediu em %d ponto(s): %s"
                % (len(falhas), " | ".join(falhas)))
 
@@ -56,13 +56,17 @@ def corpo():
     perfis = reg.perfis()
     arc.igual(len(perfis), 2, "o modelo tem de cobrir os DOIS botoes 'Skills' da run")
     nomes = sorted(p["persistente"] for p in perfis)
-    arc.igual(nomes, sorted([reg.PING, reg.CONFIRM]),
-              "os persistente modelados tem de ser o ButtonPressedPing e o ConfirmLevelUpSelection")
-    arc.exigir(any(p["lanca"] for p in perfis) and any(p["mexe_no_portao"] for p in perfis),
-               "o modelo perdeu os DOIS sintomas (um persistente lanca, o outro liga o modo ping)")
+    arc.igual(nomes, sorted([reg.SKILL_TREE, reg.CONFIRM]),
+              "os persistentes modelados tem de ser o ButtonPressedSkillTree (molde atual do HUD, "
+              "RSTV-30: ele abriria a arvore NATIVA ESCRITIVEL) e o ConfirmLevelUpSelection")
+    arc.exigir(any(p["lanca"] for p in perfis) and any(p.get("efeito") for p in perfis),
+               "o modelo perdeu os DOIS sintomas (um persistente lanca, o outro executa o efeito "
+               "do molde no clone)")
+    arc.exigir(any(p["persistente"] == reg.PING for p in reg.perfis_historicos()),
+               "o modelo perdeu o perfil HISTORICO do Ping (o sintoma que motivou a RSTV-12)")
 
     # 3) O DEFEITO REPRODUZIDO (o clique cai no original) x O CONSERTO (abre a arvore), perfil a perfil.
-    esperado_defeito = {reg.PING: "pingou", reg.CONFIRM: "levelup-nre"}
+    esperado_defeito = {reg.SKILL_TREE: reg.EFEITO_ARVORE_NATIVA, reg.CONFIRM: "levelup-nre"}
     for perfil in perfis:
         antigo = reg.resultado_do_clique(reg.LIMPEZA_ANTIGA, perfil)
         novo = reg.resultado_do_clique(reg.LIMPEZA_NOVA, perfil)
@@ -75,13 +79,21 @@ def corpo():
                    "inconsistencia do modelo: o defeito e o conserto dao o MESMO resultado em '%s'"
                    % perfil["nome"])
 
+    # 3b) O PERFIL HISTORICO do Ping continua modelado: com a limpeza antiga ele PINGAVA (o sintoma
+    #     que motivou a RSTV-12) e com a nova abre.
+    for historico in reg.perfis_historicos():
+        arc.igual(reg.resultado_do_clique(reg.LIMPEZA_ANTIGA, historico), reg.EFEITO_PINGOU,
+                  "o perfil historico do Ping deixou de reproduzir o 'pingou' do log de 02/10")
+        arc.igual(reg.resultado_do_clique(reg.LIMPEZA_NOVA, historico), "abriu",
+                  "o perfil historico do Ping nao abre com a limpeza nova")
+
     # O aborto do `Invoke()` no throw: o NOSSO listener nem aparece na varredura do level-up.
     executadas = reg.chamadas_do_clique(reg.LIMPEZA_ANTIGA, reg.PERFIL_ACCEPT)
     arc.exigir(reg.NOSSO not in executadas,
                "no defeito do level-up o listener do mod ainda e invocado — o modelo nao reproduz o "
                "aborto do UnityEvent num handler que lanca")
-    arc.igual(reg.chamadas_do_clique(reg.LIMPEZA_ANTIGA, reg.PERFIL_PING),
-              [reg.PING, reg.NOSSO],
+    arc.igual(reg.chamadas_do_clique(reg.LIMPEZA_ANTIGA, reg.PERFIL_HUD),
+              [reg.SKILL_TREE, reg.NOSSO],
               "o persistente tem de rodar ANTES do nosso (PrepareInvoke: persistentes primeiro)")
 
     # 4) PROVA DE FOGO EMBUTIDA — com o defeito plantado em MEMORIA, a MESMA checagem reprova.
@@ -89,7 +101,7 @@ def corpo():
     arc.exigir(antigo_run != src_run,
                "o plantio 'limpeza antiga' nao encontrou a ancora no RunButton (a checagem le o "
                "trecho certo?)")
-    falhas_run = reg.falhas_do_roteamento(antigo_run, src_janela, src_select)
+    falhas_run = reg.falhas_do_roteamento(antigo_run, src_janela, src_helpers)
     arc.exigir(any("RemoveAllListeners" in f for f in falhas_run),
                "com a limpeza antiga no RunButton as checagens NAO reprovaram pelo motivo certo: %s"
                % " | ".join(falhas_run))
@@ -97,14 +109,14 @@ def corpo():
     antigo_janela = reg.fonte_com_limpeza_antiga(src_janela)
     arc.exigir(antigo_janela != src_janela,
                "o plantio 'limpeza antiga' nao encontrou a ancora no LevelUpWindowButton")
-    falhas_janela = reg.falhas_do_roteamento(src_run, antigo_janela, src_select)
+    falhas_janela = reg.falhas_do_roteamento(src_run, antigo_janela, src_helpers)
     arc.exigir(any("RemoveAllListeners" in f or "ClearClickListeners" in f for f in falhas_janela),
                "com a limpeza antiga na janela as checagens NAO reprovaram pelo motivo certo: %s"
                % " | ".join(falhas_janela))
 
-    helper_antigo = reg.fonte_com_helper_antigo(src_select)
-    arc.exigir(helper_antigo != src_select,
-               "o plantio 'helper antigo' nao encontrou a ancora em SelectPartyButton")
+    helper_antigo = reg.fonte_com_helper_antigo(src_helpers)
+    arc.exigir(helper_antigo != src_helpers,
+               "o plantio 'helper antigo' nao encontrou a ancora em NativeUiHelpers")
     falhas_helper = reg.falhas_do_roteamento(src_run, src_janela, helper_antigo)
     arc.exigir(any("instancia" in f or "RemoveAllListeners" in f for f in falhas_helper),
                "com o helper voltando a `RemoveAllListeners()` as checagens NAO reprovaram pelo "

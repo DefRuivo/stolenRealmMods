@@ -65,13 +65,13 @@ identidade (§2). G8 é regra de operação.
 
 | artefato | caminho | sha256 |
 |---|---|---|
-| fonte do probe | `tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs` | `48afd3c41cf3ba97c93e5fc2d6b02ca58298939bf4b2a51f0ccd159ec96e3e94` |
-| componentes do probe | `tools/automacao/runtime/AUT4Probe/LeituraAgregados.cs` | `2506ec6478dd5a6bd445f2726c6595015f877f5e6465201d10c12a439c36cab0` |
+| fonte do probe | `tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs` | `beaf965a162c9452bee8302ecadbcc5ae42322d388c798179911e1660c07c193` |
+| componentes do probe | `tools/automacao/runtime/AUT4Probe/LeituraAgregados.cs` | `f398543671aeb18091bcf89cb126d0d2ac6c71f5cd52ab1080429bc9a37ec641` |
 | componentes do probe | `tools/automacao/runtime/AUT4Probe/IdentidadeDoProbe.cs` | `c23574f324f7a70ddeb2edb484daf292ebd92fc07eb0304bfbf343e58d27bfa6` |
 | serializador | `tools/automacao/runtime/AUT4Probe/Json.cs` | `ae30a1ac059bcf62067047926c13bf43079b30552073540a2f5654551b6b32c6` |
-| projeto | `tools/automacao/runtime/AUT4Probe/AUT4Probe.csproj` | `347770d091a6a173cbebb988fb30d2a7a73df4d64e316033812e4220869057f4` |
-| **DLL do probe** | `tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll` | `407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7` |
-| driver/coletor | `tools/automacao/runtime/coletor.py` | `adb48dca024120db91b65e28b8842b7f303ca1725359cdaf4deab5530ae1dd46` |
+| projeto | `tools/automacao/runtime/AUT4Probe/AUT4Probe.csproj` | `418a559beb424066633bc4aed604cd5c9cef9825c9ef5d4950b84f6f26ba0ff6` |
+| **DLL do probe** | `tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll` | `7f9a4cf1f62b721faff3f43e16ecb0e2313e748cf03c0eee5cca543c4e2575ee` |
+| driver/coletor | `tools/automacao/runtime/coletor.py` | `159ff2aa4ffd1d57c26c1722340a3f23d33c73db75450d7ff7d02ab0dd4f7f3d` |
 | controle negativo | `tools/automacao/runtime/controle_negativo.py` | `053c0026f97c8541294c81e9d0011df4f3d970756f6ab8bc1d96a98fa9296659` |
 | runner offline | `tools/automacao/runtime/roda_testes_runtime.py` | `7906c1692bf349aff006039f73bbc8c59ef4e2a7a588210c348227be4dfb157e` |
 
@@ -138,12 +138,59 @@ O driver escreve o `.cfg` — **ninguém** o escreve à mão. Chaves (formato Be
 | `OutDir` | pasta de saída (JSON/PNG) | — |
 | `OrcamentoSegundos` | teto de tempo da rodada | `120` |
 | `Navegar` | navegação por handler real (só quando autorizado) | `false` |
+| `NavegarTentativasMax` | **KIT-14F** — teto de QUADROS que a navegação espera o alvo (`Skills`) aparecer antes de declarar `esgotado` e seguir para o print | `12` |
+| `NavegarRota` | **KIT-14G** — ROTEIRO de navegação em ESTÁGIOS, separado por `;`: cada estágio casa um trecho (case-insensitive) do rótulo/nome de um botão ATIVO, na ordem. Vazio = comportamento histórico (procurar o alvo direto) | `""` |
+| `NavegarAlvoNome` | **KIT-14G** — NOME do objeto do alvo final. O botão do RSTV não tem rótulo (é um glifo), então casar por nome é o único jeito; rótulo contendo `Skills` também casa | `RstvRunSkillTreeButton` |
 | `PerfilDir` | perfil usado (isolado quando aplicável) | `""` |
 | `HashFonte` | sha256 da build medida (liga a evidência à DLL) | sha da DLL instalada |
 | `MaxTextos` | teto de `TMP_Text` lidos por rodada | `400` |
 | `Sessao` | identidade DESTA rodada (gerada pelo driver) | — |
 | `DemostrarTooltip` | porta **OPT-IN** de ida-e-volta | `false` |
 | `MarcadorIdaEVolta` | marcador injetado e relido na ida-e-volta | `""` |
+| `AutorizaEscritaTooltip` | **KIT-R0F/F5** — autorização ESPECÍFICA para ESCREVER no tooltip. **Não deriva** de `DemostrarTooltip`: permissão de observação não autoriza escrita | `false` |
+
+**KIT-R0F (correção da revisão KIT-R0):** observar **não** autoriza escrever. Com
+`DemostrarTooltip=true` e `AutorizaEscritaTooltip=false` a porta fica em modo **PASSIVO**
+(lê o tooltip vivo e **não** chama o handler do jogo). Só com `AutorizaEscritaTooltip=true`
+o modo **DEMONSTRADOR_ATIVO** chama `Tooltip.ShowTooltip`; nesse caso o título/corpo
+originais são lidos **antes** e **restaurados** depois, com `restauracao_conferida` no JSON.
+
+**KIT-14G (roteiro até o alvo, recoleta e consumidor do recorder):** três lacunas do
+residual do run710 fecharam no instrumento —
+
+- **roteiro em estágios** (`NavegarRota`): o alvo do RSTV vive no HUD da RUN e o jogo só o
+  liga em `InTown/InWorldMap/InCutscene/InBattle`; a busca única por `Skills` (KIT-14F) nunca
+  podia chegar até lá. Cada estágio é clicado UMA vez e a fase de navegação continua até o
+  alvo final aparecer (ou o teto esgotar);
+- **alvo por NOME** (`NavegarAlvoNome`): quando o botão não tem `TMP_Text` com texto, o
+  `rotulo` do candidato passa a ser o **nome do GameObject** — era o que faltava para o
+  `RstvRunSkillTreeButton` (glifo, sem texto) ser alcançável;
+- **mapa dos botões vistos** (`botoes_vistos` no JSON): `{rótulo/nome -> 1ª tentativa em que
+  apareceu ATIVO}`. É o INSUMO do roteiro: uma rodada com `NavegarRota` vazio colhe os
+  rótulos reais das telas, e só então o roteiro é escrito — roteiro adivinhado não é prova;
+- **recoleta depois da navegação**: `PassoNavegacao` chama `Recoletar()` (relê objetos,
+  inventário, textos visíveis e reinicia o snapshot do modal) **antes** do print `01-ui`, para
+  leitura e PNG serem do mesmo instante (no run710 os objetos eram do quadro do loading e o
+  PNG de centenas de quadros depois);
+- **consumidor do recorder**: `LerRecorder()` lê `KIT04Core.CorePlugin.Instancia
+  .ResultadoFinal()` **por reflexão** (o probe não referencia `KIT04Core.dll`), conta os
+  eventos e grava `recorder.json` ao lado do JSON do probe, **antes** do rollback. Sem o Core
+  carregado o campo sai `status = AUSENTE` com motivo — ausência declarada, nunca `0`
+  inventado.
+
+Ressalva de driver: `NavegarRota`/`NavegarAlvoNome` (como `NavegarTentativasMax`) ainda
+**não** estão em `coletor.CFG_CHAVES`, então o driver não os emite: quem conduz a rodada
+**acrescenta as linhas ao `.cfg` derivado** (mesmo padrão já usado para `NavegarTentativasMax`
+no run710) e registra o sha256 do `.cfg` final.
+
+O JSON do probe ainda ganhou, na mesma correção, os campos de **correlação
+evento × quadro × PNG**: `eventos_frame` (quadro de cada evento),
+`prints_detalhe` (quadro de **pedido** e de **conclusão** de cada PNG),
+`aplicacao.roteiro_frame_origem` (declara que `roteiro_frame` é metadado do **arranque**),
+`aguardou_ui.quadros_ate_a_ui_unidade` (declara que a contagem é de **ticks internos**) e
+`textos_visiveis_interpretacao` (declara que a lista traz componente **ativo com texto
+parseado** e **não** prova pixel desenhado — cada item sai com `pixel_visivel=NAO_AFIRMADO`
+e `frame_da_leitura`).
 
 ### 3.3 Caminhos vigiados / rollback
 
@@ -204,9 +251,9 @@ Todos abaixo estão **NÃO EXERCITADOS** hoje (nenhum rodou em jogo). A coluna
 ## 5. Passo a passo da rodada (quando autorizada)
 
 ### Fase A — antes de pedir autorização (offline, repetível)
-1. `python tools/automacao/runtime/roda_testes_runtime.py` → **VERDE, 15/15, exit 0**.
+1. `python tools/automacao/runtime/roda_testes_runtime.py` → **VERDE, 16/16, exit 0**.
 2. `python tools/automacao/runtime/roda_testes_runtime.py --contra-prova` → **VERDE,
-   31 iscas reprovam como deviam, exit 0**.
+   33 iscas reprovam como deviam, exit 0**.
 3. Conferir hashes (§2) e `docs/automacao/AUT-4-estado.json` contra o disco.
 
 ### Fase B — pré-voo (depois do "sim" do dono, jogo **fechado**)
@@ -240,12 +287,12 @@ Todos abaixo estão **NÃO EXERCITADOS** hoje (nenhum rodou em jogo). A coluna
 
 | o que | comando | resultado real observado |
 |---|---|---|
-| suite offline | `python tools/automacao/runtime/roda_testes_runtime.py` | **VERDE (exit 0)** — 15/15 |
-| contra-prova | `... --contra-prova` | **VERDE (exit 0)** — 31 iscas, todas por `RESULTADO\|REPROVOU\|`, zero por exceção |
+| suite offline | `python tools/automacao/runtime/roda_testes_runtime.py` | **VERDE (exit 0)** — 16/16 |
+| contra-prova | `... --contra-prova` | **VERDE (exit 0)** — 33 iscas, todas por `RESULTADO\|REPROVOU\|`, zero por exceção |
 | controle negativo isolado (sem autorização) | `controle_negativo.py --plano … --base <iso> --dll-probe …` | **`NAO_EXERCITADO` / exit 2**, zero observação, `dados_sinteticos=false` |
 | controle negativo isolado (com stub que não lê) | `... --autorizado --stub python <stub.py>` | **`NAO_EXERCITADO` / exit 2**, rollback exato (`restauracao.limpo=true`), DLL e `.cfg` removidos da área isolada |
 
-Contagem de referência no disco: **15 testes** (`testes/t_*.py`) e **31 iscas**
+Contagem de referência no disco: **16 testes** (`testes/t_*.py`) e **33 iscas**
 (`testes/contra-prova/cp_*.py`). O `t_aut4_estado_docs.py` trava essa contagem.
 
 **Ambiente de execução da suite (importa):** a suite é **hermética** quando o

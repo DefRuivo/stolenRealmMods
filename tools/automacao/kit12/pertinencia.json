@@ -1,0 +1,46 @@
+{
+  "esquema": "KIT-12/pertinencia/1",
+  "nota": "DADO declarativo: mod alterado -> cenarios pertinentes / frentes de avaliacao / arquivos-fonte de causa. Editar este arquivo muda a pertinencia sem tocar em codigo. O que nao estiver aqui e declarado como LACUNA, nunca silenciado.",
+  "mods": {
+    "BetterTooltips": {
+      "caminhos": ["BetterTooltips/"],
+      "fonte": ["BetterTooltips/Plugin.cs", "BetterTooltips/BetterTooltips.csproj"],
+      "cenarios": [
+        "KIT-10/shrines/contexto-dano-fonte-receptor",
+        "KIT-10/shrines/worship-dobro-preservado",
+        "AUT-6/shrines"
+      ],
+      "frentes": ["KIT-10", "AUT-6"]
+    },
+    "BetterFont": {
+      "caminhos": ["BetterFont/"],
+      "fonte": ["BetterFont/Plugin.cs", "BetterFont/BetterFont.csproj"],
+      "cenarios": ["KIT-10/estilo/por-evento-nao-boot", "AUT-7/estilo"],
+      "frentes": ["KIT-10", "AUT-7"]
+    },
+    "BetterCombatText": {
+      "caminhos": ["BetterCombatText/"],
+      "fonte": ["BetterCombatText/Plugin.cs", "BetterCombatText/BetterCombatText.csproj"],
+      "cenarios": ["KIT-10/estilo/por-evento-nao-boot", "AUT-7/estilo"],
+      "frentes": ["KIT-10", "AUT-7"]
+    },
+    "BetterStats": {
+      "caminhos": ["BetterStats/"],
+      "fonte": ["BetterStats/Plugin.cs", "BetterStats/BetterStats.csproj"],
+      "cenarios": ["KIT-10/atributos/base-vs-final", "AUT-7/atributos"],
+      "frentes": ["KIT-10", "AUT-7"]
+    },
+    "RoguelikeDebugger": {
+      "caminhos": ["RoguelikeDebugger/"],
+      "fonte": ["RoguelikeDebugger/Plugin.cs", "RoguelikeDebugger/RoguelikeDebugger.csproj"],
+      "cenarios": ["KIT-10/debugger/sem-truncar"],
+      "frentes": ["KIT-10"]
+    },
+    "RoguelikeSkillTreeVisualizer": {
+      "caminhos": ["RoguelikeSkillTreeVisualizer/"],
+      "fonte": ["RoguelikeSkillTreeVisualizer/Plugin.cs", "RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj"],
+      "cenarios": ["AUT-5/rstv"],
+      "frentes": ["AUT-5"]
+    }
+  }
+}

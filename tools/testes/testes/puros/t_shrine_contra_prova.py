@@ -25,7 +25,7 @@ META = {
     "nome": "shrine-contra-prova",
     "categoria": "pura",
     "requer": [],
-    "descricao": "as 5 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 4 testes da suite passam",
+    "descricao": "as 6 iscas da familia de shrines reprovam PELO MOTIVO CERTO e os 5 testes da suite passam",
 }
 
 # (isca em contra-prova/, o que a saida dela tem de citar, o teste da suite que e o
@@ -41,6 +41,8 @@ PARES = (
      "t_shrine_excesso_formatacao.py", "a fracao do equipamento no lugar do inteiro da ficha"),
     ("cp_shrine_gatilho_uma_instancia.py", "UMA VEZ POR INSTANCIA",
      "t_shrine_excesso_agregado.py", "o gatilho repetido contado uma vez (a Dwarven que nao stackava, DWA-2)"),
+    ("cp_rv30_source_injetado.py", "gameFunctionParameters.Source",
+     "t_rv30_shrine_fonte.py", "o bonus do jogador injetado no `Source` das auras de perigo (o RV-30)"),
 )
 
 

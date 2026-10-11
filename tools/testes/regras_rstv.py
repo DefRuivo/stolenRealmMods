@@ -23,16 +23,24 @@ filho `SkillSelectWindow.activeSelf` (l.168597; o proprio jogo usa esse criterio
 O QUE ESTAS REGRAS TRAVAM
 -------------------------
 1. o portao NAO esconde o botao por o manager estar ativo/carregado (o defeito);
-2. quando a JANELA do level-up esta aberta, o portao LIBERA o botao:
+2. quando a JANELA do level-up esta aberta, o portao LIBERA o clique:
        if (LevelUpAberto()) { return true; }
-   O level-up e um menu MODAL. Os portoes de run (mira, ping, janela de UI, spawn, turno,
-   animacao) descrevem a RUN em andamento, que o menu suspendeu; a janela do level-up ainda
-   convive com o PostBattleManager em `UIWindowManager.OpenedWindows` (o `OpenWindow` dele e
+   O level-up e um menu MODAL. Os portoes de run (mira, ping, janela de UI, spawn) descrevem a
+   RUN em andamento, que o menu suspendeu; a janela do level-up ainda convive com o
+   PostBattleManager em `UIWindowManager.OpenedWindows` (o `OpenWindow` dele e
    l.332398), entao o portao de "janela aberta" bloquearia o proprio level-up se valesse aqui.
-3. TODOS os outros portoes continuam no fonte (nenhum foi removido): mira (PlayerState.Action),
-   ping (PingModeActive), janela (AnyUIWindowOpen), spawn (SpawnPlacementActive), turno
-   (IsPlayerTurnAndReady), acting/moving (AnyActingCharactersInBattle/MovingCharactersInBattle),
-   alem dos basicos (GUIManager, Roguelike, GUIState whitelist);
+3. OS PORTOES DE DANO REAL continuam no fonte (nenhum foi removido): mira de skill
+   (`HexCellManager.CurrentState == PlayerState.Action`), ping (`GUIManager.PingModeActive`), janela
+   (`UIWindowManager.AnyUIWindowOpen`), posicionamento inicial (`Root.SpawnPlacementActive`), alem dos
+   basicos (GUIManager, Roguelike, ramo `GUIState.InBattle`).
+
+   RSTV-30 (06/10): sairam daqui a whitelist de `GUIState` (`StateAllowed`),
+   `Root.IsPlayerTurnAndReady`, `Root.AnyActingCharactersInBattle` e
+   `Root.AnyMovingCharactersInBattle`. Elas nao protegiam nada e eram a causa do defeito relatado
+   pelo dono em jogo ("o botao some e depois reaparece" quando qualquer personagem age; "nao aparece
+   fora de combate"). O portao passou a decidir SO' o CLIQUE — a visibilidade do botao e a do HUD. A
+   familia que trava esse conserto e' `regras_rstv30.py` (com a lista das guardas removidas e a
+   exigencia de justificativa em cada guarda que ficou).
 4. o ALVO do level-up sai do PROPRIO RoguelikeManager, nunca do `CurrentlySelectedCharacter`
    que ele troca: `CurrentRoguelikeSkillSelectingCharacter` (l.168726, definido junto com a
    janela em l.168932) e, como fallback, `CharactersWaitingForLevelUp[0].Character`
@@ -66,19 +74,17 @@ ALVO_LEVEL_UP = "private static Character AlvoDoLevelUp()"
 
 # Campo do modelo puro -> trecho que PROVA o campo no corpo efetivo de `GateOk`.
 # Os nomes sao os campos do CENARIO do modelo; `campos_do_modelo()` devolve as chaves.
+# RSTV-30: `estado` (whitelist de GUIState), `turno`, `acting` e `moving` SAIRAM do portao — a lista
+# das guardas removidas (com o defeito de cada uma) esta em `regras_rstv30.GUARDAS_REMOVIDAS`.
 CAMPOS = (
     ("gui", "GUIManager.instance"),
     ("roguelike", "!Roguelike"),
-    ("estado", "StateAllowed"),
     ("levelup", "LevelUpAberto"),
     ("mira", "PlayerState.Action"),
     ("ping", "PingModeActive"),
     ("janela", "AnyUIWindowOpen"),
     ("spawn", "SpawnPlacementActive"),
     ("em_batalha", "GUIState.InBattle"),
-    ("turno", "IsPlayerTurnAndReady"),
-    ("acting", "AnyActingCharactersInBattle"),
-    ("moving", "AnyMovingCharactersInBattle"),
 )
 
 # Cenario REAL do level-up: o menu esta aberto, tudo o mais esta no estado normal da run.
@@ -88,23 +94,19 @@ CAMPOS = (
 CENARIO_LEVELUP = {
     "gui": True,
     "roguelike": True,
-    "estado": True,
     "levelup": True,
     "mira": True,
     "ping": True,
     "janela": True,
     "spawn": True,
     "em_batalha": False,
-    "turno": True,
-    "acting": True,
-    "moving": True,
 }
 
-# RSTV-13 — os portoes que SO existem numa BATALHA em andamento. `IsPlayerTurnAndReady` fica no
-# ultimo valor do combate anterior (l.111904) e `SpawnPlacementActive` so existe no setup da
-# batalha (l.112152/l.112165); `mira`/`acting`/`moving` idem. Aplicados ao MAPA-MUNDO eles
-# escondem o botao quando o jogador passeia — por isso moram dentro do ramo `InBattle`.
-CAMPOS_DE_BATALHA = ("mira", "spawn", "turno", "acting", "moving")
+# RSTV-13/RSTV-30 — os portoes que SO existem numa BATALHA em andamento. `SpawnPlacementActive` so
+# existe no setup da batalha (l.112152/l.112165) e a `mira` (`HexCellManager.CurrentState`) so faz
+# sentido em combate. Aplicados ao MAPA-MUNDO eles escondem o botao quando o jogador passeia.
+# RSTV-30: turno/acting/moving sairam de vez (nao sao mais portao nenhum).
+CAMPOS_DE_BATALHA = ("mira", "spawn")
 
 
 def caminho_do_fonte():
@@ -141,16 +143,15 @@ def campos_do_modelo():
 # ------------------------------------------------------------------ modelo puro ---
 
 def portao_novo(c):
-    """Transcricao PURA da regra NOVA (RSTV-8 + RSTV-13): cada chave e um portao (`True` = NAO bloqueia).
+    """Transcricao PURA da regra NOVA (RSTV-8 + RSTV-13 + RSTV-30): cada chave e um portao
+    (`True` = NAO bloqueia).
 
     Ordem identica a do `GateOk`: basicos -> LEVEL-UP libera -> ping/janela (universais) ->
-    mira/spawn/turno/animacao (SO em batalha, RSTV-13).
+    mira/spawn (SO em batalha, RSTV-13). O portao decide somente o CLIQUE (RSTV-30).
     """
     if not c["gui"]:
         return False
     if not c["roguelike"]:
-        return False
-    if not c["estado"]:
         return False
     if c["levelup"]:
         return True
@@ -164,25 +165,16 @@ def portao_novo(c):
             return False
         if not c["spawn"]:
             return False
-        if not c["turno"]:
-            return False
-        if not c["acting"]:
-            return False
-        if not c["moving"]:
-            return False
     return True
 
 
 def portao_antigo(c):
-    """Transcricao PURA do DEFEITO (o `IsNotNullAndIsActive` plantado): o manager ativo ESCONDE.
-
-    E a isca: o MESMO cenario de level-up que a regra nova LIBERA tem de NAO liberar aqui.
+    """Transcricao PURA do DEFEITO do RSTV-8 (o `IsNotNullAndIsActive` plantado): o manager ativo
+    ESCONDE. E a isca: o MESMO cenario de level-up que a regra nova LIBERA tem de NAO liberar aqui.
     """
     if not c["gui"]:
         return False
     if not c["roguelike"]:
-        return False
-    if not c["estado"]:
         return False
     if c["levelup"]:            # o manager carregado/ativo -> esconder (o defeito)
         return False
@@ -194,13 +186,6 @@ def portao_antigo(c):
         return False
     if not c["spawn"]:
         return False
-    if c["em_batalha"]:
-        if not c["turno"]:
-            return False
-        if not c["acting"]:
-            return False
-        if not c["moving"]:
-            return False
     return True
 
 

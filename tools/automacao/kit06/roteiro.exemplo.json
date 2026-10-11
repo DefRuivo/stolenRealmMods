@@ -1,0 +1,15 @@
+{
+  "_documento": "KIT-06 - roteiro offline (fixture) para o CLI. NAO e runtime: prova a logica do plano de controle sem jogo.",
+  "roteiro": [
+    {"contexto": {"janela": "InventoryPanel"}},
+    {"tecla": "F7"},
+    {"contexto": {"chat_aberto": true}},
+    {"tecla": "F9", "descricao": "isto NAO deve marcar (chat aberto)"},
+    {"contexto": {"chat_aberto": false}},
+    {"tecla": "F9", "descricao": "tooltip cortado no Inventory"},
+    {"acao": "marcar_problema", "descricao": "contraste baixo (chamada direta de UI)"},
+    {"tecla": "F8"},
+    {"tecla": "F8"},
+    {"tecla": "F7"}
+  ]
+}

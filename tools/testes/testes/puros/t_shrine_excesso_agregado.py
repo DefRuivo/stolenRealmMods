@@ -178,8 +178,9 @@ def corpo():
     # A regra e por TIPO de efeito, nao por nome de aura: o Decay (OnTurnStart, tambem sem atributo de
     # personagem) conta por instancia pelo mesmo caminho.
     dois_decay = saidas["decay-x2"]
-    arc.igual(dois_decay["itens"], ["Shadow damage per turn 20", "Shadow damage per turn 20"],
-              "DWA-2 e por TIPO: o gatilho do Decay tambem roda uma vez por instancia")
+    arc.igual(dois_decay["itens"], ["Shadow damage per turn 10", "Shadow damage per turn 10"],
+              "DWA-2 e por TIPO: o gatilho do Decay tambem roda uma vez por instancia "
+              "(e o valor e o do asset SEM fator de bonus do jogador - RV-30)")
     arc.igual(dois_decay["repeticoes"], ["Decay Shrine Aura x2"],
               "o log registra a repeticao do Decay tambem")
 

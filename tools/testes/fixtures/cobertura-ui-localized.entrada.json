@@ -1,0 +1,33 @@
+{
+  "descricao": "observacao sintetica (procedencia FIXTURE) usada pela suite para medir o instrumento sem depender do conteudo do censo",
+  "observacoes": [
+    {
+      "hook": "ui.localized",
+      "sequencia": 1,
+      "chave": "Striking with this weapon applies 2 stack of Poison.",
+      "resultado": "Striking with this weapon applies 2 stacks of Poison.",
+      "procedencia": "FIXTURE"
+    },
+    {
+      "hook": "ui.localized",
+      "sequencia": 2,
+      "chave": "+ 20% Damage Reduction",
+      "resultado": "+ 20% Damage Reduction\n<color=#C8B090>Reduces all damage you take.</color>",
+      "procedencia": "FIXTURE"
+    },
+    {
+      "hook": "ui.localized",
+      "sequencia": 3,
+      "chave": "Deals *0 fire damage in a line.",
+      "resultado": "Deals *0 fire damage in a line.",
+      "procedencia": "FIXTURE"
+    },
+    {
+      "hook": "ui.localized",
+      "sequencia": 4,
+      "chave": "INT-R1-C5: texto que nenhuma tabela cobre.",
+      "resultado": "INT-R1-C5: texto que nenhuma tabela cobre.",
+      "procedencia": "FIXTURE"
+    }
+  ]
+}

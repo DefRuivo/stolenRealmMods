@@ -1,0 +1,494 @@
+{
+  "schemaVersion": 1,
+  "scope": "realmapi-ui-family-implemented-surface",
+  "sha256": "764b72d84a976a534292a518d14177b76fdede070bf9979e649efc5df25d19d7",
+  "sources": [
+    "api/Plugin/bin/Release/netstandard2.1/RealmApi.dll",
+    "api/Core/bin/Release/netstandard2.0/RealmApi.Core.dll"
+  ],
+  "types": [
+    {
+      "name": "Gumatos.RealmApi.UI.ActionBarUI",
+      "methods": [
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.ActionBarUI::AddButton(System.String,UnityEngine.Sprite,System.Action)",
+          "name": "AddButton",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "icon",
+              "type": "UnityEngine.Sprite",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "onClick",
+              "type": "System.Action",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.ActionBarUI::RemoveButton(System.String)",
+          "name": "RemoveButton",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.ActionBarUI::UpdateIcon(System.String,UnityEngine.Sprite)",
+          "name": "UpdateIcon",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "newIcon",
+              "type": "UnityEngine.Sprite",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gumatos.RealmApi.UI.MenuUI",
+      "methods": [
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.MenuUI::AddTab(System.String,System.Action\u00601\u003CUnityEngine.GameObject\u003E,System.Action)",
+          "name": "AddTab",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "tabName",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "onOpen",
+              "type": "System.Action\u00601\u003CUnityEngine.GameObject\u003E",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "onClose",
+              "type": "System.Action",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.MenuUI::RemoveTab(System.String)",
+          "name": "RemoveTab",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "tabName",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gumatos.RealmApi.UI.SkillTreeUI",
+      "methods": [
+        {
+          "signature": "System.Boolean Gumatos.RealmApi.UI.SkillTreeUI::HasTab(Gumatos.RealmApi.Skills.SkillTree)",
+          "name": "HasTab",
+          "isStatic": true,
+          "returnType": "System.Boolean",
+          "parameters": [
+            {
+              "name": "skillTree",
+              "type": "Gumatos.RealmApi.Skills.SkillTree",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.SkillTreeUI::AddTab(System.String,Gumatos.RealmApi.Skills.SkillTree)",
+          "name": "AddTab",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "tabName",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "skillTree",
+              "type": "Gumatos.RealmApi.Skills.SkillTree",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.SkillTreeUI::RemoveTab(Gumatos.RealmApi.Skills.SkillTree)",
+          "name": "RemoveTab",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "skillTree",
+              "type": "Gumatos.RealmApi.Skills.SkillTree",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gumatos.RealmApi.UI.TooltipHelper",
+      "methods": [
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.TooltipHelper::HideTooltip()",
+          "name": "HideTooltip",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": []
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.TooltipHelper::ShowTooltip(System.String,System.String,UnityEngine.Sprite)",
+          "name": "ShowTooltip",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "title",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "description",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "icon",
+              "type": "UnityEngine.Sprite",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Gumatos.RealmApi.UI.UIFactory",
+      "methods": [
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::BindClick(UnityEngine.GameObject,UnityEngine.Events.UnityAction)",
+          "name": "BindClick",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "onClick",
+              "type": "UnityEngine.Events.UnityAction",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::CopyRectLayout(UnityEngine.RectTransform,UnityEngine.RectTransform,UnityEngine.Vector2)",
+          "name": "CopyRectLayout",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "source",
+              "type": "UnityEngine.RectTransform",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "target",
+              "type": "UnityEngine.RectTransform",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "positionOffset",
+              "type": "UnityEngine.Vector2",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::Destroy(UnityEngine.GameObject)",
+          "name": "Destroy",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::DisableAllText(UnityEngine.GameObject)",
+          "name": "DisableAllText",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::DisableChildLayouts(UnityEngine.GameObject)",
+          "name": "DisableChildLayouts",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::SetIcon(UnityEngine.GameObject,UnityEngine.Sprite,System.String)",
+          "name": "SetIcon",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "icon",
+              "type": "UnityEngine.Sprite",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "childNameHint",
+              "type": "System.String",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Gumatos.RealmApi.UI.UIFactory::SetText(UnityEngine.GameObject,System.String)",
+          "name": "SetText",
+          "isStatic": true,
+          "returnType": "System.Void",
+          "parameters": [
+            {
+              "name": "go",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "text",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "UnityEngine.Component Gumatos.RealmApi.UI.UIFactory::CloneComponent(UnityEngine.Component,System.String)",
+          "name": "CloneComponent",
+          "isStatic": true,
+          "returnType": "UnityEngine.Component",
+          "parameters": [
+            {
+              "name": "template",
+              "type": "UnityEngine.Component",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "UnityEngine.GameObject Gumatos.RealmApi.UI.UIFactory::Clone(UnityEngine.GameObject,System.String)",
+          "name": "Clone",
+          "isStatic": true,
+          "returnType": "UnityEngine.GameObject",
+          "parameters": [
+            {
+              "name": "template",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "UnityEngine.GameObject Gumatos.RealmApi.UI.UIFactory::Clone(UnityEngine.GameObject,UnityEngine.Transform,System.String)",
+          "name": "Clone",
+          "isStatic": true,
+          "returnType": "UnityEngine.GameObject",
+          "parameters": [
+            {
+              "name": "template",
+              "type": "UnityEngine.GameObject",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "parent",
+              "type": "UnityEngine.Transform",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": true,
+              "hasDefault": true,
+              "defaultValue": null
+            }
+          ]
+        },
+        {
+          "signature": "UnityEngine.Transform Gumatos.RealmApi.UI.UIFactory::FindChild(UnityEngine.Transform,System.String)",
+          "name": "FindChild",
+          "isStatic": true,
+          "returnType": "UnityEngine.Transform",
+          "parameters": [
+            {
+              "name": "parent",
+              "type": "UnityEngine.Transform",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            },
+            {
+              "name": "name",
+              "type": "System.String",
+              "isOptional": false,
+              "hasDefault": false,
+              "defaultValue": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "skillsEnum": {
+    "name": "Gumatos.RealmApi.Skills.SkillTree",
+    "fields": [
+      "Chaos",
+      "Cold",
+      "Custom",
+      "Fire",
+      "Innate",
+      "Light",
+      "Lightning",
+      "Monk",
+      "Nature",
+      "Ranger",
+      "Shadow",
+      "Thief",
+      "Warrior"
+    ]
+  }
+}

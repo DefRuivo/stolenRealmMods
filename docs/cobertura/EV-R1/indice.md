@@ -1,0 +1,284 @@
+# EV-R1 — índice de TODOS os PartyEvent instalados
+
+256 assets; 255 GUIDs únicos. Não deduplicar por GUID.
+
+Schema: eventos.schema.json; dados: eventos.json; originais: eventos-originais.json; referências: catalogo-referencias.json.
+
+Todos os textos são originais em inglês, inclusive placeholders. Não são traduções nem melhorias. NULL não é recompensa zero. Eventos desabilitados e fora do pool permanecem.
+
+## AfterBattle (1)
+Lote completo: `lote-AfterBattle.md`
+
+- Test - After Battle Event — `resources.assets:2545719` — `e7a6cc9e-9d17-43d9-9b8c-63b67345e254` — disabled=1
+
+## Normal (160)
+Lote completo: `lote-Normal.md`
+
+- A Test of Fear — `resources.assets:2545531` — `0c69ab75-e61b-4f82-9bd6-3f5b9d6cbfcf` — disabled=1
+- Acid Trap — `resources.assets:2545532` — `c2ae71a3-938b-4960-8677-afa374d05527` — disabled=0
+- Alchemist's Workbench — `resources.assets:2545533` — `6172b8ad-6e95-43e8-adf8-9c16b209974f` — disabled=0
+- Ambush — `resources.assets:2545534` — `9b6cad84-c7d1-4910-94ba-537d33a5749a` — disabled=1
+- Archery Competition — `resources.assets:2545535` — `053565ee-baf0-4218-a394-c9058037e80f` — disabled=0
+- Armor Chest — `resources.assets:2545536` — `70c65d79-70fd-4541-b3cb-083f7055c346` — disabled=0
+- Armor Chest — `resources.assets:2545537` — `c6676bef-432e-4eb5-bed7-46664d0b4811` — disabled=0
+- Barbarian Fisherman — `resources.assets:2545538` — `c1938011-6b33-47ba-888d-cbfebce87b1c` — disabled=1
+- Battle — `resources.assets:2545539` — `5b740c2b-3480-48f2-997b-88c8291db0c0` — disabled=0
+- Battletest Event — `resources.assets:2545540` — `5b740c2b-3480-48f2-997b-88c8291db0c0` — disabled=1
+- Bear Trap — `resources.assets:2545541` — `7f5372ca-ad4a-461d-bf2d-086103b7c5d2` — disabled=0
+- Below Zero — `resources.assets:2545542` — `75bdb92c-6950-454d-9419-0ada4e886f77` — disabled=0
+- Between Worlds — `resources.assets:2545543` — `e4acbfa7-bf37-42fb-aa13-e039e4339487` — disabled=0
+- Blood of the Abyss — `resources.assets:2545544` — `70d9f977-f25b-4f47-ac09-30f12be404f2` — disabled=1
+- Bonefire — `resources.assets:2545546` — `ae42559a-dc07-4d70-b089-64b9aa50f829` — disabled=0
+- Bonefire — `resources.assets:2545548` — `b2cbffb6-4ee2-48f5-9c10-4fc110764f3f` — disabled=0
+- Bonfire — `resources.assets:2545549` — `13fb829a-cc27-44ce-aa4d-f3bfeb53d884` — disabled=0
+- Bonfire — `resources.assets:2545551` — `84b23e39-7e88-44f4-b86a-a580193d88d5` — disabled=0
+- Bonfire Story — `resources.assets:2545550` — `f0c60be1-d947-4518-8cc0-8533847a22f3` — disabled=0
+- Boss — `resources.assets:2545553` — `6c1fb16d-e9b4-453a-8bb1-eaaa5892c4e8` — disabled=0
+- Boss Fight - Roland — `resources.assets:2545552` — `00336dd6-9e0d-4a6a-ae09-a285d9a259be` — disabled=1
+- Brawler's Brew — `resources.assets:2545554` — `959c1e65-17c3-4405-ab03-47aa9a326334` — disabled=0
+- Carved Monolith — `resources.assets:2545555` — `9c907851-1c3e-4d43-9286-96559cbfda7f` — disabled=0
+- Carved Rune — `resources.assets:2545556` — `2ce0dad6-cbb4-4b82-a5fc-5a8eaa096d16` — disabled=0
+- Challenger's Gong — `resources.assets:2545560` — `19b06250-69cc-41bb-9972-530129c41bf2` — disabled=0
+- Cursed Chest — `resources.assets:2545562` — `cc9cedb8-b215-4800-b84e-f96c1993fcd3` — disabled=0
+- Cursed Chest — `resources.assets:2545565` — `4c984e21-93c7-4f85-b9dc-524df02adf00` — disabled=0
+- Cursed Clock — `resources.assets:2545563` — `6b49fc7c-abec-4c0c-8cba-3742c795ec50` — disabled=0
+- Cursed Tome — `resources.assets:2545569` — `4361a58d-cc5f-4507-a3a6-c4bc74ffaba7` — disabled=0
+- Dark Discoveries — `resources.assets:2545572` — `385b8352-0189-42e2-905c-ee6b0dae867e` — disabled=0
+- Dead Adventurer — `resources.assets:2545573` — `03048d72-af64-4337-8ae9-7475981d36e5` — disabled=1
+- Desecrated Statue of the First Mountain King — `resources.assets:2545576` — `31c21c13-d1fb-4be8-9d45-299dbad44e9e` — disabled=0
+- Disturbing Diner — `resources.assets:2545577` — `06f45978-e4ec-44bf-b216-cd3c84686572` — disabled=0
+- Dwarven Drinking Contest — `resources.assets:2545578` — `5777d2ca-8fca-485d-92c8-239f6da0e8a4` — disabled=1
+- Dwarven Sentry Wall — `resources.assets:2545579` — `7b6c58f0-2671-429e-9807-780a7695d9d8` — disabled=0
+- Dwarven Tomb — `resources.assets:2545580` — `534013a8-7402-4b00-95aa-dbd337d35ccf` — disabled=0
+- Dwarven Tribute — `resources.assets:2545581` — `7022fe7d-f9fb-4407-82ef-4e10f5d45d68` — disabled=0
+- Edwin's Demise — `resources.assets:2545582` — `4af726e7-657e-403a-883b-e3221fdd700c` — disabled=0
+- Elder Tree — `resources.assets:2545583` — `2779cca5-013a-4bbc-ba32-e7d25ef7c8b7` — disabled=0
+- Enchanted Axe — `resources.assets:2545584` — `b0370015-64ef-4d3c-ac98-d2468992d12d` — disabled=0
+- Enchanted Obelisk — `resources.assets:2545585` — `36c51484-b50b-4627-a9a7-64d221a22f1a` — disabled=0
+- Enchanted Pumpkin Patch — `resources.assets:2545587` — `3bda807e-075d-45e3-afe7-b9d0f9d4b34c` — disabled=0
+- Enchanted Symbol — `resources.assets:2545588` — `51200c46-6ca9-4e5e-b68d-ee6424dee157` — disabled=0
+- Entangled Boar — `resources.assets:2545589` — `ad2b9f6c-46c8-4e66-ae0d-8825c3948d41` — disabled=0
+- Eruption! — `resources.assets:2545590` — `db1ccfd4-c6d4-4dc1-9f7f-8966d93ceb32` — disabled=0
+- Etched Monolith — `resources.assets:2545591` — `81c8fe59-5e3b-4e96-8148-0e89d7ce48f7` — disabled=0
+- Etched Rune — `resources.assets:2545592` — `c8e5ace5-c340-450b-9d33-c0f525acb410` — disabled=0
+- Fickle Fungus — `resources.assets:2545593` — `9c731a7c-bbce-4c95-a4aa-fd9700ec70f0` — disabled=0
+- Foreboding Gem — `resources.assets:2545595` — `e4dc06e1-2425-4578-9cd7-087d78eb0d18` — disabled=0
+- Fountain of Life — `resources.assets:2545596` — `b6728bfa-321a-4c53-98c6-9b3d4d8f1ca1` — disabled=0
+- Friend or Foe — `resources.assets:2545597` — `a5c05b2d-a0d7-4e95-afc6-66beff7d1a6f` — disabled=1
+- Furnace Trap — `resources.assets:2545598` — `37dc56cd-600f-46b8-b0cc-eae8e0e9f0c7` — disabled=0
+- Goblin Scout Tower — `resources.assets:2545599` — `a443b122-b3e5-4f42-b4b0-bd74a648d40d` — disabled=0
+- Gold Statue of the First Mountain King — `resources.assets:2545601` — `a93098ef-da50-40e2-a216-4b0f4e258fda` — disabled=0
+- Grinder Trap — `resources.assets:2545602` — `22d9580c-8a7f-45c3-88cc-bb27e307203c` — disabled=0
+- Hard Battle — `resources.assets:2545603` — `e77a13db-782d-4e5a-b196-ec9bfcf44649` — disabled=0
+- Heavy Safe — `resources.assets:2545604` — `9b45cc6c-33cb-4936-acc7-76140acef17f` — disabled=0
+- Hell Coffer — `resources.assets:2545606` — `f41a780b-f4aa-455c-b26f-895129f63261` — disabled=0
+- Hell Gate — `resources.assets:2545608` — `afb86d83-6268-409d-a05d-14709b6713f6` — disabled=0
+- Hold your Breath — `resources.assets:2545609` — `12d253b1-8643-427b-8f35-8b1f402b1c07` — disabled=0
+- Horn of Glorious Battle — `resources.assets:2545611` — `26e9ac99-9af8-423f-a024-90459dafd88d` — disabled=0
+- Inconspicuous Burning Demon Skull — `resources.assets:2545612` — `0d898c20-9308-4239-98e6-a1d61fd531bf` — disabled=1
+- Jewelry Box — `resources.assets:2545616` — `873ac971-40c8-4fd4-8bad-1a69d2ec6fca` — disabled=0
+- Jewelry Box — `resources.assets:2545618` — `3415fc65-d04d-4f99-9689-cb822c0fd365` — disabled=0
+- Jewelry Box — `resources.assets:2545619` — `c7086146-8450-4146-b6b1-4bc830580aa0` — disabled=0
+- Lady of the Well — `resources.assets:2545621` — `32df0034-5a64-4155-92a5-62c6da8c4322` — disabled=0
+- Large Chest — `resources.assets:2545622` — `38a07b13-77ae-4a04-98a5-237b10c31bce` — disabled=0
+- Large Pile of Gold — `resources.assets:2545623` — `b2aed602-4583-45b3-a736-ee05bbe4c915` — disabled=0
+- Lightning Sentry — `resources.assets:2545624` — `3c3685cf-05c2-401b-bb42-bd85ae039034` — disabled=0
+- Magic Mirror — `resources.assets:2545626` — `bbce0c4c-c4df-4ebd-9b5f-fb745c872dc4` — disabled=0
+- Mana Spring — `resources.assets:2545648` — `13531a98-c63d-4759-a46f-461586e41b3a` — disabled=0
+- Master of Rage — `resources.assets:2545651` — `3c348484-97d8-44fe-9701-7897f376935e` — disabled=0
+- Mechanical Crusher — `resources.assets:2545652` — `adc51dbf-4064-4194-a024-34126346d7c9` — disabled=0
+- Mistress of Chaos — `resources.assets:2545653` — `cdb949de-0865-4063-837c-c395f6c16878` — disabled=0
+- Mistress of Chaos — `resources.assets:2545654` — `56dfd84e-2bc7-4b20-891d-f661f99ef68e` — disabled=0
+- Mistress of Chaos — `resources.assets:2545655` — `c96278b1-90ed-46c8-8e50-9dc6d6d2cdf0` — disabled=0
+- Off Balance — `resources.assets:2545656` — `294579ef-2a2e-47d3-a729-78bc847b1422` — disabled=1
+- Ogre Debt Collector — `resources.assets:2545659` — `2fc9c449-54a4-4b19-b457-3481e6e0aebb` — disabled=0
+- Ornate Coffin — `resources.assets:2545660` — `ff91cd18-05cb-45a7-abe1-4216f883bfbe` — disabled=0
+- Party like a Pirate — `resources.assets:2545664` — `385d6042-6c20-4ee0-9791-a7a4ec12ae03` — disabled=0
+- Petrified Party — `resources.assets:2545665` — `6305378b-1b85-480c-99b2-1a94f88ea10d` — disabled=0
+- Pile of Gold — `resources.assets:2545666` — `31ca1cdc-ec9b-4904-9fef-d88a569b147d` — disabled=0
+- Pirate's Treasure — `resources.assets:2545668` — `c9397eb9-c742-4828-a962-29ee5f9ebf27` — disabled=0
+- Poacher's Prize — `resources.assets:2545670` — `7b70a527-21c7-4b4b-a90c-5a8755af7c8c` — disabled=1
+- Rare Blue Flower — `resources.assets:2545671` — `d5b9d7a9-3705-40b2-9d9c-f6cae5b60d10` — disabled=1
+- Rare Red Flower — `resources.assets:2545672` — `7839bb3c-856f-4fda-95a4-cee8215a4a7f` — disabled=1
+- Rockslide! — `resources.assets:2545673` — `5cefc375-183e-4d07-a3e8-5e01470d1fc5` — disabled=0
+- Runed Obelisk — `resources.assets:2545674` — `42f00a9a-3f49-4431-9a88-bf4301b14872` — disabled=0
+- Runed Symbol — `resources.assets:2545675` — `2d92714e-b86f-40d0-9ddc-ade03e616684` — disabled=0
+- Sandstorm! — `resources.assets:2545676` — `a22263b2-227f-455a-a6dc-dd3a25041ad2` — disabled=0
+- Saw Trap — `resources.assets:2545677` — `9fb68205-2f61-4ca2-be5c-e9e4a8ad0e48` — disabled=0
+- Scent of Blood — `resources.assets:2545678` — `60994b86-838b-4672-84f0-c99f87942e82` — disabled=0
+- Shawn the Benevolent — `resources.assets:2545680` — `bc6f155e-352d-41e3-9863-b4c6548c13e9` — disabled=0
+- Shrine of the Conqueror — `resources.assets:2545681` — `cfb83f35-3814-4303-ad5f-808f055ee5ab` — disabled=0
+- Shrine of the Guardian — `resources.assets:2545682` — `960d6c56-40e8-40eb-8d70-bedda514a72f` — disabled=0
+- Shrine of the Rogue — `resources.assets:2545683` — `e6092432-340e-45a2-b9fb-436b3de72e25` — disabled=0
+- Shrine of the Warrior — `resources.assets:2545684` — `7cfa58fe-1a9e-4f3f-92d1-1cb26535f8c1` — disabled=0
+- Shrine to the Reaper — `resources.assets:2545685` — `9fd9a987-929a-4d04-b471-ff09f0c84608` — disabled=0
+- Shrine to the Seraph — `resources.assets:2545686` — `30dcb1d9-157a-485a-9587-dcb3363c6c68` — disabled=0
+- Shrine to the Shaman — `resources.assets:2545687` — `36973ac6-9f37-4c4a-b195-3ac33d0611d5` — disabled=0
+- Small Chest — `resources.assets:2545688` — `851bad73-b960-4f87-a7b5-2e8d5f88f9ef` — disabled=0
+- Small Pile of Gold — `resources.assets:2545689` — `e3ae319f-0153-4966-9351-45728bd15ab2` — disabled=0
+- Snowstorm! — `resources.assets:2545690` — `cf387b4d-057c-4da8-b0fd-b2126f0719b9` — disabled=0
+- Spear Trap — `resources.assets:2545691` — `13817dd0-dd84-421e-bdb0-88e3f633c929` — disabled=0
+- Stone Covered Grave — `resources.assets:2545692` — `5b93b343-2faf-4dd7-a851-5517f0c359f8` — disabled=0
+- Strange Crystal — `resources.assets:2545696` — `b788d19c-f4c6-4884-a73b-70316efe8684` — disabled=0
+- Strange Crystal — `resources.assets:2545699` — `08b61e7f-8de1-4d56-8ad5-2ff7441a94ff` — disabled=0
+- Strange Crystal — `resources.assets:2545702` — `abf8f4db-5d17-4b75-984f-aa3f4638e610` — disabled=0
+- Strange Fruit — `resources.assets:2545693` — `9fadcccd-4a0b-422d-ba1f-c3d7a92f9448` — disabled=1
+- Strange Green Crystal — `resources.assets:2545694` — `d4781e02-f860-4e50-9873-28a7f346b6c0` — disabled=1
+- Strange Indigo Crystal — `resources.assets:2545697` — `cba95a7e-6d68-4229-9486-bacbd212ed54` — disabled=1
+- Strange Orange Crystal — `resources.assets:2545700` — `63f3d9fc-910b-43e4-a347-99bafa8fa67a` — disabled=1
+- Strange Violet Crystal — `resources.assets:2545703` — `4b273849-3355-4744-a21a-82274ad3efd7` — disabled=1
+- Sword in the Stone — `resources.assets:2545707` — `696ca858-700e-422f-8c63-edb61dda4e1c` — disabled=0
+- Talk to the Spirits. — `resources.assets:2545710` — `94acc548-5d82-4605-a78b-f09748a50c0b` — disabled=0
+- Talking Suit of Armor — `resources.assets:2545711` — `767772c7-68a5-48b1-9fc6-e1f502fa4cfb` — disabled=0
+- Target Dummy Practice: Expert — `resources.assets:2545712` — `7a266af9-0c86-4165-a05f-4eb9b70fbf1b` — disabled=0
+- Target Dummy Practice: Novice — `resources.assets:2545713` — `a3161d22-3f5d-4ef4-8604-e8c0278722a0` — disabled=0
+- Test - All Characters Event — `resources.assets:2545720` — `42742a47-8ea8-47f6-9115-44c22108e33b` — disabled=1
+- Test - Boss Event End — `resources.assets:2545722` — `098afbc3-12a4-42d8-9c47-85497c72c35b` — disabled=1
+- Test - Boss Event Start — `resources.assets:2545723` — `c2f79869-76f7-4b64-bb7f-336cbc861cd3` — disabled=1
+- Test - Choose As Party Event — `resources.assets:2545724` — `87829a2f-3006-44d6-aaf1-bf8126aa2e32` — disabled=1
+- Test - Choose One Character Event — `resources.assets:2545725` — `d23cbec8-878b-4c45-a4df-015388cc4bb8` — disabled=1
+- Test - Individual Event — `resources.assets:2545726` — `37649e4c-ed20-4051-8ec6-95b85b451c41` — disabled=1
+- Test - Test Key (Get) — `resources.assets:2545727` — `6a91c4f8-06ea-4d4d-82a3-c1a4e8c1bffc` — disabled=1
+- Test - Test Key (Use) — `resources.assets:2545728` — `f51adc00-9270-4c4f-88f9-afbbd8fc75d3` — disabled=1
+- The Animator — `resources.assets:2545732` — `7d008743-08fc-4746-b4c9-2201f70b530f` — disabled=0
+- The Fortune Teller — `resources.assets:2545734` — `2ca74161-3fe7-459d-bdd7-1b6f4741edc4` — disabled=0
+- The Fortune Teller (Test) — `resources.assets:2545733` — `e987802d-9895-46d4-a815-69b95b52633e` — disabled=1
+- The Golden Key — `resources.assets:2545735` — `5e259ead-072f-4025-bab5-1c56bfa6ccfa` — disabled=1
+- The King — `resources.assets:2545736` — `9398b8fa-1e1f-4d92-8540-e37731a0d859` — disabled=1
+- The Lady — `resources.assets:2545737` — `1f2569a9-949b-494a-9651-eb7f00640707` — disabled=1
+- The Librarian — `resources.assets:2545738` — `8b9e013f-5f85-47d8-bffc-f1e573b18612` — disabled=0
+- The Mad Mage — `resources.assets:2545739` — `435d6bd4-fa60-4982-85f8-e4a0ec083837` — disabled=0
+- The Most Dangerous Game — `resources.assets:2545742` — `764378be-fa1c-43ef-b0e1-6669614105d4` — disabled=0
+- The Old Well — `resources.assets:2545743` — `930f331a-b7fc-49d6-9e7a-1022733e2fca` — disabled=0
+- The Oracle — `resources.assets:2545744` — `e100bc75-b20c-4d3f-a3e1-94e22584cf17` — disabled=1
+- The Pale Knight — `resources.assets:2545745` — `f08738de-ec30-4dd2-b947-2774494301e6` — disabled=1
+- The runes of the Ymir — `resources.assets:2545785` — `8e63fbe4-3e26-49fc-b9f0-8f4aa4676f67` — disabled=0
+- The Soothsayer — `resources.assets:2545746` — `509fbfa8-efd1-4fb3-a7d0-cdca0266ae83` — disabled=1
+- The Spell Council — `resources.assets:2545748` — `c4c61a86-8016-45fd-ba38-418f361b24cc` — disabled=0
+- Torn Portrait — `resources.assets:2545750` — `3d676a9b-bdd4-48ba-9893-37e3f8d9031b` — disabled=1
+- Tornado! — `resources.assets:2545751` — `cebeebab-3728-45fa-aab6-cdab1f351041` — disabled=0
+- Transcendence — `resources.assets:2545752` — `1a9b1d33-3893-4c82-8093-6f4f234d13a5` — disabled=0
+- Treasure Chest — `resources.assets:2545753` — `5f13a738-5671-4b7b-8982-706fd39a742e` — disabled=0
+- Treasure Chest — `resources.assets:2545755` — `ada7460a-f8cb-4c6b-9807-e09dc31323a8` — disabled=0
+- Treasure Chest — `resources.assets:2545756` — `363377e4-2bf7-4e84-8982-43974a31f901` — disabled=0
+- Treasure Goblin Den — `resources.assets:2545757` — `8a1f25eb-680d-458e-a1c6-a288a86c6cdc` — disabled=0
+- Treasure Hoard — `resources.assets:2545758` — `fa55726b-edc2-4e35-b044-13bec3f0c4bc` — disabled=0
+- Treasure Hunter — `resources.assets:2545759` — `252cb65e-0e91-4d55-bf03-2a05cffa9d3c` — disabled=0
+- Unidentified Remains — `resources.assets:2545767` — `61dc097d-ac3d-4a63-a07e-725900b48d3f` — disabled=0
+- Weapon Chest — `resources.assets:2545770` — `5a1f026d-cc6c-44c4-8552-2dd3e605bf66` — disabled=0
+- Weapon Chest — `resources.assets:2545771` — `168a9bb6-ae30-4104-b523-2e401721d680` — disabled=0
+- What Lurks — `resources.assets:2545773` — `d9869d80-80e1-47e3-b3bc-0e85cd0dab64` — disabled=0
+- Witch's Cauldron — `resources.assets:2545774` — `25e5d830-d905-49f6-8141-49be866c6056` — disabled=0
+- Witch's Pyre — `resources.assets:2545776` — `25028950-77c6-46ed-ba01-36f25d817793` — disabled=0
+- Wooden Coffin — `resources.assets:2545777` — `b2a823dc-b6c0-48e4-934a-ab7f9a8034ed` — disabled=1
+- Wrath of the Righteous — `resources.assets:2545778` — `5c2dd0f8-93c0-47f3-b621-0b8f0d42f50f` — disabled=0
+- Wrath of the Righteous — `resources.assets:2545779` — `78693713-6487-460a-bd29-2337c1eff6fa` — disabled=1
+- Yours or Mine — `resources.assets:2545786` — `1ba0288d-5a22-4ead-b273-67bf8ae36a81` — disabled=1
+
+## NotInEventPool (84)
+Lote completo: `lote-NotInEventPool.md`
+
+- Admiral Blackbeard — `resources.assets:2545637` — `f5475aa4-e4e2-4449-a392-0a4f7948315f` — disabled=0
+- Bonefire — `resources.assets:2545545` — `05935caa-5cfd-411e-8ab8-92d6d0bc9018` — disabled=0
+- Bonefire — `resources.assets:2545547` — `6b8e0706-2a01-49f2-916a-9dccad57f73b` — disabled=0
+- Challenger's Gong — `resources.assets:2545557` — `8acc5e69-2a57-46db-87f5-5ee7de130916` — disabled=0
+- Challenger's Gong — `resources.assets:2545558` — `ae1bb381-411b-4ed0-b1fb-1a3c06dc8559` — disabled=0
+- Challenger's Gong — `resources.assets:2545559` — `18894a29-845e-4a2f-a58e-504da8a0aad2` — disabled=0
+- Consumed by Rage — `resources.assets:2545649` — `bb2ea4ea-f11f-4bb1-9812-0623428ffe12` — disabled=0
+- Cursed Chest — `resources.assets:2545561` — `29e3b6c4-59da-42f0-8622-5b4667ce8c68` — disabled=0
+- Cursed Mimic — `resources.assets:2545564` — `a0c631c5-b0b7-4956-97c5-2440b1a84d19` — disabled=0
+- Cursed Tome — `resources.assets:2545566` — `256779e1-0d70-40a6-9aea-65054cf58c0a` — disabled=0
+- Cursed Tome — `resources.assets:2545567` — `1f424434-f6b6-4a63-af9d-3880c5a2f9a2` — disabled=0
+- Cursed Tome — `resources.assets:2545568` — `08293297-072b-415d-abf0-f966e0c6645f` — disabled=0
+- Dark Discoveries — `resources.assets:2545571` — `32b5d67b-797e-4a2e-8af6-1b2ee1e1b4c7` — disabled=0
+- Desecrated Statue of the First Mountain King — `resources.assets:2545574` — `ff5a1efb-7689-4e82-99b2-0bda947a8f47` — disabled=0
+- Enchanted Pumpkin Patch — `resources.assets:2545586` — `9b40c53e-d59b-443b-a06b-4f5719f4666a` — disabled=0
+- Foreboding Gem - Victory — `resources.assets:2545594` — `46d77b69-0a9f-4d25-bc2d-15e6745c120b` — disabled=0
+- Gold Lootin' Goblins — `resources.assets:2545575` — `ca065336-aaaa-409a-826a-8d1b523acc5b` — disabled=0
+- Gold Statue of the First Mountain King — `resources.assets:2545600` — `d4f3d443-58a3-4d3d-be7d-e2dcc5edb65c` — disabled=0
+- Hell Coffer — `resources.assets:2545605` — `f40b4b0b-e070-4566-8cfd-3b2061b83e38` — disabled=0
+- Hell Gate — `resources.assets:2545607` — `a0c8980b-0e39-42fe-bdba-f9570b2ce256` — disabled=0
+- Horn of Glorious Battle — `resources.assets:2545610` — `8efe225e-a0d9-40ad-925a-44c3a953f52c` — disabled=0
+- Jack in the Box — `resources.assets:2545613` — `829367c4-e662-483a-8be7-ba402d121e10` — disabled=0
+- Jack in the Box — `resources.assets:2545615` — `c260fb9c-4f6c-40d8-8b55-2244d53e54d4` — disabled=0
+- Jack in the Box - Victory — `resources.assets:2545614` — `3251055e-02b6-4581-9994-d258c7ad0cfc` — disabled=0
+- King Under the Mountain — `resources.assets:2545633` — `01cb5dd1-ba2c-472f-9601-8a43aa56e8b9` — disabled=0
+- Lady of the Well — `resources.assets:2545620` — `a13116b5-0fbf-4598-ab44-f19a70f96365` — disabled=0
+- Lesser Mimic — `resources.assets:2545617` — `012ddc27-7b28-4365-9a05-20920ec59c59` — disabled=0
+- Magic Mirror — `resources.assets:2545625` — `1f0f2b4d-7ec4-4b10-b489-f382c460efeb` — disabled=0
+- Master of Rage — `resources.assets:2545650` — `bc2329a7-1bb4-427a-89f2-afbbc4e157d0` — disabled=0
+- Mimic — `resources.assets:2545754` — `edab07b7-0e1e-4958-b9f1-d0682e99e999` — disabled=0
+- Ogre Debt Collector — `resources.assets:2545657` — `efff6400-391a-4158-9248-07d98b39db76` — disabled=0
+- Ogre Debt Collector — `resources.assets:2545658` — `59467858-3651-4088-829c-b2c0abb5d316` — disabled=0
+- Party like a Pirate — `resources.assets:2545661` — `fd31de51-fdde-4e83-a6c9-344c4ed2bfd0` — disabled=0
+- Party like a Pirate — `resources.assets:2545662` — `e9d21980-ff00-4c6d-b3dc-ef1040133f97` — disabled=0
+- Party like a Pirate — `resources.assets:2545663` — `20c770ea-3ca7-452d-9236-8abcaa33f2a3` — disabled=0
+- Pirate's Treasure — `resources.assets:2545667` — `ae77d198-ad55-44dd-ac1f-8abc86c91f0e` — disabled=0
+- Poacher's Demise — `resources.assets:2545669` — `9738c529-ee32-4a4e-859a-772c18be72fa` — disabled=0
+- Red Dragon — `resources.assets:2545629` — `9ad14dbe-13b4-4558-b215-8555482261b8` — disabled=0
+- Scent of Blood — `resources.assets:2545679` — `5d032595-5d84-48e1-a45e-c521fdb9db1d` — disabled=0
+- Strange Crystal — `resources.assets:2545695` — `16484ea1-d515-436f-85d1-d9ec385681e2` — disabled=0
+- Strange Crystal — `resources.assets:2545698` — `af416be6-411b-4377-a37d-e712b04b6c4e` — disabled=0
+- Strange Crystal — `resources.assets:2545701` — `f4237415-7dae-4398-8804-812ac8fe4c10` — disabled=0
+- Sword in the Stone — `resources.assets:2545704` — `22307b00-cfcd-42c4-ae4d-54de5f5b30db` — disabled=0
+- Sword in the Stone — `resources.assets:2545705` — `ae735002-a8fc-4cc3-995b-33c12ada3e63` — disabled=0
+- Sword in the Stone — `resources.assets:2545706` — `fb36f25c-2e0a-41cb-8c7b-e4ff1a0cd1f9` — disabled=0
+- Talk to the Spirits. — `resources.assets:2545708` — `b74e712d-64f4-4985-84eb-18faec5b1f85` — disabled=0
+- Talk to the Spirits. — `resources.assets:2545709` — `bacd9421-4c77-492b-b704-e9a8e77db0bd` — disabled=0
+- Taste for Blood — `resources.assets:2545714` — `a1d68598-66ff-4361-8c90-5e4ffa6b931d` — disabled=0
+- Taste for Blood — `resources.assets:2545715` — `a806d1db-be3a-4eb7-be2b-36e655f162d0` — disabled=0
+- Taste for Blood — `resources.assets:2545716` — `850460da-6433-4de4-ba65-76963154f6e8` — disabled=0
+- Taste for Blood — `resources.assets:2545717` — `882a9b9c-9acb-4c6a-85e1-54b4ee44dd27` — disabled=0
+- Taste for Blood — `resources.assets:2545718` — `c869d363-e251-4c9f-81f2-a9f0089e0c4b` — disabled=0
+- The Animator — `resources.assets:2545731` — `367876d3-1828-4bf5-bff6-c6b768e81012` — disabled=0
+- The Bandit — `resources.assets:2545627` — `28d9e36f-1bfd-40e3-8fee-c835bfb470c4` — disabled=0
+- The Burning Hearts of Demons — `resources.assets:2545729` — `8158bcdc-cb19-47f4-a880-f89743353cb3` — disabled=0
+- The Burning Hearts of Demons — `resources.assets:2545730` — `b25094f9-0cb0-45e2-9583-9f19f2746d3c` — disabled=0
+- The Dead One — `resources.assets:2545645` — `823ba17d-183e-4cc8-b159-fbbf9c59cbe6` — disabled=0
+- The Dusk King — `resources.assets:2545639` — `47d52f5f-01d4-48f1-8956-690e5bb2aafd` — disabled=0
+- The Mad Mage — `resources.assets:2545740` — `2d96a688-b25e-409b-80c0-a1266789efeb` — disabled=0
+- The Mad Mage — `resources.assets:2545741` — `4eda9b0c-848d-472d-9036-1bcb41d2ce7b` — disabled=0
+- The Medusa — `resources.assets:2545641` — `654654a8-fb4c-4b0a-9541-39c5f437ec90` — disabled=0
+- The Prospector — `resources.assets:2545631` — `d21cccf8-d886-4271-ac3e-da0dcf528cd0` — disabled=0
+- The runes of the Ymir — `resources.assets:2545780` — `02eff442-4bb6-4e23-b99c-07c5d74e50d3` — disabled=0
+- The runes of the Ymir — `resources.assets:2545781` — `57998f83-17c5-4e55-bf59-f56403d0ce14` — disabled=0
+- The runes of the Ymir — `resources.assets:2545783` — `180d0256-b0b8-42bd-a0b7-d87bbcdcb874` — disabled=0
+- The Spell Council — `resources.assets:2545747` — `bfe5418a-b839-4c4d-881a-08805a2a4310` — disabled=0
+- The Spell Council — `resources.assets:2545749` — `b033c3a9-ab04-4d4b-9961-d4846e25261f` — disabled=0
+- The Sultan — `resources.assets:2545635` — `dce2e114-c816-4ffd-a0fa-5263c0395782` — disabled=0
+- The Witch — `resources.assets:2545643` — `81632a77-5c59-495f-9d0d-32acca8b75cd` — disabled=0
+- Too Late — `resources.assets:2545647` — `555fe1d0-e62f-420b-9ce6-cb66f38a2ce1` — disabled=0
+- Treasure of Moltendunn — `resources.assets:2545760` — `2f8ff63f-f021-4dc6-b13c-b928121964c1` — disabled=0
+- Treasure of Moltendunn — `resources.assets:2545761` — `96252be8-6f1a-4c87-ab16-258d31eaa501` — disabled=0
+- Treasure of Moltendunn — `resources.assets:2545762` — `11d0a54b-fb4e-4e63-b6ac-1fb07d03f3c2` — disabled=0
+- Treasure of Moltendunn — `resources.assets:2545763` — `085d4df2-878c-4979-a83f-7aeea9d034ec` — disabled=0
+- Treasure of Moltendunn — `resources.assets:2545764` — `38383f9f-e2b6-4b4c-abb3-5fb1a688e046` — disabled=0
+- Trial of the Ymir — `resources.assets:2545765` — `3847efc5-47dd-4913-b33c-16eedc922228` — disabled=0
+- Trial of the Ymir — `resources.assets:2545766` — `a2a6b0b1-aaa0-41e4-8d9d-0caa21fb8380` — disabled=0
+- Unholy Experiments — `resources.assets:2545570` — `603a0843-ebb3-426f-9500-86812ad6d1d7` — disabled=0
+- Unleashed — `resources.assets:2545768` — `af493a35-ca03-4351-933f-cc688f2cd56e` — disabled=0
+- Unleashed — `resources.assets:2545769` — `a7de4c70-7f15-486f-aa7e-40c71c190d9f` — disabled=0
+- What Lurks — `resources.assets:2545772` — `927680ab-1141-4524-a714-e418cac289f2` — disabled=0
+- Witch's Pyre — `resources.assets:2545775` — `526e30e7-0f03-4409-bb34-35c81045b0aa` — disabled=0
+- Ymir Rune, Honor — `resources.assets:2545782` — `e826b457-4b55-46db-bd38-0f9239a0b915` — disabled=1
+- Ymir Rune, Strength — `resources.assets:2545784` — `3e15219a-3607-4fe4-ae6f-3fc421135fcb` — disabled=1
+
+## QuestStart (1)
+Lote completo: `lote-QuestStart.md`
+
+- Test - Battle Start Event — `resources.assets:2545721` — `b089fdff-346f-44a6-8a40-99f460d33587` — disabled=1
+
+## SemPoolDeclarado (10)
+Lote completo: `lote-SemPoolDeclarado.md`
+
+- Admiral Blackbeard — `resources.assets:2545638` — `04cc0b09-7bed-462a-a71c-fc81d280905c` — disabled=0
+- King Under the Mountain — `resources.assets:2545634` — `a84f7a47-e0cf-4bc9-a7e6-b0136ae7b63f` — disabled=0
+- Red Dragon — `resources.assets:2545630` — `68fdf79b-d4d6-43d5-afd7-3174d9b085d4` — disabled=0
+- The Bandit — `resources.assets:2545628` — `5f33c065-84a9-455b-b539-12c2bad9e74a` — disabled=0
+- The Dead One — `resources.assets:2545646` — `dda682c8-8f63-4e88-be4d-e77642927ba4` — disabled=0
+- The Dusk King — `resources.assets:2545640` — `78bc2027-e1df-4d62-8d07-596148f41d29` — disabled=0
+- The Medusa — `resources.assets:2545642` — `c2d5010d-a2e3-425c-ab06-450332a297b8` — disabled=0
+- The Prospector — `resources.assets:2545632` — `d5fc09c8-94cd-4d69-bb3b-f7d6ce0d5e3e` — disabled=0
+- The Sultan — `resources.assets:2545636` — `fe62eca6-1277-4a23-a06b-449f790ae83a` — disabled=0
+- The Witch — `resources.assets:2545644` — `4d91f160-6313-4c54-994a-182f8e9093c4` — disabled=0
+

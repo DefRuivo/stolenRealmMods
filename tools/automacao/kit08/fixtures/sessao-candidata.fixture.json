@@ -1,0 +1,51 @@
+{
+  "esquema": "KIT-08/sessao/1",
+  "rotulo_fixture": "kit08-candidata-rotulada",
+  "sintetico": true,
+  "aviso": "FIXTURE ROTULADA (nao e leitura de jogo). Caminho de COMPARACAO: mesmo contexto (versao_jogo/bepinex/config_sha) da baseline, fonte/dll da CANDIDATA diferentes. Uma regressao plantada (janela REPROVADO) exercita o discriminador.",
+  "mod": "RoguelikeSkillTreeVisualizer",
+  "identidade": {
+    "fonte_sha": "9999999999999999999999999999999999999999999999999999999999999999",
+    "dll_sha": "8888888888888888888888888888888888888888888888888888888888888888",
+    "config_sha": "3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "build": {"id": "build-candidata", "versao_jogo": "2022.3.62f3", "bepinex": "5.4.23.5"},
+  "sessao": {"id": "S-candidata"},
+  "criterios": [
+    {
+      "id": "KIT09-RSTV1-janela",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "estado": "REPROVADO",
+      "classe": "runtime",
+      "procedencia": "fixture",
+      "esperado": "janela aberta e fechada pelo ESC",
+      "observado": "janela abriu mas NAO fechou no ESC",
+      "evidencia": ["scratch/kit/k08/prova-candidata.json"],
+      "motivo": "DEFEITO: janela nao fechou no ESC",
+      "tarefa_origem": "t_76a41ea7",
+      "prova_runtime": false,
+      "fonte_sha": "9999999999999999999999999999999999999999999999999999999999999999",
+      "dll_sha": "8888888888888888888888888888888888888888888888888888888888888888",
+      "config_sha": "3333333333333333333333333333333333333333333333333333333333333333",
+      "sessao": "S-candidata"
+    },
+    {
+      "id": "KIT09-RSTV2-personagem",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "fixture",
+      "esperado": "personagem correto selecionado, skills sem mutacao",
+      "observado": "sem leitura de personagem na candidata",
+      "evidencia": ["scratch/kit/k08/prova-candidata.json"],
+      "motivo": "sem observacao/leitura para esta capacidade (AUSENTE nao e OK)",
+      "tarefa_origem": "t_76a41ea7",
+      "prova_runtime": false,
+      "fonte_sha": "9999999999999999999999999999999999999999999999999999999999999999",
+      "dll_sha": "8888888888888888888888888888888888888888888888888888888888888888",
+      "config_sha": "3333333333333333333333333333333333333333333333333333333333333333",
+      "sessao": "S-candidata",
+      "lacuna_probe": "probe nao emite leitura de personagem"
+    }
+  ]
+}

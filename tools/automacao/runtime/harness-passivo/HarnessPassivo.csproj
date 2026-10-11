@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- KIT-05F: harness OFFLINE da trilha passiva (Core + Adapter), SEM Unity.
+       Compila por LINK os fontes reais e prova ligacao/estado sem abrir o jogo. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>HarnessPassivo</AssemblyName>
+    <RootNamespace>HarnessPassivo</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+    <Compile Include="../core/PipelinePassivo.cs" />
+    <Compile Include="../KIT04Adapter.SR/PontePassivaRSTV.cs" />
+  </ItemGroup>
+</Project>

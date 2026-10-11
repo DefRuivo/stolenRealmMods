@@ -1,0 +1,52 @@
+{
+  "esquema": "KIT-08/sessao/1",
+  "rotulo_fixture": "kit08-baseline-rotulada",
+  "sintetico": true,
+  "aviso": "FIXTURE ROTULADA (nao e leitura de jogo). Existe SO para exercitar o visualizador KIT-08 no caminho de COMPARACAO baseline x candidata com contexto compativel. Nao tem valor probatorio de runtime.",
+  "mod": "RoguelikeSkillTreeVisualizer",
+  "identidade": {
+    "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+    "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222",
+    "config_sha": "3333333333333333333333333333333333333333333333333333333333333333"
+  },
+  "build": {"id": "build-baseline", "versao_jogo": "2022.3.62f3", "bepinex": "5.4.23.5"},
+  "sessao": {"id": "S-baseline"},
+  "criterios": [
+    {
+      "id": "KIT09-RSTV1-janela",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "fixture",
+      "esperado": "janela aberta e fechada pelo ESC",
+      "observado": "sem leitura de janela na baseline",
+      "evidencia": ["scratch/kit/k08/prova-baseline.json"],
+      "motivo": "sem observacao/leitura para esta capacidade (AUSENTE nao e OK)",
+      "tarefa_origem": "t_76a41ea7",
+      "prova_runtime": false,
+      "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+      "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222",
+      "config_sha": "3333333333333333333333333333333333333333333333333333333333333333",
+      "sessao": "S-baseline",
+      "lacuna_probe": "probe nao emite leitura de janela na baseline"
+    },
+    {
+      "id": "KIT09-RSTV2-personagem",
+      "mod": "RoguelikeSkillTreeVisualizer",
+      "estado": "NAO_EXERCITADO",
+      "classe": "runtime",
+      "procedencia": "fixture",
+      "esperado": "personagem correto selecionado, skills sem mutacao",
+      "observado": "sem leitura de personagem na baseline",
+      "evidencia": ["scratch/kit/k08/prova-baseline.json"],
+      "motivo": "sem observacao/leitura para esta capacidade (AUSENTE nao e OK)",
+      "tarefa_origem": "t_76a41ea7",
+      "prova_runtime": false,
+      "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+      "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222",
+      "config_sha": "3333333333333333333333333333333333333333333333333333333333333333",
+      "sessao": "S-baseline",
+      "lacuna_probe": "probe nao emite leitura de personagem na baseline"
+    }
+  ]
+}

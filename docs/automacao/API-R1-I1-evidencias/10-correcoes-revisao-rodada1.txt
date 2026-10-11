@@ -1,0 +1,65 @@
+# Prova 10 -- correcoes da revisao rodada 1 (3 defeitos de documento, zero codigo)
+# data: 2026-10-11 04:06:36 -0300
+
+# comando reproduzivel: os comandos abaixo, na ordem, a partir de /c/dev/stolen-realm
+
+== D1: grep de residuo §8.4 tinha escopo largo demais ==
+$ P=/tmp/probe-perfil  (perfil FALSO: plugins/ e config/ vazios, LogOutput.log pos-rodada, cache/ do BepInEx)
+  arquivo: cache/chainloader_typeloader.dat
+  arquivo: LogOutput.log
+$ grep -ril RealmApi "$P" | wc -l   # versao ANTIGA do runbook
+  match: cache/chainloader_typeloader.dat
+  match: LogOutput.log
+2
+$ grep -ril RealmApi "$P/plugins" "$P/config" | wc -l   # versao CORRIGIDA
+0
+# conclusao: o perfil esta limpo (0 em plugins/+config/) e a versao antiga acusava 2 (LogOutput.log + cache/).
+
+== D2: citacao da linha do alvo ==
+$ grep -n '<Target Name="DeployToBepInEx"' api/Plugin/RealmApi.csproj
+29:  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
+$ grep -n 'RealmApi.csproj:2' docs/automacao/API-R1-runbook-runtime.md
+84:O alvo de deploy é `DeployToBepInEx` em `api/Plugin/RealmApi.csproj:29`, com
+305:- Alvo de deploy opt-in: `api/Plugin/RealmApi.csproj:29` (alvo `DeployToBepInEx`), comentário acima dele.
+
+== D3: contagem de linhas do runbook ==
+$ wc -l docs/automacao/API-R1-runbook-runtime.md
+313 docs/automacao/API-R1-runbook-runtime.md
+$ grep -n '313 linhas' docs/automacao/API-R1-I1-parte02.md
+7:Arquivo **novo**: `docs/automacao/API-R1-runbook-runtime.md` (313 linhas), status declarado em destaque:
+
+# nada de codigo foi tocado nesta rodada: runbook (2 secoes), parte02 (contagem) e parte04 (nova) -- so .md.
+
+== fecho: medicao FINAL (depois de o §10 citar as evidencias 09/10 e a parte04) ==
+$ wc -l docs/automacao/API-R1-runbook-runtime.md
+315 docs/automacao/API-R1-runbook-runtime.md
+$ grep -n '315 linhas' docs/automacao/API-R1-I1-parte02.md
+7:Arquivo **novo**: `docs/automacao/API-R1-runbook-runtime.md` (315 linhas), status declarado em destaque:
+$ grep -n 'RealmApi.csproj:2' docs/automacao/API-R1-runbook-runtime.md
+84:O alvo de deploy é `DeployToBepInEx` em `api/Plugin/RealmApi.csproj:29`, com
+305:- Alvo de deploy opt-in: `api/Plugin/RealmApi.csproj:29` (alvo `DeployToBepInEx`), comentário acima dele.
+$ grep -n 'tem de ser 0' docs/automacao/API-R1-runbook-runtime.md
+263:grep -ril RealmApi "$P/plugins" "$P/config" | wc -l   # tem de ser 0
+281:grep -ril RealmApi "$P/plugins" "$P/config" | wc -l    # tem de ser 0 = sem residuo em plugins/ e config/
+
+== nada de codigo tocado: build sem flag e smoke ==
+$ dotnet build api/Plugin/RealmApi.csproj -c Release | tail -3
+    0 Aviso(s)
+    0 Erro(s)
+$ dotnet build ... | grep -c 'Deploy:'
+0
+$ python tools/check_deploy_optin.py --raiz api
+   [ ok  ] 1 alvo(s) de deploy, todos com Condition="'$(DeployToBepInEx)' == 'true'"
+exit=0
+$ api/Smoke/bin/.../RealmApi.Smoke.exe lib/Assembly-CSharp.dll api/Plugin/bin/Release/netstandard2.1/RealmApi.dll | tail -2
+Ran 25 tests; failures: 0
+NAO_EXERCITADO: BepInEx/Unity runtime, gameplay, saves, multiplayer; somente CLR fixtures + metadados locais.
+
+== perfil do dono intacto (mesma impressao digital de 01/04/05/07) ==
+$ P=/c/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx
+$ wc -l < /tmp/fp-final.txt
+30
+$ sha256sum /tmp/fp-final.txt
+8d615c0af3dffe61d6417f03d3a9c8f81fe23b02640f8d75c7e3d17b4273a436 */tmp/fp-final.txt
+$ grep -ril RealmApi "$P/plugins" "$P/config" | wc -l
+0

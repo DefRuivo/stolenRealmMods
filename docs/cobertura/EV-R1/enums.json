@@ -1,0 +1,107 @@
+{
+  "EventSpawnType": {
+    "0": "Normal",
+    "1": "AfterBattle",
+    "2": "QuestStart",
+    "3": "NotInEventPool"
+  },
+  "ItemQuality": {
+    "0": "Common",
+    "1": "Uncommon",
+    "2": "Rare",
+    "3": "Legendary",
+    "4": "Mythic"
+  },
+  "GameMode": {
+    "0": "Campaign",
+    "1": "Roguelike"
+  },
+  "StorySetting": {
+    "0": "NonStoryOnly",
+    "1": "StoryOnly",
+    "2": "Both"
+  },
+  "FullReleaseMode": {
+    "0": "None",
+    "1": "Disable",
+    "2": "Enable"
+  },
+  "NodeType": {
+    "0": "NormalFight",
+    "1": "HardFight",
+    "2": "RestSite",
+    "3": "Treasure",
+    "4": "Shop",
+    "5": "Boss",
+    "6": "Mystery",
+    "7": "Event",
+    "8": "Commodity"
+  },
+  "TerrainType": {
+    "0": "WaterTempleRuins",
+    "1": "WyrmrestDesert",
+    "2": "FreewindForest",
+    "3": "CastleGloom",
+    "4": "ForgottenMines",
+    "5": "Emberlands",
+    "6": "EmeraldJungle",
+    "7": "FrostwroughtMountain",
+    "8": "SunkenSwamplands",
+    "9": "DwarvenHalls"
+  },
+  "TimeOfDay": {
+    "0": "Day",
+    "1": "Night"
+  },
+  "RollBonusType": {
+    "0": "Might",
+    "1": "Dexterity",
+    "2": "Vitality",
+    "3": "Intelligence",
+    "4": "Reflex"
+  },
+  "EventResultType": {
+    "0": "Success",
+    "1": "Failure",
+    "2": "CriticalSuccess",
+    "3": "CriticalFailure"
+  },
+  "EventCharacterPoolType": {
+    "0": "AllPartyCharacters",
+    "1": "MyCharacters"
+  },
+  "EventTargetType": {
+    "2": "ChooseOneCharacter",
+    "0": "ChooseAsParty",
+    "3": "AllCharacters"
+  },
+  "UniversalLootTableType": {
+    "0": "None",
+    "1": "Global",
+    "2": "Unassigned"
+  },
+  "PersistentDurationType": {
+    "0": "Normal",
+    "1": "Quest",
+    "2": "Battle",
+    "3": "Permanent"
+  },
+  "StatusType": {
+    "0": "Normal",
+    "1": "Fortune",
+    "2": "QuestItem",
+    "3": "Quest"
+  },
+  "CharacterEffectMethod": {
+    "0": "Base",
+    "1": "Percentage",
+    "2": "Multiplicative",
+    "3": "Additive",
+    "4": "Set"
+  },
+  "EventActionEffectTargetType": {
+    "0": "Self",
+    "1": "EveryoneExceptSelf",
+    "2": "Party"
+  }
+}

@@ -1,0 +1,5 @@
+RODADA 2 (correcoes da revisao 1) - build Release sem deploy
+COMANDO: dotnet build RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj -c Release -p:DeployToBepInEx=false
+
+    1 Aviso(s)
+    0 Erro(s)

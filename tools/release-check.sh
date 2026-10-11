@@ -64,6 +64,12 @@
 #                   TypeInitializationException, 0 ArgumentException, 0 '[Error'.
 #                   No fluxo normal este passo NAO RODA: ele abre o jogo e so
 #                   prova algo com a DLL nova NO PERFIL.
+#   7b. COBERTURA — INT-R1-C5: instrumento de bancada que mede a cobertura das tabelas
+#                   do BetterTooltips pelo texto SERVIDO (hook `ui.localized` da API
+#                   propria): tools/cobertura_ui_localized.py --prova (o caso NEGATIVO
+#                   obrigatorio: remover uma entrada real -> a trava REPROVA). Nao abre
+#                   o jogo nem toca no mod. Sem observacao de RUNTIME capturada pelo
+#                   LocalizedProbe o passo fica PENDENTE (fixture nunca e evidencia).
 #   9. HUMANO     — lista do que so um humano confere em jogo (nao automatizavel)
 #
 # O mesmo miolo de repositorio roda no CI (.github/workflows/validate.yml), na
@@ -454,6 +460,53 @@ else
     echo "   Revisar: docs/cobertura/revisao/BUG-32-chaves-compartilhadas.md"
   fi
   passo_ok "7. COMPARTILH." "0 chave nas duas tabelas; $N_SUSP suspeita(s) (aviso humano)"
+fi
+
+# ======================= 7b. COBERTURA (ui.localized) ========================
+# INT-R1-C5 / cartao C6: a validacao das tabelas era ESTATICA (check_fix_keys conta
+# chaves contra o censo do dump de boot; check_dupes pega chave repetida). O jogo
+# oferece o ponto exato para MEDIR: `OptionsManager.Localize` e estatico, recebe o
+# texto e devolve string (`api/Core/Contracts.cs:63`, hook `ui.localized`). O par
+# (chave, resultado) observado diz o que o jogo SERVIU e o que a tabela COBRE.
+#
+# Este passo NAO toca no mod e NAO abre o jogo:
+#   * roda a PROVA do instrumento (`--prova`): e o caso NEGATIVO obrigatorio (remover
+#     uma entrada real -> a trava REPROVA) mais a medicao por fixture. Se ela falhar,
+#     o passo REPROVA - a trava do mod ficou sem prova.
+#   * se existir uma observacao de RUNTIME no caminho padrao, roda a medicao e a TRAVA
+#     do baseline. Observacao de FIXTURE nunca conta: vira PENDENTE, nao OK.
+#   * sem observacao (o caso de hoje - a rodada em jogo depende de autorizacao do dono)
+#     o passo fica PENDENTE, que nao reprova mas tambem nao se disfarca de aprovado.
+echo
+echo "== PASSO 7b/9 — COBERTURA (instrumento ui.localized; mod NAO muda) =="
+SAIDA_COB="$(PYTHONIOENCODING=utf-8 $PYTHON tools/cobertura_ui_localized.py --prova 2>&1)"; rc_cob=$?
+printf '%s\n' "$SAIDA_COB" | sed 's/^/   /'
+LINHA_COB="$(printf '%s\n' "$SAIDA_COB" | grep -aoE 'Ran [0-9]+ tests; failures: [0-9]+' | head -1)"
+if [ "$rc_cob" -ne 0 ]; then
+  passo_fail "7b. COBERTURA" "a prova do instrumento REPROVOU (${LINHA_COB:-sem linha de resumo}) — caso negativo da trava nao esta verde"
+else
+  OBS_PADRAO="docs/automacao/runtime/observacao-ui-localized.jsonl"
+  BASELINE_COB="docs/cobertura/revisao/cobertura-ui-localized-baseline.json"
+  if [ -f "$OBS_PADRAO" ]; then
+    SAIDA_MED="$(PYTHONIOENCODING=utf-8 $PYTHON tools/cobertura_ui_localized.py --observacoes "$OBS_PADRAO" --json "$TMPD/cobertura.json" 2>&1)"; rc_med=$?
+    PROC_COB="$(printf '%s\n' "$SAIDA_MED" | grep -aoE 'procedencia: [A-Za-z:_]+' | head -1 | sed 's/procedencia: //')"
+    printf '%s\n' "$SAIDA_MED" | sed 's/^/   | /'
+    if [ "$rc_med" -ne 0 ]; then
+      passo_fail "7b. COBERTURA" "a medicao nao rodou (exit $rc_med) sobre $OBS_PADRAO"
+    elif [ "$PROC_COB" != "runtime" ]; then
+      passo_pendente "7b. COBERTURA" "observacao presente mas procedencia '$PROC_COB' (fixture NUNCA e evidencia de jogo) — medicao em jogo segue NAO_EXERCITADA"
+    elif [ -f "$BASELINE_COB" ]; then
+      if $PYTHON tools/cobertura_ui_localized.py --verificar "$BASELINE_COB" >/dev/null 2>&1; then
+        passo_ok "7b. COBERTURA" "${LINHA_COB:-prova verde}; observacao runtime + baseline VERDE"
+      else
+        passo_fail "7b. COBERTURA" "TRAVA REPROVADA: entrada cobrada sumiu da tabela (ver --verificar $BASELINE_COB)"
+      fi
+    else
+      passo_pendente "7b. COBERTURA" "observacao runtime medida, mas sem baseline versionado em $BASELINE_COB"
+    fi
+  else
+    passo_pendente "7b. COBERTURA" "${LINHA_COB:-prova verde}; medicao em jogo NAO_EXERCITADA (sem $OBS_PADRAO)"
+  fi
 fi
 
 # ============================== 8. CICLO =====================================

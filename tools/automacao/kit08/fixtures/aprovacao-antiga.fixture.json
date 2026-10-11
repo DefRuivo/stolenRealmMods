@@ -1,0 +1,11 @@
+{
+  "esquema": "KIT-08/aprovacao/1",
+  "rotulo_fixture": "kit08-aprovacao-rotulada",
+  "aviso": "FIXTURE ROTULADA de APROVACAO TECNICA. Concedida contra a FONTE ANTIGA (fonte_sha 1111...). A candidata usa fonte_sha 9999..., entao o visualizador deve marcar STALE (fonte alterada invalida a aprovacao). Sem valor de aceite humano.",
+  "mod": "RoguelikeSkillTreeVisualizer",
+  "fonte_sha": "1111111111111111111111111111111111111111111111111111111111111111",
+  "dll_sha": "2222222222222222222222222222222222222222222222222222222222222222",
+  "config_sha": "3333333333333333333333333333333333333333333333333333333333333333",
+  "concedida_em": "2026-10-08T00:00:00Z",
+  "revisao": "exemplo-rotulado"
+}

@@ -95,13 +95,21 @@ LIMITES - O QUE ESTA FERRAMENTA **NAO** PROVA
 7. Ela NAO cobre o caso de bonus +8 (`Omnism I`) e +50 (roll do `Horn of Devotion`): a tabela tem
    os 3 casos exigidos (0, +20, +100). Uma observacao com bonus fora dos 3 sai como AVISO.
 8. Ela nao prova que o numero do Flame e o do PORTADOR em vez do ATACANTE (RV-19 §9(ii)):
-   ela confere a formula contra o dano logado com `Source = Target = o alvo projetado`. A medicao
-   do dano de RETORNO com `Worship` continua sendo uma experiencia em jogo.
+   ela confere a formula contra o dano logado com o alvo projetado na GRAFIA do mod pos-RV-30
+   (vida maxima x % do tipo, SEM o fator de bonus — ver o limite 10). A medicao do dano de
+   RETORNO continua sendo uma experiencia em jogo.
 9. **Os LIMITES do atributo (`RV-46 teto`/`RV-46 piso`) e o `cru` de cada hover so entram no relatorio**
    (secao `LIMITES DO ATRIBUTO NO LOG`) **e no julgamento da ADITIVIDADE** — a ferramenta nao confere o
    VALOR do `MaxValue`/`MinValue` contra o asset (ele e publicado pelo mod, lido do proprio asset em
    runtime) nem cobra que todo atributo com limite tenha a linha: um log de build anterior ao
    RV-46/MAN-2 cai na regra antiga, e a secao DIZ isso (`[AUSENTE]`).
+10. **O esperado do DANO das duas auras de PERIGO (Decay/Flame) NAO aplica o bonus do hover** — RV-30
+   (03/10): elas leem `Source["ShrineEffectBonus"]` e num ground effect o `Source` e o personagem VAZIO
+   do shrine (bonus 0). A ferramenta tira esse fator da coluna `eixo` da tabela gerada (`Source` -> 0,
+   `Target` -> o caso do jogador); com a tabela antiga (sem `eixo`) ela avisa e trata como `Source`.
+   A PROVA de que o motor le o slot do proprio status (`CalculateAttributeWalkOnce`: `Source =
+   actionStatus.Source`) e a fonte do mod (`ShrineAuraPatch.FixShrineExpressionParams`, RV-30: nao
+   escreve `Source`), nao a tela.
 
 """
 
@@ -566,6 +574,17 @@ def main(argv=None):
         aura, caso = r["aura"], r["caso_bonus"]
         caso_f = float(caso)
         chave = (aura, "", caso)
+        # RV-30 (03/10): as DUAS auras de PERIGO (Decay/Flame) leem `Source["ShrineEffectBonus"]` e
+        # num status de ground effect o `Source` e o personagem VAZIO do shrine — bonus 0. O fator
+        # delas NAO e o bonus do jogador: multiplicar por `caso_f` era o defeito que fazia um hover
+        # em jogo com bonus != 0 sair ACHADO (falso positivo). O bonus que multiplica sai do EIXO
+        # declarado na linha (`eixo=Source` -> 0; `eixo=Target` -> o caso do jogador).
+        eixo = r.get("eixo")
+        if eixo is None:
+            avisos.append((0, "a tabela de esperados NAO declara a coluna `eixo` (foi gerada por um "
+                              "gera_shrines_esperado.py anterior ao RV-30): as auras de PERIGO sao "
+                              "lidas como eixo `Source` (bonus 0). Regenere a tabela."))
+        bonus_fonte = caso_f if eixo == "Target" else 0.0
         pct_player = pct[aura]["player"]
         if aura == "Decay Shrine Aura":
             candidatos = [o for o in obs["decay"] if o["bonus"] == caso_f]
@@ -585,7 +604,7 @@ def main(argv=None):
                 pct_usada = pct[aura][tipo] if tipo else pct_player
                 rotulo_tipo = ("tipo=%s %s%%" % (o["tipo"], fmt(pct_usada))) if tipo \
                     else "[tipo nao logado -> player %s%%]" % fmt(pct_player)
-                esp = float(round_half_even(o["mh"] * (pct_usada / 100.0) * (1 + caso_f / 100.0)))
+                esp = float(round_half_even(o["mh"] * (pct_usada / 100.0) * (1 + bonus_fonte / 100.0)))
                 if abs(o["dano"] - esp) > 1e-9:
                     achados.append(Achado(aura, "(dano/turno)", caso, o["dano"], esp,
                                           "dano do Decay difere (%s)" % rotulo_tipo,
@@ -612,7 +631,7 @@ def main(argv=None):
                 resultados.setdefault(chave, []).append(
                     ("AUSENTE", "tipo '%s' do alvo do Flame nao esta na tabela de percentuais" % o["tipo"]))
                 continue
-            esp = max(1.0, float(round_half_even(o["mh"] * (pct[aura][tipo] / 100.0) * (1 + caso_f / 100.0))))
+            esp = max(1.0, float(round_half_even(o["mh"] * (pct[aura][tipo] / 100.0) * (1 + bonus_fonte / 100.0))))
             if abs(o["dano"] - esp) > 1e-9:
                 achados.append(Achado(aura, "(dano por alvo)", caso, o["dano"], esp,
                                       "dano do Flame difere", o["linha"], o["nome"]))
@@ -666,7 +685,7 @@ def main(argv=None):
     # ------------------------------------------------------------------ aditividade (resto constante)
     # RV-46: com o TETO do atributo declarado pelo mod (`RV-46 teto`, o HasMax/MaxValue do asset) o
     # julgamento muda de natureza — `resto = total - aura` deixa de ser "a parte da ficha que nao e aura"
-    # porque o motor CORTA o total no teto (`Character.GetAttribute`, decompilado l.11871-11878). Sem o
+    # porque o motor CORTA o total no teto (`Character.GetAttribute`, decompilado l.40607). Sem o
     # teto no log (build anterior) vale a regra antiga — e e ela que pega o defeito do print do dono
     # (`Dodge +120% (total +75%)`: resto −45, nao constante, impossivel de reconciliar).
     adit = []

@@ -1,0 +1,52 @@
+{
+  "caso": "shrine-dois-personagens",
+  "procedencia": "tools/fixtures/shrines-rv46-dedupe.log (log VERSIONADO). Cada `log_linha` e um trecho VERBATIM da linha `RV-31 acumulado` desse log; `itens` e o trecho DEPOIS de ' -> ' da MESMA linha; `bonus` e o campo `bonus=` da MESMA linha. O teste ainda confere que cada `log_linha` continua no log (o esperado nao pode envelhecer). Nada foi digitado de cabeca e nada foi somado a mao.",
+  "gerado_por": "leitura verbatim de tools/fixtures/shrines-rv46-dedupe.log (a MEDICAO do mod; o mod avalia o asset pelo motor)",
+  "personagens": [
+    {
+      "id": "chkra",
+      "nome": "ChkRA",
+      "aura": "Rogue Aura",
+      "bonus": 0,
+      "itens": ["Dodge +20% (total +37%)"],
+      "repeticoes": [],
+      "log_linha": "RV-31 acumulado: auras=[Rogue Aura] char=ChkRA bonus=0 -> Dodge +20% (total +37%)"
+    },
+    {
+      "id": "raven",
+      "nome": "Raven",
+      "aura": "Rogue Aura",
+      "bonus": 100,
+      "itens": ["Dodge +40% (total +52%)"],
+      "repeticoes": [],
+      "log_linha": "RV-31 acumulado: auras=[Rogue Aura] char=Raven bonus=100 -> Dodge +40% (total +52%)"
+    },
+    {
+      "id": "chkdw0",
+      "nome": "ChkDW0",
+      "aura": "Dwarven Aura",
+      "bonus": 0,
+      "itens": ["Stun chance +20%"],
+      "repeticoes": [],
+      "log_linha": "RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW0 bonus=0 -> Stun chance +20%"
+    },
+    {
+      "id": "chkdw20",
+      "nome": "ChkDW20",
+      "aura": "Dwarven Aura",
+      "bonus": 20,
+      "itens": ["Stun chance +24%"],
+      "repeticoes": [],
+      "log_linha": "RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW20 bonus=20 -> Stun chance +24%"
+    },
+    {
+      "id": "chkdw",
+      "nome": "ChkDW",
+      "aura": "Dwarven Aura",
+      "bonus": 100,
+      "itens": ["Stun chance +40%"],
+      "repeticoes": [],
+      "log_linha": "RV-31 acumulado: auras=[Dwarven Aura] char=ChkDW bonus=100 -> Stun chance +40%"
+    }
+  ]
+}

@@ -430,8 +430,10 @@ namespace RoguelikeSkillTreeVisualizer
             TextMeshProUGUI titulo;
             if (molde != null)
             {
-                TextMeshProUGUI clone = UnityEngine.Object.Instantiate(molde, cabecalho);
-                clone.gameObject.name = TitleName;
+                // INT-R1-C4: clone pela familia `UI` da API (RstvApiUi.Clonar -> UIFactory.Clone) —
+                // o mesmo Instantiate(molde, cabecalho) + nome do clone, com o componente lido do clone.
+                TextMeshProUGUI clone = RstvApiUi.Clonar(molde.gameObject, cabecalho, TitleName)
+                    .GetComponent<TextMeshProUGUI>();
                 clone.gameObject.SetActive(true);
                 NativeUiHelpers.DisableLocalizers(clone.gameObject);
                 titulo = clone;
@@ -539,7 +541,10 @@ namespace RoguelikeSkillTreeVisualizer
             GameObject botao;
             if (molde != null)
             {
-                botao = UnityEngine.Object.Instantiate(molde.gameObject, cabecalho);
+                // INT-R1-C4: clone pela familia `UI` da API (RstvApiUi.Clonar -> UIFactory.Clone).
+                // Sem nome aqui DE PROPOSITO: o nome e aplicado logo abaixo, no caminho comum aos dois
+                // modos (com e sem molde), exatamente como era.
+                botao = RstvApiUi.Clonar(molde.gameObject, cabecalho, null);
             }
             else
             {

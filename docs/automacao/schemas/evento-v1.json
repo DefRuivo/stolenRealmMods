@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gumatos/stolen-realm-mods/blob/main/docs/automacao/schemas/evento-v1.json",
+  "title": "Schema de Evento Core",
+  "version": "1.0.0",
+  "description": "Formato genérico para eventos de observação passiva",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID único do evento"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora UTC do evento"
+    },
+    "fonte": {
+      "type": "object",
+      "properties": {
+        "modulo": { "type": "string" },
+        "versao": { "type": "string" },
+        "adapter": {
+          "type": "string",
+          "enum": ["stolenrealm", "generic"]
+        }
+      }
+    },
+    "tipo": {
+      "type": "string",
+      "enum": ["state_change", "ui_update", "data_read", "action_triggered", "error"]
+    },
+    "nivel": {
+      "type": "string",
+      "enum": ["debug", "info", "warn", "error"]
+    },
+    "contexto": {
+      "type": "object",
+      "properties": {
+        "personagem": {
+          "type": "string",
+          "description": "Guid do personagem"
+        },
+        "cenario": {
+          "type": "string",
+          "enum": ["main_menu", "gameplay", "inventory", "skills", "combat"]
+        },
+        "janela": { "type": "string" }
+      }
+    },
+    "dados": {
+      "type": "object",
+      "description": "Payload específico do tipo de evento"
+    },
+    "hash_dll": {
+      "type": "string",
+      "format": "sha256",
+      "description": "Hash da DLL do módulo na época do evento"
+    }
+  },
+  "required": ["id", "timestamp", "fonte", "tipo", "dados"]
+}

@@ -31,4 +31,11 @@
     <Reference Include="UnityEngine.ScreenCaptureModule"><HintPath>$(GameManaged)\UnityEngine.ScreenCaptureModule.dll</HintPath><Private>false</Private></Reference>
   </ItemGroup>
 
+  <!-- INT-R1-C2-I1 (entregavel B): o COMPANHEIRO da ponte (subpasta Companheiro/) e um projeto proprio e
+       NAO entra nesta DLL — o probe o carrega em runtime por nome exato (Assembly.Load). Sem esta
+       remocao o globbing padrao compilaria o companheiro dentro do instrumento. -->
+  <ItemGroup>
+    <Compile Remove="Companheiro/**" />
+  </ItemGroup>
+
 </Project>

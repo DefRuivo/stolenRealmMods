@@ -1,7 +1,7 @@
 {
   "esquema": "AUT-4/1",
   "tarefa": "t_b8b9822e",
-  "correcao": "t_b62359c3 (COR-AUT4 — achados A1-A7 da revisao independente AUT-4R2) + t_fc40b2a7 (AUT-4F — achados remanescentes do parecer CIC-5R: R-1..R-5, S-2, S-3) + t_6db50f7a (AUD-1 — agregados/identidade + fidelidade do criterio de EFEITO ao BetterFont, achado da revisao rodada 1)",
+  "correcao": "t_b62359c3 (COR-AUT4 — achados A1-A7 da revisao independente AUT-4R2) + t_fc40b2a7 (AUT-4F — achados remanescentes do parecer CIC-5R: R-1..R-5, S-2, S-3) + t_6db50f7a (AUD-1 — agregados/identidade + fidelidade do criterio de EFEITO ao BetterFont, achado da revisao rodada 1) + t_cfdc09df (KIT-R0F — correcao OFFLINE dos achados da revisao independente KIT-R0 t_9264da25: R1 auto-declaracao de procedencia por OBSERVACAO no lane CLI --procedencia/--observacoes, alem de --detectar/--saida-probe; R2 contagem de testes em prosa citada no doc humano e hashes de driver/runner/controle travados no guard do estado)",
   "titulo": "AUT-4 - preparacao e teste OFFLINE do coletor runtime",
   "rodada": "offline",
   "runtime_exercitado": false,
@@ -9,12 +9,12 @@
   "aviso": "Nenhum jogo aberto/encerrado, nenhum save tocado, nenhum probe instalado, nenhum deploy. A coleta em jogo e a proxima rodada autorizada.",
   "artefatos": {
     "probe_fonte": "tools/automacao/runtime/AUT4Probe/AUT4ProbePlugin.cs",
-    "probe_fonte_sha256": "48afd3c41cf3ba97c93e5fc2d6b02ca58298939bf4b2a51f0ccd159ec96e3e94",
+    "probe_fonte_sha256": "beaf965a162c9452bee8302ecadbcc5ae42322d388c798179911e1660c07c193",
     "probe_componentes": [
       {
         "arquivo": "tools/automacao/runtime/AUT4Probe/LeituraAgregados.cs",
         "papel": "AGREGADOS do CAP-1 em componente ISOLADO (estatico, so leitura): inventario por shader/fonte, fontes em memoria com ShaderUtilities.ShaderRef_MobileSDF e os textos ja desenhados (AUD-1/t_6db50f7a). O criterio de EFEITO espelha o BetterFont (TemEfeitoNoMaterial -> SombraDesenhada, BF-5) e esse espelho e CONFERIDO contra a fonte do mod por t_aut4_probe_contrato.py §11.3",
-        "sha256": "2506ec6478dd5a6bd445f2726c6595015f877f5e6465201d10c12a439c36cab0"
+        "sha256": "f398543671aeb18091bcf89cb126d0d2ac6c71f5cd52ab1080429bc9a37ec641"
       },
       {
         "arquivo": "tools/automacao/runtime/AUT4Probe/IdentidadeDoProbe.cs",
@@ -23,12 +23,13 @@
       }
     ],
     "probe_projeto": "tools/automacao/runtime/AUT4Probe/AUT4Probe.csproj",
+    "probe_projeto_sha256": "418a559beb424066633bc4aed604cd5c9cef9825c9ef5d4950b84f6f26ba0ff6",
     "probe_dll": "tools/automacao/runtime/AUT4Probe/bin/Release/AUT4Probe.dll",
-    "probe_dll_sha256": "407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7",
+    "probe_dll_sha256": "7f9a4cf1f62b721faff3f43e16ecb0e2313e748cf03c0eee5cca543c4e2575ee",
     "probe_dll_reprodutivel_byte_a_byte": false,
     "probe_dll_identidade": "HASH DECLARADO do binario em disco (nunca 'compila igual'): a DLL do probe NAO e reproduzivel byte a byte (build sem -p:PathMap) — um rebuild do MESMO fonte gera outro hash. A rodada runtime usa ESTE hash como identidade declarada e CONFERIR o sha256 antes de instalar.",
     "driver": "tools/automacao/runtime/coletor.py",
-    "driver_sha256": "adb48dca024120db91b65e28b8842b7f303ca1725359cdaf4deab5530ae1dd46",
+    "driver_sha256": "159ff2aa4ffd1d57c26c1722340a3f23d33c73db75450d7ff7d02ab0dd4f7f3d",
     "driver_controle_negativo": "tools/automacao/runtime/controle_negativo.py",
     "driver_controle_negativo_sha256": "053c0026f97c8541294c81e9d0011df4f3d970756f6ab8bc1d96a98fa9296659",
     "runner": "tools/automacao/runtime/roda_testes_runtime.py",
@@ -47,6 +48,7 @@
       "tools/automacao/runtime/testes/t_aut4_observacao.py",
       "tools/automacao/runtime/testes/t_aut4_plano.py",
       "tools/automacao/runtime/testes/t_aut4_probe_contrato.py",
+      "tools/automacao/runtime/testes/t_aut4_r0f_correlacao.py",
       "tools/automacao/runtime/testes/t_aut4_restauracao.py",
       "tools/automacao/runtime/testes/t_aut4_runbook.py"
     ],
@@ -65,6 +67,8 @@
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_encerrar_por_imagem_mata_todas.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4f_isca_espera_queima_teto.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4probe_isca_sombra_por_cor.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4r0f_isca_escrita_sem_autorizacao.py",
+      "tools/automacao/runtime/testes/contra-prova/cp_aut4r0f_isca_sem_correlacao.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_backup_log_sem_registro.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_forcado_primeiro.py",
       "tools/automacao/runtime/testes/contra-prova/cp_aut4rest_isca_residuo_nao_detectado.py",
@@ -105,10 +109,10 @@
   "testes_offline": {
     "comando": "python tools/automacao/runtime/roda_testes_runtime.py",
     "exit_code": 0,
-    "passaram": 15,
+    "passaram": 16,
     "reprovaram": 0,
     "contra_prova_exit_code": 0,
-    "iscas_reprovaram_como_deviam": 31
+    "iscas_reprovaram_como_deviam": 33
   },
   "achados_aut4r2_corrigidos": [
     {

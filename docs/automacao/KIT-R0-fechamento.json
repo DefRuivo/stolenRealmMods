@@ -1,0 +1,69 @@
+{
+  "task_id": "t_9264da25",
+  "reviewer_run": 623,
+  "implementer_task": "t_b8b9822e",
+  "implementer_run": 622,
+  "review_outcome": "reprovado",
+  "veredito": "REPROVADO para qualificacao da base; revisao concluida, nao equivale a aprovacao do AUT-4",
+  "branch_conferida": "ci-validate-test",
+  "correcao": {
+    "task_id": "t_cfdc09df",
+    "titulo": "KIT-R0F: Corrigir falsa qualificacao de fixture, saves e correlacao do AUT-4",
+    "escopo": "Implementacao e testes OFFLINE somente; nova instancia, revisao independente obrigatoria",
+    "pais_verificados": ["t_9264da25"],
+    "dependentes_verificados": ["t_e9e569f8", "t_f2129aea"]
+  },
+  "resultados_preservados": {
+    "suite_sem_dll": {"exit": 1, "aprovados": 13, "reprovados": 2, "motivo": "DLL ignorada pelo git ausente da copia; falha de pre-requisito preservada"},
+    "suite_com_dll_preexistente": {"exit": 0, "aprovados": 15},
+    "contra_prova_com_dll_preexistente": {"exit": 0, "iscas_rejeitadas": 31, "excecao_inesperada": false},
+    "replay_r2": {"exit": 1, "status": "INCOMPLETO"},
+    "replay_r3_r4": {"exit": 0, "status": "CONFIRMADA", "limite": "Sem expectativa declarada; nao e nova coleta runtime"},
+    "componente_esperado": {"exit": 0, "status": "CONFIRMADA"},
+    "componente_impossivel": {"exit": 1, "status": "NO"},
+    "bypass_fixture_cli": {
+      "controles": ["top-fixture", "top-runtime-false"],
+      "detectar": {"exit": 0, "status": "CONFIRMADA"},
+      "consolidar_mesma_entrada": {"exit": 2, "status": "FIXTURE"},
+      "veredito": "FALHOU: falso verde reproduzido; suites existentes nao cobrem esse caminho"
+    },
+    "costura_aut5": {
+      "observacoes": 24,
+      "cru_com_sessao_hash_procedencia": 0,
+      "normalizado_com_sessao_hash_procedencia": 24
+    },
+    "workspace_snapshot": {"initial_file_count": 1025, "changed_or_removed": [], "limite": "Resultado no momento do snapshot workspace-diff.json; nao afirma repo limpo"}
+  },
+  "achados": {
+    "F1": "CLI --detectar confirma controles rotulados fixture/evidencia_runtime=false",
+    "F2": "Baseline monitorou saves de Abyssus, nao GlobalSaveData.json de Stolen Realm; hash de arvore mede metadados e nao bytes",
+    "F3": "Leitura e PNG sem correlacao de evento/frame; TMP ativo nao prova pixel visivel",
+    "F4": "AUT-5 cru perde contexto; geometria RSTV acusa defeito sem mod carregado",
+    "F5": "ShowTooltip escreve UI sob escopo somente leitura; restauracao do titulo nao comprovada"
+  },
+  "limites": [
+    "Ha runtime real preservado: nao rotular a rodada inteira NAO_EXERCITADO",
+    "Baseline ausente dos saves corretos nao pode ser fabricada retroativamente; nao prova dano",
+    "Nenhum jogo aberto/fechado, save carregado, deploy, build, publicacao, staging ou commit nesta revisao",
+    "Build e gates globais nao exercitados nesta revisao dirigida; nao declarar verdes",
+    "Aceite humano e publicacao do DoD nao exercitados",
+    "Nova rodada exige autorizacao especifica do dono; correcoes offline nao concedem runtime"
+  ],
+  "sha256": {
+    "docs/automacao/KIT-R0-revisao.md": "e580d978b19f34e77547b288aa265a97aa15a28d15ef80c11c8d4b6a5175b9af",
+    "docs/automacao/KIT-R0-parte01.md": "bcc123628c6330f7406c1ecea3c75439e7997da30c48d23c989e365f7bca3084",
+    "docs/automacao/KIT-R0-parte02.md": "6b05ce93bad63829d3c83a52f16fb8d6594d295f1bf2097ef42800f93908b95d",
+    "docs/automacao/KIT-R0-parte03.md": "2219df7fccfc96910ba906e0f080c8ba605485051cc0a1de4774612718a40c80",
+    "docs/automacao/KIT-R0-parte04.md": "2a30d29eaac29babf8fcfdf343015bfd57499dca75f0269a6e8e91c766473b63",
+    "docs/automacao/KIT-R0-parte05.md": "78bfa3b992edd485e864650cff361e6dd6e362ccd4bcc6af9f194ec93a34ebb1",
+    "docs/automacao/KIT-R0-parte06.md": "6e9814f9e83ba5ed7489e8192aaed67e90e09727a25d724cd20f28a931743937",
+    "docs/automacao/KIT-R0-parte07.md": "d4ef695f3a5485be3dc50adc26736d2e14ee3ed16f1b3c1a0356ee5876b9c9c2",
+    "docs/automacao/KIT-R0-parte08.md": "bd6d27360d63b688dd6e8783513574383507df4a38bc6d3a07292a950e72e9f5",
+    "scratch/kit/KIT-R0-run623/fixture-cli-results.json": "1f95743e7c1b173381ab582480c4fcac6c63fa8fd5babe187324d38b21981b2f",
+    "scratch/kit/KIT-R0-run623/integration-results.json": "8e3d5199bb546af31f4932d081b535ec825e1a215dca7d4b9260898f48cee83e",
+    "scratch/kit/KIT-R0-run623/round-audit.json": "e5fb5b5fd2b7a46f2a9d93990ffec243f7d1df8c21b647d118880196e084525b",
+    "scratch/kit/KIT-R0-run623/save-path-audit.json": "371d41acf575872b11745a22abb16fe4aad100eff1ef215f14885d3eb1f7f21d",
+    "scratch/kit/KIT-R0-run623/profile-now.json": "4cb4601c305693c325d1b1ad7cc8a363fbfd080b380910a0aadcfd89736962e4",
+    "scratch/kit/KIT-R0-run623/replay-results.json": "4e80d6efb5d335615fda47c4cd5cdb1bef4c48bb489905bf18183197d3314f35"
+  }
+}

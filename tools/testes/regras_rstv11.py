@@ -307,7 +307,8 @@ def falhas_do_atalho(src, src_patches, src_plugin):
             ("CharacterChoiceManager.IsNotNullAndIsActive", "o teste da tela Select Party"),
             ("PartyTargets.Resolve()", "o alvo de party (PartyTargets.Resolve)"),
             ("ReadOnlyContext.PartyScreen", "o contexto PartyScreen"),
-            ("RunTargets.StateAllowed", "a whitelist de estado da run"),
+            ("RunTargets.EstadoPermiteMenuDePersonagem", "a regra de estado da run (RSTV-30: a MESMA "
+             "lista que o JOGO usa no botao nativo, no lugar da whitelist propria do mod)"),
             # RSTV-11b: o ramo da RUN deixou de DUPLICAR o antigo `RunButton.OnClick` (GateOk ->
             # Resolve -> Open(alvo, Run)); agora delega ao corpo UNICO `RunButton.OpenForTarget`, o
             # MESMO do botao do HUD e do botao da janela do level-up.
@@ -318,7 +319,7 @@ def falhas_do_atalho(src, src_patches, src_plugin):
 
         # ORDEM: o ramo de party vem ANTES do ramo da run (senao a tela Select Party nunca e atendida).
         i_party = abrir.find("CharacterChoiceManager.IsNotNullAndIsActive")
-        i_run = abrir.find("RunTargets.StateAllowed")
+        i_run = abrir.find("RunTargets.EstadoPermiteMenuDePersonagem")
         if i_party < 0 or i_run < 0 or i_party > i_run:
             falhas.append("o ramo da TELA SELECT PARTY nao vem antes do ramo da run no Abrir")
 

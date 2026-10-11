@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- INT-R1-C2-I1: suite OFFLINE da ponte. Sem Unity/BepInEx/Harmony e sem o jogo:
+       exercita o RegistryV1/Signal/HookNotification REAIS (netstandard puro) e prova que
+       o adaptador nao e codigo decorativo. -->
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <AssemblyName>ApiBridgeHarness</AssemblyName>
+    <RootNamespace>Gumatos.KitApiBridge.Harness</RootNamespace>
+    <ImplicitUsings>disable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../SDK/KitSdk.csproj" />
+    <ProjectReference Include="../ApiBridge/ApiBridge.csproj" />
+    <ProjectReference Include="../../../../api/Core/RealmApi.Core.csproj" />
+    <!-- Entregavel B: a suite tambem exercita o caminho de consumo do AUT4Probe (companheiro). -->
+    <ProjectReference Include="../../runtime/AUT4Probe/Companheiro/Companheiro.csproj" />
+  </ItemGroup>
+
+  <Target Name="Kit13OfflinePreflight" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(DeployToBepInEx)' != 'false'" Text="KIT13: build offline exige DeployToBepInEx=false; nenhum deploy autorizado." />
+  </Target>
+
+</Project>

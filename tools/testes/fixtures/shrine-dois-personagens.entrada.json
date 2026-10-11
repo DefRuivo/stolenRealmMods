@@ -1,0 +1,55 @@
+{
+  "caso": "shrine-dois-personagens",
+  "nome_do_caso": "dois personagens na MESMA aura de shrine (EXCESSO DE SHRINE)",
+  "procedencia": "tools/fixtures/shrines-rv46-dedupe.log - log VERSIONADO (o cabecalho dele se declara FIXTURE SINTETICA no formato do `Marca` do ShrineAuraPatch). As linhas `RV-31 acumulado` sao a MEDICAO do comportamento POR PERSONAGEM: a MESMA aura viva em personagens DIFERENTES, cada um com o proprio `bonus=` e o proprio item. Nenhum numero desta fixture foi digitado de cabeca: o esperado e lido do proprio log (ver shrine-dois-personagens.esperado.json).",
+  "fonte_dos_valores": "tools/fixtures/shrines-rv46-dedupe.log",
+  "por_que_este_caso_existe": "docs/PLANO-DE-TESTES.md (~linha 24) nomeia 'dois personagens na mesma aura' no vocabulario do EXCESSO DE SHRINE. A familia tools/testes/testes/puros/t_shrine_*.py cobria aura repetida DENTRO de um personagem (RV-46: `Dodge +120%` -> +40%), auras de personagens diferentes no MESMO atributo, stacks e a DWA-2 (dois shrines no mesmo personagem) - mas nunca a MESMA aura viva em DOIS personagens distintos. A regra que falta prender: a linha `Your active shrine auras:` e POR PERSONAGEM (a lista viva e a do personagem em foco, `AurasVivas(receptor)` -> `receptor.ActionStatuses`), entao a aura conta UMA vez para CADA personagem e usa o bonus DAQUELE personagem - nunca e somada/contada entre personagens nem vira `instancia` de um so.",
+  "grupos": [
+    {
+      "id": "atributo-rogue",
+      "aura": "Rogue Aura",
+      "atributo": "DodgeChance",
+      "nota": "aura de ATRIBUTO de personagem: dois personagens na mesma aura, cada um conta a aura UMA vez e usa o PROPRIO bonus (o numero que a linha branca do shrine mostra para ele). O valor nunca e somado entre os dois.",
+      "personagens": [
+        {
+          "id": "chkra",
+          "nome": "ChkRA",
+          "bonus_id": "sem-bonus",
+          "totais": { "DodgeChance": 37 }
+        },
+        {
+          "id": "raven",
+          "nome": "Raven",
+          "bonus_id": "worship",
+          "totais": { "DodgeChance": 52 }
+        }
+      ]
+    },
+    {
+      "id": "gatilho-dwarven",
+      "aura": "Dwarven Aura",
+      "atributo": "",
+      "nota": "aura de GATILHO (DWA-2/Dwarven): o efeito NAO e atributo de personagem. Com tres personagens na mesma aura, cada linha tem UM item com o numero do asset avaliado com o bonus DAQUELE personagem - nunca somado entre personagens nem contado como instancia de um so (o contrario do caso de DOIS shrines no MESMO personagem, que conta por instancia).",
+      "personagens": [
+        {
+          "id": "chkdw0",
+          "nome": "ChkDW0",
+          "bonus_id": "sem-bonus",
+          "totais": {}
+        },
+        {
+          "id": "chkdw20",
+          "nome": "ChkDW20",
+          "bonus_id": "omnism2",
+          "totais": {}
+        },
+        {
+          "id": "chkdw",
+          "nome": "ChkDW",
+          "bonus_id": "worship",
+          "totais": {}
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,261 @@
+{
+  "gerado_em": "2026-10-11 06:25",
+  "script": "tools/gera_dump_chaveado.py",
+  "tabela": {
+    "caminho": "C:\\Users\\Pichau\\AppData\\Local\\hermes\\kanban\\attachments\\t_2a6474ff\\localizacao-ptbr.csv",
+    "sha256": "951d244d0fbaad5a0388dc27ba3c99fced9fc4a5ff70a17fa0e47bf8094b30c1",
+    "chaves_distintas": 9095,
+    "colisoes_normalizado": 122,
+    "colisoes_casefold": 231
+  },
+  "por_fonte": {
+    "tooltips": {
+      "arquivo": "docs/cobertura/DUMP-TOOLTIPS-REVISAO.md",
+      "sha256": "7ab439c7c68c3c4118e09117535e3aa7d53e195aa1871180ec50ae0f4bbdbaaa",
+      "itens": 1024,
+      "skill": 464,
+      "status": 560,
+      "chaveado_exato": 394,
+      "chaveado_normalizado": 41,
+      "chaveado_casefold": 29,
+      "ambiguo": 0,
+      "asset_cru": 560,
+      "asset_cru_com_chave_coincidente": 539,
+      "sem_descricao": 15,
+      "nao_encontrado": 0
+    },
+    "debuffs": {
+      "arquivo": "docs/cobertura/DUMP-DEBUFFS-REVISAO.md",
+      "sha256": "5cb5b52b5d880573fc397c2ea67c367bf8e845f46f59931f7bf9bd1de65004a4",
+      "itens": 107,
+      "skill": 0,
+      "status": 107,
+      "chaveado_exato": 0,
+      "chaveado_normalizado": 0,
+      "chaveado_casefold": 0,
+      "ambiguo": 0,
+      "asset_cru": 107,
+      "asset_cru_com_chave_coincidente": 106,
+      "sem_descricao": 0,
+      "nao_encontrado": 0
+    },
+    "passivas": {
+      "arquivo": "docs/cobertura/DUMP-PASSIVAS-REVISAO.md",
+      "sha256": "c9df534af8cbc37941dac5c17c976aa49ce544990c9a7d136854af77c976bcfc",
+      "itens": 186,
+      "skill": 186,
+      "status": 0,
+      "chaveado_exato": 157,
+      "chaveado_normalizado": 16,
+      "chaveado_casefold": 13,
+      "ambiguo": 0,
+      "asset_cru": 0,
+      "asset_cru_com_chave_coincidente": 0,
+      "sem_descricao": 0,
+      "nao_encontrado": 0
+    }
+  },
+  "total": {
+    "itens": 1317,
+    "skill": 650,
+    "status": 667,
+    "chaveado": 650,
+    "chaveado_exato": 551,
+    "chaveado_normalizado": 57,
+    "chaveado_casefold": 42,
+    "ambiguo": 0,
+    "asset_cru": 667,
+    "asset_cru_com_chave_coincidente": 645,
+    "sem_descricao": 15,
+    "nao_encontrado": 0
+  },
+  "duplicidade": {
+    "itens_total": 1317,
+    "pares_distintos": 1210,
+    "itens_repetidos": 107
+  },
+  "nao_encontrados": [],
+  "asset_cru_sem_coincidencia": [
+    {
+      "fonte": "tooltips",
+      "titulo": "Transcendence (Fortune/Mythic)  _(revisado)_",
+      "parte": 2,
+      "arvore": "DEBUFF (107)",
+      "desc": "Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Destructive (Normal/Common)  _(revisado)_",
+      "parte": 2,
+      "arvore": "BUFF (308)",
+      "desc": "Damage increased by 50% ",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Necronomicon (Fortune/Mythic)  _(revisado)_",
+      "parte": 2,
+      "arvore": "BUFF (308)",
+      "desc": "<i><color=#808080>You carry the Necronomicon!</i></color>   Changes your @Skeletal Summons@ into something... stronger. Increases Summon Damage and Health by {5,25}%",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Overflowing Energy (Fortune/Rare)  _(revisado)_",
+      "parte": 2,
+      "arvore": "BUFF (308)",
+      "desc": "Increases @Mana Costs@ by {4,20}%, power of all @Mana Abilites@ by {8,40}% and @Intelligence@ by {3,15}.  <i><color=#808080>The energies of a Mana Spring swell within you!</i></color> ",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Will of the Shaman (Fortune/Rare)  _(revisado)_",
+      "parte": 2,
+      "arvore": "BUFF (308)",
+      "desc": "@Mana Recovery@ increased by [0].  <i><color=#808080>\"Unseen yet felt, the spirit dances like a flame in the wind, a whisper of the unseen world that echoes in our hearts.",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Ball Lightning (Fortune/Mythic)  _(revisado)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "Dealing lightning damage grants a stack of Overcharge: Each stack adds <color=#CBB396>[0]</color> lightning damage to your next basic attack.  <i><color=#808080>In fury, the sky roars, a tempest untamed, Lightning cracks, an ephemeral fire, wild and unchained.</color></i>",
+      "motivo": "texto nao esta na tabela"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Burning Demon Hearts (QuestItem/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Dwarf Rage! (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Hunger for Vengeance (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Rune of Exploding (Normal/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Shadow-Drenched Heart (QuestItem/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Test Fortune (Fortune/Mythic)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "The Animator - Quest Accept (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "The Mad Mage - Part 1 (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "The Mad Mage - Part 2 (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "The Mad Mage - Part 4 (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "The Mad Mage - Part 5 (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Treasure of Moltendunn (Quest/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Ymir Rune, Courage (QuestItem/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Ymir Rune, Honor (QuestItem/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "tooltips",
+      "titulo": "Ymir Rune, Strength (QuestItem/Common)  _(sem-explicacao)_",
+      "parte": 2,
+      "arvore": "INDEFINIDO (145)",
+      "desc": "",
+      "motivo": "sem descricao no dump"
+    },
+    {
+      "fonte": "debuffs",
+      "titulo": "Transcendence (Fortune/Mythic)  _(revisado)_",
+      "parte": null,
+      "arvore": null,
+      "desc": "Reduces @Max Health@ by {50,35}%. Grants 4 charges of Transcendence per battle.  <i><color=#808080>You've transcended the material plane.</i></color> ",
+      "motivo": "texto nao esta na tabela"
+    }
+  ],
+  "saida": {
+    "caminho": "C:\\dev\\stolen-realm\\docs\\cobertura\\DUMP-CHAVEADO-LANG-R1.md",
+    "sha256": "408ad3ad13681096b2c3279ff0f2a97193b92754f2ad35448e7907842f891694",
+    "bytes": 526679
+  }
+}

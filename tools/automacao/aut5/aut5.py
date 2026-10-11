@@ -619,8 +619,48 @@ def _achata_campos(o):
     return o
 
 
+def _contexto_do_topo(dados):
+    """KIT-R0F (F4) — contexto do TOPO que a costura tem de injetar na entrada CRUA.
+
+    O probe guarda `sessao`/`hash_fonte` SO no topo (o coletor CIC-5 ja os injeta em
+    `anexar_contexto`) e NAO emite `procedencia` (chave ausente = runtime). Sem esta
+    costura, a leitura CRUA chegava a `rstv._procedencia` sem nenhum dos tres e o
+    avaliador devolvia NAO_EXERCITADO por FALTA DE METADADO, nao por falta de leitura
+    — medido: 0/24 com sessao/hash/procedencia contra 24/24 no caminho normalizado.
+
+    O que esta funcao NUNCA faz: inventar `fonte_sha`/`dll_sha` (a IDENTIDADE da
+    build/mod vem do chamador) nem converter procedencia ausente em fixtado: replica
+    a regra do coletor — `procedencia` declarada tem precedencia; `evidencia_runtime`
+    presente em qualquer forma != bool True e declaracao NAO-runtime; AUSENTE e o
+    caminho runtime do probe real.
+    """
+    if not isinstance(dados, dict):
+        return {}
+    declarada = str(dados.get("procedencia") or "").strip().lower()
+    tem_ev = "evidencia_runtime" in dados
+    ev = dados.get("evidencia_runtime")
+    if declarada == "fixture":
+        procedencia = "fixture"
+    elif tem_ev and ev is not True:
+        procedencia = "fixture"
+    else:
+        procedencia = "runtime"
+    return {
+        "sessao": dados.get("sessao"),
+        "hash_fonte": dados.get("hash_fonte"),
+        "procedencia": procedencia,
+        "rotulo_fixture": dados.get("rotulo_fixture"),
+    }
+
+
 def _obs_do_probe(caminho):
-    """Le o JSON do probe AUT-4 (cru ou normalizado) — somente leitura."""
+    """Le o JSON do probe AUT-4 (cru ou normalizado) — somente leitura.
+
+    KIT-R0F (F4): injeta o contexto do TOPO (`sessao`/`hash_fonte`/`procedencia`/
+    `rotulo_fixture`) em cada observacao CRUA quando ela nao traz o proprio — a
+    promessa "cru ou normalizado" so se sustenta assim. Campo ja presente na
+    observacao NUNCA e sobrescrito (a declaracao mais especifica vence).
+    """
     if not caminho or not os.path.isfile(caminho):
         return []
     try:
@@ -631,11 +671,19 @@ def _obs_do_probe(caminho):
     obs = dados.get("observacoes") if isinstance(dados, dict) else dados
     if not isinstance(obs, list):
         return []
+    contexto = _contexto_do_topo(dados)
     saida = []
     for o in obs:
         if not isinstance(o, dict):
             continue
         o = _achata_campos(dict(o))
+        for chave, valor in contexto.items():
+            if chave == "rotulo_fixture":
+                continue
+            if not str(o.get(chave) or "").strip() and str(valor or "").strip():
+                o[chave] = valor
+        if not str(o.get("rotulo_fixture") or "").strip() and contexto.get("rotulo_fixture"):
+            o["rotulo_fixture"] = contexto["rotulo_fixture"]
         o.setdefault("evidencia", caminho)
         saida.append(o)
     return saida

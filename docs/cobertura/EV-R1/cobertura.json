@@ -1,0 +1,50 @@
+{
+  "eventos_extraidos": 256,
+  "party_event_cabecalhos": 256,
+  "list_holder_declarados": 256,
+  "list_holder_unicos": 256,
+  "roundtrip_bytes_identicos": 256,
+  "guid_unicos": 255,
+  "guid_duplicados": {
+    "5b740c2b-3480-48f2-997b-88c8291db0c0": [
+      "resources.assets:2545539",
+      "resources.assets:2545540"
+    ]
+  },
+  "categorias": {
+    "AfterBattle": 1,
+    "Normal": 160,
+    "NotInEventPool": 84,
+    "QuestStart": 1,
+    "SemPoolDeclarado": 10
+  },
+  "opcoes": 404,
+  "acoes": 449,
+  "assets_desabilitados": 42,
+  "referencias_registros_decodificados": 2399,
+  "referencias_resumos": 3214,
+  "falhas_auxiliares": [
+    {
+      "path_id": 2543666,
+      "script": "ActionInfoTest",
+      "error": "Expected to read 3424 bytes, but only read 7372740 bytes"
+    },
+    {
+      "path_id": 2543665,
+      "script": "ActionInfoTest",
+      "error": "Expected to read 3052 bytes, but only read 7372368 bytes"
+    },
+    {
+      "path_id": 2543671,
+      "script": "ActionInfoTest",
+      "error": "Expected to read 2992 bytes, but only read 7372308 bytes"
+    }
+  ],
+  "nao_exercitado": [
+    "execução no jogo/runtime",
+    "traduções/localização selecionada",
+    "quantidades finais de ouro/XP/loot",
+    "sorteios e disponibilidade na partida",
+    "decodificação integral de três ActionInfoTest auxiliares"
+  ]
+}

@@ -1,0 +1,39 @@
+# Prova 02 — guarda do opt-in de deploy lendo os .csproj como XML (trava DEPLOY-2)
+# data: 2026-10-11 03:52:05 -0300
+# comando reproduzivel: python tools/check_deploy_optin.py
+
+$ python tools/check_deploy_optin.py
+   [FALHA] scratch/kit/KIT-14-run699/deploy-negative/ruim.csproj :: alvo 'DeployToBepInEx' — alvo de deploy sem Condition="'$(DeployToBepInEx)' == 'true'" — buildar sem opt-in COPIARIA para o perfil do dono
+             Condition atual: (ausente)
+   [FALHA] scratch/kit/KIT-14-run699/instalacao-local-resume/.kit-rstv-backups/20261010-131456-355-33328-0001/components/adapter/KIT04Adapter.SR.csproj :: alvo '?' — XML invalido: syntax error: line 1, column 0
+             Condition atual: (ausente)
+   [FALHA] scratch/kit/KIT-14-run710/deploy-negative/ruim.csproj :: alvo 'DeployToBepInEx' — alvo de deploy sem Condition="'$(DeployToBepInEx)' == 'true'" — buildar sem opt-in COPIARIA para o perfil do dono
+             Condition atual: (ausente)
+   3 alvo(s) de deploy SEM opt-in: o build comum instalaria no perfil.
+exit=1
+
+$ python tools/check_deploy_optin.py --json
+{
+  "alvos_de_deploy": 57,
+  "sem_optin": [
+    {
+      "arquivo": "C:\\dev\\stolen-realm\\scratch\\kit\\KIT-14-run699\\deploy-negative\\ruim.csproj",
+      "alvo": "DeployToBepInEx",
+      "condicao": null,
+      "motivo": "alvo de deploy sem Condition=\"'$(DeployToBepInEx)' == 'true'\" — buildar sem opt-in COPIARIA para o perfil do dono"
+    },
+    {
+      "arquivo": "C:\\dev\\stolen-realm\\scratch\\kit\\KIT-14-run699\\instalacao-local-resume\\.kit-rstv-backups\\20261010-131456-355-33328-0001\\components\\adapter\\KIT04Adapter.SR.csproj",
+      "alvo": "?",
+      "condicao": null,
+      "motivo": "XML invalido: syntax error: line 1, column 0"
+    },
+    {
+      "arquivo": "C:\\dev\\stolen-realm\\scratch\\kit\\KIT-14-run710\\deploy-negative\\ruim.csproj",
+      "alvo": "DeployToBepInEx",
+      "condicao": null,
+      "motivo": "alvo de deploy sem Condition=\"'$(DeployToBepInEx)' == 'true'\" — buildar sem opt-in COPIARIA para o perfil do dono"
+    }
+  ]
+}
+exit=1

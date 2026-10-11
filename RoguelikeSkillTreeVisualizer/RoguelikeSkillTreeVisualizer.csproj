@@ -64,6 +64,24 @@
       <HintPath>..\lib\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
       <Private>false</Private>
     </Reference>
+    <!-- INT-R1-C4 (11/10): o mod passou a CONSUMIR a familia `UI` da API propria
+         (`Gumatos.RealmApi.UI`, ver RstvApiUi.cs). As duas referencias sao de COMPILACAO:
+         `RealmApi.Core.dll` traz o vinculo (`UiFamily`/`UiHosts`) e `RealmApi.dll` traz os 5 tipos
+         publicos. `Private=false` DE PROPOSITO: a API e' um pacote proprio, instalado e atualizado
+         separadamente no perfil (o alvo de deploy dela e' opt-in, `api/Plugin/RealmApi.csproj`);
+         copiar a DLL para dentro de `plugins/RoguelikeSkillTreeVisualizer/` faria o mod carregar uma
+         segunda copia da API, com versao possivelmente diferente da instalada.
+         A dependencia em tempo de execucao e' declarada no `[BepInDependency]` do Plugin.cs.
+         PRE-REQUISITO DE BUILD: as duas DLLs precisam existir (build da API antes):
+         dotnet build api/Core/RealmApi.Core.csproj -c Release && dotnet build api/Plugin/RealmApi.csproj -c Release -->
+    <Reference Include="RealmApi">
+      <HintPath>..\api\Plugin\bin\Release\netstandard2.1\RealmApi.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="RealmApi.Core">
+      <HintPath>..\api\Core\bin\Release\netstandard2.0\RealmApi.Core.dll</HintPath>
+      <Private>false</Private>
+    </Reference>
     <Reference Include="Assembly-CSharp">
       <HintPath>..\lib\Assembly-CSharp.dll</HintPath>
       <Private>false</Private>

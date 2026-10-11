@@ -4,18 +4,23 @@
 
 O QUE ESTE TESTE GARANTE
 ------------------------
-1. A formula das duas acoes e a do asset, com o fator do `ShrineEffectBonus`:
-   `Flame`: `Mathf.Max(1,  Mathf.Round((MaxHealth * %do tipo) * (1 + bonus/100)))`;
-   `Decay`: a MESMA conta SEM o `Maxf.Max(1,` - o Decay pode dar 0, o Flame nao
-   (RV-19 §4.2/§4.3; `ShrineAuraPatch.cs` 737 · `FormulaDanoFlameCru` / 769 · `FormulaDanoDecay`).
+1. A formula das duas acoes e a do asset, com o fator do `ShrineEffectBonus` GENERICO no bonus -
+   mas o bonus que entra e o do EIXO da aura. RV-30 (03/10): as duas de PERIGO leem
+   `Source["ShrineEffectBonus"]` e num ground effect o `Source` e o personagem VAZIO do shrine,
+   logo o fator e `1 + BONUS_DA_FONTE/100 = 1` (o bonus do JOGADOR NAO as multiplica):
+   `Flame`: `Mathf.Max(1,  Mathf.Round(MaxHealth * %do tipo))`;
+   `Decay`: a MESMA conta SEM o `Mathf.Max(1,` - o Decay pode dar 0, o Flame nao
+   (RV-19 §4.2/§4.3 + RV-30; `ShrineAuraPatch.cs` `FormulaDanoFlameSemBonus` / `FormulaDanoDecaySemBonus`).
 2. Com **vida maxima 100** o numero ISOLA a porcentagem do tipo
-   (RV-19 §10: Decay 10% -> 10 no bonus 0 e 20 no bonus 100; Flame 5% -> 5 e 10).
+   (RV-19 §10 CORRIGIDO pelo RV-30: Decay 10% -> 10 e Flame 5% -> 5, IGUAIS nos 3 bonus do jogador -
+   o `[0]`% NAO dobra com Worship: o fabrico do numero dobrado era o defeito).
 3. **Decay com vida maxima 3 da 0** (3 x 10% = 0.3 -> Round -> 0, SEM minimo) e o
    **Flame com a mesma vida da 1** (`Mathf.Max(1, ...)`) - o par isola o minimo.
 4. As BORDAS de arredondamento do motor: `Mathf.Round` e half-to-EVEN, entao
    `0.5 -> 0` e `2.5 -> 2` (o "meio para cima" daria 1 e 3).
-5. **Flame com varios alvos**: um valor por alvo, com a vida maxima, a % do tipo e
-   o bonus DELE (o hover nao sabe quem vai atacar - a lista e uma projecao).
+5. **Flame com varios alvos**: um valor por alvo, com a vida maxima e a % do tipo DELE
+   (o hover nao sabe quem vai atacar - a lista e uma projecao). O FATOR e o do eixo `Source`
+   (o shrine, RV-30), igual para todos os alvos.
    **Flame sem alvo**: sem numero, e a aura sai no LOG (nunca calada).
 
 DE ONDE VEM O ESPERADO
@@ -36,14 +41,13 @@ META = {
 }
 
 # ACEITE do dono (RV-19 §10, a tabela de conferencia em jogo: "com 100 de vida o
-# dano e o mesmo numero"): o `[0]`% vira dano com vida maxima 100. O teste confere
-# que o ORACULO concorda com a tabela do relatorio - duas fontes, um numero.
+# dano e o mesmo numero"): o `[0]`% vira dano com vida maxima 100. CORRIGIDO pelo RV-30: o fator
+# das duas auras de PERIGO e o do SOURCE (o shrine), entao o numero NAO muda com o bonus do jogador.
+# O teste confere que o ORACULO concorda com a tabela - duas fontes, um numero.
 ACEITE_RV19_10 = {
-    # (aura, bonus) -> dano com vida maxima 100 e a % de `player`
-    ("Decay Shrine Aura", 0): 10,
-    ("Decay Shrine Aura", 100): 20,
-    ("Flame Shrine Aura", 0): 5,
-    ("Flame Shrine Aura", 100): 10,
+    # (aura, tipo) -> dano com vida maxima 100 e o fator do eixo `Source` (BONUS_DA_FONTE = 0)
+    ("Decay Shrine Aura", "player"): 10,
+    ("Flame Shrine Aura", "player"): 5,
 }
 
 
@@ -64,9 +68,12 @@ def corpo():
 
     # ------------------------------------------------------------------ a matriz inteira
     for (aura, tipo, mh, bonus), d in linhas.items():
-        obtido = reg.dano(mh, pct[(aura, tipo)], bonus, minimo1[aura])
+        # RV-30: o fator que multiplica e o `bonus_fonte` (o do eixo `Source` = o shrine), NAO o
+        # `bonus` do jogador da cena. O `bonus`/`bonus_id` continuam na fixture so como rotulo da cena.
+        obtido = reg.dano(mh, pct[(aura, tipo)], d["bonus_fonte"], minimo1[aura])
         arc.igual(obtido, d["dano"],
-                  "dano do %s contra %s (vida %s, bonus %s)" % (aura, tipo, mh, bonus))
+                  "dano do %s contra %s (vida %s, bonus do jogador %s, bonus da fonte %s)"
+                  % (aura, tipo, mh, bonus, d["bonus_fonte"]))
         arc.igual(d["minimo1"], minimo1[aura],
                   "o `minimo1` do %s tem de vir da tabela gerada" % aura)
 
@@ -96,22 +103,41 @@ def corpo():
     arc.igual(reg.dano(100, pct[("Flame Shrine Aura", "boss")], 0, minimo1["Flame Shrine Aura"]), 2,
               "BORDA .5: Flame com vida 100 contra boss = 2.5 -> 2 (e nao 3)")
 
-    # ------------------------------------------------------------------ o aceite do RV-19 §10
-    for (aura, bonus), valor in ACEITE_RV19_10.items():
-        obtido = reg.dano(100, pct[(aura, "player")], bonus, minimo1[aura])
-        arc.igual(obtido, valor,
-                  "RV-19 §10 (a tabela de conferencia em jogo): %s com 100 de vida e bonus %s"
-                  % (aura, bonus))
-        arc.igual(esperado(aura, "player", 100, bonus)["dano"], valor,
-                  "a fixture do oraculo tem de concordar com a tabela do RV-19 §10 (%s, bonus %s)"
-                  % (aura, bonus))
+    # ------------------------------------------------------------------ o aceite do RV-19 §10 (RV-30)
+    eixos = reg.eixos_das_auras()
+    for (aura, tipo), valor in ACEITE_RV19_10.items():
+        # o fator e o do eixo `Source`: nos 3 casos do jogador o numero com 100 de vida e o MESMO.
+        for bonus_jogador in (0, 20, 100):
+            obtido = reg.dano(100, pct[(aura, tipo)],
+                              reg.bonus_do_eixo(eixos[aura], bonus_jogador), minimo1[aura])
+            arc.igual(obtido, valor,
+                      "RV-19 §10 corrigido pelo RV-30: %s com 100 de vida no bonus do jogador %s"
+                      % (aura, bonus_jogador))
+        # a fixture do oraculo tem de dar o MESMO numero nos dois extremos do bonus do jogador.
+        arc.igual(esperado(aura, tipo, 100, 0)["dano"], valor,
+                  "a fixture tem de concordar com a tabela (RV-19 §10) no bonus do jogador 0 (%s)" % aura)
+        arc.igual(esperado(aura, tipo, 100, 100)["dano"], valor,
+                  "o dano do %s NAO pode mudar com o bonus do jogador (RV-30) - fixture no bonus 100" % aura)
 
-    # ------------------------------------------------------------------ o fator do bonus
+    # ------------------------------------------------------------------ o EIXO do dano (RV-30)
+    # O fator que multiplica as duas auras de PERIGO e o do SOURCE (shrine), NAO o do jogador. O
+    # `dano()` continua GENERICO no bonus - o que o MODELO faz e passar o bonus do eixo `Source`.
+    # O defeito do numero DOBRADO era passar o bonus do JOGADOR aqui.
     for aura, tipo in (("Decay Shrine Aura", "player"), ("Flame Shrine Aura", "elite")):
-        base = reg.dano(100, pct[(aura, tipo)], 0, minimo1[aura])
-        dobrado = reg.dano(100, pct[(aura, tipo)], 100, minimo1[aura])
-        arc.igual(dobrado, base * 2,
-                  "com Worship (+100) o fator e 2: %s contra %s dobra (a medicao do dono, RV-19 §0.5)" % (aura, tipo))
+        base = reg.dano(100, pct[(aura, tipo)], reg.BONUS_DA_FONTE, minimo1[aura])
+        com_bonus_do_jogador = reg.dano(100, pct[(aura, tipo)],
+                                        reg.bonus_do_eixo(eixos[aura], 100), minimo1[aura])
+        arc.igual(com_bonus_do_jogador, base,
+                  "RV-30: o bonus do jogador NAO multiplica %s contra %s (o eixo e `Source`)" % (aura, tipo))
+    # ... e o MODELO da linha tambem nao deixa o bonus do jogador entrar: o item do Decay no bonus
+    # 100 (worship) tem de ser IGUAL ao do bonus 0.
+    cena_100 = reg.por_id(ent["agregado"])["decay-so"]
+    cena_0 = {"id": "rv30-decay-bonus-0", "bonus_id": "sem-bonus", "maxhealth": 100.0,
+              "tipo_receptor": "player",
+              "vivas": [{"aura": "Decay Shrine Aura", "instancias": 1, "stacks": 1, "expressao": True}],
+              "alvos": [], "totais": {}}
+    arc.igual(reg.agregar(cena_100, ctx)["itens"], reg.agregar(cena_0, ctx)["itens"],
+              "RV-30: o item do Decay no bonus do jogador 100 (worship) e o MESMO do bonus 0")
 
     # ------------------------------------------------------------------ varios alvos / sem alvo
     cena = reg.por_id(ent["agregado"])["flame-varios-alvos"]
@@ -123,8 +149,9 @@ def corpo():
               "um valor por ALVO na area (o hover nao sabe quem vai atacar)")
     for (nome, valor), alvo in zip(valores, cena["alvos"]):
         arc.igual(nome, alvo["nome"], "a ordem dos alvos do item e a ordem da cena")
+        # RV-30: o fator e o do eixo `Source` (o shrine), igual para TODOS os alvos.
         esperado_alvo = reg.dano(alvo["maxhealth"], pct[("Flame Shrine Aura", alvo["tipo"])],
-                                 ctx["bonus"][alvo["bonus_id"]], minimo1["Flame Shrine Aura"])
+                                 reg.BONUS_DA_FONTE, minimo1["Flame Shrine Aura"])
         arc.igual(int(valor), esperado_alvo,
                   "o valor do alvo '%s' sai da vida/%%/bonus DELE" % alvo["nome"])
     sem_alvo = reg.agregar(reg.por_id(ent["agregado"])["flame-sem-alvo"], ctx)

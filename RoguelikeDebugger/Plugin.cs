@@ -4,6 +4,7 @@ using System.Reflection;
 using BepInEx;
 using BepInEx.Logging;
 using HarmonyLib;
+using UnityEngine;
 
 namespace RoguelikeDebugger
 {
@@ -19,9 +20,50 @@ namespace RoguelikeDebugger
         private void Awake()
         {
             Log = Logger;
+
+            // DBG-R2: a proveniencia sai ANTES dos ganchos, de proposito. Se o arranque morrer no
+            // meio da aplicacao dos patches, a identidade do que ia ser observado ja' esta' no log -
+            // que e' exatamente o caso em que a falta de dado no censo seria lida (errado) como
+            // falta do fato no jogo.
+            Proveniencia.Cabecalho();
+
             Logger.LogInfo("Roguelike Debugger carregado.");
 
-            AplicarPatches();
+            ResumoGanchos resultado = AplicarPatches();
+
+            // Tres estados no log: INICIADO (cabecalho) -> ABERTO/PARCIAL (aqui) -> FECHADO
+            // (rodape). Sem o rodape o dump esta' truncado; o verificador
+            // (tools/verifica_proveniencia_debugger.py) nao deixa isso passar como "completo".
+            Proveniencia.Estado(resultado.Ok, resultado.Total, resultado.Metodos, resultado.Falhas,
+                                resultado.Aplicado("FlameEvalVoidPatch"));
+
+            // Unico sinal de "o dump FECHOU": o BepInEx nao escreve rodape nenhum no LogOutput.log.
+            // Mesmo evento que a API usa (api/Plugin/RealmApiPlugin.cs:32).
+            Application.quitting += AoFechar;
+        }
+
+        private static void AoFechar()
+        {
+            Proveniencia.Fim("saida-do-jogo");
+        }
+
+        /// <summary>
+        /// Contagem REAL do que foi aplicado. Existe para o carimbo de proveniencia (DBG-R2): o
+        /// Estado no log declara `ganchosOk=n/n`, os nomes que falharam e se a matriz Flame entrou
+        /// (`PARCIAL` quando algum gancho nao aplicou). Nao muda nenhum gancho.
+        /// </summary>
+        private sealed class ResumoGanchos
+        {
+            internal int Total;
+            internal int Ok;
+            internal int Metodos;
+            internal readonly List<string> Falhas = new List<string>();
+            internal readonly List<string> Aplicados = new List<string>();
+
+            internal bool Aplicado(string nome)
+            {
+                return Aplicados.Contains(nome);
+            }
         }
 
         /// <summary>
@@ -35,10 +77,11 @@ namespace RoguelikeDebugger
         /// RoguelikeSkillTreeVisualizer; quando tudo da certo os patches aplicados sao EXATAMENTE os
         /// mesmos de antes.
         /// </summary>
-        private static void AplicarPatches()
+        private static ResumoGanchos AplicarPatches()
         {
+            var resultado = new ResumoGanchos();
             var harmony = new Harmony("com.gumatos.roguelikedebugger");
-            var falhas = new List<string>();
+            var falhas = resultado.Falhas;
             int ganchosTotal = 0;
             int ganchosOk = 0;
             int metodosOk = 0;
@@ -51,7 +94,7 @@ namespace RoguelikeDebugger
             catch (Exception e)
             {
                 Log.LogError("Roguelike Debugger: nao deu para listar os tipos do mod — nenhum gancho aplicado: " + e);
-                return;
+                return resultado;
             }
 
             for (int i = 0; i < tipos.Length; i++)
@@ -70,6 +113,7 @@ namespace RoguelikeDebugger
                     int quantos = aplicados != null ? aplicados.Count : 0;
                     metodosOk += quantos;
                     ganchosOk++;
+                    resultado.Aplicados.Add(tipo.Name);
                     Log.LogInfo("Roguelike Debugger: gancho aplicado — " + tipo.Name + " (" + quantos +
                                 " metodo(s) do jogo).");
                 }
@@ -80,17 +124,22 @@ namespace RoguelikeDebugger
                 }
             }
 
-            string resumo = "Roguelike Debugger: patches Harmony aplicados (" + ganchosOk + "/" + ganchosTotal +
+            string linhaResumo = "Roguelike Debugger: patches Harmony aplicados (" + ganchosOk + "/" + ganchosTotal +
                             " ganchos, " + metodosOk + " metodos do jogo).";
+
+            resultado.Total = ganchosTotal;
+            resultado.Ok = ganchosOk;
+            resultado.Metodos = metodosOk;
 
             if (falhas.Count == 0)
             {
-                Log.LogInfo(resumo);
-                return;
+                Log.LogInfo(linhaResumo);
+                return resultado;
             }
 
-            Log.LogError(resumo + " GANCHOS QUE FALHARAM: " + string.Join(", ", falhas.ToArray()) +
+            Log.LogError(linhaResumo + " GANCHOS QUE FALHARAM: " + string.Join(", ", falhas.ToArray()) +
                          ". O mod continua de pe, mas o log do recurso que dependia deles nao sai nesta sessao.");
+            return resultado;
         }
 
         /// <summary>

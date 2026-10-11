@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "measuredAt": "2026-10-11T03:46:53-03:00",
+  "steamAppId": 1330000,
+  "gameVersion": "1.3.1",
+  "steamBuildId": "25240684",
+  "unityVersion": "2022.3.62f2",
+  "assemblyCSharpSha256": "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a",
+  "assemblyCSharpBytes": 7712768,
+  "provenance": [
+    {
+      "field": "gameVersion",
+      "evidence": "PlayerSettings (classId 129, pathId 1, serializedVersion 22) lido de Stolen Realm_Data/globalgamemanagers da instalacao local; versionStrings[0].value = \"1.3.1\"",
+      "reproducible": "strings/offset scan em <jogo>/Stolen Realm_Data/globalgamemanagers; ver scratch privado do workspace (fora do repo)"
+    },
+    {
+      "field": "steamBuildId",
+      "evidence": "appmanifest_1330000.acf: buildid = 25240684",
+      "reproducible": "grep -a 'buildid' <steamapps>/appmanifest_1330000.acf"
+    },
+    {
+      "field": "assemblyCSharpSha256",
+      "evidence": "<jogo>/Stolen Realm_Data/Managed/Assembly-CSharp.dll e lib/Assembly-CSharp.dll do repo tem o MESMO hash",
+      "reproducible": "sha256sum lib/Assembly-CSharp.dll"
+    },
+    {
+      "field": "unityVersion",
+      "evidence": "globalgamemanagers serializedVersion 22 / unityVersion = 2022.3.62f2",
+      "reproducible": "leitura do cabecalho de <jogo>/Stolen Realm_Data/globalgamemanagers"
+    }
+  ],
+  "notExercised": [
+    "Runtime BepInEx/Unity: nenhum carregamento no jogo nesta rodada (autorizacao explicita pendente).",
+    "Assembly-CSharp e' alvo de LEITURA de metadados/hash apenas; o arquivo do jogo nunca e' modificado nem redistribuido."
+  ]
+}

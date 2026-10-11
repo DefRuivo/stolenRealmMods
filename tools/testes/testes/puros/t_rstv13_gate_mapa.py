@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""RSTV-13: o botao APARECE no MAPA-MUNDO e a seguranca continua EM BATALHA.
+"""RSTV-13 (atualizado pela RSTV-30): o CLIQUE nao e' segurado no MAPA e a seguranca continua EM BATALHA.
 
 O DEFEITO DO DONO (sintoma 5)
 -----------------------------
@@ -8,14 +8,17 @@ O DEFEITO DO DONO (sintoma 5)
 "nao e o turno do jogador (Root.IsPlayerTurnAndReady=false)" e "posicionamento inicial em andamento
 (Root.SpawnPlacementActive)" — portoes que descrevem UMA BATALHA. No mapa eles nao valem:
 `IsPlayerTurnAndReady` fica no ultimo valor do combate anterior (l.111904) e `SpawnPlacementActive`
-so existe no setup da batalha (l.112152/112165). O conserto move os portoes de batalha para DENTRO
-do ramo `if (estado == GUIState.InBattle)` do `RunTargets.GateOk`.
+so existe no setup da batalha (l.112152/112165). O conserto do RSTV-13 move os portoes de batalha
+para DENTRO do ramo `if (gui.CurrentGuiState == GUIState.InBattle)` do `RunTargets.GateOk`.
+RSTV-30 (06/10): `turno`, `acting` e `moving` sairam de vez (faziam o botao piscar quando qualquer
+personagem agia); as guardas de batalha que restam sao as de dano real (mira e posicionamento).
 
 Este teste confere:
   1. NO FONTE: os portoes universais (ping/janela) estao fora do ramo de batalha e os de batalha
-     (mira/spawn/turno/acting/moving) estao DENTRO dele (`falhas_do_gate_por_estado` vazia);
-  2. O MODELO PURO: no MAPA o botao aparece mesmo com todos os portoes de batalha "fechados"; em
-     BATALHA cada um deles bloqueia;
+     (mira/spawn) estao DENTRO dele (`falhas_do_gate_por_estado` vazia), e as guardas removidas na
+     RSTV-30 nao voltaram;
+  2. O MODELO PURO: no MAPA o clique e' liberado mesmo com todos os portoes de batalha "fechados";
+     em BATALHA cada um deles bloqueia;
   3. A ISCA embutida: a regra ANTIGA (batalha valendo no mapa) BLOQUEIA o mesmo cenario de mapa que
      a regra nova libera;
   4. PROVA DE FOGO NO FONTE: com o portao de batalha reinjetado FORA do ramo, a MESMA checagem
@@ -23,7 +26,7 @@ Este teste confere:
 
 DE ONDE VEM O ESPERADO
 ----------------------
-As regras vivem em `tools/testes/regras_rstv13.py`, lidas do fonte VIVO; a isca externa e
+As regras vivem em `tools/testes/regras_rstv13.py`, lidas do fonte VIVO; a isca externa e'
 `tools/testes/contra-prova/cp_rstv13_batalha_no_mapa.py`.
 """
 import regras_rstv13 as reg
@@ -93,8 +96,9 @@ def corpo():
                "a checagem reprovou o defeito, mas nao pelo portao valendo no MAPA: %s"
                % " | ".join(falhas_defeito))
 
-    print("mapa LIBERA os portoes de batalha; batalha continua bloqueando por mira/spawn/turno/"
-          "acting/moving; o defeito 'batalha valendo no mapa' reprova no fonte e no modelo")
+    print("mapa LIBERA o clique (portoes de batalha fora dele); batalha continua bloqueando por "
+          "mira/posicionamento; as guardas removidas na RSTV-30 (turno/acting/moving) nao voltaram; "
+          "o defeito 'batalha valendo no mapa' reprova no fonte e no modelo")
 
 
 if __name__ == "__main__":

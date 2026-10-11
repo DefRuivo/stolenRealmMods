@@ -82,9 +82,8 @@ def entropia(s):
 
 
 def mascara(s):
-    """Nunca devolve o valor: so o prefixo, o tamanho e a entropia."""
-    pre = s[:14] if len(s) > 14 else s[:4]
-    return '%s<...> (%d chars, entropia %.1f)' % (pre, len(s), entropia(s))
+    """Nunca devolve o valor NEM o prefixo: so o tamanho e a entropia (AUT-3F)."""
+    return '<REDACTED> (%d chars, entropia %.1f)' % (len(s), entropia(s))
 
 
 def main():

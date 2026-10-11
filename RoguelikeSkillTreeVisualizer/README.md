@@ -6,9 +6,25 @@ character you chose. **No skill point is spent. No gameplay change.**
 - **GUID:** `com.gumatos.roguelikeskilltreevisualizer`
 - **Version:** 0.3.3
 - **Works with:** Stolen Realm v1.3.1 (Roguelike mode only).
-- **Needs:** BepInEx 5 (r2modman installs it for you).
+- **Needs:** BepInEx 5 (r2modman installs it for you) **and** the **RealmApi** API
+  (`com.gumatos.realmapi`, **0.1.0 or newer**) — see *Requirements* below.
 - **Status:** implemented; the read-only window was **checked in game** by the author. The run
   button's new spot on the bottom bar (RSTV-30) still awaits an in-game pass.
+
+## Requirements
+
+This mod **depends on the RealmApi API** (`com.gumatos.realmapi`, minimum version `0.1.0`) — the
+project's own library, installed as a **separate package** in the same profile. The generic UI
+plumbing (cloning a native game object, wiring a button click) is no longer written inside this mod:
+it comes from the API's `UI` family (`Gumatos.RealmApi.UI`, source `api/` in the repository).
+
+- The dependency is declared in the code itself, as a **hard** `[BepInDependency]` with the minimum
+  version (`Plugin.cs`). **Without RealmApi installed** (or with an older version) BepInEx
+  **refuses to load this mod**: you get a BepInEx log line saying the dependency is missing and
+  **no `Skills` button at all**. The game itself is untouched.
+- The two DLLs are referenced for **compilation only** (`Private=false` in the `.csproj`): the mod
+  never ships its own copy of the API, so there is one RealmApi in the profile.
+
 
 ## What the button does
 
@@ -111,6 +127,16 @@ come from the game and are **never distributed**. The deploy is **opt-in** (DEPL
 ---
 
 ## Português (BR)
+
+> **Requer a API RealmApi** (`com.gumatos.realmapi`, versão mínima **0.1.0**), instalada como
+> **pacote separado** no mesmo perfil. A plumbing genérica de UI (clonar um objeto nativo do jogo,
+> ligar o clique de um botão) deixou de ser escrita dentro deste mod: ela vem da família `UI` da API
+> (`Gumatos.RealmApi.UI`, fonte em `api/`). A dependência está declarada no próprio código como um
+> `[BepInDependency]` **hard** com a versão mínima (`Plugin.cs`): **sem a RealmApi instalada** (ou
+> numa versão mais antiga) o BepInEx **recusa carregar este mod** — o log diz qual dependência
+> faltou e **nenhum botão `Skills` aparece**; o jogo em si não é tocado. As duas DLLs são
+> referência de **compilação** (`Private=false` no `.csproj`): o mod não carrega uma segunda cópia
+> da API.
 
 Adiciona um botão **`Skills`** que abre a árvore de skills **nativa do jogo** em modo
 **somente leitura**, no personagem em foco: no cabeçalho do modal *Remove Skill Trees*, no canto da

@@ -1,0 +1,1 @@
+[REPROVOU] deploy-optin-repo                   a guarda reprova alvo(s) de deploy nos cspr

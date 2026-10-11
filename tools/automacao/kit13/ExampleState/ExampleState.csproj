@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>netstandard2.1</TargetFramework><Nullable>enable</Nullable><LangVersion>10.0</LangVersion><AssemblyName>Gumatos.KitExampleState</AssemblyName></PropertyGroup>
+  <ItemGroup><Compile Include="../ExampleMod/CounterState.cs" Link="CounterState.cs" /></ItemGroup>
+  <Target Name="Kit13OfflinePreflight" BeforeTargets="PrepareForBuild"><Error Condition="'$(DeployToBepInEx)' != 'false'" Text="KIT13: build offline exige DeployToBepInEx=false." /></Target>
+</Project>

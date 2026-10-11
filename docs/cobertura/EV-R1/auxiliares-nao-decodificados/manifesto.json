@@ -1,0 +1,29 @@
+[
+  {
+    "path_id": 2543666,
+    "nome": "Melee Attack",
+    "arquivo_bytes": "2543666.bin",
+    "bytes": 3424,
+    "sha256": "b1d0564c05434091876b7f2ce57d4a27f33b1759247f283d6d31571b0b66d603",
+    "campos": null,
+    "motivo": "Expected to read 3424 bytes, but only read 7372740 bytes"
+  },
+  {
+    "path_id": 2543665,
+    "nome": "Melee Attack Werewolf",
+    "arquivo_bytes": "2543665.bin",
+    "bytes": 3052,
+    "sha256": "9d6cafd128622d631e5f013e33e4ae066d4d9b9ff7e5c0447e43e200717e43ba",
+    "campos": null,
+    "motivo": "Expected to read 3052 bytes, but only read 7372368 bytes"
+  },
+  {
+    "path_id": 2543671,
+    "nome": "Unarmed Attack Healing",
+    "arquivo_bytes": "2543671.bin",
+    "bytes": 2992,
+    "sha256": "b57c30f35902dfda3f5ab0aab91635012b29e969d4ec05dc1f09a071fa6fe1e6",
+    "campos": null,
+    "motivo": "Expected to read 2992 bytes, but only read 7372308 bytes"
+  }
+]

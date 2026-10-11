@@ -1,0 +1,18 @@
+{
+  "config": {"fila_max": 50, "retencao_max": 100, "retencao_ms": 60000,
+             "teto_capturas": 3, "timeout_janela_ms": 500, "id_sessao": "demo-kit05"},
+  "entradas": [
+    {"tipo": "clique_recebido", "dados": {"x": 100, "y": 200}, "janela": "tela_skills"},
+    {"tipo": "janela_aberta", "dados": {"nome": "tela_skills"}, "janela": "tela_skills"},
+    {"tipo": "janela_aberta", "dados": {"nome": "tela_skills"}, "janela": "tela_skills"},
+    {"tipo": "tooltip", "dados": {"texto": "Dano: 12"}},
+    {"tipo": "clique_recebido", "dados": {"x": 300, "y": 400}, "janela": "tela_talento"},
+    {"acao": "avanca", "ms": 600},
+    {"acao": "verificar_timeouts"},
+    {"acao": "pausar"},
+    {"tipo": "tooltip", "dados": {"texto": "nao-deve-entrar"}},
+    {"acao": "retomar"},
+    {"tipo": "clique_emitido", "dados": {"x": 1, "y": 1}},
+    {"tipo": "janela_fechada", "dados": {"nome": "tela_skills"}, "janela": "tela_skills"}
+  ]
+}

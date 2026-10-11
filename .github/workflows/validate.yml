@@ -154,6 +154,16 @@ jobs:
       - name: "7. Chave compartilhada (BUG-32)"
         run: python tools/check_chave_compartilhada.py --estrito
 
+      # 7b. COBERTURA das tabelas (INT-R1-C5): instrumento de bancada que mede a cobertura
+      #     das tabelas do BetterTooltips contra o texto servido pelo hook `ui.localized` da
+      #     API propria. No CI roda SO a PROVA do instrumento (`--prova`): e offline, nao
+      #     abre o jogo, nao instala nada e nao toca no mod. A medicao EM JOGO exige uma
+      #     observacao capturada pelo LocalizedProbe numa rodada autorizada pelo dono; sem
+      #     ela o instrumento sai 2 (NAO_EXERCITADO) e o passo local fica PENDENTE - nunca
+      #     "verde por omissao".
+      - name: "7b. Cobertura das tabelas (instrumento ui.localized)"
+        run: python tools/cobertura_ui_localized.py --prova
+
       # 8. Metadados dos pacotes Thunderstore: manifest.json (nome alfanumerico == pasta,
       #    semver, descricao <= 250, dependencies exatas), icon.png 256x256 e <= 1 MB,
       #    README.md e CHANGELOG.md. Uma pasta sem manifest.json (mod em implementacao)

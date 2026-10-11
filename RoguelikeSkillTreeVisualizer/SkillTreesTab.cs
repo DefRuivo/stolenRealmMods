@@ -1329,8 +1329,9 @@ namespace RoguelikeSkillTreeVisualizer
                     continue;
                 }
 
-                GameObject botao = UnityEngine.Object.Instantiate(molde, _barraDeClasses.transform);
-                botao.name = "RstvClassButton_" + tipo;
+                // INT-R1-C4: clone pela familia `UI` da API (RstvApiUi.Clonar -> UIFactory.Clone).
+                // Mesmo par Instantiate(molde, _barraDeClasses.transform) + nome do clone.
+                GameObject botao = RstvApiUi.Clonar(molde, _barraDeClasses.transform, "RstvClassButton_" + tipo);
                 botao.SetActive(true);
 
                 NativeUiHelpers.DisableLocalizers(botao);
@@ -1380,7 +1381,9 @@ namespace RoguelikeSkillTreeVisualizer
                 {
                     NativeUiHelpers.ClearClickListeners(bt);
                     SkillType capturado = tipo;
-                    bt.onClick.AddListener(new UnityAction(delegate { TrocarClasse(capturado); }));
+                    // INT-R1-C4: listener pela familia `UI` da API (RstvApiUi.LigarClique ->
+                    // UIFactory.BindClick). A limpeza acima continua local (a API nao expoe o primitivo).
+                    RstvApiUi.LigarClique(bt.gameObject, new UnityAction(delegate { TrocarClasse(capturado); }));
                 }
             }
 

@@ -15,7 +15,7 @@ O QUE ISTO TRAVA
 3. O molde e o `AcceptButton` [503691]: o `Button.onClick` SERIALIZADO dele chama
    `ConfirmLevelUpSelection` (avanco de level-up = ESCRITA). RSTV-12: o `RemoveAllListeners()` NAO
    descarta esse listener persistente — a limpeza troca a INSTANCIA do evento
-   (`SelectPartyButton.ClearClickListeners`) e aponta para `RunButton.OpenForTarget`; o rotulo
+   (`NativeUiHelpers.ClearClickListeners`) e aponta para `RunButton.OpenForTarget`; o rotulo
    "Accept/Next" (escrito no ORIGINAL pelo `CurLevelUpStage`, l.168718) e substituido: localizadores
    desligados + `OptionsManager.Localize`.
 4. `RunButton.OpenForTarget()` e o corpo UNICO de abertura da run (extraido do antigo `OnClick`),

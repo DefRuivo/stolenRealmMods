@@ -1,0 +1,8 @@
+{
+  "esquema": "KIT-09/rstv-cenarios/1",
+  "rotulo_fixture": "kit09-identidade",
+  "aviso": "IDENTIDADE-EXEMPLO de fixture (sintetica). Os sha256 nao correspondem a nenhuma build medida e existem para o teste exercitar o caminho OK. `sessao_esperada` e o que o criterio `KIT09-sessao-atual` usa para reprovar DADO VELHO.",
+  "fonte_sha": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "dll_sha": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "sessao_esperada": "2026-10-05T00:00:00-sintetica"
+}

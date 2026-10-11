@@ -73,6 +73,7 @@ namespace OraculoExcessoShrine
         [JsonPropertyName("atributo")] public string Atributo { get; set; }
         [JsonPropertyName("tipo")] public string Tipo { get; set; }
         [JsonPropertyName("base")] public float Base { get; set; }
+        [JsonPropertyName("eixo")] public string Eixo { get; set; }
         [JsonPropertyName("fonte_base")] public string FonteBase { get; set; }
     }
 
@@ -151,7 +152,7 @@ namespace OraculoExcessoShrine
 
         // ------------------------------------------------- as fontes do ShrineEffectBonus
         // RV-19 §3: Omnism I (+8, Chaos tier 1), Omnism II (+20, tier 2, que SUBSTITUI a I),
-        // Horn of Devotion ({50,100}, Fortune Legendary) e o perk Worship (+100). Os valores
+        // Horn of Devotion ({50,100}, Fortune Legendary) e o rotulo 'Worship' (+100 = roll maximo do Horn) - NAO existe perk Worship do jogador (RV-48). Os valores
         // 20 e 100 aparecem tambem como `caso_bonus` na tabela do tools/dados, e o oracle
         // CONFERE essa coincidencia mais abaixo (`conferencia_csv`).
         private static readonly Dictionary<string, int> Fontes = new Dictionary<string, int>
@@ -168,6 +169,22 @@ namespace OraculoExcessoShrine
         {
             { "Omnism I", "Omnism II" },
         };
+
+        /// <summary>RV-30 (03/10) — o bonus do SOURCE. As duas auras de PERIGO (Decay/Flame) leem
+        /// `Source["ShrineEffectBonus"]` e num status de ground effect o `Source` e o personagem VAZIO
+        /// do shrine (`ConvertToGroundEffect` -> `GameLogic.CreateActionStatus(Source, player, ...)`;
+        /// `Root.CreateNewGroundEffectCharacter` = `Observable.New&lt;Character&gt;()`, sem atributo
+        /// nenhum), logo o fator delas e `1 + 0/100 = 1` e o valor NAO depende do bonus do jogador. As
+        /// 9 de BUFF e o Dwarven leem `Target[...]` -> o caso do jogador. Fonte:
+        /// docs/cobertura/revisao/RV-19-shrines.md §5/§8 + tools/testes/regras_rv30.py.</summary>
+        private const int BonusDaFonte = 0;
+
+        /// <summary>O bonus que MULTIPLICA a aura, pelo EIXO dela (RV-30): `Source` -> `BonusDaFonte`;
+        /// `Target` (e qualquer outro) -> o caso do jogador (o receptor).</summary>
+        private static int BonusDoEixo(string eixo, int caso)
+        {
+            return string.Equals(eixo, "Source", StringComparison.Ordinal) ? BonusDaFonte : caso;
+        }
 
         private static readonly string[] OrdemDosAtributos =
         {
@@ -431,6 +448,10 @@ namespace OraculoExcessoShrine
                 }
                 int vezes = EfeitoDeGatilho(a) ? contagem[a] : 1;
                 AuraInfo info = porAura[a];
+                // RV-30: o fator do bonus sai do EIXO da aura. O Dwarven le `Target[...]` (o caso do
+                // jogador); o Decay/Flame leem `Source[...]` (o personagem vazio do shrine, 0) — o item
+                // deles e IGUAL nos 3 casos do jogador.
+                int bonusFonte = BonusDoEixo(info.Eixo, bonus);
                 string rotulo;
                 if (!RotuloSemAtributo.TryGetValue(a, out rotulo))
                 {
@@ -446,7 +467,7 @@ namespace OraculoExcessoShrine
                         avisos.Add("RV-46 AVISO: a aura viva '" + a + "' NAO virou item da linha (sem expressao de chance avaliada)");
                         continue;
                     }
-                    item = rotulo + " " + ComSinal(Escala(info.Base, bonus)) + "%";
+                    item = rotulo + " " + ComSinal(Escala(info.Base, bonusFonte)) + "%";
                 }
                 else if (string.Equals(a, "Decay Shrine Aura", StringComparison.Ordinal))
                 {
@@ -455,7 +476,7 @@ namespace OraculoExcessoShrine
                         avisos.Add("RV-46 AVISO: a aura viva '" + a + "' NAO virou item da linha (receptor sem MaxHealth)");
                         continue;
                     }
-                    int dano = Dano(cena.MaxHealth, pct[a][cena.TipoReceptor], bonus, minimo1[a]);
+                    int dano = Dano(cena.MaxHealth, pct[a][cena.TipoReceptor], bonusFonte, minimo1[a]);
                     item = rotulo + " " + dano.ToString("0.#", CultureInfo.InvariantCulture);
                 }
                 else if (string.Equals(a, "Flame Shrine Aura", StringComparison.Ordinal))
@@ -467,8 +488,8 @@ namespace OraculoExcessoShrine
                         {
                             continue;
                         }
-                        int bAlvo = bonusPorId[alvo.BonusId];
-                        int dano = Dano(alvo.MaxHealth, pct[a][alvo.Tipo], bAlvo, minimo1[a]);
+                        // RV-30: o fator e o do EIXO da aura (`Source` = o shrine), nao o do alvo.
+                        int dano = Dano(alvo.MaxHealth, pct[a][alvo.Tipo], bonusFonte, minimo1[a]);
                         valores.Add(alvo.Nome + " " + dano.ToString("0.#", CultureInfo.InvariantCulture));
                     }
                     if (valores.Count == 0)
@@ -554,6 +575,7 @@ namespace OraculoExcessoShrine
             int iAtributo = Array.IndexOf(cabEsperado, "atributo");
             int iTipo = Array.IndexOf(cabEsperado, "tipo");
             int iBase = Array.IndexOf(cabEsperado, "base");
+            int iEixo = Array.IndexOf(cabEsperado, "eixo");
             int iFonte = Array.IndexOf(cabEsperado, "fonte_base");
             int iCaso = Array.IndexOf(cabEsperado, "caso_bonus");
             int iContrib = Array.IndexOf(cabEsperado, "contribuicao_esperada");
@@ -572,6 +594,7 @@ namespace OraculoExcessoShrine
                     Atributo = linha[iAtributo],
                     Tipo = linha[iTipo],
                     Base = float.Parse(linha[iBase], CultureInfo.InvariantCulture),
+                    Eixo = iEixo >= 0 ? linha[iEixo] : "Target",
                     FonteBase = linha[iFonte],
                 };
                 string chave = ChaveBase(info.Aura, info.Atributo);
@@ -623,7 +646,7 @@ namespace OraculoExcessoShrine
                 new CasoBonus { Id = "horn-50", Fontes = new List<string> { "Horn of Devotion (+50)" },
                     Nota = "Horn of Devotion no roll de +50" },
                 new CasoBonus { Id = "worship", Fontes = new List<string> { "Worship" },
-                    Nota = "perk Worship (+100)" },
+                    Nota = "rotulo 'Worship' = 100 (o unico +100 real e o roll maximo do Horn of Devotion); NAO existe perk Worship do jogador (RV-48)" },
                 new CasoBonus { Id = "worship-omnism2", Fontes = new List<string> { "Worship", "Omnism II" },
                     Nota = "EXCESSO: Worship (+100) + Omnism II (+20) = 120" },
                 new CasoBonus { Id = "worship-omnism1", Fontes = new List<string> { "Worship", "Omnism I" },
@@ -676,7 +699,10 @@ namespace OraculoExcessoShrine
             {
                 int caso = int.Parse(linha[iCaso], CultureInfo.InvariantCulture);
                 float b = float.Parse(linha[iBase], CultureInfo.InvariantCulture);
-                int minha = Escala(b, caso);
+                // RV-30: o fator de cada linha sai do EIXO dela (`Source` -> BonusDaFonte; as auras
+                // de PERIGO leem o bonus do shrine, NAO o do jogador).
+                string eixoLinha = iEixo >= 0 ? linha[iEixo] : "Target";
+                int minha = Escala(b, BonusDoEixo(eixoLinha, caso));
                 int doCsv = (int)Math.Round(double.Parse(linha[iContrib], CultureInfo.InvariantCulture));
                 conferidas++;
                 if (minha != doCsv)
@@ -708,8 +734,9 @@ namespace OraculoExcessoShrine
                         ["aura"] = info.Aura,
                         ["atributo"] = info.Atributo,
                         ["base"] = info.Base,
+                        ["eixo"] = info.Eixo,
                         ["bonus"] = b,
-                        ["contribuicao"] = Escala(info.Base, b),
+                        ["contribuicao"] = Escala(info.Base, BonusDoEixo(info.Eixo, b)),
                     });
                 }
             }
@@ -742,10 +769,14 @@ namespace OraculoExcessoShrine
                                 ["aura"] = aura,
                                 ["tipo"] = tipo,
                                 ["maxhealth"] = mh,
+                                // RV-30: `bonus`/`bonus_id` sao o BONUS DO JOGADOR da cena (cobertura);
+                                // o FATOR que multiplica a aura de perigo e `bonus_fonte` (= BonusDaFonte,
+                                // o do eixo `Source` = o shrine). O `dano` NAO muda com o bonus do jogador.
                                 ["bonus"] = bonusPorId[id],
                                 ["bonus_id"] = id,
+                                ["bonus_fonte"] = BonusDaFonte,
                                 ["minimo1"] = minimo1[aura],
-                                ["dano"] = Dano(mh, pct[aura][tipo], bonusPorId[id], minimo1[aura]),
+                                ["dano"] = Dano(mh, pct[aura][tipo], BonusDaFonte, minimo1[aura]),
                             });
                         }
                     }
@@ -917,7 +948,7 @@ namespace OraculoExcessoShrine
                     Nota = "DWA-2 — a MESMA regra numa aura de gatilho que NAO e o Dwarven (prova de que "
                         + "ela e por TIPO, nao por nome): Decay Shrine Aura e `OnTurnStart`, tambem sem "
                         + "atributo de personagem. Com DOIS shrines no alcance o proc de dano roda duas "
-                        + "vezes por turno do portador -> dois itens `Shadow damage per turn 20`.",
+                        + "vezes por turno do portador -> dois itens `Shadow damage per turn 10` (eixo Source = bonus do shrine 0, RV-30: o valor NAO depende do bonus do jogador).",
                 },
 
                 new Cena
@@ -927,7 +958,7 @@ namespace OraculoExcessoShrine
                     Alvos = new List<CenaAlvo>(),
                     Totais = new Dictionary<string, float>(),
                     Nota = "Decay sozinho (sem atributo): o item proprio vem do asset avaliado pelo motor - com"
-                        + " vida maxima 100 e bonus 100 a % do player (10%) DOBRA: 10 -> 20.",
+                        + " vida maxima 100 e a % do player (10%) sai NA BASE: 10 - o eixo Source (bonus do shrine 0, RV-30) NAO multiplica pelo bonus do jogador; o antigo '10 -> 20' era o Source injetado pelo prefix (RV-34) e o conflito RV-30 x RV-34 e decisao do dono (RV-49).",
                 },
                 new Cena
                 {

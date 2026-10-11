@@ -150,11 +150,16 @@ namespace Aut4Probe
                 + "BetterFont compara com o material em uso de cada texto.");
         }
 
-        /// <summary>Textos JA DESENHADOS (GetParsedText nao vazio) com o shader em uso e a
-        /// geometria de tela — a lista que prova o que a tela mostra agora.</summary>
+        /// <summary>Textos com COMPONENTE TMP ativo e texto parseado nao vazio, com o shader em
+        /// uso e a geometria de tela — o que o componente ENTREGA ao renderizador no quadro da
+        /// leitura. KIT-R0F/F3: NAO e prova de pixel desenhado (oclusao, CanvasGroup, alfa,
+        /// recorte e ordem de desenho NAO sao medidos por componente) — cada item traz o rotulo
+        /// honesto e o quadro, e `InterpretacaoDeVisibilidade()` acompanha a lista no JSON.</summary>
         internal static List<object> TextosVisiveis(int max)
         {
             var lista = new List<object>();
+            int quadro = 0;
+            try { quadro = Time.frameCount; } catch { }
             foreach (var t in Recursos<TMP_Text>())
             {
                 if (t == null || lista.Count >= max) continue;
@@ -165,11 +170,33 @@ namespace Aut4Probe
                 lista.Add(Json.Campos(
                     "objeto", t.gameObject.name,
                     "caminho", Aut4ProbePlugin.Caminho(t.transform),
+                    "texto_atribuido", t.text,
                     "texto_renderizado", Aut4ProbePlugin.Trunc(txt, 160),
+                    "tmp_ativo_na_hierarquia", true,
+                    "tmp_habilitado", SeguroBool(() => t.isActiveAndEnabled),
+                    "visibilidade_no_componente", "ATIVO_COM_TEXTO_PARSEADO",
+                    "pixel_visivel", "NAO_AFIRMADO",
+                    "frame_da_leitura", quadro,
                     "shader_em_uso", mat != null ? Nome(mat.shader) : null,
                     "geometria_tela", Aut4ProbePlugin.Geometria(t)));
             }
             return lista;
+        }
+
+        /// <summary>KIT-R0F/F3 — INTERPRETACAO honesta que acompanha `textos_visiveis` no JSON.
+        /// O nome do campo e historico: a lista traz componente TMP ATIVO com texto parseado
+        /// nao vazio. Componente ativo NAO prova pixel desenhado — oclusao, CanvasGroup, alfa e
+        /// recorte temporal nao sao medidos por componente. Quem le o JSON NAO pode tratar esta
+        /// lista como "o que a tela mostra".</summary>
+        internal static string InterpretacaoDeVisibilidade()
+        {
+            return "O nome 'textos_visiveis' e HISTORICO. A lista traz TMP_Text ATIVO na hierarquia "
+                + "com `GetParsedText()` nao vazio, lido no quadro `frame_da_leitura` de cada item. "
+                + "Isso prova o COMPONENTE ativo entregando texto ao renderizador — NAO prova pixel "
+                + "desenhado: oclusao, CanvasGroup, alfa, recorte e ordem de desenho nao sao medidos "
+                + "por componente. Cada item sai com `pixel_visivel = NAO_AFIRMADO`. A concordancia "
+                + "componente x pixels so se afirma confrontando este quadro com o PNG cujo "
+                + "`prints_detalhe.<nome>.concluido_frame` esta no mesmo intervalo.";
         }
 
         // -------------------------------------------- criterio de efeito (porte CAP-1)
@@ -257,5 +284,7 @@ namespace Aut4Probe
         }
 
         private static object Seguro(Func<object> f) { try { return f(); } catch { return null; } }
+
+        private static bool SeguroBool(Func<bool> f) { try { return f(); } catch { return false; } }
     }
 }

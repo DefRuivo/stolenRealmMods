@@ -19,7 +19,7 @@
 | `tools/automacao/runtime/coletor.py` | **driver/orquestador** (contrato + decisão de autorização + normalização de observação + **provas de execução** + manifest/rollback + **detector de ausência/indeterminado** e **identidade do resultado**), CLI opt-in |
 | `tools/automacao/runtime/controle_negativo.py` | **controle negativo ISOLADO** (`exigir_perfil_isolado` fail-closed, lançamento por stub, perfil do dono medido antes/depois) |
 | `tools/automacao/runtime/roda_testes_runtime.py` | runner offline (exit 0/1/2, `--contra-prova`) |
-| `tools/automacao/runtime/testes/` | 15 testes offline + 31 iscas de contra-prova |
+| `tools/automacao/runtime/testes/` | 16 testes offline + 33 iscas de contra-prova |
 | `tools/automacao/runtime/fixtures/` | fixtures **rotuladas** (nunca evidência de runtime) |
 | `docs/automacao/AUT-4-estado.json` | estado legível por máquina (listas e hashes conferidos contra o disco) |
 | `docs/automacao/AUT-4-runbook-rodada-autorizada.md` | **runbook** da rodada em jogo (t_ef6e8a29): gates de autorização, hashes da build, configuração, cenários, evidências, critérios de aceite e lacunas — travado contra o disco por `t_aut4_runbook.py` |
@@ -54,8 +54,8 @@ dotnet build -c Release --no-incremental -v q -p:DeployToBepInEx=false AUT4Probe
 - **Build succeeded — 0 Error(s)**, 1 warning MSB3277 (`System.Net.Http`) herdado das DLLs do jogo
   (igual ao CapProbe). Sem flag de deploy: **o csproj não tem alvo `DeployToBepInEx`**.
 - Build com `USERPROFILE`/`APPDATA`/`LOCALAPPDATA` redirecionados para pasta de trabalho.
-- DLL: `AUT4Probe/bin/Release/AUT4Probe.dll` · sha256 `407c5c63d9d70df3ea03c6232717060ce3b0b9567bacdb553a6043238d519bc7`.
-- Fonte: `AUT4Probe/AUT4ProbePlugin.cs` · sha256 `48afd3c41cf3ba97c93e5fc2d6b02ca58298939bf4b2a51f0ccd159ec96e3e94`.
+- DLL: `AUT4Probe/bin/Release/AUT4Probe.dll` · sha256 `7f9a4cf1f62b721faff3f43e16ecb0e2313e748cf03c0eee5cca543c4e2575ee` (KIT-14G-SEG2/`t_139f714f`, 11/10/2026: marcos do caminho do clique em arquivo próprio com `Flush` — o `LogOutput.log` do BepInEx fica em buffer e se perde no `c0000005` —, gate opcional de clique físico `CliqueFisico` e modo diagnóstico `SilencioAposClique`; hash re-declarado em 11/10/2026 por INT-R1-C2-I1/`t_a706b09c`, que removeu o patch próprio em `OptionsManager.Localize`).
+- Fonte: `AUT4Probe/AUT4ProbePlugin.cs` · sha256 `beaf965a162c9452bee8302ecadbcc5ae42322d388c798179911e1660c07c193` (KIT-14G-SEG2/`t_139f714f`, 11/10/2026; hash re-declarado em 11/10/2026 por INT-R1-C2-I1/`t_a706b09c`).
 - Componentes novos (AUD-1 / `t_6db50f7a`): `AUT4Probe/LeituraAgregados.cs` sha256
   `2506ec6478dd5a6bd445f2726c6595015f877f5e6465201d10c12a439c36cab0` (agregados do CAP-1 num
   componente isolado, somente leitura) e `AUT4Probe/IdentidadeDoProbe.cs` sha256
@@ -67,7 +67,7 @@ dotnet build -c Release --no-incremental -v q -p:DeployToBepInEx=false AUT4Probe
 
 ## Testes offline (exit real)
 
-`python tools/automacao/runtime/roda_testes_runtime.py` → **VERDE (exit 0)** — 15/15:
+`python tools/automacao/runtime/roda_testes_runtime.py` → **VERDE (exit 0)** — 16/16:
 autorização (default offline), plano (+`campos_alvo` fora do schema), observação (AUSENTE nunca OK),
 manifest/rollback, controle negativo, contrato do probe (gate/`NAO_EXERCITADO`/`PlayerLoop`/
 `ScreenCapture`/owners/`Sessao`/ida-e-volta/`DeployToBepInEx` ausente + os **agregados isolados**
@@ -76,7 +76,7 @@ manifest/rollback, controle negativo, contrato do probe (gate/`NAO_EXERCITADO`/`
 (R-1..R-5/S-2/S-3), restauração/backup (`t_aut4_restauracao.py`: resíduo, ordem forçada, registro
 do backup do log).
 
-`... --contra-prova` → **VERDE (exit 0)** — as 31 iscas **reprovam como deviam** (nenhuma por
+`... --contra-prova` → **VERDE (exit 0)** — as 33 iscas **reprovam como deviam** (nenhuma por
 "excecao inesperada": R-5 do CIC-5R). As 7 novas iscas
 (A1/A2 ×2/A3/A4/A5/A6) foram **vistas PASSANDO** contra o código antigo, ou seja: o defeito existia,
 a isca o detecta e o runner acusa — e depois da correção elas reprovam.

@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- INT-R1-C2-I1 (D1/D3): PONTE entre os DOIS nucleos. Consumidor + produtor, executavel
+       offline: nada de Unity, BepInEx, Harmony ou UnityEngine. Quem fala com o jogo e a API. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <AssemblyName>Gumatos.KitApiBridge</AssemblyName>
+    <RootNamespace>Gumatos.KitApiBridge</RootNamespace>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- D3: o adaptador depende dos DOIS; nenhum dos nucleos depende do outro. -->
+    <ProjectReference Include="../SDK/KitSdk.csproj" />
+    <ProjectReference Include="../../../../api/Core/RealmApi.Core.csproj" />
+  </ItemGroup>
+
+  <Target Name="Kit13OfflinePreflight" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(DeployToBepInEx)' != 'false'" Text="KIT13: build offline exige DeployToBepInEx=false; nenhum deploy autorizado." />
+  </Target>
+
+</Project>

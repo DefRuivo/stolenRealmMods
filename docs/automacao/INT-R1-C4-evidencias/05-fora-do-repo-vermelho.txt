@@ -1,0 +1,19 @@
+==============================================================================
+ ARCABOUCO DE TESTES - tools/testes
+ raiz do repositorio: C:\Users\Pichau\AppData\Local\hermes\cache\scratch\int_r1_c4_fora
+ descoberta:         C:\Users\Pichau\AppData\Local\hermes\cache\scratch\int_r1_c4_fora\tools\testes\testes\puros
+ modo:               teste unico: tools\testes\testes\puros\t_int_r1_c4_familia_ui.py
+==============================================================================
+
+--- LOGICA PURA (roda sem o jogo, e o que roda no CI) ---------------------
+[REPROVOU] int-r1-c4-familia-ui a migracao regrediu em 2 ponto(s): RunButton.cs: o ponto que substituiu `Instantiate(molde.gameObject, parent) + clone.name = ButtonName` nao chama a familia UI da API (esperado `RstvApiUi.Clonar(molde.gameObject, parent, ButtonName)`) | RunButton.cs: `RstvApiUi.Clonar(` aparece 0 vez(es); o esperado e 1
+
+==============================================================================
+ RESUMO
+   rodaram:    1
+   passaram:   0
+   reprovaram: 1
+   nao rodaram:0
+
+ VEREDITO: REPROVADO (exit 1) - veja os REPROVOU acima
+==============================================================================

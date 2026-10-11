@@ -10,7 +10,7 @@ TODAS as arvores, menos a do BARD (nao esta no jogo).
 
 1. A ABA (`SkillTreesTab.Ensure`): clone de `menu.TabSkillTree` como IRMAO, relabel por
    `OptionsManager.Localize`, `SetAsLastSibling`, onClick com a INSTANCIA do evento trocada
-   (`SelectPartyButton.ClearClickListeners` — RSTV-12: o `RemoveAllListeners()` nao remove a persistente)
+   (`NativeUiHelpers.ClearClickListeners` — RSTV-12: o `RemoveAllListeners()` nao remove a persistente)
    e o handler e `SkillTreesTab.SelecionarEMostrar`. O array PUBLICO `MenuTabManager.MenuTabs` passa a
    INCLUIR a aba (`GetNextActiveTab` usa `Array.IndexOf`; fora dele o jogo loga "Tabbing broke").
    IDEMPOTENTE por NOME; `Initialize()` nunca e chamado as cegas (dispara `SelectFirstActiveButton`).

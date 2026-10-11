@@ -1,0 +1,5 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup><TargetFramework>net6.0</TargetFramework><OutputType>Exe</OutputType><Nullable>enable</Nullable></PropertyGroup>
+  <ItemGroup><ProjectReference Include="../ExampleState/ExampleState.csproj" /></ItemGroup>
+  <Target Name="Kit13OfflinePreflight" BeforeTargets="PrepareForBuild"><Error Condition="'$(DeployToBepInEx)' != 'false'" Text="KIT13: build offline exige DeployToBepInEx=false." /></Target>
+</Project>

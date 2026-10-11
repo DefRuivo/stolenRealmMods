@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <!-- KIT-14F: harness OFFLINE dos 3 defeitos do KIT-14 (run704).
+       NAO abre o jogo, NAO instala nada (DeployToBepInEx default = false), NAO toca no
+       perfil do dono. Monta os PLUGINS REAIS por reflexao (sem a engine) e exercita:
+         parte1 = ciclo de vida Adapter/Core (NullReferenceException em Awake)
+         parte2 = trilha passiva (recorder) com contagem E arquivo de resultado
+         parte3 = navegacao por handler (0 botoes / sem Skills)
+       Cada parte roda em PROCESSO PROPRIO (argumento de linha de comando) para um aborto
+       numa parte nao contaminar a evidencia das outras. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>harness-kit14f</AssemblyName>
+    <RootNamespace>HarnessKit14f</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Program.cs" />
+  </ItemGroup>
+</Project>

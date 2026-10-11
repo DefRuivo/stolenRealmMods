@@ -588,23 +588,79 @@ def _integracao_cic5(R, ident):
               "adaptador deve ler o fallback NAO_APLICAVEL (texto_bruto) do coletor")
 
     # (3) CONTRATO DE HASH (R-1): hash_fonte do coletor == dll_sha da identidade.
-    #     Observacao no formato REAL, com procedencia runtime + sessao + hash_fonte
-    #     = sha da DLL (valores da fixture, ROTULADOS como sinteticos).
+    #     CIC-3F: a fixture REAL do probe mede objetos de OUTROS mods (owners =
+    #     bettertooltips/betterfont). Pelo filtro KIT-R0F (F4) isso NAO e alvo do
+    #     RSTV — entao o contrato de hash so pode ser provado num ALVO LEGITIMO e
+    #     EXPLICITO. Nao se promove a fixture a runtime: o artefato continua FIXTURE
+    #     (bloco 2) e aqui cada caso DECLARA quem e alvo e quem nao e.
     dll, src = fx["hash_fonte"], "0" * 64
     arc.exigir(dll != src, "fixture: hash da DLL tem de diferir do da fonte")
     ident_cic5 = {"fonte_sha": src, "dll_sha": dll}
+    owners_alheios = list(norm[0]["campos"]["owners"]["valor"])
+    arc.exigir(not any(o in R.MOD_GUIDS for o in owners_alheios),
+               "fixture: o bloco 3 exige owners SEM o GUID do mod sob teste")
+
+    # (3a) NAO-ALVO: observacao no formato REAL, com a MESMA cadeia de hash, mas com
+    #      owners de outro mod -> EXCLUIDA com motivo. A expectativa NAO_EXERCITADO e
+    #      explicada (nao e OK nem REPROVADO): o filtro de alvo esta intacto.
     obs_rt = dict(norm[0])
     obs_rt.update(procedencia="runtime", sessao=fx["sessao"], hash_fonte=dll)
     c = por_id(R.avaliar([obs_rt], ident_cic5), "RSTV-26-placeholders")
+    arc.igual(c["estado"], "NAO_EXERCITADO",
+              "observacao de OUTRO mod (%s) nao e alvo do RSTV: NAO_EXERCITADO, nunca OK"
+              % ",".join(owners_alheios))
+    arc.exigir(all(o in c["motivo"] for o in owners_alheios),
+               "o motivo tem de nomear os owners alheios: %r" % c["motivo"])
+    arc.exigir("sem owner do mod sob teste" in c["motivo"],
+               "o motivo tem de declarar a exclusao por ALVO: %r" % c["motivo"])
+
+    # (3b) INATIVO: objeto oculto na hierarquia e excluido MESMO com owner RSTV
+    #      (bbox/render de objeto oculto nao medem o alvo).
+    obs_inativa = dict(norm[1])
+    obs_inativa.update(procedencia="runtime", sessao=fx["sessao"], hash_fonte=dll,
+                       owners=list(R.MOD_GUIDS))
+    c = por_id(R.avaliar([obs_inativa], ident_cic5), "RSTV-26-placeholders")
+    arc.igual(c["estado"], "NAO_EXERCITADO",
+              "objeto INATIVO na hierarquia nao mede o alvo: NAO_EXERCITADO")
+    arc.exigir("INATIVO" in c["motivo"],
+               "o motivo tem de declarar a exclusao por INATIVO: %r" % c["motivo"])
+
+    # (3c) ALVO RSTV EXPLICITO: o caso que prova os hashes declara o owner do mod sob
+    #      teste. Agora sim o hash_fonte do coletor (sha da DLL) == dll_sha amarra a build.
+    alvo_rt = dict(obs_rt)
+    alvo_rt["owners"] = list(R.MOD_GUIDS)
+    c = por_id(R.avaliar([alvo_rt], ident_cic5), "RSTV-26-placeholders")
     arc.igual(c["estado"], "OK",
               "hash_fonte == dll_sha tem de amarrar a build (integracao CIC-5/R-1)")
     arc.igual(c.get("dll_sha"), dll, "criterio OK deve propagar o dll_sha da identidade")
-    # a convencao ANTIGA (hash_fonte == fonte_sha) NAO pode fechar OK
-    obs_err = dict(obs_rt)
+    arc.exigir(c.get("prova_runtime") is True, "alvo RSTV explicito OK deve ter prova_runtime")
+
+    # (3d) ALVO RSTV real COM DEFEITO continua REPROVADO (o filtro nao suprime defeito).
+    obs_defeito = dict(alvo_rt)
+    obs_defeito["texto_bruto"] = "Deals *0 fire damage."
+    obs_defeito["texto_renderizado"] = "Deals *0 fire damage."
+    c = por_id(R.avaliar([obs_defeito], ident_cic5), "RSTV-26-placeholders")
+    arc.igual(c["estado"], "REPROVADO",
+              "alvo RSTV real com DEFEITO tem de REPROVAR (nao se suprime defeito)")
+
+    # (3e) a convencao ANTIGA (hash_fonte == fonte_sha) NAO pode fechar OK no mesmo alvo.
+    obs_err = dict(alvo_rt)
     obs_err["hash_fonte"] = src
     c = por_id(R.avaliar([obs_err], ident_cic5), "RSTV-26-placeholders")
     arc.exigir(c["estado"] != "OK",
                "hash_fonte == fonte_sha (convencao antiga) nao pode fechar OK")
+
+    # (3f) cadeia AUSENTE no alvo explicito: dado INCOMPLETO nunca fecha OK.
+    obs_sem_hash = dict(alvo_rt)
+    obs_sem_hash.pop("hash_fonte", None)
+    c = por_id(R.avaliar([obs_sem_hash], ident_cic5), "RSTV-26-placeholders")
+    arc.exigir(c["estado"] != "OK", "alvo sem cadeia de hash nao pode fechar OK")
+
+    # (3g) hash DIVERGENTE declarado na MESMA observacao (F5) nunca fecha OK.
+    obs_div = dict(alvo_rt)
+    obs_div["hash_dll"] = "f" * 64
+    c = por_id(R.avaliar([obs_div], ident_cic5), "RSTV-26-placeholders")
+    arc.exigir(c["estado"] != "OK", "hash divergente declarado nao pode fechar OK")
 
 
 def _cli():

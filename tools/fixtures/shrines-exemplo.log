@@ -2,7 +2,9 @@
 # FIXTURE SINTETICA - NAO e uma sessao de jogo real.
 # Serve para a CONTRA-PROVA do tools/checa_shrines.py: reproduz, no formato EXATO dos
 # marcadores do mod, o que o jogo logaria nos 3 casos (bonus 0 / +20 / +100) de cada aura.
-#  - os valores esperados das auras sao os da tabela de conferencia em jogo (RV-19 §10);
+#  - os valores das auras de BUFF (eixo `Target`) sao os da tabela de conferencia em jogo (RV-19 §10);
+#  - RV-30 (03/10): as duas de PERIGO (Decay/Flame, eixo `Source`) leem o `ShrineEffectBonus` do
+#    SHRINE (0) - o valor delas NAO muda com o bonus do jogador (os 3 casos batem na BASE);
 #  - as linhas [Status] do RoguelikeDebugger sao COPIADAS VERBATIM do LogOutput.log real;
 #  - as linhas RV-31/RV-34 seguem o formato do `Marca` (ShrineAuraPatch) e as formulas do
 #    asset; o `tipo=` do Flame sai como `EnemyType.ToString()` (Boss/Fodder...).
@@ -48,10 +50,10 @@
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=20 -> Damage +30% (total +55%); Damage taken +30% (total +10%)
 [Info   :Better Tooltips] [Shrine RV-23] RV-31 acumulado: auras=[Fury] char=ChkF bonus=100 -> Damage +50% (total +75%); Damage taken +50% (total +30%)
 [Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=0 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=20 -> 'Take [0]% of your Max Health in Shadow Damage per turn (12 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (20 damage per turn for you).'
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=233 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (47 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=20 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=100 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (10 damage per turn for you).'
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 linha do Decay: ChkDecay MaxHealth=233 bonus=100 -> 'Take [0]% of your Max Health in Shadow Damage per turn (23 damage per turn for you).'
 [Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=0 dano=5
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=20 dano=6
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=100 dano=10
-[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=56
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=20 dano=5
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=100 tipo=player bonus=100 dano=5
+[Info   :Better Tooltips] [Shrine RV-23] RV-34 Flame alvo 'ChkGob': MaxHealth=200 tipo=Fodder bonus=100 dano=28

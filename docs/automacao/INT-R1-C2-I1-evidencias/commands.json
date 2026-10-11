@@ -1,0 +1,663 @@
+[
+  {
+    "label": "preflight-negado-api-bridge",
+    "argv": [
+      "dotnet",
+      "msbuild",
+      "ApiBridge/ApiBridge.csproj",
+      "-t:Kit13OfflinePreflight",
+      "-p:DeployToBepInEx=true",
+      "-nologo"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "preflight-seguro-api-bridge",
+    "argv": [
+      "dotnet",
+      "msbuild",
+      "ApiBridge/ApiBridge.csproj",
+      "-t:Kit13OfflinePreflight",
+      "-p:DeployToBepInEx=false",
+      "-nologo"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "preflight-negado-api-bridge-harness",
+    "argv": [
+      "dotnet",
+      "msbuild",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-t:Kit13OfflinePreflight",
+      "-p:DeployToBepInEx=true",
+      "-nologo"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "preflight-seguro-api-bridge-harness",
+    "argv": [
+      "dotnet",
+      "msbuild",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-t:Kit13OfflinePreflight",
+      "-p:DeployToBepInEx=false",
+      "-nologo"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "build-baseline",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "suite-baseline",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m1-gate-do-on-event-baseline-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m1-gate-do-on-event-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m1-gate-do-on-event-RED-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m1-gate-do-on-event-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m1-gate-do-on-event-restaurado-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m2-gate-do-read-baseline-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m2-gate-do-read-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m2-gate-do-read-RED-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m2-gate-do-read-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m2-gate-do-read-restaurado-P5",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P5"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m3-mapeia-todo-hookid-baseline-P8",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P8"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m3-mapeia-todo-hookid-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m3-mapeia-todo-hookid-RED-P8",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P8"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m3-mapeia-todo-hookid-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m3-mapeia-todo-hookid-restaurado-P8",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P8"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m4-sem-marcador-de-truncamento-baseline-P10",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P10"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m4-sem-marcador-de-truncamento-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m4-sem-marcador-de-truncamento-RED-P10",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P10"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m4-sem-marcador-de-truncamento-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m4-sem-marcador-de-truncamento-restaurado-P10",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P10"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m5-referencia-viva-dos-argumentos-baseline-P11",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P11"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m5-referencia-viva-dos-argumentos-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m5-referencia-viva-dos-argumentos-RED-P11",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P11"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m5-referencia-viva-dos-argumentos-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m5-referencia-viva-dos-argumentos-restaurado-P11",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P11"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-baseline-P12",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P12"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-baseline-P13",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P13"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-RED-P12",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P12"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-RED-P13",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P13"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-restaurado-P12",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P12"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m6-on-event-propaga-excecao-restaurado-P13",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P13"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-baseline-P2",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P2"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-baseline-P3",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P3"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-RED-P2",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P2"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m7-versao-por-prefixo-RED-P3",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P3"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m7-versao-por-prefixo-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-restaurado-P2",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P2"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m7-versao-por-prefixo-restaurado-P3",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P3"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m8-quadro-fixo-em-zero-baseline-P7",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P7"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m8-quadro-fixo-em-zero-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m8-quadro-fixo-em-zero-RED-P7",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P7"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m8-quadro-fixo-em-zero-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m8-quadro-fixo-em-zero-restaurado-P7",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P7"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m9-on-event-depois-do-dispose-baseline-P14",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P14"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m9-on-event-depois-do-dispose-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m9-on-event-depois-do-dispose-RED-P14",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P14"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m9-on-event-depois-do-dispose-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m9-on-event-depois-do-dispose-restaurado-P14",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P14"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m10-publicacao-propaga-excecao-baseline-P15",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P15"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m10-publicacao-propaga-excecao-build-mutante",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m10-publicacao-propaga-excecao-RED-P15",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P15"
+    ],
+    "exit": 1
+  },
+  {
+    "label": "m10-publicacao-propaga-excecao-build-restaurado",
+    "argv": [
+      "dotnet",
+      "build",
+      "ApiBridgeHarness/ApiBridgeHarness.csproj",
+      "-c",
+      "Release",
+      "--nologo",
+      "-p:DeployToBepInEx=false"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "m10-publicacao-propaga-excecao-restaurado-P15",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll",
+      "P15"
+    ],
+    "exit": 0
+  },
+  {
+    "label": "suite-final",
+    "argv": [
+      "dotnet",
+      "ApiBridgeHarness/bin/Release/net6.0/ApiBridgeHarness.dll"
+    ],
+    "exit": 0
+  }
+]

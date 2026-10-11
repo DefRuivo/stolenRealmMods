@@ -1,0 +1,29 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- ORACULO da fixture rstv27-rodape-valor (tools/testes/fixtures/rstv27-rodape-valor.*.json).
+       Projeto de console SEPARADO, fora de qualquer mod: nao referencia lib/, nao entra em
+       pacote, nao e' "mod de verdade" (nao tem o target DeployToBepInEx). Existe para provar a
+       PROCEDENCIA dos valores esperados do RSTV-27: eles saem do MESMO caminho de conta que o
+       motor do jogo usa no RODAPE da tooltip de skill ativa (aritmetica FLOAT + Mathf.CeilToInt /
+       Mathf.FloorToInt / Mathf.Max), transcrito do decompilado do ActionInfo
+       (lib/Assembly-CSharp.dll) - nunca de conta feita a mao ou em Python.
+
+       Ele LE o cenario versionado (rstv27-rodape-valor.entrada.json), calcula os DOIS caminhos do
+       rodape (com personagem x sem personagem) e escreve rstv27-rodape-valor.esperado.json.
+       FALHA (exit 1) se o cenario nao fizer o valor do alvo DIVERGIR da base: um caso em que os
+       dois caminhos dessem o mesmo numero nao provaria nada.
+
+       Rodar (precisa do SDK dotnet; o valor ja esta versionado nas fixtures, este projeto so'
+       serve para REGERAR e AUDITAR). O comando exato esta no README do tools/testes/. -->
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>disable</Nullable>
+    <ImplicitUsings>disable</ImplicitUsings>
+    <AssemblyName>oraculo_rstv27</AssemblyName>
+    <RootNamespace>OraculoRstv27</RootNamespace>
+    <!-- Sem BuildServer: evita segurar arquivo em obj/ no Windows. -->
+    <UseSharedCompilation>false</UseSharedCompilation>
+  </PropertyGroup>
+
+</Project>

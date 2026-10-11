@@ -22,14 +22,24 @@ PADROES = [
     (r'\bghu_[A-Za-z0-9]{20,}', 'token user-to-server do GitHub'),
     (r'\bghr_[A-Za-z0-9]{20,}', 'refresh token do GitHub'),
     (r'\bgithub_pat_[A-Za-z0-9_]{20,}', 'fine-grained PAT do GitHub'),
-    (r'\bx-access-token:', 'URL de push com token embutido'),
+    # URL de push com token embutido: o PADRAO e `x-access-token:<token>@host`. A versao
+    # antiga casava so o prefixo `x-access-token:` e por isso disparava em PROSA que LISTA o
+    # nome do formato (`.../Basic/x-access-token:/PEM-header`) - falso positivo. Agora exige o
+    # VALOR depois do ':' (>= 20 caracteres de token), entao o nome do formato sozinho nao casa
+    # e um token real continua casando. Detector estreitado, nao desligado.
+    (r'\bx-access-token:[A-Za-z0-9_.\-]{20,}', 'URL de push com token embutido'),
     (r'\bsk-[A-Za-z0-9]{20,}', 'chave da OpenAI/Anthropic'),
     (r'\bAIza[0-9A-Za-z_-]{35}\b', 'chave da API do Google'),
     (r'\bglpat-[A-Za-z0-9_-]{20,}', 'token do GitLab'),
     (r'\bnpm_[A-Za-z0-9]{36}\b', 'token do npm'),
     (r'\bxox[baprs]-[A-Za-z0-9-]{10,}', 'token do Slack'),
     (r'\bAKIA[0-9A-Z]{16}\b', 'chave da AWS'),
-    (r'-----BEGIN [A-Z ]*PRIVATE KEY-----', 'chave privada'),
+    # Chave privada PEM: o cabecalho SOZINHO nao e credencial - um ARQUIVO DE TESTE que monta
+    # um bloco falso (`"-----BEGIN RSA PRIVATE KEY-----\n%s" % corpo`) tem o cabecalho sem
+    # corpo e disparava o gate. Agora exige o corpo base64 (>= 64 chars, com `\n` literal ou
+    # quebra real), entao o fixture sem corpo nao casa e uma chave colada (com corpo) continua
+    # casando. Detector estreitado, nao desligado.
+    (r'-----BEGIN [A-Z ]*PRIVATE KEY-----(?:\\n|[\r\n])[A-Za-z0-9+/=\r\n]{64,}', 'chave privada'),
 ]
 
 # Arquivos que por natureza contem os padroes como EXEMPLO (documentacao/esta trava).
@@ -49,7 +59,7 @@ def main():
         for pat, rot in PADROES:
             for m in re.finditer(pat, s):
                 linha = s[:m.start()].count(chr(10)) + 1
-                achados.append('%s:%d  %s  ->  %s' % (f, linha, rot, m.group(0)[:14] + '...'))
+                achados.append('%s:%d  %s  ->  <REDACTED: %d chars>' % (f, linha, rot, len(m.group(0))))
 
     # o token tambem nao pode estar no commit mais recente nem em arquivo por commitar
     st = subprocess.run(['git', 'status', '--porcelain'], cwd=RAIZ, stdout=subprocess.PIPE).stdout.decode('utf-8', 'replace')

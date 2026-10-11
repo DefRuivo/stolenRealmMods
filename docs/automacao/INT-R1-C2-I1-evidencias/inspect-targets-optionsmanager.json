@@ -1,0 +1,314 @@
+{
+  "schemaVersion": 2,
+  "sha256": "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a",
+  "assemblyVersion": "0.0.0.0",
+  "types": [
+    {
+      "name": "Burst2Flame.Game",
+      "methods": [
+        {
+          "signature": "System.Void Burst2Flame.Game::Awake()",
+          "isStatic": false,
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "name": "Character",
+      "methods": [
+        {
+          "signature": "System.Void Character::ModifyHealth(Character,System.Single,DamageType,UnityEngine.Vector3,RagdollIntensity,System.String,System.Boolean,System.Boolean)",
+          "isStatic": true,
+          "parameters": [
+            {
+              "name": "att",
+              "type": "Character"
+            },
+            {
+              "name": "val",
+              "type": "System.Single"
+            },
+            {
+              "name": "damageType",
+              "type": "DamageType"
+            },
+            {
+              "name": "impactPos",
+              "type": "UnityEngine.Vector3"
+            },
+            {
+              "name": "intensity",
+              "type": "RagdollIntensity"
+            },
+            {
+              "name": "adder",
+              "type": "System.String"
+            },
+            {
+              "name": "showMessage",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "checkEffects",
+              "type": "System.Boolean"
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Character::ModifyHealth(Character,System.Single,DamageType,System.String,System.Boolean)",
+          "isStatic": true,
+          "parameters": [
+            {
+              "name": "att",
+              "type": "Character"
+            },
+            {
+              "name": "val",
+              "type": "System.Single"
+            },
+            {
+              "name": "damageType",
+              "type": "DamageType"
+            },
+            {
+              "name": "adder",
+              "type": "System.String"
+            },
+            {
+              "name": "showMessage",
+              "type": "System.Boolean"
+            }
+          ]
+        },
+        {
+          "signature": "System.Collections.Generic.List\u00601\u003CActionStatus\u003E Character::ProcessSkillTriggers(Character,ActionProperties,TriggerType,System.Single,System.Boolean,System.Nullable\u00601\u003CActionDetail\u003E,System.Boolean)",
+          "isStatic": false,
+          "parameters": [
+            {
+              "name": "target",
+              "type": "Character"
+            },
+            {
+              "name": "properties",
+              "type": "ActionProperties"
+            },
+            {
+              "name": "triggerType",
+              "type": "TriggerType"
+            },
+            {
+              "name": "damage",
+              "type": "System.Single"
+            },
+            {
+              "name": "wasCrit",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "actionDetail",
+              "type": "System.Nullable\u00601\u003CActionDetail\u003E"
+            },
+            {
+              "name": "checkIsDead",
+              "type": "System.Boolean"
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Character::ProcessDeath(UnityEngine.Vector3,RagdollIntensity,System.Boolean)",
+          "isStatic": false,
+          "parameters": [
+            {
+              "name": "causeOfDeath",
+              "type": "UnityEngine.Vector3"
+            },
+            {
+              "name": "ragdollIntensity",
+              "type": "RagdollIntensity"
+            },
+            {
+              "name": "forceDeath",
+              "type": "System.Boolean"
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Character::PerformAction(Burst2Flame.ActionInfo,HexCell,System.Nullable\u00601\u003CActionDetail\u003E,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,Item,System.Single,System.Int32)",
+          "isStatic": false,
+          "parameters": [
+            {
+              "name": "actionInfo",
+              "type": "Burst2Flame.ActionInfo"
+            },
+            {
+              "name": "targetedCell",
+              "type": "HexCell"
+            },
+            {
+              "name": "actionDetail",
+              "type": "System.Nullable\u00601\u003CActionDetail\u003E"
+            },
+            {
+              "name": "processTriggers",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "useTargetedCharacterList",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "forceCrit",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "disableSound",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "processKnockback",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "sourceItem",
+              "type": "Item"
+            },
+            {
+              "name": "delayRef",
+              "type": "System.Single"
+            },
+            {
+              "name": "multipleHitIndex",
+              "type": "System.Int32"
+            }
+          ]
+        },
+        {
+          "signature": "System.Void Character::PerformAction(Burst2Flame.ActionInfo,Burst2Flame.Observable.StructList\u00601\u003CHexCell\u003E,System.Nullable\u00601\u003CActionDetail\u003E,System.Boolean,System.Boolean,System.Boolean,System.Boolean,System.Boolean,Item,System.Single,System.Int32)",
+          "isStatic": false,
+          "parameters": [
+            {
+              "name": "actionInfo",
+              "type": "Burst2Flame.ActionInfo"
+            },
+            {
+              "name": "targetedCells",
+              "type": "Burst2Flame.Observable.StructList\u00601\u003CHexCell\u003E"
+            },
+            {
+              "name": "actionDetail",
+              "type": "System.Nullable\u00601\u003CActionDetail\u003E"
+            },
+            {
+              "name": "processTriggers",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "useTargetedCharacterList",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "forceCrit",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "disableSound",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "processKnockback",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "sourceItem",
+              "type": "Item"
+            },
+            {
+              "name": "delayRef",
+              "type": "System.Single"
+            },
+            {
+              "name": "multipleHitIndex",
+              "type": "System.Int32"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "GameLogic",
+      "methods": [
+        {
+          "signature": "System.Void GameLogic::Awake()",
+          "isStatic": false,
+          "parameters": []
+        },
+        {
+          "signature": "System.Void GameLogic::StartGame(System.Int32,System.Boolean,System.Boolean)",
+          "isStatic": false,
+          "parameters": [
+            {
+              "name": "startingTeamIndex",
+              "type": "System.Int32"
+            },
+            {
+              "name": "isLateConnection",
+              "type": "System.Boolean"
+            },
+            {
+              "name": "isComingInFromDisconnection",
+              "type": "System.Boolean"
+            }
+          ]
+        },
+        {
+          "signature": "System.Void GameLogic::StartNewTurn()",
+          "isStatic": false,
+          "parameters": []
+        },
+        {
+          "signature": "System.Void GameLogic::EndTurn()",
+          "isStatic": false,
+          "parameters": []
+        }
+      ]
+    },
+    {
+      "name": "OptionsManager",
+      "methods": [
+        {
+          "signature": "System.Void OptionsManager::Awake()",
+          "isStatic": false,
+          "parameters": []
+        },
+        {
+          "signature": "System.String OptionsManager::Localize(System.String,LanguageGender,Gender)",
+          "isStatic": true,
+          "parameters": [
+            {
+              "name": "original",
+              "type": "System.String"
+            },
+            {
+              "name": "languageGender",
+              "type": "LanguageGender"
+            },
+            {
+              "name": "characterGender",
+              "type": "Gender"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "SkillTreeManager",
+      "methods": [
+        {
+          "signature": "System.Void SkillTreeManager::UpdateSkillTreeItems()",
+          "isStatic": false,
+          "parameters": []
+        }
+      ]
+    }
+  ]
+}

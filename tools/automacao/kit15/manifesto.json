@@ -1,0 +1,125 @@
+{
+  "schema": "kit-rstv/manifesto/1",
+  "pacote": "kit-rstv",
+  "nome_exibivel": "Stolen Realm Test Kit",
+  "versao": "0.1.0",
+  "descricao": "Pacote local offline do kit de teste/observacao de mods de Stolen Realm (Core + Adapter + Recorder; Runner e Viewer opcionais). Nao publica, nao instala no perfil do dono, nao abre o jogo.",
+  "componentes": [
+    {
+      "id": "core",
+      "nome": "Core",
+      "versao": "0.4.0",
+      "versao_origem": "declarado (spec KIT-04; csproj sem <Version>)",
+      "obrigatorio": true,
+      "linguagem": "csharp",
+      "origem_dir": "tools/automacao/runtime/core",
+      "incluir": ["*.cs", "*.csproj"],
+      "excluir": ["bin", "obj"],
+      "papel": "schema, serializacao, eventos e validacao; sem hook especifico de jogo"
+    },
+    {
+      "id": "adapter",
+      "nome": "Adapter Stolen Realm",
+      "versao": "0.1.0",
+      "versao_origem": "csproj (KIT04Adapter.SR.csproj)",
+      "obrigatorio": true,
+      "linguagem": "csharp",
+      "origem_dir": "tools/automacao/runtime/KIT04Adapter.SR",
+      "incluir": ["*.cs", "*.csproj"],
+      "excluir": ["bin", "obj"],
+      "papel": "hooks/leitura do jogo e traducao para o Core"
+    },
+    {
+      "id": "recorder",
+      "nome": "Session Recorder",
+      "versao": "1",
+      "versao_origem": "declarado (observacao passiva KIT-05/KIT-06)",
+      "obrigatorio": true,
+      "linguagem": "python",
+      "origem_dir": "tools/automacao/runtime",
+      "incluir": ["coletor.py", "observacao_passiva.py", "controle_acesso.py"],
+      "excluir": [],
+      "papel": "observacao passiva por frame, trava de acesso e coleta/rollback"
+    },
+    {
+      "id": "runner",
+      "nome": "Scenario Runner",
+      "versao": "1",
+      "versao_origem": "codigo (VERSAO_EXECUTOR em kit11/executor.py)",
+      "obrigatorio": false,
+      "linguagem": "python",
+      "origem_dir": "tools/automacao/kit11",
+      "incluir": ["executor.py"],
+      "excluir": [],
+      "papel": "execucao deterministica de cenarios conhecidos sob autorizacao"
+    },
+    {
+      "id": "viewer",
+      "nome": "Report Viewer",
+      "versao": "1.0",
+      "versao_origem": "declarado (KIT-08F)",
+      "obrigatorio": false,
+      "linguagem": "python",
+      "origem_dir": "tools/automacao/kit08",
+      "incluir": ["visualizador.py"],
+      "excluir": [],
+      "papel": "relatorio HTML estatico e visualizacao de resultados"
+    },
+    {
+      "id": "integracao",
+      "nome": "Integracao (ciclo alteracao/evidencia/correcao)",
+      "versao": "1.0",
+      "versao_origem": "declarado (KIT-12F2)",
+      "obrigatorio": false,
+      "linguagem": "python",
+      "origem_dir": "tools/automacao/kit12",
+      "incluir": ["integracao.py"],
+      "excluir": [],
+      "papel": "amarra alteracao, evidencia, correcao e revalidacao"
+    },
+    {
+      "id": "sdk",
+      "nome": "SDK de extensao",
+      "versao": "1.0.0",
+      "versao_origem": "csproj + API (kit13/SDK)",
+      "obrigatorio": false,
+      "linguagem": "csharp",
+      "origem_dir": "tools/automacao/kit13/SDK",
+      "incluir": ["*.cs", "*.csproj"],
+      "excluir": ["bin", "obj"],
+      "papel": "API versionada para mods registrarem extensoes (opcional)"
+    }
+  ],
+  "ferramenta": {
+    "id": "ferramenta",
+    "nome": "Instalador/Pacote/Scan",
+    "versao": "0.1.0",
+    "origem_dir": "tools/automacao/kit15",
+    "incluir": ["instalador.py", "descoberta.py", "scan.py", "pacote.py", "manifesto.json", "teste_kit15.py", "contra_prova_kit15.py", "roda_testes_kit15.sh"],
+    "papel": "ferramenta empacotada junto para instalar/atualizar/remover/rollback sem exigir SDK"
+  },
+  "documentacao": {
+    "origem_dir": "tools/automacao/kit15",
+    "incluir": ["README.md", "README.en.md", "CHANGELOG.md"],
+    "incluir_dir": ["docs"]
+  },
+  "dependencias": {
+    "uso_basico": {
+      "descricao": "instalar/atualizar/remover/rollback/scan/zip nao exigem rede, credencial, conta, IA, Hermes nem SDK .NET",
+      "runtime": ["Python 3 (stdlib)"],
+      "alternativa_sem_python": "modo manual documentado em docs/primeiro-uso.md (extrair zip + remover pasta)"
+    },
+    "uso_avancado": {
+      "descricao": "compilar Core/Adapter/exemplos exige .NET SDK e referencias Unity locais do jogo (lib/), NAO redistribuidas",
+      "runtime": [".NET SDK 6+", "BepInEx 5.4.23.5", "Unity 2022.3.62f3 (refs locais)"]
+    }
+  },
+  "compatibilidade": {
+    "medida": [
+      {"item": "Python 3 stdlib", "versao_testada": "3.14.7 (host do autor)", "status": "MEDIDO nesta rodada"},
+      {"item": "Windows 11 + git-bash", "status": "MEDIDO nesta rodada"},
+      {"item": "Unity 2022.3.62f3 / BepInEx 5.4.23.5 / biblioteca-de-terceiros 0.1.0", "status": "NAO_MEDIDO nesta rodada (fonte: KIT-02 matriz de compatibilidade e docs/AMBIENTE.md); runtime em jogo NAO_EXERCITADO"},
+      {"item": "Linux/macOS", "status": "NAO_MEDIDO"}
+    ]
+  }
+}

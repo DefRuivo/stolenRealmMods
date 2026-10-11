@@ -1,0 +1,66 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://github.com/gumatos/stolen-realm-mods/blob/main/docs/automacao/schemas/sessao-v1.json",
+  "title": "Schema de Sessão de Observação",
+  "version": "1.0.0",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "ID único da sessão"
+    },
+    "versao": {
+      "type": "string",
+      "description": "Versão do schema da sessão"
+    },
+    "data_inicio": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Data/hora UTC de início"
+    },
+    "data_fim": {
+      "type": ["string", "null"],
+      "format": "date-time",
+      "description": "Data/hora UTC de fim (null se ativa)"
+    },
+    "ambiente": {
+      "type": "object",
+      "properties": {
+        "jogo": { "type": "string" },
+        "versao_jogo": { "type": "string" },
+        "bepinex": { "type": "string" },
+        "sistema_operacional": { "type": "string" }
+      },
+      "required": ["jogo", "versao_jogo", "bepinex"]
+    },
+    "modulos": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "nome": { "type": "string" },
+          "versao": { "type": "string" },
+          "ativo": { "type": "boolean" },
+          "dll_hash": {
+            "type": "string",
+            "format": "sha256",
+            "description": "Hash da DLL na época da sessão"
+          }
+        },
+        "required": ["nome", "versao", "ativo"]
+      }
+    },
+    "resumo": {
+      "type": "object",
+      "properties": {
+        "total_eventos": { "type": "integer" },
+        "total_cenarios": { "type": "integer" },
+        "cenarios_executados": { "type": "integer" },
+        "falhas": { "type": "integer" },
+        "duracao_ms": { "type": "integer" }
+      }
+    }
+  },
+  "required": ["id", "versao", "data_inicio", "ambiente", "modulos"]
+}

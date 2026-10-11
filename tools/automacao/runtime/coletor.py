@@ -145,7 +145,8 @@ STATUS_TERMINAIS_ESPERA = STATUS_PROBE_OK + STATUS_PROBE_FALHA
 
 # A6 (AUT-4R2): chaves da porta OPT-IN de ida-e-volta (leitura reproduzivel).
 CFG_CHAVES = ("Autorizado", "OutDir", "OrcamentoSegundos", "Navegar", "PerfilDir",
-              "HashFonte", "MaxTextos", "Sessao", "DemostrarTooltip", "MarcadorIdaEVolta")
+              "HashFonte", "MaxTextos", "Sessao", "DemostrarTooltip", "MarcadorIdaEVolta",
+              "AutorizaEscritaTooltip")
 
 # Rotulos que NUNCA podem ser maquiados como valor medido.
 AUSENTES = ("AUSENTE", "NAO EXERCITADO", "NÃO EXERCITADO", "NAO_EXERCITADO",
@@ -580,6 +581,20 @@ def consolidar(plano, observacoes, procedencia, contexto=None, alvos=None):
     if procedencia != "runtime":
         raise ObservacaoInvalida("consolidar exige procedencia 'runtime' ou 'fixture'")
 
+    # KIT-R0F (R1): a auto-declaracao de CADA item tb conta — o lane
+    # `--procedencia runtime --observacoes <arquivo>` (e a API `consolidar`) le
+    # observacoes CRUAS. Um item que se declara nao-runtime (`procedencia=fixture`,
+    # inclusive "FIXTURE", ou `evidencia_runtime` presente em qualquer forma que nao
+    # seja o bool `True`) RECUSA: exit 2/FIXTURE, NUNCA CONFIRMADA — o rotulo do
+    # proprio artefato tem precedencia sobre a intencao do chamador, como no TOPO.
+    for indice, o in enumerate(observacoes or []):
+        declarada, rotulo, nota = qualificar_procedencia_observacao(o)
+        if declarada == "fixture":
+            resultado, codigo = consolidar(plano, [], "fixture")
+            resultado["motivo"] = ("observacao #%d se declara NAO-runtime (%s): %s"
+                                   % (indice, rotulo, nota))
+            return resultado, codigo
+
     if alvos is None:
         alvos = _alvos_do_plano(plano)
     else:
@@ -764,6 +779,15 @@ def detectar_leitura(observacoes=None, plano=None, *, exercitado=True, procedenc
         # confirma. A leitura rotulada e material de teste, nao evidencia de jogo.
         return _fecha(VEREDITO_INCOMPLETO, EXIT_NAO_RODOU,
                       "procedencia 'fixture': fixture rotulada NAO prova runtime (nunca confirma)")
+    # KIT-R0F (R1): a auto-declaracao do ITEM tb tem precedencia (mesma regra do TOPO):
+    # uma observacao que se declara nao-runtime nunca confirma, mesmo quando o chamador
+    # passa `procedencia='runtime'`.
+    for indice, o in enumerate(observacoes):
+        declarada, rotulo, nota = qualificar_procedencia_observacao(o)
+        if declarada == "fixture":
+            return _fecha(VEREDITO_INCOMPLETO, EXIT_NAO_RODOU,
+                          "observacao #%d se declara NAO-runtime (%s): %s"
+                          % (indice, rotulo, nota))
     if not exercitado:
         return _fecha(VEREDITO_NAO_EXERCITADO, EXIT_NAO_RODOU,
                       motivo or "a leitura NAO foi exercitada (sem autorizacao/sem acesso ao jogo): "
@@ -953,6 +977,77 @@ def anexar_contexto(observacoes, contexto):
     return saida
 
 
+def qualificar_procedencia_probe(saida):
+    """AUTO-DECLARACAO do artefato: a procedencia efetiva e o rotulo declarado.
+
+    KIT-R0F (F1) — o MESMO artefato tem de ser qualificado IGUAL em TODOS os
+    caminhos (CLI `--detectar`, CLI `--saida-probe`/consolidacao e API). Antes, o
+    lane `--detectar` lia a saida mapeada mas NAO consultava a auto-declaracao e
+    promovia `procedencia=fixture` / `evidencia_runtime=false` a CONFIRMADA/exit 0,
+    enquanto a consolidacao do MESMO arquivo saia FIXTURE/exit 2. Esta funcao e a
+    UNICA fonte da regra: rotulo do proprio artefato tem PRECEDENCIA sobre a
+    intencao do chamador.
+
+    Devolve `(procedencia_efetiva, rotulo_declarado, nota_precedencia)`:
+      * `procedencia_efetiva` e `"fixture"` quando o artefato se declara NAO-runtime
+        (forma canonica `procedencia=fixture` OU `evidencia_runtime` presente com
+        qualquer forma que NAO seja o bool `True` legitimo); caso contrario `None`
+        (o chamador decide o default).
+      * `rotulo_declarado` e o rotulo legivel (rotulo_fixture, `evidencia_runtime=false`
+        ou a forma nao-canonica recusada) — nunca vazio quando ha recusa.
+      * `nota_precedencia` e `None` no caminho runtime.
+
+    A PRESENCA de `evidencia_runtime` NAO vem do artefato: `_mapear_saida_probe` a
+    deriva INTERNAMENTE da entrada crua (ver COR-AUT4-F4). Entao `None`, `0`,
+    `"false"`, `"0"` e `False` recusam; a chave AUSENTE e o caminho runtime.
+    """
+    declarada = str(saida.get("procedencia") or "").strip().lower()
+    rotulo = saida.get("rotulo_fixture")
+    declarada_ev = bool(saida.get("evidencia_runtime_presente"))
+    ev_valor = saida.get("evidencia_runtime")
+    declara_runtime = (not declarada_ev) or (ev_valor is True)
+    if not (declarada == "fixture" or not declara_runtime):
+        return None, None, None
+    if declarada == "fixture":
+        rotulo_declarado = rotulo or declarada
+    elif ev_valor is False:
+        rotulo_declarado = "evidencia_runtime=false"
+    else:
+        rotulo_declarado = ("evidencia_runtime=%r nao e o bool False nem o bool True: "
+                            "forma nao-canonica, recusada como fixture" % (ev_valor,))
+    nota = ("o proprio artefato se declara fixture (%s): o rotulo tem "
+            "precedencia sobre a intencao do chamador" % rotulo_declarado)
+    return "fixture", rotulo_declarado, nota
+
+
+def qualificar_procedencia_observacao(obs):
+    """AUTO-DECLARACAO da OBSERVACAO: a MESMA regra do TOPO, aplicada ao item.
+
+    KIT-R0F (F1/R1) — `--detectar/--saida-probe` ja qualificam o artefato pelo
+    rotulo do proprio JSON, mas o TERCEIRO caminho CLI (`--procedencia runtime
+    --observacoes <arquivo>`) le observacoes CRUAS e as promovia a
+    CONFIRMADA/exit 0 mesmo quando o item se auto-declarava nao-runtime
+    (`procedencia=fixture` — inclusive `"FIXTURE"` — ou `evidencia_runtime`
+    presente em qualquer forma que NAO seja o bool `True`).
+
+    Reusa a UNICA fonte da regra (`qualificar_procedencia_probe`): a presenca de
+    `evidencia_runtime` no item e derivada da propria entrada crua
+    (`"evidencia_runtime" in obs`), nunca de uma chave de conveniencia que o
+    artefato possa forjar. Chave AUSENTE = item runtime (o probe C# real nao
+    emite nenhuma das duas por observacao), entao honrar a auto-declaracao NAO
+    regride dado legitimo.
+
+    Devolve `(procedencia_efetiva, rotulo_declarado, nota)` — `None, None, None`
+    quando o item NAO se declara nao-runtime.
+    """
+    if not isinstance(obs, dict):
+        return None, None, None
+    marcado = dict(obs)
+    # Derivado AQUI da entrada crua (item nao passa pelo `_mapear_saida_probe`).
+    marcado["evidencia_runtime_presente"] = "evidencia_runtime" in obs
+    return qualificar_procedencia_probe(marcado)
+
+
 def consolidar_probe(caminho_ou_saida, plano, alvos=None, procedencia=None):
     """Costura completa: carrega a saida do probe, injeta o topo e consolida.
 
@@ -977,8 +1072,6 @@ def consolidar_probe(caminho_ou_saida, plano, alvos=None, procedencia=None):
     saida = (carregar_saida_probe(caminho_ou_saida)
              if isinstance(caminho_ou_saida, (str, bytes, os.PathLike))
              else _mapear_saida_probe(caminho_ou_saida))
-    declarada = str(saida.get("procedencia") or "").strip().lower()
-    rotulo = saida.get("rotulo_fixture")
     # A3 (COR-AUT4-F2) + COR-AUT4-F3 + COR-AUT4-F4: `evidencia_runtime` e uma
     # DECLARACAO opcional do artefato. Runtime so vale com a chave AUSENTE (o probe C#
     # real nao emite a chave) ou o bool `True` legitimo. QUALQUER outra forma
@@ -988,21 +1081,12 @@ def consolidar_probe(caminho_ou_saida, plano, alvos=None, procedencia=None):
     # artefato — e derivada INTERNAMENTE da entrada crua por `_mapear_saida_probe`
     # (um artefato com a forma errada + `presente: false`/`0` governava o proprio
     # veredito e confirmava).
-    declarada_ev = bool(saida.get("evidencia_runtime_presente"))
-    ev_valor = saida.get("evidencia_runtime")
-    declara_runtime = (not declarada_ev) or (ev_valor is True)
-    rotulado_fixture = (declarada == "fixture" or not declara_runtime)
-    if rotulado_fixture:
+    # KIT-R0F (F1): a regra mora em `qualificar_procedencia_probe` — a MESMA usada
+    # pelo lane `--detectar` da CLI (os dois caminhos nao podem divergir no MESMO
+    # arquivo).
+    procedencia_declarada, rotulo_declarado, nota_precedencia = qualificar_procedencia_probe(saida)
+    if procedencia_declarada == "fixture":
         procedencia = "fixture"
-        if declarada == "fixture":
-            rotulo_declarado = rotulo or declarada
-        elif ev_valor is False:
-            rotulo_declarado = "evidencia_runtime=false"
-        else:
-            rotulo_declarado = ("evidencia_runtime=%r nao e o bool False nem o bool True: "
-                                "forma nao-canonica, recusada como fixture" % (ev_valor,))
-        nota_precedencia = ("o proprio artefato se declara fixture (%s): o rotulo tem "
-                            "precedencia sobre a intencao do chamador" % rotulo_declarado)
     else:
         nota_precedencia = None
         if procedencia is None:
@@ -1048,7 +1132,7 @@ def consolidar_probe(caminho_ou_saida, plano, alvos=None, procedencia=None):
 
 def derivar_config(perfil_dir, out_dir, autorizado, hash_fonte="", dll_probe=None,
                    navegar=False, orcamento=120, max_textos=400, sessao="", demostrar=False,
-                   marcador=""):
+                   marcador="", autoriza_escrita=False):
     """Deriva o `.cfg` do probe. NAO gera credencial nenhuma.
 
     `HashFonte` sai do sha256 da DLL quando nao informado; `Navegar` e sempre false
@@ -1056,6 +1140,11 @@ def derivar_config(perfil_dir, out_dir, autorizado, hash_fonte="", dll_probe=Non
     rodada — nunca e fixado true aqui. `Sessao` e a identidade da RODADA, gerada pelo
     driver (A1): a evidencia do probe so pertence a esta rodada se trouxer esta chave.
     `DemostrarTooltip`/`MarcadorIdaEVolta` sao a porta OPT-IN de ida-e-volta (A6).
+
+    KIT-R0F/F5: `autoriza_escrita` (chave `AutorizaEscritaTooltip`) e a autorizacao
+    ESPECIFICA para ESCREVER no tooltip. Ela NAO deriva de `demostrar` (observar nao
+    autoriza escrever) e o default e FALSE: o `.cfg` sai com a trava escrita, em vez de
+    depender do default do probe.
     """
     if not hash_fonte and dll_probe and os.path.isfile(dll_probe):
         hash_fonte = _sha256(dll_probe)
@@ -1070,6 +1159,7 @@ def derivar_config(perfil_dir, out_dir, autorizado, hash_fonte="", dll_probe=Non
         "Sessao": sessao or "",
         "DemostrarTooltip": bool(demostrar),
         "MarcadorIdaEVolta": marcador or "",
+        "AutorizaEscritaTooltip": bool(autoriza_escrita),
     }
 
 
@@ -1870,11 +1960,24 @@ def main(argv=None):
             else:
                 saida = carregar_saida_probe(args.saida_probe)
                 contexto = {"sessao": saida.get("sessao"), "hash_fonte": saida.get("hash_fonte")}
+                # KIT-R0F (F1): o lane `--detectar` QUALIFICA a procedencia pela
+                # auto-declaracao do MESMO artefato que a consolidacao le
+                # (`qualificar_procedencia_probe`), em vez de manter o default
+                # "runtime". Antes, `procedencia=fixture` / `evidencia_runtime=false`
+                # (inclusive forma nao-canonica) era promovido a CONFIRMADA/exit 0 aqui
+                # enquanto a consolidacao do MESMO arquivo saia FIXTURE/exit 2.
+                procedencia_efetiva, rotulo_declarado, nota_precedencia = (
+                    qualificar_procedencia_probe(saida))
                 resultado, codigo = detectar_leitura(
                     anexar_contexto(saida.get("observacoes") or [], contexto), plano,
                     contexto=contexto, alvos=args.alvos, status_probe=saida.get("status_probe"),
                     fase=saida.get("fase"), dll_probe=args.dll_probe,
-                    evidencia=args.saida_probe)
+                    evidencia=args.saida_probe, procedencia=procedencia_efetiva or "runtime")
+                if isinstance(resultado, dict):
+                    resultado["procedencia_artefato"] = procedencia_efetiva or "runtime"
+                    resultado["rotulo_artefato"] = rotulo_declarado
+                    if nota_precedencia:
+                        resultado["motivo"] = nota_precedencia + " — " + str(resultado.get("motivo") or "")
         elif args.saida_probe:
             resultado, codigo = consolidar_probe(args.saida_probe, plano, alvos=args.alvos)
         elif args.executar:

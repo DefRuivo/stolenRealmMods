@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <!-- INT-R1-C2-I1 (entregavel B): assembly COMPANHEIRO do AUT4Probe, carregado em runtime por NOME
+       EXATO (Assembly.Load("Gumatos.KitApiBridge.AUT4")). Projeto separado e sem Unity/BepInEx: o probe
+       nao ganha referencia dura e continua carregando quando a API/ponte nao estao instaladas. -->
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <Version>0.1.0</Version>
+    <AssemblyName>Gumatos.KitApiBridge.AUT4</AssemblyName>
+    <RootNamespace>Gumatos.KitApiBridge.AUT4</RootNamespace>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../kit13/SDK/KitSdk.csproj" />
+    <ProjectReference Include="../../../kit13/ApiBridge/ApiBridge.csproj" />
+  </ItemGroup>
+
+  <Target Name="Kit13OfflinePreflight" BeforeTargets="PrepareForBuild">
+    <Error Condition="'$(DeployToBepInEx)' != 'false'" Text="KIT13: build offline exige DeployToBepInEx=false; nenhum deploy autorizado." />
+  </Target>
+
+</Project>

@@ -28,13 +28,14 @@ PERSISTENTE herdado pelo `Instantiate`:
 
 O CONSERTO (RSTV-12): trocar a INSTANCIA do evento antes de instalar o nosso listener —
 `button.onClick = new Button.ButtonClickedEvent();` (`Button.onClick` tem setter publico; a instancia
-nova nasce SEM nenhuma persistente). O helper e `SelectPartyButton.ClearClickListeners(Button)`.
+nova nasce SEM nenhuma persistente). O helper e `NativeUiHelpers.ClearClickListeners(Button)`.
 
 O QUE ESTAS REGRAS TRAVAM
 -------------------------
-1. o helper `ClearClickListeners` existe, TROCA a instancia do evento e NAO usa `RemoveAllListeners()`;
-2. os dois clones da run (HUD e janela do level-up) — e o da tela Select Party — chamam o helper e
-   NUNCA instalam o listener antes de limpar;
+1. o helper `ClearClickListeners` existe (em `NativeUiHelpers.cs`), TROCA a instancia do evento e NAO
+   usa `RemoveAllListeners()`;
+2. os dois clones da run (HUD e janela do level-up) chamam o helper e NUNCA instalam o listener antes
+   de limpar;
 3. nenhum `.cs` do mod usa `RemoveAllListeners()` no CODIGO EFETIVO (a classe de defeito esta fechada);
 4. o MODELO PURO da invocacao do `UnityEvent` reproduz o clique que cai no original: com a limpeza
    ANTIGA os dois botoes NAO abrem (um pinga, o outro lanca), e com a limpeza NOVA os dois abrem.
@@ -42,7 +43,7 @@ O QUE ESTAS REGRAS TRAVAM
 COMO O ESPERADO E OBTIDO
 ------------------------
 Os fontes sao lidos AO VIVO (`RoguelikeSkillTreeVisualizer/{RunButton,LevelUpWindowButton,
-SelectPartyButton}.cs`). Os CORPOS de metodo saem por casamento de chaves (`recorte.corpo_do_metodo`)
+NativeUiHelpers}.cs`). Os CORPOS de metodo saem por casamento de chaves (`recorte.corpo_do_metodo`)
 e a checagem usa o texto SEM comentario (`recorte.codigo_efetivo`): uma citacao num comentario nao e
 codigo. A semantica do `UnityEvent` (duas listas, ordem persistente-antes-de-runtime, aborto no
 throw) e transcrita no `chamadas_do_clique`/`resultado_do_clique` citando o IL deste build.
@@ -57,15 +58,23 @@ import recorte as rec
 
 # Assinaturas/trechos exatos lidos do fonte. Se um nome mudar, a checagem REPROVA dizendo qual sumiu.
 HELPER = "internal static void ClearClickListeners(Button button)"
-CHAMADA_HELPER = "SelectPartyButton.ClearClickListeners(button)"
+CHAMADA_HELPER = "NativeUiHelpers.ClearClickListeners(button)"
 TROCA_INSTANCIA = "button.onClick = new Button.ButtonClickedEvent();"
 ANTIGO = "RemoveAllListeners()"
 
 ENSURE_INTERNAL_RUN = "private static void EnsureInternal(CurrentCharacterUI ui)"
 ENSURE_INTERNAL_JANELA = "private static void EnsureInternal(RoguelikeManager rok)"
-ENSURE_PARTY = "internal static void Ensure(CharacterChoiceManager manager)"
 
 # Handlers do clique, por identidade: o PERSISTENTE que o prefab traz e o listener do MOD.
+#   * `SKILL_TREE` — a persistente do molde ATUAL do HUD (`CurrentCharacterUI.skillsBtn`, o
+#     `Skills Tree Btn` da barra de baixo): e' o nome que aparece no RAW do MonoBehaviour do botao
+#     no prefab (`"ButtonPressedSkillTree, Assembly-CSharp"`). Sem a troca da instancia, o nosso
+#     botao abriria a arvore NATIVA ESCRITIVEL;
+#   * `PING` — a persistente do molde ANTIGO do HUD (`pingBtn`, ate a RSTV-29/RSTV-30), guardada
+#     aqui como o caso HISTORICO que motivou a RSTV-12 (o clique pinguava em vez de abrir);
+#   * `CONFIRM` — a persistente do molde da janela do level-up (o `ConfirmLevelUpSelection`, que
+#     estoura num clone: 11 NullReferenceException no log de 02/10).
+SKILL_TREE = "ButtonPressedSkillTree"
 PING = "ButtonPressedPing"
 CONFIRM = "ConfirmLevelUpSelection"
 NOSSO = "RunButton.OpenForTarget"
@@ -74,26 +83,51 @@ NOSSO = "RunButton.OpenForTarget"
 LIMPEZA_ANTIGA = "RemoveAllListeners"      # limpa so a lista de runtime (o defeito)
 LIMPEZA_NOVA = "troca-da-instancia"        # descarta a persistente junto com a instancia (RSTV-12)
 
+# O que o jogador ve quando a persistente do molde RODA no clone (por perfil).
+EFEITO_PINGOU = "pingou"                   # ligou o modo ping -> o portao da run recusou abrir
+EFEITO_ARVORE_NATIVA = "arvore-nativa"     # abriu a arvore NATIVA ESCRITIVEL (o risco do molde novo)
+
 # Perfis: cada botao 'Skills' que existe hoje. `lanca` = o handler persistente estoura no clone
 # (ConfirmLevelUpSelection: log de 02/10, 11 NullReferenceException). `mexe_no_portao` = a
 # persistente liga o modo ping, e o portao da run entao RECUSA a abertura.
-PERFIL_PING = {
-    "nome": "HUD (clone do Ping Button)",
+#
+# RSTV-30: o clone do HUD deixou de ser clonado do `Ping Button` e passou a ser clonado do
+# `Skills Tree Btn` (`CurrentCharacterUI.skillsBtn`, o botao nativo da barra de baixo, ao lado de
+# onde o clone mora). E' um risco MAIOR que o do ping: sem a troca da instancia do evento, o nosso
+# botao abriria a arvore ESCRITIVEL nativa — e e' por isso que o modelo cobra a limpeza nos DOIS
+# perfis, sem excecao.
+PERFIL_HUD = {
+    "nome": "HUD (clone do Skills Tree Btn)",
+    "persistente": SKILL_TREE,
+    "lanca": False,
+    "efeito": EFEITO_ARVORE_NATIVA,
+}
+
+# O perfil HISTORICO do HUD (molde `pingBtn`, ate a RSTV-29): fica modelado porque foi ELE que
+# produziu o sintoma que motivou a RSTV-12 ("o botao 'Skills' pinguava em vez de abrir").
+PERFIL_HUD_ANTES = {
+    "nome": "HUD historico (clone do Ping Button)",
     "persistente": PING,
     "lanca": False,
-    "mexe_no_portao": True,
+    "efeito": EFEITO_PINGOU,
 }
+
 PERFIL_ACCEPT = {
     "nome": "janela do level-up (clone do AcceptButton)",
     "persistente": CONFIRM,
     "lanca": True,
-    "mexe_no_portao": False,
+    "efeito": None,
 }
 
 
 def perfis():
     """Os botoes 'Skills' cobertos pelo modelo (fonte unica do nome dos perfis)."""
-    return (PERFIL_PING, PERFIL_ACCEPT)
+    return (PERFIL_HUD, PERFIL_ACCEPT)
+
+
+def perfis_historicos():
+    """Perfis que NAO existem mais no mod, mas cujo sintoma a RSTV-12 documenta."""
+    return (PERFIL_HUD_ANTES,)
 
 
 # --------------------------------------------------------------- modelo puro ---
@@ -120,20 +154,24 @@ def chamadas_do_clique(limpeza, perfil):
 
 
 def resultado_do_clique(limpeza, perfil):
-    """O que o jogador ve no clique: 'pingou', 'levelup-nre' ou 'abriu'.
+    """O que o jogador ve no clique: 'arvore-nativa', 'pingou', 'levelup-nre' ou 'abriu'.
 
-    'pingou'      -> a persistente (Ping) ligou o modo ping e o portao da run RECUSOU abrir
-                     (log de 02/10: "abertura RECUSADA — modo de apontar o hex ligado");
-    'levelup-nre' -> a persistente (Confirm) lancou ANTES do nosso, que nunca rodou (o NRE do log);
-    'abriu'       -> so o NOSSO listener rodou -> `RunButton.OpenForTarget()` abre a arvore.
+    'arvore-nativa' -> a persistente do molde ATUAL do HUD (`ButtonPressedSkillTree`) rodou e abriu
+                       a arvore NATIVA ESCRITIVEL, ANTES do nosso listener;
+    'pingou'        -> a persistente do molde historico (Ping) ligou o modo ping e o portao da run
+                       RECUSOU abrir (log de 02/10: "abertura RECUSADA — modo de apontar o hex
+                       ligado");
+    'levelup-nre'   -> a persistente (Confirm) lancou ANTES do nosso, que nunca rodou (o NRE do log);
+    'abriu'         -> so' o NOSSO listener rodou -> `RunButton.OpenForTarget()` abre a arvore.
     """
     executadas = chamadas_do_clique(limpeza, perfil)
     persistente_rodou = perfil["persistente"] in executadas
 
-    if perfil["lanca"] and persistente_rodou:
-        return "levelup-nre"
-    if perfil["mexe_no_portao"] and persistente_rodou:
-        return "pingou"
+    if persistente_rodou:
+        if perfil["lanca"]:
+            return "levelup-nre"
+        if perfil.get("efeito"):
+            return perfil["efeito"]
     if NOSSO in executadas:
         return "abriu"
     return "nao-abriu"
@@ -153,8 +191,8 @@ def caminho_janela():
     return os.path.join(_dir_mod(), "LevelUpWindowButton.cs")
 
 
-def caminho_select():
-    return os.path.join(_dir_mod(), "SelectPartyButton.cs")
+def caminho_helpers():
+    return os.path.join(_dir_mod(), "NativeUiHelpers.cs")
 
 
 def fonte(caminho):
@@ -199,14 +237,14 @@ def _clone_com_limpeza(src, assinatura, nome):
     return falhas
 
 
-def falhas_do_roteamento(src_run, src_janela, src_select, fontes_do_mod=None):
+def falhas_do_roteamento(src_run, src_janela, src_helpers, fontes_do_mod=None):
     """Defeitos do roteamento do clique. Lista vazia = o conserto esta de pe."""
     falhas = []
 
     # ---------------------------------------- 1) o helper existe e TROCA a instancia do evento
-    helper = _corpo(src_select, HELPER)
+    helper = _corpo(src_helpers, HELPER)
     if helper is None:
-        falhas.append("nao achei %s em SelectPartyButton.cs (a limpeza do evento nao existe)" % HELPER)
+        falhas.append("nao achei %s em NativeUiHelpers.cs (a limpeza do evento nao existe)" % HELPER)
     else:
         if TROCA_INSTANCIA not in helper:
             falhas.append("ClearClickListeners nao troca a INSTANCIA do evento (falta `%s`) — "
@@ -218,7 +256,6 @@ def falhas_do_roteamento(src_run, src_janela, src_select, fontes_do_mod=None):
     # ---------------------------------------- 2) os clones limpam ANTES de instalar o listener
     falhas += _clone_com_limpeza(src_run, ENSURE_INTERNAL_RUN, "RunButton")
     falhas += _clone_com_limpeza(src_janela, ENSURE_INTERNAL_JANELA, "LevelUpWindowButton")
-    falhas += _clone_com_limpeza(src_select, ENSURE_PARTY, "SelectPartyButton")
 
     # ---------------------------------------- 3) a CLASSE de defeito esta fechada no mod inteiro
     for caminho, texto in (fontes_do_mod or {}).items():
@@ -238,7 +275,7 @@ def fontes_do_mod():
 
 # ------------------------------------------------------------ plantio do defeito ---
 
-_ANCORA_CHAMADA = "SelectPartyButton.ClearClickListeners(button);"
+_ANCORA_CHAMADA = "NativeUiHelpers.ClearClickListeners(button);"
 _DEFEITO_CHAMADA = "button.onClick.RemoveAllListeners();"
 
 
@@ -253,7 +290,7 @@ def fonte_com_limpeza_antiga(src):
 
 
 def fonte_com_helper_antigo(src):
-    """O MESMO SelectPartyButton.cs com o helper voltando a `RemoveAllListeners()`, em memoria."""
+    """O MESMO NativeUiHelpers.cs com o helper voltando a `RemoveAllListeners()`, em memoria."""
     if TROCA_INSTANCIA not in src:
         return src
     return src.replace(TROCA_INSTANCIA, "button.onClick.RemoveAllListeners();")

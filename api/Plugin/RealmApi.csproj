@@ -1,0 +1,43 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework><LangVersion>10</LangVersion><Nullable>enable</Nullable>
+    <AssemblyName>RealmApi</AssemblyName><RootNamespace>Gumatos.RealmApi</RootNamespace><Version>0.1.0</Version>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile><NoWarn>$(NoWarn);1591</NoWarn>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <GameLibDir Condition="'$(GameLibDir)' == ''">$(MSBuildThisFileDirectory)../../lib</GameLibDir>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="../Core/RealmApi.Core.csproj" />
+    <ProjectReference Include="../Hooks/RealmApi.Hooks.csproj" />
+    <Reference Include="BepInEx"><HintPath>$(GameLibDir)/BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(GameLibDir)/0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(GameLibDir)/UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(GameLibDir)/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(GameLibDir)/UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <!-- API-R1-I1: DEPLOY OPT-IN (mesma regra dos mods do repo, DEPLOY-2).
+       O padrao (DeployToBepInEx=false) e definido na RAIZ em Directory.Build.props:
+       um `dotnet build` comum NAO copia nada para o perfil do r2modman. Para INSTALAR
+       de proposito (so depois da autorizacao explicita do dono), peca pelo nome:
+           dotnet build api/Plugin/RealmApi.csproj -c Release -p:DeployToBepInEx=true
+       Sao copiados os TRES assemblies que o plugin precisa na mesma pasta: RealmApi.dll
+       (o plugin) e as dependencias RealmApi.Core.dll / RealmApi.Hooks.dll (project
+       references desta build). Sem elas o BepInEx nao resolve o plugin ao carregar.
+       O destino sai de $(USERPROFILE); para ENSAIAR o deploy sem tocar o perfil do dono,
+       passe -p:PluginsDir=<pasta-de-teste> (a propriedade global do MSBuild vence a
+       propriedade interna; ver docs/automacao/API-R1-runbook-runtime.md, secao de ensaio). -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
+    <PropertyGroup>
+      <PluginsDir Condition="'$(PluginsDir)' == ''">$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
+    </PropertyGroup>
+    <ItemGroup>
+      <ApiDeployFile Include="$(TargetPath)" />
+      <ApiDeployFile Include="$(TargetDir)RealmApi.Core.dll" />
+      <ApiDeployFile Include="$(TargetDir)RealmApi.Hooks.dll" />
+    </ItemGroup>
+    <MakeDir Directories="$(PluginsDir)" />
+    <Copy SourceFiles="@(ApiDeployFile)" DestinationFolder="$(PluginsDir)" />
+    <Message Importance="high" Text="Deploy: RealmApi.dll + RealmApi.Core.dll + RealmApi.Hooks.dll copiados para $(PluginsDir)" />
+  </Target>
+</Project>

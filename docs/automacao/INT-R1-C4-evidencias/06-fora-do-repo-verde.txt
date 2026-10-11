@@ -1,0 +1,19 @@
+==============================================================================
+ ARCABOUCO DE TESTES - tools/testes
+ raiz do repositorio: C:\Users\Pichau\AppData\Local\hermes\cache\scratch\int_r1_c4_fora
+ descoberta:         C:\Users\Pichau\AppData\Local\hermes\cache\scratch\int_r1_c4_fora\tools\testes\testes\puros
+ modo:               teste unico: tools\testes\testes\puros\t_int_r1_c4_familia_ui.py
+==============================================================================
+
+--- LOGICA PURA (roda sem o jogo, e o que roda no CI) ---------------------
+[PASSOU ] int-r1-c4-familia-ui INT-R1-C4: o RSTV clona/liga clique pela familia `UI` da API (5 clones + 2 cliques), a contagem por arquivo prova o escopo, os pontos presos por aceites anteriores continuam presos, a API entra por uma ponte so', a guarda do commit segue nos ganchos e a dependencia esta declarada (csproj + BepInDependency + README); 8 defeitos plantados reprovam
+
+==============================================================================
+ RESUMO
+   rodaram:    1
+   passaram:   1
+   reprovaram: 0
+   nao rodaram:0
+
+ VEREDITO: VERDE (exit 0)
+==============================================================================

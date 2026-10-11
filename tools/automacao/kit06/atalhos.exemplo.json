@@ -1,0 +1,12 @@
+{
+  "_documento": "KIT-06 - exemplo de configuracao de atalhos do plano de controle (sem terminal). Copie para o perfil/instalacao e ajuste as teclas.",
+  "teclas_reservadas": ["Return", "KeypadEnter", "T", "Y", "Slash", "Backspace", "Space"],
+  "atalhos": {
+    "observar": "F7",
+    "pausar": "F8",
+    "marcar_problema": "F9",
+    "exportar": "F10",
+    "voar": "F1",
+    "salvar": "F2"
+  }
+}

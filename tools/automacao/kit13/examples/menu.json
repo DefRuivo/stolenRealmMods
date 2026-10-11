@@ -1,0 +1,5 @@
+{
+  "schema": "KIT13/scenario/1", "api": "1.0.0",
+  "id": "example.menu", "adapter": "offline-file.v1",
+  "steps": [{"id": "menu-visible", "op": "menu", "target": "MainMenu", "timeout_s": 0.05}]
+}

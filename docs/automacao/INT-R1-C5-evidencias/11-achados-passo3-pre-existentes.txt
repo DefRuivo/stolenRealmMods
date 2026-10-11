@@ -1,0 +1,20 @@
+# os 3 achados do PASSO 3 (guarda do opt-in) sao ISCAS de rodadas anteriores em scratch/, nao desta rodada
+# comando: find scratch -name '*.csproj' -newermt '2026-10-11 04:32:00'
+(acima: vazio = nada em scratch/ foi criado ou alterado nesta rodada)
+
+# mtime dos 3 arquivos apontados pela guarda:
+-rw-r--r-- 1 Pichau 197121 267 2026-10-10 13:11:55.779225500 -0300 scratch/kit/KIT-14-run699/deploy-negative/ruim.csproj
+-rw-r--r-- 1 Pichau 197121  31 2026-10-10 13:14:56.098209700 -0300 scratch/kit/KIT-14-run699/instalacao-local-resume/.kit-rstv-backups/20261010-131456-355-33328-0001/components/adapter/KIT04Adapter.SR.csproj
+-rw-r--r-- 1 Pichau 197121 267 2026-10-10 17:46:55.505721800 -0300 scratch/kit/KIT-14-run710/deploy-negative/ruim.csproj
+
+# nenhum .csproj meu entra na varredura do PASSO 3 (maxdepth 2):
+./BetterCombatText/BetterCombatText.csproj
+./BetterFont/BetterFont.csproj
+./BetterStats/BetterStats.csproj
+./BetterTooltips/BetterTooltips.csproj
+./ReloadProbe/ReloadProbe.csproj
+./RoguelikeDebugger/RoguelikeDebugger.csproj
+./RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.csproj
+
+# git: scratch/ e ignorado? (check-ignore)
+.gitignore:49:scratch/	scratch/kit/KIT-14-run710/deploy-negative/ruim.csproj

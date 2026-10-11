@@ -77,9 +77,18 @@ O oraculo existe para auditar e regerar.
   Flame/Decay (6 tipos de inimigo x 5 vidas maximas x 4 bonus), as bordas de
   formato e a **linha agregada** `Your active shrine auras:` item por item
   (RV-31/44/46: deduplicacao, soma por atributo, itens sem atributo e os avisos).
+* **RV-30 (03/10) — o EIXO de cada aura.** Cada entrada da escala carrega o `eixo`
+  (`Target`/`Source`, lido da tabela gerada) e a matriz do dano carrega o
+  `bonus_fonte` que de fato multiplica. As 10 auras de eixo `Target` (as 9 de BUFF +
+  o Dwarven) escalam com o bonus do JOGADOR; as 2 de PERIGO (Decay/Flame, eixo
+  `Source`) leem o bonus do SHRINE (`BonusDaFonte` = 0), entao o `contribuicao`/`dano`
+  delas NAO muda com o `bonus` do jogador e o `bonus`/`bonus_id` da cena ficam so como
+  rotulo. Fonte da regra: `docs/cobertura/revisao/RV-19-shrines.md` §5/§8 +
+  `tools/testes/regras_rv30.py`.
 * `conferencia_csv` dentro do esperado: o oraculo recalcula cada linha de
-  `tools/dados/shrines-esperado.csv` e o teste confere a coincidencia - a fixture
-  nao pode envelhecer em relacao a tabela gerada do repositorio.
+  `tools/dados/shrines-esperado.csv` (pelo EIXO declarado na propria linha) e o teste
+  confere a coincidencia - a fixture nao pode envelhecer em relacao a tabela gerada do
+  repositorio.
 
 Regenerar (mexe nos arquivos versionados - rode e revise o `git diff`):
 
@@ -100,6 +109,26 @@ O oraculo existe para auditar e regerar.
 | `bt12-berserkers-blood` | `bt12-berserkers-blood.entrada.json` | (so entrada: a TABELA DE CASOS da ancora do fator; o esperado e a leitura do parser) | formas EQUIVALENTES/RECUSADAS da formula do asset - a de referencia vem do dump do asset (`scratch/` nao e versionado); BT-12A |
 | `deploy-optin-guarda` | `deploy-optin-guarda.entrada.json` | (so entrada: os casos de XML do opt-in de deploy; o veredito e o da trava) | os `Directory.Build.props` dos 6 mods + as iscas do FURO A/B, escritos a mao; DEPLOY-2 |
 | `formato-notas` | `formato-notas.entrada.json` | (so entrada: sao LEITURAS do decompilado do `Tooltip`, sem saida calculada) | `scratch/bancada1/gera_fixture.py` (ilspycmd sobre a `Assembly-CSharp.dll` v1.3.1; `scratch/` nao e versionado); BANCADA-1/FORMATO |
+| `uma-entrada-plantada` | `uma-entrada-plantada.entrada.cs` | (so entrada: um `LocalizePatch.cs` FALSO com os defeitos plantados) | escrito a mao; TST-3 (cenarios "uma entrada por texto") |
+| `rstv27-rodape-valor` | `rstv27-rodape-valor.entrada.json` | `rstv27-rodape-valor.esperado.json` | `geradores/oraculo_rstv27` (C#, float + Mathf.CeilToInt/FloorToInt/Max do `ActionInfo`) |
+| `debugger-parser-contrato` | `debugger-parser-contrato.entrada.log` | (so entrada: linhas do dump para o parser do censo) | copia VERBATIM de `tools/fixtures/shrines-exemplo.log` (que reproduz o formato EXATO do dump); TST-5 |
+
+### `debugger-parser-contrato.entrada.log` — o FORMATO ANTIGO do dump (TST-5)
+
+Nao e um par entrada/esperado: sao tres linhas `[Info :Roguelike Debugger] [Status]`
+copiadas **verbatim** (byte a byte, inclusive os dois espacos antes do `|` depois dos
+efeitos) de `tools/fixtures/shrines-exemplo.log`. Elas representam o **formato ANTIGO**:
+a DLL que o perfil carregava (30/09) emite `tipo/raridade/efeitos/efeitosDano/nEfeitosDano/
+aura/raio/.../beneficio/dur/maxStk/desc` e **nao** os campos do RD-2 (`nEfeitosTot`,
+`efTipos`, `nAttrEf`, `attrTipos`, `nTrig`, `trigEf`, `expr`, `danoExpr`, `refAcao`,
+`refStatus`, `tick`, `auraSts`) — ver `docs/DEBUGGER.md`, RESSALVA (DOC-8). A fixture
+declara a origem no proprio cabecalho.
+
+**Por que copiar em vez de ler a fixture de origem.** `shrines-exemplo.log` e um alvo de
+edicao das tarefas de shrine; a familia TST-5 fica isolada de mudanca alheia. O **formato
+ATUAL** NAO esta aqui: ele e LIDO do fonte vivo (`ActionStatusInventoryPatch.cs`), campo a
+campo, pelo proprio teste. Quem consome: `t_debugger_parser_contrato.py` e
+`t_debugger_saneamento.py`.
 
 ### `cores-do-jogo.entrada.json` — as CORES dos tres niveis (COR-2, 01/10)
 
@@ -133,3 +162,46 @@ python scratch/cor2/gera_fixture_cores.py
 Ao adicionar uma familia nova, acrescente a linha nesta tabela e o campo
 `procedencia` no arquivo - a lista e o que permite auditar a fixture depois sem
 adivinhar de onde o numero saiu.
+
+### `uma-entrada-plantada.entrada.cs` — o fonte FALSO dos cenarios "uma entrada por texto" (TST-3)
+
+Nao e um par entrada/esperado calculado: e um `LocalizePatch.cs` **de mentira**, escrito a mao,
+com os DOIS defeitos da familia plantados de proposito — (a) chave repetida DENTRO de uma tabela
+(em C#, `ArgumentException` que derruba o `LocalizePatch` inteiro) e (b) a MESMA chave em
+`TextFixes` e `TextAppends` (o lookup e if/else if; a nota some em silencio, defeito objetivo do
+BUG-32). Como ele nao e um arquivo do produto, ele **nao mora** em `BetterTooltips/Patches/`.
+
+Quem o consome: `t_bt_uma_entrada_por_texto.py` e a contra-prova `cp_bt_uma_entrada_isca.py`.
+O ponto e MORDER as ferramentas com dado plantado, nao chama-las no arquivo limpo: o teste exige
+que `check_dupes` e `check_chave_compartilhada --estrito` acusem os defeitos AQUI, e que o
+`LocalizePatch.cs` de verdade passe nas duas.
+
+### `rstv27-rodape-valor.*` — o rodape da tooltip read-only (RSTV-27)
+
+O defeito e' um NUMERO ERRADO: o rodape de skill ativa (mana / cooldown / alcance) e' montado pelo
+`Tooltip.ShowSkillTooltip` com um local PROPRIO (`tooltipCharacter = TooltipCharacter`, get-only =
+`GameLogic.instance.CurrentlySelectedCharacter`, **null na tela Party Select**) e o argumento que a
+RSTV-26 passa nao alcanca esse trecho. O teste compara o NUMERO do rodape contra o valor do ALVO DO
+MODAL e contra a BASE do overload sem personagem.
+
+* Gerada por `geradores/oraculo_rstv27/` — C# (console, .NET 6) que **nao** inventa formula: transcreve
+  os DOIS caminhos do `ActionInfo` (lib/Assembly-CSharp.dll) — `GetManaCost(Character)`/`GetManaCost()`,
+  `GetActionCooldown(Character)`/`GetActionCooldown()`, `GetSimpleRange(Character, TargetInfo)`/
+  `GetSimpleRange(TargetInfo)` — com aritmetica `float` e as conversoes `Mathf.CeilToInt` /
+  `Mathf.FloorToInt` / `Mathf.Max`.
+* Ele LE o cenario versionado (`rstv27-rodape-valor.entrada.json`: skill, globais e os personagens 'Raven'
+  = alvo do modal e 'Outro' = selecionado do jogo) e **FALHA (exit 1)** se o cenario nao fizer o valor do
+  alvo DIVERGIR da base — um caso em que os dois caminhos dessem o mesmo numero nao provaria nada.
+* Nao ha save do dono versionado: os NUMEROS do cenario sao o CASO declarado; a procedencia e' a FORMULA
+  (citada no cabecalho do oraculo e no campo `procedencia` da entrada) e a divergencia e' CALCULADA.
+
+Regenerar (mexe nos arquivos versionados — rode e revise o `git diff`):
+
+```bash
+dotnet run --project tools/testes/fixtures/geradores/oraculo_rstv27 -- tools/testes/fixtures
+```
+
+Quem consome: `tools/testes/testes/puros/t_rstv27_rodape_valor.py` (via `regras_rstv27_valor.py`), com a
+contra-prova em `tools/testes/prova-sandbox-rstv27-valor.py` e a evidencia em
+`tools/testes/rstv27-valor-prova-reprovando.log`.
+

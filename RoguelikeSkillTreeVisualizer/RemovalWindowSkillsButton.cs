@@ -227,8 +227,9 @@ namespace RoguelikeSkillTreeVisualizer
             }
             else
             {
-                clone = UnityEngine.Object.Instantiate(molde.gameObject, pai);
-                clone.name = ButtonName;
+                // INT-R1-C4: clone pela familia `UI` da API (RstvApiUi.Clonar -> UIFactory.Clone).
+                // Mesmo par Instantiate(molde, pai) + nome do clone que estava aqui a mao.
+                clone = RstvApiUi.Clonar(molde.gameObject, pai, ButtonName);
             }
 
             clone.transform.SetAsLastSibling();
@@ -273,7 +274,10 @@ namespace RoguelikeSkillTreeVisualizer
             // RSTV-12: trocar a INSTANCIA do evento descarta o onClick SERIALIZADO do molde (o
             // "Cancel" fecharia o modal) antes de instalar o listener read-only.
             NativeUiHelpers.ClearClickListeners(botao);
-            botao.onClick.AddListener(new UnityAction(OnClick));
+            // INT-R1-C4: o listener entra pela familia `UI` da API (RstvApiUi.LigarClique ->
+            // UIFactory.BindClick = `Button.onClick.AddListener`). A limpeza da INSTANCIA do evento
+            // acima continua sendo do mod: a familia `UI` da API nao expoe esse primitivo (RSTV-12).
+            RstvApiUi.LigarClique(botao.gameObject, new UnityAction(OnClick));
             botao.interactable = true;
 
             clone.SetActive(window.gameObject.activeSelf);

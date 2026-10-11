@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "scope": "realmapi-ui-family-conformance-vs-inventory",
+  "inputs": {
+    "implementedSurface": "api\\docs\\ui-contract.json",
+    "contractInventory": "api\\docs\\contract-inventory.json"
+  },
+  "normalization": {
+    "Gumatos.RealmApi.ContractReference.UI.": "Gumatos.RealmApi.UI.",
+    "Gumatos.RealmApi.ContractReference.Skills.": "Gumatos.RealmApi.Skills."
+  },
+  "expected": {
+    "types": [
+      "Gumatos.RealmApi.Skills.SkillTree",
+      "Gumatos.RealmApi.UI.ActionBarUI",
+      "Gumatos.RealmApi.UI.MenuUI",
+      "Gumatos.RealmApi.UI.SkillTreeUI",
+      "Gumatos.RealmApi.UI.TooltipHelper",
+      "Gumatos.RealmApi.UI.UIFactory"
+    ]
+  },
+  "implemented": {
+    "types": [
+      "Gumatos.RealmApi.Skills.SkillTree",
+      "Gumatos.RealmApi.UI.ActionBarUI",
+      "Gumatos.RealmApi.UI.MenuUI",
+      "Gumatos.RealmApi.UI.SkillTreeUI",
+      "Gumatos.RealmApi.UI.TooltipHelper",
+      "Gumatos.RealmApi.UI.UIFactory"
+    ]
+  },
+  "verdict": "CONFORME",
+  "problems": [],
+  "negativeControl": {
+    "description": "assinatura alterada de proposito em UIFactory (parametro System.Int32 a mais)",
+    "problemsFound": 2,
+    "ok": true
+  }
+}

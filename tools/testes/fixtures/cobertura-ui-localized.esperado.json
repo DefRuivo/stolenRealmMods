@@ -1,0 +1,10 @@
+{
+  "cobertos": 2,
+  "lacunas": 1,
+  "nao_aplicados": 1,
+  "chaves_mortas": 0,
+  "chave_compartilhada": "Deals *0 fire damage in a line.",
+  "lacuna_chave": "INT-R1-C5: texto que nenhuma tabela cobre.",
+  "categoria_da_lacuna": "fora-do-censo",
+  "motivo_nao_aplicado": "entrada existe e o jogo serviu o texto CRU"
+}
