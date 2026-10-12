@@ -402,6 +402,17 @@ A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `m
 (`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
+**Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO): o projeto tem um sétimo pacote DESCOBERTO**,
+`RoguelikeLevelProgression 0.1.1` (remove o teto de nível 20 do Roguelike, singleplayer), com fonte,
+`manifest.json`, `README.md`, `CHANGELOG.md` e `icon.png` 256x256 versionados. Ele **não está no ar e não
+está liberado**: a entrada dele em [`release/mods.json`](../release/mods.json) tem `publicar: false` e
+motivo *runtime e aceite humano pendentes* — o pacote passou o pre-flight e foi empacotado em bancada
+NOVA isolada (manifest, ícone, membros e hash da DLL conferidos dentro do ZIP), mas **nenhum boot real
+foi autorizado**, então isso é prova de contrato, não de jogo. Consequência para o gate: o conjunto
+esperado pelo workflow passa a ser 7 nomes (o do `--listar-nomes`), as seis entradas liberadas acima
+ficaram **inalteradas** e a nova é recusada pelo nome (`publicar:false`). A tabela e as contagens acima
+(6 mods, medidas em 01/10/2026) são a fotografia daquela data.
+
 **Os parametros que o Thunderstore exige, conferidos um a um nos 6 mods** (contagens medidas com
 `python .github/scripts/valida_pacotes.py`, 01/10/2026: `6 pacotes validados | 0 com problema`):
 

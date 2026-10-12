@@ -4,7 +4,7 @@ Política de manutenção derivada do plano ORG-R1 partes 01..04 e dos gates de 
 
 ## 1. Layout canônico: fonte, dados, artefatos e estado privado
 
-Os seis mods distribuíveis desta organização ficam diretamente na raiz: `BetterCombatText/`, `BetterFont/`, `BetterStats/`, `BetterTooltips/`, `RoguelikeDebugger/` e `RoguelikeSkillTreeVisualizer/`. Esta lista delimita o layout aprovado, não congela a descoberta de pacotes nem o total de arquivos do projeto. A descoberta executável é `python tools/pack-thunderstore.py --listar-nomes`; versões vêm dos projetos e espelhos, não de uma tabela estática nesta política.
+Os seis mods **liberados** para distribuição ficam diretamente na raiz: `BetterCombatText/`, `BetterFont/`, `BetterStats/`, `BetterTooltips/`, `RoguelikeDebugger/` e `RoguelikeSkillTreeVisualizer/`. `RoguelikeLevelProgression/` entra como **pacote descoberto e bloqueado** desde 12/10/2026 (LEVEL-PACOTE-CONTRATO): fonte, metadados e `icon.png` versionados, `publicar: false` com motivo em [`release/mods.json`](../release/mods.json) enquanto *runtime e aceite humano* estiverem pendentes. Esta lista delimita o layout aprovado, não congela a descoberta de pacotes nem o total de arquivos do projeto. A descoberta executável é `python tools/pack-thunderstore.py --listar-nomes`; versões vêm dos projetos e espelhos, não de uma tabela estática nesta política.
 
 | Caminho na raiz | Papel e versionamento | Regra de manutenção |
 |---|---|---|

@@ -40,6 +40,17 @@ velho ("Pacotes dos 6 mods - 30/09/2026" — o zip do `BetterCombatText` entrou 
 para os **7** mods empacotados e os 11 zips. A dependência entre mods é **uma direção** — `BetterCombatText 0.1.0` →
 `BetterFont 1.0.1` — pelo motivo registrado em [`release/mods.json`](../release/mods.json).
 
+**Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO):** o projeto passou a ter **7 pacotes descobertos** e o
+`release/mods.json` tem **7** entradas: as seis descritas acima com `publicar: true` e o registro de
+publicação **inalterados**, mais `RoguelikeLevelProgression 0.1.1` com `publicar: false` e o motivo
+*runtime e aceite humano pendentes*. Portanto a frase "hoje não há nenhum mod deste repo fora do ar"
+acima vale para a **fotografia de 01/10/2026**, não para hoje: o RLP está fora do ar **de propósito** e
+o gate de publicação o recusa pelo nome (`::error:: ... esta com publicar:false ... NAO sera publicado`),
+sem entrar na `ordem_de_envio`. O conjunto esperado pelo workflow é o do
+`python tools/pack-thunderstore.py --listar-nomes` (7 nomes), e é ele que `release/mods.json` tem de
+espelhar na mesma ordem. Nada aqui autoriza publicação: esta frente não publicou, não fez push e não
+rodou o jogo.
+
 **O registro desta leva foi feito À MÃO, e o motivo é o defeito que fecha esta rodada:** no run
 `36801937843` o terceiro job (`Registra a versao publicada em release/mods.json`) confirmou as seis
 versões na API (**passo 4 = success**) e morreu no **passo 5 (`Commit e push do registro`)**. O log

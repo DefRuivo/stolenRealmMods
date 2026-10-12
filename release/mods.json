@@ -63,6 +63,13 @@
       "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:51Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva o aplicador gancho a gancho, o conserto A-1 e o dump de efeitos por tipo concreto, com o icone novo de 256x256. Categoria 'Tools': e ferramenta de desenvolvimento, nao mod de jogador."
     },
     {
+      "nome": "RoguelikeLevelProgression",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "BLOQUEADO para publicacao (LEVEL-PACOTE-CONTRATO, 12/10/2026): runtime e aceite humano pendentes. O pacote 0.1.1 tem fonte/metadados/icone 256x256 versionados e passou o pre-flight em bancada NOVA isolada (sem perfil, sem jogo), com manifest, icone, membros e hash da DLL conferidos dentro do ZIP - prova de CONTRATO, nao de jogo: nenhum boot real foi exercitado. Liberar exige rodada de runtime autorizada e o aceite humano do dono; ate la nao entra no lote de envio (ordem_de_envio)."
+    },
+    {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
       "versao_publicada": "0.3.2",

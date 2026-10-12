@@ -118,6 +118,10 @@ CORES_ICONE = {
     "BetterFont": (0x1B, 0x5E, 0x20),
     "BetterStats": (0x4A, 0x14, 0x8C),
     "RoguelikeDebugger": (0x8E, 0x1B, 0x1B),
+    # LEVEL-PACOTE-CONTRATO: mod novo ganha cor propria (o padrao cinza e o mesmo do
+    # BetterCombatText/RSTV); o glifo "L" foi acrescentado a GLIFOS para as iniciais
+    # "RL" nao caírem no "?" da fonte 5x7. Nenhum icone ja existente e regerado.
+    "RoguelikeLevelProgression": (0x86, 0x5E, 0x0A),
 }
 COR_PADRAO = (0x33, 0x33, 0x3A)
 COR_LETRA = (0xF5, 0xF5, 0xF5)
@@ -130,6 +134,7 @@ GLIFOS = {
     "B": ("11110", "10001", "10001", "11110", "10001", "10001", "11110"),
     "D": ("11110", "10001", "10001", "10001", "10001", "10001", "11110"),
     "F": ("11111", "10000", "10000", "11110", "10000", "10000", "10000"),
+    "L": ("10000", "10000", "10000", "10000", "10000", "10000", "11111"),
     "Q": ("01110", "10001", "10001", "10001", "10001", "01110", "00011"),
     "R": ("11110", "10001", "10001", "11110", "10100", "10010", "10001"),
     "S": ("01111", "10000", "10000", "01110", "00001", "00001", "11110"),
