@@ -10,11 +10,20 @@
     <Version>0.1.1</Version>
     <Description>Remove o teto de nivel 20 do modo Roguelike (singleplayer): um nivel por vitoria, XP estendido apos o 20 e recompensas Skills/Itens/Atributos com recibo duravel quando o pool de skills esgota.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
-    <!-- LEVEL-R2: este projeto vive no WORKTREE do cartao. A `lib` comum do repo fica fora
-         do worktree (C:/dev/stolen-realm/lib) e e usada apenas como referencia de leitura,
-         nunca copiada para dentro do worktree. -->
-    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\lib</CommonLibDir>
+    <!-- LEVEL-LIB: a `lib` comum do repo e PRIVADA do ambiente (gitignored) e e resolvida
+         relativa a RAIZ DESTE CHECKOUT — nunca por caminho absoluto do dono e nunca
+         dependendo da profundidade de um worktree. Este projeto fica em <raiz>/Mod/,
+         logo a lib e <raiz>/lib. Num clone/worktree isolado sem lib/, o build falha no
+         alvo ValidateCommonLibDir abaixo; use o override autorizado
+         -p:CommonLibDir=<caminho absoluto da lib>. -->
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\lib</CommonLibDir>
   </PropertyGroup>
+
+  <!-- LEVEL-LIB: falha clara quando a lib do checkout nao existe (clone/worktree isolado).
+       Sem isto o MSBuild so emite aviso MSB3245 e o erro final seria CS0246 sem causa. -->
+  <Target Name="ValidateCommonLibDir" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(CommonLibDir)')" Text="LEVEL-LIB: lib de referencias nao encontrada em '$(CommonLibDir)'. Rode o build na raiz do checkout canonico (lib/ e local, gitignored) ou passe o override autorizado: -p:CommonLibDir=&lt;caminho absoluto da lib&gt;." />
+  </Target>
 
   <ItemGroup>
     <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>

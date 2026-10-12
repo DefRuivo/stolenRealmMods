@@ -69,8 +69,30 @@ update), no forced achievements, no campaign changes.
 ## Build
 
 ```
-dotnet build RoguelikeLevelProgression/RoguelikeLevelProgression.csproj
+dotnet build RoguelikeLevelProgression/RoguelikeLevelProgression.csproj -p:DeployToBepInEx=false
+dotnet build tests/RoguelikeLevelProgression.Harness/RoguelikeLevelProgression.Harness.csproj -p:DeployToBepInEx=false
 ```
+
+The game/BepInEx assemblies are **not versioned**: they are read from the private `lib/` folder at the
+**root of the checkout** (`<checkout>/lib`, gitignored — see [`docs/ESTRUTURA.md`](../docs/ESTRUTURA.md)).
+Both the mod and the harness resolve that folder **relative to the checkout they belong to**, so the
+same source builds at any depth: no absolute path of the owner's machine, no dependency on where a
+worktree happens to live. A canonical checkout (`C:/dev/stolen-realm`) therefore builds with no extra
+argument.
+
+There is **no silent fallback**: an isolated clone/worktree that does not have its own `lib/` fails
+with a single clear error and needs the owner-authorized override —
+
+```
+dotnet build RoguelikeLevelProgression/RoguelikeLevelProgression.csproj -p:CommonLibDir=<absolute path of a lib folder>
+```
+
+```
+LEVEL-LIB: lib de referencias nao encontrada em '<...>\lib'. Rode o build na raiz do checkout
+canonico (lib/ e local, gitignored) ou passe o override autorizado: -p:CommonLibDir=<caminho>.
+```
+
+Never copy the game DLLs into the repository or into a worktree to satisfy a build.
 
 Deploying into the r2modman profile is **opt-in**: `dotnet build -p:DeployToBepInEx=true`
 copies the DLL to `.../profiles/Default/BepInEx/plugins/RoguelikeLevelProgression/`.
@@ -99,6 +121,12 @@ de fortune, sem Bard/música, sem conquista forçada e sem alteração de campan
 ficam **fora** do escopo ampliado e mantêm a comparação vanilla; em multiplayer o branch
 vanilla é preservado com aviso. O grupo de patches de gameplay é **tudo-ou-nada**: qualquer
 alvo ausente, exceção ou recusa do transpiler reverte o mod inteiro.
+
+Build: as DLLs do jogo ficam em `lib/` na **raiz do checkout** (gitignored, nunca versionadas nem
+copiadas para o repositório/worktree) e são resolvidas por caminho relativo ao próprio checkout,
+sem caminho absoluto do computador do dono. Um clone/worktree isolado sem `lib/` própria falha com
+`LEVEL-LIB: lib de referencias nao encontrada em '<...>\lib'` e exige o override autorizado
+`-p:CommonLibDir=<caminho absoluto>`; não existe fallback silencioso.
 
 O código foi **compilado e exercitado** em bancada isolada (harness que compila os fontes reais
 do mod e alimenta o transpiler real com a IL real de `Root.SendGameCompleteFromServer`). A

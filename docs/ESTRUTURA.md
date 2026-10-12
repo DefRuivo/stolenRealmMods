@@ -76,7 +76,7 @@ Uma frente = um commit exclusivo nominal. Nunca `git add -A` nem `git commit -a`
 
 ## 4. Verificação sem agir no jogo
 
-As referências privadas precisam estar disponíveis em `lib/` antes de compilar. O RSTV consome a API própria por HintPaths de Release: construir a API ANTES dele, inclusive quando o build do mod for Debug. A API de terceiros não é substituto dessas referências.
+As referências privadas precisam estar disponíveis em `lib/` antes de compilar. Essa pasta vive na **raiz do checkout** e é resolvida por caminho relativo a ele (nunca por caminho absoluto do dono nem pela profundidade de um worktree): o checkout canônico compila sem argumento extra, e clone/worktree isolado sem `lib/` falha no alvo `ValidateCommonLibDir` com a mensagem `LEVEL-LIB`, exigindo o override autorizado `-p:CommonLibDir=<caminho absoluto da lib>`. Não existe fallback silencioso e as DLLs do jogo não são copiadas nem versionadas para satisfazer um build. O RSTV consome a API própria por HintPaths de Release: construir a API ANTES dele, inclusive quando o build do mod for Debug. A API de terceiros não é substituto dessas referências.
 
 Da raiz do repo, os builds de verificação ficam explicitamente sem deploy:
 

@@ -24,9 +24,19 @@
     <Compile Include="..\..\RoguelikeLevelProgression\Patches\*.cs" />
   </ItemGroup>
 
+  <!-- LEVEL-LIB: a `lib` comum resolvida relativa a RAIZ DESTE CHECKOUT. O harness fica em
+       <raiz>/tests/Harness/, logo a lib e <raiz>/lib (mesma regra do csproj do mod: nada de
+       caminho absoluto do dono nem de profundidade de worktree). Num clone/worktree isolado
+       sem lib/, o build falha no alvo ValidateCommonLibDir; override autorizado:
+       -p:CommonLibDir=<caminho absoluto da lib>. -->
   <PropertyGroup>
-    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\lib</CommonLibDir>
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\..\lib</CommonLibDir>
   </PropertyGroup>
+
+  <!-- LEVEL-LIB: falha clara quando a lib do checkout nao existe (clone/worktree isolado). -->
+  <Target Name="ValidateCommonLibDir" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(CommonLibDir)')" Text="LEVEL-LIB: lib de referencias nao encontrada em '$(CommonLibDir)'. Rode o build na raiz do checkout canonico (lib/ e local, gitignored) ou passe o override autorizado: -p:CommonLibDir=&lt;caminho absoluto da lib&gt;." />
+  </Target>
 
   <ItemGroup>
     <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>
