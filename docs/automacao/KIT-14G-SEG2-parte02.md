@@ -136,7 +136,7 @@ compara o save do dono com o **snapshot imediato da própria rodada**.
 (`production_diff()` contra o manifesto do KIT-16 de 10/10) hoje dá `equal=False` — o dono jogou
 (`before=111, after=106, 4 novos, 9 removidos, 8 alterados`; medido nesta rodada e registrado em
 `F-marcadores-identity.json.baseline_producao`), e o driver abortaria **antes** de qualquer boot. A
-investigação deste mesmo cartão (`KIT14G-SEG2-investigacao-parte04.md` §4) manda substituir a
+investigação deste mesmo cartão ([documento público, não credencial](./KIT14G-SEG2-investigacao-parte04.md) §4) manda substituir a
 comparação histórica por **snapshot imediato por rodada**; é o que a bancada faz: tira o manifesto do
 save real segundos antes do boot (`*-antes-manifesto-imediato.manifest`) e o re-mede no fim
 (`*-depois-manifesto.manifest`), comparando byte a byte. A proteção durante a rodada não mudou (rename
