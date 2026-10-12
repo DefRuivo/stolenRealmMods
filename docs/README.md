@@ -17,6 +17,7 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | Arquivo | Para quem | O que é |
 |---|---|---|
 | `README.md` | mantenedor | **Este índice** + o ritual de build. |
+| [`ESTRUTURA.md`](ESTRUTURA.md) | mantenedor | Layout canônico, versionamento, política de evidências/retenção e como adicionar um mod ou frente sem novas migrações. |
 | `PROCESSO-REVISAO.md` | mantenedor | O **padrão de revisão do projeto**: toda tarefa executada gera uma revisão **independente** (feita por quem não escreveu a mudança, com prova: commit, arquivos e saída das ferramentas) **antes** de qualquer validação ou aprovação humana. |
 | `TEXTO-TOOLTIPS.md` | mantenedor | A **convenção de texto e cor das tooltips**: os **três níveis** (branco = descrição curta com os valores dinâmicos; tom mais escuro = explicação de termos e cálculos; azul = acúmulo das auras de shrine e efeitos provenientes de skills), a **procedência declarada de cada cor** (campo de cor do próprio jogo lido em runtime — cor sem procedência é número inventado) e o teste de comprimento do nível 2 medido pelo `tools/check_notas_redundantes.py`. |
 | `CI.md` | mantenedor | Os **dois workflows** de GitHub Actions: `validate.yml` (só **valida**, a cada `push`/PR na `main`) e `publish.yml` (**manual**, com gate humano), os 7 passos do CI na ordem, como rodar tudo na mão e as armadilhas. |
