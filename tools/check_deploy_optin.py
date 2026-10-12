@@ -45,6 +45,7 @@ Uso:
     python tools/check_deploy_optin.py [--raiz CAMINHO] [--json]
 """
 import argparse
+import hashlib
 import json
 import os
 import re
@@ -75,6 +76,46 @@ RE_CONDICAO_OPTIN = re.compile(
 )
 
 ARQUIVOS_DE_PROJETO = ("Directory.Build.props", "Directory.Build.targets")
+
+# ORG-R6-GUARDA: excecoes NOMINAIS autorizadas pelo dono em 12/10/2026.
+# Sao provas privadas/ignoradas: NAO ha commit de criacao desses arquivos.
+# Proveniencia alternativa aceita: fixture-fonte 82ff1af0fa329b360ced332be7353d9a3bafcb7b
+# e registro documental/autoria 097f950677a02e964f7b43fc1b2998b8daa48c3c.
+# Nao isentar diretorios/extensoes: so estes paths E estes bytes SHA-256.
+# Se a prova mudar, volta a ser analisada. analisa_arquivo continua reprovando
+# a isca quando chamada diretamente (inclusive pelos testes negativos do KIT14).
+# Esta lista NAO pertence ao detector de segredos, que permanece inalterado.
+PROVAS_PLANTADAS = {
+    # run699/test_qualificar.py:72-85 gera furoA_multilinha_sem_condition da
+    # fixture criada em 82ff1af; 097f950:docs/automacao/KIT-14-parte08.md
+    # registra XML deliberadamente sem opt-in e RC esperado/observado=1.
+    "scratch/kit/KIT-14-run699/deploy-negative/ruim.csproj":
+        "9d32e5619fa2f8307819138f67e6023cbb25a181fa6dedbfaafd71c0b8ac5429",
+    # run710/test_build.py:8-14 reutiliza a mesma fixture de 82ff1af;
+    # 097f950:docs/automacao/KIT-14-parte34.md e parte35.md registram run710.
+    "scratch/kit/KIT-14-run710/deploy-negative/ruim.csproj":
+        "9d32e5619fa2f8307819138f67e6023cbb25a181fa6dedbfaafd71c0b8ac5429",
+    # run699/test_qualificar.py:159-164 planta NEGATIVE_LOCAL_FILE_NOT_RUNTIME;
+    # logs-resume/update-same-version-repair.stdout.log identifica esta transacao.
+    # 097f950:docs/automacao/KIT-14-parte09.md registra adulteracao/reparo e
+    # retencao do backup. 82ff1af origina a fixture de deploy, NAO este marcador.
+    "scratch/kit/KIT-14-run699/instalacao-local-resume/.kit-rstv-backups/"
+    "20261010-131456-355-33328-0001/components/adapter/KIT04Adapter.SR.csproj":
+        "32e6f75e7a4336ce36499dcc7e86b4b92e4fa685555086f1141900d9ff24ab98",
+}
+
+
+def eh_prova_plantada(caminho, raiz):
+    """Isenta somente a prova autorizada no path exato, com bytes inalterados."""
+    rel = os.path.relpath(caminho, raiz).replace("\\", "/")
+    esperado = PROVAS_PLANTADAS.get(rel)
+    if esperado is None:
+        return False
+    try:
+        with open(caminho, "rb") as fh:
+            return hashlib.sha256(fh.read()).hexdigest() == esperado
+    except OSError:
+        return False
 
 
 def _nome_local(tag):
@@ -158,6 +199,8 @@ def analisa_raiz(raiz):
             if not (nome.endswith(".csproj") or nome in ARQUIVOS_DE_PROJETO):
                 continue
             caminho = os.path.join(pasta, nome)
+            if eh_prova_plantada(caminho, raiz):
+                continue
             # conta os alvos de deploy aceitos deste arquivo tambem
             achados_arq = analisa_arquivo(caminho)
             achados.extend(achados_arq)

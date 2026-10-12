@@ -83,9 +83,15 @@ def corpo():
     # ---- 3+4. a Condition antiga sumiu; o DeployToScripts esta coberto -----------
     com_alvo_de_deploy = 0
     for caminho in _csprojs(raiz):
+        # Mesma excecao nominal+hash da guarda; a isca continua sendo reprovada
+        # diretamente em t_deploy_optin_guarda e em qualquer outro caminho.
+        if guarda.eh_prova_plantada(caminho, raiz):
+            continue
         with open(caminho, encoding="utf-8") as fh:
             texto = fh.read()
-        if "r2modmanPlus-local" not in texto and "USERPROFILE" not in texto:
+        # Uma referencia/HintPath ao perfil (ex.: api/Smoke) apenas LE DLLs;
+        # so projetos com alvos de ESCRITA entram nesta verificacao de deploy.
+        if not guarda._conta_alvos_deploy(caminho):
             continue
         com_alvo_de_deploy += 1
         arc.exigir("!= 'false'" not in texto,

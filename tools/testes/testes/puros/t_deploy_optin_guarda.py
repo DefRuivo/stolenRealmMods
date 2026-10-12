@@ -24,6 +24,7 @@ release-check de fato usa) e cobra o exit code: 0 para "todos com opt-in", 1 par
 "saiu alvo sem opt-in".
 """
 import importlib.util
+import hashlib
 import os
 import subprocess
 import sys
@@ -63,6 +64,58 @@ def _roda_cli(caminho_guarda, raiz):
         universal_newlines=True, timeout=120,
     )
     return proc.returncode, proc.stdout or ""
+
+
+def _provas_nominais(guarda, caminho_guarda, casos):
+    """ORG-R6: excecao por path+bytes, nunca por pasta, nome ou XML invalido."""
+    isca = next(c["xml"] for c in casos
+                if c["nome"] == "furoA_multilinha_sem_condition")
+    # Bytes das provas privadas de Windows, preservadas sem normalizar no disco.
+    xml = isca.replace("\n", "\r\n").encode("utf-8")
+    provas = {
+        "scratch/kit/KIT-14-run699/deploy-negative/ruim.csproj": xml,
+        "scratch/kit/KIT-14-run710/deploy-negative/ruim.csproj": xml,
+        "scratch/kit/KIT-14-run699/instalacao-local-resume/.kit-rstv-backups/"
+        "20261010-131456-355-33328-0001/components/adapter/KIT04Adapter.SR.csproj":
+            b"NEGATIVE_LOCAL_FILE_NOT_RUNTIME",
+    }
+    arc.igual(set(guarda.PROVAS_PLANTADAS), set(provas),
+              "as excecoes perderam nominalidade ou adicionaram um path nao autorizado")
+    for rel, conteudo in provas.items():
+        arc.igual(hashlib.sha256(conteudo).hexdigest(), guarda.PROVAS_PLANTADAS[rel],
+                  "hash da prova nao corresponde a fixture documentada: %s" % rel)
+        with tempfile.TemporaryDirectory(prefix="dep2-prova-nominal-") as raiz:
+            caminho = os.path.join(raiz, *rel.split("/"))
+            os.makedirs(os.path.dirname(caminho), exist_ok=True)
+            with open(caminho, "wb") as fh:
+                fh.write(conteudo)
+            arc.exigir(guarda.analisa_arquivo(caminho),
+                       "analise direta deixou de reprovar a prova: %s" % rel)
+            arc.igual(guarda.analisa_raiz(raiz), ([], 0),
+                      "prova nominal intacta nao foi isentada: %s" % rel)
+            rc, saida = _roda_cli(caminho_guarda, raiz)
+            arc.igual(rc, 0, "CLI nao isenta prova intacta: %s" % saida)
+
+            # Mesmos bytes num path comum ou ao lado da prova devem reprovar.
+            for outro in (os.path.join(raiz, "Comum", "ruim.csproj"),
+                          os.path.join(os.path.dirname(caminho), "vizinho.csproj")):
+                os.makedirs(os.path.dirname(outro), exist_ok=True)
+                with open(outro, "wb") as fh:
+                    fh.write(conteudo)
+                achados, _ = guarda.analisa_raiz(raiz)
+                arc.igual(len(achados), 1, "path nao nominal foi isentado: %s" % outro)
+                arc.igual(achados[0]["arquivo"], outro, "achado aponta arquivo errado")
+                os.remove(outro)
+
+            # Mesmo path nominal, bytes diferentes: isencao revogada.
+            with open(caminho, "ab") as fh:
+                fh.write(b"\n")
+            arc.exigir(not guarda.eh_prova_plantada(caminho, raiz),
+                       "conteudo alterado ainda isento: %s" % rel)
+            arc.igual(len(guarda.analisa_raiz(raiz)[0]), 1,
+                      "prova alterada deixou de reprovar: %s" % rel)
+            rc, saida = _roda_cli(caminho_guarda, raiz)
+            arc.igual(rc, 1, "CLI nao reprova prova alterada: %s" % saida)
 
 
 def corpo():
@@ -109,6 +162,8 @@ def corpo():
         arc.igual(rc, 1, "a guarda pela CLI devia sair 1 com um alvo sem opt-in (%s)" % saida.strip())
         arc.exigir("DeployToBepInEx" in saida,
                    "a reprovacao pela CLI nao nomeou o alvo: %s" % saida.strip())
+
+    _provas_nominais(guarda, caminho_guarda, casos)
 
 
 if __name__ == "__main__":
