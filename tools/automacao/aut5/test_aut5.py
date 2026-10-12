@@ -9,15 +9,34 @@ Regras do projeto que esta suite cobra:
     nao pode deixar os controles passarem, e um criterio que declara OK com
     evidencia falsa NAO pode virar prova vinculante).
 
+ORG-AUT5-FIX (t_2d9f22b1): a suite esta dividida em DOIS GRUPOS, e a divisao
+sai DECLARADA na saida — grupo nao executado nunca vira PASSOU por omissao.
+
+  * OFFLINE HERMETICO (`CASOS_OFFLINE`): identidade de TESTE explicita
+    (`IDENTIDADE_DE_TESTE`) — roda so com o repositorio e os arquivos desta
+    copia: sem compilar, sem subprocesso e sem ler arquivo de perfil.
+  * INTEGRACAO / EXIGE AUTORIZACAO (`CASOS_INTEGRACAO`):
+      - `log-real` (AUT5_LOG_REAL=1): LogOutput.log do perfil r2modman DESTA
+        maquina + DLL do perfil byte-igual a DLL do repo;
+      - `snapshot-modal-CSharp` (AUT5_AUTORIZA_COMPILACAO=1): compila e executa
+        o C# do probe. O preflight ESTATICO do harness (assinaturas reais +
+        cadeia de chamada) roda SEMPRE, no grupo `preflight-snapshot-modal`,
+        porque nao compila nada.
+
 Uso:
     python tools/automacao/aut5/test_aut5.py              -> RESULTADO|PASSOU ... exit 0
     python tools/automacao/aut5/test_aut5.py --contra-prova
-Exit: 0 PASSOU · 1 REPROVOU (falha real) · 2 NAO CONSEGUI RODAR.
+Exit: 0 PASSOU (offline verde E integracao exercitada) · 1 REPROVOU (falha real)
+· 2 INCOMPLETO — inclui integracao NAO_EXERCITADA: verde parcial NAO e declarado
+verde. Variaveis: AUT5_LOG_REAL, AUT5_AUTORIZA_COMPILACAO, AUT5_MANIFESTO
+(grava o manifesto dos grupos).
 """
 import argparse
+import atexit
 import importlib.util
 import json
 import os
+import re
 import shutil
 import sys
 import tempfile
@@ -25,7 +44,10 @@ import tempfile
 AQUI = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.abspath(os.path.join(AQUI, "..", "..", ".."))
 NOME = "aut5-rstv"
-FIXTURE = os.path.join(AQUI, "fixtures", "log-completo.log")
+# Log HISTORICO da baseline ORG-R1 (boot RSTV 0.3.2): nao e mais a entrada do
+# caso positivo — e o CONTROLE NEGATIVO "velho boot continua reprovando". O
+# arquivo versionado fica intocado (evidencia historica AUT5-F1/F2).
+FIXTURE_HISTORICA = os.path.join(AQUI, "fixtures", "log-completo.log")
 PLANO = os.path.join(AQUI, "cenarios-rstv.json")
 
 # Fontes que o AUT5-F1 (`t_dd95f8d9`) tem de ter emitido (o contrato do campo).
@@ -52,6 +74,68 @@ aut5 = _carregar("aut5_runner", os.path.join(AQUI, "aut5.py"))
 decisao = _carregar("aut5_decisao", os.path.join(AQUI, "..", "ciclo", "decisao.py"))
 
 FALHAS = []
+EXCLUIDOS = {}
+EXECUTADOS = []
+
+# ---------------------------------------------------------------- autorizacoes ---
+# Nada de integracao roda por omissao; cada grupo tem a SUA autorizacao.
+AUTORIZA_LOG_REAL = os.environ.get("AUT5_LOG_REAL") == "1"
+AUTORIZA_COMPILACAO = os.environ.get("AUT5_AUTORIZA_COMPILACAO") == "1"
+PRE_REQ_LOG_REAL = ("perfil r2modman Default desta maquina com LogOutput.log e DLL do "
+                    "perfil byte-igual a DLL do repo (dependencia AMBIENTAL: "
+                    "AUT5_LOG_REAL=1)")
+PRE_REQ_HARNESS = ("compilacao/execucao do harness C# (`dotnet run`): exige autorizacao "
+                   "de compilacao nesta rodada (AUT5_AUTORIZA_COMPILACAO=1)")
+
+# --------------------------------------------- identidade de TESTE (declarada) --
+# Defeito 1 do ORG-AUT5-DIAG: a fixture declarava 0.3.2 contra a fonte 0.3.3 e o caso
+# positivo esperava INDETERMINADO — era a PREMISSA DO TESTE que tinha deixado de
+# corresponder ao repositorio. A correcao NAO inventa hash de DLL: a fixture de teste
+# e realinhada a versao DECLARADA pela fonte desta copia e a identidade de teste fica
+# explicita (antes ficava implicita).
+_ID_REPO = aut5.identidade_do_repo(REPO)
+IDENTIDADE_DE_TESTE = {
+    "esquema": "AUT5/identidade-de-teste/1",
+    "grupo": "offline-hermetico",
+    "repositorio": REPO,
+    "versao_da_fonte": _ID_REPO.get("versao"),
+    "dll_declarada": None,
+    "fixture_base": os.path.relpath(FIXTURE_HISTORICA, REPO).replace(os.sep, "/"),
+    "regra": "log de teste com a versao da fonte e SEM hash de DLL declarado: o boot "
+             "legitimo fica INDETERMINADO (aut5.py:315-322), nunca OK",
+}
+
+
+def _versao_do_log(caminho):
+    m = re.search(r"Roguelike Skill Tree Visualizer ([0-9][\w.\-]*) carregado",
+                  open(caminho, encoding="utf-8", errors="replace").read())
+    return m.group(1) if m else None
+
+
+def _escreve_fixture_hermetica(destino, versao):
+    """Log da baseline com SO a linha de boot realinhada a versao da fonte.
+
+    Nenhum hash de DLL e inventado e nenhum campo do log e acrescentado; o arquivo
+    versionado da baseline nao e tocado.
+    """
+    texto = open(FIXTURE_HISTORICA, encoding="utf-8").read()
+    novo, n = re.subn(r"(Roguelike Skill Tree Visualizer )[0-9][\w.\-]*( carregado)",
+                      lambda m: m.group(1) + versao + m.group(2), texto, count=1)
+    assert n == 1, "fixture historica sem linha de boot do RSTV"
+    with open(destino, "w", encoding="utf-8", newline="\n") as fh:
+        fh.write(novo)
+    return destino
+
+
+_DIR_FIXTURE = tempfile.mkdtemp(prefix="aut5-fixture-")
+atexit.register(shutil.rmtree, _DIR_FIXTURE, True)
+FIXTURE = _escreve_fixture_hermetica(os.path.join(_DIR_FIXTURE, "log-completo-teste.log"),
+                                     IDENTIDADE_DE_TESTE["versao_da_fonte"])
+# Versao ANTIGA usada para plantar o defeito de boot num LOG DE TESTE (nunca na
+# fixture versionada): a versao real do log historico da baseline.
+VERSAO_VELHA = _versao_do_log(FIXTURE_HISTORICA) or "0.2.9"
+if VERSAO_VELHA == IDENTIDADE_DE_TESTE["versao_da_fonte"]:
+    VERSAO_VELHA = "0.2.9"
 
 
 def checa(condicao, mensagem):
@@ -84,9 +168,23 @@ def _decidir(rel):
 # ------------------------------------------------------------------ casos -----
 
 def caso_positivo(tmp):
-    """Log completo: instrumentacao OFFLINE fecha OK; runtime NAO e aprovado."""
+    """Log completo: instrumentacao OFFLINE fecha OK; runtime NAO e aprovado.
+
+    A fixture deste caso e a de TESTE (hermetica): versao DECLARADA pela fonte
+    desta copia e NENHUM hash de DLL — por isso o boot fecha INDETERMINADO e nunca
+    OK (defeito 1 do ORG-AUT5-DIAG).
+    """
+    checa(IDENTIDADE_DE_TESTE["dll_declarada"] is None
+          and IDENTIDADE_DE_TESTE["versao_da_fonte"],
+          "positivo: identidade de TESTE nao declarada (fixture de teste)")
     rel = aut5.conduzir(REPO, FIXTURE, PLANO)
     e = _estados(rel)
+    checa(rel["log"].get("versao") == IDENTIDADE_DE_TESTE["versao_da_fonte"],
+          "positivo: fixture de teste fora da versao da fonte (log=%s fonte=%s)"
+          % (rel["log"].get("versao"), IDENTIDADE_DE_TESTE["versao_da_fonte"]))
+    checa(rel["log"].get("identifica_build") is False,
+          "positivo: a fixture de teste NAO pode identificar a build (sem hash de "
+          "DLL)")
     esperado = {
         "AUT5-obs-marcadores-fonte": "OK",
         "AUT5-guardas-run-fonte": "OK",
@@ -176,6 +274,38 @@ def caso_positivo(tmp):
     return rel
 
 
+def caso_velho_boot(tmp):
+    """Controle negativo do boot: o log HISTORICO continua REPROVADO.
+
+    A correcao do defeito 1 realinha a FIXTURE DE TESTE a versao da fonte; ela NAO
+    pode transformar log de build antiga em OK. A regra do avaliador
+    (aut5.py:308-314) fica intacta: versao divergente -> REPROVADO, exit 1.
+    """
+    versao_fonte = aut5.identidade_do_repo(REPO).get("versao")
+    base, rotulo = FIXTURE_HISTORICA, "log historico da baseline"
+    if _versao_do_log(FIXTURE_HISTORICA) == versao_fonte:
+        # a baseline ja e da versao atual: o controle fica vivo com um log LOCAL de
+        # versao antiga, sem tocar no arquivo versionado.
+        base = _escreve_log(os.path.join(tmp, "log-velho-boot.log"),
+                            base=FIXTURE_HISTORICA,
+                            trocas=[("Visualizer %s carregado" % versao_fonte,
+                                     "Visualizer %s carregado" % VERSAO_VELHA)])
+        rotulo = "log local de versao antiga"
+    rel = aut5.conduzir(REPO, base, PLANO)
+    c = {x["id"]: x for x in rel["criterios"]}["AUT5-boot-rstv"]
+    checa(c["estado"] == "REPROVADO",
+          "velho-boot (%s): esperado REPROVADO, veio %s" % (rotulo, c["estado"]))
+    checa((c.get("observado") or "").strip() != "",
+          "velho-boot: REPROVADO sem declarar a versao observada")
+    checa(rel["exit"] == 1,
+          "velho-boot (%s): exit esperado 1 (defeito acionavel), veio %s"
+          % (rotulo, rel["exit"]))
+    d = _decidir(rel)
+    checa("AUT5-boot-rstv" in {i["id"] for i in d.get("falhas_automaticas") or []},
+          "velho-boot: a decisao nao roteou o boot de build antiga como falha automatica")
+    return None
+
+
 def caso_ausente(tmp):
     """Log sem leitura do RSTV: nada de runtime pode ser OK (ausente != OK)."""
     vazio = os.path.join(tmp, "log-vazio.log")
@@ -200,8 +330,11 @@ def caso_ausente(tmp):
 def caso_defeito_plantado(tmp):
     """Cada defeito plantado no log tem de virar REPROVADO no criterio certo."""
     casos = [
+        # a versao plantada vem do LOG HISTORICO da baseline (nunca um numero
+        # inventado no teste) e e conferida contra a versao da fonte.
         ("boot-versao-antiga",
-         dict(trocas=[("Visualizer 0.3.2 carregado", "Visualizer 0.3.1 carregado")]),
+         dict(trocas=[("Visualizer %s carregado" % IDENTIDADE_DE_TESTE["versao_da_fonte"],
+                       "Visualizer %s carregado" % VERSAO_VELHA)]),
          "AUT5-boot-rstv"),
         ("trava-nao-aplicada",
          dict(remover_prefixos=["RSTV: gancho aplicado — SkillTreeManagerAcceptSkillChangesPatch"]),
@@ -362,24 +495,264 @@ def _obs_sintetica(extra):
     return base
 
 
-def _corpo_do_metodo(fonte, assinatura):
-    """Corpo de um metodo C# por casamento de chaves (para o contrato de EMISSAO
-    olhar o METODO certo, e nao qualquer mencao do nome no arquivo)."""
-    i = fonte.find(assinatura)
-    if i < 0:
-        return None
-    i = fonte.find("{", i)
-    if i < 0:
-        return None
+_VISIBILIDADES = ("private protected", "protected internal", "private", "internal",
+                  "protected", "public")
+# Visibilidade aceita para os membros internos do probe: `internal` e a REAL
+# (AUT4ProbePlugin.cs:715-717 documenta o reuso por LeituraAgregados) e `private`
+# vale para um helper puro. O que o teste NAO pode fazer e exigir a visibilidade
+# LITERAL no texto — era isso que devolvia None e fabricava "campo nao emitido".
+_VISIBILIDADE_INTERNA_OK = ("internal", "private")
+
+
+def _sem_literais(texto):
+    """C# sem literais de string/char e sem comentarios: procurar CHAMADA de metodo
+    sem casar texto de mensagem."""
+    saida = []
+    i, n = 0, len(texto)
+    while i < n:
+        c = texto[i]
+        if c == "/" and i + 1 < n and texto[i + 1] == "/":
+            j = texto.find("\n", i)
+            i = n if j < 0 else j
+            continue
+        if c == "/" and i + 1 < n and texto[i + 1] == "*":
+            j = texto.find("*/", i + 2)
+            i = n if j < 0 else j + 2
+            continue
+        if c == "@" and i + 1 < n and texto[i + 1] == '"':
+            j = i + 2
+            while j < n:
+                if texto[j] == '"':
+                    if j + 1 < n and texto[j + 1] == '"':
+                        j += 2
+                        continue
+                    j += 1
+                    break
+                j += 1
+            saida.append(" ")
+            i = j
+            continue
+        if c in ('"', "'"):
+            fim = c
+            j = i + 1
+            while j < n:
+                if texto[j] == "\\":
+                    j += 2
+                    continue
+                if texto[j] == fim:
+                    j += 1
+                    break
+                j += 1
+            saida.append(" ")
+            i = j
+            continue
+        saida.append(c)
+        i += 1
+    return "".join(saida)
+
+
+def _corpo_balanceado(fonte, i_abre):
+    """Corpo entre chaves a partir de `i_abre` (literais/comentarios ignorados)."""
     nivel = 0
-    for j in range(i, len(fonte)):
-        if fonte[j] == "{":
+    i, n = i_abre, len(fonte)
+    while i < n:
+        c = fonte[i]
+        if c == "/" and i + 1 < n and fonte[i + 1] == "/":
+            j = fonte.find("\n", i)
+            i = n if j < 0 else j
+            continue
+        if c == "/" and i + 1 < n and fonte[i + 1] == "*":
+            j = fonte.find("*/", i + 2)
+            i = n if j < 0 else j + 2
+            continue
+        if c == "@" and i + 1 < n and fonte[i + 1] == '"':
+            i += 2
+            while i < n:
+                if fonte[i] == '"':
+                    if i + 1 < n and fonte[i + 1] == '"':
+                        i += 2
+                        continue
+                    break
+                i += 1
+            i += 1
+            continue
+        if c in ('"', "'"):
+            fim = c
+            i += 1
+            while i < n:
+                if fonte[i] == "\\":
+                    i += 2
+                    continue
+                if fonte[i] == fim:
+                    break
+                i += 1
+            i += 1
+            continue
+        if c == "{":
             nivel += 1
-        elif fonte[j] == "}":
+        elif c == "}":
             nivel -= 1
             if nivel == 0:
-                return fonte[i:j + 1]
+                return fonte[i_abre:i + 1]
+        i += 1
     return None
+
+
+def _padrao_visibilidade():
+    alt = "|".join(v.replace(" ", r"[ \t]+") for v in _VISIBILIDADES)
+    return r"^[ \t]*(?P<vis>" + alt + r")[ \t]+"
+
+
+def _assinatura_real(fonte, assinatura):
+    """(linha_declarada, visibilidade, indice_da_chave) de um metodo do fonte.
+
+    A assinatura pedida pode vir COM ou SEM visibilidade e nao precisa estar
+    completa (do nome aos primeiros parametros basta). A visibilidade REAL e aceita
+    desde que seja uma das declaraveis.
+    """
+    alvo = assinatura.strip()
+    for vis in _VISIBILIDADES:
+        if alvo.startswith(vis + " "):
+            alvo = alvo[len(vis) + 1:]
+            break
+    padrao = re.compile(r"(?m)" + _padrao_visibilidade()
+                        + r"(?P<decl>[^\n{};]*?" + re.escape(alvo)
+                        + r"(?:[^\n{};]*?\))?)[ \t]*$")
+    m = padrao.search(fonte)
+    if not m:
+        return None, None, None
+    i = fonte.find("{", m.end() - 1)
+    if i < 0:
+        return m.group("decl"), m.group("vis"), None
+    return m.group("decl"), m.group("vis"), i
+
+
+def _corpo_do_metodo(fonte, assinatura):
+    """Corpo VERBATIM do metodo — o fonte nao e alterado nem reformatado."""
+    _linha, _vis, i = _assinatura_real(fonte, assinatura)
+    if i is None:
+        return None
+    return _corpo_balanceado(fonte, i)
+
+
+def _extrai(fonte, assinatura):
+    """(linha_declarada, visibilidade, corpo) — o que o preflight do harness recebe."""
+    linha, vis, i = _assinatura_real(fonte, assinatura)
+    corpo = _corpo_balanceado(fonte, i) if i is not None else None
+    return linha, vis, corpo
+
+
+def _metodos_do_fonte(fonte):
+    """{nome: {assinatura, corpo, visibilidade}} dos metodos DECLARADOS no fonte.
+
+    O nome e o ULTIMO identificador antes do primeiro `(` da declaracao; o corpo e o
+    trecho verbatim entre chaves.
+    """
+    padrao = re.compile(r"(?m)" + _padrao_visibilidade()
+                        + r"(?P<resto>[^\n{};()]*?)\((?P<params>[^\n;]*?)\)[ \t]*$")
+    metodos = {}
+    for m in padrao.finditer(fonte):
+        resto = m.group("resto").strip()
+        nomes = re.findall(r"[A-Za-z_]\w*", resto)
+        if not nomes:
+            continue
+        nome = nomes[-1]
+        i = fonte.find("{", m.end() - 1)
+        if i < 0:
+            continue
+        corpo = _corpo_balanceado(fonte, i)
+        if corpo is None or nome in metodos:
+            continue
+        metodos[nome] = {"assinatura": m.group("vis") + " " + resto,
+                         "corpo": corpo, "visibilidade": m.group("vis")}
+    return metodos
+
+
+def _chamadas(corpo, conhecidos=None):
+    """Nomes de metodos CHAMADOS no corpo (fora de literais e comentarios)."""
+    nomes = set(re.findall(r"(?<![\w.])([A-Za-z_]\w*)[ \t]*\(", _sem_literais(corpo)))
+    if conhecidos is not None:
+        nomes &= set(conhecidos)
+    return nomes
+
+
+def _cadeia(fonte, entrada, alvo, profundidade=6):
+    """(caminho, None) se existe cadeia REAL de chamadas entrada -> ... -> alvo.
+
+    A cadeia e percorrida no GRAFO de metodos do proprio fonte: achar o texto do
+    nome em qualquer lugar do arquivo nao vale (foi assim que o harness antigo
+    aceitava uma chamada inline que nao existe).
+    """
+    metodos = _metodos_do_fonte(fonte)
+    if entrada not in metodos:
+        return None, "metodo de entrada %r nao existe no fonte" % entrada
+    if alvo not in metodos:
+        return None, "metodo alvo %r nao existe no fonte" % alvo
+    fila = [(entrada, [entrada])]
+    vistos = set()
+    while fila:
+        atual, caminho = fila.pop(0)
+        if atual in vistos or len(caminho) > profundidade:
+            continue
+        vistos.add(atual)
+        for chamado in sorted(_chamadas(metodos[atual]["corpo"], metodos)):
+            if chamado == alvo:
+                return caminho + [chamado], None
+            fila.append((chamado, caminho + [chamado]))
+    return None, "nenhuma cadeia de chamadas %s -> ... -> %s no fonte" % (entrada, alvo)
+
+
+def _contrato_emissao(fonte):
+    """(problemas, info) do contrato do probe sobre o TEXTO RECEBIDO.
+
+    Funcao pura: roda no fonte congelado (GREEN) e nas COPIAS mutadas em memoria pelo
+    proprio teste (RED). Nenhuma copia vai ao repositorio e o probe nunca e editado
+    para satisfazer o teste.
+    """
+    problemas = []
+    metodos = _metodos_do_fonte(fonte)
+    leitura = metodos.get("Leitura")
+    if leitura is None:
+        return ["probe: metodo Leitura(TMP_Text) nao encontrado (contrato mudou)"], {}
+    if leitura["visibilidade"] not in _VISIBILIDADE_INTERNA_OK:
+        problemas.append("probe: Leitura com visibilidade %r fora de %s"
+                         % (leitura["visibilidade"], _VISIBILIDADE_INTERNA_OK))
+    corpo = leitura["corpo"]
+    for campo in CAMPOS_EMITIDOS:
+        if '"%s"' % campo not in corpo:
+            problemas.append("probe nao emite o campo %r POR OBSERVACAO" % campo)
+    if "Geometria" not in _chamadas(corpo, metodos):
+        problemas.append("probe: Leitura nao chama Geometria(t) — o campo aninhado "
+                         "`geometria` nao sai da observacao")
+    geo = metodos.get("Geometria")
+    if geo is None:
+        problemas.append("probe: Geometria(TMP_Text) nao encontrada")
+    else:
+        if geo["visibilidade"] not in _VISIBILIDADE_INTERNA_OK:
+            problemas.append("probe: Geometria com visibilidade %r fora de %s"
+                             % (geo["visibilidade"], _VISIBILIDADE_INTERNA_OK))
+        g = geo["corpo"]
+        if '"tela"' not in g:
+            problemas.append("probe: Geometria nao emite o campo 'tela'")
+        if "Screen.width" not in g or "Screen.height" not in g:
+            problemas.append("probe: Geometria nao deriva o campo 'tela' do viewport "
+                             "(Screen.width/Screen.height)")
+    fecha = metodos.get("AtualizarGuardasDepois")
+    if fecha is None:
+        problemas.append("probe: AtualizarGuardasDepois() nao encontrado")
+    else:
+        for chave in ('d["snapshot_depois"]', 'd["tooltip_pai_depois"]',
+                      'd["tooltip_indice_depois"]', 'd["janelas_duplicadas"]'):
+            if chave not in fecha["corpo"]:
+                problemas.append("probe nao fecha o 'depois' (%s)" % chave)
+    cadeia, motivo = _cadeia(fonte, "Passo", "Leitura")
+    if cadeia is None:
+        problemas.append("probe: %s" % motivo)
+    info = {"leitura_visibilidade": leitura["visibilidade"],
+            "geometria_visibilidade": (geo or {}).get("visibilidade"),
+            "cadeia_passo_leitura": cadeia,
+            "campos": list(CAMPOS_EMITIDOS)}
+    return problemas, info
 
 
 def caso_emissao_campos(tmp):
@@ -394,22 +767,55 @@ def caso_emissao_campos(tmp):
          avaliador — e, com o campo AUSENTE ou com defeito, NUNCA fecha OK.
     A sintetica testa o FORMATO: nao e rodada, nao e PNG e nao vai a decisao.
     """
-    # 1. probe: cada campo sai NA OBSERVACAO (corpo do `Leitura`)
+    # 1. probe: contrato de EMISSAO conferido no CORPO REAL de cada metodo. A
+    #    assinatura e resolvida SEM exigir `private`: o membro e `internal` na fonte
+    #    congelada, e exigir a visibilidade LITERAL fazia o extrator devolver None e
+    #    fabricar "campo nao emitido" (defeito 2 do ORG-AUT5-DIAG).
     cs = open(SEMENTE_PROBE, encoding="utf-8").read()
-    leitura = _corpo_do_metodo(cs, "private Dictionary<string, object> Leitura(TMP_Text t")
+    leitura = _corpo_do_metodo(cs, "Dictionary<string, object> Leitura(TMP_Text t")
     checa(leitura, "probe: metodo Leitura(TMP_Text) nao encontrado (contrato mudou)")
-    for campo in CAMPOS_EMITIDOS:
-        checa(leitura and '"%s"' % campo in leitura,
-              "probe nao emite o campo %r POR OBSERVACAO (so aparece fora do Leitura)" % campo)
-    checa(leitura and '"tela" in leitura', "probe nao emite geometria.tela na observacao")
-    checa('"tela", Screen.width + "x" + Screen.height' in cs,
-          "probe nao emite geometria.tela como dimensao do viewport")
-    # o "depois" do snapshot/tooltip/janelas tem de ser FECHADO no fim da leitura
-    fecha = _corpo_do_metodo(cs, "private void AtualizarGuardasDepois()")
-    checa(fecha, "probe: AtualizarGuardasDepois() nao encontrado")
-    for chave in ('d["snapshot_depois"]', 'd["tooltip_pai_depois"]',
-                  'd["tooltip_indice_depois"]', 'd["janelas_duplicadas"]'):
-        checa(fecha and chave in fecha, "probe nao fecha o 'depois' (%s)" % chave)
+    problemas, info = _contrato_emissao(cs)
+    for problema in problemas:
+        checa(False, problema)
+    # `geometria.tela` NAO mora no corpo de Leitura: sai pelo DATAFLOW
+    # Leitura:747 -> Geometria(t) -> viewport (AUT4ProbePlugin.cs:1943-1963). A
+    # checagem anterior era a STRING constante '"tela" in leitura' (truthy), que nao
+    # testava campo nenhum (defeito 4).
+    checa(info.get("cadeia_passo_leitura"),
+          "probe: Leitura tem de ser alcancavel a partir do driver Passo()")
+    # RED-GREEN do MESMO contrato: cada defeito plantado numa COPIA em memoria tem de
+    # REPROVAR. O probe do repositorio nao e tocado em nenhum controle.
+    controles = [
+        ("campo-removido-do-leitura",
+         ('"janelas_duplicadas", _janelasDuplicadas,', ''),
+         "campo de emissao ausente"),
+        ("chamada-de-geometria-removida",
+         ('"geometria", Geometria(t),', '"geometria", null,'),
+         "campo aninhado sem dataflow"),
+        ("tela-removida-da-geometria",
+         ('"tela", Screen.width + "x" + Screen.height',
+          'Screen.width + "x" + Screen.height'),
+         "campo 'tela' ausente"),
+        ("viewport-constante-na-geometria",
+         ('"escala", Arred(rt.lossyScale.x), "tela", Screen.width + "x" + Screen.height',
+          '"escala", Arred(rt.lossyScale.x), "tela", "1920x1080"'),
+         "viewport hard-coded"),
+        ("depois-nao-fechado",
+         ('d["janelas_duplicadas"] = _janelasDuplicadas;',
+          '/* controle: linha removida */'),
+         "fechamento do 'depois' ausente"),
+        ("visibilidade-fora-do-contrato",
+         ("internal Dictionary<string, object> Leitura(",
+          "public Dictionary<string, object> Leitura("),
+         "visibilidade promovida a publica"),
+    ]
+    for nome, (velho, novo), porque in controles:
+        assert cs.count(velho) == 1, \
+            "controle negativo '%s': trecho %r aparece %d vez(es) no probe" \
+            % (nome, velho, cs.count(velho))
+        probs, _ = _contrato_emissao(cs.replace(velho, novo))
+        checa(probs, "controle negativo '%s' (%s): o contrato NAO reprovou a copia"
+              % (nome, porque))
 
     # 2. coletor: os campos atravessam a costura (schema)
     col = _carregar("aut5_coletor", SEMENTE_COLETOR)
@@ -470,13 +876,61 @@ def caso_emissao_campos(tmp):
     return None
 
 
+
+
+def _harness_modal():
+    return _carregar("aut5_snapshot_modal", os.path.join(AQUI, "test_snapshot_modal.py"))
+
+
+def caso_preflight_modal(tmp):
+    """Contrato ESTATICO do harness C# (defeito 3) — NAO compila nada.
+
+    O harness antigo exigia a visibilidade LITERAL `private` em `Tipo` (a fonte tem
+    `internal`) e a chamada INLINE `IniciarSnapshotDoModal();` no corpo de `Passo` (a
+    cadeia real e Passo:469 -> PassoLeitura:507 -> captura:513). Nenhuma das duas
+    premissas vale, e o instrumento congelado NAO se ajusta a harness defasado: quem
+    se ajusta e o TESTE.
+    """
+    harness = _harness_modal()
+    cs = open(SEMENTE_PROBE, encoding="utf-8").read()
+    problemas, info = harness.preflight(cs, _extrai, _metodos_do_fonte, _cadeia)
+    for problema in problemas:
+        checa(False, problema)
+    checa((info.get("cadeia_captura") or []) == ["Passo", "PassoLeitura",
+                                                 "IniciarSnapshotDoModal"],
+          "preflight: cadeia de captura inesperada: %s" % (info.get("cadeia_captura"),))
+    checa(harness.SPAWNS == 0,
+          "preflight: o preflight estatico nao pode spawnar processo algum")
+    # RED do PROPRIO preflight, sempre em COPIAS em memoria do fonte.
+    for nome, trocas, porque in harness.CONTROLES_NEGATIVOS:
+        copia = cs
+        for velho, novo in trocas:
+            assert copia.count(velho) == 1, \
+                "controle negativo do harness '%s': trecho %r aparece %d vez(es)" \
+                % (nome, velho, copia.count(velho))
+            copia = copia.replace(velho, novo)
+        probs, _ = harness.preflight(copia, _extrai, _metodos_do_fonte, _cadeia)
+        checa(probs, "harness: controle negativo '%s' (%s) NAO reprovou" % (nome, porque))
+    checa(harness.SPAWNS == 0,
+          "preflight: os controles negativos nao podem spawnar processo algum")
+    return None
+
+
 def caso_snapshot_modal(tmp):
-    """R1: roda o C# real com selecionado null/diferente e sessao encerrada."""
-    harness = _carregar("aut5_snapshot_modal", os.path.join(AQUI, "test_snapshot_modal.py"))
+    """INTEGRACAO (opt-in): compila e executa o C# real do modal.
+
+    Sem AUT5_AUTORIZA_COMPILACAO=1 o grupo NAO roda e sai NAO_EXERCITADO — o preflight
+    estatico ja cobriu o contrato sem compilar.
+    """
+    harness = _harness_modal()
+    if not AUTORIZA_COMPILACAO:
+        EXCLUIDOS["snapshot-modal-CSharp"] = PRE_REQ_HARNESS
+        return None
     rstv = _carregar("aut5_rstv_modal", SEMENTE_RSTV)
     cs = open(SEMENTE_PROBE, encoding="utf-8").read()
-    harness.executar(cs, _corpo_do_metodo, rstv,
+    harness.executar(cs, _extrai, _corpo_do_metodo, _metodos_do_fonte, _cadeia, rstv,
                      {"fonte_sha": "a" * 64, "dll_sha": "b" * 64}, _obs_sintetica)
+    return None
 
 
 def caso_isca(tmp):
@@ -504,7 +958,16 @@ def caso_isca(tmp):
 
 
 def caso_log_real(tmp):
-    """Log REAL da sessao (somente leitura): boot identifica a build, runtime nao aprova."""
+    """INTEGRACAO AMBIENTAL (opt-in) — LogOutput.log do perfil DESTA maquina.
+
+    Nao e teste do mod nem do repositorio: le um arquivo MUTAVEL fora do checkout e
+    exige a DLL do perfil byte-igual a DLL do repo (por isso os tres hashes RSTV
+    medidos no diagnostico diferem). Sem autorizacao explicita o grupo NAO roda e sai
+    NAO_EXERCITADO com o pre-requisito — nunca PASSOU por omissao (defeito 5).
+    """
+    if not AUTORIZA_LOG_REAL:
+        EXCLUIDOS["log-real"] = PRE_REQ_LOG_REAL
+        return None
     log = os.path.join(os.environ.get("APPDATA", ""), "r2modmanPlus-local", "StolenRealm",
                        "profiles", "Default", "BepInEx", "LogOutput.log")
     perfil = os.path.dirname(log)
@@ -783,18 +1246,21 @@ def caso_roteamento_guards(tmp):
     return None
 
 
-CASOS = (
+
+CASOS_OFFLINE = (
     ("positivo", caso_positivo),
-    ("log-real", caso_log_real),
+    ("velho-boot", caso_velho_boot),
     ("ausente", caso_ausente),
     ("defeito-plantado", caso_defeito_plantado),
     ("fonte-defeituosa", caso_fonte_defeituosa),
     ("rotulos-honestos", caso_rotulos_honestos),
-    # AUT5-F1 (`t_dd95f8d9`): log de build ANTERIOR (sem 'por tier') nao fecha OK e
-    # o FORMATO dos campos novos emitidos e o que o avaliador consome.
+    # AUT5-F1 (`t_dd95f8d9`): log de build ANTERIOR (sem 'por tier') nao fecha OK e o
+    # FORMATO dos campos novos emitidos e o que o avaliador consome.
     ("log-build-anterior", caso_log_build_anterior),
     ("emissao-campos", caso_emissao_campos),
-    ("snapshot-modal-CSharp", caso_snapshot_modal),
+    # defeito 3 do ORG-AUT5-DIAG: contrato ESTATICO do harness C# (assinaturas reais
+    # + cadeia de chamada). Nao compila nada.
+    ("preflight-snapshot-modal", caso_preflight_modal),
     # AUT5-F2 (`t_9cee7d21`): A-1 (motivo normalizado nos dois lados + plano x
     # produto), A-2 (falha do produto no log reprova), A-3 (guarda neutralizada
     # reprova) e A-8/A-4 (o que nao e confrontavel/nao e lido fica DECLARADO).
@@ -807,6 +1273,39 @@ CASOS = (
     ("isca", caso_isca),
 )
 
+# Grupos AMBIENTAIS/COMPILADOS: cada um exige AUTORIZACAO PROPRIA e NUNCA roda por
+# omissao (nem some como PASSOU por omissao).
+CASOS_INTEGRACAO = (
+    ("log-real", caso_log_real, PRE_REQ_LOG_REAL),
+    ("snapshot-modal-CSharp", caso_snapshot_modal, PRE_REQ_HARNESS),
+)
+
+# Compatibilidade: quem consumir `CASOS` ve os dois grupos; a divisao continua
+# declarada em CASOS_OFFLINE / CASOS_INTEGRACAO e no manifesto da saida.
+CASOS = CASOS_OFFLINE + tuple((nome, funcao) for nome, funcao, _p in CASOS_INTEGRACAO)
+
+
+def _autoriza(nome):
+    if nome == "log-real":
+        return AUTORIZA_LOG_REAL
+    if nome == "snapshot-modal-CSharp":
+        return AUTORIZA_COMPILACAO
+    return True
+
+
+def _manifesto():
+    return {
+        "esquema": "AUT5/manifesto-de-grupos/1",
+        "suite": NOME,
+        "identidade_de_teste": IDENTIDADE_DE_TESTE,
+        "autorizacoes": {"log_real": AUTORIZA_LOG_REAL,
+                         "compilacao_CSharp": AUTORIZA_COMPILACAO},
+        "grupos_executados": list(EXECUTADOS),
+        "grupos_nao_exercitados": dict(sorted(EXCLUIDOS.items())),
+        "regra": "grupo de integracao nao autorizado NAO vira PASSOU: sai como "
+                 "NAO_EXERCITADO com o pre-requisito registrado",
+    }
+
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description="suite do AUT-5")
@@ -814,19 +1313,51 @@ def main(argv=None):
                     help="prova que o REPROVADO vem da regra (isca sempre-OK nao passa)")
     args = ap.parse_args(argv)
 
-    if not os.path.isfile(FIXTURE):
-        print("RESULTADO|NAO_RODOU|%s|fixture ausente: %s" % (NOME, FIXTURE))
+    if not os.path.isfile(FIXTURE_HISTORICA) or not os.path.isfile(FIXTURE):
+        print("RESULTADO|NAO_RODOU|%s|fixture ausente: %s" % (NOME, FIXTURE_HISTORICA))
         return 2
     if not os.path.isfile(os.path.join(AQUI, "..", "ciclo", "decisao.py")):
         print("RESULTADO|NAO_RODOU|%s|decisao.py (CIC-2) ausente" % NOME)
         return 2
 
     with tempfile.TemporaryDirectory(prefix="aut5-teste-") as tmp:
-        for nome, funcao in CASOS:
+        for nome, funcao in CASOS_OFFLINE:
+            EXECUTADOS.append(nome)
             try:
                 funcao(tmp)
             except Exception as erro:
-                FALHAS.append("caso '%s' levantou %s: %s" % (nome, type(erro).__name__, erro))
+                FALHAS.append("caso '%s' levantou %s: %s"
+                              % (nome, type(erro).__name__, erro))
+        for nome, funcao, pre_req in CASOS_INTEGRACAO:
+            if not _autoriza(nome):
+                EXCLUIDOS[nome] = pre_req
+                print("GRUPO|NAO_EXERCITADO|%s|%s" % (nome, pre_req))
+                continue
+            EXECUTADOS.append(nome)
+            print("GRUPO|EXECUTADO|%s|integracao autorizada" % nome)
+            try:
+                funcao(tmp)
+            except Exception as erro:
+                FALHAS.append("caso '%s' levantou %s: %s"
+                              % (nome, type(erro).__name__, erro))
+
+    # TRAVA DE SPAWN: sem autorizacao de compilacao nenhum subprocesso pode sair —
+    # nem por caminho indireto (o harness C# e o unico que spawna).
+    spawns = 0
+    try:
+        spawns = _harness_modal().SPAWNS
+    except Exception:
+        spawns = 0
+    if not AUTORIZA_COMPILACAO:
+        checa(spawns == 0,
+              "spawn: %d subprocesso(s) disparado(s) sem autorizacao de compilacao"
+              % spawns)
+
+    man = _manifesto()
+    destino = os.environ.get("AUT5_MANIFESTO")
+    if destino:
+        with open(destino, "w", encoding="utf-8", newline="\n") as fh:
+            json.dump(man, fh, ensure_ascii=False, indent=2, sort_keys=True)
 
     if args.contra_prova:
         if FALHAS:
@@ -835,14 +1366,19 @@ def main(argv=None):
         print("CONTRA-PROVA|PASSOU|%s|isca 'sempre OK' nao passa: OK sem evidencia e "
               "defeito plantado reprovam pela REGRA" % NOME)
         return 0
+    print("MANIFESTO|" + json.dumps(man, ensure_ascii=False, sort_keys=True))
     if FALHAS:
         print("RESULTADO|REPROVOU|%s|%s" % (NOME, FALHAS[0]))
         for f in FALHAS[1:]:
             print("  + %s" % f)
         return 1
-    print("RESULTADO|PASSOU|%s|%d casos (positivo, log-real, ausente, defeitos plantados, "
-          "2 fontes mutadas, rotulos, log anterior, emissao, snapshot modal C#, isca)"
-          % (NOME, len(CASOS)))
+    if EXCLUIDOS:
+        print("RESULTADO|INCOMPLETO|%s|suite OFFLINE (identidade de teste declarada) "
+              "PASSOU em %d grupos; integracao NAO_EXERCITADA: %s — isto NAO e a suite "
+              "completa verde" % (NOME, len(EXECUTADOS), ", ".join(sorted(EXCLUIDOS))))
+        return 2
+    print("RESULTADO|PASSOU|%s|%d grupos (offline hermetico + integracao autorizada)"
+          % (NOME, len(EXECUTADOS)))
     return 0
 
 
