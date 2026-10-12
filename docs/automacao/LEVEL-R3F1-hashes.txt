@@ -1,0 +1,73 @@
+# LEVEL-R3F1 — hashes (SHA-256)
+
+Task: t_021bdd67 (correção de R3-01) | worktree: C:/dev/stolen-realm/.worktrees/level-r2
+| branch: wt/t_918314e9 | commit de partida: cd8e4ce
+Ferramentas: dotnet SDK 6.0.428 | ilspycmd 8.2.0.7535 | medidas em 2026-10-11
+
+## Referência de entrada (nunca publicada)
+
+| item | sha256 |
+| --- | --- |
+| lib/Assembly-CSharp.dll (referência analisada, hash conferido pelo harness) | 8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a |
+| LEVEL-R1-entrega.zip (parent t_8d6efbf5, herdado da R2) | 2cfe27a6c39187a50dd00313ccfe4692d0ee9ee530427eef32a73aeb63d2c69e |
+
+## Artefatos de build
+
+| item | bytes | sha256 |
+| --- | --- | --- |
+| RoguelikeLevelProgression/bin/Release/netstandard2.1/RoguelikeLevelProgression.dll (v0.1.1) | 57856 | 3c704bcc7877857406c535ae8a61bbe1d4fd8491c07fd623c69a5b60dc3f8c78 |
+| tests/.../bin/Debug/net6.0/RlpHarness.dll | — | ca2f57aae0fefafc4e324a511c976b42109137bc00dfdc786d0d0402971283bf |
+
+## Fontes do mod (RoguelikeLevelProgression/)
+
+| arquivo | sha256 |
+| --- | --- |
+| Plugin.cs | fbece88f6616081b5d577bb4aa4d1e9a33667cb98e4dda849839e8da98d7f391 |
+| Core/LedgerDocument.cs | 70a081969afecf53e0bbb0f56ea434d20553a509c430591c4dc9df69d4030f64 |
+| Core/MiniJson.cs | 9c4ec8b446a72a80443a9a570591c269f98bc9b5c8989604ba4f2a88ede68529 |
+| Core/PolicyCore.cs | 755bb8e8a7d8f7b366277a744934e92ded056600bd160e618aae6055b75474de |
+| Core/XpCurve.cs | 16f213359972dae51f71431e00726edcffd527578d7e56c49a7e866953657905 |
+| Patches/BattleResultTranspiler.cs | a4d65b621fd0f6479ca58fe18fce0daa4dd2db9515a2114984b4c3bdce978e15 |
+| Patches/GameplayPatches.cs | ccb469ba1c47e9f0438566391c351e245428825ef00d614eff0f4b9f87c149ed |
+| Patches/PatchRegistry.cs | c86c722cf7f80eaf567c36d607562223adaf220a36948ff2d24cccec1519e284 |
+| Patches/Reflect.cs | 0758cf0be4b2685a66dcc41361d8dae8f1305c5bc17f283540137ee1808e475a |
+| Patches/RewardPatches.cs | c55bd3d1e84b1fd3f0abc7c02fe7f01d3ab3175982fc9b3cd5811a7f61ca532c |
+| Patches/UiPatches.cs | 1e4847739f3049668076a888ebfd5d4029343b9e1f58731aea15d9a4bd73556d |
+| Runtime/ExtensionScope.cs | 9ff0c0d1e71db87ed592018cabccc8d4e76d2074f6810ab53bf59b0a83f93aaa |
+| Runtime/LedgerService.cs | 3e98c6db9120beae78cd1e1d7d877ed65373d61456d846e1be9193f2a6215739 |
+| Runtime/Policy.cs | c250cbb5274b8a2a641f30145890079fa45241bcf643cc0bd787fb662267b875 |
+| Runtime/ReceiptLedgerStore.cs | f7dabe249c8675db2bfee70bc557a4630b6d2277476592dadec7874fcf1cbae9 |
+| Runtime/XpBackend.cs | 0d323ca68ecfdf0b81824e77015a23717d07d2e90993b37cd1d11626fd73f03d |
+| RoguelikeLevelProgression.csproj | 1a45d28bc8ec687b82b80a42d4ecec656d38dc79f46e04928395dc86f525089a |
+| manifest.json | 78180ab051d41b07b88e748e643e9863ff39c814f6c84839352c5bbf68f69905 |
+| README.md | d070f6ade940e782417e82fdc05bac955ba4f4d6525b9e681859301aace69411 |
+| CHANGELOG.md | f4f661cafbc03fdd772f8655fb4912fe8d2802e53af38fb91a9869031f47fe9f |
+
+Alterados nesta correção (em relação ao commit cd8e4ce): PolicyCore.cs, Policy.cs, Plugin.cs,
+README.md, CHANGELOG.md, manifest.json, RoguelikeLevelProgression.csproj. Os demais são idênticos
+aos hashes da LEVEL-R2.
+
+## Testes
+
+| arquivo | sha256 |
+| --- | --- |
+| tests/RoguelikeLevelProgression.Harness/Program.cs | 06b7be1fcec0cf0939fd51bc7736bae770932c8c8d16ba0b33a4740995395e40 |
+| tests/RoguelikeLevelProgression.Harness/IlLoader.cs | b30a5549be5ced2329d79a56a3f3a98c170c1b52b0275bf0a545a1432db8f11f |
+| tests/RoguelikeLevelProgression.Harness/RoguelikeLevelProgression.Harness.csproj | 27bdc03504c70746236c3442d6737092cdd916487f36ecb655176ac052e334dd |
+
+## Relatórios desta correção
+
+| arquivo | sha256 |
+| --- | --- |
+| docs/automacao/LEVEL-R3F1-relatorio-01.md | ea67a7c37a10388bedc7c841f642287fab4ae884dfe800d24a7f003934862e76 |
+| docs/automacao/LEVEL-R3F1-relatorio-02.md | 1818baf0caea584269e4cc42687226adccca6e0219c14b83bc77dd7270ab5777 |
+| docs/automacao/LEVEL-R3F1-relatorio-03.md | 1943915e1a58b0476f9e7578ea99f295706e2886b1f9d8cf88fd9cb171207dca |
+
+## Evidências
+
+| arquivo | sha256 |
+| --- | --- |
+| LEVEL-R3F1-evidencias/rodada-final-01.txt (PASS=103 FAIL=0 NAO_EXERCITADO=14, exit 0) | 6b61c4f1418dd6454c6db48b20e51c8aa4ac57c8059072b10d85985a91c1ad6c |
+| LEVEL-R3F1-evidencias/rodada-final-01.json | 12b81531de69ed6a1a1213bb23272513987084d99c86fd71b16bff5940b1575a |
+| LEVEL-R3F1-evidencias/defeito-replantado-01.txt (PASS=100 FAIL=3, exit 1) | aeb7332c1f5b967bb4055e1deed9f354a36f67ec520be79fd6ab8721ca7f28c9 |
+| LEVEL-R3F1-evidencias/defeito-replantado-01.json | ac202e4b470a350af456672562a18d2593ad3bd0859d753be51e6da513600c92 |

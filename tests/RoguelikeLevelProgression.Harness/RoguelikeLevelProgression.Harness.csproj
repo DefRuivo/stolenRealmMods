@@ -1,0 +1,45 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <Nullable>disable</Nullable>
+    <AssemblyName>RlpHarness</AssemblyName>
+    <RootNamespace>RoguelikeLevelProgression.Harness</RootNamespace>
+    <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
+    <InvariantGlobalization>true</InvariantGlobalization>
+    <NoWarn>$(NoWarn);CS0618</NoWarn>
+    <Version>0.1.0</Version>
+  </PropertyGroup>
+
+  <!-- O harness compila o CODIGO REAL do mod (mesmos arquivos-fonte), em vez de reimplementar a
+       logica em Python/JS. O que se exercita abaixo e o proprio codigo do plugin. -->
+  <ItemGroup>
+    <Compile Include="IlLoader.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="..\..\RoguelikeLevelProgression\Plugin.cs" />
+    <Compile Include="..\..\RoguelikeLevelProgression\Core\*.cs" />
+    <Compile Include="..\..\RoguelikeLevelProgression\Runtime\*.cs" />
+    <Compile Include="..\..\RoguelikeLevelProgression\Patches\*.cs" />
+  </ItemGroup>
+
+  <PropertyGroup>
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\..\..\..\lib</CommonLibDir>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(CommonLibDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(CommonLibDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(CommonLibDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(CommonLibDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(CommonLibDir)\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(CommonLibDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization"><HintPath>$(CommonLibDir)\Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Utilities"><HintPath>$(CommonLibDir)\Sirenix.Utilities.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization.Config"><HintPath>$(CommonLibDir)\Sirenix.Serialization.Config.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes"><HintPath>$(CommonLibDir)\Sirenix.OdinInspector.Attributes.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

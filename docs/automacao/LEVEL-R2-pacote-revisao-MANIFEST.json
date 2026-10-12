@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "task_id": "t_918314e9",
+  "phase": "LEVEL-R2 implementacao",
+  "contains_game_dll_or_full_decompiled_corpus": false,
+  "contains_bin_or_obj": false,
+  "member_count": 29,
+  "members": [
+    {
+      "path": "RoguelikeLevelProgression/CHANGELOG.md",
+      "bytes": 4941,
+      "sha256": "d7fc76505f8d731ad198025de28f8ade9c8617a8bc40e3f3d17e30084698440a"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/LedgerDocument.cs",
+      "bytes": 7528,
+      "sha256": "70a081969afecf53e0bbb0f56ea434d20553a509c430591c4dc9df69d4030f64"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/MiniJson.cs",
+      "bytes": 9258,
+      "sha256": "9c4ec8b446a72a80443a9a570591c269f98bc9b5c8989604ba4f2a88ede68529"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/PolicyCore.cs",
+      "bytes": 4331,
+      "sha256": "9ed863915f2355af597383c71294089c651411155fed81975f15d35ccb3ea439"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/XpCurve.cs",
+      "bytes": 5406,
+      "sha256": "16f213359972dae51f71431e00726edcffd527578d7e56c49a7e866953657905"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/BattleResultTranspiler.cs",
+      "bytes": 11362,
+      "sha256": "a4d65b621fd0f6479ca58fe18fce0daa4dd2db9515a2114984b4c3bdce978e15"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/GameplayPatches.cs",
+      "bytes": 8454,
+      "sha256": "ccb469ba1c47e9f0438566391c351e245428825ef00d614eff0f4b9f87c149ed"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/PatchRegistry.cs",
+      "bytes": 9793,
+      "sha256": "c86c722cf7f80eaf567c36d607562223adaf220a36948ff2d24cccec1519e284"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/Reflect.cs",
+      "bytes": 3490,
+      "sha256": "0758cf0be4b2685a66dcc41361d8dae8f1305c5bc17f283540137ee1808e475a"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/RewardPatches.cs",
+      "bytes": 11989,
+      "sha256": "c55bd3d1e84b1fd3f0abc7c02fe7f01d3ab3175982fc9b3cd5811a7f61ca532c"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/UiPatches.cs",
+      "bytes": 5254,
+      "sha256": "1e4847739f3049668076a888ebfd5d4029343b9e1f58731aea15d9a4bd73556d"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Plugin.cs",
+      "bytes": 4845,
+      "sha256": "dea2fa1f963d1c642377d3d765e8d78d0400c95ec9f56621c3d68a2f30999a30"
+    },
+    {
+      "path": "RoguelikeLevelProgression/README.md",
+      "bytes": 5699,
+      "sha256": "0023e11275c89b934b693de08c315bda915ca48816e87f722f89a68253c90415"
+    },
+    {
+      "path": "RoguelikeLevelProgression/RoguelikeLevelProgression.csproj",
+      "bytes": 3377,
+      "sha256": "6a90ad138529355c99ba0bf70bb6905f759e9fd7cad5ff0a82deb5b855c90b2d"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/ExtensionScope.cs",
+      "bytes": 5359,
+      "sha256": "9ff0c0d1e71db87ed592018cabccc8d4e76d2074f6810ab53bf59b0a83f93aaa"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/LedgerService.cs",
+      "bytes": 9262,
+      "sha256": "3e98c6db9120beae78cd1e1d7d877ed65373d61456d846e1be9193f2a6215739"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/Policy.cs",
+      "bytes": 6311,
+      "sha256": "2d642b6a65c0dc11b770841f9ad4bf87d373f4572354d8df1ae581e5a90d7b22"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/ReceiptLedgerStore.cs",
+      "bytes": 6383,
+      "sha256": "f7dabe249c8675db2bfee70bc557a4630b6d2277476592dadec7874fcf1cbae9"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/XpBackend.cs",
+      "bytes": 10592,
+      "sha256": "0d323ca68ecfdf0b81824e77015a23717d07d2e90993b37cd1d11626fd73f03d"
+    },
+    {
+      "path": "RoguelikeLevelProgression/manifest.json",
+      "bytes": 459,
+      "sha256": "c07160151636fccc2dd34426b0b4af2992f4ec13641c6f22e7190c40cfb7f0bc"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-evidencias/rodada-final-01.json",
+      "bytes": 18021,
+      "sha256": "d5a9a501c8664cb0a51ce902c1b688306ca8a57783f278a8b0d64af50273cccd"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-evidencias/rodada-final-01.txt",
+      "bytes": 14994,
+      "sha256": "ad38e891f784e51afe0004798006059bb11a323c77a72e4e018157044aedbe28"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-hashes.txt",
+      "bytes": 3824,
+      "sha256": "1d6642e5f5f360c5c1c441d8e9dc2daa6737eb3d8e7a4576f7820ba2aca4c38e"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-relatorio-01.md",
+      "bytes": 3406,
+      "sha256": "983c08a33fdf1cffe7c6e98bcd0c164badd049607d4ad12d2490f297ced00ed3"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-relatorio-02.md",
+      "bytes": 9912,
+      "sha256": "07b96eec34867a48b1eb4bda05aa23badc8b04209a74f7640dd837e8a3180a20"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R2-relatorio-03.md",
+      "bytes": 5562,
+      "sha256": "33014e5c755660c71a05a79a1af510dfd7f56cccedb81ffb6aa473776fc3a30f"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/IlLoader.cs",
+      "bytes": 11801,
+      "sha256": "b30a5549be5ced2329d79a56a3f3a98c170c1b52b0275bf0a545a1432db8f11f"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/Program.cs",
+      "bytes": 63816,
+      "sha256": "e5a74e2b832fd6421c278ec5a06ddf868757d8acf0c9ef34596487d3a21b27b8"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/RoguelikeLevelProgression.Harness.csproj",
+      "bytes": 2808,
+      "sha256": "27bdc03504c70746236c3442d6737092cdd916487f36ecb655176ac052e334dd"
+    }
+  ]
+}

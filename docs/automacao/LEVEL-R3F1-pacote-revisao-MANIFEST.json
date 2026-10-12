@@ -1,0 +1,166 @@
+{
+  "schema_version": 1,
+  "task_id": "t_021bdd67",
+  "phase": "LEVEL-R3F1 correcao R3-01",
+  "contains_game_dll_or_full_decompiled_corpus": false,
+  "contains_bin_or_obj": false,
+  "package_sha256": "afb31155f8f325b78a29f767ca184b7c55f8b2c4f60b84513af70874b729a545",
+  "member_count": 31,
+  "members": [
+    {
+      "path": "RoguelikeLevelProgression/Core/LedgerDocument.cs",
+      "bytes": 7528,
+      "sha256": "70a081969afecf53e0bbb0f56ea434d20553a509c430591c4dc9df69d4030f64"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/MiniJson.cs",
+      "bytes": 9258,
+      "sha256": "9c4ec8b446a72a80443a9a570591c269f98bc9b5c8989604ba4f2a88ede68529"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/PolicyCore.cs",
+      "bytes": 6143,
+      "sha256": "755bb8e8a7d8f7b366277a744934e92ded056600bd160e618aae6055b75474de"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Core/XpCurve.cs",
+      "bytes": 5406,
+      "sha256": "16f213359972dae51f71431e00726edcffd527578d7e56c49a7e866953657905"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/ExtensionScope.cs",
+      "bytes": 5359,
+      "sha256": "9ff0c0d1e71db87ed592018cabccc8d4e76d2074f6810ab53bf59b0a83f93aaa"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/LedgerService.cs",
+      "bytes": 9262,
+      "sha256": "3e98c6db9120beae78cd1e1d7d877ed65373d61456d846e1be9193f2a6215739"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/Policy.cs",
+      "bytes": 7480,
+      "sha256": "c250cbb5274b8a2a641f30145890079fa45241bcf643cc0bd787fb662267b875"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/ReceiptLedgerStore.cs",
+      "bytes": 6383,
+      "sha256": "f7dabe249c8675db2bfee70bc557a4630b6d2277476592dadec7874fcf1cbae9"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Runtime/XpBackend.cs",
+      "bytes": 10592,
+      "sha256": "0d323ca68ecfdf0b81824e77015a23717d07d2e90993b37cd1d11626fd73f03d"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/BattleResultTranspiler.cs",
+      "bytes": 11362,
+      "sha256": "a4d65b621fd0f6479ca58fe18fce0daa4dd2db9515a2114984b4c3bdce978e15"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/GameplayPatches.cs",
+      "bytes": 8454,
+      "sha256": "ccb469ba1c47e9f0438566391c351e245428825ef00d614eff0f4b9f87c149ed"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/PatchRegistry.cs",
+      "bytes": 9793,
+      "sha256": "c86c722cf7f80eaf567c36d607562223adaf220a36948ff2d24cccec1519e284"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/Reflect.cs",
+      "bytes": 3490,
+      "sha256": "0758cf0be4b2685a66dcc41361d8dae8f1305c5bc17f283540137ee1808e475a"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/RewardPatches.cs",
+      "bytes": 11989,
+      "sha256": "c55bd3d1e84b1fd3f0abc7c02fe7f01d3ab3175982fc9b3cd5811a7f61ca532c"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Patches/UiPatches.cs",
+      "bytes": 5254,
+      "sha256": "1e4847739f3049668076a888ebfd5d4029343b9e1f58731aea15d9a4bd73556d"
+    },
+    {
+      "path": "RoguelikeLevelProgression/Plugin.cs",
+      "bytes": 4845,
+      "sha256": "fbece88f6616081b5d577bb4aa4d1e9a33667cb98e4dda849839e8da98d7f391"
+    },
+    {
+      "path": "RoguelikeLevelProgression/README.md",
+      "bytes": 6283,
+      "sha256": "d070f6ade940e782417e82fdc05bac955ba4f4d6525b9e681859301aace69411"
+    },
+    {
+      "path": "RoguelikeLevelProgression/CHANGELOG.md",
+      "bytes": 6825,
+      "sha256": "f4f661cafbc03fdd772f8655fb4912fe8d2802e53af38fb91a9869031f47fe9f"
+    },
+    {
+      "path": "RoguelikeLevelProgression/manifest.json",
+      "bytes": 459,
+      "sha256": "78180ab051d41b07b88e748e643e9863ff39c814f6c84839352c5bbf68f69905"
+    },
+    {
+      "path": "RoguelikeLevelProgression/RoguelikeLevelProgression.csproj",
+      "bytes": 3377,
+      "sha256": "1a45d28bc8ec687b82b80a42d4ecec656d38dc79f46e04928395dc86f525089a"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/Program.cs",
+      "bytes": 75292,
+      "sha256": "06b7be1fcec0cf0939fd51bc7736bae770932c8c8d16ba0b33a4740995395e40"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/IlLoader.cs",
+      "bytes": 11801,
+      "sha256": "b30a5549be5ced2329d79a56a3f3a98c170c1b52b0275bf0a545a1432db8f11f"
+    },
+    {
+      "path": "tests/RoguelikeLevelProgression.Harness/RoguelikeLevelProgression.Harness.csproj",
+      "bytes": 2808,
+      "sha256": "27bdc03504c70746236c3442d6737092cdd916487f36ecb655176ac052e334dd"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-relatorio-01.md",
+      "bytes": 4133,
+      "sha256": "ea67a7c37a10388bedc7c841f642287fab4ae884dfe800d24a7f003934862e76"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-relatorio-02.md",
+      "bytes": 11275,
+      "sha256": "1818baf0caea584269e4cc42687226adccca6e0219c14b83bc77dd7270ab5777"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-relatorio-03.md",
+      "bytes": 5090,
+      "sha256": "1943915e1a58b0476f9e7578ea99f295706e2886b1f9d8cf88fd9cb171207dca"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-hashes.txt",
+      "bytes": 4562,
+      "sha256": "191a6972e457d828152cf460cc32dbad203ec326eedca7bd16c735b25dde2dda"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-evidencias/rodada-final-01.txt",
+      "bytes": 16815,
+      "sha256": "6b61c4f1418dd6454c6db48b20e51c8aa4ac57c8059072b10d85985a91c1ad6c"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-evidencias/rodada-final-01.json",
+      "bytes": 20176,
+      "sha256": "12b81531de69ed6a1a1213bb23272513987084d99c86fd71b16bff5940b1575a"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-evidencias/defeito-replantado-01.txt",
+      "bytes": 16644,
+      "sha256": "aeb7332c1f5b967bb4055e1deed9f354a36f67ec520be79fd6ab8721ca7f28c9"
+    },
+    {
+      "path": "docs/automacao/LEVEL-R3F1-evidencias/defeito-replantado-01.json",
+      "bytes": 20005,
+      "sha256": "ac202e4b470a350af456672562a18d2593ad3bd0859d753be51e6da513600c92"
+    }
+  ]
+}
