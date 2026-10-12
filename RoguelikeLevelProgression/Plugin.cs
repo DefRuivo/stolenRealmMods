@@ -28,7 +28,7 @@ namespace RoguelikeLevelProgression
         {
             Instance = this;
             Log.Attach(Logger);
-            Log.Info(PluginName + " " + PluginVersion + " (" + PluginGuid + ") carregando");
+            Log.Info(PluginName + " " + PluginVersion + " (" + PluginGuid + ") carregado.");
 
             PluginState.Reset();
             BindConfiguration();
