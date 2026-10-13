@@ -1,6 +1,6 @@
 using System;
 
-namespace RoguelikeLevelProgression.Core
+namespace RoguelikeUnlimitedLevelProgression.Core
 {
     /// <summary>
     /// Curva de XP estendida (parte05/C + parte06). Puro System.Math: NAO usa UnityEngine,

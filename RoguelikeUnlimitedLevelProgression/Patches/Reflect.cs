@@ -1,8 +1,8 @@
 using System;
 using System.Reflection;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression.Patches
+namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>
     /// Resolucao de membros por reflexao DIRETA, com a mesma semantica usada pelo mod antes

@@ -42,7 +42,7 @@ para os **7** mods empacotados e os 11 zips. A dependência entre mods é **uma 
 
 **Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO):** o projeto passou a ter **7 pacotes descobertos** e o
 `release/mods.json` tem **7** entradas: as seis descritas acima com `publicar: true` e o registro de
-publicação **inalterados**, mais `RoguelikeLevelProgression 0.1.1` com `publicar: false` e o motivo
+publicação **inalterados**, mais `RoguelikeUnlimitedLevelProgression 0.1.1` com `publicar: false` e o motivo
 *runtime e aceite humano pendentes*. Portanto a frase "hoje não há nenhum mod deste repo fora do ar"
 acima vale para a **fotografia de 01/10/2026**, não para hoje: o RLP está fora do ar **de propósito** e
 o gate de publicação o recusa pelo nome (`::error:: ... esta com publicar:false ... NAO sera publicado`),

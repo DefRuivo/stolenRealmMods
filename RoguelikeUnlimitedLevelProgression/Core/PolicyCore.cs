@@ -1,6 +1,6 @@
 using System;
 
-namespace RoguelikeLevelProgression.Core
+namespace RoguelikeUnlimitedLevelProgression.Core
 {
     public enum AdvanceDenial
     {

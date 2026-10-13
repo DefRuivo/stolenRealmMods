@@ -2,13 +2,13 @@ using System;
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
-using RoguelikeLevelProgression.Patches;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression.Patches;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression
+namespace RoguelikeUnlimitedLevelProgression
 {
     /// <summary>
-    /// Roguelike Level Progression — remove o teto de nivel 20 do modo Roguelike em singleplayer.
+    /// Roguelike Unlimited Level Progression — remove o teto de nivel 20 do modo Roguelike em singleplayer.
     /// Um nivel por vitoria; XP estendido apos o 20 com F20/D20 lidos do proprio jogo; recompensas
     /// Skills -> Itens -> Atributos com recibo duravel quando o pool de skills esgota.
     /// v0.1: em multiplayer a progressao ampliada NAO e habilitada (branch vanilla preservado).
@@ -16,8 +16,8 @@ namespace RoguelikeLevelProgression
     [BepInPlugin(PluginGuid, PluginName, PluginVersion)]
     public class Plugin : BaseUnityPlugin
     {
-        public const string PluginGuid = "com.gumatos.roguelikelevelprogression";
-        public const string PluginName = "Roguelike Level Progression";
+        public const string PluginGuid = "com.gumatos.roguelikeunlimitedlevelprogression";
+        public const string PluginName = "Roguelike Unlimited Level Progression";
         public const string PluginVersion = "0.1.1";
 
         internal static Plugin Instance { get; private set; }

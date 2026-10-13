@@ -1,7 +1,7 @@
 using System;
-using RoguelikeLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Core;
 
-namespace RoguelikeLevelProgression.Runtime
+namespace RoguelikeUnlimitedLevelProgression.Runtime
 {
     /// <summary>
     /// Backend de XP estendido (parte05/C). F20 e D20 sao lidos do PROPRIO jogo, chamando os

@@ -1,10 +1,10 @@
 using System;
 using System.Collections.Generic;
 using HarmonyLib;
-using RoguelikeLevelProgression.Core;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression.Patches
+namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>
     /// UI. InventoryManager.RefreshHealthbars tem o literal >= 30 (corpus 126620) e mostra "Max".

@@ -3,8 +3,9 @@
   <PropertyGroup>
     <TargetFramework>netstandard2.1</TargetFramework>
     <LangVersion>10</LangVersion>
-    <AssemblyName>RoguelikeLevelProgression</AssemblyName>
-    <RootNamespace>RoguelikeLevelProgression</RootNamespace>
+    <AssemblyName>RoguelikeUnlimitedLevelProgression</AssemblyName>
+    <RootNamespace>RoguelikeUnlimitedLevelProgression</RootNamespace>
+    <PackageId>RoguelikeUnlimitedLevelProgression</PackageId>
     <!-- PKG-2 (mesma convencao dos outros mods do repo): este <Version> manda.
          Espelhos conferidos: manifest.json:version_number e o literal de [BepInPlugin] no Plugin.cs. -->
     <Version>0.1.1</Version>

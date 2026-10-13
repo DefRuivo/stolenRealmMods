@@ -1,5 +1,5 @@
 {
-  "name": "RoguelikeLevelProgression",
+  "name": "RoguelikeUnlimitedLevelProgression",
   "version_number": "0.1.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Removes the level 20 cap of the Roguelike mode in singleplayer: one level per victory, extended XP past 20 and Skills/Items/Attributes rewards that keep working when a pool runs out. Singleplayer only.",

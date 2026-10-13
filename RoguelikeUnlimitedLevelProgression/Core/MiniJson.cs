@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace RoguelikeLevelProgression.Core
+namespace RoguelikeUnlimitedLevelProgression.Core
 {
     /// <summary>
     /// Leitor/escritor JSON minimo e ESTRITO, sem dependencia externa (o mod e standalone:

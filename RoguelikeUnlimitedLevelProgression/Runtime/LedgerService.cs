@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using RoguelikeLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Core;
 
-namespace RoguelikeLevelProgression.Runtime
+namespace RoguelikeUnlimitedLevelProgression.Runtime
 {
     /// <summary>
     /// Servico do sidecar: identidade do personagem, cache por guid, gravacao atomica e
@@ -11,7 +11,7 @@ namespace RoguelikeLevelProgression.Runtime
     /// </summary>
     internal static class LedgerService
     {
-        internal const string ModFolderName = "com.gumatos.roguelikelevelprogression";
+        internal const string ModFolderName = "com.gumatos.roguelikeunlimitedlevelprogression";
 
         private static readonly object _gate = new object();
         private static readonly Dictionary<string, LedgerDocument> _cache = new Dictionary<string, LedgerDocument>(StringComparer.OrdinalIgnoreCase);

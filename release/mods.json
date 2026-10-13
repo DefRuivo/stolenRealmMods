@@ -63,18 +63,18 @@
       "motivo": "PUBLICADO: 0.1.1 no ar desde 2026-10-01T01:59:51Z (run 36801937843), substituindo a 0.1.0. O 0.1.1 leva o aplicador gancho a gancho, o conserto A-1 e o dump de efeitos por tipo concreto, com o icone novo de 256x256. Categoria 'Tools': e ferramenta de desenvolvimento, nao mod de jogador."
     },
     {
-      "nome": "RoguelikeLevelProgression",
-      "publicar": false,
-      "versao_publicada": null,
-      "publicado_em": null,
-      "motivo": "BLOQUEADO para publicacao (LEVEL-PACOTE-CONTRATO, 12/10/2026): runtime e aceite humano pendentes. O pacote 0.1.1 tem fonte/metadados/icone 256x256 versionados e passou o pre-flight em bancada NOVA isolada (sem perfil, sem jogo), com manifest, icone, membros e hash da DLL conferidos dentro do ZIP - prova de CONTRATO, nao de jogo: nenhum boot real foi exercitado. Liberar exige rodada de runtime autorizada e o aceite humano do dono; ate la nao entra no lote de envio (ordem_de_envio)."
-    },
-    {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
       "versao_publicada": "0.3.2",
       "publicado_em": "2026-10-04T05:39:36.232626Z",
       "motivo": "PUBLICAR 0.3.2 (substitui a 0.3.1, no ar desde 03/10/2026). A 0.3.2 abre a skill tree numa janela read-only propria ao clicar em 'Skills' no modal Remove Skill Trees (RSTV-21/22), com visual nativo (fundo/moldura/titulo/Close do proprio modal + barra de classes com icone) e revisao de design completa (RSTV-23/24/25: linhas de dependencia com rotacao/comprimento exato, centralizacao na area com clamps, highlight 0.12, tooltip com Outline + contorno dourado no hover, subtitulo 'All Skill Trees - Classe'). Revisada pelo dono em jogo."
+    },
+    {
+      "nome": "RoguelikeUnlimitedLevelProgression",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "BLOQUEADO para publicacao (LEVEL-PACOTE-CONTRATO, 12/10/2026): runtime e aceite humano pendentes. O pacote 0.1.1 tem fonte/metadados/icone 256x256 versionados e passou o pre-flight em bancada NOVA isolada (sem perfil, sem jogo), com manifest, icone, membros e hash da DLL conferidos dentro do ZIP - prova de CONTRATO, nao de jogo: nenhum boot real foi exercitado. Liberar exige rodada de runtime autorizada e o aceite humano do dono; ate la nao entra no lote de envio (ordem_de_envio)."
     }
   ]
 }

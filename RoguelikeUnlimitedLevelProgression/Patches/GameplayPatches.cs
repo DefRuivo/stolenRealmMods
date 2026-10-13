@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
-using RoguelikeLevelProgression.Core;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression.Patches
+namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>
     /// Patch CRITICO do resultado de batalha (parte06 §1). Unico lugar onde a comparacao

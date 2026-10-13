@@ -1,4 +1,4 @@
-// LEITOR DE IL DO HARNESS (RoguelikeLevelProgression, LEVEL-R2)
+// LEITOR DE IL DO HARNESS (RoguelikeUnlimitedLevelProgression, LEVEL-R2)
 //
 // Por que este arquivo existe: no host .NET 6 da bancada, o leitor de IL do MonoMod usado pelo
 // Harmony (`PatchProcessor.GetOriginalInstructions`) lanca NotSupportedException
@@ -18,7 +18,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 
-namespace RoguelikeLevelProgression.Harness
+namespace RoguelikeUnlimitedLevelProgression.Harness
 {
     public sealed class IlLoadFailure : Exception
     {

@@ -403,7 +403,7 @@ A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `m
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
 **Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO): o projeto tem um sétimo pacote DESCOBERTO**,
-`RoguelikeLevelProgression 0.1.1` (remove o teto de nível 20 do Roguelike, singleplayer), com fonte,
+`RoguelikeUnlimitedLevelProgression 0.1.1` (remove o teto de nível 20 do Roguelike, singleplayer), com fonte,
 `manifest.json`, `README.md`, `CHANGELOG.md` e `icon.png` 256x256 versionados. Ele **não está no ar e não
 está liberado**: a entrada dele em [`release/mods.json`](../release/mods.json) tem `publicar: false` e
 motivo *runtime e aceite humano pendentes* — o pacote passou o pre-flight e foi empacotado em bancada

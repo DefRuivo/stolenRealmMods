@@ -1,13 +1,13 @@
-# RoguelikeLevelProgression
+# RoguelikeUnlimitedLevelProgression
 
 Lets a Roguelike run go past level 20 — **singleplayer only, v0.1**.
 
-- **GUID:** `com.gumatos.roguelikelevelprogression`
+- **GUID:** `com.gumatos.roguelikeunlimitedlevelprogression`
 - **Harmony owner id:** the same GUID (the mod unpatches by id, never by type).
 - **Version:** 0.1.1
 - **Works with:** Stolen Realm (Roguelike mode).
 - **Needs:** BepInEx 5 (r2modman installs it for you) and nothing else — no ModAPI, no BetterStats.
-- **BepInEx display name:** `Roguelike Level Progression`
+- **BepInEx display name:** `Roguelike Unlimited Level Progression`
 
 ## What it does
 
@@ -31,7 +31,7 @@ rest of the flow — the XP curve, the level-up queue, the UI — coherent above
   (`NaN`, non-finite, `D20 <= 0`) the mod stays vanilla instead of guessing.
 - **Skills, Items, Attributes stay eligible.** When the skill pool is exhausted the stage is
   skipped and a **durable receipt** (S) is written under
-  `<BepInEx config>/com.gumatos.roguelikelevelprogression/receipts/<character-guid>.json`;
+  `<BepInEx config>/com.gumatos.roguelikeunlimitedlevelprogression/receipts/<character-guid>.json`;
   S is subtracted from the level-up queue count so the skipped skill is not silently lost.
   If the receipt cannot be written, the stage is **not** skipped (no reward is consumed).
   Items/attributes keep coming after that. No fake skills are invented.
@@ -69,8 +69,8 @@ update), no forced achievements, no campaign changes.
 ## Build
 
 ```
-dotnet build RoguelikeLevelProgression/RoguelikeLevelProgression.csproj -p:DeployToBepInEx=false
-dotnet build tests/RoguelikeLevelProgression.Harness/RoguelikeLevelProgression.Harness.csproj -p:DeployToBepInEx=false
+dotnet build RoguelikeUnlimitedLevelProgression/RoguelikeUnlimitedLevelProgression.csproj -p:DeployToBepInEx=false
+dotnet build tests/RoguelikeUnlimitedLevelProgression.Harness/RoguelikeUnlimitedLevelProgression.Harness.csproj -p:DeployToBepInEx=false
 ```
 
 The game/BepInEx assemblies are **not versioned**: they are read from the private `lib/` folder at the
@@ -84,7 +84,7 @@ There is **no silent fallback**: an isolated clone/worktree that does not have i
 with a single clear error and needs the owner-authorized override —
 
 ```
-dotnet build RoguelikeLevelProgression/RoguelikeLevelProgression.csproj -p:CommonLibDir=<absolute path of a lib folder>
+dotnet build RoguelikeUnlimitedLevelProgression/RoguelikeUnlimitedLevelProgression.csproj -p:CommonLibDir=<absolute path of a lib folder>
 ```
 
 ```
@@ -95,7 +95,7 @@ canonico (lib/ e local, gitignored) ou passe o override autorizado: -p:CommonLib
 Never copy the game DLLs into the repository or into a worktree to satisfy a build.
 
 Deploying into the r2modman profile is **opt-in**: `dotnet build -p:DeployToBepInEx=true`
-copies the DLL to `.../profiles/Default/BepInEx/plugins/RoguelikeLevelProgression/`.
+copies the DLL to `.../profiles/Default/BepInEx/plugins/RoguelikeUnlimitedLevelProgression/`.
 
 ## Not exercised yet
 
@@ -108,7 +108,7 @@ multiplayer remain to be verified in game.
 
 ---
 
-# RoguelikeLevelProgression (português)
+# RoguelikeUnlimitedLevelProgression (português)
 
 Remove o teto de nível 20 do modo Roguelike **em singleplayer (v0.1)**: um nível por vitória,
 XP estendido depois do 20 (linear, `F(L) = F20 + D20·(L-20)`, com `F20`/`D20` lidos do próprio

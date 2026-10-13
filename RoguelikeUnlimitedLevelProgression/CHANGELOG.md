@@ -1,4 +1,15 @@
-# Changelog — RoguelikeLevelProgression
+# Changelog — RoguelikeUnlimitedLevelProgression
+
+## Não publicado — identidade do pacote (13/10/2026)
+
+- Nome definitivo: `RoguelikeUnlimitedLevelProgression`; nome de exibição:
+  `Roguelike Unlimited Level Progression`.
+- Projeto, assembly, namespace, pacote e harness acompanham o nome definitivo.
+  GUID/Harmony owner e diretório de recibos: `com.gumatos.roguelikeunlimitedlevelprogression`.
+- Ícone `RU` 256x256, com a mesma cor e moldura. Versão permanece **0.1.1**;
+  nenhuma lógica de gameplay mudou e a publicação continua bloqueada.
+- Como o mod não foi publicado, não há migração de configuração/recibos locais.
+  As evidências de rodadas anteriores permanecem imutáveis com a identidade da época.
 
 ## 0.1.1
 
@@ -59,7 +70,7 @@ BepInEx 5 + Harmony, sem ModAPI, sem BetterStats/RSTV.
   `null` é bloqueado e o fluxo segue para atributos. Reroll com `forcedTier` sem opção é
   cancelado (a skill original é preservada). A ordem `LevelUpSequenceOrder` compartilhada **não**
   é alterada.
-- **Sidecar v1** em `Paths.ConfigPath/com.gumatos.roguelikelevelprogression/receipts/<guid>.json`
+- **Sidecar v1** em `Paths.ConfigPath/com.gumatos.roguelikeunlimitedlevelprogression/receipts/<guid>.json`
   (`schema_version`, `character_guid`, `run_id`, `preset_guid`, `skipped_skill_receipts[]`),
   gravação atômica (temporário + replace + backup `.bak`), dedupe por ordinal. A run só é
   resetada **depois** de um `SyncCharacterToPreset` válido; preset nulo não reseta; ledger
@@ -69,7 +80,7 @@ BepInEx 5 + Harmony, sem ModAPI, sem BetterStats/RSTV.
 
 ### Banco de provas (harness isolado)
 
-- Harness `tests/RoguelikeLevelProgression.Harness` (net6.0) que compila os **fontes reais** do
+- Harness `tests/RoguelikeUnlimitedLevelProgression.Harness` (net6.0) que compila os **fontes reais** do
   mod e exercita: o transpiler real sobre a **IL real** da `Assembly-CSharp.dll` de referência
   (hash `8bb4a7c5…7855a`), com 12 contraprovas (janela única, remoção do `get_Level`, `bgE`→`brfalse`
   com o mesmo destino, labels preservados, recusa em ambiguidade/alvo inseguro/cauda de prêmio

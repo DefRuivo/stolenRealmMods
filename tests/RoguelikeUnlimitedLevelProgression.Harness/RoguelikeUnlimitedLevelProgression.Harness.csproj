@@ -5,8 +5,9 @@
     <TargetFramework>net6.0</TargetFramework>
     <LangVersion>10</LangVersion>
     <Nullable>disable</Nullable>
-    <AssemblyName>RlpHarness</AssemblyName>
-    <RootNamespace>RoguelikeLevelProgression.Harness</RootNamespace>
+    <AssemblyName>RoguelikeUnlimitedLevelProgression.Harness</AssemblyName>
+    <PackageId>RoguelikeUnlimitedLevelProgression.Harness</PackageId>
+    <RootNamespace>RoguelikeUnlimitedLevelProgression.Harness</RootNamespace>
     <EnableDefaultCompileItems>false</EnableDefaultCompileItems>
     <InvariantGlobalization>true</InvariantGlobalization>
     <NoWarn>$(NoWarn);CS0618</NoWarn>
@@ -18,10 +19,10 @@
   <ItemGroup>
     <Compile Include="IlLoader.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="..\..\RoguelikeLevelProgression\Plugin.cs" />
-    <Compile Include="..\..\RoguelikeLevelProgression\Core\*.cs" />
-    <Compile Include="..\..\RoguelikeLevelProgression\Runtime\*.cs" />
-    <Compile Include="..\..\RoguelikeLevelProgression\Patches\*.cs" />
+    <Compile Include="..\..\RoguelikeUnlimitedLevelProgression\Plugin.cs" />
+    <Compile Include="..\..\RoguelikeUnlimitedLevelProgression\Core\*.cs" />
+    <Compile Include="..\..\RoguelikeUnlimitedLevelProgression\Runtime\*.cs" />
+    <Compile Include="..\..\RoguelikeUnlimitedLevelProgression\Patches\*.cs" />
   </ItemGroup>
 
   <!-- LEVEL-LIB: a `lib` comum resolvida relativa a RAIZ DESTE CHECKOUT. O harness fica em

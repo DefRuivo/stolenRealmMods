@@ -3,7 +3,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using HarmonyLib;
 
-namespace RoguelikeLevelProgression.Patches
+namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>Membros reais do alvo, resolvidos por AccessTools em tempo de carga.</summary>
     public sealed class BattleResultTarget

@@ -1,7 +1,7 @@
 using System;
-using RoguelikeLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Core;
 
-namespace RoguelikeLevelProgression.Runtime
+namespace RoguelikeUnlimitedLevelProgression.Runtime
 {
     /// <summary>
     /// Estado efetivo do mod (config + aplicacao dos patches). Fica separado da classe Plugin

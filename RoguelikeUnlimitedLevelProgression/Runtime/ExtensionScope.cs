@@ -1,7 +1,7 @@
 using System;
 using HarmonyLib;
 
-namespace RoguelikeLevelProgression.Runtime
+namespace RoguelikeUnlimitedLevelProgression.Runtime
 {
     /// <summary>
     /// Estado de sessao lido do jogo. Falha de leitura NAO amplia escopo (fail-closed):

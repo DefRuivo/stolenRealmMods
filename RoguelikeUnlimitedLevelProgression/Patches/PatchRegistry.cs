@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using HarmonyLib;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression.Patches
+namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>
     /// Aplicacao tudo-ou-nada do grupo de GAMEPLAY (parte05 §5): qualquer alvo ausente, qualquer

@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using System.Text;
-using RoguelikeLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Core;
 
-namespace RoguelikeLevelProgression.Runtime
+namespace RoguelikeUnlimitedLevelProgression.Runtime
 {
     public enum LedgerLoadStatus
     {

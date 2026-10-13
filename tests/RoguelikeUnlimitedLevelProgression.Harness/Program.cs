@@ -1,4 +1,4 @@
-// HARNESS ISOLADO do RoguelikeLevelProgression (LEVEL-R2)
+// HARNESS ISOLADO do RoguelikeUnlimitedLevelProgression (LEVEL-R2)
 //
 // Exercita o CODIGO REAL do mod (os mesmos arquivos-fonte sao compilados neste executavel),
 // sem abrir o jogo, sem tocar no perfil/save do dono e sem instalar nada. A IL usada nos testes
@@ -17,12 +17,12 @@ using System.Reflection.Emit;
 using System.Security.Cryptography;
 using System.Text;
 using HarmonyLib;
-using RoguelikeLevelProgression;
-using RoguelikeLevelProgression.Core;
-using RoguelikeLevelProgression.Patches;
-using RoguelikeLevelProgression.Runtime;
+using RoguelikeUnlimitedLevelProgression;
+using RoguelikeUnlimitedLevelProgression.Core;
+using RoguelikeUnlimitedLevelProgression.Patches;
+using RoguelikeUnlimitedLevelProgression.Runtime;
 
-namespace RoguelikeLevelProgression.Harness
+namespace RoguelikeUnlimitedLevelProgression.Harness
 {
     internal static class Program
     {
@@ -137,7 +137,7 @@ namespace RoguelikeLevelProgression.Harness
         {
             File.WriteAllLines(Path.Combine(_outDir, "harness-results.txt"), _lines, new UTF8Encoding(false));
             var sb = new StringBuilder();
-            sb.Append("{\n  \"harness\":\"RoguelikeLevelProgression.Harness\",\n");
+            sb.Append("{\n  \"harness\":\"RoguelikeUnlimitedLevelProgression.Harness\",\n");
             sb.Append("  \"task\":\"t_021bdd67\",\n");
             sb.Append("  \"pass\":").Append(_pass).Append(", \"fail\":").Append(_fail)
               .Append(", \"not_exercised\":").Append(_not).Append(",\n");
@@ -1137,7 +1137,7 @@ namespace RoguelikeLevelProgression.Harness
 
             string jsonPath = store.PathFor(guid);
             Check(File.Exists(jsonPath), "ledger.sidecar_path",
-                "sidecar em " + jsonPath + " (padrao Paths.ConfigPath/com.gumatos.roguelikelevelprogression/receipts/<guid>.json)",
+                "sidecar em " + jsonPath + " (padrao Paths.ConfigPath/com.gumatos.roguelikeunlimitedlevelprogression/receipts/<guid>.json)",
                 "sidecar nao criado em " + jsonPath);
 
             string written = File.Exists(jsonPath) ? File.ReadAllText(jsonPath) : "";
