@@ -1,0 +1,193 @@
+## The Animator
+Chave: `resources.assets:2545731` — GUID: `367876d3-1828-4bf5-bff6-c6b768e81012`
+Categoria: NotInEventPool — raridade: Mythic (4) — peso relativo: 1.0
+Origem: events/the animator - success — SHA objeto: `2b249e9250a9f472571572e127a6767ae6c2a8bf328cf7a6478e652df60732f6`
+
+### Texto original
+"You're back!" Ani exclaims, the clinking sounds of her tools against the golem falling silent. She dusts her hands on her apron, her eyes light up at the sight of the glowing hearts. "And you've brought the hearts! Brilliant!"
+
+Handing over the fire demon hearts, you watch as Ani inspects them, her experienced hands deftly feeling their pulsating warmth. "Perfect," she murmurs, her eyes filled with an almost manic excitement.
+
+With utmost care, Ani unlocks a panel on the golem's chest. She carefully places the hearts inside, securing the compartment. The light from the hearts diffuses across the golem's interior, casting a web of intricate shadows against the cave walls. The heroes watch in amazement as she channels her own magic, her fingers tracing the arcane symbols that cover the golem.
+
+The moment the last symbol is lit, the golem's eyes flicker to life. Ani steps back, her face flush with triumph, and the golem starts to move, its limbs creaking loudly. It takes a step forward, and another, the ground shaking beneath its weight.
+
+"Thanks to your efforts, I see no reason not to allow my friend here to assist you in your endeavors." She pats the large golem affectionately. Its steely exterior now hums with a fiery energy from within, its eyes glowing a warm, familiar orange.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 1
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Reward
+(string vazia no asset)
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [
+      {
+        "chave": "resources.assets:2545505",
+        "nome": "Burning Demon Hearts",
+        "pptr": {
+          "m_FileID": 0,
+          "m_PathID": 2545505
+        },
+        "tipo": "EventStatus",
+        "descricao": "",
+        "duracao": {
+          "valor": 3,
+          "nome": "Permanent"
+        },
+        "status_tipo": {
+          "valor": 2,
+          "nome": "QuestItem"
+        },
+        "modificadores": []
+      }
+    ],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+The golem steps forward, creaking and groaning as it moves. It is a spectacle of engineering and magic, an iron giant ready to protect its master. Despite its formidable exterior, there was a gentle quality to it, a subtle warmth that came from the fire demon hearts that now powered it.
+
+"Be gentle with him," Ani says, her voice full of motherly concern. "And remember, he's not just a tool. He's a companion, a friend."
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [
+        {
+          "chave": "resources.assets:2545477",
+          "nome": "The Heart of Iron",
+          "pptr": {
+            "m_FileID": 0,
+            "m_PathID": 2545477
+          },
+          "tipo": "EventStatus",
+          "descricao": "<i><color=#808080>You bear the Heart of Iron!</i></color>\n\n Allows you to raise a @level@ {1,30} Iron Golem to fight for you. Benefits from your @Physical Damage@.",
+          "duracao": {
+            "valor": 3,
+            "nome": "Permanent"
+          },
+          "status_tipo": {
+            "valor": 1,
+            "nome": "Fortune"
+          },
+          "modificadores": []
+        }
+      ],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+

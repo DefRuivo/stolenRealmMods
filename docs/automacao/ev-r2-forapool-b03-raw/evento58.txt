@@ -1,0 +1,69 @@
+## The Dusk King
+Chave: `resources.assets:2545639` — GUID: `47d52f5f-01d4-48f1-8956-690e5bb2aafd`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/main quests/6 - the dusk king end — SHA objeto: `418bad022481ad9e9e3f972c1b63ec208982ab9e635ef1603efe1fb2c9f022f7`
+
+### Texto original
+In the stark silence of Frostwrought Mountain's summit, the skeletal form of the Dusk King lay defeated. The once-mighty lich, now nothing more than bones scattered in the snow.
+
+From the fallen form of the Dusk King, a light begins to emerge, piercing the gloom of the mountain. It emanates from the king's armor, revealing a crown of pure gold, its jewels gleaming with an inner light. 
+
+As your fingers grasp the crown, a vision envelopes you, transporting you to a time and place far removed from this icy desolation.
+<br/>
+You are in a grand hall, resplendent with banners and the warm glow of torchlight. Before you stands a noble king, regal and benevolent, his eyes shining with pride. The king is bestowing a great honor upon a young warrior, who kneels before him in humble reverence.
+
+Through the eyes of the vision, you feel the overwhelming joy of a proud parent, the king witnessing his own son receiving the honor of knighthood.
+<br/>
+The vision fades, leaving you once again on the frozen summit, staring at the lifeless form of the Dusk King. 
+
+Your father had indeed discovered that the cure the ancient kings had sought for the dragons had imparted a terrible curse – a solution that had brought untold suffering and transformed protectors into tormented guardians of a dark legacy.
+
+The need to find your father is more pressing than ever.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 1,
+    "allowedNodeTypes": [],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+
+---
+

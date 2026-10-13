@@ -1,0 +1,237 @@
+## Taste for Blood
+Chave: `resources.assets:2545714` — GUID: `a1d68598-66ff-4361-8c90-5e4ffa6b931d`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/taste for blood  - bishop victory — SHA objeto: `72885d60c35361c96df79edd4896225d25eb81b0d6e21e5c9df3c35873f7c32a`
+
+### Texto original
+You have defeated The Bishop! Samara greets you.
+
+"He stole everything from me. My family, my future, my humanity. I was but a pawn in his twisted game. But no more."
+
+"Take this... for helping me sate my vengeance."
+
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 1
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Accept 
+Take her gift.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+"Be a force of retribution, balancing the scales for the pain and suffering caused by those who are supposed to be shepherds of the light."
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [
+        {
+          "chave": "resources.assets:2545486",
+          "nome": "Vampirism",
+          "pptr": {
+            "m_FileID": 0,
+            "m_PathID": 2545486
+          },
+          "tipo": "EventStatus",
+          "descricao": "Increases @Life Steal@ by @12@% and @Damage@ by @35@%.\n\nGain the ability to shapeshift into a @Vampire Bat@.\n\nDecreases @Fire Resistance@ by @25@%. Can no longer heal from anything but lifesteal.\n\n<i><color=#808080>\"A vampire not evil, a paradox in twilight's gleam,\nCleansing the world, in a dark redemption's dream.\"</i></color>\n\n",
+          "duracao": {
+            "valor": 3,
+            "nome": "Permanent"
+          },
+          "status_tipo": {
+            "valor": 1,
+            "nome": "Fortune"
+          },
+          "modificadores": [
+            {
+              "atributo": {
+                "chave": "resources.assets:2544459",
+                "nome": "LifeOnHit",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544459
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 0,
+                "nome": "Base"
+              },
+              "expressao": "{12,12}",
+              "segunda_passagem": false
+            },
+            {
+              "atributo": {
+                "chave": "resources.assets:2544585",
+                "nome": "ChildOfTheAbyss",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544585
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 4,
+                "nome": "Set"
+              },
+              "expressao": "{1,1}",
+              "segunda_passagem": false
+            },
+            {
+              "atributo": {
+                "chave": "resources.assets:2544373",
+                "nome": "DamageMod",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544373
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 0,
+                "nome": "Base"
+              },
+              "expressao": "{35,35}",
+              "segunda_passagem": false
+            },
+            {
+              "atributo": {
+                "chave": "resources.assets:2544498",
+                "nome": "ResistFire",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544498
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 0,
+                "nome": "Base"
+              },
+              "expressao": "{-25,-25}",
+              "segunda_passagem": false
+            }
+          ]
+        }
+      ],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+

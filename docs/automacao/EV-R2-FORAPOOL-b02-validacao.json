@@ -1,0 +1,29 @@
+{
+  "tests_run": 28,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "validation_scope": "28 verificações documentais offline e controles negativos; contrato de campos verificado por assertivas próprias, NÃO validação integral por biblioteca JSON Schema.",
+  "runtime": "NAO_EXERCITADO: tarefa documental, sem jogo",
+  "contagens": {
+    "eventos": 21,
+    "chaves_unicas": 21,
+    "opcoes": 28,
+    "acoes": 28,
+    "overrides": 1,
+    "MELHORAR_wording": 16,
+    "MANTER": 5,
+    "campos_textuais_alterados": 24,
+    "substituicoes": 33,
+    "nulls_com_motivo": 364,
+    "referencias_nulas_projetadas": 52,
+    "textos_vazios_auditados": 77,
+    "disabled_1": 0,
+    "opcoes_sem_opcoes": 2,
+    "opcoes_ocultas_configuradas": 0,
+    "opcoes_hideOptionEffectText": 1,
+    "mudancas_recompensa": 0,
+    "mudancas_condicao": 0,
+    "aprovacoes_do_dono": 0
+  }
+}

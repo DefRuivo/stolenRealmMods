@@ -1,0 +1,531 @@
+## The runes of the Ymir
+Chave: `resources.assets:2545780` — GUID: `02eff442-4bb6-4e23-b99c-07c5d74e50d3`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/ymir rune, courage - victory — SHA objeto: `18b23937f2d693f47cf239f155f0b03603c2161865fdb7c338222353d2df384f`
+
+### Texto original
+The frost wolf's cry echoes across the barren landscape as it too dissipates in ice and mist. As the frost settles, the glowing runes flickered out, and you are left standing alone in the snow.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Victory!
+The lessons from the runes are etched on your heart, as clear as the markings on the ice.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+Despite your victories, you can't help but feel a sense of anticipation, a promise of a greater challenge still to come. But for now, you savor the quiet calm that the icy landscape offers.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [
+        {
+          "chave": "resources.assets:2545522",
+          "nome": "Trial of the Ymir",
+          "pptr": {
+            "m_FileID": 0,
+            "m_PathID": 2545522
+          },
+          "tipo": "EventStatus",
+          "descricao": "A greater challenge looms ahead.",
+          "duracao": {
+            "valor": 1,
+            "nome": "Quest"
+          },
+          "status_tipo": {
+            "valor": 3,
+            "nome": "Quest"
+          },
+          "modificadores": []
+        }
+      ],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+
+## The runes of the Ymir
+Chave: `resources.assets:2545781` — GUID: `57998f83-17c5-4e55-bf59-f56403d0ce14`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/ymir rune, courage — SHA objeto: `e5645d5282be742fa48fb0bc3ae16540909c8e48d4ec4fe41ff96e6a79658aa5`
+
+### Texto original
+A sudden gust of wind sweeps through the clearing, chilling you to the bone as the treant falls, dissolving into a whirlwind of frost.
+
+Turning your attention back to the ancient rune, you observe it shift once more, the intricate markings dancing into a new pattern.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 0,
+    "allowedTerrainTypes": [
+      7
+    ],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Touch
+Reach out and place the palm of your hand on the Ice.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+As before, you reach out and placed your palm on the ice. The cool sensation envelops you, as though you were stepping into a winter’s night. It is soothing and peaceful, a calm before the storm.
+
+And storm it does. A howl echoes through the icy landscape, freezing you in place. From the blizzard emerges a wolf, its fur white as snow and eyes glowing like the pale moon. Blue runes trace its form, glowing brightly with arcane light.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+Combate configurado:
+```json
+{
+  "iniciar": true,
+  "manual": false,
+  "referencia": {
+    "chave": null,
+    "nome": null,
+    "motivo": "PPtr serializado com m_PathID=0 (referência nula no asset)."
+  },
+  "override": {
+    "ForceRandomSuperUnique": 0,
+    "DisableSuperUnique": 0,
+    "DisableEnemyMods": 0,
+    "UseRewardModifiers": 0,
+    "ExpModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GoldModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "LootModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GauranteedLoot": [],
+    "ForcedEnemies": [
+      {
+        "OverrideEnemyName": 1,
+        "NameOverride": "Trial of Courage",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545308
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 1
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545307
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545307
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545309
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545309
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545309
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545309
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      },
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545309
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      }
+    ],
+    "EnemyModApplications": [],
+    "EnemyStatusApplications": [],
+    "FillOutBattlePoints": 0,
+    "OverrideBattlePoints": 0,
+    "BattlePointValue": 8,
+    "OverrideEnemyGroupPool": 1,
+    "EnemyGroupPool": [
+      48
+    ],
+    "OverrideEnemyTypePool": 0,
+    "EnemyTypePool": [],
+    "VictoryEvent": {
+      "m_FileID": 0,
+      "m_PathID": 2545780
+    },
+    "FailureEvent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "EnemyTurnFirst": 0,
+    "ForceMap": 0,
+    "MapToForce": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "ovrEnemyStatusRefList": [],
+    "ovrEnemyModRefList": []
+  },
+  "dados_recompensa_final": null,
+  "motivo": "Configuração de combate preservada; inimigos, loot/XP efetivos e modificadores são resolvidos no runtime, não exercitado."
+}
+```
+### Opção 2: Leave
+You have no time for these ancient markings.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+(string vazia no asset)
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+

@@ -1,0 +1,203 @@
+## Talk to the Spirits.
+Chave: `resources.assets:2545709` — GUID: `bacd9421-4c77-492b-b704-e9a8e77db0bd`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/talk ta de spirits! 2 — SHA objeto: `874191e9ac9474fb5f8e55338e908aece4501c6d38b062f75958caa20fe4acb8`
+
+### Texto original
+With the final act, the sage begins to chant, his words twisting and turning in the air like the spiraling smoke above the fire. As the sage's voice grows louder, you feel a power washing over you. Then, quite suddenly, the cave is filled with whispers, ethereal and ancient.
+
+
+You recognized them, the voices of your ancestors. They speak of hardships and triumphs, love and sacrifice. Their voices are soft, their messages powerful, and their wisdom invaluable. 
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 1
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Protection
+Petition for protection.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+They bestow upon you their blessing, a shield of protection woven from their collective love and strength. You are filled with a comforting warmth, and the fire turns a serene shade of white.
+
+As you step out of the vision and back into the world, you can feel the spirits following closely. They move with you, their forms nearly invisible but for the faint glimmer that traces your silhouette. 
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [
+        {
+          "chave": "resources.assets:2545407",
+          "nome": "Ancestral Protection",
+          "pptr": {
+            "m_FileID": 0,
+            "m_PathID": 2545407
+          },
+          "tipo": "EventStatus",
+          "descricao": "Grants a 10% chance to cast @Level@ {1,30} Avenging Ancestors on an enemy that strikes you. Grants {20,300} Armor and Magic Armor.\n\n<i><color=#808080>\"You do not walk this world alone. With every step you take, you tread upon the footprints of your ancestors. They have blazed the trail before you, weathering storms you cannot fathom, crossing paths you cannot see.\"</i></color>",
+          "duracao": {
+            "valor": 1,
+            "nome": "Quest"
+          },
+          "status_tipo": {
+            "valor": 1,
+            "nome": "Fortune"
+          },
+          "modificadores": [
+            {
+              "atributo": {
+                "chave": "resources.assets:2544401",
+                "nome": "Armor",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544401
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 0,
+                "nome": "Base"
+              },
+              "expressao": "{20,300}",
+              "segunda_passagem": false
+            },
+            {
+              "atributo": {
+                "chave": "resources.assets:2544430",
+                "nome": "MagicArmor",
+                "pptr": {
+                  "m_FileID": 0,
+                  "m_PathID": 2544430
+                },
+                "tipo": "CharacterAttribute"
+              },
+              "metodo": {
+                "valor": 0,
+                "nome": "Base"
+              },
+              "expressao": "{20,300}",
+              "segunda_passagem": false
+            }
+          ]
+        }
+      ],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+

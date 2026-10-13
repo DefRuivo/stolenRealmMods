@@ -1,0 +1,333 @@
+## The Burning Hearts of Demons
+Chave: `resources.assets:2545730` — GUID: `b25094f9-0cb0-45e2-9583-9f19f2746d3c`
+Categoria: NotInEventPool — raridade: Mythic (4) — peso relativo: 1.0
+Origem: events/the animator - battle — SHA objeto: `0fccd2d0789f625aeb7d30a57c4987912795eb79dcc01c59e4466b77804675e3`
+
+### Texto original
+Within a cavernous maw, the <b><red><incr>Fire Demons</incr></red></b> stand, their immense forms cut imposing figures against the flickering light. 
+
+They are like pillars of living flame, their bodies perpetually ablaze, the air around them rippling with unbearable heat. As they move, embers flicker off their forms, drifting upwards before winking out of existence, giving the impression of a constant, fiery rain. Horns, cruel and sharp, twisted from their skulls, framing faces filled with an infernal light that burn brighter than any earthly flame.
+
+
+### Resultados possíveis (texto autoral)
+Will you fight?
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 1,
+    "allowedNodeTypes": [],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 1,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Fight
+(string vazia no asset)
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [
+      {
+        "chave": "resources.assets:2545515",
+        "nome": "The Animator - Quest Accept",
+        "pptr": {
+          "m_FileID": 0,
+          "m_PathID": 2545515
+        },
+        "tipo": "EventStatus",
+        "descricao": "",
+        "duracao": {
+          "valor": 1,
+          "nome": "Quest"
+        },
+        "status_tipo": {
+          "valor": 3,
+          "nome": "Quest"
+        },
+        "modificadores": []
+      }
+    ],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+You will face this challenge as you have all others, with courage and determination.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+Combate configurado:
+```json
+{
+  "iniciar": true,
+  "manual": false,
+  "referencia": {
+    "chave": null,
+    "nome": null,
+    "motivo": "PPtr serializado com m_PathID=0 (referência nula no asset)."
+  },
+  "override": {
+    "ForceRandomSuperUnique": 0,
+    "DisableSuperUnique": 0,
+    "DisableEnemyMods": 0,
+    "UseRewardModifiers": 0,
+    "ExpModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GoldModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "LootModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GauranteedLoot": [],
+    "ForcedEnemies": [
+      {
+        "OverrideEnemyName": 1,
+        "NameOverride": "Volcanus",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545226
+        },
+        "ForcedEnemyMods": [
+          {
+            "m_FileID": 0,
+            "m_PathID": 2545325
+          }
+        ],
+        "IsSuperUnique": 1
+      },
+      {
+        "OverrideEnemyName": 1,
+        "NameOverride": "Burnicus",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545226
+        },
+        "ForcedEnemyMods": [
+          {
+            "m_FileID": 0,
+            "m_PathID": 2545325
+          }
+        ],
+        "IsSuperUnique": 1
+      }
+    ],
+    "EnemyModApplications": [],
+    "EnemyStatusApplications": [],
+    "FillOutBattlePoints": 0,
+    "OverrideBattlePoints": 0,
+    "BattlePointValue": 8,
+    "OverrideEnemyGroupPool": 0,
+    "EnemyGroupPool": [],
+    "OverrideEnemyTypePool": 0,
+    "EnemyTypePool": [],
+    "VictoryEvent": {
+      "m_FileID": 0,
+      "m_PathID": 2545729
+    },
+    "FailureEvent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "EnemyTurnFirst": 0,
+    "ForceMap": 0,
+    "MapToForce": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "ovrEnemyStatusRefList": [],
+    "ovrEnemyModRefList": []
+  },
+  "dados_recompensa_final": null,
+  "motivo": "Configuração de combate preservada; inimigos, loot/XP efetivos e modificadores são resolvidos no runtime, não exercitado."
+}
+```
+### Opção 2: Leave
+(string vazia no asset)
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 0
+Despite your initial commitment, you can’t deny the raw power of these fire demons, and the very real possibility of your own death. 
+
+Silently, you retreat, moving as quietly as you can back the way you came.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+
+---
+

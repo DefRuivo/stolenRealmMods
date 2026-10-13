@@ -1,0 +1,57 @@
+## The Prospector
+Chave: `resources.assets:2545631` — GUID: `d21cccf8-d886-4271-ac3e-da0dcf528cd0`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/main quests/2 - the prospector end — SHA objeto: `2209e8dbca9dc675c8943e8b7bd292d6728b6e7b74a2af6104c901fdad67b473`
+
+### Texto original
+The prospector's words, like ghostly whispers, dance in your mind as you gaze into the serpentine depths of the caverns, pathways to the realm of the Mountain King. What secrets had your father unraveled in these silent, stone-clad halls?
+
+What had he discovered, unearthed from the veils of earth, that incited such betrayal and turned hearts against him? Such ponderings, like shadows, clung to your thoughts, unyielding and haunting.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 1,
+    "allowedNodeTypes": [],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+
+---
+

@@ -1,0 +1,372 @@
+## Taste for Blood
+Chave: `resources.assets:2545717` — GUID: `882a9b9c-9acb-4c6a-85e1-54b4ee44dd27`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/taste for blood 2 - an innocent life — SHA objeto: `37cb53a7b1f9ce877886d2246a4a2ca24c2b07a57106f0fbdd5fc0ce88384675`
+
+### Texto original
+<red><incr><b>Samara</b></incr></red> stands confronting a terrified bishop, the man's eyes are wide with pure, unfiltered terror.
+
+
+In the dim candlelight, the vampire's skin glows with an ethereal light, highlighting her unearthly beauty. Her fangs, now bared in a cruel smile, glint menacingly. The sight is both terrifying and enchanting, a testament to her unholy power.
+
+
+The vampire's voice, a bewitching melody, fills your mind, thundering with a command, "<red><b>Slay the bishop!</b></red>" It is not a suggestion, but an order - one that tugs at the very edges of your resolve. The words echo around your skull, each syllable like a hammer blow, shattering the peace within.
+
+### Resultados possíveis (texto autoral)
+Will you resist Samara?
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 0,
+    "allowedNodeTypes": [
+      7
+    ],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+### Opção 1: Give In
+Slay the bishop.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 12
+As you near the trembling figure, an intense flash of images rush into your mind, unbidden yet consuming. You see the same bishop, his hands soaked in innocent blood, his eyes lit with unholy fervor. A young Samara lay lifeless on a dark altar, her life sacrificed in the pursuit of dark power. The vision is too raw, too visceral, to be an illusion.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+Combate configurado:
+```json
+{
+  "iniciar": true,
+  "manual": false,
+  "referencia": {
+    "chave": null,
+    "nome": null,
+    "motivo": "PPtr serializado com m_PathID=0 (referência nula no asset)."
+  },
+  "override": {
+    "ForceRandomSuperUnique": 0,
+    "DisableSuperUnique": 0,
+    "DisableEnemyMods": 0,
+    "UseRewardModifiers": 0,
+    "ExpModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GoldModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "LootModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GauranteedLoot": [],
+    "ForcedEnemies": [
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545116
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      }
+    ],
+    "EnemyModApplications": [],
+    "EnemyStatusApplications": [],
+    "FillOutBattlePoints": 0,
+    "OverrideBattlePoints": 0,
+    "BattlePointValue": 8,
+    "OverrideEnemyGroupPool": 0,
+    "EnemyGroupPool": [],
+    "OverrideEnemyTypePool": 0,
+    "EnemyTypePool": [],
+    "VictoryEvent": {
+      "m_FileID": 0,
+      "m_PathID": 2545714
+    },
+    "FailureEvent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "EnemyTurnFirst": 0,
+    "ForceMap": 0,
+    "MapToForce": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "ovrEnemyStatusRefList": [],
+    "ovrEnemyModRefList": []
+  },
+  "dados_recompensa_final": null,
+  "motivo": "Configuração de combate preservada; inimigos, loot/XP efetivos e modificadores são resolvidos no runtime, não exercitado."
+}
+```
+### Opção 2: Resist
+Attempt to resist Samara's command.
+
+Condições/rolagem:
+```json
+{
+  "condicoes": {
+    "status_requeridos": [],
+    "ocultar_sem_requisitos": false,
+    "ocultar_se_status": []
+  },
+  "rolagem": {
+    "bonus": [],
+    "misteriosa": false,
+    "texto_misterioso": ""
+  }
+}
+```
+
+#### Ação 1: Success — RollLimit 10
+A moment of clarity cuts through the insidious voice like a blade. You are not a puppet to be commanded, especially by a creature of darkness. You steel your resolve, meeting the vampire's gaze with a defiant glare.
+
+Efeito 1 (configuração autoral, não resultado de partida):
+```json
+{
+  "vida_mana": {
+    "percentMaxHealth": 0.0,
+    "percentMaxMana": 0.0,
+    "percentCurHealth": 0.0,
+    "percentCurMana": 0.0
+  },
+  "alvo": {
+    "override": false,
+    "tipo_override": {
+      "valor": 0,
+      "nome": "Self"
+    },
+    "tipo_default_serializado": {
+      "valor": 0,
+      "nome": "Self"
+    }
+  },
+  "recompensas": {
+    "ouro": {
+      "dar": false,
+      "retirar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions: GetQuestGold(nível), razão e GoldMultiplier; requer estado da partida."
+    },
+    "experiencia": {
+      "dar": false,
+      "razao": 1.0,
+      "quantidade_final": null,
+      "motivo": "Calculada em EventOption.InitActions; pode ser convertida em ouro no roguelike/party nível 30; requer estado da partida."
+    },
+    "itens": {
+      "dar": false,
+      "pool_tipo": {
+        "valor": 2,
+        "nome": "Unassigned"
+      },
+      "quantidade_configurada": 1,
+      "tabelas": [],
+      "restricoes": {
+        "limitItemTypes": 0,
+        "possibleItemTypes": [],
+        "limitItemRarities": 0,
+        "possibleRarities": []
+      },
+      "sorteio_final": null,
+      "motivo": "EventOption.InitActions/LootTable.GetLoot dependem de nível, restrições e RNG; tabelas autorais preservadas."
+    },
+    "status": {
+      "candidatos": [],
+      "sortear": false,
+      "quantidade_sorteada_configurada": 1,
+      "resultado_sorteado": null,
+      "motivo": "Configuração de candidatos preservada; resultado da partida não exercitado."
+    },
+    "skills": []
+  },
+  "remocoes_status": []
+}
+```
+
+Evento encadeado:
+```json
+{
+  "chave": "resources.assets:2545718",
+  "nome": "Taste for Blood 3 - Priest's Plea",
+  "pptr": {
+    "m_FileID": 0,
+    "m_PathID": 2545718
+  },
+  "tipo": "PartyEvent"
+}
+```
+#### Ação 2: Failure — RollLimit 0
+As you resist Samara's call, an intense flash of images rush into your mind, unbidden yet consuming. You see the same bishop, his hands soaked in innocent blood, his eyes lit with unholy fervor. A young Samara lay lifeless on a dark altar, her life sacrificed in the pursuit of dark power. The vision is too raw, too visceral, to be an illusion.
+
+Combate configurado:
+```json
+{
+  "iniciar": true,
+  "manual": false,
+  "referencia": {
+    "chave": null,
+    "nome": null,
+    "motivo": "PPtr serializado com m_PathID=0 (referência nula no asset)."
+  },
+  "override": {
+    "ForceRandomSuperUnique": 0,
+    "DisableSuperUnique": 0,
+    "DisableEnemyMods": 0,
+    "UseRewardModifiers": 0,
+    "ExpModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GoldModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "LootModifier": "Mathf.Max(0, 5 - (TurnCount - 1)) * 100",
+    "GauranteedLoot": [],
+    "ForcedEnemies": [
+      {
+        "OverrideEnemyName": 0,
+        "NameOverride": "",
+        "CharacterInfo": {
+          "m_FileID": 0,
+          "m_PathID": 2545116
+        },
+        "ForcedEnemyMods": [],
+        "IsSuperUnique": 0
+      }
+    ],
+    "EnemyModApplications": [],
+    "EnemyStatusApplications": [],
+    "FillOutBattlePoints": 0,
+    "OverrideBattlePoints": 0,
+    "BattlePointValue": 8,
+    "OverrideEnemyGroupPool": 0,
+    "EnemyGroupPool": [],
+    "OverrideEnemyTypePool": 0,
+    "EnemyTypePool": [],
+    "VictoryEvent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "FailureEvent": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "EnemyTurnFirst": 0,
+    "ForceMap": 0,
+    "MapToForce": {
+      "m_FileID": 0,
+      "m_PathID": 0
+    },
+    "ovrEnemyStatusRefList": [],
+    "ovrEnemyModRefList": []
+  },
+  "dados_recompensa_final": null,
+  "motivo": "Configuração de combate preservada; inimigos, loot/XP efetivos e modificadores são resolvidos no runtime, não exercitado."
+}
+```
+
+---
+

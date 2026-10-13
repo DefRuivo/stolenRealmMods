@@ -1,0 +1,65 @@
+## The Bandit
+Chave: `resources.assets:2545627` — GUID: `28d9e36f-1bfd-40e3-8fee-c835bfb470c4`
+Categoria: NotInEventPool — raridade: Common (0) — peso relativo: 1.0
+Origem: events/main quests/1 - boss bandit end — SHA objeto: `96c2b0526b905988ee913ee5ce3829e35ac176f335860f49437c754a8da443b3`
+
+### Texto original
+The remaining Blood Masks, witnessing the defeat of their leader, succumb to their cowardly nature. They scatter, fleeing into the shadows of the forest. 
+<br/>
+Amongst their stolen plunder, you unearth your Father's leather-bound journal. Worn with age, it contains a lifetimes worth of knowledge, gained from his countless adventures across the realm. Memories flood your mind as you recall your final moments with him. 
+
+As you stand there, thumbing through the journal, a pit of worry gnaws at your stomach. Your father would not have parted with this, his life's work, willingly, nor in sound mind.
+<br/>
+If what the bandit said was true, then the old Mountain King Ironheart might hold clues to your father's disappearance.
+
+The journey to Ironheart would be a perilous path through the Forgotten Mines, veering into the remnants of a once-glorious dwarven realm. There, amidst the echoes of a bygone era, the dwarf king reigned over a kingdom fractured, its splendor lost to the corridors of time. 
+
+The thought of this distant land and untold tales, stirs within your heart the beginnings of another adventure.
+
+### Resultados possíveis (texto autoral)
+(string vazia no asset)
+
+### Condições e modos
+```json
+{
+  "condicoes": {
+    "disabled": 0,
+    "EditorOnly": 0,
+    "allowOnAllNodeTypes": 1,
+    "allowedNodeTypes": [],
+    "requiredStatusesToSpawn": [],
+    "allowOnAllTerrainTypes": 1,
+    "allowedTerrainTypes": [],
+    "allowAtAllTimesOfDay": 1,
+    "allowedTimeOfDay": 0,
+    "allowAtAllLevels": 1,
+    "minLevel": 1,
+    "terrainTypesAllowedAtAnyTime": [],
+    "KeepInDeckWhenUsed": 0,
+    "isLesserEvent": 0,
+    "LeadsToFortune": 0
+  },
+  "modos": [
+    {
+      "valor": 0,
+      "nome": "Campaign"
+    },
+    {
+      "valor": 1,
+      "nome": "Roguelike"
+    }
+  ],
+  "historia": {
+    "valor": 0,
+    "nome": "NonStoryOnly"
+  },
+  "full_release": {
+    "valor": 0,
+    "nome": "None"
+  }
+}
+```
+
+
+---
+
