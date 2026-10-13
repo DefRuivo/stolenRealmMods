@@ -1,0 +1,8 @@
+{
+  "name": "BetterPortuguese",
+  "version_number": "0.1.0",
+  "website_url": "https://github.com/DefRuivo/stolenRealmMods",
+  "description": "Independent Brazilian Portuguese overlay with complete Original and Corrigido snapshots and runtime switching. Initial snapshot has no approved corrections yet. No gameplay changes.",
+  "dependencies": ["BepInEx-BepInExPack-5.4.2305"],
+  "extra": {"author": "gumatos", "content_state": "NO_HUMAN_APPROVALS_NO_TEXT_CHANGES"}
+}

@@ -1,0 +1,113 @@
+{
+  "schemaVersion": 1,
+  "taskId": "t_739c6068",
+  "locale": "pt-BR",
+  "variant": "Corrigido",
+  "contentState": "NO_HUMAN_APPROVALS_NO_TEXT_CHANGES",
+  "capturedAt": "2026-10-13T04:36:26.733439+00:00",
+  "originalTaskId": "t_1d0015bb",
+  "originalSha256": "80d48629b6f0d6681badee323ee97201d7c445876e9d9d17a6ae0dadab9f2224",
+  "source": {
+    "taskId": "t_2a6474ff",
+    "artifactSha256": "4d509f13280cd9e210593cfce08420dd8e48a75b4261f9faefee2e6afb6bf161",
+    "resourcePath": "Localization/LocalizationDataPortugueseBrazil",
+    "resourcePathId": 2547158,
+    "resourceAssetSha256": "cbdfcd0fa8ecc338029024acfeb6f939593aa99a1f291ae65f4776fcb0dbc012",
+    "assemblySha256": "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a",
+    "canonicalMemberSha256": "dbc7d03f2ebe1e9b8bda33a22aaf577475eae0bad84c009b8979184e3a1411a2"
+  },
+  "counts": {
+    "records": 9095,
+    "presentPortugueseKeys": 9090,
+    "entries": 8097,
+    "emptyLists": 1286,
+    "absentLists": 5,
+    "manualRecords": 2,
+    "changedKeys": 0,
+    "changedFields": 0,
+    "changedIds": [],
+    "pendingGateIdPairs": 3033,
+    "pendingDistinctIds": 2841,
+    "pendingCentralKeys": 2839,
+    "pendingManualRecords": 2,
+    "proposalVersions": 1252,
+    "editorialDivergenceGateIdPairs": 1,
+    "preservedStringFields": 57677,
+    "byGate": {
+      "LANG-C1": {
+        "gateTaskId": "t_71e4b22a",
+        "gateStatus": "blocked",
+        "categoryIds": 1293,
+        "alertRows": 1293,
+        "pendingIds": 1293,
+        "idsWithExtractedProposal": 50,
+        "acceptedChanges": 0
+      },
+      "LANG-C2": {
+        "gateTaskId": "t_15176486",
+        "gateStatus": "blocked",
+        "categoryIds": 268,
+        "alertRows": 268,
+        "pendingIds": 268,
+        "idsWithExtractedProposal": 80,
+        "acceptedChanges": 0
+      },
+      "LANG-C3": {
+        "gateTaskId": "t_0bddb861",
+        "gateStatus": "blocked",
+        "categoryIds": 1013,
+        "alertRows": 1140,
+        "pendingIds": 1013,
+        "idsWithExtractedProposal": 1013,
+        "acceptedChanges": 0
+      },
+      "LANG-C4": {
+        "gateTaskId": "t_ec66f0bb",
+        "gateStatus": "blocked",
+        "categoryIds": 83,
+        "alertRows": 85,
+        "pendingIds": 83,
+        "idsWithExtractedProposal": 83,
+        "acceptedChanges": 0
+      },
+      "LANG-C5": {
+        "gateTaskId": "t_4da3d8a7",
+        "gateStatus": "blocked",
+        "categoryIds": 376,
+        "alertRows": 376,
+        "pendingIds": 376,
+        "idsWithExtractedProposal": 25,
+        "acceptedChanges": 0
+      }
+    }
+  },
+  "files": [
+    {
+      "path": "Data/correcoes.diff.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "Data/pendencias.json",
+      "bytes": 4581581,
+      "sha256": "778e0f9e0d269b15802ab620a18a5ffec1768aeb761428bbd0de75d66fb6dfaf"
+    },
+    {
+      "path": "Data/pt-BR.corrigido.json",
+      "bytes": 4814603,
+      "sha256": "43861f9c8665c14496de77129af5dc0204ca8ec1b82c9d9e3801406692e974c8"
+    },
+    {
+      "path": "Data/pt-BR.original.json",
+      "bytes": 4814602,
+      "sha256": "80d48629b6f0d6681badee323ee97201d7c445876e9d9d17a6ae0dadab9f2224"
+    }
+  ],
+  "approvalPolicy": "Apply only literal per-field human decisions; pending preserves original. Technical proposal acceptance is not editorial approval.",
+  "notExercised": [
+    "Human editorial decisions",
+    "Game/runtime/UI/layout/font",
+    "Plugin/mod adapters/build/deploy/install/publication"
+  ],
+  "handoff": "BP-4 may embed this audited no-op Corrigido snapshot for implementation/QA; do not claim corrected text or publish. Rebuild after LANG-C1..C5 human decisions. Preserve original bytes. Mods namespace is separate and not supplied by BP-3."
+}

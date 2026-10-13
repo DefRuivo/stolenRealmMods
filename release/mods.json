@@ -42,6 +42,13 @@
       "motivo": "PUBLICAR 1.0.2 (substitui a 1.0.1, no ar desde 01/10/2026). A 1.0.2 leva o transporte de estilo entre VARIANTES de shader (BF-1) e a sombra fantasma corrigida (SombraDesenhada, BF-5). Categoria 'Mods'. Ordem: sobe ANTES do BetterCombatText 0.1.1 (que depende de BetterFont-1.0.2)."
     },
     {
+      "nome": "BetterPortuguese",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "BLOQUEADO para publicacao (BP-4): implementacao 0.1.0 validada somente offline, com Original/Corrigido completos. Corrigido ainda e no-op por ausencia de aprovacoes LANG; registro de mods vazio. Exige aprovacoes editoriais, QA em jogo BP-5 autorizada e aceite humano; build verde nao libera upload."
+    },
+    {
       "nome": "BetterStats",
       "publicar": true,
       "versao_publicada": "1.0.1",

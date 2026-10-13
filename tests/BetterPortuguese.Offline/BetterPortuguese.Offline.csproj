@@ -1,0 +1,14 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net6.0</TargetFramework><LangVersion>10</LangVersion><Nullable>disable</Nullable><EnableDefaultCompileItems>false</EnableDefaultCompileItems></PropertyGroup>
+ <ItemGroup>
+  <Compile Include="Program.cs"/><Compile Include="StubTypes.cs"/>
+  <Compile Include="../../BetterPortuguese/Core/*.cs" Link="Core/%(Filename)%(Extension)"/>
+  <Compile Include="../../BetterPortuguese/Runtime/Bindings.cs" Link="Bindings.cs"/>
+  <Compile Include="../../BetterPortuguese/Runtime/ConfigReader.cs" Link="ConfigReader.cs"/>
+  <EmbeddedResource Include="../../BetterPortuguese/Data/*.json"><LogicalName>BetterPortuguese.Data.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+  <Reference Include="0Harmony"><HintPath>$(OfflineDepsDir)/0Harmony.dll</HintPath></Reference>
+  <Reference Include="Mono.Cecil"><HintPath>$(OfflineDepsDir)/Mono.Cecil.dll</HintPath></Reference>
+  <Reference Include="MonoMod.Utils"><HintPath>$(OfflineDepsDir)/MonoMod.Utils.dll</HintPath></Reference>
+  <Reference Include="MonoMod.RuntimeDetour"><HintPath>$(OfflineDepsDir)/MonoMod.RuntimeDetour.dll</HintPath></Reference>
+ </ItemGroup>
+</Project>

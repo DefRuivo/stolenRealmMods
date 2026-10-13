@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk">
+ <PropertyGroup>
+  <TargetFramework>netstandard2.1</TargetFramework><LangVersion>10</LangVersion>
+  <AssemblyName>BetterPortuguese</AssemblyName><RootNamespace>BetterPortuguese</RootNamespace>
+  <Version>0.1.0</Version><CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  <DeployToBepInEx Condition="'$(DeployToBepInEx)' == ''">false</DeployToBepInEx>
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\lib</CommonLibDir>
+   </PropertyGroup>
+   <Target Name="ValidateCommonLibDir" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(CommonLibDir)\Assembly-CSharp.dll')" Text="BP-LIB: referencias privadas ausentes; use lib/ na raiz do checkout ou -p:CommonLibDir=&lt;caminho absoluto da lib&gt;. Nenhuma referencia sera baixada/distribuida." />
+   </Target>
+ <ItemGroup>
+  <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="0Harmony"><HintPath>$(CommonLibDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine"><HintPath>$(CommonLibDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.CoreModule"><HintPath>$(CommonLibDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.TextRenderingModule"><HintPath>$(CommonLibDir)\UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.UI"><HintPath>$(CommonLibDir)\UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.UIModule"><HintPath>$(CommonLibDir)\UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Unity.TextMeshPro"><HintPath>$(CommonLibDir)\Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.TextCoreFontEngineModule"><HintPath>$(CommonLibDir)\UnityEngine.TextCoreFontEngineModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="UnityEngine.TextCoreTextEngineModule"><HintPath>$(CommonLibDir)\UnityEngine.TextCoreTextEngineModule.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Assembly-CSharp"><HintPath>$(CommonLibDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Sirenix.Serialization"><HintPath>$(CommonLibDir)\Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Sirenix.Serialization.Config"><HintPath>$(CommonLibDir)\Sirenix.Serialization.Config.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Sirenix.OdinInspector.Attributes"><HintPath>$(CommonLibDir)\Sirenix.OdinInspector.Attributes.dll</HintPath><Private>false</Private></Reference>
+  <Reference Include="Sirenix.Utilities"><HintPath>$(CommonLibDir)\Sirenix.Utilities.dll</HintPath><Private>false</Private></Reference>
+  <EmbeddedResource Include="Data\*.json"><LogicalName>BetterPortuguese.Data.%(Filename)%(Extension)</LogicalName></EmbeddedResource>
+ </ItemGroup>
+ <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
+  <PropertyGroup><PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir></PropertyGroup>
+  <MakeDir Directories="$(PluginsDir)"/><Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)"/>
+  <Message Importance="high" Text="Deploy explicito: $(TargetFileName) para $(PluginsDir)"/>
+ </Target>
+</Project>

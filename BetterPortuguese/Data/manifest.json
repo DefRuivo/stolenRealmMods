@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "contentState": "NO_HUMAN_APPROVALS_NO_TEXT_CHANGES",
+  "files": [
+    {
+      "path": "correcoes.diff.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "path": "pendencias.json",
+      "bytes": 4581581,
+      "sha256": "778e0f9e0d269b15802ab620a18a5ffec1768aeb761428bbd0de75d66fb6dfaf"
+    },
+    {
+      "path": "pt-BR.corrigido.json",
+      "bytes": 4814603,
+      "sha256": "43861f9c8665c14496de77129af5dc0204ca8ec1b82c9d9e3801406692e974c8"
+    },
+    {
+      "path": "pt-BR.mods.json",
+      "bytes": 68,
+      "sha256": "cb7e2437cf1ff68497c2223be77c10f1847ae8314d904943a53ceb6dac1aff65"
+    },
+    {
+      "path": "pt-BR.original.json",
+      "bytes": 4814602,
+      "sha256": "80d48629b6f0d6681badee323ee97201d7c445876e9d9d17a6ae0dadab9f2224"
+    },
+    {
+      "path": "upstream.BP3.manifest.json",
+      "bytes": 3790,
+      "sha256": "2f9e7d57198881d1c2ec31b3332cdbe7e9162d24b34b5a7665299e61888c870e"
+    }
+  ],
+  "coverage": {
+    "gameRecords": 9095,
+    "portugueseKeys": 9090,
+    "manualRecords": 2,
+    "changedKeys": 0,
+    "approvedModRecords": 0
+  },
+  "limits": [
+    "No approved corrections yet",
+    "No manual adapter",
+    "No approved mod bindings"
+  ]
+}

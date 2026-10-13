@@ -1,0 +1,4 @@
+# BP snapshots/resource hashes are byte contracts, not normalized text.
+# Preserve upstream bytes even in Windows clones with core.autocrlf=true.
+Data/*.json -text
+icon.png -text
