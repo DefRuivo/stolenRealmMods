@@ -157,3 +157,8 @@ secrets*
 !/tools/testes/rstv15-prova-reprovando.log
 !/tools/testes/rstv19-prova-reprovando.log
 !/tools/testes/rv28-globule-prova-de-fogo.log
+
+# ORG-R5-DADOS (decisao do dono, 11/10/2026): eventos.json segue canonico e versionado.
+# O catalogo derivado regeneravel e o ZIP redundante ficam somente no disco local.
+/docs/cobertura/EV-R1/catalogo-referencias.json
+/docs/cobertura/EV-R1/EV-R1-entrega.zip
