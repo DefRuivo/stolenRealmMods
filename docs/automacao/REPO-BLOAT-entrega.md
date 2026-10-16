@@ -549,6 +549,16 @@ candidato mais provável é um comando de limpeza desse lote com caminho relativ
 trabalho em vez do clone. Fica registrado como **causa não determinada** — a janela e o mecanismo
 estão provados; o autor do comando, não.
 
+O que o reflog **elimina** como causa (medido nesta correção):
+
+- `8a5f824 HEAD@{3}: reset: moving to 8a5f8247c41a…` — houve um `git reset` na janela, mas para o
+  **mesmo** commit, e `git reset` (inclusive `--hard`) **não** remove arquivos não rastreados ou
+  ignorados, que era o caso dos 7 depois do `rm --cached` + ignore.
+- O `EV-R1-entrega.zip` (45,6 MB, mesma pasta, também ignorado) **sobreviveu** — incompatível com uma
+  varredura de limpeza que levasse arquivos ignorados da pasta.
+- Nenhum `filter-branch`, `filter-repo` ou varredura de limpeza no reflog; nenhum arquivo `.bak`
+  criado.
+
 **Por que os arquivos que reapareceram às 15:33 não bastavam.** Eles vinham em **LF** (28.348 B no
 `indice.md`, 1.853.665 B na revisão), enquanto a árvore de trabalho original é **CRLF** (28.632 B /
 1.924.497 B): seria uma "restauração" que muda os bytes do que existia antes da remoção — o oposto da
