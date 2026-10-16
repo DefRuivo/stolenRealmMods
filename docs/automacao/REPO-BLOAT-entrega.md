@@ -353,6 +353,10 @@ limpo, `git check-ignore -v` apontando as linhas novas do `.gitignore`.
 `scratch/piloto-contrafactual`: só as linhas de ignore, **sem** `rm --cached` → `ls-files -ci` = **7**
 (o motivo pelo qual as duas mudanças são um commit só).
 
+Os clones do piloto são **descartáveis** (vivem no scratch do Hermes, que é podado por ociosidade; o do
+contra-factual já foi apagado depois da medição). Eles **não** são pré-requisito da execução: os
+números da §4.2 se reproduzem com os comandos da §5 num clone novo.
+
 ---
 
 ## 6. Invariante de verificação obrigatória
