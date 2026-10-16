@@ -63,6 +63,13 @@
       "motivo": "PUBLICAR 0.1.3 (substitui a 0.1.2, no ar desde 03/10/2026). A 0.1.3 leva os valores nas passivas de inimigo (BT-18/19: Redemptive qualitativo, Regenerating, Teleporting, Cursed, Vengeful) e o Armor/Magic Armor absoluto nas skills de conversao plana (BT-20: Body and Soul = Vitality*5 / Intelligence*5)."
     },
     {
+      "nome": "RealmApi",
+      "publicar": false,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "PREPARACAO para publicacao do RealmApi 0.1.0 (categoria Mods, conforme api/manifest.json): o pacote existe em dist/gumatos-RealmApi-0.1.0.zip e o empacotador ja reconhece o nome (PKG-API-1), mas esta entrada NAO autoriza envio. TRAVADO para publicacao ate o aceite humano do dono e o disparo explicito; nao entra em ordem_de_envio (o RealmApi sobe ANTES do RoguelikeSkillTreeVisualizer, que declara a dependencia 0.1.0)."
+    },
+    {
       "nome": "RoguelikeDebugger",
       "publicar": true,
       "versao_publicada": "0.1.2",
