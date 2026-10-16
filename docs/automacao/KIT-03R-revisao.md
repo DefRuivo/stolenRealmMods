@@ -37,7 +37,7 @@ pelo implementador. `scratch/kit/detect-any.sh`, citado no handoff do cartão-pa
 | C3 | Snapshot + rollback "exato", mesmo em falha parcial | **ACHADO** (A11: só apaga o listado na lista global `arquivos-criados.txt`; `hashes-antes.txt` nunca é conferido; sobra silenciosa) |
 | C4 | Prova de isolamento de saves | **FALHOU** (A2: tautologia + veredito fixo + exit 0 mesmo com FALHOU) |
 | C5 | Front única / PID / sessão do dono | **FALHOU** (A13: o lock nunca recusa — lê `tail -1` como PID e recebe o worker; 2º `acquire` passa por cima) |
-| C6 | Ausência de caminhos pessoais fixos | **ACHADO** (A12 `KITS_DIR` ignorado por 4 scripts; A3 `Abyssus`; A15; A17 `C:/Users/Pichau` hardcoded em `isolacao.sh:187`; A18 `detect-env.sh:147` cadeia morta) |
+| C6 | Ausência de caminhos pessoais fixos | **ACHADO** (A12 `KITS_DIR` ignorado por 4 scripts; A3 `Abyssus`; A15; A17 `<PERFIL-DO-DONO>` hardcoded em `isolacao.sh:187`; A18 `detect-env.sh:147` cadeia morta) |
 | C7 | Resíduos de instalação | **OK** (nenhum resíduo atribuível a KIT-03 no perfil; nada instalado) |
 | C8 | Runner orquestrador fiel (sem falso-verde) | **FALHOU** (A1: morre em `((TOTAL++))` linha 59, **exit 1**, zero testes; A5: `skip` conta como `PASSED` e exit 0) |
 | C9 | Reuso de infraestrutura sem duplicar | **ACHADO** (A4 caminhos errados no Teste 6; zero reuso de `roda_testes_runtime.py`/`controle_negativo.py`; runner paralelo reescrito) |
@@ -110,3 +110,5 @@ teste-que-reprova não foi exercitada em nenhum ponto: nenhum caminho negativo f
 Abrir **KIT-03F** (implementador, filho de KIT-03R) com os 8 itens acima; ao fechar, pedir reconferência
 por revisor em run separada sem apagar histórico. O gate humano KIT-G1 fica **atrás** do KIT-03F
 (isolamento não confiável ⇒ não autorizar rodada runtime).
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

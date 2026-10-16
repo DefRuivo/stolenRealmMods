@@ -31,8 +31,8 @@ liberada, perfil BepInEx isolado removido.
 arquivos), 3/5 export do registro (exit 0) e parou em 4/5:
 
 ```
-[18:41:45] 4/5 rename do diretorio REAL -> C:\Users\Pichau/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm.kit16-real (rename, sem apagar nada)
-mv: cannot move 'C:\Users\Pichau/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm' to 'C:\Users\Pichau/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm.kit16-real': Device or resource busy
+[18:41:45] 4/5 rename do diretorio REAL -> <PERFIL-DO-DONO>/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm.kit16-real (rename, sem apagar nada)
+mv: cannot move '<PERFIL-DO-DONO>/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm' to '<PERFIL-DO-DONO>/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm.kit16-real': Device or resource busy
 [18:41:46] ERRO: rename falhou
 ```
 
@@ -73,20 +73,20 @@ Sysinternals `handle64.exe` (baixado só para a consulta, removido depois; saíd
 `handle64-evidence.txt`):
 
 ```
-Code.exe           pid: 30552  ... 518: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-Code.exe           pid: 30552  ... 540: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-Code.exe           pid: 25708  ...  58: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-Code.exe           pid: 23792  ...  58: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-Code.exe           pid: 15252  ...  58: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-dotnet.exe         pid: 24788  ...  58: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
-Microsoft.CodeAnalysis.LanguageServer.exe pid: 24116 ... 58: C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Code.exe           pid: 30552  ... 518: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Code.exe           pid: 30552  ... 540: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Code.exe           pid: 25708  ...  58: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Code.exe           pid: 23792  ...  58: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Code.exe           pid: 15252  ...  58: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+dotnet.exe         pid: 24788  ...  58: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
+Microsoft.CodeAnalysis.LanguageServer.exe pid: 24116 ... 58: <PERFIL-DO-DONO>\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm
 ```
 
 A causa está no próprio repositório: `biblioteca-de-terceiros.code-workspace` lista a pasta de saves como
 **pasta do workspace** (linha 4):
 
 ```json
-"path": "../../Users/Pichau/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm"
+"path": "../<PERFIL-DO-DONO>/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm"
 ```
 
 Correlação de tempo (BRT), coerente com a causa:
@@ -178,3 +178,5 @@ medido e registrado, só não bloqueia mais a rodada.
 
 Hashe desta rodada: bancada `roda-seg2.py` = `c1a89218…` (sha256 completo no
 `F-marcadores-identity.json.fonte_modulo_sha256`); fonte do instrumento `beaf965a…`; DLL `7f9a4cf1…`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

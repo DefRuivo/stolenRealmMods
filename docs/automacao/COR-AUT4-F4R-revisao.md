@@ -291,7 +291,7 @@ d7604b2306df7dfde417702671cb13142eb2eec63ec78d0bb470f1153fc6366a  docs/automacao
 dee03a8fd16d95730ede993a14747406a37ba44f8a7ea97a6a666995fb7ef3e5  minha copia espelho "sem defeito" (== repo)
 ```
 
-Provas em `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/f4r_rev/`: `gerar_artefatos.py`
+Provas em `%USERPROFILE%/AppData/Local/hermes/cache/scratch/f4r_rev/`: `gerar_artefatos.py`
 (`3d715311…`), `roda_sondas.py` (`d7c1dcba…`), `idem_matriz.py` (`f508679c…`),
 `bordas_sentinela.py` (`77d96f49…`), `art/` (artefatos-sonda), `saidas/` (JSON literal de cada CLI),
 `com/` e `sem/` (cópias fora do repo).
@@ -301,3 +301,5 @@ Provas em `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/f4r_rev/`: `gerar_
 Rodada runtime real em jogo (PNG pela API do Unity, `Tooltip.ShowTooltip`, owners Harmony vivos,
 rollback em jogo) **não** foi exercitada — esta revisão é offline (bytes + execução Python), como manda o
 card. Nada disto virou OK aqui e nada disto substitui o aceite humano.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -16,6 +16,13 @@ import json, os, re, sys, hashlib
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 BASE = os.path.dirname(os.path.dirname(HERE))
+
+# O unico caminho FORA do repositorio (anexo do kanban) e' resolvido em TEMPO DE
+# EXECUCAO e mantido com barra normal, para a chave do dicionario sair exatamente
+# como antes; o VALOR e' o sha256 congelado da medicao - esse nao muda.
+PERFIL = os.environ.get("USERPROFILE") or os.path.expanduser("~")
+ANEXOS = PERFIL.replace("\\", "/") + "/AppData/Local/hermes/kanban/attachments"
+
 EV = os.path.join(BASE, "docs", "cobertura", "EV-R1", "eventos.json")
 MD = os.path.join(BASE, "docs", "cobertura", "EV-R1", "lote-Normal-v2.md")
 SCHEMA = os.path.join(BASE, "docs", "cobertura", "EV-R1", "eventos.schema.json")
@@ -34,7 +41,7 @@ SOURCES = {
     "C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b02-parte01.md": "cbd464a551efb1420c0032c00c03ecbeee5933781f465a8a12d06c57ef046552",
     "C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b03-parte01.md": "80f14e416c0e05302c4fed7ed2c51793cd975426013647e09887dfbb8cd813b5",
     "C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b04-parte01.md": "2dbc044be0e4a568fb2483658d6da7c4c27eb28b17e6a7421ba0764e209ac0fc",
-    "C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_a5c365a4/analise-ev81-100.md": "abb389ed1600a6ca72edde89ed599c920f53123e154a7c9dcab7c16ae6063235",
+    ANEXOS + "/t_a5c365a4/analise-ev81-100.md": "abb389ed1600a6ca72edde89ed599c920f53123e154a7c9dcab7c16ae6063235",
     "C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b06-parte01.md": "d79c302a20ec3968787bc1174810fbefa2922609a10caa8cd2704484a5bdeb83",
     "C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b07-parte01.md": "d8d553f8945bdb4c33da7cf7a51e27fcd40194f3900d7a1d9fc99381bbd5e344",
 }

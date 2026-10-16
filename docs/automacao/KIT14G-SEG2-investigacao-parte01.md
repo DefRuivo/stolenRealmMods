@@ -24,10 +24,12 @@ O runbook apresenta inferências categóricas (“é do jogo”, “é clique ce
 
 ## 4. Dependência circular operacional, ainda sem alterar o board
 
-`kanban_show(t_a41dd22d)`: SEG1-RT TODO depende de SEG2 BLOCKED; seu filho KIT-14 t_a1f38855 depende de SEG1-RT. O `kanban_show(t_a1f38855)` foi preservado pelo runtime em `C:/Users/Pichau/AppData/Local/hermes/cache/spillover/call_WufRp2AcLBd1OFYBCLFCF8bj.txt`; leitura por JSON confirmou 1 pai não satisfeito (SEG1-RT). Portanto, exigir que o cartão KIT-14 inteiro rode primeiro para destravar SEG2 cria uma espera circular operacional. O clique diagnóstico pode ser etapa supervisionada separada; os três boots sintéticos são outro caminho e a própria receita prevê fazê-los sem clique de sistema.
+`kanban_show(t_a41dd22d)`: SEG1-RT TODO depende de SEG2 BLOCKED; seu filho KIT-14 t_a1f38855 depende de SEG1-RT. O `kanban_show(t_a1f38855)` foi preservado pelo runtime em `%USERPROFILE%/AppData/Local/hermes/cache/spillover/call_WufRp2AcLBd1OFYBCLFCF8bj.txt`; leitura por JSON confirmou 1 pai não satisfeito (SEG1-RT). Portanto, exigir que o cartão KIT-14 inteiro rode primeiro para destravar SEG2 cria uma espera circular operacional. O clique diagnóstico pode ser etapa supervisionada separada; os três boots sintéticos são outro caminho e a própria receita prevê fazê-los sem clique de sistema.
 
 ## 5. Estado da montagem: ainda não confirmado nesta parte
 
 `scratch/kit/seg2-sessao-isolada.ps1:42-56` ordena snapshot, export PlayerPrefs, cópia, Move-Item do real e só então junction. Existirem snapshot/cópia não comprova que o junction foi criado. O suposto proprietário do handle e a exclusão de Steam/r2modman exigem leitura dos registros da tentativa; até essa leitura são INDETERMINADOS para esta investigação.
 
 NAO_EXERCITADO nesta parte: novos boots, clique físico, montagem/desmontagem, reprodução de falha de rename, build ou correção. Não fazem parte do escopo permitido.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

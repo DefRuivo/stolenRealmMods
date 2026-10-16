@@ -77,7 +77,7 @@ exit = 0  (BENCH_EXIT=0)  ->  VERDE
 
 - **Isolamento registrado no JSON**: `USERPROFILE/APPDATA/LOCALAPPDATA` sob `.../bench/trabalho/isolamento/*`
   (+ props MSBuild `-p:USERPROFILE=…`, `-p:APPDATA=…`, `-p:LOCALAPPDATA=…`); `NUGET_PACKAGES` =
-  `C:\Users\Pichau\.nuget\packages` (cache real preservado).
+  `%USERPROFILE%\.nuget\packages` (cache real preservado).
 - **`preflight_deploy`**: `OK` (7 alvos de deploy, todos com `Condition`), `bloqueou=False`.
 - **Guarda de repo**: `arquivos=457`, `criados=[] removidos=[] alterados=[]` → **intacto**.
   (Era 78 na entrega; agora inclui 28 de `tools/automacao` e 8 de `docs/automacao`, e exclui o
@@ -135,3 +135,5 @@ docs/automacao/AUT-3F-relatorio.md                    (este relatório)
 
 > AUT-3F não substitui aceite humano nem publicação do DoD. Não marcar done — o pai faz a revisão
 > independente por outro agente.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

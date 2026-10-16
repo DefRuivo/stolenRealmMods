@@ -1,6 +1,6 @@
 # KIT-04R — parte 02: execução real em sandbox (build)
 
-Sandbox: `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/`
+Sandbox: `%USERPROFILE%/AppData/Local/hermes/cache/scratch/`
 - `kit-revisao/`      → cópia de `tools/automacao/runtime/KIT04Core` + `lib/` + `AUT4Probe`
 - `kit-revisao-positivo/` → cópia do Core com o defeito de captura neutralizado
 
@@ -77,3 +77,5 @@ referência (`GameManaged`) que o AUT4Probe usa para `ScreenCaptureModule`, e po
 - Leitura da especificação do contrato (`KIT-04-core-especificacao.md`) para mapear critérios
   (API pequena, desabilitada por padrão, sem dependência obrigatória dos mods).
 - Refutações: interferência do instrumento no produto e dependência obrigatória dos mods.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

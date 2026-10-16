@@ -6,7 +6,7 @@ Tarefa t_873a563d; conferência em 11/10/2026. Implementação recebida de t_c29
 
 O plano ORG-R1 partes 01..04 aprovou somente a promoção de scratch/test-cycle.sh para tools/test-cycle.sh, conservando o shim legado tracked e o screenshot privado/opcional. Nenhuma nova reorganização foi feita neste gate.
 
-Foi criado um clone próprio, sem outputs de build copiados, com core.autocrlf=false e checkout limpo do commit exato recebido. Bancada: C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_873a563d/gate-clean01. As referências locais de lib foram copiadas privadamente para compilar; não integram a entrega nem foram redistribuídas.
+Foi criado um clone próprio, sem outputs de build copiados, com core.autocrlf=false e checkout limpo do commit exato recebido. Bancada: %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_873a563d/gate-clean01. As referências locais de lib foram copiadas privadamente para compilar; não integram a entrega nem foram redistribuídas.
 
 O diff do commit recebido contém oito caminhos nominais, zero deleções e nenhuma alteração em fontes C#, projetos ou workflows. Git reconhece C078 de scratch para tools: a origem continua existindo por contrato, agora com cinco linhas de delegação. O handoff registra a execução de git mv antes de recriar o shim; Git guarda os snapshots, não o comando executado. Conferi a continuidade do conteúdo e do histórico, sem alegar que o diff sozinho prova a chamada git mv.
 
@@ -62,3 +62,5 @@ Durante a conferência apareceu o commit concorrente 11313e3 (INST-1), somente e
 Inventário protegido medido neste gate: lib com 16 arquivos, dist principal com 28 e plugins do perfil com 21, além dos artefatos locais de screenshot. Comparação final de hashes integra as provas. EV-R1, fontes, projetos, snapshots e demais entregáveis não foram movidos nem removidos. Este gate versiona somente este relatório novo, com stage nominal; sem git add -A, commit -a, deploy, jogo, push ou publicação.
 
 O release-check conserva corretamente as pendências de observação ui.localized, ciclo real e conferência humana. Seus avisos herdados (patches, chaves fora do censo e suspeitas compartilhadas) não foram convertidos em validação de runtime. ACEITO significa organização e automação verificadas, não release pronto nem validação visual em jogo.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -6,7 +6,7 @@ Objeto: **COR-AUT4-F2** (`t_ecc83c8f`, em review) — fechamento dos 4 achados q
 Revisor: agente independente (`default`, tarefa `t_57dc92bc`) — **não é o autor**.
 Data: **2026-10-06 15:33→15:41 (-03:00)**. HEAD do repo lido: `b94cb17`.
 Escopo: **só leitura de bytes + execução OFFLINE sobre cópias fora do repo**
-(`C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cor-aut4f2r/`). Nenhum jogo aberto, nenhum
+(`%USERPROFILE%/AppData/Local/hermes/cache/scratch/cor-aut4f2r/`). Nenhum jogo aberto, nenhum
 probe instalado, nenhum deploy, nenhum build, nenhum commit/push, nenhum `git add`. Nada tocado em
 `tools/automacao/estilo/**`, `tools/automacao/aceite/**`, `lib/Assembly-CSharp.dll` nem nos fontes dos mods.
 Meus únicos arquivos no repo: este parecer + `docs/automacao/COR-AUT4-F2R-evidencias/`.
@@ -278,3 +278,5 @@ diferença explicável que a regra de TRAVAS permite. Logs: `nonreg-fixed-*.log`
 Reprodução: copiar `tools/` + `docs/automacao/` (suíte) e o repo sem `.git`/`scratch` (não-regressão) para
 fora do repo, aplicar os bytes originais em `tools/automacao/runtime/{coletor.py,fixtures/probe-saida-exemplo.entrada.json}`
 e rodar com `python` a partir da cópia.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

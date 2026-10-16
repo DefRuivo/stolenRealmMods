@@ -94,8 +94,10 @@ cd "$HERMES_KANBAN_WORKSPACE/isolado/RoguelikeDebugger" && dotnet build Roguelik
   cache/`MissingExpressions` (a matriz hoje sempre entra quando o hook aplica).
 - **P0 DBG01/DBG02/DBG03/DBG05/DBG06 e P1/P2/P3** da matriz `DBG-R1-parte05-matriz.csv` (arquivo
   dentro do ZIP da entrega do cartão pai `t_9e2325d7`, em
-  `C:\Users\Pichau\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip` — **não**
+  `%USERPROFILE%\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip` — **não**
   existe na árvore do repositório) — cada um é um cartão próprio (a tabela da parte 01 §4 diz, item
   a item, o que este cartão cobre).
 - **Envelope por registro** (frame/owner em cada linha do dump) — este cartão carimba o **dump**, não
   cada linha.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

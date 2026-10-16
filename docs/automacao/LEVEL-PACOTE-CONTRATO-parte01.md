@@ -61,7 +61,7 @@ Não foi criada segunda lista estática: `--listar-nomes`, `check_versoes`, `val
 
 O código do passo *Gate dos mods liberados* foi **extraído do próprio `publish.yml`** (o heredoc
 `python - <<'PY'` da seção 1 do workflow) e executado local por um script **de rodada, fora do repo**
-(`C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_4056b88f\ev\gate_release.py`: recorta o
+(`%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_4056b88f\ev\gate_release.py`: recorta o
 heredoc, ajusta o recuo e roda com `MOD`/`GITHUB_OUTPUT` definidos — é a mesma fonte, não uma
 reimplementação). As duas respostas:
 
@@ -90,7 +90,7 @@ com o motivo visível — `BLOQUEADO para publicação`, não "publicável por e
 
 ## 4. Bancada NOVA, sem perfil e sem jogo
 
-Bancada: `C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_4056b88f\bancada` — cópia **nova** do
+Bancada: `%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_4056b88f\bancada` — cópia **nova** do
 repositório (fontes, `tools/`, `release/`, `api/`, `tests/`, `.github/`, `Directory.Build.props`), com
 `bin/`, `obj/`, `__pycache__/`, `dist/` e `lib/` **ausentes** e **nenhuma DLL** antes do build.
 
@@ -162,3 +162,5 @@ destino novo.
   `RL`), como já previsto em `--gerar-icones`. Como o mod não vai ser publicado, o dono pode desenhar um
   ícone próprio depois; trocar o arquivo é o suficiente (o pacote sai do mesmo caminho).
 * **Não** foi usada a palavra "PASSOU" para runtime não autorizado.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

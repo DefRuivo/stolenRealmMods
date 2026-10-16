@@ -15,7 +15,7 @@ Os censos `docs/cobertura/*.csv` são regenerados por `tools/census.py` a partir
 | "a leitura é passiva" | se a sessão usava a **matriz Flame**, que chama `EvalVoid` e escreve em `MissingExpressions` |
 
 Origem: auditoria DBG-R1 — artefatos **do pacote de entrega do cartão `t_9e2325d7`**
-(`C:\Users\Pichau\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`; o
+(`%USERPROFILE%\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`; o
 `DBG-R1-parte07.md` também está solto nessa pasta). Eles **não** existem na árvore do repositório.
 `DBG-R1-parte07.md` §1, lacuna nº 1; `DBG-R1-parte05-matriz.csv`, item **DBG16**, P0.
 
@@ -87,3 +87,5 @@ sha256 das fontes que **não** podiam mudar. A prova vermelho→verde está em
 Runtime: nenhum arranque do jogo foi feito na implementação deste carimbo (`NAO_EXERCITADO`). O
 carimbo prova **o que** foi observado, **por quem** e **se o dump fechou** — não substitui o teste
 em jogo, nem valida o conteúdo mecânico dos censos.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

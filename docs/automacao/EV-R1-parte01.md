@@ -9,7 +9,7 @@ Tarefa: t_48d68679. Trabalho exclusivamente offline, sem iniciar jogo, sem insta
 - Cópia de referência existente: `C:/dev/stolen-realm/lib/Assembly-CSharp.dll` (7.712.768 bytes; equivalência ainda NÃO_EXERCITADA).
 - Extrator reutilizável localizado: `C:/dev/stolen-realm/scratch/rv28/dump_fortunes.py` (leitura pendente).
 - Referência de índice: `C:/dev/stolen-realm/docs/cobertura/DUMP-PASSIVAS-REVISAO.md`, 961 linhas. O documento é um recorte de skills, não uma prova da cobertura de eventos.
-- Ferramentas detectadas: `ilspycmd` em `C:/Users/Pichau/.dotnet/tools`; Python 3.14.7. `importlib.util.find_spec('UnityPy')` retornou `None` no Python padrão.
+- Ferramentas detectadas: `ilspycmd` em `%USERPROFILE%/.dotnet/tools`; Python 3.14.7. `importlib.util.find_spec('UnityPy')` retornou `None` no Python padrão.
 
 ## Limites e preservação
 
@@ -22,3 +22,5 @@ Não há contagem total de eventos verificada ainda. Ausência em censos não se
 Executado no workspace: `python -c "from pathlib import Path; import importlib.util,hashlib; a=Path('E:/SteamLibrary/steamapps/common/Stolen Realm/Stolen Realm_Data/Managed/Assembly-CSharp.dll'); print(importlib.util.find_spec('UnityPy')); print(hashlib.sha256(a.read_bytes()).hexdigest())"`.
 
 Cobertura, resolução de referências e validação de schema: NÃO_EXERCITADO nesta etapa inicial; os resultados serão registrados em novas partes.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

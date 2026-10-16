@@ -9,7 +9,7 @@ transição de veredito desta rodada. Produto **não editado** por esta revisão
 
 Método: leitura fria do código **antes** do resumo do autor, seguida de **execução real em cópia
 isolada** (nunca no repo real). Evidências em
-`C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_49075ea4\`
+`%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_49075ea4\`
 (`review_evidence.json`, `full_result.json`, `full_summary.md`, `refutacao.json`,
 `snapshot_before.json`, `snapshot_after.json`, `review_aut3.py`, `refuta_aut3.py`).
 
@@ -107,3 +107,5 @@ Ou seja: **nenhum caminho testado transformou falha em verde**, e o perfil ficou
 - As medições valem para o HEAD `f526fe9b71f5` e para as mudanças visíveis no disco nesta janela.
 
 > AUT-3R2 não publica, não aprova deployment e não substitui o aceite humano do DoD.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

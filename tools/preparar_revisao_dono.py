@@ -5,13 +5,31 @@ import hashlib
 import io
 import json
 from pathlib import Path
+import os
 import re
 import sys
 import unittest
 import zipfile
 
 ROOT = Path(__file__).resolve().parents[1]
-ATT = Path('C:/Users/Pichau/AppData/Local/hermes/kanban/attachments')
+
+
+def _raiz_de_anexos() -> Path:
+    """Raiz dos anexos do kanban resolvida em TEMPO DE EXECUCAO.
+
+    Nao ha caminho de usuario fixo no codigo: quem manda e' o perfil de quem roda.
+    Ordem: `HERMES_KANBAN_ATTACHMENTS` (se setado) -> `%USERPROFILE%` ->
+    `Path.home()`. Assim o script funciona em qualquer maquina/perfil, e nao
+    publica o nome do dono do repositorio.
+    """
+    de_env = os.environ.get('HERMES_KANBAN_ATTACHMENTS')
+    if de_env:
+        return Path(de_env)
+    perfil = os.environ.get('USERPROFILE') or str(Path.home())
+    return Path(perfil) / 'AppData' / 'Local' / 'hermes' / 'kanban' / 'attachments'
+
+
+ATT = _raiz_de_anexos()
 SOURCE = ATT / 't_2a6474ff/LANG-R1-entrega-final.zip'
 PROPOSALS = ATT / 't_a1ccc2dd/LANG-C4-propostas-dados01.json'
 PACKAGE = ATT / 't_a1ccc2dd/LANG-C4-propostas-entrega01.zip'

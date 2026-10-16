@@ -1,7 +1,7 @@
 # KIT-14F — parte 01: orientação, evidência e plano (RED antes do conserto)
 
 Cartão: t_c46abdf7 (KIT-14F). Autor: default/run705. Data local do terminal: 2026-10-10 16:44 -03.
-Workspace do kanban: `C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_c46abdf7`.
+Workspace do kanban: `%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_c46abdf7`.
 Repositório do projeto (onde vive o código a consertar): `C:\dev\stolen-realm`, branch `ci-validate-test`.
 
 Este artefato NÃO sobrescreve nada: é o primeiro de uma série numerada (`KIT-14F-parteNN.md`).
@@ -85,3 +85,5 @@ Confirmado no texto, sem reinterpretar:
 Regras desta rodada: sem clique de sistema; sem tocar no perfil/save do dono (nada é instalado,
 `DeployToBepInEx` fica no default `false`); nada de `execute_code` (só `terminal`); o que não for
 exercitável sai declarado como `NAO_EXERCITADO` com motivo, nunca estimado.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

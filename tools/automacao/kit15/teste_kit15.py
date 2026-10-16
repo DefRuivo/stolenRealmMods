@@ -382,7 +382,11 @@ class TesteDescoberta(unittest.TestCase):
         self.assertIsNone(destino)
 
     def test_16_nenhum_nome_de_usuario_embutido_no_codigo(self):
-        usuario = os.environ.get("USERNAME") or os.environ.get("USER") or "Pichau"
+        # O nome a procurar e o do usuario QUE RODA a suite: sai do ambiente, nunca
+        # do codigo (antes havia um "or 'Pichau'" aqui - o proprio teste publicava
+        # o nome do dono). Sem USERNAME/USER, o basename de ~ serve; sempre nao-vazio.
+        usuario = (os.environ.get("USERNAME") or os.environ.get("USER")
+                   or os.path.basename(os.path.expanduser("~")) or "usuario")
         for nome in ("descoberta.py", "instalador.py", "pacote.py", "scan.py"):
             with open(os.path.join(AQUI, nome), "r", encoding="utf-8") as fh:
                 texto = fh.read()

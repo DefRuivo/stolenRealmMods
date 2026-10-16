@@ -4,7 +4,7 @@ Tarefa t_adbb8f0d. Auditoria de C:/dev/stolen-realm, em 11/10/2026 às 15:11:47 
 
 ## Método e limites dos números
 
-Fonte: audit_inventory.py, inventory.json e inventory.csv no workspace C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d. Comandos executados: `git -C C:/dev/stolen-realm ls-files -z`, `git -C C:/dev/stolen-realm ls-files -ci --exclude-standard -z`, `git -C C:/dev/stolen-realm ls-files --others --exclude-standard -z`, `git -C C:/dev/stolen-realm ls-files --others --ignored --exclude-standard -z`; enumeração física recursiva com os.walk/stat, sem seguir links de diretório. Nenhum erro de leitura; nenhum arquivo tracked ausente.
+Fonte: audit_inventory.py, inventory.json e inventory.csv no workspace %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d. Comandos executados: `git -C C:/dev/stolen-realm ls-files -z`, `git -C C:/dev/stolen-realm ls-files -ci --exclude-standard -z`, `git -C C:/dev/stolen-realm ls-files --others --exclude-standard -z`, `git -C C:/dev/stolen-realm ls-files --others --ignored --exclude-standard -z`; enumeração física recursiva com os.walk/stat, sem seguir links de diretório. Nenhum erro de leitura; nenhum arquivo tracked ausente.
 
 Bytes são tamanho lógico dos arquivos, não blocos alocados; MiB = bytes / 1.048.576. Tracked significa no índice do repo PRINCIPAL. Não tracked (NT) = arquivos físicos menos tracked, incluindo ignorados e arquivos internos de repos/worktrees aninhados. Ignorados (I) conta apenas os caminhos que o Git principal enumerou como ignorados. Em scratch há sandboxes com .git: 8.407 arquivos NT não enumerados como ignorados pelo Git principal NÃO são 8.407 arquivos `??` na raiz. `git status --short` reportou somente `?? .worktrees/` e `?? nul`. Metadados .git não são conteúdo candidato a versionamento.
 
@@ -80,3 +80,5 @@ As duplicatas de evidência em docs/automacao/ serão listadas, mas permanecerã
 
 - Parte 02: política de índice/.gitignore e candidatos de limpeza com consumidores.
 - Parte 03: referências, movimentos, ordem segura, baseline executado e cartões.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -6,11 +6,18 @@ Uso: python gen_b03_final.py
 Nao escreve nas fontes; escreve apenas artefatos novos deste lote.
 """
 import json, os
+from pathlib import Path
 
-BASE = "C:/dev/stolen-realm"
+# Caminhos resolvidos em TEMPO DE EXECUCAO (nenhum "C:/dev/stolen-realm" nem perfil
+# do dono fixos): o script vive em docs/automacao/, entao parents[2] e' a raiz do
+# repositorio; `as_posix()` mantem a barra normal, igual ao que ja' estava gravado.
+BASE = Path(__file__).resolve().parents[2].as_posix()
 EV = BASE + "/docs/cobertura/EV-R1/eventos.json"
 OUT_JSON = BASE + "/docs/automacao/EV-R2-NORMAL-b03-propostas.json"
-WS = "C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_99925533"
+_WS_RAIZ = (os.environ.get("HERMES_KANBAN_WORKSPACES")
+            or ((os.environ.get("USERPROFILE") or str(Path.home()))
+                + "/AppData/Local/hermes/kanban/workspaces"))
+WS = _WS_RAIZ.replace("\\", "/") + "/t_99925533"
 
 norm = [e for e in json.load(open(EV, encoding="utf-8"))["eventos"] if e["categoria"] == "Normal"]
 RANGE = list(range(41, 61))

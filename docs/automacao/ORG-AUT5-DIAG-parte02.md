@@ -76,8 +76,10 @@ Não foi criado cartão para alterar produto, refazer congelamento ou reinstalar
 
 ## 5. Artefatos e reprodução
 
-Workspace da tarefa: `C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_ceceef6b`. Nessa localização estão `investigate_aut5.py`, `diagnostic-evidence.json`, `ORG-R1-baseline-test-aut5-copia.txt`, os quatro relatórios de leitura e a matriz de fixtures OFFLINE. Esses arquivos são NOVOS; nenhum output do pai foi sobrescrito.
+Workspace da tarefa: `%USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_ceceef6b`. Nessa localização estão `investigate_aut5.py`, `diagnostic-evidence.json`, `ORG-R1-baseline-test-aut5-copia.txt`, os quatro relatórios de leitura e a matriz de fixtures OFFLINE. Esses arquivos são NOVOS; nenhum output do pai foi sobrescrito.
 
 `investigate_aut5.py` recusa sobrescrever sua evidência ou cópia. Para reproduzir em outro diretório autorizado, copiar o script para workspace vazio, conservar disponíveis as entradas registradas e executar `python -B investigate_aut5.py`. O script compara o par congelado antes de agir e bloqueia subprocessos após a preparação de leitura. Ele não é remediação nem procedimento de runtime.
 
 O pacote de evidência da entrega não inclui a DLL congelada, a DLL do mod, DLLs do jogo nem cópia integral do perfil/log real. Os hashes e resultados bastam ao handoff. O cartão segue para revisão do artefato; não há filho de revisão precriado que exija fechar este pai antecipadamente.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

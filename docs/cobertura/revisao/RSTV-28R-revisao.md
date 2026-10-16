@@ -35,7 +35,7 @@ Saída literal (trecho fiel; linhas longas cortadas):
 ```
 RSTV-28 - CONTRA-PROVA EM SANDBOX FORA DO REPO
 repo (NAO e' tocado): C:\dev\stolen-realm
-sandbox:              C:\Users\Pichau\AppData\Local\Temp\rstv28-sandbox
+sandbox:              <PERFIL-DO-DONO>\AppData\Local\Temp\rstv28-sandbox
 teste:                tools/testes/testes/puros/t_rstv28_tela_select_party.py
 
 [FONTE DE VERDADE] a copia do conserto, no sandbox
@@ -180,3 +180,5 @@ Confirmado **na DLL Release compilada** (não só na fonte): `ilspycmd -t Roguel
 4. Nada pendente do lado do revisor: hashes conferidos antes/depois, bancada e suíte reproduzidas, causa refutada por símbolo.
 
 *Sem fechamento de tarefa, sem publicação, sem instalação, sem commit, sem alteração de cartão do kanban, sem tocar em `lib/Assembly-CSharp.dll`.*
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

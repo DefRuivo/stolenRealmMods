@@ -13,7 +13,7 @@ do dono foi apenas lido por hash. O produto/runner não foi editado; o único ar
 Método: execução real em **cópias isoladas** (nunca no repo real) + leitura fria do código e das
 alegações, tentando refutá-las por controles negativos próprios (não reaproveitei os controles do
 autor nem os da AUT-3R2). Evidências em
-`C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_70ef8571\` (`reviewed-hashes.json`,
+`%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_70ef8571\` (`reviewed-hashes.json`,
 `full-result.json`, `full-summary.md`, `controls.json`, `controls2.json`, `controls3.json`,
 `before.json`, `after.json`, `external-diff.json`, `executions.json`, scripts `review.py`,
 `controls*.py`).
@@ -117,3 +117,5 @@ entregues; as únicas diferenças de campo são as voláteis (`gerado_em`, paths
 
 > AUT-3R3 não publica, não aprova deployment, não instala, não abre o jogo e não substitui o aceite
 > humano do DoD.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

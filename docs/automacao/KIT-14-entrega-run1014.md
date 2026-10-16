@@ -11,7 +11,7 @@ Não repeti a qualificação do livro geral run911: ela já está entregue e rev
 ## 2. Pacote, identidade e isolamento
 
 Pacote upstream lido:
-C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_f067088e/KIT14G-SEG2-FIX-offline-r2.zip
+%USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_f067088e/KIT14G-SEG2-FIX-offline-r2.zip
 
 - SHA256 a4511b9a9f38ecbd273d904627851e206fe8483fd1a2586685339d3063f04d9d.
 - 197316 bytes; 46 entradas; CRC íntegro (testzip=null).
@@ -114,3 +114,5 @@ verification.json: SHA256 7a9d0c37838f406257c8991ddfbf91a5d3603f749aefb381429858
 Provas: C:/dev/stolen-realm/scratch/kit/KIT-14-run1014/execution. Driver: C:/dev/stolen-realm/scratch/kit/KIT-14-run1014/verify_r2.py. Checkpoints: docs/automacao/KIT-14-parte49.md, -parte50.md, -parte51.md.
 
 Não concluir KIT-14 nem liberar KIT14R com critérios runtime faltantes. Registrar needs_input pelo orçamento/escopo explícito; revisão final permanece na instância independente precriada quando a qualificação integral terminar. Nenhuma tarefa nova/política/modelo/cron criado ou alterado.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

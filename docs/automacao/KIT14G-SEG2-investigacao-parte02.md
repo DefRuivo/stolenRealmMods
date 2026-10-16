@@ -1,14 +1,14 @@
 # KIT14G-SEG2-INV — parte02: medição própria do congelamento e gates restantes
 
-Complementa parte01; investigação default/run844, 11/10/2026. Evidência reproduzível: `C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_ceda98dd/audit_seg2.py` e `audit-result.json` no mesmo diretório. Execução `python audit_seg2.py`: exit 0, sem boot/build/montagem. O script gera drivers em memória e compila seu Python, **não executa** o driver.
+Complementa parte01; investigação default/run844, 11/10/2026. Evidência reproduzível: `%USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_ceda98dd/audit_seg2.py` e `audit-result.json` no mesmo diretório. Execução `python audit_seg2.py`: exit 0, sem boot/build/montagem. O script gera drivers em memória e compila seu Python, **não executa** o driver.
 
 ## 1. A afirmação de desaparecimento absoluto é FALSA
 
-Varredura leu nomes de 61.205 arquivos em três raízes: `C:/dev/stolen-realm`, `C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces` e `C:/Users/Pichau/AppData/Local/hermes/cache/scratch`. Encontrou **52 cópias de AUT4ProbePlugin.cs, com 7 hashes distintos**, e **53 AUT4Probe.dll, com 14 hashes distintos**; 0 erros de leitura. Excluiu diretórios `.git`, junctions/symlinks; não descompactou arquivos nem pesquisou todos os discos. Não se alegará ausência universal.
+Varredura leu nomes de 61.205 arquivos em três raízes: `C:/dev/stolen-realm`, `%USERPROFILE%/AppData/Local/hermes/kanban/workspaces` e `%USERPROFILE%/AppData/Local/hermes/cache/scratch`. Encontrou **52 cópias de AUT4ProbePlugin.cs, com 7 hashes distintos**, e **53 AUT4Probe.dll, com 14 hashes distintos**; 0 erros de leitura. Excluiu diretórios `.git`, junctions/symlinks; não descompactou arquivos nem pesquisou todos os discos. Não se alegará ausência universal.
 
 O par original foi encontrado junto em:
 
-`C:/Users/Pichau/AppData/Local/hermes/cache/scratch/int_r1_c4_fora/tools/automacao/runtime/AUT4Probe/`
+`%USERPROFILE%/AppData/Local/hermes/cache/scratch/int_r1_c4_fora/tools/automacao/runtime/AUT4Probe/`
 
 - `AUT4ProbePlugin.cs`: **ecdcce138a2a7c955023bde0d8da192a1bdf8186422d3ab36a90972a0da67bd2**, 104.974 bytes.
 - `bin/Release/AUT4Probe.dll`: **95069e9cbc5e1e7784f80b34589e54cf19651969cddad86b6a35d9b94c89a865**, 75.776 bytes.
@@ -53,3 +53,5 @@ Leitura de processos: 0 processos Stolen*, 4 r2modman, 9 steam* no instante da c
 Os controles C/D/E não iniciaram manualmente uma run; sobreviver no menu não elimina falha do arranque em ambiente isolado. `CliqueFisico=true` continua usando `onClick.Invoke()` (`AUT4ProbePlugin.cs:1198`), não reproduz input/raycast/oclusão completos. Último marco limita a última operação registrada; não identifica sozinho a instrução nativa que falhou. Esses limites devem acompanhar o veredito final.
 
 NAO_EXERCITADO: qualquer boot novo, rebuild, restauração da cópia histórica, clique físico e reprodução do erro de rename — proibidos pelo escopo.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -63,7 +63,7 @@ AUT5 reexecutado antes dos commits, com `AUT5_LOG_REAL=0`, `AUT5_AUTORIZA_COMPIL
 - Fonte AUT4Probe permaneceu `beaf965a162c9452bee8302ecadbcc5ae42322d388c798179911e1660c07c193`; DLL `7f9a4cf1f62b721faff3f43e16ecb0e2313e748cf03c0eee5cca543c4e2575ee`. Avaliador e fixture histórica também intactos.
 - 16 arquivos físicos entregues preservados, apesar dos avisos Git de LF/CRLF. Blobs textuais conferidos com normalização LF somente em memória.
 
-Receitas/inventário da auditoria ficam no workspace `C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_fd245b7f`: `inspect_and_test.py`, `commit_deliveries.py`, `inventory-before.json`, `origins-before.json`, `commits.json`, `post-commits.json`, `test-results.json` e logs AUT5. São material de trabalho desta verificação, fora da árvore do produto; os resultados e hashes entregues estão neste relatório versionado e no handoff.
+Receitas/inventário da auditoria ficam no workspace `%USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_fd245b7f`: `inspect_and_test.py`, `commit_deliveries.py`, `inventory-before.json`, `origins-before.json`, `commits.json`, `post-commits.json`, `test-results.json` e logs AUT5. São material de trabalho desta verificação, fora da árvore do produto; os resultados e hashes entregues estão neste relatório versionado e no handoff.
 
 ## Status residual e concorrência
 
@@ -86,3 +86,5 @@ Defeito comprovado: entregáveis de cartões já DONE ainda estavam sem commit: 
 Cartões de origem consultados por kanban_show: `t_d06fd366`, `t_03f30973`, `t_fd20ddc4`, `t_d8fe364d`, `t_a1f38855`, `t_139f714f`, `t_ceceef6b`, `t_2d9f22b1`, `t_8331c57c`. Estado de concorrência LEVEL-R2-LAND `t_6ecff37a` lido em consulta SQLite read-only e comunicado por comentários; nenhuma mutação do board por SQL.
 
 O handoff final registra o status mais recente após o commit exclusivo deste relatório e prevalece sobre esta fotografia se outros workers produzirem WIP depois. Aceite da preservação não libera runtime, não atualiza main, não publica e não fecha cartões de origem.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

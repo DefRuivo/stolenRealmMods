@@ -20,7 +20,7 @@ suspeita do operador já havia sido refutada na análise INT-R1 e continua valen
 
 | Insumo | Caminho | sha256 |
 |---|---|---|
-| tabela de localização do LANG-R1 (anexo do cartão `t_2a6474ff`) | `C:\Users\Pichau\AppData\Local\hermes\kanban\attachments\t_2a6474ff\localizacao-ptbr.csv` | `951d244d0fbaad5a0388dc27ba3c99fced9fc4a5ff70a17fa0e47bf8094b30c1` |
+| tabela de localização do LANG-R1 (anexo do cartão `t_2a6474ff`) | `%USERPROFILE%\AppData\Local\hermes\kanban\attachments\t_2a6474ff\localizacao-ptbr.csv` | `951d244d0fbaad5a0388dc27ba3c99fced9fc4a5ff70a17fa0e47bf8094b30c1` |
 | dump de origem (skills + status + shrines) | `docs/cobertura/DUMP-TOOLTIPS-REVISAO.md` | `7ab439c7c68c3c4118e09117535e3aa7d53e195aa1871180ec50ae0f4bbdbaaa` |
 | dump de origem (recorte debuffs) | `docs/cobertura/DUMP-DEBUFFS-REVISAO.md` | `5cb5b52b5d880573fc397c2ea67c367bf8e845f46f59931f7bf9bd1de65004a4` |
 | dump de origem (recorte passivas) | `docs/cobertura/DUMP-PASSIVAS-REVISAO.md` | `c9df534af8cbc37941dac5c17c976aa49ce544990c9a7d136854af77c976bcfc` |
@@ -85,3 +85,5 @@ nível 2 — ele junta, por chave, o texto do jogo + o pt-BR + os alertas, e mar
   nesta rodada — limite do cartão).
 - Leitura por API/BepInEx em runtime: **não exercitado** (offline por desenho).
 - Revisão linguística humana do pt-BR: **não exercitada** (decisão é do dono nos cartões LANG-C1..C5).
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

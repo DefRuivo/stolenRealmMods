@@ -56,7 +56,7 @@ diff docs/automacao/API-R1-I1-evidencias/01-perfil-antes.txt \
      docs/automacao/API-R1-I1-evidencias/04-perfil-depois.txt # diferencas so no texto dos blocos
 grep -cE '  [0-9]+  [0-9]{4}-[0-9]{2}-[0-9]{2} ' \
      docs/automacao/API-R1-I1-evidencias/0{1,4}-perfil-*.txt   # 30 e 30
-test -e "/c/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/RealmApi" \
+test -e "$HOME/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/RealmApi" \
      && echo RESIDUO || echo "perfil limpo (sem RealmApi)"
 grep -n "Ran 25 tests; failures: 0" docs/automacao/API-R1-I1-evidencias/08-smoke-e-guarda.txt
 ```
@@ -94,3 +94,5 @@ As evidências `01`, `04` e `07` são a **listagem crua** de `plugins/` + `confi
 inclusive uma pasta de legado desativada. Isso é a impressão digital do perfil — o insumo do comparativo
 antes × depois —, não referência nominal deste módulo; os nomes de terceiros que aparecem ali são
 consequência de ler o diretório, e nenhum deles foi criado, alterado ou removido por esta tarefa.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

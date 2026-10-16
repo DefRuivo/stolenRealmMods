@@ -42,7 +42,7 @@ Os três checks read-only do CI, rodados localmente depois da entrega:
 Regra do projeto: um teste que nunca falhou não é teste. A prova foi feita fora do repositório, para
 que o resultado não dependa da árvore viva:
 
-* cópia em `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/int_r1_c4_fora` (raiz própria com
+* cópia em `%USERPROFILE%/AppData/Local/hermes/cache/scratch/int_r1_c4_fora` (raiz própria com
   `.git/` + `tools/`, `RoguelikeSkillTreeVisualizer/`, `api/Core/Contracts.cs`, `docs/`);
 * com a migração: **VERDE** (`06-fora-do-repo-verde.txt`);
 * plantando de volta o `Instantiate` à mão em `RunButton.cs` da CÓPIA: **VERMELHO**
@@ -131,3 +131,5 @@ ato que o dono autoriza depois.
   (`Plugin.cs`, `RunButton.cs`, `RemovalWindowSkillsButton.cs`, `SkillTreesTab.cs`,
   `SkillTreesWindow.cs`, `RoguelikeSkillTreeVisualizer.csproj`) e o `README.md` do mod.
 * Suíte: `tools/testes/regras_int_r1_c4.py` e `tools/testes/testes/puros/t_int_r1_c4_familia_ui.py`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

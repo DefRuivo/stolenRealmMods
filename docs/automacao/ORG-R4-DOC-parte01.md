@@ -10,7 +10,7 @@ Em docs/README.md foi acrescentada somente a linha de link ativo para ESTRUTURA 
 
 ## Bancada e automação executada
 
-Workspace: C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_6b569699. Clone independente doc-clean01, checkout limpo de 94d39e6, core.autocrlf=false. Copiados privadamente apenas lib para compilar e os documentos desta frente; nenhuma DLL de build antigo foi copiada. Documentos adicionados nominalmente ao índice da cópia para a auditoria realmente lê-los. Bibliotecas do jogo e pacotes não compõem as evidências entregues.
+Workspace: %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_6b569699. Clone independente doc-clean01, checkout limpo de 94d39e6, core.autocrlf=false. Copiados privadamente apenas lib para compilar e os documentos desta frente; nenhuma DLL de build antigo foi copiada. Documentos adicionados nominalmente ao índice da cópia para a auditoria realmente lê-los. Bibliotecas do jogo e pacotes não compõem as evidências entregues.
 
 Scripts locais da bancada: doc_setup01.py, doc_validate01.py e doc_continue01.py. São instrumentos deste workspace, não ferramentas novas do repositório. Ambiente executado: Python 3.14.7, .NET SDK 6.0.428, Git Bash por caminho absoluto, PYTHONDONTWRITEBYTECODE=1. Nenhum run remoto/Ubuntu/Python 3.11 foi alegado.
 
@@ -55,3 +55,5 @@ A conferência intermediária após os checks encontrou somente docs/README.md d
 Sem git add -A, commit -a, push, publicação, alteração de ignore, deploy, lançamento/encerramento de jogo ou remoção adicional de caches. Nenhum entregável/terceiro foi eliminado ou redistribuído. PYTHONDONTWRITEBYTECODE evita recriação desta rodada, sem afirmar que caches de outras frentes não possam reaparecer.
 
 Runtime ui.localized: NAO_EXERCITADO; ciclo do jogo: NÃO RODOU; conferência visual humana: PENDENTE. Prova offline --prova tem 11 testes, zero falhas, mas fixture não substitui jogo. Release-check principal REPROVADO e clone APROVADO apenas na automação; nenhum dos dois autoriza release pronto.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

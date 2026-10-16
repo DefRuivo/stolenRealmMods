@@ -33,7 +33,7 @@ Na implementação antiga, SCRIPT_DIR era scratch/. Na promovida, SCRIPT_DIR é 
 
 ## Varredura antes/depois e classificação de todos os resíduos
 
-Bancada local privada, fora de tools/: C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_c299dd97. O script de bancada audit_movement.py grava before-audit.json, after-audit.json e a saída integral de cada busca Git; textos grandes de JSON não foram reduzidos antes de registrar a prova. Apenas a apresentação no terminal foi limitada.
+Bancada local privada, fora de tools/: %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_c299dd97. O script de bancada audit_movement.py grava before-audit.json, after-audit.json e a saída integral de cada busca Git; textos grandes de JSON não foram reduzidos antes de registrar a prova. Apenas a apresentação no terminal foi limitada.
 
 Comandos Git, repetidos antes e depois:
 
@@ -88,7 +88,7 @@ O snapshot histórico suite-vinculo.json permaneceu com SHA-256 d5f6fe068ae12e72
 
 ## Builds e validação exercitados na cópia isolada
 
-Clone Git novo em C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_c299dd97/isolated, com core.autocrlf=false, conteúdo tracked ao vivo copiado e shim explicitamente incluído no índice da cópia. Copiadas privadamente as 16 referências de lib/; nenhuma DLL de terceiro incluída na entrega. Não foram copiados outputs de build do repo principal. A cópia incorporou as edições tracked ao vivo do dono, sem escrevê-las de volta.
+Clone Git novo em %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_c299dd97/isolated, com core.autocrlf=false, conteúdo tracked ao vivo copiado e shim explicitamente incluído no índice da cópia. Copiadas privadamente as 16 referências de lib/; nenhuma DLL de terceiro incluída na entrega. Não foram copiados outputs de build do repo principal. A cópia incorporou as edições tracked ao vivo do dono, sem escrevê-las de volta.
 
 Ferramenta de bancada validate_isolated.py, fora de tools/ no workspace, gravou logs e registros de argv/exit/duração em validation-*.json. Comandos reais:
 
@@ -109,3 +109,5 @@ release-check-normal.txt: RC=0, APROVADO na automação, seis builds sem deploy,
 O inventário SHA-256 comparou todos os caminhos originalmente tracked: apenas os seis arquivos antigos desta frente mudaram, mais a adição do destino. Nenhuma fonte C# mudou. Também foram comparados lib/ (16 arquivos), dist/ principal (28 arquivos), os artefatos opcionais de captura existentes e plugins do perfil (21 arquivos): conteúdo preservado. As três alterações tracked paralelas já existentes mantiveram seus hashes. Nenhum deploy, abertura/fechamento de jogo, remoção de LogOutput.log, push, publicação, movimento de EV-R1 ou limpeza de scratch inteiro.
 
 Stage nominal, conferido com diff do índice e --check, sem git add -A nem commit -a. O commit exclusivo reúne movimento, shim, referências ativas e esta evidência. O gate t_873a563d recebe a implementação pronta para conferir independentemente: NÃO repetir git mv, NÃO reescrever fotografia histórica, NÃO abrir jogo por causa da conferência. A política final continua pertencendo ao cartão E4 após esse gate.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

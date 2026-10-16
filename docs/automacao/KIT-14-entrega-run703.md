@@ -55,7 +55,7 @@ Baseline histórico real utilizado, não criado depois para produzir verde:
     scratch/kit/KIT-16-run700/run-real-3/antes.manifest
     SHA256 62e0aeea556478d34d16af59d93a0d1370ac275bf5c6d69246c9401a27c3ac61
 
-Árvore C:/Users/Pichau/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm: 111 antes / 111 depois; novos=[], removidos=[], alterados=[]; equal=true. Conferidos bytes/tamanho/SHA por arquivo. Esta é prova de preservação local nesta rodada readonly, não prova Cloud segura numa futura navegação nem nova escrita de save isolado.
+Árvore %USERPROFILE%/AppData/LocalLow/Burst2Flame Entertainment/Stolen Realm: 111 antes / 111 depois; novos=[], removidos=[], alterados=[]; equal=true. Conferidos bytes/tamanho/SHA por arquivo. Esta é prova de preservação local nesta rodada readonly, não prova Cloud segura numa futura navegação nem nova escrita de save isolado.
 
 ## Identidade histórica reconferida
 
@@ -85,3 +85,5 @@ NAO_EXERCITADO nesta rodada: Cloud off/on; clique físico → janela → conteú
 Retomada necessária: operador executar esta tarefa numa sessão em que a aprovação de ações desktop possa ocorrer (sem mudar política silenciosamente), OU preparar o toggle específico do Stolen Realm desligado e prover modo permitido de interação para os cliques de jogo. Confirmar off antes de preparar junction/boot; manter Abyssus e demais apps intactos; no fim, fechar só PID próprio, restaurar dados/registro/perfil, comparar com baseline KIT-16 e somente depois religar/verificar Cloud específica. Se a sessão continuar sem input aprovado, apenas desligar Cloud não resolve a futura prova de clique físico.
 
 Não pedir novamente B1–B6 ou tolerâncias. Não completei KIT-14 nem liberei seu filho KIT-14R com critérios faltantes. Não criei revisão duplicada ou follow-up autoatribuído. Artefatos novos deste run: partes21–23, script readonly, preflight.json/logs e este relatório. Produto, fontes prévias, política/modelos/crons e perfis pessoais não editados.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

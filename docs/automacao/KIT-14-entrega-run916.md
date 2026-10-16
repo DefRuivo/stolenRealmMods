@@ -7,7 +7,7 @@ Estado: NÃO CONCLUÍDO; dependência técnica e autorização específica de no
 O bloqueio antigo do livro geral de eventos foi resolvido pelo pai KIT14G-SEG1-RT t_a41dd22d, revisado por run912. Nesta retomada, não apenas repeti o resumo: extraí o pacote anexado, conferi seu SHA256/CRC, executei o verificador existente e li recorder.json diretamente.
 
 Pacote upstream:
-- Caminho: C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_a41dd22d/KIT14G-SEG1-RT-run911-evidencias.zip
+- Caminho: %USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_a41dd22d/KIT14G-SEG1-RT-run911-evidencias.zip
 - SHA256: 1027d5bcf43efbfccb6a7e1c9bffed1fd122741e2a4e2cda84ccec718ee44ba1
 - 1327346 bytes, 45 entradas, testzip retornou null (nenhum CRC inválido).
 - Extração própria: scratch/kit/KIT-14-run916/upstream911.
@@ -74,3 +74,5 @@ Não medi novamente o conteúdo dos saves nem alego novos totais de preservaçã
 Revisão KIT-14R t_9ce7d260 inspecionada: TODO, dependente deste cartão; mantida sem liberação, pois critérios KIT-14 ainda faltam. Implementação/checkpoint desta retomada: default/run916; reviewer independente do KIT-14 pendente. task_accepted=false. Nenhuma tarefa nova criada.
 
 Artefatos novos: docs/automacao/KIT-14-parte46.md, KIT-14-parte47.md, KIT-14-entrega-run916.md; provas em scratch/kit/KIT-14-run916. Bloquear por dependência real, não fechar tarefa incompleta nem solicitar revisão duplicada.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

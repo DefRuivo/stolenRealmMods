@@ -5,7 +5,7 @@
 > publicado.** Este runbook **não foi executado** — é o roteiro que fica pronto para virar um clique só.
 
 **Fonte de decisão desta rodada:** `KIT-G4-material-de-decisao.md` (opções A/B/C) —
-`C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_728bc587/KIT-G4-material-de-decisao.md`,
+`%USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_728bc587/KIT-G4-material-de-decisao.md`,
 12867 B, sha256 `4023691da846a28f87da566c647d1ca94d47a364b1d2548f4e5cb06ef13cf8b7`
 (anexo 621 do cartão `t_728bc587` / KIT-G4-MAT, `done`, run 1488). Passo residual do dono:
 `docs/automacao/KIT-14-runbook-residual-run1471.md` § "Só depois: mão/olho do dono".
@@ -95,3 +95,5 @@ nada.
 O agente encerra a sessão, **remove o junction, faz o rename inverso, compara os hashes**, devolve o
 registro PlayerPrefs e te diz o que a evidência mostrou — com o próximo passo já decidido (correção no
 probe **ou** documentação da limitação do jogo). Nenhuma conclusão é declarada sem a evidência.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -1,6 +1,6 @@
 # KIT14G-SEG2-INV — parte03: causas da deriva, montagem e mensagem humana
 
-Investigação default/run844; 11/10/2026. Esta parte é aditiva. Evidência de história: `supplement-result.json` no workspace t_ceda98dd, extraído somente-leitura de `C:/Users/Pichau/AppData/Local/hermes/state.db`, com IDs e timestamps dos outputs originais. A timeline do board está em `audit-result.json.board` (extração readonly de kanban.db).
+Investigação default/run844; 11/10/2026. Esta parte é aditiva. Evidência de história: `supplement-result.json` no workspace t_ceda98dd, extraído somente-leitura de `%USERPROFILE%/AppData/Local/hermes/state.db`, com IDs e timestamps dos outputs originais. A timeline do board está em `audit-result.json.board` (extração readonly de kanban.db).
 
 ## 1. A deriva do instrumento tem uma origem documentada
 
@@ -40,7 +40,7 @@ O estado **atual** já foi confirmado na parte02: real e cópia 106/106 iguais a
 
 Mensagem original copiada pelo dono em state.db **108440**, 11/10/2026 às 14:52:53: a seção Por que termina em “orçamento… acabou”; seção Para destravar diz “NADA que só você possa fazer agora”. Isso ocultou o passo humano e o estado de montagem, além de não distinguir congelamento de medição.
 
-`C:/Users/Pichau/AppData/Local/hermes/scripts/economy_status.py:170` corta o motivo em **320 caracteres**. `_como_destravar:107-112` usa palavras genéricas (`clique`, inclusive em “marcos-clique”/“CliqueFisico”) antes de analisar needs_input. O histórico 108441 documenta a troca da mensagem antiga; a leitura atual confirma “VOCE PRECISA AGIR… Nada acontece até você executar”.
+`%USERPROFILE%/AppData/Local/hermes/scripts/economy_status.py:170` corta o motivo em **320 caracteres**. `_como_destravar:107-112` usa palavras genéricas (`clique`, inclusive em “marcos-clique”/“CliqueFisico”) antes de analisar needs_input. O histórico 108441 documenta a troca da mensagem antiga; a leitura atual confirma “VOCE PRECISA AGIR… Nada acontece até você executar”.
 
 Prova própria: executei **somente a função extraída por AST**, sem importar/executar o script de cron (evitando gravação/envio), com o motivo real SEG2. Ela retorna a mensagem de ação exclusiva do dono, apesar de o motivo também conter **três boots sintéticos executáveis pela bancada**. Logo, a correção de wording ainda confunde tipos de clique; não permite concluir que tudo depende do mouse do dono. Nenhum arquivo Hermes foi alterado nesta investigação.
 
@@ -51,3 +51,5 @@ Prova própria: executei **somente a função extraída por AST**, sem importar/
 - Descoberta `hermes profile list`, exit 0: **apenas default**. O protocolo desta rodada proíbe autoatribuir follow-up e inventar assignee. Por isso não criei cartão autodespachável para mim; propostas são registradas no handoff/comentário para o operador escolher especialista. Isso não impede entregar a investigação.
 
 NAO_EXERCITADO: parar processos/serviços, instalar ferramenta de handles, reboot, montar/desmontar, abrir jogo, corrigir driver/cron, rebuild, deploy e publicação. Não são falhas do investigador: estão fora do limite autorizado.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

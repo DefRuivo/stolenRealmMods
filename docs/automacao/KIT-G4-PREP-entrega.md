@@ -30,7 +30,7 @@ Objetivo desta entrega: deixar a rodada de aceite do KIT-G4 a **um clique** — 
 | 10 | Mod sob teste instalado no BepInEx isolado | **FALHOU / A FAZER** | `runtime-isolado.sh preparar` instala **um único** DLL (`PROBE_DLL`, default `build/20261009_152651/ReloadProbe/bin/Debug/netstandard2.1/ReloadProbe.dll`). **Não existe passo que instale o RSTV + RealmApi candidatos** no `plugins/` isolado. Sem isso a janela "All Trees" não aparece para o dono inspecionar. |
 | 11 | Build candidato identificado | **PARCIAL** | O RSTV instalado no perfil Default é `98f19bd6263b054a36c343f0e90effbc41aca8ce8d2355849dec4597a6c4581d` — **diferente** do candidato 0.3.3 registrado no KIT-14 (`1d0b85e8d0f30d10c4fe7c4e044d30380537e8801a7d39875192459a2e51d5cc`). Ou seja: o que o dono tem instalado **não** é o artefato sob aceite. A rodada precisa apontar explicitamente qual build entra no isolado. |
 | 12 | Marcador de boot do BepInEx isolado confiável | **INDETERMINADO** | `ReloadProbe.dll` default tem **4096 bytes** (múltiplo exato de 4 KiB — tamanho suspeito de stub). O marcador `"ReloadProbe v1 carregado."` no `LogOutput` isolado não foi exercitado nesta preparação. |
-| 13 | Material de decisão do KIT-G4 (opções A/B/C) existe e foi lido | **PASSOU** | `C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_728bc587/KIT-G4-material-de-decisao.md`, **12867 B**, sha256 `4023691da846a28f87da566c647d1ca94d47a364b1d2548f4e5cb06ef13cf8b7` — anexo **621** do cartão `t_728bc587` (**KIT-G4-MAT**, status `done`, run 1488); acompanhado de `KIT-G4-conferencia-fontes.json` (20122 B, sha256 `cd888e42a6376203b6d139f2befe03068522f9ce37abac05f3c06b6a82c6acf5`, anexo 622). Lido na íntegra (75 linhas) neste reparo. |
+| 13 | Material de decisão do KIT-G4 (opções A/B/C) existe e foi lido | **PASSOU** | `%USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_728bc587/KIT-G4-material-de-decisao.md`, **12867 B**, sha256 `4023691da846a28f87da566c647d1ca94d47a364b1d2548f4e5cb06ef13cf8b7` — anexo **621** do cartão `t_728bc587` (**KIT-G4-MAT**, status `done`, run 1488); acompanhado de `KIT-G4-conferencia-fontes.json` (20122 B, sha256 `cd888e42a6376203b6d139f2befe03068522f9ce37abac05f3c06b6a82c6acf5`, anexo 622). Lido na íntegra (75 linhas) neste reparo. |
 | 14 | Resíduo de execução anterior na área isolada | **AVISO** | `scratch/kit/kit16-iso` tem `antes.manifest`/`antes.sha256`/`dados-do-jogo`/`registro-antes.reg`/`registro-depois.reg` de 10/10 (run700); `KIT-16-run700/` tem `cn-a/cn-b/cn-c`, `run-real*`. Não bloqueia (`preparar` faz `rm -rf` do que é dele), mas é estado velho: não confundir com prova desta rodada. |
 
 ### 1.1 Ocupação concorrente da bancada (estado no handoff) — HAZARD
@@ -63,9 +63,9 @@ caminho junctionado é colisão, não paralelismo.
 ### 1.2 Causa raiz do falso negativo do item 13 (rastreável)
 
 A busca da rodada anterior usou `~/.hermes/kanban/attachments`. **Esse caminho não existe nesta
-máquina**: `ls /c/Users/Pichau/.hermes` → `No such file or directory`. A raiz real de anexos é
-`C:/Users/Pichau/AppData/Local/hermes/kanban/attachments` (126 pastas de cartão), coerente com
-`HERMES_KANBAN_DB=C:\Users\Pichau\AppData\Local\hermes\kanban.db`. O passo 1 do cartão ("Leia … o
+máquina**: `ls $HOME/.hermes` → `No such file or directory`. A raiz real de anexos é
+`%USERPROFILE%/AppData/Local/hermes/kanban/attachments` (126 pastas de cartão), coerente com
+`HERMES_KANBAN_DB=%USERPROFILE%\AppData\Local\hermes\kanban.db`. O passo 1 do cartão ("Leia … o
 material de decisão do KIT-G4") **não havia sido executado de fato**; foi executado agora.
 
 ### 1.3 Reconciliação com o material de decisão (o que mudou no runbook)
@@ -81,7 +81,7 @@ material de decisão do KIT-G4") **não havia sido executado de fato**; foi exec
 - **All Trees abre pela barra inferior da run (botão `Skills`) ou modal indicado** — **não** pelo botão
   removido da tela Select Party (Plugin.cs:22..25). O runbook manda o dono não procurar aquele botão.
 - **Relato humano de 11/10 registrado para reaproveitamento:** KIT14G-SEG2/run897, entrega 899,
-  `RELATORIO.txt` (`C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_139f714f/RELATORIO.txt`)
+  `RELATORIO.txt` (`%USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_139f714f/RELATORIO.txt`)
   — dono relatou HUD alcançado e **Skills legível** (~23:47 BRT), sem screenshot do worker, com probe
   inerte e configuração diferente. O runbook manda avaliar **equivalência ao candidato** antes de
   exigir repetição, em vez de tratar como se o dono nunca tivesse testado.
@@ -174,3 +174,5 @@ bash scratch/kit/kit16-save-isolado.sh restaurar
 - Nenhuma tarefa nova criada por subagente; nenhum `delegate_task`.
 - Nenhuma credencial/segredo tocado; nenhuma ação destrutiva (sem `taskkill`, sem `rm -rf` de área
   alheia, sem edição de VDF).
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -51,7 +51,7 @@ Comando de referência a repetir: `git grep -n -I -F 'scratch/test-cycle.sh' -- 
 
 ## Baseline executado: já havia vermelho, não mascarar
 
-Ambiente de teste: C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d/baseline, clone Git independente com fontes tracked copiadas do estado ao vivo e lib/ local copiada privadamente. Python 3.14.7 / .NET SDK 6.0.428. Donor C:/dev/stolen-realm não recebeu build, deploy, pacote, mudanças de fonte, ignore, mv ou rm. source-hashes.json conferiu 1.628 hashes do donor antes/depois: ZERO mudanças durante os testes. Foram feitas cópias, não restauração sobre edições humanas.
+Ambiente de teste: %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d/baseline, clone Git independente com fontes tracked copiadas do estado ao vivo e lib/ local copiada privadamente. Python 3.14.7 / .NET SDK 6.0.428. Donor C:/dev/stolen-realm não recebeu build, deploy, pacote, mudanças de fonte, ignore, mv ou rm. source-hashes.json conferiu 1.628 hashes do donor antes/depois: ZERO mudanças durante os testes. Foram feitas cópias, não restauração sobre edições humanas.
 
 | Comando / prova na cópia | Resultado real | Consequência |
 |---|---|---|
@@ -111,3 +111,5 @@ Três cartões de execução R2/R3/R4 JÁ tinham sido criados pelo dono. Para cu
 7. Builds em ordem API própria → seis mods, sempre DeployToBepInEx=false; ferramentas validate.yml e audita_docs devem terminar 0; release-check normal, nunca instalar-no-perfil. Separar runtime/humano pendente de prova offline.
 
 Nenhum cartão pode ampliar exclusão a backups/entregas/zip/worktree/probe/DLL privada por economia de espaço. Movimentos condicionais permanecem pendentes de decisão registrada. Não existe autorização de excluir 4 GiB de scratch só porque a tabela mostra esse tamanho.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

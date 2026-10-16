@@ -29,7 +29,7 @@ Em relação ao requisito de validate.yml/audita_docs verdes: ele não era verda
 
 ## Evidência reexecutável e retenção
 
-Workspace de bancada: C:/Users/Pichau/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d. O pacote ORG-R1-evidencias.zip será preservado como attachment desta tarefa, não apenas como link temporário. Não contém DLLs/assets do jogo nem as saídas de pacote dos mods.
+Workspace de bancada: %USERPROFILE%/AppData/Local/hermes/kanban/workspaces/t_adbb8f0d. O pacote ORG-R1-evidencias.zip será preservado como attachment desta tarefa, não apenas como link temporário. Não contém DLLs/assets do jogo nem as saídas de pacote dos mods.
 
 Arquivos principais da bancada/pacote:
 
@@ -52,3 +52,5 @@ Criados 7 cartões: 4 frentes de execução, 2 saneamentos de baseline e 1 diagn
 A ordem efetiva é: SEG e DOC em paralelo → E1 → gate R2 → E2 e E3 em paralelo → gate R3 e fim E3 → E4 → gate R4. Diagnóstico AUT5 é independente e não autoriza tocar o instrumento congelado. Commit de cada frente é exclusivo e nominal; stage de fonte do dono é proibido. Frentes com semântica/contratos usam gpt-6.1-sol/openai-codex; ignore/limpeza mecânicos usam deepseek-flash/deepseek, perfil default real.
 
 Nenhuma decisão de exclusão de entregável foi inventada para satisfazer ganho de espaço. Scratch mede 4.493.468.499 bytes, mas o plano aprova descarte somente dos 3.324.108 bytes de caches nominados fora de scratch. Preservação vence estética da árvore.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -12,7 +12,7 @@ A suite nominal de 19 testes passa, mas 10 verificações independentes falham. 
 
 Workspace original C:/dev/stolen-realm, branch ci-validate-test, alterações tracked/untracked preexistentes inventariadas por git status --short. A revisão não declara repo limpo. Lidos docs/SUPERVISAO.md e docs/PROCESSO-REVISAO.md.
 
-Sandbox definitiva: **C:/Users/Pichau/AppData/Local/hermes/cache/scratch/kit/KIT-05R-run630-sandbox**, fora do repo, sem .git em nenhum ancestral. Cópia dirigida de todos os fontes pertinentes tracked/untracked (24 arquivos, incluindo Core/Adapter .cs/.csproj, sem bin/obj), sem credenciais, perfil ou saves. Provas duráveis: **C:/dev/stolen-realm/scratch/kit/KIT-05R-run630/isolated/**. Scripts de bancada desta revisão: scratch/kit/KIT-05R-run630/, não são novos módulos do produto.
+Sandbox definitiva: **%USERPROFILE%/AppData/Local/hermes/cache/scratch/kit/KIT-05R-run630-sandbox**, fora do repo, sem .git em nenhum ancestral. Cópia dirigida de todos os fontes pertinentes tracked/untracked (24 arquivos, incluindo Core/Adapter .cs/.csproj, sem bin/obj), sem credenciais, perfil ou saves. Provas duráveis: **C:/dev/stolen-realm/scratch/kit/KIT-05R-run630/isolated/**. Scripts de bancada desta revisão: scratch/kit/KIT-05R-run630/, não são novos módulos do produto.
 
 Manifest com pares origem/cópia e SHA256: isolated/manifest.json. Conservação verificada em isolated/verification.json: baseline_tools_count=397; changed_or_removed=[]; manifest_count=24; manifest_mismatch=[]. Isso cobre os fontes/configs/scripts da baseline tools e os 24 arquivos dirigidos, não todo disco/perfil. Nenhuma implementação viva foi alterada pelo reviewer.
 
@@ -132,3 +132,5 @@ Os três seguem todo e não avançam só porque este parecer foi concluído. Pr�
 ## 7. Limites e segurança
 
 Sem abrir/fechar/navegar jogo, carregar save, instalar, deploy, publicação, git add/commit/stash, alteração de mod/gameplay/Bard/Assembly-CSharp, política/modelo/cron/prioridade. Arquivos criados pelo reviewer: docs/automacao/KIT-05R-parte01..08.md, este parecer e provas/scripts de bancada sob scratch/kit/KIT-05R-run630; cópias descartáveis no scratch gerenciado Hermes. Desempenho/interferência/fluxo visual e aceite humano do DoD permanecem NAO_EXERCITADO. Encerrar a revisão não fecha entrega do kit nem mod para publicação.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

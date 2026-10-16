@@ -16,7 +16,7 @@ Re-revisão (a rodada 1, run 600, também reprovou). Não herdei transcript; rec
 identidade dos arquivos do zero, medi hashes, e **reproduzi por execução própria** os achados,
 em cópia isolada com `-p:DeployToBepInEx=false`.
 
-Sandbox: `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/kit-revisao{,-positivo}`
+Sandbox: `%USERPROFILE%/AppData/Local/hermes/cache/scratch/kit-revisao{,-positivo}`
 (fora do repositório). Jogo não estava aberto (`tasklist` → nenhum processo "Stolen").
 
 ## 2. Identidade dos artefatos revisados (SHA256, medido por mim)
@@ -104,3 +104,5 @@ Itens de correção abertos em **KIT-04F**:
 
 **Nada foi publicado, instalado, aberto ou modificado no produto.** Nenhum arquivo vivo do
 escopo foi editado; só foram criados os documentos `docs/automacao/KIT-04R-*.md`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

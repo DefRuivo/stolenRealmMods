@@ -28,7 +28,7 @@ Os hashes abaixo foram medidos nesta rodada; os demais estão em `evidence/audit
 | Dentro desse ZIP: `entrega02/localizacao-ptbr.json`, fonte canônica | `dbc7d03f2ebe1e9b8bda33a22aaf577475eae0bad84c009b8979184e3a1411a2` |
 | Dentro desse ZIP: `evidencias/odin-decodificado01/2547158-tabela.json` | `4561b71d673fbb7678fb9316e29e21408faeb9e4c98f29d16a8fe5ee42e2de0b` |
 
-O ZIP está em `C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_2a6474ff/LANG-R1-entrega-final.zip`. **Usar `entrega02`, não tentativas anteriores.** O CSV é a interface editorial, separado por ponto e vírgula; a fonte lossless é o JSON. `chave_json`/`ptbr_json` servem para conferir escapes sem tratar proteção de planilha como parte do texto.
+O ZIP está em `%USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_2a6474ff/LANG-R1-entrega-final.zip`. **Usar `entrega02`, não tentativas anteriores.** O CSV é a interface editorial, separado por ponto e vírgula; a fonte lossless é o JSON. `chave_json`/`ptbr_json` servem para conferir escapes sem tratar proteção de planilha como parte do texto.
 
 Decompilador usado: ILSpy CLI 8.2.0.7535. Artefato C#: 496226 linhas, SHA-256 `873a2d1dc153fcd7191100bb481f4bd681374f68e38c8241c0172e7c91465407`. As linhas neste documento se referem a **esse** artefato, não às numerações antigas de LANG-R1 ou dos comentários dos mods. As referências sempre nomeiam o símbolo; recortes com os números originais ficam em `evidence/game-symbols.txt` e `evidence/game-il.txt`.
 
@@ -292,3 +292,5 @@ Entregáveis: este documento; `BETTERPORTUGUESE-BP1-EVIDENCIAS.zip` contendo rel
 BP-2 e BP-3 devem adotar o schema da seção 4. BP-4 deve implementar a estratégia da seção 5 e os testes da seção 9; a cobertura de mods é separada da cobertura do jogo e depende dos adaptadores/aprovações da seção 7. Nenhuma alteração em BetterTooltips/BetterFont/BetterCombatText foi feita aqui. Tentativa de obter documentação web complementar foi recusada pelo backend/HTTP; não foi usada como evidência. Decisões de lookup e ordem estão fundamentadas no código/IL e execução da DLL local.
 
 **NAO_EXERCITADO:** plugin BetterPortuguese, aplicação de patches em Mono/jogo, UI, seleção efetiva de gênero em runtime, reload de telas, layout, acentos/fallback de fonte, compatibilidade instalada entre todos os mods, novas versões do jogo, revisão/aprovação de traduções. Sem deploy, instalação de BepInEx, publicação ou modificação de Assembly-CSharp.dll.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

@@ -8,7 +8,7 @@ API própria (`t_b7f6fc4a`, done). **Nada aqui foi exercitado em jogo** — a ro
 > repositório** (`find . -path ./scratch -prune -o -path ./.worktrees -prune -o -name "*DBG-R1*"
 > -print` → 0 linhas; a árvore só tem `docs/automacao/DBG-R2-*`). Eles estão no pacote de entrega do
 > cartão `t_9e2325d7`:
-> `C:\Users\Pichau\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`
+> `%USERPROFILE%\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`
 > (entradas `docs/automacao/DBG-R1-parte05-matriz.csv` e `docs/automacao/DBG-R1-parte07.md`); o
 > `DBG-R1-parte07.md` também está solto nessa mesma pasta. Os números usados aqui foram conferidos
 > dentro desse ZIP: a matriz tem 20 linhas (8 P0 / 8 P1 / 3 P2 / 1 P3).
@@ -117,7 +117,7 @@ lido como "o dado não existe". Só o 0 libera essa leitura.
 A matriz é `DBG-R1-parte05-matriz.csv` — **esse caminho não existe na árvore do repositório**
 (`find . -path ./scratch -prune -o -path ./.worktrees -prune -o -name "*DBG-R1*" -print` → 0); ele
 está dentro de
-`C:\Users\Pichau\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`, entrada
+`%USERPROFILE%\AppData\Local\hermes\kanban\attachments\t_9e2325d7\DBG-R1-entrega.zip`, entrada
 `docs/automacao/DBG-R1-parte05-matriz.csv`, na mesma pasta do `DBG-R1-parte07.md` solto. A matriz tem
 20 linhas (8 P0, 8 P1, 3 P2, 1 P3) — contagem conferida dentro do ZIP. Os P0 que tocam
 proveniência/integridade/passividade:
@@ -187,3 +187,5 @@ A leitura da identidade da API é por `AppDomain.CurrentDomain.GetAssemblies()` 
 
 Limites respeitados: sem instalar, sem abrir o jogo, sem publicar, sem reescrever os ganchos
 existentes, sem editar `Assembly-CSharp.dll`, sem tocar nos cartões do KIT/LEVEL.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

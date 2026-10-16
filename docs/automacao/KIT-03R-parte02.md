@@ -80,7 +80,7 @@ onde `test_save_dir` é criado sob `ISOLATED_SAves_DIR` — verdadeiro por const
   (placeholder de outro produto; o entregável declara `%LOCALAPPDATA%Low\Burst2Flame ...`).
 - `detect-env.sh` linha 12: `PLAYER_LOG="$LOCALAPPDATA/Low/..."` → o correto é `LocalLow`
   (a variável já termina em `\AppData\Local`); caminho errado.
-- `isolacao.sh` linha 187: fallback **hardcoded** `C:/Users/Pichau/AppData/Roaming/...` (usuário fixo).
+- `isolacao.sh` linha 187: fallback **hardcoded** `<PERFIL-DO-DONO>/AppData/Roaming/...` (usuário fixo).
 - `detect-env.sh` linha 147: o fallback de CIC está em cadeia morta (`... && PASS=.. || FAIL=.. || check ...`):
   o `|| check` só rodaria se a atribuição `FAIL=$((FAIL+1))` retornasse não-zero, o que nunca ocorre.
 
@@ -88,3 +88,5 @@ onde `test_save_dir` é criado sob `ISOLATED_SAves_DIR` — verdadeiro por const
 
 Exercitar `front-unica.sh` (controle de concorrência com defeito plantado), `detect-env.sh` no sandbox
 e checar resíduos de instalação/perfil do dono (C5, C7, C2). Depois fechar o parecer.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

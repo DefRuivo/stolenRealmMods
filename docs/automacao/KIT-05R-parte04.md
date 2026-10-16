@@ -2,7 +2,7 @@
 
 ## Isolamento confirmado
 
-A cópia definitiva está em C:/Users/Pichau/AppData/Local/hermes/cache/scratch/kit/KIT-05R-run630-sandbox, FORA do repo. O driver verifica ausência de .git na sandbox e em TODOS os ancestrais, usa PYTHON explícito e tmp separado. Cópia dirigida dos 24 arquivos vivos: hashes origem=cópia em todos; inclui fontes tracked/untracked do escopo, sem Git/credenciais/perfil/bin/obj. Manifest completo: scratch/kit/KIT-05R-run630/isolated/manifest.json.
+A cópia definitiva está em %USERPROFILE%/AppData/Local/hermes/cache/scratch/kit/KIT-05R-run630-sandbox, FORA do repo. O driver verifica ausência de .git na sandbox e em TODOS os ancestrais, usa PYTHON explícito e tmp separado. Cópia dirigida dos 24 arquivos vivos: hashes origem=cópia em todos; inclui fontes tracked/untracked do escopo, sem Git/credenciais/perfil/bin/obj. Manifest completo: scratch/kit/KIT-05R-run630/isolated/manifest.json.
 
 ## Comando e resultados reais
 
@@ -29,3 +29,5 @@ SRAdapterPlugin.cs = 9687dbd4fc81399cf94808a5a14fa955b43e5cb327426da811380c53396
 ## Parecer provisório
 
 REPROVADO para aceite KIT-05. Lógica nominal passa, mas captura é afirmação sem efeito, pausa é parcial, dedup perde janela/gera spam, memória auxiliar e payload de replay são ilimitados, janela tardia apaga falha. Confirmar integração e formular correção única ao implementador, com gate nas dependências; sem implementar correções pelo reviewer. Runtime e desempenho NAO_EXERCITADO, não usados como justificativa para os defeitos offline.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

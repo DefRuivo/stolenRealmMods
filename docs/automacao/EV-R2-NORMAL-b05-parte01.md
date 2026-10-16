@@ -5,7 +5,7 @@ Faixa: 20 eventos pela ordem dos registros categoria Normal em eventos.json, con
 
 ## Escopo e precedência
 
-Este novo arquivo supersede a análise, o inventário, as contagens e as acusações falsas de C:/Users/Pichau/AppData/Local/hermes/kanban/attachments/t_a5c365a4/analise-ev81-100.md (cartão t_a5c365a4). O anexo antigo permanece intacto como histórico; não é fonte canônica. Base da correção: independent-review.txt e review-dossier.zip do pai t_4c07d669, seção b05.
+Este novo arquivo supersede a análise, o inventário, as contagens e as acusações falsas de %USERPROFILE%/AppData/Local/hermes/kanban/attachments/t_a5c365a4/analise-ev81-100.md (cartão t_a5c365a4). O anexo antigo permanece intacto como histórico; não é fonte canônica. Base da correção: independent-review.txt e review-dossier.zip do pai t_4c07d669, seção b05.
 
 Fontes somente leitura: C:/dev/stolen-realm/docs/cobertura/EV-R1/eventos.json, lote-Normal-v2.md, eventos.schema.json, catalogo-referencias.json. Fonte inglesa preservada literalmente; português da análise não é texto do jogo. Cada depois_en é uma SUGESTÃO DE ALTERAÇÃO DO TEXTO ORIGINAL inglês; cada tradução_proposta_ptbr é uma tradução/adaptação editorial proposta desse depois_en, NÃO localização existente ou aplicada. Novos preenchimentos de campos vazios também são propostas autorais, não traduções de um original inexistente. Nenhuma mecânica é alterada por estas sugestões.
 
@@ -503,3 +503,5 @@ Resultado de execução real:
     AUDIT_PASS runtime=NAO_EXERCITADO game=NOT_STARTED source_edits=0
 
 A auditoria verifica cobertura/ordem, chaves/GUIDs, inventário contra registros, literais, campos versus fonte e schema, propostas versus espelhos, motivos de NULL, contagens e integridade das entradas protegidas. Não verifica qualidade literária, disponibilidade na partida, comportamento da UI, RNG nem aplicação das sugestões. Esses limites não são defeitos comprovados.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

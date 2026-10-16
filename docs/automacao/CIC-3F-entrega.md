@@ -47,7 +47,7 @@ VERDE: test_rstv.py EXIT=0 PASSOU; --contra-prova EXIT=0; test_kit09.py EXIT=0 P
   test_tooltips_shrines.py EXIT=0 (28/0/0); travas repo check_segredos/check_padroes_segredo/
   check_dupes/audita_docs todas EXIT=0.
 
-Sandboxes (fora do repositorio): C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3f/{red,red-antigo}.
+Sandboxes (fora do repositorio): %USERPROFILE%/AppData/Local/hermes/cache/scratch/cic3f/{red,red-antigo}.
 
 ## Integridade
 
@@ -64,3 +64,5 @@ Sem segredos em logs/handoff. Reutilizadas as primitivas/suite existentes (nenhu
 ## Pendencia
 
 Revisao INDEPENDENTE por instancia nova no MESMO cartao (kanban_request_review), conforme o aceite.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

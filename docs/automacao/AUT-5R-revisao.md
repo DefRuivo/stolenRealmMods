@@ -12,7 +12,7 @@ os defeitos foram plantados em **cópias** (tempdir). HEAD `f526fe9`,
 
 Método: execução real do CLI e da suíte (não leitura), com controles negativos **próprios** (E1–E11), escritos
 sem reaproveitar os da AUT-5 nem os de outras revisões. Evidência bruta:
-`C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_a6bb7f27\` — `evidencia_aut5r.py` (script),
+`%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_a6bb7f27\` — `evidencia_aut5r.py` (script),
 `evidencia.json`, `resumo.txt`, `relatorio-log-real.json`, `relatorio-fixture.json`,
 `relatorio-log-real-pos-AUT5F1.json`.
 
@@ -228,3 +228,5 @@ Dois achados precisam ser corrigidos **antes** da rodada runtime autorizada, sen
 a do gate de leitura-somente). A-3..A-8 são de robustez/rastreabilidade e não bloqueiam a rodada.
 
 Esta revisão **não** fecha a AUT-5, **não** aprova runtime, **não** substitui o aceite humano e **não** publica.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

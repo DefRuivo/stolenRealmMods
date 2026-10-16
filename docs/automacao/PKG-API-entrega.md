@@ -183,7 +183,7 @@ o pre-flight esta **verde para os NOVE pacotes**, incluindo o RealmApi -
 entradas dos oito sao COPIADAS para uma arvore temporaria (mtimes preservados) e o MESMO
 conjunto e' empacotado pelos dois empacotadores (de antes e de depois). Resultado:
 
-arvore congelada em C:\Users\Pichau\AppData\Local\Temp\pkg-api-1-freeze-e4cnhigs
+arvore congelada em %USERPROFILE%\AppData\Local\Temp\pkg-api-1-freeze-e4cnhigs
 
 == empacotando com o empacotador de ANTES ==
 == empacotando com o empacotador de DEPOIS ==
@@ -268,7 +268,7 @@ formatos conhecidos: 13 | limiar de entropia: 4.0 bits/char | comprimento minimo
  RELEASE-CHECK — 2026-10-16 13:51:00
  raiz do repo : /c/dev/stolen-realm
  jogo         : E:\SteamLibrary\steamapps\common\Stolen Realm (AppID 1330000)
- log BepInEx  : /c/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log
+ log BepInEx  : $HOME/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log
  python       : Python 3.14.7
  MODO         : fluxo normal (verificacao SEM escrever no perfil do dono)
 ==============================================================================
@@ -1627,3 +1627,5 @@ index 0eb9b11..4dda883 100644
  
      # 8. resolucao de dependencias (PKG-5): toda dependencia tem de RESOLVER. A regra mora
 ```
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

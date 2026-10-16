@@ -30,7 +30,7 @@ KIT-R0F (`_e_alvo`), que so exclui o que DECLARA nao ser alvo.
 ## 2. Reproducao independente (execucao propria, nao releitura)
 
 Sandbox propria do revisor, fora do repositorio:
-`C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3f-rev697/sb` (copia de `tools/`, sem `.git`).
+`%USERPROFILE%/AppData/Local/hermes/cache/scratch/cic3f-rev697/sb` (copia de `tools/`, sem `.git`).
 
     [R1] RED pre-existente — suite do HEAD (460ef...) x rstv.py vivo (f8d0aad...)
          RESULTADO|REPROVOU|cic3-rstv|hash_fonte == dll_sha tem de amarrar a build
@@ -122,7 +122,7 @@ Nenhuma regressao nao relacionada: unico arquivo de implementacao alterado nos u
     scratch/kit/CIC-3F-run697/R4-isca-hash-ignorado.log      57f325ec75e52a3ccf745f02a97b5ae74b31d4632b7d9fe39640ca1367590eb5
 
 Copia de trabalho usada nas provas R1-R4 (fora do repositorio, pode ser descartada):
-`C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3f-rev697/sb/`.
+`%USERPROFILE%/AppData/Local/hermes/cache/scratch/cic3f-rev697/sb/`.
 
 Reproducao das provas do revisor (nao depende de nada acima alem do repo):
 
@@ -133,3 +133,5 @@ Reproducao das provas do revisor (nao depende de nada acima alem do repo):
     (cd <sandbox> && python tools/automacao/cenarios/test_rstv.py)          # R2 -> EXIT=0
     python scratch/kit/CIC-3F-run697/sonda_revisor.py C:/dev/stolen-realm   # R5 -> SONDA|PASSOU, EXIT=0
 
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

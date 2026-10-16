@@ -9,7 +9,7 @@
   **acrescentou os achados documentais D/E**, que a primeira não tinha visto. Tudo abaixo foi medido.
 - **Postura:** tentativa de **REFUTAÇÃO** item por item. Nada foi corrigido, instalado, publicado,
   commitado ou rodado em jogo. Nenhum arquivo de fonte do mod foi editado.
-- **Contra-prova em cópia FORA do repo:** `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/rstv29-sandbox-revisor`
+- **Contra-prova em cópia FORA do repo:** `%USERPROFILE%/AppData/Local/hermes/cache/scratch/rstv29-sandbox-revisor`
   (+ sonda própria `…/cache/scratch/sonda-revisor-rstv29.py`). O repo não foi tocado em nenhuma delas.
 
 ## 0. Estado lido (sha256 — o arquivo que eu li, não o que o autor diz)
@@ -195,7 +195,7 @@ alto), mas quem ler o docstring *"PLANTA de volta, UM POR VEZ, cada pedaco"* pod
 
 "Antes" obtido de duas formas: `git show HEAD:<arquivo>` para os rastreados, e para a família
 **rstv28** (não rastreada — `??`) a cópia **pré-RSTV-29** deixada pelo autor em
-`C:/Users/Pichau/AppData/Local/Temp/rstv28-sandbox/tools/testes/`, cujo
+`%USERPROFILE%/AppData/Local/Temp/rstv28-sandbox/tools/testes/`, cujo
 `prova-sandbox-rstv28.py` tem sha `3454825a447a…` — **exatamente o sha registrado** na revisão
 RSTV-28R (`docs/cobertura/revisao/RSTV-28R-revisao.md` l.18), o que prova que aquela cópia é o estado
 original e não uma sobra ambígua.
@@ -332,3 +332,5 @@ build, travas e estado do disco.
   mentiroso. Correção sugerida: descrever a superfície que ficou (botão do modal) e/ou o F10.
 - **E** — `docs/README.md:386` descreve o mod como "Botão ao lado de *Choose Powerups*" (e versão 0.2.0):
   tabela-inventário do repo que a RSTV-29 não atualizou.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

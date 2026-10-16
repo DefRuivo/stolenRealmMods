@@ -8,7 +8,7 @@ mutado**; nenhuma tarefa marcada `done`. Produto (`tools/**`, csproj) **não edi
 
 Método: execução REAL em cópia isolada (`--repo <cópia> --ancora C:/dev/stolen-realm`), com
 `TMP`/`TEMP`/`TMPDIR` apontados para o scratch desta rodada. Evidências em
-`C:/Users/Pichau/AppData/Local/hermes/cache/scratch/aut3fr/`
+`%USERPROFILE%/AppData/Local/hermes/cache/scratch/aut3fr/`
 (`aut3fr-evidencia.json` sha256 `ae82ac840d5d…`, `result_full.json` `045719d7e255…`).
 
 ## Hashes da entrega (conferem com o declarado na AUT-3F)
@@ -31,11 +31,11 @@ Cada sha256 completo está em `AUT-3F-relatorio.md` e foi reconferido byte a byt
 
 | # | requisito | veredito | prova |
 |---|---|---|---|
-| 1 | Env + props MSBuild redirecionam `USERPROFILE/APPDATA/LOCALAPPDATA`; `NUGET_PACKAGES` real; preflight **antes** do build e **fail-closed** | **OK** | FULL: `isolamento.env` ⇒ 3 dirs sob o scratch + `NUGET_PACKAGES=C:\Users\Pichau\.nuget\packages`; `isolamento.props` = 3 `-p:…`; `preflight_deploy` estado `OK`,`bloqueou=False`. Contra-prova real (mini csproj sem `Condition`): preflight `REPROVOU` (exit 1) e `gate_builds=False` (não builda); com a `Condition` ⇒ `OK`/`True` |
+| 1 | Env + props MSBuild redirecionam `USERPROFILE/APPDATA/LOCALAPPDATA`; `NUGET_PACKAGES` real; preflight **antes** do build e **fail-closed** | **OK** | FULL: `isolamento.env` ⇒ 3 dirs sob o scratch + `NUGET_PACKAGES=%USERPROFILE%\.nuget\packages`; `isolamento.props` = 3 `-p:…`; `preflight_deploy` estado `OK`,`bloqueou=False`. Contra-prova real (mini csproj sem `Condition`): preflight `REPROVOU` (exit 1) e `gate_builds=False` (não builda); com a `Condition` ⇒ `OK`/`True` |
 | 2 | Guarda de repo **recursiva** (`ls-files -z` track+untracked) detecta criado/removido/alterado; exclusões não excessivas | **OK (com ACHADO A1)** | `guarda_repo=458 arquivos`, `intacto`, inclui 28 de `tools/automacao` e 9 de `docs/automacao` (o furo da AUT-3R era **0** desses). Repro `fix2_git.py`: dir novo aninhado entra; criado/removido(`git rm`)/alterado detectados; ignorado fora; exclusão só dos 2 outputs do runner + `scratch/` |
 | 3 | Fases puladas **nunca** viram VERDE — pelo **CLI real**, não só helper | **OK** | `fix3_fases.py` (CLI real em cópia): `--sem-build`⇒`REPROVADO` exit **1**; `--sem-suite`⇒`INCOMPLETO` exit **2**; sem `--jogo`⇒`INCOMPLETO` exit **2**; `--sem-contra-provas`⇒`INCOMPLETO` exit **2**; `qualquer_verde=False`. `AUT-REUSE` **derivado** de prova (sem `OK_OFFLINE` hardcoded) |
 | 4 | Scanners reais e JSON/saída **sem prefixo** de credencial; prefixos reais não vazam | **OK (com LIMITE A2)** | `fix4_segredos.py`: `check_segredos.py` e `check_padroes_segredo.py` sobre arquivo com **16 credenciais fictícias** variadas ⇒ exit 1, `vaza_prefixo=[]` (**nada** do valor/prefixo14), `<REDACTED>` presente. `aut3_lib.sanitiza` cobre 13 formatos (tss/ghp/gho/github_pat/sk/AIza/glpat/npm/xox/AKIA/Basic/x-access-token (valor mascarado)der); `_detalhe` sanitiza a captura antes de serializar |
-| 5 | Suítes do implementador não poluem pasta temporária do Windows (requisito scratch) | **ACHADO A3** | `t_aut3_*.py` usam `TemporaryDirectory()` **sem `dir=`** ⇒ `gettempdir()` default = `C:\Users\Pichau\AppData\Local\Temp`; honram `TMP` quando setado (usei scratch) |
+| 5 | Suítes do implementador não poluem pasta temporária do Windows (requisito scratch) | **ACHADO A3** | `t_aut3_*.py` usam `TemporaryDirectory()` **sem `dir=`** ⇒ `gettempdir()` default = `%USERPROFILE%\AppData\Local\Temp`; honram `TMP` quando setado (usei scratch) |
 
 **Bancada FULL em cópia — OK.** Reproduzida duas vezes:
 `python tools/automacao/offline/bancada_aut3.py --repo <scratch>/copy_repo --ancora C:/dev/stolen-realm --trabalho <scratch>/bench_full --jogo`
@@ -74,7 +74,7 @@ vazamento**: os scanners imprimem só rótulo/contagem/`<REDACTED>`, e o FULL n�
 morde se um stdout capturado trouxer esse formato cru. Repro: `scratch/aut3fr/fix4_segredos.py` + `ev_fix4.json`.
 
 **A3 · baixo · testes do implementador usam a pasta temporária do Windows.**
-Os 4 `t_aut3_*.py` chamam `TemporaryDirectory()` **sem `dir=`**; default `C:\Users\Pichau\AppData\Local\Temp`.
+Os 4 `t_aut3_*.py` chamam `TemporaryDirectory()` **sem `dir=`**; default `%USERPROFILE%\AppData\Local\Temp`.
 Contraria a exigência de "área de trabalho scratch". Limpam ao sair, então o impacto é de isolamento/reprodutibilidade.
 Repro: `python -c "import tempfile;print(tempfile.gettempdir())"` sem override.
 
@@ -95,3 +95,5 @@ recursivo e detecta criado/removido/alterado; fases puladas nunca ficam verdes p
 runner não imprimem prefixo de credencial. Fica **um ACHADO médio (A1, fail-open da guarda em falha do
 git)** e **dois baixos (A2, A3)** — endurecer antes de canonizar. Nada aqui aprova runtime, publicação
 ou o DoD; a decisão é do pai/dono.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

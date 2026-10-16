@@ -1,6 +1,6 @@
 # CIC-3F — parte 03 — RED especifico e restauracao byte a byte (offline)
 
-Sandbox: `C:/Users/Pichau/AppData/Local/hermes/cache/scratch/cic3f` (fora do repositorio).
+Sandbox: `%USERPROFILE%/AppData/Local/hermes/cache/scratch/cic3f` (fora do repositorio).
 Nenhum arquivo do repositorio foi mutado para produzir o RED; a mutacao ocorre SO na sandbox.
 
 ## 8. RED-A — o vermelho PRE-EXISTENTE (a fronteira do cartao), em sandbox
@@ -51,3 +51,5 @@ conferido inalterado na parte 04).
 O ajuste nao altera `rstv.py` nem o filtro: muda APENAS o caso de teste em
 `test_rstv.py`. A protecao (filtro KIT-R0F) fica intacta e passa a ser EXERCITADA pelo caso
 CIC-3, com expectativa declarada para alvo e para nao-alvo.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

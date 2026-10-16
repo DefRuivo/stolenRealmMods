@@ -48,7 +48,7 @@ Variáveis usadas em todo este documento (bash do git-bash; ajuste se o seu ambi
 
 ```bash
 JOGO="/e/SteamLibrary/steamapps/common/Stolen Realm"
-P="/c/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
+P="$HOME/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
 ```
 
 ---
@@ -87,7 +87,7 @@ O alvo de deploy é `DeployToBepInEx` em `api/Plugin/RealmApi.csproj:29`, com
 ### 3.1 Ensaio em ARENA ISOLADA (recomendado antes de instalar de verdade; não toca o perfil)
 
 ```bash
-SB="C:/Users/Pichau/AppData/Local/hermes/cache/scratch/api-r1-i1-sandbox"   # pasta VAZIA qualquer
+SB="$HOME/AppData/Local/hermes/cache/scratch/api-r1-i1-sandbox"   # pasta VAZIA qualquer
 rm -rf "$SB" && mkdir -p "$SB"
 dotnet build api/Plugin/RealmApi.csproj -c Release --no-restore \
     -p:DeployToBepInEx=true -p:PluginsDir="$(cygpath -w "$SB")\\"
@@ -214,7 +214,7 @@ Não é um teste de gameplay: o objetivo é o boot e a instalação. Sequência 
 2. Fechar o jogo **graciosamente** (`CloseMainWindow`); não usar `taskkill` cego.
 3. Copiar `LogOutput.log` (e o `Player.log` se houve partida) para fora do perfil, junto das evidências da
    rodada. O `LogOutput.log` fica em `<PERFIL>/BepInEx/LogOutput.log`; o `Player.log` do jogo, em
-   `C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm\Player.log` (medido: existe,
+   `%USERPROFILE%\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm\Player.log` (medido: existe,
    1259021 bytes). **Não** guardar cópia de DLL dentro de `plugins/`.
 4. Aplicar §8 (rollback) e conferir a impressão digital contra a linha de base de P7.
 
@@ -313,3 +313,5 @@ grep -ril RealmApi "$P/plugins" "$P/config" | wc -l    # tem de ser 0 = sem resi
 - Gate de deploy da raiz: `Directory.Build.props`, `tools/check_deploy_optin.py`,
   `tools/release-check.sh` (modo `--instalar-no-perfil` é o único caminho que passa
   `-p:DeployToBepInEx=true`).
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

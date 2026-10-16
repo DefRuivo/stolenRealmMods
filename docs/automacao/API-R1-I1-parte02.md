@@ -42,7 +42,7 @@ Conferência de que o formato do log descrito é o real (comando do runbook, na 
 API instalada — a busca devolve vazio justamente porque a API ainda não está no perfil):
 
 ```bash
-P="/c/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
+P="$HOME/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
 grep -n "Loading \[RealmApi 0.1.0\]" "$P/LogOutput.log"          # hoje: nada (plugin nao instalado)
 grep -n "plugins to load" "$P/LogOutput.log"                     # hoje: "9 plugins to load"
 grep -nE "RealmApi: (alvo incompat|instalação recusada)" "$P/LogOutput.log"   # hoje: nada
@@ -65,3 +65,5 @@ O runbook é um **procedimento**, não uma execução. Ele não foi rodado: nenh
 boot, leitura de log ou rollback foi executado nesta tarefa (o jogo não foi aberto). O que está provado
 por comando é o que a `API-R1-I1-parte01.md` lista (`01`…`09`) — build sem flag não instala, o alvo
 funciona em arena isolada, o smoke offline segue `25 tests; failures: 0`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

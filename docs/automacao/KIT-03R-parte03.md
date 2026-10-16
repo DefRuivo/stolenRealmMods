@@ -27,8 +27,8 @@ Comando: `bash kit/detect-env.sh` com cwd = `scratch/kit-revisao/sandbox` → **
 [PASS] Jogo (Unity): E:/SteamLibrary/steamapps/common/Stolen Realm
 [PASS] Perfil r2modman: %APPDATA%\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx
 [PASS] LogOutput.log: <perfil>\LogOutput.log
-[FAIL] Player.log: C:\Users\Pichau\AppData\Local/Low/Burst2Flame Entertainment/Stolen Realm/Player.log
-[PASS] Diretorio de saves: C:\Users\Pichau\AppData\Local/Abyssus/Saved/SaveGames
+[FAIL] Player.log: <PERFIL-DO-DONO>\AppData\Local/Low/Burst2Flame Entertainment/Stolen Realm/Player.log
+[PASS] Diretorio de saves: <PERFIL-DO-DONO>\AppData\Local/Abyssus/Saved/SaveGames
 [FAIL] tools/automacao ... [FAIL] CAP-1: scratch/cap1/rotina-cap1.sh
 [FAIL] AUT-4Probe: tools/automacao/runtime/coletor.py ... [FAIL] CIC-1: tools/automacao/cic-1.sh
 [WARNING] Muitos componentes nao encontrados!   (exit 1, JSON NÃO é gravado)
@@ -38,12 +38,12 @@ Comando: `bash kit/detect-env.sh` com cwd = `scratch/kit-revisao/sandbox` → **
   (testado em `/tmp`) → exit 1 e nenhum artefato.
 - A15: `PLAYER_LOG="$LOCALAPPDATA/Low/..."` — errado: `$LOCALAPPDATA` já termina em `\AppData\Local`,
   o correto é `LocalLow`. Verificado no disco: o Player.log real está em
-  `C:\Users\Pichau\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm\` (existe), e o caminho do
+  `%USERPROFILE%\AppData\LocalLow\Burst2Flame Entertainment\Stolen Realm\` (existe), e o caminho do
   script NÃO existe → o [FAIL] é do script, não do ambiente.
 - A16: **o entregável declara os saves no lugar errado**. `KIT-03-entrega.md` linha 91 diz
   `%LOCALAPPDATA%Low\Burst2Flame Entertainment\Stolen Realm\Saved\`; o disco mostra que os saves reais
   (`Profile1.sav`, `GameSettings.sav`, `SAVE_GAME_SESSION_SLOT.sav`, 30/07) estão em
-  `C:\Users\Pichau\AppData\Local\Abyssus\Saved\SaveGames` — que é o caminho usado por `detect-env.sh`.
+  `%USERPROFILE%\AppData\Local\Abyssus\Saved\SaveGames` — que é o caminho usado por `detect-env.sh`.
   Doc e implementação se contradizem; qualquer isolamento de saves guiado pelo doc apontaria para pasta
   inexistente e falharia em silêncio (`cp -r` de origem inexistente → "NENHUM SAVE PARA ISOLAR").
 
@@ -78,3 +78,5 @@ Não houve build isolado nem gate — apenas política escrita.
 Nada foi publicado, instalado, buildado com deploy, nem o jogo foi aberto por esta revisão; nenhum
 arquivo de produto/`Assembly-CSharp.dll` foi tocado. Trabalho desta revisão: somente leitura no produto
 e escrita sob `docs/automacao/KIT-03R-parte*.md` e `scratch/kit-revisao/`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

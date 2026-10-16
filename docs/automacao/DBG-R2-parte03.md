@@ -56,7 +56,7 @@ O `LogOutput.log` do perfil (3.407 linhas, 454 linhas de `[Skill]`) vem do mod a
 
 ```
 python tools/verifica_proveniencia_debugger.py \
-  "C:/Users/Pichau/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log" \
+  "$HOME/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/LogOutput.log" \
   --alvo api/docs/target-game.json
   -> veredito: REPROVADO (exit 1)
      MOTIVO: sem cabecalho de proveniencia (DBG-PROV-V1 inicio): o dump nao diz qual build foi
@@ -116,3 +116,5 @@ têm cada uma uma prova vermelha própria — e a volta ao verde é medida, não
   sha256 do `Assembly-CSharp` do jogo — quem mede isso é o plugin, em runtime.
 - As fixtures foram escritas à mão no formato exato do `Proveniencia.cs`; a ligação formato↔código é
   garantida pelo contrato de campos (§3 item 2), não por uma emissão real.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

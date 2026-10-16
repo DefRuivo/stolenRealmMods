@@ -71,7 +71,7 @@ $ bash tools/automacao/kit05/roda_testes_kit05.sh    # no repo
 VEREDITO KIT-05F: VERDE (exit 0)                                        EXIT=0
 
 # sandbox FORA do repo, SEM .git em nenhum ancestral
-$ cd /c/Users/Pichau/AppData/Local/hermes/cache/scratch/kit/KIT-05F-sandbox
+$ cd $HOME/AppData/Local/hermes/cache/scratch/kit/KIT-05F-sandbox
 $ bash tools/automacao/kit05/roda_testes_kit05.sh
 VEREDITO KIT-05F: VERDE (exit 0)                                        EXIT=0
 
@@ -90,3 +90,5 @@ Logs: `scratch/kit/KIT-05F/runner-kit05f-green.log`,
 * Runtime/desempenho em jogo continuam **NAO_EXERCITADO** (nenhuma sessão viva).
 * O `--descobrir` do F9 é auxiliar de bancada; a tabela embutida é resultado
   medido, não hipótese.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.

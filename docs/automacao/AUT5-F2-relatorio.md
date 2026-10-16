@@ -213,9 +213,11 @@ aparecem como **uma** entrada `?? ...` cada, antes e depois.
 
 ## 10. Evidência bruta
 
-`C:\Users\Pichau\AppData\Local\hermes\kanban\workspaces\t_9cee7d21\` —
+`%USERPROFILE%\AppData\Local\hermes\kanban\workspaces\t_9cee7d21\` —
 `evidencia.json` / `resumo.txt` (hashes, resultado da suite, CLI no log real, travas,
 suites vizinhas, ambiente), `evidencia_aut5f2.py` (script), `repro_achados.py` +
 `baseline/repro-antes.txt` e `repro-depois.txt` (A-1/A-2 antes e depois),
 `controles_mutacao_e_f2.py` + `controles-mutacao.txt` (os 5 controles de mutação),
 `relatorio-log-real-aut5f2.json` e `log-real-depois.txt`.
+
+> **Nota REPO-PRIV-1 (identidade):** neste documento, `%USERPROFILE%` (Windows) e `$HOME` (bash) — e, onde o texto fala do caminho fixo em si, `<PERFIL-DO-DONO>` — substituem o caminho do perfil do dono que antes aparecia literalmente. Os dois primeiros sao variaveis de ambiente reais: expanda-as no seu shell. Nenhum deles e caminho literal.
