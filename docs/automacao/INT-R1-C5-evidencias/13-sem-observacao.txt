@@ -1,6 +1,0 @@
-# instrumento sem observacao: NAO_EXERCITADO (exit 2) - nao reprova release, nao se disfarca de aprovado
-NAO_EXERCITADO: sem observacao em C:\dev\stolen-realm\docs\automacao\runtime\observacao-ui-localized.jsonl
-  motivo: a captura em jogo depende de rodada AUTORIZADA pelo dono; nenhuma foi feita.
-  para ensaiar com fixture (nunca evidencia de jogo):
-    python tools/cobertura_ui_localized.py --gerar-observacao <saida.jsonl>
-exit=2

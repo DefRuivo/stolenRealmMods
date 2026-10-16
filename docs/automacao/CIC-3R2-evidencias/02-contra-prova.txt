@@ -1,3 +1,0 @@
-$ python -B tools/automacao/cenarios/test_rstv.py --contra-prova
-CONTRA-PROVA|PASSOU|isca 'sempre OK' deixou os 10 controles passarem (o REPROVADO real vem da regra)
-EXIT=0

@@ -1,7 +1,0 @@
-# KIT-14 — run1524 — checkpoint 80
-
-Encaminhamento APLICADO no banco, não promessa: correção KIT-14F4 t_5f50371d ready (depende F3R concluída); revisão independente KIT-14F4R t_821396a1 todo (depende F4); edge F4R→KIT14 registrada e lida de volta no cartão da revisão. Mesma rota gpt-6.1-sol/openai-codex do cartão atual; nenhuma política/modelo/cron/prioridade global alterada. Assignee default é o único perfil existente, com papéis/NOVAS instâncias explicitamente separados do coletor1524 e do revisor. Esta instância NÃO executará correção nem autoaprovará.
-
-Hotspot registrado no cartão para AUT4ProbePlugin.cs; arquivo intacto nesta coleta. Aceites do conserto fixados: host/personagem atuais, snapshots antes/depois no mesmo alvo, texto da árvore/tooltip pós-render, ciclo, origem/owners reais (sem falsificação), costura canônica e negativo do mesmo detector. Runner/mark-export/update/performance/mod sem kit continuam campanha técnica do KIT14, sem sumir pela revisão pontual.
-
-KANBAN.md ganhou somente seção datada run1524; histórico preservado. KIT14R integral não duplicado/liberado; revisão física/juízo visual continuam KIT-G4, mas a suspensão desta rodada é TÉCNICA. Próximo bloco final: runbook residual curto, relatório/manifest/pacote com readback por payload e estado atual, handoff parcial + espera da dependência. Nenhum boot adicional necessário para repetir o achado já reproduzido.

@@ -214,3 +214,25 @@ secrets*
 # porque o SHA-256 deles esta' registrado nos recibos de verificacao dos gates.
 /docs/automacao/LANG-DECISOES/LANG-C2-DECISAO.md
 /docs/automacao/LANG-DECISOES/LANG-C5-DECISAO.md
+
+# ---------------------------------------------------------------------------
+# DOCS-PROC (16/10/2026, decisao do dono): o repositorio NAO documenta o processo
+# interno. Ficam FORA do indice (seguem no disco) os artefatos de processo:
+#   - docs/automacao/**: relatorios de run, entregas, revisoes, runbooks de agente,
+#     handoffs e as "parteNN" — e' o processo do kanban, nao documentacao do produto.
+#   - docs/SUPERVISAO.md e docs/PROCESSO-REVISAO.md: como a automacao e a revisao
+#     por agentes operam.
+#   - REL-DOCS-01*/REL-DOCS-01R*: entregas de trabalho de documentacao.
+# O que SEGUE versionado: o produto (mods, arquitetura, ambiente, CI, publicacao,
+# testes) e a revisao de CONTEUDO do jogo (docs/cobertura/**), que a auditoria do CI
+# usa como fonte.
+/docs/automacao/**
+!/docs/automacao/PROBLEMAS-E-SOLUCOES.md
+!/docs/automacao/LANG-DECISOES/
+!/docs/automacao/LANG-DECISOES/*.md
+!/docs/automacao/schemas/
+!/docs/automacao/schemas/*.md
+/docs/SUPERVISAO.md
+/docs/PROCESSO-REVISAO.md
+/docs/REL-DOCS-01-preparacao-docs.md
+/docs/REL-DOCS-01R-revisao.md

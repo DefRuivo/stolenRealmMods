@@ -1,3 +1,0 @@
-500:	public static string Localize(string original, LanguageGender languageGender = LanguageGender.None, Gender characterGender = Gender.None)
-658:	public static string LocalizeEnum<T>(T original, LanguageGender languageGender = LanguageGender.None)
-674:	public static void LocalizeUI(bool force = false)

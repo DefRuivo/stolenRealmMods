@@ -1,3 +1,0 @@
-argv=["C:\\Program Files (x86)\\Steam\\steam.exe", "-applaunch", "1330000", "--doorstop-enabled", "true", "--doorstop-target-assembly", "C:\\dev\\stolen-realm\\scratch\\aut4-runtime-iso\\BepInEx\\core\\BepInEx.Preloader.dll"]
-pid=30140
-sessao=AUT4-20261009-185335-54b1bed3

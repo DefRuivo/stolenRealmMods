@@ -1,7 +1,0 @@
- RoguelikeSkillTreeVisualizer/Plugin.cs                 | 14 ++++++++++++++
- .../RemovalWindowSkillsButton.cs                       | 10 +++++++---
- .../RoguelikeSkillTreeVisualizer.csproj                | 18 ++++++++++++++++++
- RoguelikeSkillTreeVisualizer/RunButton.cs              |  8 ++++++--
- RoguelikeSkillTreeVisualizer/SkillTreesTab.cs          |  9 ++++++---
- RoguelikeSkillTreeVisualizer/SkillTreesWindow.cs       | 11 ++++++++---
- 6 files changed, 59 insertions(+), 11 deletions(-)

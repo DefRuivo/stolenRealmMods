@@ -1,1 +1,0 @@
-observacao FIXTURE gravada: docs/automacao/INT-R1-C5-evidencias/observacao-fixture.jsonl (264 linhas)
