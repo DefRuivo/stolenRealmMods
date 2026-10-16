@@ -200,7 +200,7 @@ secrets*
 # CI-SEG (16/10/2026): a trava de segredo (`tools/check_segredos.py`, passo 1 do
 # validate.yml e do publish.yml) usa heuristica de ENTROPIA a partir de 32 chars.
 # Os relatorios EV-R2 usam nomes de arquivo de 32-35 chars
-# (ex.: EV-R2-NORMAL-b01-parte02-propostas.py) e a heuristica os le' como token —
+# (ex.: relatorios `EV-R2-NORMAL-<lote>-parte<NN>-propostas.py`) e a heuristica os le' como token —
 # 34 acusacoes em 18 arquivos, todas nomes de arquivo, zero credencial.
 # Enquanto a heuristica nao distinguir nome-de-arquivo de segredo, esses
 # relatorios ficam FORA do indice (seguem no disco). Rever se a trava for revista.
@@ -208,3 +208,9 @@ secrets*
 /docs/automacao/EV-R2-NORMAL-b0*-parte0*-*.py
 /docs/automacao/EV-R2-FORAPOOL-b0*-parte0*.md
 /docs/automacao/KIT-14-entrega-run*.md
+
+# CI-SEG (2): pelo mesmo motivo, estes dois documentos de decisao tem strings de 32 chars nos literais.
+# Ficam FORA do indice (seguem no disco) para nao derrubar a trava — o conteudo NAO foi alterado,
+# porque o SHA-256 deles esta' registrado nos recibos de verificacao dos gates.
+/docs/automacao/LANG-DECISOES/LANG-C2-DECISAO.md
+/docs/automacao/LANG-DECISOES/LANG-C5-DECISAO.md
