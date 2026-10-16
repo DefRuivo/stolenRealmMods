@@ -4,12 +4,14 @@ Cartao `t_f571f9c0`. Objetivo: tratar (nao esconder) o vazamento de identidade d
 no repositorio PUBLICO, separando por CLASSE - documento vivo pode normalizar; ferramenta
 precisa de resolucao em tempo de execucao; evidencia congelada NAO pode ser reescrita.
 
-Esta e' a **rodada 2**: fecha os 6 achados (B1-B6) da revisao da rodada 1. O que mudou
-esta na secao 0.1; o corpo abaixo ja' e' o estado corrigido.
+Esta e' a **rodada 3**: fecha o achado **B7** da revisao da rodada 2 - a prova de
+nao-regressao do gate de docs aqui nesta pagina nao reproduzia no estado ENTREGUE - e o nit
+de durabilidade. O que mudou esta na secao 0.1; o corpo abaixo ja' e' o estado corrigido.
+(A rodada 2 tinha fechado os 6 achados B1-B6 da rodada 1.)
 
 ## 0. Resumo
 
-### 0.1 O que a rodada 2 mudou (achados B1-B6 da revisao)
+### 0.1 O que as rodadas 2 e 3 mudaram (achados B1-B7 da revisao)
 
 | achado | o que era | o que ficou |
 |---|---|---|
@@ -18,7 +20,9 @@ esta na secao 0.1; o corpo abaixo ja' e' o estado corrigido.
 | **B3** | numeros do relatorio misturavam o censo de HEAD com o estado final, e 4 linhas da tabela nao fechavam | censo **separado por estado** (HEAD x arvore entregue) na secao 1, tabelas geradas por script, `(a)+(b)+(c) == HEAD` conferido (secao 9) |
 | **B4** | dois campos de template vazios (chaves literais sem valor) no entregavel | o entregavel passou a ser **gerado por script** (`scratch/repopriv/gera_entrega3.py`): nao ha mais buraco |
 | **B5** | 22 linhas com placeholder DENTRO de bloco de codigo/log/JSON | **16 tokens corrigidos** por semantica: bloco de COMANDO -> `$HOME` (expande no git-bash); bloco de SAIDA/LOG/JSON -> `<PERFIL-DO-DONO>` (nao afirma expansao que nao houve). Criterio e lista na secao 4.2 |
-| **B6** | nada commitado (74 arquivos + entregavel apenas na arvore) | commit da rodada (secao 9) |
+| **B6** | nada commitado (74 arquivos + entregavel apenas na arvore) | commit da rodada 2 (secao 9) |
+| **B7** bloqueante (rodada 3) | a linha do gate nesta pagina afirmava `!! 11 PENDENCIAS` ("byte-identico ao baseline"), mas a prova foi tirada com o entregavel ainda NAO RASTREADO: o gate varre os `.md` de `git ls-files`, e o commit o trouxe para dentro da varredura - e o texto citava o nome de um projeto de bancada que saiu do repo, que e' justamente o que o passo 7 do gate reprova | a citacao literal saiu do texto; o gate passou a ser **executado pelo gerador desta pagina** e a saida integral ficou versionada (secao 5.2) |
+| **nit** (rodada 3) | a secao 8 dizia que as ferramentas ficam em `scratch/` "fora do versionado" e a ultima linha falava em "script versionado" | as duas dizem a mesma coisa agora: os geradores sao de bancada, em `scratch/` (gitignored) |
 
 ### 0.2 Numeros finais (medidos, nao estimados)
 
@@ -27,12 +31,13 @@ esta na secao 0.1; o corpo abaixo ja' e' o estado corrigido.
 | (a) documento/relatorio vivo | 61 | 95 | **normalizado** (placeholder declarado + nota no documento) |
 | (b) ferramenta/script | 3 (+1, ver 5) | 3 | **resolucao em tempo de execucao** + prova |
 | (c) evidencia congelada / registro pinado | 88 | 1084 | **intocada** - permanece como esta, por ser prova |
-| **soma** | **152** | - | = arquivos com o token em HEAD (secao 1) |
+| **soma** | **152** | - | = arquivos com o token no commit-base do trabalho (secao 1) |
 
 ## 1. O censo (medido, nao estimado)
 
-O cartao falava em 98 arquivos. **O censo no commit-base nao reproduz 98** (1923 arquivos
-rastreados): o numero real e' maior, e o comando fica aqui para ser refeito:
+O cartao falava em 98 arquivos. **O censo no commit-base do trabalho (`96a6d60`) nao
+reproduz 98** (1923 arquivos rastreados): o numero real e' maior, e o comando fica aqui para
+ser refeito. Os numeros desta secao sao MEDIDOS pelo gerador desta pagina a cada execucao.
 
 ```
 python scratch/repopriv/mede3.py --json      # censo HEAD x arvore (todas as formas)
@@ -44,11 +49,27 @@ Token de CAMINHO = `Users` + separador + `<nome>` (cobre `C:/`, `C:\`, `C:\\`,
 
 | estado | arquivos com o token | ocorrencias |
 |---|---|---|
-| **HEAD (antes do trabalho)** = commit-base `96a6d60` | 152 | 1182 |
-| **arvore/commit desta rodada** (depois) | 88 | 1084 |
-| removidas | 64 | 98 |
+| **antes do trabalho** = commit-base do trabalho `96a6d60` | 152 | 1182 |
+| **arvore entregue** (`git ls-files` + disco) | 92 | 1111 |
+| removidas por este trabalho | 64 | 98 |
+| restantes que JA' existiam no commit-base | 88 | 1084 |
+| NOVOS, de cartoes PARALELOS (nao deste trabalho) | 4 | 27 |
 
-Formas textuais em HEAD, medidas (mesmo token, escrita diferente):
+O rotulo do commit-base e' FIXO (`96a6d60`): cartoes paralelos commitam durante a rodada e o
+ponto de partida do trabalho nao se move. `HEAD` no fechamento desta rodada era
+`cfcb3f0 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)`.
+
+Os 4 arquivos que apareceram com o token DEPOIS do commit-base nao sao deste trabalho -
+vieram de cartoes paralelos:
+
+| arquivo novo (cartao paralelo) | ocorrencias |
+|---|---|
+| `docs/automacao/LANG-DECISOES/LANG-C1-DECISAO.md` | 9 |
+| `docs/automacao/LANG-DECISOES/LANG-C2-DECISAO.md` | 7 |
+| `docs/automacao/LANG-DECISOES/LANG-C3-DECISAO.md` | 3 |
+| `docs/automacao/LANG-DECISOES/LANG-C5-DECISAO.md` | 8 |
+
+Formas textuais no commit-base `96a6d60`, medidas (mesmo token, escrita diferente):
 
 | forma | arquivos | ocorrencias |
 |---|---|---|
@@ -65,8 +86,11 @@ arquivos (`fwd+msys`=90, `fwd+bks1`=108, uniao de todas=152). O numero do cartao
 reproduzido; o que esta aqui e' o que o repositorio tem, com o comando que mede. Nao
 inventei ocorrencia para casar com 98.
 
-Nao apareceu arquivo NOVO com o token: comparando HEAD com a arvore, **0** arquivos passaram
-a ter o token (a lista de novos e' vazia). O trabalho so' removeu, nunca introduziu.
+**Nenhum arquivo novo com o token entrou por este trabalho** - as 4 entradas novas
+da tabela acima sao de cartoes paralelos. A conferencia e' por CONJUNTO: `purgados`
+(commit-base menos arvore) = 64 arquivos, `novos` (arvore menos commit-base) = 4
+arquivos, e nenhum arquivo deste trabalho esta na lista de novos. Esta entrega so' removeu o
+token, nunca introduziu.
 
 ## 2. A regra de classe (e por que ela nao e' arbitraria)
 
@@ -99,11 +123,11 @@ arquivo do proprio repo. A rodada 2 reverteu todos: editar o documento invalida 
 (e, no caso do B1, quebra o auto-teste da ferramenta que o gerencia).
 
 **14 documentos revertidos** (sha256 da versao HEAD ainda citado por
-13 registros distintos):
+15 registros distintos):
 
 | documento (classe c) | sha256 (versao HEAD) | registrado em |
 |---|---|---|
-| `docs/automacao/LANG-C4-REVISAO-DONO.md` | `40d776c47854...` | `docs/automacao/LANG-C4-REVISAO-DONO-verificacao.json` |
+| `docs/automacao/LANG-C4-REVISAO-DONO.md` | `40d776c47854...` | `docs/automacao/LANG-C4-REVISAO-DONO-verificacao.json`, `docs/automacao/LANG-DECISOES/LANG-C4-DECISAO-verificacao.json`, `docs/automacao/LANG-DECISOES/LANG-C4-DECISAO.md` |
 | `docs/automacao/AUT-3F2-relatorio.md` | `abbd1c23a8e9...` | `docs/automacao/AUT-3F2R-revisao.md` |
 | `docs/automacao/CIC-3-L2-entrega.md` | `f8ccfbe86853...` | `docs/automacao/CIC-3-L2-revisao.md` |
 | `docs/automacao/KIT-16-parte01.md` | `bceab0c43e40...` | `docs/automacao/KIT-16-revisao.md` |
@@ -127,7 +151,7 @@ arquivo do proprio repo. A rodada 2 reverteu todos: editar o documento invalida 
 | `docs/automacao/KIT-03F-entrega.md` |
 | `docs/automacao/KIT-16-entrega.md` |
 
-Prova de que nada divergiu: `git diff HEAD` do CONJUNTO de 13 registros +
+Prova de que nada divergiu: `git diff HEAD` do CONJUNTO de 15 registros +
 CONJUNTO de 14 documentos cobertos sai **vazio** (os registros nunca foram
 editados; os documentos cobertos estao identicos a HEAD). A prova completa, com a saida, esta
 em `scratch/repopriv/provas2/prova_b2_full.out` (secao 0). Os manifestos de hash que cobrem
@@ -276,7 +300,18 @@ conta o token de caminho) nem na soma da secao 0.2 - declarado aqui para nao sum
 | `docs/automacao/EV-R2-NORMAL-b03-gerar-propostas.py` | versao de HEAD x disco, saida comparada | **byte-identica** (diff vazio), `MANTER 13 / MELHORAR 7`; artefato rastreado com o MESMO sha256 `cfbb3643...` |
 | `docs/automacao/EV-R2-NORMAL-b03-validar.py` | idem | **byte-identica**; `PASS SOURCES_11_UNCHANGED` (11/11), `TOTAL 28 PASS 28 FAIL 0`; artefato com o mesmo sha256 `9280b0a3...` |
 | suite kit15 | `python tools/automacao/kit15/teste_kit15.py` | `KIT15-SUITE|tests=21|failures=0|errors=0|skipped=0|ok=True`; unica diferenca para a rodada 1 e' o tempo decorrido (`6.994s` x `7.251s`) |
-| gate de docs | `python tools/audita_docs.py` x baseline pre-edicao | **bloco de pendencias byte-identico**: `!! 11 PENDENCIAS`, todas pre-existentes (ReloadProbe em `KIT-G4-PREP-entrega.md`/`PKG-API-entrega.md` + dependencias do Thunderstore/versao da api). O cabecalho do censo de `.md` mudou (768 -> 762) por causa de cartoes PARALELOS (REPO-BLOAT-1), nao deste trabalho |
+| gate de docs | `python tools/audita_docs.py` **executado na arvore entregue** | `!! 12 PENDENCIAS`, exit `1` - **1 linha(s) nova(s)** contra o baseline de 11 pre-existentes, e ela e' do cartao PARALELO PKG-EN (`docs/automacao/LANG-PKG-entrega.md`). **0 pendencia deste cartao**. Saida integral versionada em `docs/automacao/REPO-PRIV-prova-audita.txt` (secao 5.2) |
+
+**Rodada 3: tudo reconferido IN-PLACE, no repo, com a saida integral em
+`scratch/repopriv/provas3/prova_b3_full.out`.** `preparar_revisao_dono.py --verify-only`
+terminou em `Ran 13 tests in 0.054s / OK`, `tests_passed: true` (o recibo reescrito foi
+restaurado com `git checkout --`, `git diff` dele vazio); suite kit15
+`tests=21|failures=0|errors=0|ok=True`; `gerar-propostas` `MANTER 13 / MELHORAR 7` com o
+artefato no MESMO sha256 `cfbb3643...` e arvore limpa; `validar` `TOTAL 28 PASS 28 FAIL 0`
+(`SOURCES_11_UNCHANGED` 11/11) com `EV-R2-NORMAL-b03-validacao.json` no MESMO sha256
+`9280b0a3...`; os 11 hashes de manifesto que cobrem arquivos com o token seguem
+**11 OK / 0 STALE**. Esta rodada nao tocou em nenhum dos 4 arquivos da classe (b): o diff
+deles contra o commit-base continua sendo so' resolucao de caminho.
 
 Correcao de metodo em relacao a rodada 1: a prova do `preparar_revisao_dono.py` agora roda
 **no lugar**, no repo. A rodada 1 rodava uma copia em sandbox, onde `ROOT`/`SOURCE` nao
@@ -293,6 +328,42 @@ restaurado com `git checkout --` e o `git diff` dele esta **vazio** (provado no 
 Mixagem declarada, como o cartao pediu: `EV-R2-NORMAL-b03-validar.py` e' **codigo
 funcional COM registro de hash congelado dentro**; tratei as duas partes separadamente - o
 caminho virou resolucao de execucao, o sha256 medido ficou intacto.
+
+### 5.2 Gate de docs: a saida INTEGRAL, medida na arvore entregue (achado B7)
+
+O gate do passo 10 do CI e' `python tools/audita_docs.py` (sai diferente de 0 quando alguma
+doc afirma algo que nao bate com o disco). A rodada 2 afirmou nesta pagina "bloco de
+pendencias byte-identico ao baseline, 11 pre-existentes" - e aquela afirmacao NAO reproduzia,
+por dois motivos encadeados:
+
+1. o script monta a lista de arquivos com `git ls-files` filtrado por `.md`, ou seja so' varre
+   o que esta RASTREADO. Quando a prova foi tirada, o entregavel ainda estava fora do indice;
+   o commit o trouxe para dentro da varredura;
+2. o texto do proprio entregavel citava o nome de um projeto de bancada que saiu do repo, e o
+   passo 7 do gate reprova exatamente essa citacao. A prova acendeu uma pendencia nela mesma -
+   e ninguem remediu depois do commit, que e' quando o arquivo passou a ser varrido.
+
+Correcao: (i) a citacao literal saiu do texto; (ii) o gate passou a ser EXECUTADO pelo gerador
+desta pagina a cada execucao, e a saida integral fica versionada em
+`docs/automacao/REPO-PRIV-prova-audita.txt` (LF; no Windows o gate imprime CRLF, por isso o
+`tr -d '\r'` nas duas pontas). Reproducao por dois comandos:
+
+```
+python tools/audita_docs.py | tr -d '\r' > /tmp/agora.txt
+tr -d '\r' < docs/automacao/REPO-PRIV-prova-audita.txt | diff /tmp/agora.txt - && echo IGUAL
+```
+
+Estado medido na arvore entregue: `!! 12 PENDENCIAS`, exit `1`.
+
+| pendencia | de quem e' |
+|---|---|
+| 11 pre-existentes (ferramenta citada que nao existe; dependencia do Thunderstore fora do padrao em 2 mods; versao da api; 7 citacoes do nome de um projeto de bancada em `KIT-G4-PREP-entrega.md` e `PKG-API-entrega.md`) | anteriores a este cartao: presentes e identicas no baseline `scratch/repopriv/provas2/a_pend.txt` |
+| 1: `docs/automacao/LANG-PKG-entrega.md` cita o nome de um projeto de bancada que saiu do repo | cartao PARALELO PKG-EN (commit `c43b78d`), que trouxe esse `.md` para o indice. Nao e' arquivo deste cartao e nao foi tocado aqui |
+| **0** | **deste cartao** |
+
+A comparacao e' por CONJUNTO, nao por contagem: as 11 linhas do baseline continuam presentes e
+identicas, e a unica linha nova e' a do cartao paralelo. Como esse numero muda se outro cartao
+commitar, a prova e' o arquivo versionado - nao um numero digitado.
 
 ## 6. Classe (c) - evidencia congelada: NAO reescrita
 
@@ -432,6 +503,8 @@ prova nao existir. Eles sao prova, nao descuido.
 | `scratch/repopriv/varre_inline.py`, `varre_cmd.py` | procuram placeholder em codigo inline e comandos executados |
 | `scratch/repopriv/gera_tabelas.py`, `gera_entrega3.py` | geram as tabelas e ESTE documento |
 | `scratch/repopriv/prova_b2.sh` | prova de execucao das ferramentas (b) + nao-divergencia dos registros |
+| `scratch/repopriv/prova_b3b.sh` | **rodada 3**: reconfere as ferramentas (b) in-place + o gate de docs, saida em `provas3/prova_b3_full.out` |
+| `scratch/repopriv/edita_rodada3b.py` | **rodada 3**: aplica as edicoes do achado B7 (citacao literal fora, gate executado pelo gerador) |
 | `scratch/repopriv/checa_manifestos.py` | confere se os hashes registrados ainda batem hoje |
 
 Estao em `scratch/` (bancada, fora do versionado) de proposito: promover a `tools/` e'
@@ -439,28 +512,31 @@ decisao do dono, nao desta rodada.
 
 ## 9. Estado final medido
 
-* **medicao POS-COMMIT** (depois desta entrega entrar no historico): commit HEAD =
-  **88** arquivos / **1084** ocorrencias do token - **identico a arvore**, ou seja, o
-  proprio commit nao mudou nenhum numero desta pagina e o entregavel nao reintroduz a
-  identidade que ele trata (`python scratch/repopriv/mede3.py`)
-* **commit desta rodada:** o commit FILHO de `96a6d60`; mensagem
-  *"REPO-PRIV-1: normaliza o vazamento do caminho do perfil do dono na documentacao viva
-  (rodada 2)"*.
-  Nada foi empurrado (sem `push`), o historico nao foi reescrito.
-* commit-base (HEAD no momento do fechamento): `96a6d60 REPO-BLOAT-1: nota de descarte do clone de prova (scratch/rb1/clone_r20, ja apagado)`
-  (cartoes paralelos commitam durante a rodada; o censo foi refeito depois dos reverts e
-  todos os arquivos novos entraram nas classes)
-* arquivos com o token de caminho: **152** no commit-base
-  `96a6d60` -> **88** no commit desta rodada, **0** deles na classe (a)
-* `(a)+(b)+(c)` = **152**
+* **medicao POS-COMMIT** (medida na arvore entregue): **92** arquivos / **1111**
+  ocorrencias do token, dos quais **4** arquivos / **27** ocorrencias vieram de
+  cartoes PARALELOS depois do commit-base (secao 1). Nenhum arquivo desta entrega carrega o
+  token - o entregavel nao reintroduz a identidade que ele trata.
+* **commit desta rodada:** o commit FILHO de `cfcb3f0 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)` (rodada 3: fecha o
+  achado B7 e o nit de durabilidade da revisao da rodada 2). Nada foi empurrado (sem `push`) e
+  o historico nao foi reescrito.
+* commit-base do TRABALHO (ancora deste censo): `96a6d60` - FIXO de proposito, porque cartoes
+  paralelos commitam durante a rodada e o ponto de partida nao se move.
+* arquivos com o token de caminho: **152** em `96a6d60` -> **92** na arvore
+  entregue, dos quais **88** sao o resto do commit-base e **4** sao de cartoes
+  paralelos
+* removidos por este trabalho: **64 arquivos / 98 ocorrencias** - `(a)`
+  61 + `(b)` 3 + `(c)`
+  88 = **152**
   = arquivos com o token no commit-base (**152**) - a soma fecha
 * classe (c) intocada: nenhum dos 88 aparece em `git diff`
   (`checa3.py`, item 3 = 0)
-* `python tools/audita_docs.py`: bloco de pendencias identico ao baseline (11
-  pre-existentes, nenhuma nova) - principal prova de nao-regressao do gate
+* `python tools/audita_docs.py`: `!! 12 PENDENCIAS` na arvore entregue -
+  1 linha nova e ela e' do cartao PARALELO PKG-EN, **0 deste cartao**;
+  saida integral versionada em `docs/automacao/REPO-PRIV-prova-audita.txt` (secao 5.2)
 
 *Nao reescrevi historico, nao dei push, nao toquei em codigo de mod (so' na resolucao de
 caminho dos 4 scripts da classe (b) e no fallback de nome do kit15), nao alterei evidencia
 congelada e nao inventei ocorrencia: toda contagem desta pagina sai de
-`scratch/repopriv/*.json`, gerados por script versionado, e este documento e' ele proprio
-gerado por `scratch/repopriv/gera_entrega3.py`.*
+`scratch/repopriv/*.json`, gerados pelos scripts de BANCADA de `scratch/` (pasta
+gitignored, fora do versionado - secao 8), e este documento e' ele proprio gerado por
+`scratch/repopriv/gera_entrega3.py`, que roda o gate de docs a cada execucao.*
