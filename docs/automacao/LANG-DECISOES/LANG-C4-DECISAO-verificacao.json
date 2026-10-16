@@ -1,0 +1,564 @@
+{
+  "task_id": "t_ea33958b",
+  "review_round": 1,
+  "review_lens": "artifact",
+  "checks_run": 137,
+  "checks_passed": 137,
+  "failures": [],
+  "table_items": 16,
+  "source_sha256": "40d776c4785447a421c75ac792d986519a38d7f467315578ec95ea0c2dda3eff",
+  "deliverable_sha256": "1d123e13e3bcbb05d683dfa366fe202fc0b305fca3837893128c9e71b5ce1bad",
+  "source_files_modified_by_review": false,
+  "implementation_files_modified_by_review": false,
+  "scope": "Documentary review only, not approval to change any game text.",
+  "checks": [
+    {
+      "check": "source hash matches task and receipt",
+      "passed": true
+    },
+    {
+      "check": "source line count",
+      "passed": true
+    },
+    {
+      "check": "task counts",
+      "passed": true
+    },
+    {
+      "check": "source test results recorded, not rerun",
+      "passed": true
+    },
+    {
+      "check": "exactly sixteen complete table rows",
+      "passed": true
+    },
+    {
+      "check": "first line gives context and not approval",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00914 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00914 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00914 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00914 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00914 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-07329 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-07329 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-07329 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-07329 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-07329 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00716 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00716 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00716 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00716 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00716 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00717 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00717 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00717 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00717 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00717 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00719 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00719 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00719 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00719 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00719 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00720 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00720 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00720 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00720 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00720 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00722 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00722 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00722 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00722 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00722 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00723 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00723 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00723 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00723 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00723 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00725 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00725 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00725 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00725 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00725 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00727 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00727 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00727 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00727 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00727 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00766 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00766 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00766 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00766 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00766 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00404 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00404 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00404 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00404 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00404 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00497 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00497 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00497 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00497 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00497 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00504 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00504 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00504 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00504 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00504 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-00713 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00713 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-00713 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-00713 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-00713 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "four table columns",
+      "passed": true
+    },
+    {
+      "check": "ID and line citation format",
+      "passed": true
+    },
+    {
+      "check": "LANG-07575 exact raw JSON strings, including whitespace and escapes",
+      "passed": true
+    },
+    {
+      "check": "LANG-07575 exact cited lines",
+      "passed": true
+    },
+    {
+      "check": "LANG-07575 both literal hashes",
+      "passed": true
+    },
+    {
+      "check": "LANG-07575 address field and index",
+      "passed": true
+    },
+    {
+      "check": "LANG-07575 nature and effective change",
+      "passed": true
+    },
+    {
+      "check": "unique IDs and exact source receipt order",
+      "passed": true
+    },
+    {
+      "check": "nature totals",
+      "passed": true
+    },
+    {
+      "check": "single collapsed keep line with rule and source",
+      "passed": true
+    },
+    {
+      "check": "three choices with costs and none marked",
+      "passed": true
+    },
+    {
+      "check": "subset criterion separates tags and formatting ID",
+      "passed": true
+    },
+    {
+      "check": "dataset rebuild publication explicitly future work",
+      "passed": true
+    },
+    {
+      "check": "required section order",
+      "passed": true
+    },
+    {
+      "check": "comment file contains only the sixteen exact table rows",
+      "passed": true
+    },
+    {
+      "check": "implementation report check count and all results",
+      "passed": true
+    },
+    {
+      "check": "implementation report hashes match",
+      "passed": true
+    },
+    {
+      "check": "no implementation divergences or owner approval claimed",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-DECISAO.md attachment identical to workspace",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-DECISAO-verificacao.json attachment identical to workspace",
+      "passed": true
+    },
+    {
+      "check": "preparar_decisao.py attachment identical to workspace",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-REVISAO-DONO.md unchanged during independent review",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-REVISAO-DONO-verificacao.json unchanged during independent review",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-DECISAO.md unchanged during independent review",
+      "passed": true
+    },
+    {
+      "check": "LANG-C4-DECISAO-verificacao.json unchanged during independent review",
+      "passed": true
+    },
+    {
+      "check": "preparar_decisao.py unchanged during independent review",
+      "passed": true
+    }
+  ]
+}
