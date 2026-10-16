@@ -1,24 +1,45 @@
 # RealmApi
 
-API de modding para Stolen Realm, com helpers de interface e hooks observacionais opcionais.
-É uma base para outros mods; não adiciona conteúdo jogável por conta própria.
+Modding API for Stolen Realm, with UI helpers and optional observational hooks.
+It is a base for other mods; it does not add playable content on its own.
 
 - **Version:** 0.1.0
-- **Autor:** gumatos
-- **Categoria:** Mods (`mods`, comunidade `stolen-realm`)
-- **GUID BepInEx:** `com.gumatos.realmapi`
+- **Author:** gumatos
+- **Category:** Mods (`mods`, `stolen-realm` community)
+- **BepInEx GUID:** `com.gumatos.realmapi`
 - **Namespace:** `Gumatos.RealmApi`
-- **Licença:** MIT
+- **License:** MIT
 
-> **Pré-lançamento em preparação.** A implementação foi exercitada offline, não validada no processo
-> do jogo nesta entrega. Os hooks vêm desabilitados. O empacotador já monta o ZIP com os três
-> assemblies juntos em `plugins/RealmApi/`; esta página não anuncia um pacote publicado.
+> **Pre-release in preparation.** The implementation was exercised offline, not validated inside the game
+> process in this delivery. The hooks ship disabled. The packer already assembles the ZIP with the three
+> assemblies together in `plugins/RealmApi/`; this page does not announce a published package.
 
-## Para jogadores: instalação prevista após liberação
+## What it does
 
-Instale somente quando um mod que você usa pedir esta dependência e houver uma versão liberada.
-Requisito declarado: `BepInEx-BepInExPack-5.4.2305`. Use o gerenciador de mods da comunidade Stolen Realm.
-O pacote completo deverá colocar os três arquivos juntos:
+- Provides a documented, versioned surface for other mods of this repository: one place for the
+  generic UI plumbing (cloning a native game object, wiring a button click) and for reading game
+  properties by reflection.
+- Ships an **observational hook catalog** (`HookCatalog`) that *observes* four game points and never
+  changes results or arguments: every postfix is observational.
+- Ships an **UI family** (`Gumatos.RealmApi.UI`) that can *mutate* the game UI behind explicit binding
+  and opt-in (see *UI family* below).
+- Publishes a notification bus with disposable subscription and isolation of subscriber failures.
+
+## What it does not do
+
+- It does not add playable content on its own: it is a base for other mods.
+- It does not implement the inventory domains outside the four hooks above and the **UI** family
+  (detailed combat, enemies, quests, persistent data) — there is no silent stub and no compatibility
+  promise.
+- It does not cover TextMeshPro or the full filling of a tooltip (both are listed as not exercised below).
+- It does not discover, on its own, where the game keeps each host: the live host for each UI family is
+  supplied by the consumer through `UiHosts`.
+
+## For players: installation planned after release
+
+Install only when a mod you use asks for this dependency and there is a released version.
+Declared requirement: `BepInEx-BepInExPack-5.4.2305`. Use the Stolen Realm community mod manager.
+The complete package must place the three files together:
 
 ```text
 BepInEx/plugins/RealmApi/
@@ -27,126 +48,127 @@ BepInEx/plugins/RealmApi/
   RealmApi.Hooks.dll
 ```
 
-Não copie apenas `RealmApi.dll`: o plugin depende de Core e Hooks. Evite cópias antigas em qualquer
-subpasta de `plugins`, porque o BepInEx também as procura recursivamente. Para remover, desinstale pelo
-gerenciador e revise os mods que dependem da API; em instalação manual, retire somente a pasta
-`RealmApi`. Não mantenha backups de DLL dentro de `plugins`.
+Do not copy `RealmApi.dll` alone: the plugin depends on Core and Hooks. Avoid old copies in any
+subfolder of `plugins`, because BepInEx also looks for them recursively. To remove it, uninstall through
+the manager and review the mods that depend on the API; in a manual installation, remove only the
+`RealmApi` folder. Do not keep DLL backups inside `plugins`.
 
-Arquivo de configuração: `BepInEx/config/com.gumatos.realmapi.cfg`, seção `Safety`:
+Configuration file: `BepInEx/config/com.gumatos.realmapi.cfg`, section `Safety`:
 
 ```ini
 [Safety]
 EnableHooks = false
 ```
 
-`false` é o padrão: o plugin registra que os hooks estão desabilitados e não os instala. Ative apenas
-em teste em jogo autorizado. Com `true`, o plugin ainda exige a versão e o hash exatos do alvo abaixo.
-Confira `BepInEx/LogOutput.log` para o motivo de recusa, em vez de desativar as verificações.
+`false` is the default: the plugin registers that the hooks are disabled and does not install them. Enable
+it only in an authorized in-game test. With `true`, the plugin still requires the exact version and hash of
+the target listed below. Check `BepInEx/LogOutput.log` for the reason of a refusal, instead of disabling
+the checks.
 
-**Esse gate controla os hooks instalados pelo plugin, não a família UI inteira.** Um consumidor pode
-vincular a UI e autorizar mutações explicitamente, mesmo com `EnableHooks=false`.
+**That gate controls the hooks installed by the plugin, not the whole UI family.** A consumer can bind
+the UI and authorize mutations explicitly, even with `EnableHooks=false`.
 
-O ícone oficial de 256×256 (arte fornecida pelo autor) acompanha o pacote em `icon.png`. A preparação
-desta versão não instalou no perfil nem publicou o pacote.
+The official 256×256 icon (art provided by the author) ships with the package as `icon.png`. The
+preparation of this version neither installed into the profile nor published the package.
 
-## Versão alvo do jogo (obrigatória, fail-closed)
+## Target game version (mandatory, fail-closed)
 
-Os cinco campos abaixo compõem a **identidade declarada** do alvo. O gate de runtime (`ApiIdentity.Matches`,
-`api/Core/Contracts.cs:24-26`) verifica **apenas dois** deles em execução: `Application.version` (≈ Versão do jogo)
-e SHA-256 do `Assembly-CSharp.dll`. Os demais (Steam AppID, Build Steam, Unity) são **identidade documentada do alvo**
-e são usados na etapa de atualização (`api/docs/target-game.json`) — **não são comparados em runtime**.
-`BepInProcess("Stolen Realm.exe")` casa o nome do executável, não o AppID.
+The five fields below make up the **declared identity** of the target. The runtime gate (`ApiIdentity.Matches`,
+`api/Core/Contracts.cs:24-26`) checks **only two** of them at execution time: `Application.version` (≈ game version)
+and the SHA-256 of `Assembly-CSharp.dll`. The others (Steam AppID, Steam Build, Unity) are **documented identity of the target**
+and are used in the update step (`api/docs/target-game.json`) — **they are not compared at runtime**.
+`BepInProcess("Stolen Realm.exe")` matches the executable name, not the AppID.
 
-| Campo | Valor | Verificado em runtime? | Como foi medido |
+| Field | Value | Checked at runtime? | How it was measured |
 |---|---|---|---|
-| Steam AppID | `1330000` | **NÃO** (identidade documentada) | manifest Steam do jogo |
-| Versão do jogo | `1.3.1` | **SIM** (`Application.version`) | `PlayerSettings` em `<jogo>/Stolen Realm_Data/globalgamemanagers` |
-| Build Steam | `25240684` | **NÃO** (identidade documentada) | `buildid` em `appmanifest_1330000.acf` |
-| Unity | `2022.3.62f2` | **NÃO** (identidade documentada) | cabeçalho do `globalgamemanagers` |
-| Assembly-CSharp SHA-256 | `8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a` | **SIM** (`sha256sum`) | `sha256sum lib/Assembly-CSharp.dll` (igual ao `Managed/Assembly-CSharp.dll` do jogo) |
+| Steam AppID | `1330000` | **NO** (documented identity) | game Steam manifest |
+| Game version | `1.3.1` | **YES** (`Application.version`) | `PlayerSettings` in `<game>/Stolen Realm_Data/globalgamemanagers` |
+| Steam Build | `25240684` | **NO** (documented identity) | `buildid` in `appmanifest_1330000.acf` |
+| Unity | `2022.3.62f2` | **NO** (documented identity) | header of `globalgamemanagers` |
+| Assembly-CSharp SHA-256 | `8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a` | **YES** (`sha256sum`) | `sha256sum lib/Assembly-CSharp.dll` (same as the game's `Managed/Assembly-CSharp.dll`) |
 
-Os valores vivem em `Gumatos.RealmApi.ApiIdentity` (`api/Core/Contracts.cs`). Detalhe e reprodutibilidade:
-`api/docs/target-game.json`. **Se a versão (`Application.version`) ou o SHA-256 do `Assembly-CSharp`
-divergirem, a API não instala hook nenhum**
-(`ApiIdentity.Matches` compara apenas esses dois campos e recusa quando ausentes ou diferentes).
+The values live in `Gumatos.RealmApi.ApiIdentity` (`api/Core/Contracts.cs`). Detail and reproducibility:
+`api/docs/target-game.json`. **If the version (`Application.version`) or the SHA-256 of the `Assembly-CSharp`
+diverge, the API installs no hook at all**
+(`ApiIdentity.Matches` compares only those two fields and refuses when they are missing or different).
 
-## Consumidores existentes no projeto
+## Existing consumers in the project
 
-São usos concretos no código, não uma afirmação de que as versões publicadas dos consumidores já
-tragam essas integrações:
+These are concrete uses in the code, not a claim that the published versions of the consumers already
+carry those integrations:
 
-- **RoguelikeSkillTreeVisualizer (RSTV):** usa `UIFactory.Clone` e `UIFactory.BindClick` por vínculo
-  explícito. TextMeshPro e montagem visual específica continuam no próprio mod.
-- **RoguelikeDebugger:** sonda `ApiIdentity` por reflexão, de forma opcional; mantém identidade local
-  sem a API ou com os hooks desligados.
-- **Ponte RealmApi → KitSdk:** adaptador observacional separado, criado explicitamente pelo host
-  com barramento, estado do produtor, sessão e diagnóstico. Não descobre a API nem instala hooks.
+- **RoguelikeSkillTreeVisualizer (RSTV):** uses `UIFactory.Clone` and `UIFactory.BindClick` through an
+  explicit binding. TextMeshPro and specific visual assembly stay inside the mod itself.
+- **RoguelikeDebugger:** probes `ApiIdentity` by reflection, optionally; it keeps a local identity
+  without the API or with the hooks off.
+- **RealmApi → KitSdk bridge:** a separate observational adapter, explicitly created by the host
+  with a bus, producer state, session and diagnostics. It does not discover the API and does not install hooks.
 
-Esses consumidores não acompanham este pacote. A API não depende deles para carregar.
+These consumers do not ship with this package. The API does not depend on them to load.
 
-## Para autores de mods
+## For mod authors
 
-As seções seguintes detalham a superfície e seus limites. Caminhos `api/`, `lib/` e `docs/` são
-referências à árvore do [repositório](https://github.com/DefRuivo/stolenRealmMods/tree/main/api),
-não arquivos prometidos dentro do ZIP. Ferramentas de inspeção e smoke também vivem no repositório;
-o pacote de runtime precisa apenas dos três assemblies próprios e dos metadados da distribuição.
+The following sections detail the surface and its limits. Paths `api/`, `lib/` and `docs/` are
+references to the [repository](https://github.com/DefRuivo/stolenRealmMods/tree/main/api) tree,
+not files promised inside the ZIP. Inspection and smoke tools also live in the repository;
+the runtime package needs only the three assemblies of its own plus the distribution metadata.
 
-## Como usar
+## How to use
 
-Consumidor: referencie `RealmApi.Core.dll` (e, se precisar instalar hooks, `RealmApi.Hooks.dll`; para a
-família UI, `RealmApi.dll`, que é onde os 5 tipos públicos dela vivem). A parte de **hooks** observa e **não**
-muda resultado nem argumentos do jogo — todo postfix é observacional. A família **UI**, ao contrário, **muta**
-UI (ver a seção dela abaixo).
+Consumer: reference `RealmApi.Core.dll` (and, if you need to install hooks, `RealmApi.Hooks.dll`; for the
+UI family, `RealmApi.dll`, which is where its 5 public types live). The **hooks** part observes and does **not**
+change a result or an argument of the game — every postfix is observational. The **UI** family, on the contrary, **mutates**
+the UI (see its own section below).
 
 ```csharp
-// 1) Observar os pontos do catálogo. Executa na thread do hook; o retorno é a assinatura.
+// 1) Observe the catalog points. Runs on the hook thread; the return value is the subscription.
 IDisposable sub = RealmHooks.Observed.Subscribe(n =>
 {
     // n.HookId      -> "combat.turn-started", "ui.localized", ...
-    // n.Instance    -> instância do objeto quando o alvo não é estático (pode ser null)
-    // n.Arguments   -> cópia da lista de argumentos (não é cópia profunda de objetos Unity)
-    // n.Result      -> valor de retorno, quando o alvo devolve valor
+    // n.Instance    -> object instance when the target is not static (may be null)
+    // n.Arguments   -> copy of the argument list (not a deep copy of Unity objects)
+    // n.Result      -> return value, when the target returns a value
 });
 
-// 2) Leitura pontual de propriedade, sem reflection espalhada no seu mod:
+// 2) One-off property read, without reflection spread across your mod:
 object? valor = RealmAccess.ReadProperty(assembly, "Burst2Flame.Game", "Instance");
 ```
 
-Hooks implementados na base **0.1.0** (`HookCatalog.All`, quatro apenas):
+Hooks implemented in the **0.1.0** base (`HookCatalog.All`, four only):
 
-| HookId | Alvo | Forma |
+| HookId | Target | Shape |
 |---|---|---|
-| `game.awake` | `Burst2Flame.Game::Awake` | postfix void, instância |
-| `ui.skill-tree.updated` | `SkillTreeManager::UpdateSkillTreeItems` | postfix void, instância |
-| `ui.localized` | `OptionsManager::Localize` (estático) | postfix com `__result` (string) |
-| `combat.turn-started` | `GameLogic::StartNewTurn` | postfix void, instância |
+| `game.awake` | `Burst2Flame.Game::Awake` | void postfix, instance |
+| `ui.skill-tree.updated` | `SkillTreeManager::UpdateSkillTreeItems` | void postfix, instance |
+| `ui.localized` | `OptionsManager::Localize` (static) | postfix with `__result` (string) |
+| `combat.turn-started` | `GameLogic::StartNewTurn` | void postfix, instance |
 
-As famílias do inventário fora dos quatro hooks acima e da família **UI** (combate detalhado, inimigos,
-quests, dados persistentes) **não estão implementadas** — não há stub silencioso e não há promessa de
-compatibilidade.
+The inventory families outside the four hooks above and the **UI** family (detailed combat, enemies,
+quests, persistent data) **are not implemented** — there is no silent stub and no promise of
+compatibility.
 
-## Família UI (API-R1-I2) — comportamental, por vinculo explicito
+## UI family (API-R1-I2) — behavioural, through explicit binding
 
-`Gumatos.RealmApi.UI` tem os 5 tipos do inventário com as **assinaturas exatas** (`UIFactory`, `ActionBarUI`,
-`SkillTreeUI`, `MenuUI`, `TooltipHelper`; 21 assinaturas em 5 tipos, incluindo o overload duplo de `Clone`).
-Ela é **diferente em natureza** dos hooks: `AddButton`, `AddTab`, `BindClick`, `SetText`, `Clone`, `Destroy`
-etc. **MUTAM** a UI do jogo. Por isso ela não passa pelo barramento observacional (`RealmHooks.Observed`),
-não é postfix Harmony, e vive atrás de três travas explícitas:
+`Gumatos.RealmApi.UI` has the 5 inventory types with the **exact signatures** (`UIFactory`, `ActionBarUI`,
+`SkillTreeUI`, `MenuUI`, `TooltipHelper`; 21 signatures across 5 types, including the double `Clone` overload).
+It is **different in nature** from the hooks: `AddButton`, `AddTab`, `BindClick`, `SetText`, `Clone`, `Destroy`
+etc. **MUTATE** the game UI. That is why it does not go through the observational bus (`RealmHooks.Observed`),
+it is not a Harmony postfix, and it lives behind three explicit locks:
 
-1. **Vínculo explícito.** `UiFamily.Bind(assemblyDoJogo, hosts, allowMutation)` resolve, por metadados
-   exatos (mesma regra do `HookDescriptor.Resolve`), os **17 requisitos** da família contra o assembly do
-   jogo: alvo ausente -> `MissingMemberException`; assinatura divergente -> `MissingMethodException`;
-   hospedeiro de tipo errado -> `ArgumentException`. Um vínculo só é publicado quando **todos** os
-   requisitos resolvem: não existe vínculo parcial e um `Bind` que falha não altera o vínculo vigente.
-   Chamar qualquer método das 5 famílias sem vínculo -> `InvalidOperationException`.
-2. **Opt-in de mutação.** Sem `allowMutation:true` no `Bind`, todo método que muta lança. São leitura
-   (`HasTab`, `FindChild`) os que não exigem o opt-in, mas ainda exigem vínculo e thread.
-3. **Thread.** O vínculo grava o thread (o main thread do Unity) e usar a família de outro thread lança:
-   UI do Unity não é thread-safe.
+1. **Explicit binding.** `UiFamily.Bind(assemblyDoJogo, hosts, allowMutation)` resolves, by exact
+   metadata (the same rule as `HookDescriptor.Resolve`), the **17 requirements** of the family against the
+   game assembly: missing target -> `MissingMemberException`; divergent signature -> `MissingMethodException`;
+   host of the wrong type -> `ArgumentException`. A binding is only published when **all** the
+   requirements resolve: there is no partial binding and a `Bind` that fails does not change the current binding.
+   Calling any method of the 5 families without a binding -> `InvalidOperationException`.
+2. **Mutation opt-in.** Without `allowMutation:true` in `Bind`, every method that mutates throws. The
+   read-only ones (`HasTab`, `FindChild`) are the ones that do not require the opt-in, but they still require a binding and the thread.
+3. **Thread.** The binding records the thread (the Unity main thread) and using the family from another thread throws:
+   Unity UI is not thread-safe.
 
 ```csharp
-// Estado de verdade do jogo que o consumidor entrega (o que ele achou na cena); a API NÃO adivinha onde
-// o jogo guarda cada coisa. Hospedeiro ausente = aquela família falha fechado.
+// True state of the game that the consumer supplies (what it found in the scene); the API does NOT guess where
+// the game keeps each thing. Missing host = that family fails closed.
 var hosts = new UiHosts {
     GuiManager = guiManagerDoJogo,             // UIFactory + TooltipHelper
     CurrentCharacterUi = currentCharacterUi,   // ActionBarUI
@@ -155,55 +177,55 @@ var hosts = new UiHosts {
 };
 UiFamily.Bind(assemblyDoJogo, hosts, allowMutation: true);
 try {
-    UIFactory.SetText(botaoNativo, "Meu texto");         // muta
-    ActionBarUI.AddButton("meu-botao", icone, AoClicar); // muta
-    bool tem = SkillTreeUI.HasTab(SkillTree.Fire);       // leitura
-} finally { UiFamily.Unbind(); }   // zera vínculo e o estado das 5 famílias
+    UIFactory.SetText(botaoNativo, "Meu texto");         // mutates
+    ActionBarUI.AddButton("meu-botao", icone, AoClicar); // mutates
+    bool tem = SkillTreeUI.HasTab(SkillTree.Fire);       // read
+} finally { UiFamily.Unbind(); }   // clears the binding and the state of the 5 families
 ```
 
-Tabela de alvos (todos medidos em `lib/Assembly-CSharp.dll`, verificados a cada execução do smoke pelo teste
+Target table (all measured in `lib/Assembly-CSharp.dll`, verified on every smoke run by the test
 `actual-game-ui-requirements-metadata`):
 
-| Tipo | Alvo no jogo (assinatura exata) | O que a API faz |
+| Type | Game target (exact signature) | What the API does |
 |---|---|---|
-| `TooltipHelper` | `Tooltip::HideTooltip()`, via `GUIManager::instance` + campo `GUIManager::tooltip` | `HideTooltip` delega **1:1** ao membro nativo |
-| `ActionBarUI` | `CurrentCharacterUI::Instance`/`ActiveSkillbar`, `Skillbar::HasAvailableSlot()`, `Skillbar::RefreshSkillBar()` | prova slot livre no hospedeiro, registra o botão, pede a reconstrução da barra |
-| `SkillTreeUI` | `SkillTreeManager::IsNotNullAndIsActive`, `SkillTreeManager::UpdateSkillTreeItems()` | prova a árvore ativa, registra a aba, pede a reconstrução |
-| `MenuUI` | `MenuTabManager::RefreshSelected()` | registra a aba e pede a reconstrução |
-| `UIFactory` | `GUIManager::instance` | clona/copia layout/liga clique/texto/ícone/destrói sobre os objetos nativos do Unity |
+| `TooltipHelper` | `Tooltip::HideTooltip()`, through `GUIManager::instance` + field `GUIManager::tooltip` | `HideTooltip` delegates **1:1** to the native member |
+| `ActionBarUI` | `CurrentCharacterUI::Instance`/`ActiveSkillbar`, `Skillbar::HasAvailableSlot()`, `Skillbar::RefreshSkillBar()` | proves a free slot on the host, registers the button, asks for the bar to be rebuilt |
+| `SkillTreeUI` | `SkillTreeManager::IsNotNullAndIsActive`, `SkillTreeManager::UpdateSkillTreeItems()` | proves the tree is active, registers the tab, asks for a rebuild |
+| `MenuUI` | `MenuTabManager::RefreshSelected()` | registers the tab and asks for a rebuild |
+| `UIFactory` | `GUIManager::instance` | clones/copies layout/wires click/text/icon/destroys over the native Unity objects |
 
-**Por que os 5 tipos vivem em `RealmApi.dll` e não em `Core`.** Medido: `Core` é `netstandard2.0` e os
-assemblies Unity do alvo são `netstandard2.1` — a referência direta falha (`CS1705`) e um processo net472
-não carrega nem o `UnityEngine.CoreModule` (`FileNotFoundException: netstandard, Version=2.1.0.0`).
-Assinar os 5 tipos com tipos Unity (como o inventário exige) só é possível num projeto netstandard2.1, que é
-o do plugin. Foi por isso que **não** foi criado projeto novo (o aceite fala em 5 projetos Release): o que dá
-para exercitar offline (vínculo, guardas, estado, delegação) ficou em `Core`; as assinaturas Unity ficaram em
-`RealmApi.dll`. A conformidade das 21 assinaturas é provada por metadados, não por execução
-(`api/tools/check_ui_contract.py` -> `api/docs/ui-contract-diff.json`, veredito `CONFORME`, com controle
-negativo que falha se a comparação passar por omissão).
+**Why the 5 types live in `RealmApi.dll` and not in `Core`.** Measured: `Core` is `netstandard2.0` and the
+target's Unity assemblies are `netstandard2.1` — the direct reference fails (`CS1705`) and a net472 process
+does not even load `UnityEngine.CoreModule` (`FileNotFoundException: netstandard, Version=2.1.0.0`).
+Signing the 5 types with Unity types (as the inventory requires) is only possible in a netstandard2.1 project, which is
+the plugin's. That is why **no** new project was created (the acceptance criteria speak of 5 Release projects): what
+can be exercised offline (binding, guards, state, delegation) stayed in `Core`; the Unity signatures stayed in
+`RealmApi.dll`. Conformance of the 21 signatures is proven by metadata, not by execution
+(`api/tools/check_ui_contract.py` -> `api/docs/ui-contract-diff.json`, verdict `CONFORME`, with a negative control
+that fails if the comparison passes by omission).
 
-## Config e segurança
+## Config and safety
 
-No `BepInEx/config`, seção `Safety`:
+In `BepInEx/config`, section `Safety`:
 
-- `EnableHooks` (padrão **false**): hooks desabilitados até um smoke em jogo ser explicitamente autorizado.
-  Com `false` o plugin só registra em log e não instala nada.
-- Com `true`, o plugin ainda exige que versão (`Application.version`) **e** SHA-256 do `Assembly-CSharp`
-  do processo atual batam com a tabela acima; qualquer divergência vira `LogError` e **zero hooks**.
+- `EnableHooks` (default **false**): hooks disabled until an in-game smoke is explicitly authorized.
+  With `false` the plugin only writes to the log and installs nothing.
+- With `true`, the plugin still requires that the version (`Application.version`) **and** the SHA-256 of the `Assembly-CSharp`
+  of the current process match the table above; any divergence becomes a `LogError` and **zero hooks**.
 
-## Como construir
+## How to build
 
-Pré-requisitos:
+Prerequisites:
 
-- **.NET SDK 6.0** (medido: `6.0.428`).
-- **DLLs de referência em `lib/`** (`Assembly-CSharp.dll`, `0Harmony.dll`, `BepInEx.dll`, `UnityEngine.dll`,
-  `UnityEngine.CoreModule.dll`). Usadas pelo plugin (`RealmApi.csproj`) e pelo Core/Hooks.
-- **BepInEx Core** (perfil r2modman): `$(USERPROFILE)/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/core`.
-  Smoke (`RealmApi.Smoke.csproj`) e Inspect (`Inspect.csproj`) leem DLLs de lá por meio da propriedade
-  `BepInExCoreDir` (default: mesmo caminho; pode ser sobrescrita via `-p:BepInExCoreDir=<caminho>`).
-  Smoke consome: `0Harmony.dll`, `Mono.Cecil.dll`, `MonoMod.RuntimeDetour.dll`, `MonoMod.Utils.dll`,
-  `BepInEx.dll`. Inspect consome: `Mono.Cecil.dll`.
-- **UnityEngine*.dll**: vêm de `lib/`, **não** do BepInEx Core.
+- **.NET SDK 6.0** (measured: `6.0.428`).
+- **Reference DLLs in `lib/`** (`Assembly-CSharp.dll`, `0Harmony.dll`, `BepInEx.dll`, `UnityEngine.dll`,
+  `UnityEngine.CoreModule.dll`). Used by the plugin (`RealmApi.csproj`) and by Core/Hooks.
+- **BepInEx Core** (r2modman profile): `$(USERPROFILE)/AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/core`.
+  Smoke (`RealmApi.Smoke.csproj`) and Inspect (`Inspect.csproj`) read DLLs from there through the property
+  `BepInExCoreDir` (default: the same path; it can be overridden with `-p:BepInExCoreDir=<path>`).
+  Smoke consumes: `0Harmony.dll`, `Mono.Cecil.dll`, `MonoMod.RuntimeDetour.dll`, `MonoMod.Utils.dll`,
+  `BepInEx.dll`. Inspect consumes: `Mono.Cecil.dll`.
+- **UnityEngine*.dll**: they come from `lib/`, **not** from BepInEx Core.
 
 ```bash
 dotnet build api/Core/RealmApi.Core.csproj  -c Release
@@ -213,19 +235,19 @@ dotnet build api/Smoke/RealmApi.Smoke.csproj -c Release
 dotnet build api/tools/Inspect/Inspect.csproj -c Release
 ```
 
-> **Nota:** para construir Smoke/Inspect sem o perfil r2modman instalado, passe `-p:BepInExCoreDir=<caminho-para-core>`
-> apontando para uma pasta contendo as DLLs listadas acima.
+> **Note:** to build Smoke/Inspect without the r2modman profile installed, pass `-p:BepInExCoreDir=<path-to-core>`
+> pointing at a folder containing the DLLs listed above.
 
 
-**Nada é instalado por padrão.** `api/Plugin/RealmApi.csproj` tem um alvo de deploy `DeployToBepInEx`
-(API-R1-I1) que segue a regra de opt-in da raiz (`Directory.Build.props`): construir **sem**
-`-p:DeployToBepInEx=true` não copia arquivo nenhum para o perfil `r2modman`; com a flag, copia os **três**
-assemblies que o plugin precisa, na mesma pasta (`RealmApi.dll`, `RealmApi.Core.dll`, `RealmApi.Hooks.dll`).
-Ensaio do deploy em pasta isolada, comando de instalação, critérios de sucesso/falha e rollback estão em
-`docs/automacao/API-R1-runbook-runtime.md`. Medido nesta rodada: o build padrão (sem a flag) não alterou
-um byte do perfil — impressão digital antes/depois em `docs/automacao/API-R1-I1-evidencias/`.
+**Nothing is installed by default.** `api/Plugin/RealmApi.csproj` has a deploy target `DeployToBepInEx`
+(API-R1-I1) that follows the opt-in rule of the root (`Directory.Build.props`): building **without**
+`-p:DeployToBepInEx=true` copies no file at all into the `r2modman` profile; with the flag, it copies the **three**
+assemblies the plugin needs, into the same folder (`RealmApi.dll`, `RealmApi.Core.dll`, `RealmApi.Hooks.dll`).
+A deploy rehearsal into an isolated folder, the install command, the success/failure criteria and the rollback are in
+`docs/automacao/API-R1-runbook-runtime.md`. Measured in this round: the default build (without the flag) did not change
+a byte of the profile — a fingerprint before/after in `docs/automacao/API-R1-I1-evidencias/`.
 
-## Como rodar a suíte de fumaça (offline)
+## How to run the smoke suite (offline)
 
 ```bash
 api/Smoke/bin/Release/net472/RealmApi.Smoke.exe \
@@ -233,95 +255,138 @@ api/Smoke/bin/Release/net472/RealmApi.Smoke.exe \
   C:/dev/stolen-realm/api/Plugin/bin/Release/netstandard2.1/RealmApi.dll
 ```
 
-Resultado medido nesta entrega: `Ran 62 tests; failures: 0`, exit 0 (`api/docs/smoke-result.json`, saída
-literal em `api/docs/smoke-output.txt`). A base tinha 25; a API-R1-I2 acrescentou 37, sendo 5 casos por tipo
-da família UI (`target-present`, `target-absent`, `member-absent`, `signature-divergent`,
-`unbound-fails-closed`) mais delegação real em CLR, opt-in de mutação, thread, hospedeiro ausente/errado,
-`Bind` atômico e o teste `actual-game-ui-requirements-metadata` (17 requisitos conferidos no
-`Assembly-CSharp` instalado).
+Result measured in this delivery: `Ran 62 tests; failures: 0`, exit 0 (`api/docs/smoke-result.json`, literal
+output in `api/docs/smoke-output.txt`). The base had 25; API-R1-I2 added 37, 5 of them cases per type
+of the UI family (`target-present`, `target-absent`, `member-absent`, `signature-divergent`,
+`unbound-fails-closed`) plus real delegation in the CLR, the mutation opt-in, thread, missing/wrong host,
+atomic `Bind` and the test `actual-game-ui-requirements-metadata` (17 requirements checked against the
+installed `Assembly-CSharp`).
 
-Ela responde as três perguntas do aceite: **carrega?** (Core/Hooks carregam e a identidade é conferida),
-**expõe?** (catálogo resolve tipo+assinatura exata e o atributo do plugin casa), **hooks respondem?**
-(postfixes Harmony reais disparam, isolam assinantes, preservam o owner de terceiros e são removidos
-deixando zero patch) — e, para a família UI, **o alvo existe?** (vinculo fail-closed, delegação e guardas).
-Os alvos Unity do smoke são **fixtures artificiais** com as mesmas assinaturas: provam a mecânica no CLR,
-**não** provam comportamento do jogo. O CLR do smoke (net472) não carrega `RealmApi.dll` (netstandard2.1);
-por isso os 5 tipos públicos são conferidos por metadados (`Inspect ui` + `api/tools/check_ui_contract.py`) e o smoke
-só checa presença/ausência de stub por metadados (`ui-public-surface-in-plugin-metadata`).
+It answers the three questions of the acceptance criteria: **does it load?** (Core/Hooks load and the identity is checked),
+**does it expose?** (the catalog resolves type+exact signature and the plugin attribute matches), **do the hooks respond?**
+(real Harmony postfixes fire, isolate subscribers, preserve third-party owners and are removed
+leaving zero patch) — and, for the UI family, **does the target exist?** (fail-closed binding, delegation and guards).
+The Unity targets of the smoke are **artificial fixtures** with the same signatures: they prove the mechanics in the CLR,
+they do **not** prove game behaviour. The smoke CLR (net472) does not load `RealmApi.dll` (netstandard2.1);
+that is why the 5 public types are checked by metadata (`Inspect ui` + `api/tools/check_ui_contract.py`) and the smoke
+only checks presence/absence of a stub by metadata (`ui-public-surface-in-plugin-metadata`).
 
-## Como atualizar quando o jogo mudar
+## How to update when the game changes
 
-Ordem fixa; cada passo tem um comando reprodutível.
+Fixed order; every step has a reproducible command.
 
-1. **Reconferir a identidade.** Rode `sha256sum lib/Assembly-CSharp.dll` e compare com
-   `ApiIdentity.AssemblySha256`; confira `buildid` no `appmanifest_1330000.acf` e a versão em
-   `globalgamemanagers`. Atualize `api/docs/target-game.json` e `ApiIdentity` **só** se o alvo mudou de verdade.
-   Enquanto versão e hash não casarem, o plugin recusa instalar hooks — isso é intencional.
-2. **Regerar a superfície.** `dotnet run --project api/tools/Inspect/Inspect.csproj -c Release -- targets lib/Assembly-CSharp.dll > api/docs/game-targets.json`.
-   O comando lê **metadados** (Mono.Cecil); ele não executa o assembly do jogo.
-3. **Recomparar.** Para cada `HookDescriptor` do catálogo, confirme que o tipo existe, que o método tem
-   assinatura idêntica e que a forma do postfix continua suportada (`IsStatic`/`ReturnType`). O smoke já
-   cobre isso por metadados (`actual-game-hook-metadata`). Para a **família UI**, o mesmo passo é o teste
-   `actual-game-ui-requirements-metadata`, que resolve os 17 requisitos de `UiRequirements.All` contra o
-   `Assembly-CSharp` medido.
-4. **Ajustar o código próprio.** Se um alvo mudou de nome/assinatura, corrija o `HookCatalog` (hooks) ou
-   `UiRequirements` (`api/Core/Ui/UiFamily.cs`, família UI) e, se a semântica do ponto mudou, o hook ou o
-   método correspondente. Se o ponto desapareceu, **remova-o** do catálogo e registre a remoção em
-   `docs/automacao/API-R1-*.md` — não invente um alvo alternativo silencioso.
-5. **Reconstruir e rodar o smoke.** Os cinco `dotnet build` acima e a suíte; exigência: `failures: 0`.
-6. **Reconferir a conformidade da família UI.** Regere a superfície implementada e rode o conferidor:
+1. **Re-check the identity.** Run `sha256sum lib/Assembly-CSharp.dll` and compare it with
+   `ApiIdentity.AssemblySha256`; check `buildid` in `appmanifest_1330000.acf` and the version in
+   `globalgamemanagers`. Update `api/docs/target-game.json` and `ApiIdentity` **only** if the target really changed.
+   While version and hash do not match, the plugin refuses to install hooks — that is intentional.
+2. **Regenerate the surface.** `dotnet run --project api/tools/Inspect/Inspect.csproj -c Release -- targets lib/Assembly-CSharp.dll > api/docs/game-targets.json`.
+   The command reads **metadata** (Mono.Cecil); it does not execute the game assembly.
+3. **Re-compare.** For every `HookDescriptor` of the catalog, confirm that the type exists, that the method has an
+   identical signature and that the shape of the postfix is still supported (`IsStatic`/`ReturnType`). The smoke already
+   covers that by metadata (`actual-game-hook-metadata`). For the **UI family**, the same step is the test
+   `actual-game-ui-requirements-metadata`, which resolves the 17 requirements of `UiRequirements.All` against the
+   measured `Assembly-CSharp`.
+4. **Adjust your own code.** If a target changed name/signature, fix the `HookCatalog` (hooks) or
+   `UiRequirements` (`api/Core/Ui/UiFamily.cs`, UI family) and, if the semantics of the point changed, the hook or the
+   corresponding method. If the point disappeared, **remove it** from the catalog and record the removal in
+   `docs/automacao/API-R1-*.md` — do not invent a silent alternative target.
+5. **Rebuild and run the smoke.** The five `dotnet build` commands above and the suite; requirement: `failures: 0`.
+6. **Re-check the conformance of the UI family.** Regenerate the implemented surface and run the checker:
    `dotnet run --project api/tools/Inspect/Inspect.csproj -c Release --no-build -- ui api/Plugin/bin/Release/netstandard2.1/RealmApi.dll api/Core/bin/Release/netstandard2.0/RealmApi.Core.dll > api/docs/ui-contract.json`
-   e depois `python api/tools/check_ui_contract.py` (exigência: `CONFORME`, exit 0, com o controle negativo
-   acusando problema — se o controle negativo passar, a comparação não vale).
-7. **Regravar as evidências.** Atualize `api/docs/target-game.json`, `api/docs/smoke-result.json`,
-   `api/docs/smoke-output.txt` e `api/docs/ui-contract-diff.json` com a nova rodada. Números estimados não
-   entram aqui.
-8. **Runtime só com autorização.** Smoke em jogo (BepInEx real) é um ato separado e explicitamente
-   autorizado pelo dono; até lá o resultado fica declarado como NÃO exercitado.
+   and then `python api/tools/check_ui_contract.py` (requirement: `CONFORME`, exit 0, with the negative control
+   reporting a problem — if the negative control passes, the comparison is worthless).
+7. **Re-record the evidence.** Update `api/docs/target-game.json`, `api/docs/smoke-result.json`,
+   `api/docs/smoke-output.txt` and `api/docs/ui-contract-diff.json` with the new round. Estimated numbers do not
+   belong here.
+8. **Runtime only with authorization.** An in-game smoke (real BepInEx) is a separate act, explicitly
+   authorized by the owner; until then the result stays declared as NOT exercised.
 
-## Como contribuir
+## How to contribute
 
-- Um hook novo = um método no catálogo + um teste de metadados + um caso no smoke real de dispatch.
-  Se a forma exigida não for `void` (instância) nem `string` (estático), isso é uma **extensão de forma**
-  e precisa de decisão de arquitetura antes do código.
-- Um **membro novo da família UI** = um `UiRequirement` no catálogo (`api/Core/Ui/UiFamily.cs`) + o método no
-  tipo público com a assinatura do inventário + um caso no smoke. Membro que **muta** UI precisa entrar na
-  lista que exige `allowMutation:true`; membro que só lê não entra. A conformidade de assinatura é conferida
-  por `api/tools/check_ui_contract.py`, que falha em divergência de nome, tipo, retorno, ordem/tipo/nome de
-  parâmetro e opcionalidade — não é revisão por leitura.
-- Não altere o `Assembly-CSharp.dll` e não o redistribua. Nunca referencie o assembly do jogo no código
-  do plugin (o smoke tem o teste `no-game-assembly-dependency` para impedir essa regressão).
-- Nada de patches de modificação de comportamento nos hooks desta base: os hooks 0.1.0 são
-  observacionais. A família UI é comportamental e pode mutar a interface com vínculo e opt-in;
-  cancelamento/substituição de argumentos pelos hooks é uma frente separada.
-- Toda afirmação em documento deste módulo precisa vir com caminho de arquivo, contagem ou comando
-  reproduzível; o que não for exercitável se declara `NÃO_EXERCITADO` com o motivo.
-- Idioma: português (padrão do repositório).
+- A new hook = one method in the catalog + one metadata test + one case in the real dispatch smoke.
+  If the required shape is neither `void` (instance) nor `string` (static), that is a **shape extension**
+  and needs an architecture decision before the code.
+- A **new member of the UI family** = one `UiRequirement` in the catalog (`api/Core/Ui/UiFamily.cs`) + the method in the
+  public type with the inventory signature + one case in the smoke. A member that **mutates** the UI must enter the
+  list that requires `allowMutation:true`; a member that only reads does not. Signature conformance is checked
+  by `api/tools/check_ui_contract.py`, which fails on a divergence of name, type, return, order/type/name of
+  parameter and optionality — it is not a review by reading.
+- Do not change `Assembly-CSharp.dll` and do not redistribute it. Never reference the game assembly in the plugin
+  code (the smoke has the test `no-game-assembly-dependency` to prevent that regression).
+- No behaviour-modifying patches in the hooks of this base: the 0.1.0 hooks are
+  observational. The UI family is behavioural and may mutate the interface with a binding and the opt-in;
+  cancelling/substituting arguments from the hooks is a separate front.
+- Every statement in a document of this module must come with a file path, a count or a reproducible
+  command; whatever is not exercisable declares itself `NAO_EXERCITADO` with the reason.
+- Language: the package pages (this README and the CHANGELOG) are in English, with a short Portuguese section at the
+  end of this README — the same shape as the other packages of this project. Internal documentation under `docs/`
+  stays in Portuguese.
 
-## NÃO exercitado nesta entrega
+## NOT exercised in this delivery
 
-- Carregamento pelo BepInEx no processo do jogo, gameplay, turnos/saves/multiplayer.
-- **Identidade em runtime: NÃO_EXERCITADO.** `ApiIdentity.Matches` (compara `Application.version` +
-  SHA-256 do `Assembly-CSharp`) nunca rodou no processo real do jogo — o smoke offline verifica metadados,
-  não o runtime Unity. A igualdade de versão só será exercitada quando um smoke em jogo autorizado for
-  rodado.
-- Instalação no perfil `r2modman`: **NÃO_EXERCITADO** — o alvo de deploy existe e está condicionado ao
-  opt-in (ver `docs/automacao/API-R1-runbook-runtime.md`), mas nada foi copiado para o perfil: nesta rodada
-  a impressão digital do perfil (caminho/bytes/mtime/sha256 de `plugins/` e `config/`) é idêntica antes e
-  depois do build (`docs/automacao/API-R1-I1-evidencias/01` e `04`, hash do conjunto igual nas duas).
-- As famílias do inventário fora dos quatro hooks acima e da família **UI**.
-- **Família UI — runtime**: nada foi chamado dentro do jogo. `NÃO_EXERCITADO`: (a) composição visual real
-  (`UnityEngine.Object.Instantiate`, `Transform.Find`, `Image.sprite`, `Text.text`, `LayoutGroup`, `Destroy`)
-  roda só em fixtures metadados; (b) o preenchimento nativo do tooltip (`Tooltip::ShowTooltip` do jogo, 13
-  parâmetros) — a entrega resolve o alvo, guarda o pedido e torna o tooltip visível; (c) `AddButton`/`AddTab`
-  criam o **registro** e pedem a reconstrução ao hospedeiro nativo (`RefreshSkillBar`/`UpdateSkillTreeItems`/
-  `RefreshSelected`), mas a criação visual do elemento a partir de um prefab nativo não é feita aqui;
-  (d) `SetText`/`SetIcon` cobrem `UnityEngine.UI.Text`/`Image` — **TextMeshPro** (que o jogo usa muito) fica
-  fora desta entrega e falha fechado com `MissingComponentException`; (e) a obtenção **ao vivo** de cada
-  hospedeiro (onde o jogo guarda `CurrentCharacterUI`/`MenuTabManager`/`SkillTreeManager` na cena) é do
-  consumidor via `UiHosts` — a API não adivinha esse caminho.
-- Publicação em Thunderstore: ato separado e explicitamente autorizado; **não** foi feito.
+- Loading by BepInEx inside the game process, gameplay, turns/saves/multiplayer.
+- **Runtime identity: NAO_EXERCITADO.** `ApiIdentity.Matches` (which compares `Application.version` +
+  the SHA-256 of `Assembly-CSharp`) never ran inside the real game process — the offline smoke checks metadata,
+  not the Unity runtime. Version equality will only be exercised when an authorized in-game smoke is
+  run.
+- Installation into the `r2modman` profile: **NAO_EXERCITADO** — the deploy target exists and is conditioned on the
+  opt-in (see `docs/automacao/API-R1-runbook-runtime.md`), but nothing was copied into the profile: in this round
+  the profile fingerprint (path/bytes/mtime/sha256 of `plugins/` and `config/`) is identical before and
+  after the build (`docs/automacao/API-R1-I1-evidencias/01` and `04`, the hash of the set equal in both).
+- The inventory families outside the four hooks above and the **UI** family.
+- **UI family — runtime**: nothing was called inside the game. `NAO_EXERCITADO`: (a) real visual
+  composition (`UnityEngine.Object.Instantiate`, `Transform.Find`, `Image.sprite`, `Text.text`, `LayoutGroup`, `Destroy`)
+  runs only on metadata fixtures; (b) the native filling of the tooltip (`Tooltip::ShowTooltip` of the game, 13
+  parameters) — the delivery resolves the target, stores the request and makes the tooltip visible; (c) `AddButton`/`AddTab`
+  create the **registration** and ask the native host to rebuild (`RefreshSkillBar`/`UpdateSkillTreeItems`/
+  `RefreshSelected`), but the visual creation of the element from a native prefab is not done here;
+  (d) `SetText`/`SetIcon` cover `UnityEngine.UI.Text`/`Image` — **TextMeshPro** (which the game uses a lot) is
+  outside this delivery and fails closed with `MissingComponentException`; (e) obtaining each host **live**
+  (where the game keeps `CurrentCharacterUI`/`MenuTabManager`/`SkillTreeManager` in the scene) is up to the
+  consumer through `UiHosts` — the API does not guess that path.
+- Publication to Thunderstore: a separate act, explicitly authorized; it was **not** done.
 
-## Licença e limites
+## License and limits
 
-MIT (`api/LICENSE`), autor Gumatos. Não inclui e não redistribui assemblies do jogo nem de terceiros.
+MIT (`api/LICENSE`), author Gumatos. It does not include and does not redistribute game or third-party assemblies.
+
+---
+
+## Português (BR)
+
+> Esta seção é o resumo curto em português; a página do pacote (o resto deste README e o CHANGELOG) está em
+> inglês, na mesma forma das outras páginas deste projeto. A documentação interna em `docs/` continua em português.
+
+**O que é.** API de modding para Stolen Realm: uma base para outros mods, com helpers de interface e hooks
+observacionais opcionais. Ela **não adiciona conteúdo jogável sozinha**.
+
+**O que ela NÃO faz.** Não implementa os domínios do inventário fora dos quatro hooks e da família **UI**
+(combate detalhado, inimigos, quests, dados persistentes); não cobre TextMeshPro nem o preenchimento completo
+de tooltip; e não descobre sozinha onde o jogo guarda cada hospedeiro de UI (isso é do consumidor, via `UiHosts`).
+
+**Versão alvo do jogo (fail-closed).** O gate de runtime (`ApiIdentity.Matches`) compara **apenas** a versão
+(`Application.version` = `1.3.1`) e o SHA-256 do `Assembly-CSharp.dll`
+(`8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a`). AppID `1330000`, Build Steam `25240684` e
+Unity `2022.3.62f2` são identidade **documentada** do alvo, não comparadas em runtime. Se versão ou hash
+divergirem, a API **não instala hook nenhum**.
+
+**Instalar (previsto para depois da liberação).** Instale só quando um mod que você usa pedir esta dependência e
+houver versão liberada. Requisito declarado: `BepInEx-BepInExPack-5.4.2305`. O pacote completo põe os **três**
+assemblies juntos em `BepInEx/plugins/RealmApi/`: `RealmApi.dll`, `RealmApi.Core.dll` e `RealmApi.Hooks.dll`.
+Não copie apenas o `RealmApi.dll` e não deixe cópias antigas em subpastas de `plugins` (o BepInEx procura
+recursivamente).
+
+**Desinstalar.** Desinstale pelo gerenciador e revise os mods que dependem da API; na instalação manual, retire
+somente a pasta `RealmApi`.
+
+**Configuração.** `BepInEx/config/com.gumatos.realmapi.cfg`, seção `Safety`: `EnableHooks = false` por padrão.
+Com `true`, o plugin ainda exige a versão e o hash exatos do alvo; toda divergência vira `LogError` e **zero
+hooks**. Esse portão controla os hooks do plugin, não a família UI inteira.
+
+**Compilar.** .NET SDK 6.0 (`6.0.428`) e as DLLs de referência em `lib/`; os cinco `dotnet build -c Release` de
+`api/` estão listados acima. **Nada é instalado por padrão**: só `-p:DeployToBepInEx=true` copia os três
+assemblies para o perfil do r2modman.
+
+**Não exercitado nesta entrega.** Carregamento pelo BepInEx no processo do jogo, gameplay, saves, multiplayer,
+identidade em runtime, instalação no perfil `r2modman` e a família UI em runtime — tudo declarado
+`NAO_EXERCITADO` com motivo na seção acima. Nenhuma publicação foi feita.

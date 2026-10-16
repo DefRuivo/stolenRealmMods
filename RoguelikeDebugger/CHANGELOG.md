@@ -1,65 +1,64 @@
 # Changelog — RoguelikeDebugger
 
-> Ferramenta de **desenvolvimento**, não mod de jogador.
-> Datas de publicação em ISO 8601 (BRT, UTC−03:00); títulos antigos sem data não afirmam data de lançamento.
-> Auditoria documental CHG-REV: 2026-10-16. Correções locais não alteram ZIPs já publicados.
+> A **development** tool, not a player mod.
+> Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
+> CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
 ## 0.1.3 — 2026-10-16
 
-- **Proveniência do dump (DBG-R2, commit `097f950`, 2026-10-11):** cabeçalho `DBG-PROV-V1` antes dos patches com identidade do jogo/DLL e hashes; estado ABERTO/PARCIAL com ganchos realmente aplicados; rodapé FECHADO em `Application.quitting`. Falhas de medição são explícitas, não valores estimados. Sem rodapé não há prova de encerramento normal; um censo de boot não prova ausência em todos os assets/presets/localizações.
-- **RealmApi opcional:** a identidade é sondada por reflexão; sem API ou com hooks desabilitados, a ferramenta mantém medição local. Não se tornou dependência obrigatória.
-- **Modo de leitura explícito:** a nova proveniência classifica a matriz Flame **já existente**: ela usa `Game.EvalVoid` e registra expressões em `MissingExpressions`; portanto a sessão com essa matriz é marcada como leitura **ativa**, não observação passiva estrita. Não muda atributos dos personagens, mas não é literalmente só texto no log.
-- **Versão:** 0.1.2 -> **0.1.3** nos quatro lugares que a carregam (o `<Version>` do `.csproj`, o `version_number` do `manifest.json`, o literal de `[BepInPlugin(...)]` e a linha de versão do README). Estas mudanças estavam na fonte identificada como 0.1.2 e **não** estavam na DLL publicada em 2026-10-07; a 0.1.3 é o pacote que as leva, com a DLL reconstruída da fonte atual.
+- **Dump provenance (DBG-R2, commit `097f950`, 2026-10-11):** a `DBG-PROV-V1` header before the patches with the game/DLL identity and hashes; OPEN/PARTIAL state with the hooks really applied; footer CLOSED in `Application.quitting`. Measurement failures are explicit, not estimated values. Without a footer there is no proof of a normal shutdown; a boot census does not prove absence across every asset/preset/localization.
+- **RealmApi optional:** the identity is probed by reflection; without the API or with hooks disabled, the tool keeps measuring locally. It did not become a mandatory dependency.
+- **Explicit read mode:** the new provenance classifies the Flame matrix that **already existed**: it uses `Game.EvalVoid` and records expressions in `MissingExpressions`; therefore a session with that matrix is marked as **active** reading, not strict passive observation. It does not change character attributes, but it is not literally just text in the log.
+- **Version:** 0.1.2 -> **0.1.3** in the four places that carry it (the `<Version>` of the `.csproj`, the `version_number` of `manifest.json`, the `[BepInPlugin(...)]` literal and the README version line). These changes were in the source identified as 0.1.2 and were **not** in the DLL published on 2026-10-07; 0.1.3 is the package that carries them, with the DLL rebuilt from the current source.
 
 ## 0.1.2 — 2026-10-07
 
-**Sem mudança intencional de gameplay; dump e instrumentação mudaram.** A matriz não é observação passiva estrita: chama `Game.EvalVoid`, registra expressões em `MissingExpressions` e restaura `Game.CurrentGameFunctionParameters`, sem alterar atributos dos personagens. Esta versão leva o dump RD-2/RD-2F, a instrumentação de uma investigação aberta e o texto público em inglês.
+**No intentional gameplay change; the dump and the instrumentation changed.** The matrix is not strict passive observation: it calls `Game.EvalVoid`, records expressions in `MissingExpressions` and restores `Game.CurrentGameFunctionParameters`, without changing character attributes. This version carries the RD-2/RD-2F dump, the instrumentation of an open investigation and the public text in English.
 
-- **O dump de status não trunca mais por campo (RD-2F).** Antes havia um `try/catch` ÚNICO em volta do laço inteiro: uma exceção em qualquer campo (os campos novos leem arrays `IEffectInfo[]` por reflexão) abortava o laço e **o resto dos statuses sumia do log em silêncio**. Agora cada campo sai sob guarda e a falha vira um **marcador no próprio campo** (`!erro:<Tipo>`) — a linha e todas as seguintes saem normalmente. O laço também itera uma **CÓPIA** da lista (uma inserção durante a iteração tinha o mesmo efeito). O corte por tamanho (`90`/`110` chars) saiu de vez: ele cortava a mecânica.
-- **Campos novos no `[Status]` (RD-2):** `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) e `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`). Dentro do `trigEf` do status: `~alvos=` (o campo `SkillTrigger.Targets`), `~acoes=` (as ações do gatilho **com os efeitos delas** — ação de gatilho nunca entra no inventário `[Action]`), `~chances=` e `~cd=`. Foi o `~alvos=` que respondeu a seção 7 do RV-19: `Flame Shrine Aura` dispara com `Targets="Cell.IsCurrentHex(Target)"` (`TriggerType=1`) e `Decay Shrine Aura` com `"Cell.IsCurrentHex(Source)"` (`TriggerType=4`) — o proc **não** passa pelo caminho de tick.
-- **Medição desses campos no asset do jogo** (leitor offline, **não** em jogo): 421 dos 424 `ActionStatusInfo` legíveis; `expr` em 138, `refAcao`/`refStatus` em 19/7, `StatusEffectsOnTick` em 6, `auraSts` em 40 e `TickTargets`/`ActionsOnTick*` em **0**.
-- **Instrumentação `[FlameRV49]` (RV-49) — NÃO EXERCITADA EM JOGO.** Quando o proc de uma aura de shrine de perigo (Decay/Flame) dispara, o log ganha a expressão avaliada, **quem o motor colocou em `Source` e em `Target`**, o percentual resolvido, o dano final e uma **matriz** que reavalia a mesma expressão com o `ShrineEffectBonus` fixado em 0 / 8 / 20 / 100 (Omnism I/II, Horn of Devotion). É instrumentação de diagnóstico para uma pergunta ainda aberta: nenhum personagem é alterado (a matriz usa dicionários novos e devolve `Game.CurrentGameFunctionParameters` ao valor anterior). Filtro: só a expressão que cita `ShrineEffectBonus` gera linha.
-- **Instruções de build (DEPLOY-2):** o deploy no perfil do r2modman virou **opt-in explícito** — `dotnet build` sozinho **não instala mais nada**; instalar é `-p:DeployToBepInEx=true`.
-- **Texto público em inglês:** o README passa a ser em inglês (com a seção final em português, como nos outros mods) e a **descrição da listagem**, que na 0.1.1 saiu em português, passa a sair em inglês. O README declara o que ainda **não** foi exercitado em jogo.
+- **The status dump no longer truncates per field (RD-2F).** There used to be a SINGLE `try/catch` around the whole loop: an exception in any field (the new fields read `IEffectInfo[]` arrays by reflection) aborted the loop and **the rest of the statuses vanished from the log silently**. Now every field goes out under a guard and the failure becomes a **marker in the field itself** (`!erro:<Tipo>`) — that line and every following one still print normally. The loop also iterates over a **COPY** of the list (an insertion during the iteration had the same effect). The size cut (`90`/`110` chars) is gone for good: it was cutting the mechanics.
+- **New fields in `[Status]` (RD-2):** `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) and `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`). Inside the status `trigEf`: `~alvos=` (the `SkillTrigger.Targets` field), `~acoes=` (the trigger actions **with their effects** — a trigger action never enters the `[Action]` inventory), `~chances=` and `~cd=`. It was `~alvos=` that answered section 7 of RV-19: `Flame Shrine Aura` fires with `Targets="Cell.IsCurrentHex(Target)"` (`TriggerType=1`) and `Decay Shrine Aura` with `"Cell.IsCurrentHex(Source)"` (`TriggerType=4`) — the proc does **not** go through the tick path.
+- **Measurement of those fields on the game asset** (offline reader, **not** in game): 421 of the 424 readable `ActionStatusInfo`; `expr` in 138, `refAcao`/`refStatus` in 19/7, `StatusEffectsOnTick` in 6, `auraSts` in 40 and `TickTargets`/`ActionsOnTick*` in **0**.
+- **Instrumentation `[FlameRV49]` (RV-49) — NOT EXERCISED IN GAME.** When the proc of a danger shrine aura (Decay/Flame) fires, the log gains the evaluated expression, **whom the engine put in `Source` and in `Target`**, the resolved percentage, the final damage and a **matrix** that re-evaluates the same expression with `ShrineEffectBonus` pinned at 0 / 8 / 20 / 100 (Omnism I/II, Horn of Devotion). It is diagnostic instrumentation for a question that is still open: no character is changed (the matrix uses fresh dictionaries and returns `Game.CurrentGameFunctionParameters` to its previous value). Filter: only the expression that mentions `ShrineEffectBonus` produces a line.
+- **Build instructions (DEPLOY-2):** the deploy into the r2modman profile became **explicit opt-in** — `dotnet build` alone **installs nothing any more**; installing is `-p:DeployToBepInEx=true`.
+- **Public text in English:** the README is now in English (with the final section in Portuguese, as in the other mods) and the **listing description**, which came out in Portuguese in 0.1.1, now comes out in English. The README states what has still **not** been exercised in game.
 
-### O que esta versão NÃO prova
+### What this version does NOT prove
 
 - **RD-2/RD-2F validation status at release time:** the 0.1.2 package notes only recorded offline asset inspection, not a complete in-game matrix. Subsequent boot logs do contain the new fields; that does not establish execution of the FlameRV49 proc matrix or close RV-49. This documentary audit does not reopen the game.
 
 ## 0.1.1
 
-**Correção do aplicador de ganchos: a 0.1.0 publicada carregava a ferramenta e não aplicava gancho nenhum — nenhum dump saía.**
+**Hook applier fix: the published 0.1.0 loaded the tool and applied no hook at all — no dump came out.**
 
-- A troca do `PatchAll()` por **aplicação gancho a gancho** veio acompanhada de um filtro de classe de gancho que exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no método**. Este mod declara os 10 ganchos pela **convenção de nome** do Harmony (método `Postfix` em cada classe de `Patches/`), que o Harmony aceita exatamente como o atributo — o filtro recusava as 10 classes: a ferramenta **carregava, logava "carregado." e não dumpava nada** (o silêncio parecendo sucesso; era o defeito A-1 da REV-2, em 4 mods).
-- O filtro agora exige só `[HarmonyPatch]` **no TIPO** — o mesmo conjunto de classes que o `PatchAll()` processava. Medido invocando o filtro real da DLL construída: **10 de 10 classes de patch aceitas e 10 métodos de gancho dentro** (antes: 0 de 10). Em todo o projeto, os 4 mods afetados passaram de 0/14 para **14/14** classes de patch aceitas.
-- **Ganchos aplicados um a um** (mesmo endurecimento, mesma release): `CreateClassProcessor(...).Patch()` por classe de gancho, uma linha de log por gancho e resumo com a **contagem real** — um gancho que falhe não derruba os outros nove.
-- **Ícone definitivo** (arte do dono em `docs/img/roguelikedebugger-icon-fonte.png`, 1254x1254): redimensionado para os **256x256** que a Thunderstore exige e embutido no pacote. Sai o **placeholder** de 946 bytes com as iniciais que o empacotador gerava (`--gerar-icones`), que era o que estava indo no zip. A arte-fonte continua versionada em `docs/img/` — o repositório guarda as duas.
+- Replacing `PatchAll()` with **hook-by-hook application** came with a hook class filter that required `[HarmonyPrefix]`/`[HarmonyPostfix]` **on the method**. This mod declares its 10 hooks through Harmony's **naming convention** (a `Postfix` method in each class of `Patches/`), which Harmony accepts exactly like the attribute — the filter rejected all 10 classes: the tool **loaded, logged "loaded." and dumped nothing** (the silence looking like success; it was the A-1 defect from REV-2, in 4 mods).
+- The filter now requires only `[HarmonyPatch]` **on the TYPE** — the same set of classes that `PatchAll()` processed. Measured by invoking the real filter from the built DLL: **10 of 10 patch classes accepted and 10 hook methods inside** (before: 0 of 10). Across the project, the 4 affected mods went from 0/14 to **14/14** patch classes accepted.
+- **Hooks applied one by one** (same hardening, same release): `CreateClassProcessor(...).Patch()` per hook class, one log line per hook and a summary with the **real count** — a hook that fails does not take down the other nine.
+- **Final icon** (the owner's art in `docs/img/roguelikedebugger-icon-fonte.png`, 1254x1254): resized to the **256x256** Thunderstore requires and embedded in the package. Out goes the 946-byte **placeholder** with the initials that the packer used to generate (`--gerar-icones`), which was what the zip was shipping. The source art stays versioned in `docs/img/` — the repository keeps both.
 
-### Dump: efeitos por TIPO CONCRETO (RV-8b-0g)
+### Dump: effects by CONCRETE TYPE (RV-8b-0g)
 
-- Os arrays `Effects` (de status e de ação) são `IEffectInfo[]`, interface vazia: o cast `e as GeneralEffect` que o dump usava para ler o `Action` devolve `null` em todo elemento de outro tipo, e o dado desaparecia do dump (2 entradas do censo de tooltips ficaram `indeterminado` por isso). Agora:
-  - campos novos `nEfeitosTot` / `efTipos` (status e ação): tamanho do array e **tipo concreto + campos de cada elemento**, lidos por reflexão;
-  - `nAttrEf` / `attrTipos` (status e skill) e `consEf` (item) para os `AttributeEffects` e a ação de consumível;
-  - `nTrig` / `trigEf` no `[Status]`: os gatilhos do status (tipo, efeitos, condição, status) — antes não saíam;
-  - linha de resumo por categoria, `[Efeitos] resumo (...): total= | porTipo= | naoGeneralEffect=`.
-  - `desc=` continua por último e nenhum valor contém `|` ou aspas: o formato antigo não muda.
-- **A versão subiu (0.1.0 → 0.1.1) por causa da correção do aplicador acima:** a 0.1.0 que estava no ar carrega o defeito e versão publicada na Thunderstore é imutável. Este dump novo é o mesmo que estava em "Não lançado".
+- The `Effects` arrays (of status and of action) are `IEffectInfo[]`, an empty interface: the `e as GeneralEffect` cast the dump used to read the `Action` returns `null` for every element of another type, and the data disappeared from the dump (2 entries of the tooltip census came out `indeterminado` because of that). Now:
+  - new fields `nEfeitosTot` / `efTipos` (status and action): array size and **concrete type + fields of each element**, read by reflection;
+  - `nAttrEf` / `attrTipos` (status and skill) and `consEf` (item) for the `AttributeEffects` and the consumable action;
+  - `nTrig` / `trigEf` in `[Status]`: the status triggers (type, effects, condition, status) — they did not come out before;
+  - a summary line per category, `[Efeitos] resumo (...): total= | porTipo= | naoGeneralEffect=`.
+  - `desc=` is still last and no value contains `|` or quotes: the old format does not change.
+- **The version went up (0.1.0 → 0.1.1) because of the applier fix above:** the 0.1.0 that was live carries the defect and a published Thunderstore version is immutable. This new dump is the same one that was in "Unreleased".
 
-### Nota histórica de preparação do RD-2 — 2026-10-01 (não é uma segunda release)
+### Historical RD-2 preparation note — 2026-10-01 (not a second release)
 
-O commit `51a4aa5` registrou esses campos quando a fonte ainda dizia 0.1.1, com a frase "a versão NÃO muda / dump ainda não lançado". Isso deixou de descrever o estado da distribuição: `88232fe` os consolidou na 0.1.2, publicada em 2026-10-07. A lista e os limites da medição offline ficam na seção 0.1.2 acima; não são atribuídos novamente à 0.1.1.
+Commit `51a4aa5` recorded those fields when the source still said 0.1.1, with the sentence "the version does NOT change / dump not released yet". That stopped describing the state of the distribution: `88232fe` consolidated them into 0.1.2, published on 2026-10-07. The list and the limits of the offline measurement are in the 0.1.2 section above; they are not attributed to 0.1.1 again.
 
 ## 0.1.0
 
-Primeira versão publicada.
+First published version.
 
-- **Dump dos dados internos do jogo no `LogOutput.log`** (apenas logs, nenhuma alteração de gameplay):
-  - **Skills**: inventário com nome, descrição, expressões de descrição, ações concedidas, efeitos de atributo e gatilhos.
-  - **Ações** (`[ActionProps]` / `[Trigger]`): tipo, alvos, alcance máximo, knockback, número de golpes, cooldown, cargas, condições de uso, chances e status aplicados.
-  - **Status**: inventário de buffs/debuffs com efeitos de atributo e descrição.
-  - **Itens e afixos**: tipo, raridade, descrição opcional, atributos, proporção de armadura e ação de consumível.
-  - **Powerups**: inventário do roguelike, uma linha por nível.
-  - **Loot, ouro e experiência**: os rolls, os modificadores aplicados e os valores concedidos.
-- É a fonte dos CSVs de cobertura em `docs/cobertura/` usados pelos outros mods do projeto.
-- **Não distribuir para amigos**: enche o log com milhares de linhas a cada boot.
-
+- **Dump of the game's internal data into `LogOutput.log`** (logs only, no gameplay change):
+  - **Skills**: inventory with name, description, description expressions, granted actions, attribute effects and triggers.
+  - **Actions** (`[ActionProps]` / `[Trigger]`): type, targets, maximum range, knockback, number of hits, cooldown, charges, usage conditions, chances and applied statuses.
+  - **Statuses**: inventory of buffs/debuffs with attribute effects and description.
+  - **Items and affixes**: type, rarity, optional description, attributes, armor ratio and consumable action.
+  - **Powerups**: roguelike inventory, one line per level.
+  - **Loot, gold and experience**: the rolls, the modifiers applied and the values granted.
+- It is the source of the coverage CSVs in `docs/cobertura/` used by the other mods of the project.
+- **Do not distribute to friends**: it fills the log with thousands of lines on every boot.

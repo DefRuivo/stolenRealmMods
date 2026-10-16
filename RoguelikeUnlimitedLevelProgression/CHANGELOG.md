@@ -1,121 +1,121 @@
 # Changelog — RoguelikeUnlimitedLevelProgression
 
-> Datas em ISO 8601 (BRT, UTC−03:00). Datas de implementação/auditoria não são datas de publicação.
-> Auditoria documental CHG-REV: 2026-10-16. Este mod permanece sem publicação.
+> Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.
+> CHG-REV documentation audit: 2026-10-16. This mod remains unpublished.
 
-## 0.1.1 — em preparação (revisado em 2026-10-16)
+## 0.1.1 — in preparation (revised on 2026-10-16)
 
-### Ciclo de vida e diagnóstico (RLP-1/RLP-2) — pacote reconstruído da fonte atual em 2026-10-16
+### Lifecycle and diagnostics (RLP-1/RLP-2) — package rebuilt from the current source on 2026-10-16
 
-- **Causa raiz:** o próprio `Plugin.OnDestroy` chamava `UnpatchSelf()` e desligava `GameplayGroupApplied` quando o jogo destruía o host do chainloader na primeira cena. O boot anunciava os patches, mas o plugin os removia antes do uso; não era prova de que a janela estrutural ou as guardas do motor estivessem erradas.
-- **Correção:** `OnDestroy` preserva patches e estado de sessão, registrando o ciclo de vida e a posse dos alvos. A remoção por falha de instalação/rollback continua explícita em `Awake`/`PatchRegistry`; não foi eliminada globalmente.
-- **Instrumentação:** posse Harmony conferida em Awake/OnDestroy/primeiro hook/pós-batalha, mais razões de recusa e entradas efetivas da política. A leitura do log existente em 2026-10-16 registra `gameplay=20/20` após OnDestroy e `politica: allow=True ... nivel=20 capVanilla=20`. Isso prova retenção dos patches e passagem da política, não substitui toda a matriz de save/reload, recompensas e multiplayer.
-- **Failsafe pós-batalha:** prefix separado, best-effort, em `PostBattleManager.OpenPostBattleMenu`; só tenta conceder avanço em vitória a personagens controlados elegíveis ainda ausentes da lista vanilla, usando a mesma `Policy.CanAdvance`. Não duplica o avanço de quem já está na lista e não substitui o transpiler crítico. É implementação local existente, não a causa raiz do desaparecimento dos patches.
+- **Root cause:** `Plugin.OnDestroy` itself called `UnpatchSelf()` and turned off `GameplayGroupApplied` when the game destroyed the chainloader host on the first scene. The boot announced the patches, but the plugin removed them before use; it was not proof that the structural window or the engine guards were wrong.
+- **Fix:** `OnDestroy` preserves patches and session state, recording the lifecycle and the ownership of the targets. Removal on install failure/rollback remains explicit in `Awake`/`PatchRegistry`; it was not eliminated globally.
+- **Instrumentation:** Harmony ownership checked in Awake/OnDestroy/first hook/post-battle, plus refusal reasons and effective policy entries. Reading the existing log on 2026-10-16 records `gameplay=20/20` after OnDestroy and `politica: allow=True ... nivel=20 capVanilla=20`. That proves retention of the patches and passage through the policy, and does not replace the whole save/reload, rewards and multiplayer matrix.
+- **Post-battle failsafe:** a separate, best-effort prefix in `PostBattleManager.OpenPostBattleMenu`; it only tries to grant victory advancement to eligible controlled characters still absent from the vanilla list, using the same `Policy.CanAdvance`. It does not duplicate the advancement of those already in the list and does not replace the critical transpiler. It is existing local implementation, not the root cause of the patches disappearing.
 
-### Identidade do pacote — 2026-10-13 (commit `941e3c3`)
+### Package identity — 2026-10-13 (commit `941e3c3`)
 
-- Nome definitivo: `RoguelikeUnlimitedLevelProgression`; nome de exibição:
+- Definitive name: `RoguelikeUnlimitedLevelProgression`; display name:
   `Roguelike Unlimited Level Progression`.
-- Projeto, assembly, namespace, pacote e harness acompanham o nome definitivo.
-  GUID/Harmony owner e diretório de recibos: `com.gumatos.roguelikeunlimitedlevelprogression`.
-- Ícone de distribuição 256×256 adicionado em `8cabbe5`; o ícone RU entrou no rename `941e3c3`. A arte local foi substituída novamente depois desse commit e não deve ser descrita como o antigo monograma sem reauditoria. Versão permanece **0.1.1**; o rename em si não mudou gameplay e não publicou o mod.
-- Caminhos de `lib/` do projeto/harness resolvidos pela raiz do checkout (`06564ce`, 2026-10-12); marcador de boot corrigido para `carregado.` (`931bcc4`, 2026-10-12).
-- Como o mod não foi publicado, não há migração de configuração/recibos locais.
-  As evidências de rodadas anteriores permanecem imutáveis com a identidade da época.
+- Project, assembly, namespace, package and harness follow the definitive name.
+  GUID/Harmony owner and receipts directory: `com.gumatos.roguelikeunlimitedlevelprogression`.
+- Distribution icon 256×256 added in `8cabbe5`; the RU icon entered in the rename `941e3c3`. The local art was replaced again after that commit and must not be described as the old monogram without re-auditing. The version remains **0.1.1**; the rename itself changed no gameplay and did not publish the mod.
+- `lib/` paths of the project/harness resolved from the checkout root (`06564ce`, 2026-10-12); boot marker fixed to `carregado.` (`931bcc4`, 2026-10-12).
+- Since the mod was not published, there is no config/receipt migration.
+  The evidence from earlier rounds remains immutable with the identity of its time.
 
-### Proteção da carga — 2026-10-11 (commit `d1de4ea`)
-**Correção de perda silenciosa de nível salvo ao carregar (R3-01, achado ALTO da revisão LEVEL-R3).**
+### Load protection — 2026-10-11 (commit `d1de4ea`)
+**Fix for the silent loss of the saved level on load (R3-01, HIGH finding of the LEVEL-R3 review).**
 
-### Correções históricas de R3-01
+### Historical R3-01 fixes
 
-- **`Character.Load(int)` rebaixava o nível salvo.** O clamp de carga
-  `ExperienceLevel = Mathf.Min(MaxLevel, CharacterSaveFile.ExperienceLevel)` usa exatamente a
-  propriedade `Character.MaxLevel` que este mod patcheia, e roda **antes** de `ExperienceLevel` ser
-  atribuído — nesse instante `Character.Level` ainda é ~1 e não protege o nível salvo. Com um teto
-  voluntário `Progression.MaxLevel = N` (≥ 21) um save acima de `N` era rebaixado a `N`; e o caminho
-  de fallback (grupo não aplicado / rede indisponível / backend indisponível) devolvia o teto
-  vanilla **30**, truncando saves acima de 30. O valor clampado era persistido
-  (`CharacterSaveFile.ExperienceLevel`), ou seja, a perda era silenciosa e durável.
-  Correção: enquanto o personagem não está carregado (`IsLoaded == false`) o getter patcheado nunca
-  devolve valor abaixo de `CharacterSaveFile.ExperienceLevel` — em **todos** os caminhos, inclusive
-  o fallback vanilla. Fora da carga o comportamento não muda; campanha/IA/out-of-scope continuam
-  vanilla. O caminho de `GiveExperience` continua sem rebater abaixo do nível atual.
-- Cobertura nova na bancada (12 verificações, suite `loadclamp`): âncora estrutural na IL real de
-  `Character.Load(int)` (janela única `Mathf.Min(get_MaxLevel, CharacterSaveFile.get_ExperienceLevel)`
-  → `set_ExperienceLevel`), prova de que o getter do clamp é o mesmo alvo do postfix, e reprodução
-  do clamp com o par (MaxLevel efetivo, nível salvo) — verde com a correção e **vermelha** com o
-  defeito replantado.
+- **`Character.Load(int)` demoted the saved level.** The load clamp
+  `ExperienceLevel = Mathf.Min(MaxLevel, CharacterSaveFile.ExperienceLevel)` uses exactly the
+  `Character.MaxLevel` property that this mod patches, and runs **before** `ExperienceLevel` is
+  assigned — at that instant `Character.Level` is still ~1 and does not protect the saved level. With a voluntary cap
+  `Progression.MaxLevel = N` (≥ 21) a save above `N` was demoted to `N`; and the
+  fallback path (group not applied / network unavailable / backend unavailable) returned the vanilla cap
+  **30**, truncating saves above 30. The clamped value was persisted
+  (`CharacterSaveFile.ExperienceLevel`), that is, the loss was silent and durable.
+  Fix: while the character is not loaded (`IsLoaded == false`) the patched getter never
+  returns a value below `CharacterSaveFile.ExperienceLevel` — on **every** path, including
+  the vanilla fallback. Outside the load path behaviour does not change; campaign/AI/out-of-scope remain
+  vanilla. The `GiveExperience` path still does not bounce below the current level.
+- New coverage on the bench (12 checks, `loadclamp` suite): a structural anchor in the real IL of
+  `Character.Load(int)` (single window `Mathf.Min(get_MaxLevel, CharacterSaveFile.get_ExperienceLevel)`
+  → `set_ExperienceLevel`), proof that the clamp getter is the same target as the postfix, and a reproduction
+  of the clamp with the pair (effective MaxLevel, saved level) — green with the fix and **red** with the
+  defect re-planted.
 
-### Compatibilidade
+### Compatibility
 
-- Sem mudança de comportamento para campanha, IA, multiplayer ou personagens já carregados.
-  Configuração, GUID e decisões de escopo da 0.1.0 permanecem intactas.
+- No behaviour change for campaign, AI, multiplayer or already-loaded characters.
+  The configuration, GUID and scope decisions of 0.1.0 remain intact.
 
 ## 0.1.0
 
-**Primeira implementação em preparação (commit `cd8e4ce`, 2026-10-11), nunca publicada.** Mod novo (nenhum arquivo de mod existente foi alterado), standalone
-BepInEx 5 + Harmony, sem ModAPI, sem BetterStats/RSTV.
+**First implementation in preparation (commit `cd8e4ce`, 2026-10-11), never published.** A new mod (no existing mod file was changed), standalone
+BepInEx 5 + Harmony, no ModAPI, no BetterStats/RSTV.
 
 ### Gameplay
 
-- **Teto 20 removido no modo Roguelike (singleplayer).** A comparação
-  `character.Level < settings.RoguelikeMaxLevel` do bloco de resultado de batalha
-  (`Root.SendGameCompleteFromServer`) passa a ser `Policy.CanAdvance(Character, RoguelikeSettings)`.
-  O patch é **estrutural**: reconhece a janela pelas assinaturas dos membros
+- **Level 20 cap removed in Roguelike mode (singleplayer).** The comparison
+  `character.Level < settings.RoguelikeMaxLevel` of the battle result block
+  (`Root.SendGameCompleteFromServer`) becomes `Policy.CanAdvance(Character, RoguelikeSettings)`.
+  The patch is **structural**: it recognises the window by the member signatures
   (`Character::get_Level`, `GlobalSettingsManager::get_instance`,
   `GlobalSettingsManager::roguelikeManager`, `RoguelikeSettings::RoguelikeMaxLevel`, `bge`),
-  exige **exatamente uma** correspondência e preserva labels/exception blocks; não há índice de
-  local nem offset de IL chumbado. `bge` → `brfalse` para o **mesmo destino**, então uma recusa
-  da política pula **prêmio e lista** juntos.
-- **Um nível por vitória**, com os atributos vanilla derivados de `Level` e skills/itens
-  enquanto elegíveis.
-- **XP estendido depois do 20, linear e O(1)**, derivado de `F20`/`D20` lidos do próprio jogo
-  (`Character.GetExperienceFloorForLevel(20)`/`(21)`); em `L = 20` e `L = 21` a extensão coincide
-  com o vanilla por construção. A inversa é analítica (sem laço sem limite) e as consultas de
-  XP dos 5 conversores estáticos só valem dentro de um escopo explícito por personagem —
-  campanha e IA ficam intactas. Mirror de XP legado limitado ao nível 20 para personagem
-  estendido (o `ExperienceLevel` real continua sendo a fonte e segue sendo salvo).
-- **Recompensas com pool esgotado.** Pool de skills vazio: o estágio é pulado **depois** de
-  gravar um recibo durável (S) e o S é subtraído da contagem da fila; se o recibo não gravar, o
-  estágio **não** é pulado (a recompensa não é consumida). Pool de itens vazio: o fallback
-  `null` é bloqueado e o fluxo segue para atributos. Reroll com `forcedTier` sem opção é
-  cancelado (a skill original é preservada). A ordem `LevelUpSequenceOrder` compartilhada **não**
-  é alterada.
-- **Sidecar v1** em `Paths.ConfigPath/com.gumatos.roguelikeunlimitedlevelprogression/receipts/<guid>.json`
+  requires **exactly one** match and preserves labels/exception blocks; there is no local
+  index or hard-coded IL offset. `bge` → `brfalse` to the **same destination**, so a refusal
+  by the policy skips **reward and list** together.
+- **One level per victory**, with the vanilla attributes derived from `Level` and skills/items
+  while eligible.
+- **XP extended past 20, linear and O(1)**, derived from `F20`/`D20` read from the game itself
+  (`Character.GetExperienceFloorForLevel(20)`/`(21)`); at `L = 20` and `L = 21` the extension coincides
+  with vanilla by construction. The inverse is analytic (no unbounded loop) and the XP queries of
+  the 5 static converters only hold inside an explicit per-character scope —
+  campaign and AI remain intact. The legacy XP mirror is limited to level 20 for an extended
+  character (the real `ExperienceLevel` remains the source and keeps being saved).
+- **Rewards with an exhausted pool.** Empty skill pool: the stage is skipped **after**
+  writing a durable receipt (S) and the S is subtracted from the queue count; if the receipt does not
+  write, the stage is **not** skipped (the reward is not consumed). Empty item pool: the `null`
+  fallback is blocked and the flow moves on to attributes. A reroll with `forcedTier` and no option is
+  cancelled (the original skill is preserved). The shared `LevelUpSequenceOrder` order is **not**
+  changed.
+- **Sidecar v1** in `Paths.ConfigPath/com.gumatos.roguelikeunlimitedlevelprogression/receipts/<guid>.json`
   (`schema_version`, `character_guid`, `run_id`, `preset_guid`, `skipped_skill_receipts[]`),
-  gravação atômica (temporário + replace + backup `.bak`), dedupe por ordinal. A run só é
-  resetada **depois** de um `SyncCharacterToPreset` válido; preset nulo não reseta; ledger
-  corrompido/ilegível não consome recompensa.
-- **Multiplayer:** branch vanilla mantido, com aviso de que saves/ledger estendidos não são
-  suportados nesta versão.
+  atomic write (temporary + replace + `.bak` backup), dedupe by ordinal. The run is only
+  reset **after** a valid `SyncCharacterToPreset`; a null preset does not reset; a
+  corrupted/unreadable ledger does not consume a reward.
+- **Multiplayer:** the vanilla branch is kept, with a warning that extended saves/ledger are not
+  supported in this version.
 
 ### Historical validation baseline (0.1.0 harness snapshot; not the current total)
 
-- Harness `tests/RoguelikeUnlimitedLevelProgression.Harness` (net6.0) que compila os **fontes reais** do
-  mod e exercita: o transpiler real sobre a **IL real** da `Assembly-CSharp.dll` de referência
-  (hash `8bb4a7c5…7855a`), com 12 contraprovas (janela única, remoção do `get_Level`, `bgE`→`brfalse`
-  com o mesmo destino, labels preservados, recusa em ambiguidade/alvo inseguro/cauda de prêmio
-  ausente, ausência de mutação parcial); a matriz da política (19→20, 20→21, 29→30, 30→31,
-  guardas de IA/campanha/multiplayer/modo/teto voluntário/limite de representação/alvo ausente);
-  a curva de XP (monotonia, inversa, precisão, orçamento em `long`); o ledger (reload,
-  dedupe, corrompido, schema desconhecido, identidade divergente, falha de escrita **sem**
-  consumir recompensa, reset só com preset válido, backup atômico); e as guardas de escopo das
-  entradas estáticas dos patches.
-- 91 verificações PASS, 0 FAIL, 14 itens `NAO_EXERCITADO` declarados com motivo (aplicação real
-  dos patches no Harmony, jogo aberto, save/reload do dono, multiplayer, `F20`/`D20`
-  serializados reais, UI em runtime).
+- Harness `tests/RoguelikeUnlimitedLevelProgression.Harness` (net6.0) that compiles the **real sources** of the
+  mod and exercises: the real transpiler over the **real IL** of the reference `Assembly-CSharp.dll`
+  (hash `8bb4a7c5…7855a`), with 12 counterproofs (single window, removal of `get_Level`, `bgE`→`brfalse`
+  with the same destination, preserved labels, refusal on ambiguity/unsafe target/missing reward
+  tail, absence of partial mutation); the policy matrix (19→20, 20→21, 29→30, 30→31,
+  guards for AI/campaign/multiplayer/mode/voluntary cap/representation limit/missing target);
+  the XP curve (monotonicity, inverse, precision, budget in `long`); the ledger (reload,
+  dedupe, corrupted, unknown schema, divergent identity, write failure **without**
+  consuming a reward, reset only with a valid preset, atomic backup); and the scope guards of the
+  static patch entries.
+- 91 PASS checks, 0 FAIL, 14 `NAO_EXERCITADO` items declared with a reason (real application
+  of the patches in Harmony, game open, owner's save/reload, multiplayer, serialized real
+  `F20`/`D20`, UI at runtime).
 
-### Correções encontradas pela bancada
+### Fixes found by the bench
 
-- **`ReceiptLedgerStore.Save`: a criação do diretório estava fora do `try`.** Uma falha de
-  disco/permissão escapava como `IOException` cru em vez de `LedgerWriteException`, ou seja, a
-  falha de gravação podia atravessar o fluxo de recompensa em vez de ser tratada como "não
-  consumir a recompensa". Passou para dentro do `try` — exercitado por teste real.
-- **Resolução de membros sem `AccessTools`.** Os alvos passaram a ser resolvidos por reflexão
-  direta (`Patches/Reflect.cs`): o inicializador estático do `AccessTools` do HarmonyX quebra em
-  runtimes modernos (`MethodInvoker.GetHandler(null)`, porque `Exception::PrepForRemoting`/
-  `FixRemotingException` não existem fora do Mono antigo) e isso é uma dependência de
-  inicialização que o mod não precisa. Alvo ausente continua devolvendo `null` → fail-closed.
-- **Planos de patch guardam `MethodInfo`** em vez de `HarmonyMethod` (a criação do
-  `HarmonyMethod` acontece só na hora de aplicar), o que tornou a resolução dos 20 alvos
-  exercitável na bancada.
+- **`ReceiptLedgerStore.Save`: the directory creation was outside the `try`.** A disk/permission
+  failure escaped as a raw `IOException` instead of `LedgerWriteException`, that is, the
+  write failure could cross the reward flow instead of being treated as "do not
+  consume the reward". It moved inside the `try` — exercised by a real test.
+- **Member resolution without `AccessTools`.** The targets are now resolved by direct reflection
+  (`Patches/Reflect.cs`): HarmonyX's `AccessTools` static initializer breaks on
+  modern runtimes (`MethodInvoker.GetHandler(null)`, because `Exception::PrepForRemoting`/
+  `FixRemotingException` do not exist outside old Mono) and that is an initialization
+  dependency the mod does not need. A missing target still returns `null` → fail-closed.
+- **Patch plans keep `MethodInfo`** instead of `HarmonyMethod` (the `HarmonyMethod`
+  is created only at apply time), which made the resolution of the 20 targets
+  exercisable on the bench.

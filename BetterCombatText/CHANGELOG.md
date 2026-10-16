@@ -7,8 +7,8 @@
 
 **Documentation and dependency metadata release; the visual code is unchanged.** The DLL differs from 0.1.2 only in the version literal it reports.
 
-- **Metadados de dependência:** o `manifest.json` **deixou de declarar** `DefRuivo_StolenRealmMods-BetterFont-1.0.3`. O mod não referencia o BetterFont: a única menção no código é um comentário explicativo (`Plugin.cs:101`) e a integração visual é opcional — por isso a dependência obrigatória foi retirada na auditoria de dependências DEP-REV (2026-10-16). Um pacote que exige o BetterFont faz o gerenciador instalar um mod que este aqui não precisa.
-- **README alinhado:** a linha *Needs* e a seção *Together with BetterFont* diziam que o BetterFont era obrigatório e que "a dependência deste pacote aponta para aquela versão". Ambas passaram a dizer o que o manifest diz desde a DEP-REV: só BepInEx, com o BetterFont como integração opcional.
+- **Dependency metadata:** `manifest.json` **stopped declaring** `DefRuivo_StolenRealmMods-BetterFont-1.0.3`. The mod does not reference BetterFont: the only mention in the code is an explanatory comment (`Plugin.cs:101`) and the visual integration is optional — that is why the mandatory dependency was removed in the DEP-REV dependency audit (2026-10-16). A package that requires BetterFont makes the manager install a mod this one does not need.
+- **README aligned:** the *Needs* line and the *Together with BetterFont* section said that BetterFont was mandatory and that "this package's dependency points at that version". Both now say what the manifest says since DEP-REV: only BepInEx, with BetterFont as an optional integration.
 
 ## 0.1.2 — 2026-10-07
 
@@ -19,222 +19,221 @@
 - **The README described the wrong outline for the enemy names.** It said "soft outline/halo, default black at 10% alpha". That was true of the first release, not of 0.1.1: since then the enemy name gets a **hard, opaque black outline** (`LarguraContorno` 0.22, `SuavidadeContorno` 0.05, `AlfaContorno` 0.95), the **10% is the buff/debuff label**, and the enemy name's shadow is short and visible (`AlfaSombra` 0.75, offset ±0.35, softness 0.05), with `Fundo` proposing the polarity subject to the font-brightness veto (a light letter receives a dark shadow and vice versa, not just when `Fundo = auto`). The table of surfaces and the configuration section now state the real defaults.
 - **Still not verified on screen.** The visual result of this mod has never been confirmed in game — a startup diagnostic proved the effect is *possible* on those texts, but nobody has confirmed it on the screen. This release does **not** change that, and the README and the package description keep saying it.
 
-## 0.1.1 — contorno preto duro/opaco (UI/UX) + sombra adaptativa por contraste
+## 0.1.1 — hard/opaque black outline (UI/UX) + adaptive shadow by contrast
 
-O nome do inimigo (cor de qualidade) ganhou **contorno preto DURO e OPACO** (`_OutlineWidth` 0.22, `_OutlineSoftness` 0.05 — era 0.50, o defeito que borrava o contorno até sumir, `_OutlineColor` alfa 0.95) e a **sombra** virou um seguro curto (`_Underlay` offset ±0.35 — era ±2, fora do range ±1 do shader — alfa 0.75, softness 0.05). A sombra adaptativa escolhe o lado pelo **contraste com a FONTE** (fonte clara → sombra escura, e vice-versa). Revisão de UI/UX: a cor de preenchimento **não muda** — é a linguagem de raridade (`QualityColors[EnemyType]`).
+The enemy name (quality colour) gained a **HARD, OPAQUE black outline** (`_OutlineWidth` 0.22, `_OutlineSoftness` 0.05 — it was 0.50, the defect that blurred the outline until it disappeared, `_OutlineColor` alpha 0.95) and the **shadow** became a conservative short offset (`_Underlay` offset ±0.35 — it was ±2, outside the shader's ±1 range — alpha 0.75, softness 0.05). The adaptive shadow picks the side by the **contrast with the FONT** (light font → dark shadow, and vice versa). UI/UX review: the fill colour **does not change** — it is the rarity language (`QualityColors[EnemyType]`).
 
-### BCT-5 — 2026-10-02 — a sombra CONTRASTA com a FONTE (histórico incorporado à 0.1.1)
+### BCT-5 — 2026-10-02 — the shadow CONTRASTS with the FONT (historical step incorporated into 0.1.1)
 
-**Defeito relatado pelo dono:** a sombra do nome do inimigo continuava "da mesma cor da fonte".
-Investigação fechada em três achados:
+**Defect reported by the owner:** the shadow of the enemy name was still "the same colour as the font".
+Investigation closed with three findings:
 
-1. **O `.cfg` do perfil tinha um valor ERRADO (a causa do "mesma cor").** A linha
-   `CorSombraClara = CBB396` do `BepInEx/config/com.gumatos.bettercombattext.cfg` foi herdada de um
-   build antigo: o `#CBB396` é a **própria cor de texto do jogo** (`highlightedColor`/
-   `specialDescColor`) e a cor comum do nome do inimigo. O BepInEx **não reescreve uma chave que já
-   existe** quando o default do código muda — então o default novo do BCT-4 (`FFFFFF`) nunca chegou
-   à instalação, e o "balde claro" continuava ligado na cor da própria fonte. (A DLL do perfil
-   **era** a mais recente — sha256 idêntico ao `bin/Release`; o problema não era build.)
-2. **O limiar do BCT-4 tinha um furo.** `UsaSombraClara` só virava o balde quando a cor escolhida
-   ficava a menos de `ContrasteMinimo` (0.2) da letra. O bege `#CBB396` contra o branco `#FFFFFF`
-   difere **0.283** — passava, e a letra CLARA do nome recebia a sombra CLARA (clara sobre clara).
-   Com o `CBB396` herdado o mesmo furo atingia a letra **branca** (`CharacterNameColor =
-   Color.white`), que ganhava o bege.
-3. **O alfa estava baixo.** `alfaSombra = 0.35` nos Nomes: a sombra escura a 35% sobre o campo
-   ficava translúcida e se confundia com o próprio glifo.
+1. **The profile `.cfg` had a WRONG value (the cause of "same colour").** The line
+   `CorSombraClara = CBB396` of `BepInEx/config/com.gumatos.bettercombattext.cfg` was inherited from an
+   old build: `#CBB396` is the game's **own text colour** (`highlightedColor`/
+   `specialDescColor`) and the common colour of the enemy name. BepInEx **does not rewrite a key that already
+   exists** when the code default changes — so the new BCT-4 default (`FFFFFF`) never reached the
+   installation, and the "light bucket" stayed switched on the font's own colour. (The profile DLL
+   **was** the most recent one — sha256 identical to `bin/Release`; the problem was not the build.)
+2. **The BCT-4 threshold had a hole.** `UsaSombraClara` only flipped the bucket when the chosen colour
+   was within `ContrasteMinimo` (0.2) of the letter. The beige `#CBB396` against the white `#FFFFFF`
+   differs by **0.283** — it passed, and the LIGHT letter of the name received the LIGHT shadow (light over light).
+   With the inherited `CBB396` the same hole hit the **white** letter (`CharacterNameColor =
+   Color.white`), which got the beige.
+3. **The alpha was low.** `alfaSombra = 0.35` on the Names: the dark shadow at 35% over the field
+   came out translucent and blended with the glyph itself.
 
-**A REGRA (BCT-5) — a letra manda o LADO:**
+**THE RULE (BCT-5) — the letter dictates the SIDE:**
 
-- A sombra tem de ficar do **lado oposto** da luminância da fonte: **letra CLARA → sombra ESCURA
-  `#000000`; letra ESCURA → sombra CLARA `#FFFFFF`**. Sem limiar: o LADO decide (o limiar do BCT-4
-  fica só como rede contra um balde mal configurado).
-- O `Fundo` continua **propondo** a polaridade (BCT-3), mas leva o **VETO DA LETRA** quando põe a
-  sombra do mesmo lado da fonte. Era isso que o dono cobria: com fundo escuro e letra clara, a
-  sombra saía clara — "da mesma cor da fonte". Agora a letra `#CBB396` (nome do inimigo) ganha a
-  sombra **ESCURA**.
-- **Cores da paleta:** a sombra clara é o branco `#FFFFFF` (`physicalColor` da fixture do jogo) e a
-  escura é o preto neutro `#000000` (o mesmo tom do contorno padrão). Nada de hex inventado.
-- **Visibilidade:** `alfaSombra` dos Nomes sobe de **0.35 → 0.65**.
-- **Conserto no perfil:** `CorSombraClara  CBB396 → FFFFFF` e `AlfaSombra 0.35 → 0.65` (seção
-  `2. Nomes de inimigos (combate)`) do `.cfg` do r2modman (backup em `.bak-bct5`). Com o veto, o
-  valor herdado deixou de ser uma armadilha, mas o arquivo é a mensagem que o dono lê.
-- **Invariante testado:** para TODA cor da paleta × TODO `Fundo`, a sombra sai do lado oposto da
-  letra e contrasta com ela. Novos vérticos: `t_bct_sombra_polaridade_fonte.py` (seção 14 de
-  `regras_bct.py`) + o alfa mínimo. Provado reprovando:
-  `tools/testes/bct5-polaridade-fonte-prova-reprovando.log` (o "veto arrancado" e o "alfa 0.35"
-  REPROVAM pelo motivo certo; o fonte é restaurado byte a byte).
+- The shadow must be on the **opposite side** of the font luminance: **LIGHT letter → DARK shadow
+  `#000000`; DARK letter → LIGHT shadow `#FFFFFF`**. No threshold: the SIDE decides (the BCT-4 threshold
+  stays only as a net against a badly configured bucket).
+- `Fundo` keeps **proposing** the polarity (BCT-3), but takes the **LETTER'S VETO** when it puts the
+  shadow on the same side as the font. That was what the owner was reporting: with a dark background and a light
+  letter, the shadow came out light — "the same colour as the font". Now the letter `#CBB396` (enemy name) gets the
+  **DARK** shadow.
+- **Palette colours:** the light shadow is white `#FFFFFF` (`physicalColor` of the game fixture) and the
+  dark one is neutral black `#000000` (the same tone as the default outline). No invented hex.
+- **Visibility:** `alfaSombra` of the Names goes from **0.35 → 0.65**.
+- **Fix in the profile:** `CorSombraClara  CBB396 → FFFFFF` and `AlfaSombra 0.35 → 0.65` (section
+  `2. Nomes de inimigos (combate)`) of the r2modman `.cfg` (backup in `.bak-bct5`). With the veto, the
+  inherited value stopped being a trap, but the file is the message the owner reads.
+- **Tested invariant:** for EVERY colour of the palette × EVERY `Fundo`, the shadow comes out on the opposite side of the
+  letter and contrasts with it. New checks: `t_bct_sombra_polaridade_fonte.py` (section 14 of
+  `regras_bct.py`) + the minimum alpha. Proven by failing:
+  `tools/testes/bct5-polaridade-fonte-prova-reprovando.log` (the "veto torn out" and the "alpha 0.35"
+  FAIL for the right reason; the source is restored byte by byte).
 
-### BCT-4 — 2026-10-02 — contraste com a letra (etapa histórica, incorporada e superada pelo BCT-5 na 0.1.1)
+### BCT-4 — 2026-10-02 — contrast with the letter (historical step, incorporated and superseded by BCT-5 in 0.1.1)
 
-**Defeito relatado pelo dono:** a sombra do nome do inimigo ficou invisível/"blob". O log de 02/10
-(l.3359) fecha a conta: `cor da LETRA no alvo='#CBB396' (luminância 0.717 → letra CLARA); sombra que
-FICOU no material=_UnderlayColor '#CBB396 alfa=0.35'`. A sombra CLARA era o `#CBB396` — a **MESMA
-cor da letra** do inimigo (que é o `highlightedColor` do jogo). Sombra igual à letra = contraste
-zero.
+**Defect reported by the owner:** the enemy name shadow became invisible/"blob". The log of 02/10
+(l.3359) closes the account: `cor da LETRA no alvo='#CBB396' (luminância 0.717 → letra CLARA); sombra que
+FICOU no material=_UnderlayColor '#CBB396 alfa=0.35'`. The LIGHT shadow was `#CBB396` — the **SAME
+colour as the enemy letter** (which is the game's `highlightedColor`). Shadow equal to the letter = zero
+contrast.
 
-- **A regra do BCT-3 presumia LETRA ESCURA.** Ele escolhia a cor só pelo FUNDO ("fundo escuro →
-  sombra clara `#CBB396`") sem olhar a LETRA — mas a letra do nome do inimigo é CLARA e é
-  `#CBB396`: a sombra saía idêntica à letra.
-- **A LEI nova (BCT-4):** a sombra tem de **contrastar com a LETRA** (o glifo está encostado nela)
-  **e com o FUNDO** (a sombra cai sobre ele). A POLARIDADE continua saindo do FUNDO (BCT-3) e o
-  `auto` continua saindo da LETRA (BCT-2); o que muda é que, se a cor do balde escolhido **não
-  contrastar com a LETRA** (diferença de luminância < `ContrasteMinimo` = 0.2), **o balde VIRA**.
-- **A sombra CLARA passa a ser o BRANCO PURO (`#FFFFFF`).** O `#CBB396` era a própria cor de texto
-  do jogo (e a cor comum do nome do inimigo). Com a letra `#CBB396` em fundo escuro: sombra
-  `#FFFFFF` — contraste com o bege da letra (0.28 ≥ 0.2) **e** visível no campo escuro. Chave
-  `CorSombraClara` (default `FFFFFF`; quem preferir o `#CBB396` de volta edita o `.cfg`).
-- **Invariante testado:** para TODA cor da paleta do jogo × TODO valor de `Fundo`, a sombra
-  escolhida contrasta com a letra (≥ 0.2). A regra antiga violava exatamente no caso relatado.
-- **Diagnóstico:** a linha do alvo passa a imprimir o limiar do contraste junto da cor da letra e do
-  `_UnderlayColor` que ficou no material.
-- **Testes:** `tools/testes/testes/puros/t_bct_sombra_contraste_letra.py` (novo) + a seção 14 de
-  `regras_bct.py`; `t_bct_sombra_visivel_fundo_escuro.py` e `t_bct_sombra_adaptativa.py`
-  atualizados (a sombra clara agora é o `#FFFFFF`). Provado reprovando:
+- **The BCT-3 rule assumed a DARK LETTER.** It chose the colour only by the BACKGROUND ("dark background →
+  light shadow `#CBB396`") without looking at the LETTER — but the enemy name's letter is LIGHT and is
+  `#CBB396`: the shadow came out identical to the letter.
+- **The new LAW (BCT-4):** the shadow must **contrast with the LETTER** (the glyph is touching it)
+  **and with the BACKGROUND** (the shadow falls on it). The POLARITY still comes from the BACKGROUND (BCT-3) and the
+  `auto` still comes from the LETTER (BCT-2); what changes is that, if the colour of the chosen bucket **does not
+  contrast with the LETTER** (luminance difference < `ContrasteMinimo` = 0.2), **the bucket FLIPS**.
+- **The LIGHT shadow becomes PURE WHITE (`#FFFFFF`).** `#CBB396` was the game's own text colour
+  (and the common colour of the enemy name). With the letter `#CBB396` on a dark background: shadow
+  `#FFFFFF` — contrast with the beige of the letter (0.28 ≥ 0.2) **and** visible on the dark field. Key
+  `CorSombraClara` (default `FFFFFF`; whoever prefers the `#CBB396` back edits the `.cfg`).
+- **Tested invariant:** for EVERY colour of the game palette × EVERY value of `Fundo`, the chosen shadow
+  contrasts with the letter (≥ 0.2). The old rule violated exactly in the reported case.
+- **Diagnostics:** the target line now prints the contrast threshold together with the letter colour and the
+  `_UnderlayColor` that stayed in the material.
+- **Tests:** `tools/testes/testes/puros/t_bct_sombra_contraste_letra.py` (new) + section 14 of
+  `regras_bct.py`; `t_bct_sombra_visivel_fundo_escuro.py` and `t_bct_sombra_adaptativa.py`
+  updated (the light shadow is now `#FFFFFF`). Proven by failing:
   `tools/testes/bct4-contraste-prova-reprovando.log`.
 
-### R2 — NÃO é o BCT: a "sombra grossa" do "Select Attributes" é do BetterFont
+### R2 — it is NOT the BCT: the "thick shadow" of "Select Attributes" belongs to BetterFont
 
-O dono também relatou que o rótulo de seção da **janela de level-up** ("Select Attributes",
-`RoguelikeManager.SectionLabelText`, l.168605) ficou com "sombra muito grossa". Investigação
-fechada (prefab + log + código):
+The owner also reported that the section label of the **level-up window** ("Select Attributes",
+`RoguelikeManager.SectionLabelText`, l.168605) came out with a "very thick shadow". Investigation
+closed (prefab + log + code):
 
-- **O BCT não toca nessa tela.** Ele patcheia 7 métodos de 7 tipos (nome de inimigo, rótulos de
-  status, texto do dado, tooltip, número de vida) — nenhum é o `RoguelikeManager` — e escreve
-  SEMPRE no material POR COMPONENTE (`fontMaterial`). Não há caminho para alcançar o
-  `SectionLabelText`. Trava disso: `tools/testes/testes/puros/t_bct_sem_vazamento_no_levelup.py`.
-- **A causa raiz é o BetterFont.** Lido o PREFAB com UnityPy (`Roguelike Manager` [680571] →
-  `Label` [680588] → o TMP que o campo `SectionLabelText` aponta): o material em uso é o
-  `Regular Font (Minion Pro Regular) SDF Material`, com `_UnderlayColor` preto **alfa 0.5**,
-  `_UnderlaySoftness`/`_UnderlayDilate`/`_UnderlayOffsetX`/`_UnderlayOffsetY` = **0** e o keyword
-  **`UNDERLAY_ON` DESLIGADO** (`m_ValidKeywords == []`) — uma sombra **INERTE**, que o jogo NÃO
-  desenha. O `CopiarEstilo` do BetterFont decide "sombra em uso" por `_UnderlayColor.a > 0.001`
-  (o alfa é 0.5) **sem olhar o keyword**, liga o `UNDERLAY_ON` no material novo e copia os valores:
-  a sombra que o jogo nunca desenhava passa a aparecer — o "sombra muito grossa" relatado. O
-  `AcceptButtonText` do mesmo prefab mostra o mesmo padrão com o `Title Font (Trajan Pro Regular)
-  SDF Material` (alfa 0.906).
-- **Conserto no BetterFont (BF-5), já implementado em `27b5e69`:** o reconhecimento de sombra
-  passou a usar `SombraDesenhada`, observando keyword ou offset/dilate em vez do alfa isolado.
-  Esta investigação não é mudança de código do BCT e não é uma correção futura pendente.
+- **The BCT does not touch that screen.** It patches 7 methods of 7 types (enemy name, status
+  labels, dice text, tooltip, health number) — none of them is `RoguelikeManager` — and it writes
+  ALWAYS to the PER-COMPONENT material (`fontMaterial`). There is no path to reach the
+  `SectionLabelText`. The lock on that: `tools/testes/testes/puros/t_bct_sem_vazamento_no_levelup.py`.
+- **The root cause is BetterFont.** The PREFAB read with UnityPy (`Roguelike Manager` [680571] →
+  `Label` [680588] → the TMP that the `SectionLabelText` field points to): the material in use is the
+  `Regular Font (Minion Pro Regular) SDF Material`, with `_UnderlayColor` black **alpha 0.5**,
+  `_UnderlaySoftness`/`_UnderlayDilate`/`_UnderlayOffsetX`/`_UnderlayOffsetY` = **0** and the keyword
+  **`UNDERLAY_ON` OFF** (`m_ValidKeywords == []`) — an **INERT** shadow, which the game does NOT
+  draw. BetterFont's `CopiarEstilo` decides "shadow in use" by `_UnderlayColor.a > 0.001`
+  (the alpha is 0.5) **without looking at the keyword**, turns `UNDERLAY_ON` on in the new material and copies the values:
+  the shadow the game never drew starts appearing — the reported "very thick shadow". The
+  `AcceptButtonText` of the same prefab shows the same pattern with the `Title Font (Trajan Pro Regular)
+  SDF Material` (alpha 0.906).
+- **Fix in BetterFont (BF-5), already implemented in `27b5e69`:** shadow recognition
+  started using `SombraDesenhada`, observing the keyword or offset/dilate instead of the alpha alone.
+  This investigation is not a code change in the BCT and is not a pending future fix.
 
-### BCT-3 — 2026-10-02 — fundo e diagnóstico de cor (etapa histórica, incorporada e superada pelo BCT-4/5 na 0.1.1)
+### BCT-3 — 2026-10-02 — background and colour diagnostics (historical step, incorporated and superseded by BCT-4/5 in 0.1.1)
 
-**Defeito relatado pelo dono:** "não ve NENHUMA sombra nos nomes de inimigo" (campo de
-batalha escuro). Investigação fechada e conserto:
+**Defect reported by the owner:** "sees NO shadow at all on the enemy names" (dark battle
+field). Investigation closed and fix:
 
-- **A sombra ERA escrita — o defeito era a COR.** O log de 02/10 traz
-  `[Nomes (combate)] APLICADO ... sombra=on` (l.3270) e **não** traz o aviso `sem-underlay`
-  (que o mod imprime quando o shader não expõe `_UnderlaySoftness`): logo o ramo `temUnderlay`
-  rodou e o `_UnderlayColor` foi escrito. O `sombra=on` é só a chave do config — não provava
-  nada sobre a cor.
-- **A letra é CLARA, o fundo é ESCURO.** `PlayerInfoWindow.playerName.color` =
-  `CharacterNameColor` (= `#` + `GetEnemyQualityColor(EnemyType)`) ou `Color.white`
-  (l.156815/156849/156850); o `BossHealthbar.BossName` usa a cor do prefab (l.26641). Pela
-  regra do BCT-2 (sombra pela luminância **da letra**), letra clara → sombra **`#000000`**:
-  preto sobre o campo escuro = **contraste zero**, a sombra existe e não aparece.
-- **A REGRA MUDA (registrado):** um drop shadow só aparece quando contrasta com o que está
-  **atrás** dele — o FUNDO, não a letra. Nova chave `Fundo` por superfície
+- **The shadow WAS being written — the defect was the COLOUR.** The log of 02/10 has
+  `[Nomes (combate)] APLICADO ... sombra=on` (l.3270) and does **not** have the warning `sem-underlay`
+  (which the mod prints when the shader does not expose `_UnderlaySoftness`): therefore the `temUnderlay` branch
+  ran and `_UnderlayColor` was written. `sombra=on` is only the config key — it proved
+  nothing about the colour.
+- **The letter is LIGHT, the background is DARK.** `PlayerInfoWindow.playerName.color` =
+  `CharacterNameColor` (= `#` + `GetEnemyQualityColor(EnemyType)`) or `Color.white`
+  (l.156815/156849/156850); `BossHealthbar.BossName` uses the prefab colour (l.26641). By the
+  BCT-2 rule (shadow from the luminance **of the letter**), light letter → shadow **`#000000`**:
+  black over the dark field = **zero contrast**, the shadow exists and does not show.
+- **THE RULE CHANGES (recorded):** a drop shadow only shows when it contrasts with what is
+  **behind** it — the BACKGROUND, not the letter. New key `Fundo` per surface
   (`escuro` / `claro` / `auto`):
-  - `escuro` → sombra **CLARA `#CBB396`** (a que aparece no campo de batalha);
-  - `claro` → sombra **ESCURA `#000000`**;
-  - `auto` → a regra do BCT-2 (luminância da LETRA), **preservada** para quem não declara fundo.
-  A superfície **`2. Nomes de inimigos (combate)` nasce com `Fundo = escuro`** (o dono confirmou
-  o campo escuro). As outras superfícies (dado, rótulos, tooltip) ficam em `auto` — **nenhuma
-  mudança de comportamento** no que já estava aprovado. É uma chave nova no `.cfg`; a regra de
-  cores do BCT-2 continua viva no modo `auto`.
-- **Diagnóstico de cor no log (novo):** o diagnóstico de arranque e o detalhe do alvo passam a
-  imprimir a **cor da LETRA** do alvo (`#RRGGBB`, alfa e luminância) e a cor de sombra que
-  **ficou no material** (`_UnderlayColor`). Antes só saía `sombra=on` (a chave do config) — foi
-  por essa lacuna que "a sombra não aparece" ficou sem número para conferir.
-- **Testes:** `tools/testes/testes/puros/t_bct_sombra_visivel_fundo_escuro.py` + a seção 13 de
-  `regras_bct.py` — o fundo `escuro` dando sombra clara à letra clara (o conserto), o `auto`
-  preservando a regra do BCT-2, os defaults por superfície e a regra no fonte. Provado
-  reprovando: com o fundo das NOMES de volta em `auto` e com a regra deixando de ligar fundo
-  escuro à sombra clara (`tools/testes/bct3-sombra-visivel-prova-reprovando.log`).
+  - `escuro` → **LIGHT** shadow `#CBB396` (the one that shows on the battle field);
+  - `claro` → **DARK** shadow `#000000`;
+  - `auto` → the BCT-2 rule (luminance of the LETTER), **preserved** for whoever does not declare a background.
+  The surface **`2. Nomes de inimigos (combate)` is born with `Fundo = escuro`** (the owner confirmed
+  the dark field). The other surfaces (dice, labels, tooltip) stay on `auto` — **no
+  behaviour change** in what was already approved. It is a new key in the `.cfg`; the colour rule of
+  BCT-2 stays alive in `auto` mode.
+- **Colour diagnostics in the log (new):** the startup diagnostic and the target detail now
+  print the **LETTER colour** of the target (`#RRGGBB`, alpha and luminance) and the shadow colour that
+  **stayed in the material** (`_UnderlayColor`). Before, only `sombra=on` (the config key) came out — it was
+  through that gap that "the shadow does not appear" stayed without a number to check.
+- **Tests:** `tools/testes/testes/puros/t_bct_sombra_visivel_fundo_escuro.py` + section 13 of
+  `regras_bct.py` — the `escuro` background giving a light shadow to the light letter (the fix), the `auto`
+  preserving the BCT-2 rule, the per-surface defaults and the rule in the source. Proven by
+  failing: with the background of the NAMES back on `auto` and with the rule no longer linking a dark
+  background to the light shadow (`tools/testes/bct3-sombra-visivel-prova-reprovando.log`).
 
-### BCT-2 — 2026-10-02 — sombra adaptativa (etapa histórica, incorporada e superada pelo BCT-3/4/5 na 0.1.1)
+### BCT-2 — 2026-10-02 — adaptive shadow (historical step, incorporated and superseded by BCT-3/4/5 in 0.1.1)
 
-A sombra deixa de ser **fixa e igual ao contorno** e passa a **acompanhar a cor da letra**.
+The shadow stops being **fixed and equal to the outline** and starts **following the letter colour**.
 
-- **A regra.** A cor REAL da letra e lida do proprio componente (`TMP_Text.color` no TMP e
-  `UI.Text.color` no caminho legado) e a luminancia e a `Color.grayscale` do Unity
+- **The rule.** The REAL colour of the letter is read from the component itself (`TMP_Text.color` on TMP and
+  `UI.Text.color` on the legacy path) and the luminance is Unity's `Color.grayscale`
   (`0.299R + 0.587G + 0.114B`):
-  - **letra ESCURA** (luminancia **< 0.5**) → sombra **CLARA `CBB396`** (o
-    `specialDescColor`/`highlightedColor` do jogo);
-  - **letra CLARA** (luminancia **>= 0.5**) → sombra **ESCURA `000000`** (o preto neutro de
-    antes).
-  Na paleta do jogo (lida do prefab, `tools/testes/fixtures/cores-do-jogo.entrada.json`) so o
-  `shadowColor` #F000FF (~0.395, magenta escuro) cai na sombra clara; fire #FF5353 (~0.527),
+  - **DARK letter** (luminance **< 0.5**) → **LIGHT** shadow `CBB396` (the game's
+    `specialDescColor`/`highlightedColor`);
+  - **LIGHT letter** (luminance **>= 0.5**) → **DARK** shadow `000000` (the neutral black from
+    before).
+  In the game palette (read from the prefab, `tools/testes/fixtures/cores-do-jogo.entrada.json`) only the
+  `shadowColor` #F000FF (~0.395, dark magenta) falls into the light shadow; fire #FF5353 (~0.527),
   cold #00D7FF (~0.609), lightning #EFFF00 (~0.867), healing #6BFF6F (~0.762), mana #66A8FF
-  (~0.620) e physical #FFFFFF (1.000) caem na sombra escura.
-- **REAVALIACAO SEM RE-INSTANCIAR.** O guarda de idempotencia por InstanceID **continua** (o
-  material nunca e re-instanciado). Mas o jogo pode **REUSAR** o mesmo componente trocando a
-  cor (o dado que vira fogo e depois gelo): a cada chamada o mod **rele a cor** e, se o **balde**
-  virar, atualiza **SO a cor da sombra** — `_UnderlayColor` no TMP, `Shadow.effectColor` no
-  legado — sem `new Material`/`AddComponent`. Um texto reusado nao fica mais com a sombra da
-  primeira cor.
-- **CFG-1 — TRES chaves NOVAS na secao `1. Geral`** (nenhuma chave existente foi tocada):
-  - `SombraAdaptativa` (bool, padrao **true**) — `false` volta ao comportamento **FIXO** de
-    antes (sombra = cor do contorno, independente da letra);
-  - `CorSombraClara` (string, padrao **`CBB396`**) — sombra da letra escura;
-  - `CorSombraEscura` (string, padrao **`000000`**) — sombra da letra clara.
-- **Testes:** `tools/testes/testes/puros/t_bct_sombra_adaptativa.py` + secao 12 de
-  `regras_bct.py` — a regra pura (cor → luminancia → balde → hex) lendo a paleta da fixture, as
-  tres chaves, a leitura da cor e o **reuso** (balde que vira) no modelo de idempotencia. Provado
-  reprovando: com a "sombra fixa que ignora a luminancia" e com a reavaliacao arrancada
+  (~0.620) and physical #FFFFFF (1.000) fall into the dark shadow.
+- **RE-EVALUATION WITHOUT RE-INSTANTIATING.** The idempotency guard by InstanceID **continues** (the
+  material is never re-instantiated). But the game may **REUSE** the same component while swapping the
+  colour (the die that becomes fire and then cold): on every call the mod **re-reads the colour** and, if the **bucket**
+  flips, updates **ONLY the shadow colour** — `_UnderlayColor` on TMP, `Shadow.effectColor` on the
+  legacy path — without `new Material`/`AddComponent`. A reused text no longer keeps the shadow of the
+  first colour.
+- **CFG-1 — THREE NEW keys in section `1. Geral`** (no existing key was touched):
+  - `SombraAdaptativa` (bool, default **true**) — `false` goes back to the previous **FIXED** behaviour (shadow = outline
+    colour, independent of the letter);
+  - `CorSombraClara` (string, default **`CBB396`**) — shadow of the dark letter;
+  - `CorSombraEscura` (string, default **`000000`**) — shadow of the light letter.
+- **Tests:** `tools/testes/testes/puros/t_bct_sombra_adaptativa.py` + section 12 of
+  `regras_bct.py` — the pure rule (colour → luminance → bucket → hex) reading the palette from the fixture, the
+  three keys, the colour read and the **reuse** (bucket that flips) in the idempotency model. Proven by
+  failing: with the "fixed shadow that ignores luminance" and with the re-evaluation torn out
   (`tools/testes/bct2-sombra-prova-reprovando.log`).
 
-### Metadados da mesma 0.1.1 — dependência/documentação (commit `69c4a56`)
+### Metadata of the same 0.1.1 — dependency/documentation (commit `69c4a56`)
 
-- **Dependencia do Thunderstore: `DefRuivo_StolenRealmMods-BetterFont-1.0.1` -> `1.0.2`.** A 1.0.1
-  esta publicada e e imutavel, e o portao de material dela **recusava o material dos textos de
-  combate** (variante de shader diferente: os alvos usam `TextMeshPro/Distance Field Overlay` e
-  `Distance Field (Surface)`; a fonte serifada sai com `Mobile/Distance Field`) — com os dois mods
-  ligados, os textos de combate ficavam na **fonte original**. O conserto e o **BetterFont 1.0.2**
-  (variante diferente virou copia best-effort, propriedade por propriedade com `HasProperty`). Sem
-  bumpar esta referencia, o gerenciador instalaria a 1.0.1 ao lado deste mod e o defeito continuaria
-  em campo. A regra `DEP_EXTRAS` do `tools/audita_docs.py` exige exatamente isto: quem declara outro
-  mod deste repo aponta a versao que ele tem HOJE no manifest.
-- **Ordem de envio (nao inverter):** primeiro o **BetterFont 1.0.2**; depois este **0.1.1**. O upload
-  da Thunderstore **resolve** cada referencia (`PackageReferenceValidator(resolve=True)`) e recusa a
-  que nao existe com `No matching package found for reference` — a versao declarada aqui precisa
-  estar no ar antes.
-- **Doc corrigida:** o README (secao "Together with BetterFont" e o resumo em portugues) afirmava que
-  os textos de combate "podem manter a fonte original" com os dois mods ligados. Isso descrevia o
-  comportamento da 1.0.1 do BetterFont, nao o desta versao: com o **BetterFont 1.0.2** o texto de
-  combate fica com **a serifa e o halo/sombra**.
+- **Thunderstore dependency: `DefRuivo_StolenRealmMods-BetterFont-1.0.1` -> `1.0.2`.** The 1.0.1
+  is published and immutable, and its material gate **refused the material of the combat texts**
+  (different shader variant: the targets use `TextMeshPro/Distance Field Overlay` and
+  `Distance Field (Surface)`; the serif font comes out with `Mobile/Distance Field`) — with both mods
+  on, the combat texts stayed on the **original font**. The fix is **BetterFont 1.0.2**
+  (a different variant became a best-effort copy, property by property with `HasProperty`). Without
+  bumping this reference, the manager would install 1.0.1 next to this mod and the defect would continue
+  in the field. The `DEP_EXTRAS` rule of `tools/audita_docs.py` requires exactly this: whoever declares another
+  mod of this repo points at the version it has TODAY in the manifest.
+- **Send order (do not invert):** first **BetterFont 1.0.2**; then this **0.1.1**. The Thunderstore
+  upload **resolves** every reference (`PackageReferenceValidator(resolve=True)`) and refuses the
+  one that does not exist with `No matching package found for reference` — the version declared here needs to
+  be live before.
+- **Doc fixed:** the README (section "Together with BetterFont" and the Portuguese summary) claimed that
+  the combat texts "may keep the original font" with both mods on. That described the
+  behaviour of BetterFont 1.0.1, not of this version: with **BetterFont 1.0.2** the combat text
+  gets **the serif and the halo/shadow**.
 
 ## 0.1.0
 
-Primeira versao publicada.
+First published version.
 
-- **Ícone real do dono**, substituindo o placeholder (`bc4e5d6`, 2026-09-30); arte-fonte preservada em `docs/img/bettercombattext-icon-fonte.png`.
-- **Aplicador de ganchos corrigido antes da primeira publicacao**: o filtro de classe de gancho copiado do RoguelikeSkillTreeVisualizer exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no metodo** e este mod declara os **9 ganchos pela convencao de nome** do Harmony (metodo `Postfix`) — teria pulado os 9 em silencio. O filtro agora exige so `[HarmonyPatch]` **no TIPO** (o mesmo conjunto que o `PatchAll()` processava) e os ganchos sao aplicados **um a um**, com log por gancho e resumo com a contagem real.
-- **Diagnostico de arranque mais barato**: a varredura de cena passou de 2s para 5s e **para no primeiro alvo que aparece em cena** (chave propria no `.cfg`), em vez de varrer todas as superficies sempre.
+- **The owner's real icon**, replacing the placeholder (`bc4e5d6`, 2026-09-30); source art preserved in `docs/img/bettercombattext-icon-fonte.png`.
+- **Hook applier fixed before the first publication**: the hook class filter copied from RoguelikeSkillTreeVisualizer required `[HarmonyPrefix]`/`[HarmonyPostfix]` **on the method** and this mod declares its **9 hooks through Harmony's naming convention** (a `Postfix` method) — it would have skipped the 9 silently. The filter now requires only `[HarmonyPatch]` **on the TYPE** (the same set that `PatchAll()` processed) and the hooks are applied **one by one**, with a log per hook and a summary with the real count.
+- **Cheaper startup diagnostic**: the scene scan went from 2s to 5s and **stops at the first target that appears in the scene** (its own key in the `.cfg`), instead of always scanning every surface.
 
-- **Contorno/halo suave no texto de combate**: contorno `_OutlineWidth` + `_OutlineSoftness` (alto = halo borrado, o "sombreamento radial" pedido) com **cor preta a 10% de alfa** por padrao, mais sombra difusa `_Underlay` (offset, dilate, softness) opcional.
-- **Alvos, cada um com liga/desliga proprio no `.cfg`**:
-  - **Nomes de inimigos em combate** — `BossHealthbar.BossName` (barra de chefe) e `PlayerInfoWindow.playerName` (janela de hover sobre o inimigo). Ambos `TextMeshProUGUI` → halo suave.
-  - **Rotulos/stacks de buff e debuff em combate** — `StatusIcon.stackCount` ("x3") e `StatusIcon.turnCount`. Sao `UnityEngine.UI.Text` **legado**, sem distance field: recebem contorno duro (`Outline`), sombra e **negrito**. Halo suave e **impossivel** ali (registrado no README e no log de arranque).
-  - **Texto do dado nos eventos** — `DiceVisualSetup.DiceNumbers` (numero na face do dado), `DiceRoller.TargetText/ResultText/ModifierValueText`. `TextMeshPro`/`TextMeshProUGUI` → halo suave. Grupo proprio, independente do combate.
-  - **Tooltip de status (nome do buff)** — **desligado por padrao**: o nome do buff so aparece no tooltip generico do jogo, cujo componente (`Tooltip.Title`/`Description`) e o mesmo dos tooltips de skill/item/powerup; ligar espalha o halo por todos os tooltips.
-  - **Numero de vida sobre as unidades** — extra, **desligado por padrao**, fora do pedido original.
-- **Seguranca do material**: o efeito e aplicado numa **copia do material por componente** (`TMP_Text.fontMaterial`, que internamente faz `new Material(shared)` — confirmado no IL do `TextMeshProUGUI.GetMaterial`). `fontSharedMaterial` nunca e escrito, entao a interface inteira **nao** ganha contorno.
-- **Falha-segura**: tudo em `try/catch`; se o shader nao for distance field (`_OutlineWidth` ausente), o mod **nao altera** aquele material e loga o motivo. Patches Harmony sao **por tipo** de metodo com `__instance` — nenhum parametro posicional `ref __N` — e sao aplicados **um a um** (`CreateClassProcessor(...).Patch()` por classe de gancho, com uma linha de log por gancho e um resumo com a **contagem real**): um gancho que falhe nao derruba os outros, e o log diz qual foi.
-- **Diagnostico no log**: por superficie, o mod registra objeto, componente, fonte TMP, material compartilhado de origem, shader e se e SDF; mais um inventario da cena (`N TMP_Text`, `M TextMesh` legado) e os materiais de fonte em uso com contagem. Tem chave propria no `.cfg` (`1. Geral` > `DiagnosticoNoArranque`, padrao `true`; `false` = nenhuma varredura de cena) e a varredura **para sozinha no primeiro alvo que aparece em cena**.
-- **Diagnostico de arranque executado no jogo**: o que esta confirmado e **viabilidade tecnica**, lida do proprio diagnostico — todos os alvos TMP usam variantes `TextMeshPro/Distance Field` (`Overlay`, `(Surface)`, `Distance Field`) com `_OutlineWidth` presente (halo suave viavel); o numero do dado e `TextMeshPro` (140 faces em 7 `DiceVisualSetup`, 0 `TextMesh` legado); e os rotulos de stack sao `UnityEngine.UI.Text` legado (124 `StatusIcon`).
-- **Efeito visual: NAO CONFIRMADO** — depende do dono ver em jogo (abrir um combate/evento e olhar). O diagnostico prova que o halo e possivel, nao que ele aparece nem que ficou bom; nao ha log de antes/depois nem captura no repositorio.
-- **Com o mod DESLIGADO (`Ativar = false`) o jogo roda original**: e um early-return no `Awake` — nenhum gancho e aplicado (no log aparece so a linha de "DESLIGADO no config") e nenhum alvo e tocado.
-- **Convivência com o BetterFont**: com os dois ligados, os textos de combate ganham a **serifa e o efeito** (halo/sombra) a partir do **BetterFont 1.0.2** — variante de shader diferente não é mais recusa lá. Na **1.0.1** eles ficavam com a **fonte original** (o portão do BetterFont recusava o material dos textos de combate; era o defeito que o BF-2 consertou). O BetterFont troca a fonte e reaplica no material por componente o efeito que já estava naquele texto; quando esse efeito não pode ser reproduzido (textura de face, bevel, glow), aquele texto fica **intocado** — a escolha segura, não um defeito, e o motivo sai nomeado no log do BetterFont. Cosmetico, nada quebra.
-- **Desligar tudo em 1 linha**: `Ativar = false` na secao `1. Geral` — nenhum patch e aplicado e o jogo roda original.
-- **Sem alteracao de gameplay** e sem tocar em arquivo do jogo. Nada de Bard/musica.
+- **Soft outline/halo on the combat text**: `_OutlineWidth` + `_OutlineSoftness` outline (high = blurred halo, the requested "radial shading") with **black at 10% alpha** by default, plus an optional `_Underlay` diffuse shadow (offset, dilate, softness).
+- **Targets, each with its own on/off switch in the `.cfg`**:
+  - **Enemy names in combat** — `BossHealthbar.BossName` (boss bar) and `PlayerInfoWindow.playerName` (the hover window over the enemy). Both `TextMeshProUGUI` → soft halo.
+  - **Buff and debuff labels/stacks in combat** — `StatusIcon.stackCount` ("x3") and `StatusIcon.turnCount`. They are **legacy** `UnityEngine.UI.Text`, without distance field: they get a hard outline (`Outline`), shadow and **bold**. A soft halo is **impossible** there (recorded in the README and in the startup log).
+  - **Dice text in the events** — `DiceVisualSetup.DiceNumbers` (the number on the die face), `DiceRoller.TargetText/ResultText/ModifierValueText`. `TextMeshPro`/`TextMeshProUGUI` → soft halo. Its own group, independent of combat.
+  - **Status tooltip (buff name)** — **off by default**: the buff name only appears in the game's generic tooltip, whose component (`Tooltip.Title`/`Description`) is the same as the skill/item/powerup tooltips; turning it on spreads the halo over every tooltip.
+  - **Health number over the units** — extra, **off by default**, outside the original request.
+- **Material safety**: the effect is applied to a **per-component copy of the material** (`TMP_Text.fontMaterial`, which internally does `new Material(shared)` — confirmed in the IL of `TextMeshProUGUI.GetMaterial`). `fontSharedMaterial` is never written, so the whole interface does **not** get the outline.
+- **Fail-safe**: everything in `try/catch`; if the shader is not distance field (`_OutlineWidth` missing), the mod **does not change** that material and logs the reason. Harmony patches are **per method type** with `__instance` — no positional `ref __N` parameter — and they are applied **one by one** (`CreateClassProcessor(...).Patch()` per hook class, with one log line per hook and a summary with the **real count**): a hook that fails does not take down the others, and the log says which one it was.
+- **Diagnostics in the log**: per surface, the mod records the object, the component, the TMP font, the shared source material, the shader and whether it is SDF; plus a scene inventory (`N TMP_Text`, `M` legacy `TextMesh`) and the font materials in use with a count. It has its own key in the `.cfg` (`1. Geral` > `DiagnosticoNoArranque`, default `true`; `false` = no scene scan) and the scan **stops by itself at the first target that appears in the scene**.
+- **Startup diagnostics executed in the game**: what is confirmed is **technical feasibility**, read from the diagnostic itself — all TMP targets use `TextMeshPro/Distance Field` variants (`Overlay`, `(Surface)`, `Distance Field`) with `_OutlineWidth` present (soft halo feasible); the dice number is `TextMeshPro` (140 faces across 7 `DiceVisualSetup`, 0 legacy `TextMesh`); and the stack labels are legacy `UnityEngine.UI.Text` (124 `StatusIcon`).
+- **Visual effect: NOT CONFIRMED** — it depends on the owner seeing it in game (opening a combat/event and looking). The diagnostic proves the halo is possible, not that it appears or that it looks good; there is no before/after log nor a screenshot in the repository.
+- **With the mod OFF (`Ativar = false`) the game runs original**: it is an early-return in `Awake` — no hook is applied (the log shows only the "OFF in config" line) and no target is touched.
+- **Coexistence with BetterFont**: with both on, the combat texts get **the serif and the effect** (halo/shadow) from **BetterFont 1.0.2** — a different shader variant is no longer a refusal there. On **1.0.1** they stayed with the **original font** (the BetterFont gate refused the material of the combat texts; that was the defect BF-2 fixed). BetterFont swaps the font and re-applies to the per-component material the effect that was already on that text; when that effect cannot be reproduced (face texture, bevel, glow), that text stays **untouched** — the safe choice, not a defect, and the reason comes out named in the BetterFont log. Cosmetic, nothing breaks.
+- **Turning everything off in 1 line**: `Ativar = false` in section `1. Geral` — no patch is applied and the game runs original.
+- **No gameplay change** and no touching of any game file. No Bard/music.
 
 ### Historical dependency decision (0.1.0 package)
 
-> Este bloco descreve o manifest antigo. O pacote **publicado** da 0.1.2 declara `DefRuivo_StolenRealmMods-BetterFont-1.0.3` (seção do topo). O manifest do repositório, **ainda não publicado**, deixou de declarar o BetterFont como dependência obrigatória: o código não o referencia e a integração é opcional (auditoria de dependências DEP-REV, 2026-10-16). O README de instalação ainda diz o contrário e precisa ser alinhado ao preparar a nova versão.
+> This block describes the old manifest. The **published** 0.1.2 package declares `DefRuivo_StolenRealmMods-BetterFont-1.0.3` (section at the top). The repository manifest, **not yet published**, stopped declaring BetterFont as a mandatory dependency: the code does not reference it and the integration is optional (DEP-REV dependency audit, 2026-10-16). The install README still says the opposite and needs to be aligned when preparing the new version.
 
-- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — é aqui que o estilo dos textos de combate volta; a referência aponta a versão **nova** para o gerenciador não instalar o mesmo pacote em duas versões (mesmo GUID = erro no BepInEx).
-- **A dependência é UMA DIREÇÃO — `BetterCombatText 0.1.0` → `BetterFont 1.0.1` — e só ela.** O `BetterFont` 1.0.1 declara **apenas** o BepInExPack; quem aponta para a outra ponta é este mod. A mão dupla (os dois se declarando) foi trocada por esta direção única no commit `ac0210f`.
-- **Por que a mão dupla não sobe (provado no código da Thunderstore):** no upload a plataforma **resolve** cada referência (`DependencyField` usa `PackageReferenceValidator(resolve=True)`) e **recusa** a referência que não existe, com `No matching package found for reference`. Com os dois lados se referenciando, cada lado apontava para uma versão **inédita** (o `BetterFont 1.0.1` e este `0.1.0`, nenhuma das duas no ar) — não havia ordem de envio válida: quem subisse primeiro falhava. Não é preferência de estilo, é o upload recusando.
-- **Ordem de envio que funciona:** primeiro o `BetterFont 1.0.1` (sem dependência de volta), depois este `0.1.0` declarando o `BetterFont 1.0.1` — a mesma ordem registrada em [`release/mods.json`](../release/mods.json).
-- **Hipótese histórica, não release futura:** em 2026-09-30 cogitou-se um BetterFont 1.0.2 com dependência de volta. Isso **não** foi adotado: a 1.0.2 e a 1.0.3 existem e o manifest atual do BetterFont continua declarando só BepInEx. Não há versão futura prometida por esta nota.
-
+- `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — this is where the styling of the combat texts comes back; the reference points at the **new** version so the manager does not install the same package in two versions (same GUID = error in BepInEx).
+- **The dependency is ONE-WAY — `BetterCombatText 0.1.0` → `BetterFont 1.0.1` — and only that.** `BetterFont` 1.0.1 declares **only** the BepInExPack; the mod pointing at the other end is this one. The mutual dependency (the two declaring each other) was swapped for this single direction in commit `ac0210f`.
+- **Why the mutual dependency cannot be published (proven in the Thunderstore code):** on upload the platform **resolves** each reference (`DependencyField` uses `PackageReferenceValidator(resolve=True)`) and **refuses** the reference that does not exist, with `No matching package found for reference`. With both sides referencing each other, each side pointed at an **unreleased** version (the `BetterFont 1.0.1` and this `0.1.0`, neither of them live) — there was no valid send order: whoever went up first failed. It is not a style preference, it is the upload refusing.
+- **Send order that works:** first `BetterFont 1.0.1` (with no dependency back), then this `0.1.0` declaring `BetterFont 1.0.1` — the same order recorded in [`release/mods.json`](../release/mods.json).
+- **Historical hypothesis, not a future release:** on 2026-09-30 a BetterFont 1.0.2 with a dependency back was considered. That was **not** adopted: 1.0.2 and 1.0.3 exist and the current BetterFont manifest still declares only BepInEx. There is no future version promised by this note.
