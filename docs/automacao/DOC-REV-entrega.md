@@ -8,7 +8,12 @@ manifest/CHANGELOG de mod foi editado e nada de `docs/automacao/**` ou `docs/cob
 **Rodadas.** Rodada 1 (implementação, commit `844bba8`) revisou os 20 documentos do escopo e corrigiu 11.
 Rodada 2 (revisão independente, run 1603) pediu mudanças: 5 afirmações falsas/contraditórias que
 escaparam (`A1`–`A5`), âncoras de linha erradas nesta entrega (`A6`) e contagens desatualizadas (`A7`).
-Rodada 3 (esta, run 1605) fechou `A1`–`A7` e as derivações encontradas durante o fechamento (`A8`–`A10`).
+Rodada 3 (run 1605, commits `0afd6ea` + `7653410`) fechou `A1`–`A7` e as derivações encontradas
+durante o fechamento (`A8`–`A10`).
+Rodada 4 (esta, run 1609) fecha o achado `B1` da rodada 2 (execução): a família de afirmações
+"o gate `release/mods.json` tem 8 entradas / não tem `RealmApi`" era falsa **no arquivo da árvore de
+trabalho**. Em vez de continuar escrevendo para o estado de `HEAD` sem dizer isso, cada passagem
+passou a **carimbar o referente** (`HEAD` × árvore de trabalho).
 
 ## 0. Cobertura
 
@@ -41,20 +46,47 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 | A3 | `docs/README.md` | **552-555** | "quem **pode** sair é o gate versionado `release/mods.json` (**6** entradas, todas com `publicar: true`)" — o gate tem **8** entradas: 6 `true` + 2 `false` (`BetterPortuguese`, `RoguelikeUnlimitedLevelProgression`) | 1, 2 | corrigido para "**8** entradas: **6** com `publicar: true` … e **2** com `publicar: false`, `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`"; o mesmo arquivo já dizia 8 nas linhas 32-43. |
 | A4 | `docs/AMBIENTE.md` | **38** | `Better Combat Text 0.1.1 | projeto (depende do Better Font)` — quinta ocorrência da dependência já removida | 1, 2 | virou "o **par carregado** no perfil é BCT + `Better Font`; o manifest corrente do BCT **não** declara dependência de pacote — foi removida em 16/10/2026 (DEP-REV)". A tabela descreve **o que o log carregou** (rodada de 12/09), não o manifest de hoje. |
 | A5 | `docs/README.md` **383**, **480-486**, **562-565**; `README.md` **266**, **319-323**, **692**, **746-750**; `docs/CI.md` **84-86**; `docs/PUBLICACAO.md` **582** | — | `tools/publish-thunderstore.sh --go` apresentado como caminho de publicação/empacotamento ("o mais simples hoje", "continua valendo como caminho alternativo"), contradizendo `docs/PUBLICACAO.md` §4 (envio **legado**, não lê o gate, itera todos os `dist/gumatos-*.zip`, header de auth sem a variável `TOKEN`) | 2 | os nove pontos foram alinhados à mesma trava e ao mesmo aviso: **legado, não é caminho seguro**, não lê o gate, sem aprovação humana, sobe todos os `dist/gumatos-*.zip`; o caminho de hoje é o `publish.yml`. Conferido em `git show HEAD:tools/publish-thunderstore.sh` (laço `for z in dist/gumatos-*.zip`; header de autorização literal, sem a variável `TOKEN`). |
-| A6 | esta entrega | §4 e §5 | a coluna "linha" tinha âncoras erradas: PNG do README em 388…545 (eram 390…547) e `docs/README.md` 393-404/407-411/435 (eram 397-407/412-417/439) | 4 | todas as âncoras foram **remedidas com `grep -n`** depois das edições desta rodada; as do README dos PNGs mudaram para **392,402,408,413,442,456,462,539,549** porque as próprias correções de `A5` somaram 2 linhas acima delas (ver §4 e §5 item 1). |
+| A6 | esta entrega | §4 e §5 | a coluna "linha" tinha âncoras erradas: PNG do README em 388…545 (eram 390…547) e `docs/README.md` 393-404/407-411/435 (eram 397-407/412-417/439) | 4 | todas as âncoras foram **remedidas com `grep -n`** depois das edições desta rodada. **Remedidas de novo na rodada 4** (as correções de `B1` somaram linhas acima delas): PNG do README em **394, 404, 410, 415, 444, 458, 464, 541, 551**; `docs/README.md` tabela dos 8 mods **401-412**, "reconferido nos endpoints" **416-419**, linha de `dependencies` **447**; nota da PUB-ALL-1 **420-422**. |
 | A7 | esta entrega | §0 | contagens "670 `.md` versionados / 950 em `docs/automacao/`" contra 671/951 medidos pelo revisor | 1 | remedidas e **carimbadas** (672 / 956 em 16/10/2026, commit `39852b7`) com a explicação de que a contagem cresce a cada commit das frentes paralelas. |
 
 ### Derivações encontradas ao fechar A1–A7 (não estavam na revisão)
 
 | item | arquivo | linha | problema | classe | o que foi feito |
 |---|---|---|---|---|---|
-| A8 | `README.md` (3 tabelas), `docs/README.md` | 208-210, 360-362, 635-637; 401/406/407, 416-418, 443 | **deriva do dia**: o commit `39852b7` (PUB-ALL-1, 13:58) bumpou `BetterCombatText 0.1.2→0.1.3`, `RoguelikeDebugger 0.1.2→0.1.3` e `RSTV 0.3.3→0.3.4` nos quatro lugares — **depois** do commit da rodada 1 (13:49) e depois da revisão independente. Toda "versão no fonte/disco" das docs passou a mentir por um bump; a dependência do RSTV também era citada como `0.3.3` | 1 | tabelas do README atualizadas para 0.1.3/0.1.3/0.3.4; tabela dos 8 mods descobertos atualizada na coluna "Versão no disco"; linha de `dependencies` para `RoguelikeSkillTreeVisualizer 0.3.4`; acrescentado o parágrafo 416-418 declarando que a versão no disco está **à frente** da publicada (nada foi publicado nesse bump). Conferido contra `*/manifest.json`, `python tools/check_versoes.py` (exit 0) e a API. |
+| A8 | `README.md` (3 tabelas), `docs/README.md` | 210-212, 362-364, 637-639; 405/410/411, 420-422, 447 | **deriva do dia**: o commit `39852b7` (PUB-ALL-1, 13:58) bumpou `BetterCombatText 0.1.2→0.1.3`, `RoguelikeDebugger 0.1.2→0.1.3` e `RSTV 0.3.3→0.3.4` nos quatro lugares — **depois** do commit da rodada 1 (13:49) e depois da revisão independente. Toda "versão no fonte/disco" das docs passou a mentir por um bump; a dependência do RSTV também era citada como `0.3.3` | 1 | tabelas do README atualizadas para 0.1.3/0.1.3/0.3.4; tabela dos 8 mods descobertos atualizada na coluna "Versão no disco"; linha de `dependencies` para `RoguelikeSkillTreeVisualizer 0.3.4`; acrescentado o parágrafo 420-422 declarando que a versão no disco está **à frente** da publicada (nada foi publicado nesse bump). Conferido contra `*/manifest.json`, `python tools/check_versoes.py` (exit 0) e a API. |
 | A9 | `docs/README.md` | 421-430 | o adendo datado de 12/10 ("o projeto tem um **sétimo** pacote descoberto", "conjunto esperado pelo workflow passa a ser **7** nomes", "a tabela acima (6 mods)") contradizia a tabela de **8** mods descobertos (16/10) logo acima | 2 | adendo mantido como fotografia datada, com o estado corrente ao lado: "7 nomes então; **8** desde 16/10/2026, com o `BetterPortuguese`", e a frase final reescrita para não alegar que a tabela de cima tem 6 mods. |
 | A10 | `docs/PUBLICACAO.md` | 52-53, 57-58 | o adendo de 12/10 dizia "o `release/mods.json` tem **7** entradas" e "o conjunto esperado … (7 nomes)", contra as **8** do cabeçalho do mesmo arquivo (linha 9) | 2 | "passou a ter 7 entradas (oito desde 16/10/2026, com o `BetterPortuguese`)" e "(7 nomes então; **8** desde 16/10/2026 …)". |
 
+## 1B. Rodada 4 — `B1`: carimbar o referente (`HEAD` × árvore de trabalho)
+
+O achado `B1` da rodada 2 (execução, run 1608) apontou **8 passagens** que descreviam o gate
+`release/mods.json` como corrente, quando o texto valia só para o estado **commitado**. Medido nesta
+rodada (`C:/dev/stolen-realm`, 16/10/2026):
+
+- `git show HEAD:release/mods.json` → **8** entradas de mod (6 `publicar: true` + 2 `false`:
+  `BetterPortuguese`, `RoguelikeUnlimitedLevelProgression`);
+- `release/mods.json` na **árvore** → **9** entradas (6 `true` + **3** `false`; a nona é `RealmApi`,
+  `publicar: false`, `versao_publicada: null`, entrada de preparação da `PUB-API-2`);
+- `python tools/pack-thunderstore.py --listar-nomes` na árvore → **9** (bate com o gate da árvore).
+
+| item | arquivo | linha (estado final) | problema | classe | o que foi feito |
+|---|---|---|---|---|---|
+| B1.1 | `docs/README.md` | 32-43 | "a mesma lista de oito nomes está no gate `release/mods.json`" e o bloco do aviso, que se declara sobre a **árvore**, dizia "o gate segue com oito … nenhum RealmApi" — falso na árvore | 1, 2 | carimbado: "o empacotador **versionado** (`HEAD`)"; "os mesmos oito nomes estão no gate **em `HEAD`**: 6 `true` + 2 `false`"; o aviso passou a dizer que na árvore `--listar-nomes` imprime **nove** e o gate local tem **nove** entradas (a nona travada), com "estado versionado = 8/8; estado da árvore = 9/9". |
+| B1.2 | `docs/README.md` | 552-556 | "o gate versionado `release/mods.json` (**8** entradas: 6 `true` + **2** `false`)" — sem dizer que é `HEAD`; na árvore são 3 `false` | 1 | "(**8** entradas **em `HEAD`** … e **2** com `publicar: false`; na **árvore de trabalho** de 16/10 o gate local já tem **9**, com a entrada travada do `RealmApi` — preparação, não autoriza envio)". |
+| B1.3 | `docs/PUBLICACAO.md` | 9-18 | "`--listar-nomes` e `release/mods.json` têm **8** entradas … a API ainda não é descoberta nem consta do gate" — os dois têm 9 na árvore e o `RealmApi` **consta** (travado) | 1, 5 | "o empacotador **versionado** (`HEAD`) e o gate **em `HEAD`**"; acrescentado o estado da árvore (9 nomes em `--listar-nomes`, 9 entradas no gate local, a nona travada e sem autorizar envio) e que a API segue **fora da Thunderstore** (`HTTP 404`). |
+| B1.4 | `docs/PUBLICACAO.md` | 287-290 | "as **duas** entradas travadas … são **as únicas** com `publicar: false` e `versao_publicada: null`" — na árvore são **três** | 1 | "são **2 em `HEAD`** — `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression` — e **3 na árvore de trabalho** de 16/10, onde a entrada de preparação do `RealmApi` já consta". |
+| B1.5 | `docs/ESTRUTURA.md` | 7 | "Em 16/10/2026, a descoberta e o gate têm oito nomes" — verdade na versão, falso na árvore | 1 | "a descoberta **versionada** (`HEAD`) e o gate **em `HEAD`** têm oito nomes (a **árvore de trabalho** tem nove: PKG-API-1/PUB-API-2 já ensinam o empacotador e já deixaram no gate local uma entrada travada, de preparação)". |
+| B1.6 | `docs/ESTRUTURA.md` | 12 | `api/` "**não** está nos oito nomes … nem no gate de publicação … o gate continua com oito até decisão própria" — a decisão já foi tomada na árvore | 1 | "não está nos oito nomes do empacotador **versionado** nem nas oito entradas do gate **em `HEAD`** (na árvore: nove nomes e uma nona entrada travada; ela **não** autoriza envio e a API segue fora da Thunderstore)". |
+| B1.7 | `README.md` | 195-201 | "the versioned packager does not discover that module, and `release/mods.json` does not gate it … the gate stays the authority" — sem o carimbo, e a árvore já tem a entrada | 1 | "`release/mods.json` **at `HEAD`** does not gate it (in the local working tree the packager already recognizes this layout and the local gate already carries a locked `RealmApi` entry — nine names and nine entries there — but that entry is preparation only, **not** authorization to publish: the package is still `HTTP 404` on Thunderstore)". |
+| B1.8 | esta entrega | §4 e §6 | "o empacotador **versionado** devolve **8** e o gate `release/mods.json` continua com 8" — a segunda metade sem o qualificador "versionado" | 1 | §4 e §6 agora dizem "o gate **em `HEAD`** tem 8; o gate **da árvore** tem 9". |
+
+**Nada do gate foi reescrito** (`release/mods.json` continua fora da trava desta frente — a entrada do
+`RealmApi` é da `PUB-API-2`, não desta revisão) e nenhum manifest/CHANGELOG/código foi tocado.
+
 ## 2. Rodada 1 — correções de conteúdo (arquivo | linha final | problema | classe | ação)
 
-> A coluna `linha` é a posição **depois** das correções (as edições deslocam linhas entre si).
+> A coluna `linha` é a posição **depois** das correções (as edições deslocam linhas entre si). As
+> âncoras de `docs/README.md` e `README.md` foram **remedidas na rodada 4** (ver `A6` e §1B).
 
 ### `README.md` (raiz)
 
@@ -66,8 +98,8 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 | README.md | 92-95, 111-114 | "a DLL **não pode** ficar solta em `plugins\`" e "o BepInEx carrega **todo** `.dll`, inclusive `.bak`" — o loader procura `*.dll`; `.dll.disabled`/`.bak`/`.old` não casam | 1 | corrigido (convenção de pasta ≠ exigência; backup fora de `plugins\`) |
 | README.md | 153-155 | "Check dependencies first: BetterCombatText requires BetterFont" | 1 | corrigido para a dependência real (RSTV → RealmApi) |
 | README.md | 172-173 | troubleshooting mandava a DLL estar em pasta por mod como causa de não carregar | 1 | corrigido |
-| README.md | 203-212, 355-364, 630-639 | tabela de identificadores com versões 0.1.1/1.0.1/1.0.2/0.1.1 (reais na rodada 1: 0.1.4/1.0.2/1.0.3/0.1.2) e sem os pacotes novos — **e, na rodada 3, o bump da PUB-ALL-1 desatualizou 3 linhas de novo (A8)** | 1, 2 | corrigidas nas três tabelas; nota de que versão no fonte ≠ ZIP publicado |
-| README.md | 266, 319-323, 692, 746-750 | envio local apresentado como "o mais simples hoje" | 2 | alinhados ao aviso de legado (A5) |
+| README.md | 205-214, 357-366, 632-641 | tabela de identificadores com versões 0.1.1/1.0.1/1.0.2/0.1.1 (reais na rodada 1: 0.1.4/1.0.2/1.0.3/0.1.2) e sem os pacotes novos — **e, na rodada 3, o bump da PUB-ALL-1 desatualizou 3 linhas de novo (A8)** | 1, 2 | corrigidas nas três tabelas; nota de que versão no fonte ≠ ZIP publicado. Linhas remedidas na rodada 4. |
+| README.md | 268, 321-325, 694, 748-752 | envio local apresentado como "o mais simples hoje" | 2 | alinhados ao aviso de legado (A5). Linhas remedidas na rodada 4. |
 
 ### `STATUS.md`
 
@@ -85,10 +117,10 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 | docs/README.md | 32-43 | nada dizia que a API existe em `api/` e é consumida pelo RSTV | 5 | acrescentado (com o limite: não é descoberta pelo empacotador versionado) |
 | docs/README.md | 235-237 | bloco bash usava `%APPDATA%` — no Git Bash é sintaxe de cmd.exe e **não expande** | 3 | trocado por `cygpath -u "$APPDATA"` (comando executado) |
 | docs/README.md | 238-242 | "DLL solta em `plugins/` não carrega" | 1 | corrigido |
-| docs/README.md | 397-408 | tabela "Os 6 mods" com versões e estado de publicação de 01/10 (BCT 0.1.1 "não publicado", RSTV 0.3.2, etc.) | 1 | reescrita: 8 descobertos, 6 publicados em 07/10/2026 (+ nota da PUB-ALL-1 em 416-418) |
-| docs/README.md | 412-415 | "conferido contra a API pública em 01/10/2026" | 1 | reconferido por endpoint em 16/10/2026 |
-| docs/README.md | 443 | dependência declarada como `BetterCombatText 0.1.1 → BetterFont 1.0.2`; o estado real é `RSTV → RealmApi-0.1.0` (não resolvível) | 1, 2 | reescrito |
-| docs/README.md | 383, 480-486, 552-555, 562-565 | linha de ferramenta + bloco bash do envio local + contagem do gate | 1, 2 | A5 e A3 |
+| docs/README.md | 401-412 | tabela "Os 6 mods" com versões e estado de publicação de 01/10 (BCT 0.1.1 "não publicado", RSTV 0.3.2, etc.) | 1 | reescrita: 8 descobertos, 6 publicados em 07/10/2026 (+ nota da PUB-ALL-1 em 420-422). Linhas remedidas na rodada 4. |
+| docs/README.md | 416-419 | "conferido contra a API pública em 01/10/2026" | 1 | reconferido por endpoint em 16/10/2026 |
+| docs/README.md | 447 | dependência declarada como `BetterCombatText 0.1.1 → BetterFont 1.0.2`; o estado real é `RSTV → RealmApi-0.1.0` (não resolvível) | 1, 2 | reescrito |
+| docs/README.md | 383, 480-486, 552-556, 562-565 | linha de ferramenta + bloco bash do envio local + contagem do gate | 1, 2 | A5 e A3 (a contagem do gate ganhou o carimbo `HEAD` × árvore em `B1.2`) |
 
 ### `docs/AMBIENTE.md`
 
@@ -189,7 +221,7 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 
 | comando | resultado |
 |---|---|
-| `python tools/pack-thunderstore.py --listar-nomes` | **9** nomes na árvore de trabalho (com `RealmApi`, frente PKG-API-1 não commitada); o empacotador **versionado** devolve **8** e o gate `release/mods.json` continua com 8. Ver §6. |
+| `python tools/pack-thunderstore.py --listar-nomes` | **9** nomes na árvore de trabalho (com `RealmApi`, frentes PKG-API-1/PUB-API-2 não commitadas); o empacotador **versionado** devolve **8**, o gate `release/mods.json` **em `HEAD`** tem **8** entradas e o gate **da árvore** tem **9**. Ver §6. |
 | `python tools/check_versoes.py` | exit 0; na árvore de trabalho cobre **9** pacotes (inclui `api`/`RealmApi`) e reporta os quatro lugares alinhados — `0.1.3 / 1.0.3 / 0.1.0 / 1.0.2 / 0.1.4 / 0.1.3 / 0.3.4 / 0.1.1 / api 0.1.0`. O arquivo está sob edição de outra frente (sem commit). |
 | `python tools/check_dependencias.py --local` | exit 1: `FALHA RoguelikeSkillTreeVisualizer: depende de DefRuivo_StolenRealmMods-RealmApi-0.1.0, que NAO existe na Thunderstore` — o upload do RSTV seria recusado hoje |
 | API por pacote (`/api/experimental/package/DefRuivo_StolenRealmMods/<nome>/`) | HTTP **200** para os 6 publicados — `BetterCombatText 0.1.2`, `BetterFont 1.0.3`, `BetterStats 1.0.2`, `BetterTooltips 0.1.4`, `RoguelikeDebugger 0.1.2`, `RSTV 0.3.3`; HTTP **404** para `BetterPortuguese`, `RoguelikeUnlimitedLevelProgression` e `RealmApi` |
@@ -200,13 +232,13 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 | `grep BepInDependency RoguelikeSkillTreeVisualizer/Plugin.cs` | `[BepInDependency(ApiGuid, ApiVersionMinima)]` — hard, mínimo 0.1.0 |
 | `git diff --check` nos arquivos desta frente | sem erro (só o aviso LF/CRLF do git no Windows) |
 | `git check-ignore -v STATUS.md` | `.gitignore:20:*.md` — `STATUS.md` e os cinco inventários da raiz **não são versionados** |
-| Links relativos dos 12 documentos vivos editados | **103 links, 9 quebrados**, todos `docs/img/*.png` no `README.md`, nas linhas **392, 402, 408, 413, 442, 456, 462, 539, 549** (âncoras remedidas depois das edições desta rodada; `grep -n "docs/img/" README.md`) |
+| Links relativos dos 12 documentos vivos editados | **105 links, 9 quebrados**, todos `docs/img/*.png` no `README.md`, nas linhas **394, 404, 410, 415, 444, 458, 464, 541, 551** (carimbado na rodada 4, 16/10/2026; medido com o mesmo script sobre `HEAD:arquivo` e sobre a árvore — deu **105/9 nos dois**, então as edições desta frente não criaram nem removeram link; a contagem antiga de "103" estava com escopo/regex diferente) |
 | `git show HEAD:tools/publish-thunderstore.sh` | confirmado: laço `for z in dist/gumatos-*.zip` e header de autorização literal — a base do texto "legado" |
 | `git log --format='%h %ci %s' -3` | `39852b7 2026-10-16 13:58:21 PUB-ALL-1 …` e `844bba8 2026-10-16 13:49:58 DOC-REV …` — a base do A8 |
 
 ## 5. O que PRECISA DE DECISÃO DO DONO
 
-1. **9 capturas pendentes (classe 4).** `README.md` linhas **392, 402, 408, 413, 442, 456, 462, 539, 549**
+1. **9 capturas pendentes (classe 4).** `README.md` linhas **394, 404, 410, 415, 444, 458, 464, 541, 551**
    apontam para `docs/img/*.png` que não existem (a pasta tem só `LEIA-ME.txt` e dois PNG de fonte de
    ícone, sem nenhuma captura de uso). O próprio `docs/img/LEIA-ME.txt` declara esse estado como
    pendente, então **não apaguei nem converti em nota**: decidir entre tirar as 9 capturas (nomes já
@@ -218,8 +250,11 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
    `tools/`** (fora do escopo documental) — precisa de tarefa própria.
 3. **`release/mods.json` contradiz a documentação corrigida.** Os campos `motivo` e
    `ordem_de_envio.caso_de_hoje` ainda falam de `BetterCombatText 0.1.1` → `BetterFont 1.0.2` (leva de
-   01/10) e o arquivo **não registra** `RealmApi`. Não editei (é o gate, com frente própria; a DEP-REV
-   §8.3 também apontou). A doc agora diz isso de forma explícita (A1), em vez de repetir o texto velho.
+   01/10/2026). O **registro** do `RealmApi` existe na **árvore** desde 16/10 (entrada `publicar: false`
+   da `PUB-API-2`, ver `B1`), mas **em `HEAD` não existe** — foi exatamente o que gerou o achado `B1`:
+   a doc tem de dizer de qual dos dois estados está falando. Não editei o gate (é frente própria; a
+   DEP-REV §8.3 também apontou o texto velho). A doc agora diz isso de forma explícita (A1 e §1B), em
+   vez de repetir o texto velho.
 4. **`api/manifest.json` é novo e não versionado**, e o `audita_docs` o reprova com "api: versao diverge
    entre manifest/csproj/plugin" — falso positivo de layout: o auditor procura `<Mod>/<Mod>.csproj` e
    `<Mod>/Plugin.cs` na raiz da pasta, e a API tem `api/Plugin/RealmApi.csproj`. O `check_versoes.py`
@@ -235,17 +270,20 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
    (é README de mod).
 8. **PUB-ALL-1 bumpou 3 mods sem publicar** (`BetterCombatText 0.1.3`, `RoguelikeDebugger 0.1.3`,
    `RSTV 0.3.4`): a doc agora diz explicitamente que a versão no disco está à frente da publicada
-   (`docs/README.md:416-418`). Quando o lote sair, essas tabelas precisam de nova passada — é o mesmo
+   (`docs/README.md:420-422`). Quando o lote sair, essas tabelas precisam de nova passada — é o mesmo
    risco de deriva do A8.
-9. **Fotografias datadas mantidas de propósito:** `docs/README.md:421-430` (adendo de 12/10),
-   `docs/README.md:466-471` (aviso de cache da API, 30/09), `docs/README.md:433-448` (bloco "6 mods,
-   01/10/2026") e `README.md:696` ("empacotador conhece 6 mods, medido em 30/09/2026"). São verdadeiras
+9. **Fotografias datadas mantidas de propósito:** `docs/README.md:425-434` (adendo de 12/10),
+   `docs/README.md:470-475` (aviso de cache da API, 30/09), `docs/README.md:437-452` (bloco "6 mods,
+   01/10/2026") e `README.md:698` ("empacotador conhece 6 mods, medido em 30/09/2026"). São verdadeiras
    para a data declarada e ficam ao lado do estado corrente; decidir se vale carimbá-las mais
    explicitamente como foto.
 10. **`tools/publish-thunderstore.sh`** (envio local) não lê o gate, envia todos os `dist/gumatos-*.zip`
     e usa o header de autorização sem a variável `TOKEN` lida no início. Há frente em andamento
     (PKG-API-1, **não commitada** em 16/10) que faz o script ler o ledger. A doc diz para **não** usar
     como caminho seguro até essa frente estar commitada e provada; testar/corrigir o script é tarefa própria.
+    Pelo mesmo motivo, **`release/mods.json` está `M` na árvore** (nona entrada, `RealmApi`, da
+    `PUB-API-2`, não commitada) — decidir o que fazer com o carimbo `HEAD` × árvore quando a entrada
+    subir de verdade, e se o `motivo`/`ordem_de_envio.caso_de_hoje` do gate (item 3) serão regerados.
 11. **Seis arquivos do escopo não são versionados** (`.gitignore:18-21`): `STATUS.md` e os cinco
     inventários da raiz. O cartão os trata como "documentação viva", mas quem clona o repositório não os
     recebe — as correções desta frente em `STATUS.md` valem só nesta máquina. Decidir se esse é o desenho
@@ -258,19 +296,29 @@ empacotador a reconhecer o layout aninhado da RealmApi) quando esta revisão com
 `tools/pack-thunderstore.py` (+352 linhas), `tools/publish-thunderstore.sh` (+155),
 `tools/check_versoes.py` (+7) e `.github/workflows/publish.yml` (+100). Nenhum deles está commitado.
 Na árvore de trabalho, `python tools/pack-thunderstore.py --listar-nomes` já devolve **9** nomes (com
-`RealmApi`), enquanto o empacotador versionado devolve 8 e o gate `release/mods.json` continua com 8.
+`RealmApi`), enquanto o empacotador versionado devolve 8.
 
-Por isso as linhas de documentação que falam do empacotador foram escritas para o **estado versionado**
-com a nota explícita da frente em andamento — nenhuma afirmação depende de código não commitado:
+**`release/mods.json` entra nesta lista na rodada 4** (o achado `B1` nasceu justamente porque ele não
+estava aqui): está `M` na árvore desde as 14:06 de 16/10, com a nona entrada (`RealmApi`,
+`publicar: false`) acrescentada pela `PUB-API-2`. Portanto: gate **em `HEAD`** = **8** entradas
+(6 `true` + 2 `false`); gate **da árvore** = **9** (6 `true` + 3 `false`); `--listar-nomes` **da árvore**
+= **9** (bate com o gate da árvore). O gate **não** foi reescrito por esta revisão.
 
-- `README.md:197-199` ("the versioned packager does not discover that module…");
-- `docs/README.md:32-43` (o parágrafo dos 8 nomes + o aviso da árvore de trabalho);
-- `docs/ESTRUTURA.md:12` (linha do `api/` no layout canônico);
+Por isso as linhas de documentação que falam do empacotador/gate foram escritas para o **estado
+versionado** com o carimbo explícito do referente e a nota da frente em andamento — nenhuma afirmação
+depende de código não commitado:
+
+- `README.md:195-201` ("the versioned packager does not discover that module… `at HEAD` does not gate it");
+- `docs/README.md:32-43` (o parágrafo dos 8 nomes + o aviso da árvore de trabalho: 9/9);
+- `docs/README.md:552-556` (a contagem do gate);
+- `docs/ESTRUTURA.md:7` e `:12` (a descoberta e o gate; linha do `api/` no layout canônico);
+- `docs/PUBLICACAO.md:9-18` e `:287-290` (estado conferido e travas do gate);
 - `docs/PUBLICACAO.md:383-394` (envio local legado);
 - `docs/README.md:383` (a linha do `publish-thunderstore.sh` na tabela de ferramentas).
 
-**Quando a PKG-API-1 fechar, revisar essas cinco passagens** (o número "8" e a frase "não é descoberta
-pelo empacotador" passam a valer só para o gate). Hotspot declarado em comentário no cartão.
+**Quando a PKG-API-1 e a PUB-API-2 forem commitadas, revisar essas passagens** — o número "8" e a frase
+"não é descoberta pelo empacotador" passam a valer só para `HEAD`, e o carimbo pode voltar a ser um
+número único. Hotspot declarado em comentário no cartão.
 
 ## 7. Travas respeitadas
 
@@ -279,5 +327,6 @@ pelo empacotador" passam a valer só para o gate). Hotspot declarado em comentá
 - `docs/automacao/**` (fora deste arquivo de entrega) e `docs/cobertura/**` não foram revisados nem tocados.
 - Não houve build, deploy, ciclo de jogo, publicação, push de release nem criação de tarefa.
 - Alterações de outras frentes encontradas no checkout (manifests, CHANGELOGs, ícones, código do RLP,
-  `api/*`, `tools/*`, `.github/*`, relatórios históricos, `harness-out/`, `kanban.db`,
+  `api/*`, `tools/*`, `.github/*`, `release/mods.json` — a nona entrada do `RealmApi`, da `PUB-API-2` —,
+  relatórios históricos, `harness-out/`, `kanban.db`,
   `tools/preparar_revisao_dono.py`) foram preservadas intactas e ficaram fora do stage.

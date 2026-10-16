@@ -29,17 +29,21 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | `RSTV-ANALISE.md` | mantenedor | Pontos de ancoragem do `RoguelikeSkillTreeVisualizer` (RSTV-1) no **decompilado** do jogo: onde a UI que o mod toca é montada, com `arquivo:linha` em cada afirmação. É análise, não implementação. |
 | `cobertura/` | mantenedor | O **censo** do que existe para revisar (CSVs) e os relatórios de revisão. Ver §2. |
 
-Em 16/10/2026 o empacotador versionado descobre **8** mods na raiz — `BetterCombatText`, `BetterFont`,
+Em 16/10/2026 o empacotador **versionado** (`HEAD`) descobre **8** mods na raiz — `BetterCombatText`, `BetterFont`,
 `BetterPortuguese`, `BetterStats`, `BetterTooltips`, `RoguelikeDebugger`,
-`RoguelikeSkillTreeVisualizer` e `RoguelikeUnlimitedLevelProgression` (a mesma lista de oito nomes está no
-gate [`release/mods.json`](../release/mods.json)). Cada um tem projeto e
+`RoguelikeSkillTreeVisualizer` e `RoguelikeUnlimitedLevelProgression` (os mesmos oito nomes estão no
+gate [`release/mods.json`](../release/mods.json) **em `HEAD`**: **6** com `publicar: true` e **2** com
+`publicar: false`). Cada um tem projeto e
 metadados próprios; seis estão publicados. `RoguelikeBalance` não existe na árvore atual.
 A [RealmApi própria](../api/README.md) existe em `api/` e é consumida pelo **fonte atual** do RSTV
 (UI clone/clique, dependência obrigatória ≥ 0.1.0): seu projeto é `api/Plugin/RealmApi.csproj` e o
-runtime tem três assemblies. **Atenção ao ler este parágrafo na árvore de trabalho:** em 16/10/2026 há
-uma frente em andamento (PKG-API-1) que ensina o empacotador a reconhecer esse layout — na árvore local
-`--listar-nomes` já imprime **nove** nomes (com `RealmApi`), enquanto o gate segue com oito e a API
-continua fora da Thunderstore. Estado correto = o de `release/mods.json` (oito, nenhum RealmApi).
+runtime tem três assemblies. **Atenção ao ler este parágrafo na árvore de trabalho (16/10/2026):** há
+frentes em andamento que ensinam o empacotador a reconhecer esse layout (PKG-API-1) e que já
+acrescentaram no gate local uma entrada **travada** para o módulo (PUB-API-2). Na árvore,
+`--listar-nomes` imprime **nove** nomes e o gate local `release/mods.json` tem **nove** entradas — a
+nona é `RealmApi`, `publicar: false`, `versao_publicada: null` (preparação, **não** autoriza envio),
+e a API continua **fora da Thunderstore**. Estado **versionado** = 8 nomes e 8 entradas; estado **da
+árvore** = 9 e 9.
 Compilar a API em Release antes do RSTV; não confundir fonte local com o ZIP publicado de mesmo número.
 A descrição de cada mod e o que ele **não** faz está no
 `README.md` da pasta do mod; o que cada um faz em uma linha, a versão no disco e o estado
@@ -550,9 +554,10 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
-sair é o gate versionado [`release/mods.json`](../release/mods.json) (**8** entradas: **6** com
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (**8** entradas **em `HEAD`**: **6** com
 `publicar: true` — as que foram publicadas em 07/10/2026 — e **2** com `publicar: false`,
-`BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`); a **leva de 01/10/2026** é que subiu BetterFont **1.0.1**, BetterStats
+`BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`; na **árvore de trabalho** de 16/10 o gate
+local já tem **9**, com a entrada travada do `RealmApi` — preparação, não autoriza envio); a **leva de 01/10/2026** é que subiu BetterFont **1.0.1**, BetterStats
 **1.0.1**, BetterTooltips **0.1.1**, RoguelikeDebugger **0.1.1**, RoguelikeSkillTreeVisualizer **0.2.0**
 e BetterCombatText **0.1.0** — são as versões **daquela leva**, não as correntes (a versão publicada
 corrente de cada mod é o `versao_publicada` do próprio `release/mods.json`); a lista tem de bater

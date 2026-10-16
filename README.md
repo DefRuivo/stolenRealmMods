@@ -195,8 +195,10 @@ October 7, 2026; BetterPortuguese and RoguelikeUnlimitedLevelProgression remain 
 The current RSTV source has a hard dependency on [RealmApi 0.1.0](api/README.md): build
 `api/Plugin/RealmApi.csproj` in Release first, even for a Debug RSTV build. The API runtime
 needs `RealmApi.dll`, `RealmApi.Core.dll` and `RealmApi.Hooks.dll` together; the versioned
-packager does not discover that module, and `release/mods.json` does not gate it (a work-in-progress
-branch in the local tree already teaches the packager this layout — the gate stays the authority).
+packager does not discover that module, and `release/mods.json` **at `HEAD`** does not gate it (in the
+local working tree the packager already recognizes this layout and the local gate already carries a
+locked `RealmApi` entry — nine names and nine entries there — but that entry is preparation only, **not**
+authorization to publish: the package is still `HTTP 404` on Thunderstore).
 Do not distribute a source build as if it were the
 published 0.3.3 package. [Current package table and limits](docs/README.md#pacote-thunderstore--r2modman).
 

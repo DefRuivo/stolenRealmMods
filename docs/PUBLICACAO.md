@@ -6,11 +6,16 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado conferido em 16/10/2026:** `--listar-nomes` e `release/mods.json` têm **8** entradas:
+**Estado conferido em 16/10/2026:** o empacotador **versionado** (`HEAD`) e o gate `release/mods.json`
+**em `HEAD`** têm **8** entradas:
 seis publicadas em 07/10/2026 (BetterCombatText 0.1.2, BetterFont 1.0.3, BetterStats 1.0.2,
 BetterTooltips 0.1.4, RoguelikeDebugger 0.1.2, RSTV 0.3.3), mais BetterPortuguese 0.1.0 e
 RoguelikeUnlimitedLevelProgression 0.1.1 bloqueados (`publicar:false`). Fonte atual do RSTV
-consome RealmApi 0.1.0; a API ainda não é descoberta nem consta do gate. Não distribuir esse
+consome RealmApi 0.1.0; a API **não** é descoberta pelo empacotador versionado. Na **árvore de
+trabalho**, porém, as frentes PKG-API-1 e PUB-API-2 já deixaram **9** nomes em `--listar-nomes` e
+**9** entradas no gate local (a nona é `RealmApi`, `publicar: false`, `versao_publicada: null`: é
+entrada de preparação e **não** autoriza envio) — e a API continua **fora da Thunderstore**
+(`HTTP 404` no endpoint por pacote). Não distribuir esse
 fonte como se fosse o ZIP publicado só porque o número de versão coincide. Os campos de motivo
 e `caso_de_hoje` do gate ainda contêm versões antigas; valem os campos estruturados e a
 confirmação pública, sem reescrever esse gate nesta frente documental.
@@ -280,8 +285,9 @@ revisável no diff:
   "publicado_em": "2026-10-07T21:24:48.179123Z", "motivo": "PUBLICAR 1.0.2 (...) — texto longo, no arquivo" }
 ```
 *(trecho **real** do arquivo, com o `motivo` abreviado: o `BetterFont` é `publicar: true` e está no ar
-na `1.0.3`. As duas entradas travadas — `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression` — são
-as únicas com `publicar: false` e `versao_publicada: null`.)*
+na `1.0.3`. As entradas travadas com `publicar: false` e `versao_publicada: null` são **2 em `HEAD`** —
+`BetterPortuguese` e `RoguelikeUnlimitedLevelProgression` — e **3 na árvore de trabalho** de 16/10, onde
+a entrada de preparação do `RealmApi` já consta.)*
 
 - **`publicar: true`** é o que libera. O pipeline publica **só** o que estiver `true`.
 - **`publicar: false`** nunca é enviado — nem se você escolher o mod a dedo no disparo
