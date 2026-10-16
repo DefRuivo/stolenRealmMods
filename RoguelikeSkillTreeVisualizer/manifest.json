@@ -1,10 +1,11 @@
 {
   "name": "RoguelikeSkillTreeVisualizer",
-  "version_number": "0.3.3",
+  "version_number": "0.3.4",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Adds a 'Skills' button (run HUD bottom bar, Remove Skill Trees modal and the level-up window) that opens the game's native skill tree read-only for the character in view, plus the shortcut F10. No skill point is spent; no gameplay change.",
   "dependencies": [
-    "BepInEx-BepInExPack-5.4.2305"
+    "BepInEx-BepInExPack-5.4.2305",
+    "DefRuivo_StolenRealmMods-RealmApi-0.1.0"
   ],
   "extra": {
     "author": "gumatos"

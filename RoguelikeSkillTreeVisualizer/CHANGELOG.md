@@ -3,7 +3,16 @@
 `RSTV-nn` codes are the change identifiers used across this mod's notes; an `F` suffix marks a fix
 that came out of a review.
 
-## 0.3.3 — right numbers in the read-only window, the party screen loses its button, the run button moves home
+> Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
+> CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
+
+## 0.3.4 — 2026-10-16
+
+- **RealmApi UI integration (INT-R1-C4, commit `097f950`, 2026-10-11):** cloning native UI and binding button clicks now go through `UIFactory.Clone` / `UIFactory.BindClick`, with a lazy explicit `UiFamily.Bind(..., allowMutation: true)`. TextMeshPro, prefab-listener clearing and the visual composition remain in this mod; no silent local fallback is added.
+- **New hard runtime dependency:** `[BepInDependency]` requires `com.gumatos.realmapi` version 0.1.0 or newer. The API is built/installed separately; its assemblies are not copied into this mod's plugin folder. Without the API, BepInEx refuses to load this source build.
+- **Version:** 0.3.3 -> **0.3.4**, in the four places that carry it (the `.csproj` `<Version>`, the `manifest.json` version_number, the `Version` constant behind `[BepInPlugin(...)]` and the README version line), and in the manifest `dependencies`, which now declares `DefRuivo_StolenRealmMods-RealmApi-0.1.0` (the dependency audit DEP-REV, 2026-10-16). The **published** 0.3.3 package declares only BepInEx and its 2026-10-07 DLL predates this integration; the 0.3.4 package is the one that ships the RealmApi dependency and the new DLL. **Publishing order:** the API must resolve on Thunderstore **before** this mod (an unresolved reference is refused at upload with `No matching package found`).
+
+## 0.3.3 — 2026-10-07 — right numbers in the read-only window, the party screen loses its button, the run button moves home
 
 **In one sentence:** the read-only tree now shows damage, expressions and the tooltip footer
 (mana / cooldown / range / duration) with the numbers of **the character the window is showing**,

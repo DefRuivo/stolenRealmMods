@@ -4,9 +4,9 @@ Makes combat text easier to read: an **outline** around the letters on enemy nam
 buff/debuff labels, plus the **dice text** in roll events. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettercombattext`
-- **Version:** 0.1.2
+- **Version:** 0.1.3
 - **Works with:** Stolen Realm v1.3.1.
-- **Needs:** BepInEx 5 and **BetterFont**.
+- **Needs:** BepInEx 5. **BetterFont is optional** — see *Together with BetterFont*.
 
 ## What it does
 
@@ -46,7 +46,12 @@ BetterFont swaps the interface font for a serif one and re-applies the effect on
 per-text material. The combat texts run on a **different shader variant** than the serif
 font uses; since **BetterFont 1.0.2** that is not a refusal any more (the style properties
 exist in both), so with both mods on those texts get **both**: the serif face and the
-halo/shadow applied here. The dependency of this package points at that version.
+halo/shadow applied here. **This package declares no dependency on BetterFont** — the
+manifest lists only `BepInEx-BepInExPack-5.4.2305`. The two mods work together when both are
+installed, but neither needs the other: this one works on whatever font is in use, and
+BetterFont without this mod simply leaves the combat texts on the original font. (Until
+0.1.2 the package did declare `BetterFont`; the dependency audit DEP-REV removed it on
+2026-10-16 because no code here references that mod.)
 
 Only an effect the copy cannot reproduce — a real face texture, bevel, glow — leaves a
 text **untouched**, the safe choice, with the reason named in BetterFont's log. To force

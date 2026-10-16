@@ -1,0 +1,35 @@
+{
+  "BetterCombatText": {
+    "old_version": "0.1.2",
+    "new_version": "0.1.3",
+    "dll_new": "024831980fb99ba88c3e4c447010929d36152258444d658f754efd711b9409f7",
+    "dll_new_size": 50176,
+    "old_zip": "gumatos-BetterCombatText-0.1.2.zip",
+    "dll_old": "d3fc0c1ba8d710edaa0be9f4d311202c41bc6abb6e814957c990f3fce34009e1",
+    "dll_equal": false
+  },
+  "RoguelikeDebugger": {
+    "old_version": "0.1.2",
+    "new_version": "0.1.3",
+    "dll_new": "43aa414e300de4cd525ca5a636ffb301a3cb6642dd646a4144f9d6f6d6ccff96",
+    "dll_new_size": 68096,
+    "old_zip": "gumatos-RoguelikeDebugger-0.1.2.zip",
+    "dll_old": "7465a7e04c5de3cc5a79fd16ad870bf51da0be1326977d67acc2a1ece86f51f4",
+    "dll_equal": false
+  },
+  "RoguelikeSkillTreeVisualizer": {
+    "old_version": "0.3.3",
+    "new_version": "0.3.4",
+    "dll_new": "cd1517f38fcfca957124d3e4d69d836906f43031f89d261e2319a5f8ec0fe346",
+    "dll_new_size": 101376,
+    "old_zip": "gumatos-RoguelikeSkillTreeVisualizer-0.3.3.zip",
+    "dll_old": "329fbf71d42288f389d62028e1c157d7ffbda645674d5142a13fcdccfb3ad2c1",
+    "dll_equal": false
+  },
+  "RoguelikeUnlimitedLevelProgression": {
+    "old_version": null,
+    "new_version": "0.1.1",
+    "dll_new": "bff477bd26a85df06f0f1ee7887da429e3053a7c91b7434eb7ab158fe287e4e3",
+    "dll_new_size": 68608
+  }
+}

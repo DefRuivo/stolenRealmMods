@@ -1,0 +1,70 @@
+{
+  "gumatos-BetterCombatText-0.1.3.zip": {
+    "sha256": "ef6f1bd8c393ddcac92c54961cbf19f7d51ab7f3d42a3dfbd7723c2d4e747208",
+    "bytes": 158144,
+    "files": 5,
+    "manifest_name": "BetterCombatText",
+    "version_number": "0.1.3",
+    "dependencies": [
+      "BepInEx-BepInExPack-5.4.2305"
+    ],
+    "dlls": {
+      "plugins/BetterCombatText/BetterCombatText.dll": "024831980fb99ba88c3e4c447010929d36152258444d658f754efd711b9409f7"
+    }
+  },
+  "gumatos-RoguelikeDebugger-0.1.3.zip": {
+    "sha256": "c615a868ed7a34f0364b6bdae8da39d39a1d0a275517a8b9db490ca3ee298a84",
+    "bytes": 136247,
+    "files": 5,
+    "manifest_name": "RoguelikeDebugger",
+    "version_number": "0.1.3",
+    "dependencies": [
+      "BepInEx-BepInExPack-5.4.2305"
+    ],
+    "dlls": {
+      "plugins/RoguelikeDebugger/RoguelikeDebugger.dll": "43aa414e300de4cd525ca5a636ffb301a3cb6642dd646a4144f9d6f6d6ccff96"
+    }
+  },
+  "gumatos-RoguelikeSkillTreeVisualizer-0.3.4.zip": {
+    "sha256": "cc2f0a2e94137071609657bbaba3a05fec1ae0178352a4ff2348ad19458dd225",
+    "bytes": 108237,
+    "files": 5,
+    "manifest_name": "RoguelikeSkillTreeVisualizer",
+    "version_number": "0.3.4",
+    "dependencies": [
+      "BepInEx-BepInExPack-5.4.2305",
+      "DefRuivo_StolenRealmMods-RealmApi-0.1.0"
+    ],
+    "dlls": {
+      "plugins/RoguelikeSkillTreeVisualizer/RoguelikeSkillTreeVisualizer.dll": "cd1517f38fcfca957124d3e4d69d836906f43031f89d261e2319a5f8ec0fe346"
+    }
+  },
+  "gumatos-RoguelikeUnlimitedLevelProgression-0.1.1.zip": {
+    "sha256": "ed42ec6de5ebcb07a0442aaf44f86881a53c4e61fe7b92e01b60bc35087af429",
+    "bytes": 141819,
+    "files": 5,
+    "manifest_name": "RoguelikeUnlimitedLevelProgression",
+    "version_number": "0.1.1",
+    "dependencies": [
+      "BepInEx-BepInExPack-5.4.2305"
+    ],
+    "dlls": {
+      "plugins/RoguelikeUnlimitedLevelProgression/RoguelikeUnlimitedLevelProgression.dll": "bff477bd26a85df06f0f1ee7887da429e3053a7c91b7434eb7ab158fe287e4e3"
+    }
+  },
+  "gumatos-RealmApi-0.1.0.zip": {
+    "sha256": "de9352478f4411b5ad5e7ec4f001140ff65d13d7a5cfe5a157f624b9c2a570a9",
+    "bytes": 142471,
+    "files": 8,
+    "manifest_name": "RealmApi",
+    "version_number": "0.1.0",
+    "dependencies": [
+      "BepInEx-BepInExPack-5.4.2305"
+    ],
+    "dlls": {
+      "plugins/RealmApi/RealmApi.Core.dll": "d4e72f24e4e7c503bdd32c200b4bfa7635a1529b09451e2a35b5400547d32fb2",
+      "plugins/RealmApi/RealmApi.Hooks.dll": "86d7fcf0012e1a611b42e96081609704a23a0129cc9918b3f1004c14a816778a",
+      "plugins/RealmApi/RealmApi.dll": "764b72d84a976a534292a518d14177b76fdede070bf9979e649efc5df25d19d7"
+    }
+  }
+}

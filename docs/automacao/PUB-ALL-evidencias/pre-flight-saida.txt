@@ -1,0 +1,77 @@
+### pack-thunderstore.py --so-conferir
+Repo : C:\dev\stolen-realm
+Build: Release  (a DLL vem de <Mod>/bin/Release/netstandard2.1/)
+Modo : --so-conferir  (pre-flight inteiro, NADA e empacotado)
+
+== conferindo (artefato x fonte, build Release, versao unica, manifest, icon) ==
+  ok    BetterCombatText   v0.1.3  | BetterCombatText\bin\Release\netstandard2.1\BetterCombatText.dll
+  ok    BetterFont         v1.0.3  | BetterFont\bin\Release\netstandard2.1\BetterFont.dll
+  ok    BetterPortuguese   v0.1.0  | BetterPortuguese\bin\Release\netstandard2.1\BetterPortuguese.dll
+  ok    BetterStats        v1.0.2  | BetterStats\bin\Release\netstandard2.1\BetterStats.dll
+  ok    BetterTooltips     v0.1.4  | BetterTooltips\bin\Release\netstandard2.1\BetterTooltips.dll
+  ok    RealmApi           v0.1.0  | api\Plugin\bin\Release\netstandard2.1\RealmApi.dll
+  ok    RoguelikeDebugger  v0.1.3  | RoguelikeDebugger\bin\Release\netstandard2.1\RoguelikeDebugger.dll
+  ok    RoguelikeSkillTreeVisualizer v0.3.4  | RoguelikeSkillTreeVisualizer\bin\Release\netstandard2.1\RoguelikeSkillTreeVisualizer.dll
+  ok    RoguelikeUnlimitedLevelProgression v0.1.1  | RoguelikeUnlimitedLevelProgression\bin\Release\netstandard2.1\RoguelikeUnlimitedLevelProgression.dll
+
+Pre-flight verde para 9 mod(s). Nada foi empacotado (--so-conferir).
+EXIT=0
+
+### check_versoes.py
+  Plugin.cs  const PluginVersion =               0.1.1
+  README.md  - **Version:**                      0.1.1
+
+  ==> os 9 mods batem nos quatro lugares (csproj = manifest = Plugin.cs = README)
+EXIT=0
+
+### valida_pacotes.py
+valida_pacotes - metadados dos pacotes Thunderstore (nao compila nada)
+pasta do repo: C:\dev\stolen-realm
+
+ok    BetterCombatText                 0.1.3    desc=191  icone=256x256, 124954 bytes
+ok    BetterFont                       1.0.3    desc=212  icone=256x256, 87821 bytes
+ok    BetterPortuguese                 0.1.0    desc=181  icone=256x256, 121749 bytes
+ok    BetterStats                      1.0.2    desc=178  icone=256x256, 91250 bytes
+ok    BetterTooltips                   0.1.4    desc=190  icone=256x256, 100373 bytes
+ok    RoguelikeDebugger                0.1.3    desc=172  icone=256x256, 99954 bytes
+ok    RoguelikeSkillTreeVisualizer     0.3.4    desc=238  icone=256x256, 57013 bytes
+ok    RoguelikeUnlimitedLevelProgression 0.1.1    desc=201  icone=256x256, 104131 bytes
+ok    api (pacote RealmApi)            0.1.0    desc=165  icone=256x256, 107728 bytes
+
+FALHA dependencias (resolucao PKG-5) - o upload seria recusado pela Thunderstore (No matching package found)
+        - RoguelikeSkillTreeVisualizer: depende de DefRuivo_StolenRealmMods-RealmApi-0.1.0, que NAO existe na Thunderstore (No matching package found for reference)
+
+pacotes validados: 9 | com problema: 1
+==> corrigir os itens acima antes de publicar
+EXIT=1
+
+### check_dependencias.py --local
+check_dependencias - toda dependencia tem de RESOLVER antes do envio (PKG-5)
+fonte do 'ja publicado': release/mods.json + BepInExPack (offline)
+mods deste repo: BetterCombatText, BetterFont, BetterPortuguese, BetterStats, BetterTooltips, RoguelikeDebugger, RoguelikeSkillTreeVisualizer, RoguelikeUnlimitedLevelProgression, api
+
+  ok    BetterCombatText: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    BetterFont: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    BetterPortuguese: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    BetterStats: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    BetterTooltips: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    RoguelikeDebugger: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    RoguelikeSkillTreeVisualizer: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    RoguelikeUnlimitedLevelProgression: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+  ok    api: BepInEx-BepInExPack-5.4.2305 (ja publicada)
+
+  FALHA RoguelikeSkillTreeVisualizer: depende de DefRuivo_StolenRealmMods-RealmApi-0.1.0, que NAO existe na Thunderstore (No matching package found for reference)
+
+ordem de envio (dependencia ANTES do dependente):
+   1. BetterCombatText
+   2. BetterFont
+   3. BetterPortuguese
+   4. BetterStats
+   5. BetterTooltips
+   6. RoguelikeDebugger
+   7. RoguelikeSkillTreeVisualizer
+   8. RoguelikeUnlimitedLevelProgression
+   9. api
+
+==> 1 dependencia(s) NAO resolvem - o upload seria recusado pela Thunderstore (No matching package found).
+EXIT=1

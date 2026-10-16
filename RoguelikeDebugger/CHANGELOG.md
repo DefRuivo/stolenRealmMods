@@ -1,10 +1,19 @@
 # Changelog — RoguelikeDebugger
 
 > Ferramenta de **desenvolvimento**, não mod de jogador.
+> Datas de publicação em ISO 8601 (BRT, UTC−03:00); títulos antigos sem data não afirmam data de lançamento.
+> Auditoria documental CHG-REV: 2026-10-16. Correções locais não alteram ZIPs já publicados.
 
-## 0.1.2
+## 0.1.3 — 2026-10-16
 
-**Nada muda no jogo: o que muda é o TEXTO do log.** Esta versão leva o que ficou pronto depois de a 0.1.1 subir (01/10) — o dump de status mais completo e resistente, a instrumentação de uma investigação aberta e o texto público em inglês.
+- **Proveniência do dump (DBG-R2, commit `097f950`, 2026-10-11):** cabeçalho `DBG-PROV-V1` antes dos patches com identidade do jogo/DLL e hashes; estado ABERTO/PARCIAL com ganchos realmente aplicados; rodapé FECHADO em `Application.quitting`. Falhas de medição são explícitas, não valores estimados. Sem rodapé não há prova de encerramento normal; um censo de boot não prova ausência em todos os assets/presets/localizações.
+- **RealmApi opcional:** a identidade é sondada por reflexão; sem API ou com hooks desabilitados, a ferramenta mantém medição local. Não se tornou dependência obrigatória.
+- **Modo de leitura explícito:** a nova proveniência classifica a matriz Flame **já existente**: ela usa `Game.EvalVoid` e registra expressões em `MissingExpressions`; portanto a sessão com essa matriz é marcada como leitura **ativa**, não observação passiva estrita. Não muda atributos dos personagens, mas não é literalmente só texto no log.
+- **Versão:** 0.1.2 -> **0.1.3** nos quatro lugares que a carregam (o `<Version>` do `.csproj`, o `version_number` do `manifest.json`, o literal de `[BepInPlugin(...)]` e a linha de versão do README). Estas mudanças estavam na fonte identificada como 0.1.2 e **não** estavam na DLL publicada em 2026-10-07; a 0.1.3 é o pacote que as leva, com a DLL reconstruída da fonte atual.
+
+## 0.1.2 — 2026-10-07
+
+**Sem mudança intencional de gameplay; dump e instrumentação mudaram.** A matriz não é observação passiva estrita: chama `Game.EvalVoid`, registra expressões em `MissingExpressions` e restaura `Game.CurrentGameFunctionParameters`, sem alterar atributos dos personagens. Esta versão leva o dump RD-2/RD-2F, a instrumentação de uma investigação aberta e o texto público em inglês.
 
 - **O dump de status não trunca mais por campo (RD-2F).** Antes havia um `try/catch` ÚNICO em volta do laço inteiro: uma exceção em qualquer campo (os campos novos leem arrays `IEffectInfo[]` por reflexão) abortava o laço e **o resto dos statuses sumia do log em silêncio**. Agora cada campo sai sob guarda e a falha vira um **marcador no próprio campo** (`!erro:<Tipo>`) — a linha e todas as seguintes saem normalmente. O laço também itera uma **CÓPIA** da lista (uma inserção durante a iteração tinha o mesmo efeito). O corte por tamanho (`90`/`110` chars) saiu de vez: ele cortava a mecânica.
 - **Campos novos no `[Status]` (RD-2):** `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) e `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`). Dentro do `trigEf` do status: `~alvos=` (o campo `SkillTrigger.Targets`), `~acoes=` (as ações do gatilho **com os efeitos delas** — ação de gatilho nunca entra no inventário `[Action]`), `~chances=` e `~cd=`. Foi o `~alvos=` que respondeu a seção 7 do RV-19: `Flame Shrine Aura` dispara com `Targets="Cell.IsCurrentHex(Target)"` (`TriggerType=1`) e `Decay Shrine Aura` com `"Cell.IsCurrentHex(Source)"` (`TriggerType=4`) — o proc **não** passa pelo caminho de tick.
@@ -15,7 +24,7 @@
 
 ### O que esta versão NÃO prova
 
-- **Nenhum campo novo desta versão foi lido numa sessão de jogo.** O `[FlameRV49]` é instrumentação nova e o RV-49 continua pendente de rodada autorizada do dono; os campos do RD-2 foram medidos no asset pelo leitor offline. Quem abrir o jogo é quem confere.
+- **RD-2/RD-2F validation status at release time:** the 0.1.2 package notes only recorded offline asset inspection, not a complete in-game matrix. Subsequent boot logs do contain the new fields; that does not establish execution of the FlameRV49 proc matrix or close RV-49. This documentary audit does not reopen the game.
 
 ## 0.1.1
 
@@ -36,12 +45,9 @@
   - `desc=` continua por último e nenhum valor contém `|` ou aspas: o formato antigo não muda.
 - **A versão subiu (0.1.0 → 0.1.1) por causa da correção do aplicador acima:** a 0.1.0 que estava no ar carrega o defeito e versão publicada na Thunderstore é imutável. Este dump novo é o mesmo que estava em "Não lançado".
 
-### Dump: ganchos de tempo/aura, gatilho e expressões do status (RD-2)
+### Nota histórica de preparação do RD-2 — 2026-10-01 (não é uma segunda release)
 
-- Campos novos no `[Status]`, todos antes do `desc=`: `expr` (`DescriptionExpressions`), `danoExpr` (`DamageExpressionOverrides`), `refAcao`/`refStatus` (`TooltipDamageInfoRefAction`/`RefStatus`), `tick` (`TickTargets` + `ActionsOnTick*` + `StatusEffectsOnTick*`) e `auraSts` (`AuraSourceStatus`/`AuraTriggerStatus`).
-- O `trigEf` do status passou a publicar o **`Targets` de cada `SkillTrigger`** (`~alvos=`) e as ações do gatilho **com os próprios efeitos** (`~acoes=Nome{ef=...}`). É o que fecha a pergunta do proc das auras de shrine: `Flame Shrine Aura` → `TriggerType=1`, `Targets="Cell.IsCurrentHex(Target)"`, `Actions=[Flame Aura Proc]`; `Decay Shrine Aura` → `TriggerType=4`, `Targets="Cell.IsCurrentHex(Source)"`.
-- **A versão NÃO muda** (0.1.1 segue): são campos do mesmo dump ainda não lançado.
-- Medição no build (421 dos 424 `ActionStatusInfo` do asset — 3 não são legíveis pelo leitor offline): `expr` em 138, `refAcao`/`refStatus` em 19/7, `StatusEffectsOnTick` em 6, `auraSts` em 40 (sempre junto de `IsAura=1`) e `TickTargets`/`ActionsOnTick*` em **0** — ou seja, o proc das auras de shrine não passa pelo caminho de tick. Detalhe e `arquivo:linha`: `docs/DEBUGGER.md`.
+O commit `51a4aa5` registrou esses campos quando a fonte ainda dizia 0.1.1, com a frase "a versão NÃO muda / dump ainda não lançado". Isso deixou de descrever o estado da distribuição: `88232fe` os consolidou na 0.1.2, publicada em 2026-10-07. A lista e os limites da medição offline ficam na seção 0.1.2 acima; não são atribuídos novamente à 0.1.1.
 
 ## 0.1.0
 

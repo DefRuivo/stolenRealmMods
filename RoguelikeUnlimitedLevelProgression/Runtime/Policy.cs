@@ -44,19 +44,21 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
         /// </summary>
         public static bool CanAdvance(Character character, RoguelikeSettings settings)
         {
+            PatchRegistryEvidence.FirstHook("Policy.CanAdvance");
             int vanillaCap = XpCurve.VanillaCapLevel;
             try
             {
                 if (settings != null) vanillaCap = settings.RoguelikeMaxLevel;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                // mantem o teto vanilla conhecido
+                Log.WarnOnce("Policy.CanAdvance: settings indisponivel (" + ex.GetType().Name + "); teto vanilla conhecido usado");
             }
 
             if (character == null)
             {
                 // Sem personagem: nunca ampliar (e o filtro vanilla continua valido em 147739-147775).
+                DiagnoseOnce("character=null");
                 return false;
             }
 
@@ -68,25 +70,31 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
             catch (Exception ex)
             {
                 Log.Error("Policy.CanAdvance: falha ao montar entradas (" + ex.GetType().Name + ": " + ex.Message + "); usando comparacao vanilla");
+                DiagnoseOnce("falha ao montar entradas: " + ex.GetType().Name);
                 return Fallback(character, vanillaCap);
             }
 
             AdvanceDenial denial;
+            bool allow;
             try
             {
-                return PolicyCore.CanAdvance(in inputs, out denial);
+                allow = PolicyCore.CanAdvance(in inputs, out denial);
             }
             catch (Exception ex)
             {
                 Log.Error("Policy.CanAdvance: falha na decisao (" + ex.GetType().Name + ": " + ex.Message + "); usando comparacao vanilla");
+                DiagnoseOnce("falha na decisao: " + ex.GetType().Name);
                 return Fallback(character, vanillaCap);
             }
+
+            Diagnose(in inputs, denial, allow);
+            return allow;
         }
 
         private static bool Fallback(Character character, int vanillaCap)
         {
             try { return character.Level < vanillaCap; }
-            catch (Exception) { return false; }
+            catch (Exception ex) { return Log.Refuse("politica.Fallback", "leitura do nivel falhou: " + ex.GetType().Name, once: false); }
         }
 
         private static AdvanceInputs BuildInputs(Character character, int vanillaCap)
@@ -117,6 +125,32 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
         }
 
         /// <summary>
+        /// DIAGNOSTICO de decisao (RLP-1/RLP-2). Uma linha por recusa de ampliacao, mesmo
+        /// quando Diagnostics.Verbose=false. Verbose controla apenas decisoes positivas.
+        /// Inclui cada fato efetivo para distinguir guarda de rede/modo de falha numerica.
+        /// </summary>
+        private static void Diagnose(in AdvanceInputs i, AdvanceDenial denial, bool allow)
+        {
+            PluginState.LastDenial = denial.ToString();
+            // Recusar AMPLIACAO nao depende de Verbose, mesmo quando vanilla ainda permite
+            // avancar abaixo de 20 (VanillaScope).
+            if (allow && denial == AdvanceDenial.None && !PluginState.Verbose) return;
+            Log.Info("politica: allow=" + allow + " motivo=" + denial + " enabled=" + i.ModEnabled
+                         + " nivel=" + i.Level + " capVanilla=" + i.VanillaCap
+                         + " personagemRoguelike=" + i.IsRoguelikeCharacter + " modoRoguelike=" + i.IsRoguelikeMode
+                         + " ia=" + i.IsAi + " multiplayer=" + i.IsMultiplayer
+                         + " alvos=" + i.TargetsPresent + " curva=" + i.CurveUsable
+                         + " proximoRepresentavel=" + i.NextLevelRepresentable + " orcamentoPontos=" + i.StatBudgetOk
+                         + " tetoVoluntario=" + i.VoluntaryCap + " tetoRepresentacao=" + i.SafetyBound);
+        }
+
+        private static void DiagnoseOnce(string motivo)
+        {
+            PluginState.LastDenial = motivo;
+            Log.Refuse("politica", "chamada sem decisao: " + motivo, once: false);
+        }
+
+        /// <summary>
         /// Teto efetivo para o getter Character.MaxLevel (postfix, apenas roguelike nao-IA).
         /// Nao escreve em GlobalSettings nem em asset; nao devolve nao-finito.
         ///
@@ -130,12 +164,13 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
         /// </summary>
         public static double EffectiveMaxLevel(Character character, double vanillaValue)
         {
-            if (character == null) return vanillaValue;
+            if (character == null) { Log.Refuse("MaxLevel", "character=null"); return vanillaValue; }
             try
             {
                 // Fora do escopo do mod o comportamento vanilla fica intacto (sem piso de carga).
-                if (character.IsAI || !character.IsRoguelikeCharacter) return vanillaValue;
-                if (!PluginState.Enabled) return vanillaValue;
+                if (character.IsAI) { Log.Refuse("MaxLevel", "IsAI=True"); return vanillaValue; }
+                if (!character.IsRoguelikeCharacter) { Log.Refuse("MaxLevel", "IsRoguelikeCharacter=False"); return vanillaValue; }
+                if (!PluginState.Enabled) { Log.Refuse("MaxLevel", "General.Enabled=False"); return vanillaValue; }
 
                 bool loading = !character.IsLoaded;
                 double savedLoadLevel = 0d;
@@ -145,9 +180,11 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
                     if (save != null) savedLoadLevel = save.ExperienceLevel;
                 }
 
+                if (!PluginState.GameplayGroupApplied) Log.Refuse("MaxLevel", "GameplayGroupApplied=False");
                 bool extended = PluginState.GameplayGroupApplied
                                 && !GameState.IsMultiplayer()
                                 && XpBackend.EnsureReady();
+                if (!extended) Log.Refuse("MaxLevel", "extensao indisponivel; usando teto vanilla com piso de carga");
 
                 var inputs = new AdvanceInputs
                 {
@@ -170,7 +207,11 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
                 };
 
                 double result = PolicyCore.EffectiveMaxLevel(in inputs);
-                if (!XpCurve.IsUsableNumber(result)) return vanillaValue;
+                if (!XpCurve.IsUsableNumber(result))
+                {
+                    Log.Refuse("MaxLevel", "teto calculado nao finito; mantendo vanilla");
+                    return vanillaValue;
+                }
                 return result;
             }
             catch (Exception ex)

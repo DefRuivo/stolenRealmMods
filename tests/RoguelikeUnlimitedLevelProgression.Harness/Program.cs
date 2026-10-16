@@ -138,7 +138,7 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
             File.WriteAllLines(Path.Combine(_outDir, "harness-results.txt"), _lines, new UTF8Encoding(false));
             var sb = new StringBuilder();
             sb.Append("{\n  \"harness\":\"RoguelikeUnlimitedLevelProgression.Harness\",\n");
-            sb.Append("  \"task\":\"t_021bdd67\",\n");
+            sb.Append("  \"task\":").Append(J(Environment.GetEnvironmentVariable("HERMES_KANBAN_TASK") ?? "unassigned")).Append(",\n");
             sb.Append("  \"pass\":").Append(_pass).Append(", \"fail\":").Append(_fail)
               .Append(", \"not_exercised\":").Append(_not).Append(",\n");
             sb.Append("  \"results\":[\n    ").Append(string.Join(",\n    ", _json.ToArray())).Append("\n  ]\n}\n");
@@ -153,6 +153,8 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
             RunSuite("il", TestIdentityAndIl);
             RunSuite("transpiler", TestTranspiler);
             RunSuite("registry", TestPatchTargets);
+            RunSuite("lifecycle", TestPluginHostDestruction);
+            RunSuite("diagnostics", TestDiagnostics);
             RunSuite("policy", TestPolicyMatrix);
             RunSuite("loadclamp", TestLoadClamp);
             RunSuite("xpcurve", TestXpCurve);
@@ -1279,6 +1281,115 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
             if (s == null) return "";
             s = s.Replace('\n', ' ');
             return s.Length > 120 ? s.Substring(0, 120) + "..." : s;
+        }
+
+        private static void TestPluginHostDestruction()
+        {
+            Section("RLP-2: DESTRUICAO DO HOST NAO REMOVE PATCHES DE SESSAO");
+            var destroy = typeof(Plugin).GetMethod("OnDestroy", BindingFlags.Instance | BindingFlags.NonPublic);
+            // Nao roda construtor Unity/BepInEx nem Awake. Invoca o callback REAL em objeto CLR.
+            var plugin = System.Runtime.Serialization.FormatterServices.GetUninitializedObject(typeof(Plugin));
+            bool previous = PluginState.GameplayGroupApplied;
+            try
+            {
+                PluginState.GameplayGroupApplied = true;
+                destroy.Invoke(plugin, null);
+                Check(PluginState.GameplayGroupApplied, "lifecycle.host_destroy_keeps_gameplay_group",
+                    "OnDestroy real manteve GameplayGroupApplied=true (sem Unity nem jogo)",
+                    "OnDestroy real desligou GameplayGroupApplied: todos os hooks ficam inertes");
+                bool removesPatches = IlLoader.Read(destroy).Exists(ci =>
+                    ci.operand is MethodBase m && m.Name.StartsWith("Unpatch", StringComparison.Ordinal));
+                Check(!removesPatches, "lifecycle.host_destroy_does_not_unpatch",
+                    "IL real de OnDestroy nao chama Unpatch (patches pertencem a sessao)",
+                    "IL real de OnDestroy chama Unpatch: a troca de cena remove os hooks");
+                PluginState.GameplayGroupApplied = false;
+                destroy.Invoke(plugin, null);
+                Check(!PluginState.GameplayGroupApplied, "lifecycle.host_destroy_does_not_enable_failed_group",
+                    "OnDestroy nao liga um grupo inativo (rollback fail-closed preservado)",
+                    "OnDestroy habilitou grupo inativo");
+            }
+            finally { PluginState.GameplayGroupApplied = previous; }
+        }
+
+        private static void TestDiagnostics()
+        {
+            Section("RLP-2: RECUSAS VISIVEIS COM VERBOSE FALSE");
+            var source = new BepInEx.Logging.ManualLogSource("RLP-2 harness");
+            var captured = new List<string>();
+            var allCaptured = new List<string>();
+            source.LogEvent += (sender, e) => { string text = e.Data.ToString(); captured.Add(text); allCaptured.Add(text); };
+            Log.Attach(source);
+            Log.ResetSeenForTests();
+            PluginState.Reset();
+            try
+            {
+                var diagnose = typeof(Policy).GetMethod("Diagnose", BindingFlags.Static | BindingFlags.NonPublic);
+                var variants = new Dictionary<string, AdvanceInputs>();
+                var input = BaseInputs(20); input.ModEnabled = false; variants.Add("disabled", input);
+                input = BaseInputs(20); input.IsAi = true; variants.Add("ai", input);
+                input = BaseInputs(20); input.IsRoguelikeCharacter = false; variants.Add("character", input);
+                input = BaseInputs(20); input.IsRoguelikeMode = false; variants.Add("mode", input);
+                input = BaseInputs(20); input.IsMultiplayer = true; variants.Add("multiplayer", input);
+                input = BaseInputs(20); input.TargetsPresent = false; variants.Add("targets", input);
+                input = BaseInputs(20); input.CurveUsable = false; variants.Add("curve", input);
+                input = BaseInputs(20); input.NextLevelRepresentable = false; variants.Add("representable", input);
+                input = BaseInputs(20); input.StatBudgetOk = false; variants.Add("budget", input);
+                input = BaseInputs(21); input.VoluntaryCap = 21; variants.Add("voluntary", input);
+                input = BaseInputs(30); input.SafetyBound = 30; variants.Add("safety", input);
+                foreach (var variant in variants)
+                {
+                    captured.Clear();
+                    var i = variant.Value;
+                    AdvanceDenial denial;
+                    bool allow = PolicyCore.CanAdvance(in i, out denial);
+                    diagnose.Invoke(null, new object[] { i, denial, allow });
+                    Check(!allow && captured.Exists(l => l.Contains("politica: allow=False motivo=" + denial)
+                          && l.Contains("enabled=" + i.ModEnabled)),
+                        "diagnostics.policy_" + variant.Key + "_verbose_false",
+                        "recusa real " + denial + " emitiu log com flags mesmo com Verbose=False",
+                        "recusa silenciosa: " + denial + "; logs=" + string.Join(" / ", captured));
+                }
+                captured.Clear();
+                bool nullAllowed = Policy.CanAdvance(null, null);
+                Check(!nullAllowed && captured.Exists(l => l.Contains("chamada sem decisao: character=null")),
+                    "diagnostics.policy_null_verbose_false", "Policy.CanAdvance(null) recusou com motivo", "null sem log");
+
+                void FailsafeCase(string name, bool victory, List<Character> list, bool enabled, bool group, string expected)
+                {
+                    captured.Clear();
+                    PluginState.Enabled = enabled;
+                    PluginState.GameplayGroupApplied = group;
+                    PostBattleFailsafePatches.Prefix(victory, list);
+                    Check(captured.Exists(l => l.Contains("hook entrou")) &&
+                          captured.Exists(l => l.Contains("ampliacao recusada [pos-batalha]: " + expected)),
+                        "diagnostics.failsafe_" + name, "entrada e recusa explicitas: " + expected,
+                        "motivo ausente: " + expected + "; logs=" + string.Join(" / ", captured));
+                }
+                FailsafeCase("defeat", false, new List<Character>(), true, true, "victory=False");
+                FailsafeCase("null_list", true, null, true, true, "roguelikeCharactersToLevel=null");
+                FailsafeCase("disabled", true, new List<Character>(), false, true, "General.Enabled=False");
+                FailsafeCase("group_missing", true, new List<Character>(), true, false, "GameplayGroupApplied=False");
+
+                captured.Clear(); Log.ResetSeenForTests();
+                bool network = GameState.IsMultiplayer();
+                Check(network && captured.Exists(l => l.Contains("[rede]") && l.Contains("fail-closed")),
+                    "diagnostics.unknown_network_verbose_false", "rede indisponivel recusou com fonte e fail-closed", "rede desconhecida sem log");
+                captured.Clear(); Log.ResetSeenForTests();
+                bool mode = GameState.IsRoguelikeMode();
+                Check(!mode && captured.Exists(l => l.Contains("[modo]")),
+                    "diagnostics.unknown_mode_verbose_false", "modo indisponivel recusou com fonte", "modo desconhecido sem log");
+                captured.Clear(); Log.ResetSeenForTests();
+                float result = 7f; ExtensionScope.ResetForTests();
+                bool vanilla = XpStaticPatches.PrefixFloor(25, ref result);
+                XpStaticPatches.PrefixFloor(25, ref result);
+                Check(vanilla && result == 7f && captured.Count == 1 && captured[0].Contains("escopo de personagem inativo"),
+                    "diagnostics.hot_getter_reason_deduplicated", "fallback XP preservado; uma linha por motivo repetido", "log ausente, spam ou mutacao");
+            }
+            finally
+            {
+                File.WriteAllLines(Path.Combine(_outDir, "diagnostics-offline.log"), allCaptured, new UTF8Encoding(false));
+                Log.Attach(null); source.Dispose(); PluginState.Reset(); Log.ResetSeenForTests();
+            }
         }
 
         private static void TestGuardsStaticEntryPoints()

@@ -1,18 +1,29 @@
 # Changelog — BetterCombatText
 
-## 0.1.2
+> Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
+> CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
-**Documentation release. No code change** — this build behaves exactly like 0.1.1; the DLL differs only in the version string it reports.
+## 0.1.3 — 2026-10-16
 
+**Documentation and dependency metadata release; the visual code is unchanged.** The DLL differs from 0.1.2 only in the version literal it reports.
+
+- **Metadados de dependência:** o `manifest.json` **deixou de declarar** `DefRuivo_StolenRealmMods-BetterFont-1.0.3`. O mod não referencia o BetterFont: a única menção no código é um comentário explicativo (`Plugin.cs:101`) e a integração visual é opcional — por isso a dependência obrigatória foi retirada na auditoria de dependências DEP-REV (2026-10-16). Um pacote que exige o BetterFont faz o gerenciador instalar um mod que este aqui não precisa.
+- **README alinhado:** a linha *Needs* e a seção *Together with BetterFont* diziam que o BetterFont era obrigatório e que "a dependência deste pacote aponta para aquela versão". Ambas passaram a dizer o que o manifest diz desde a DEP-REV: só BepInEx, com o BetterFont como integração opcional.
+
+## 0.1.2 — 2026-10-07
+
+**Visual code unchanged; package documentation and dependency changed.** No new visual behaviour is added over 0.1.1; the source bump itself only changes the version literal, while the package also changes the README and BetterFont dependency.
+
+- **Dependency metadata:** `BetterFont-1.0.2` → `BetterFont-1.0.3` in `manifest.json` (commit `0d33ef3`). The dependency change does not change this mod's gameplay/visual code, but this was not a documentation-only package change.
 - **The build instructions were wrong about the deploy.** They said that a bare `dotnet build` would also copy the mod into the mod-manager profile. That is no longer true: the deploy is **opt-in** — a bare `dotnet build` installs **nothing**, and only `-p:DeployToBepInEx=true` copies the DLL into `<profile>\BepInEx\plugins\BetterCombatText\`.
-- **The README described the wrong outline for the enemy names.** It said "soft outline/halo, default black at 10% alpha". That was true of the first release, not of 0.1.1: since then the enemy name gets a **hard, opaque black outline** (`LarguraContorno` 0.22, `SuavidadeContorno` 0.05, `AlfaContorno` 0.95), the **10% is the buff/debuff label**, and the enemy name's shadow is short and visible (`AlfaSombra` 0.75, offset ±0.35, softness 0.05), with its side following the background and the letter's brightness deciding when `Fundo = auto`. The table of surfaces and the configuration section now state the real defaults.
+- **The README described the wrong outline for the enemy names.** It said "soft outline/halo, default black at 10% alpha". That was true of the first release, not of 0.1.1: since then the enemy name gets a **hard, opaque black outline** (`LarguraContorno` 0.22, `SuavidadeContorno` 0.05, `AlfaContorno` 0.95), the **10% is the buff/debuff label**, and the enemy name's shadow is short and visible (`AlfaSombra` 0.75, offset ±0.35, softness 0.05), with `Fundo` proposing the polarity subject to the font-brightness veto (a light letter receives a dark shadow and vice versa, not just when `Fundo = auto`). The table of surfaces and the configuration section now state the real defaults.
 - **Still not verified on screen.** The visual result of this mod has never been confirmed in game — a startup diagnostic proved the effect is *possible* on those texts, but nobody has confirmed it on the screen. This release does **not** change that, and the README and the package description keep saying it.
 
 ## 0.1.1 — contorno preto duro/opaco (UI/UX) + sombra adaptativa por contraste
 
 O nome do inimigo (cor de qualidade) ganhou **contorno preto DURO e OPACO** (`_OutlineWidth` 0.22, `_OutlineSoftness` 0.05 — era 0.50, o defeito que borrava o contorno até sumir, `_OutlineColor` alfa 0.95) e a **sombra** virou um seguro curto (`_Underlay` offset ±0.35 — era ±2, fora do range ±1 do shader — alfa 0.75, softness 0.05). A sombra adaptativa escolhe o lado pelo **contraste com a FONTE** (fonte clara → sombra escura, e vice-versa). Revisão de UI/UX: a cor de preenchimento **não muda** — é a linguagem de raridade (`QualityColors[EnemyType]`).
 
-## BCT-5 (02/10) — a sombra CONTRASTA com a FONTE: a letra manda o LADO (fonte clara → sombra escura)
+### BCT-5 — 2026-10-02 — a sombra CONTRASTA com a FONTE (histórico incorporado à 0.1.1)
 
 **Defeito relatado pelo dono:** a sombra do nome do inimigo continuava "da mesma cor da fonte".
 Investigação fechada em três achados:
@@ -53,7 +64,7 @@ Investigação fechada em três achados:
   `tools/testes/bct5-polaridade-fonte-prova-reprovando.log` (o "veto arrancado" e o "alfa 0.35"
   REPROVAM pelo motivo certo; o fonte é restaurado byte a byte).
 
-## BCT-4 (02/10) — a sombra CONTRASTA com a LETRA: o `#CBB396` deixa de ser a sombra clara (working tree; nada publicado)
+### BCT-4 — 2026-10-02 — contraste com a letra (etapa histórica, incorporada e superada pelo BCT-5 na 0.1.1)
 
 **Defeito relatado pelo dono:** a sombra do nome do inimigo ficou invisível/"blob". O log de 02/10
 (l.3359) fecha a conta: `cor da LETRA no alvo='#CBB396' (luminância 0.717 → letra CLARA); sombra que
@@ -101,11 +112,11 @@ fechada (prefab + log + código):
   a sombra que o jogo nunca desenhava passa a aparecer — o "sombra muito grossa" relatado. O
   `AcceptButtonText` do mesmo prefab mostra o mesmo padrão com o `Title Font (Trajan Pro Regular)
   SDF Material` (alfa 0.906).
-- **Conserto (fora do BCT):** o BetterFont deve só habilitar `UNDERLAY_ON` quando o material de
-  origem já tinha o keyword (ou quando o offset/dilate não for zero), em vez de inferir "sombra em
-  uso" do alfa da cor.
+- **Conserto no BetterFont (BF-5), já implementado em `27b5e69`:** o reconhecimento de sombra
+  passou a usar `SombraDesenhada`, observando keyword ou offset/dilate em vez do alfa isolado.
+  Esta investigação não é mudança de código do BCT e não é uma correção futura pendente.
 
-## BCT-3 (02/10) — a sombra fica VISIVEL: o FUNDO manda (working tree; nada publicado)
+### BCT-3 — 2026-10-02 — fundo e diagnóstico de cor (etapa histórica, incorporada e superada pelo BCT-4/5 na 0.1.1)
 
 **Defeito relatado pelo dono:** "não ve NENHUMA sombra nos nomes de inimigo" (campo de
 batalha escuro). Investigação fechada e conserto:
@@ -140,7 +151,7 @@ batalha escuro). Investigação fechada e conserto:
   reprovando: com o fundo das NOMES de volta em `auto` e com a regra deixando de ligar fundo
   escuro à sombra clara (`tools/testes/bct3-sombra-visivel-prova-reprovando.log`).
 
-## BCT-2 (02/10) — sombra ADAPTATIVA no texto de combate (working tree; nada publicado)
+### BCT-2 — 2026-10-02 — sombra adaptativa (etapa histórica, incorporada e superada pelo BCT-3/4/5 na 0.1.1)
 
 A sombra deixa de ser **fixa e igual ao contorno** e passa a **acompanhar a cor da letra**.
 
@@ -172,10 +183,7 @@ A sombra deixa de ser **fixa e igual ao contorno** e passa a **acompanhar a cor 
   reprovando: com a "sombra fixa que ignora a luminancia" e com a reavaliacao arrancada
   (`tools/testes/bct2-sombra-prova-reprovando.log`).
 
-## 0.1.1
-
-**Nenhuma linha de codigo mudou: o que muda e a REFERENCIA e a doc.** O defeito que motivou a
-versao e de interacao, e sem ela o pacote publicado entrega metade do recurso.
+### Metadados da mesma 0.1.1 — dependência/documentação (commit `69c4a56`)
 
 - **Dependencia do Thunderstore: `DefRuivo_StolenRealmMods-BetterFont-1.0.1` -> `1.0.2`.** A 1.0.1
   esta publicada e e imutavel, e o portao de material dela **recusava o material dos textos de
@@ -199,6 +207,7 @@ versao e de interacao, e sem ela o pacote publicado entrega metade do recurso.
 
 Primeira versao publicada.
 
+- **Ícone real do dono**, substituindo o placeholder (`bc4e5d6`, 2026-09-30); arte-fonte preservada em `docs/img/bettercombattext-icon-fonte.png`.
 - **Aplicador de ganchos corrigido antes da primeira publicacao**: o filtro de classe de gancho copiado do RoguelikeSkillTreeVisualizer exigia `[HarmonyPrefix]`/`[HarmonyPostfix]` **no metodo** e este mod declara os **9 ganchos pela convencao de nome** do Harmony (metodo `Postfix`) — teria pulado os 9 em silencio. O filtro agora exige so `[HarmonyPatch]` **no TIPO** (o mesmo conjunto que o `PatchAll()` processava) e os ganchos sao aplicados **um a um**, com log por gancho e resumo com a contagem real.
 - **Diagnostico de arranque mais barato**: a varredura de cena passou de 2s para 5s e **para no primeiro alvo que aparece em cena** (chave propria no `.cfg`), em vez de varrer todas as superficies sempre.
 
@@ -219,11 +228,13 @@ Primeira versao publicada.
 - **Desligar tudo em 1 linha**: `Ativar = false` na secao `1. Geral` — nenhum patch e aplicado e o jogo roda original.
 - **Sem alteracao de gameplay** e sem tocar em arquivo do jogo. Nada de Bard/musica.
 
-### Dependência declarada neste manifest
+### Historical dependency decision (0.1.0 package)
+
+> Este bloco descreve o manifest antigo. O pacote **publicado** da 0.1.2 declara `DefRuivo_StolenRealmMods-BetterFont-1.0.3` (seção do topo). O manifest do repositório, **ainda não publicado**, deixou de declarar o BetterFont como dependência obrigatória: o código não o referencia e a integração é opcional (auditoria de dependências DEP-REV, 2026-10-16). O README de instalação ainda diz o contrário e precisa ser alinhado ao preparar a nova versão.
 
 - `dependencies`: `BepInEx-BepInExPack-5.4.2305` + **`DefRuivo_StolenRealmMods-BetterFont-1.0.1`** — é aqui que o estilo dos textos de combate volta; a referência aponta a versão **nova** para o gerenciador não instalar o mesmo pacote em duas versões (mesmo GUID = erro no BepInEx).
 - **A dependência é UMA DIREÇÃO — `BetterCombatText 0.1.0` → `BetterFont 1.0.1` — e só ela.** O `BetterFont` 1.0.1 declara **apenas** o BepInExPack; quem aponta para a outra ponta é este mod. A mão dupla (os dois se declarando) foi trocada por esta direção única no commit `ac0210f`.
 - **Por que a mão dupla não sobe (provado no código da Thunderstore):** no upload a plataforma **resolve** cada referência (`DependencyField` usa `PackageReferenceValidator(resolve=True)`) e **recusa** a referência que não existe, com `No matching package found for reference`. Com os dois lados se referenciando, cada lado apontava para uma versão **inédita** (o `BetterFont 1.0.1` e este `0.1.0`, nenhuma das duas no ar) — não havia ordem de envio válida: quem subisse primeiro falhava. Não é preferência de estilo, é o upload recusando.
 - **Ordem de envio que funciona:** primeiro o `BetterFont 1.0.1` (sem dependência de volta), depois este `0.1.0` declarando o `BetterFont 1.0.1` — a mesma ordem registrada em [`release/mods.json`](../release/mods.json).
-- **Opção do dono (não é plano, não existe hoje):** se quiser o **ciclo** de verdade, com os dois se referenciando, o caminho é um **`BetterFont 1.0.2` depois**, declarando este `BetterCombatText 0.1.0` já publicado.
+- **Hipótese histórica, não release futura:** em 2026-09-30 cogitou-se um BetterFont 1.0.2 com dependência de volta. Isso **não** foi adotado: a 1.0.2 e a 1.0.3 existem e o manifest atual do BetterFont continua declarando só BepInEx. Não há versão futura prometida por esta nota.
 

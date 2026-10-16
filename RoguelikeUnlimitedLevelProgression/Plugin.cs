@@ -59,9 +59,10 @@ namespace RoguelikeUnlimitedLevelProgression
             }
 
             PluginState.GameplayGroupApplied = true;
+            PatchRegistry.LogOwnership("Awake");
             Log.Info("politica efetiva: MaxLevel(config)=" + (PluginState.MaxLevelConfig == 0 ? "0 (sem teto voluntario)" : PluginState.MaxLevelConfig.ToString())
                      + " RewardQueryLevel=" + PluginState.RewardQueryLevel
-                     + " Verbose=" + PluginState.Verbose);
+                     + " Verbose=" + PluginState.Verbose + " diagnostico=RLP-2 (recusas sempre visiveis)");
             Log.Warn("v0.1 singleplayer: em PlayingMultiplayer a progressao ampliada permanece desligada e "
                      + "saves/ledgers estendidos NAO sao suportados em sessao multiplayer");
         }
@@ -102,15 +103,13 @@ namespace RoguelikeUnlimitedLevelProgression
 
         private void OnDestroy()
         {
-            try
-            {
-                if (_harmony != null) _harmony.UnpatchSelf();
-            }
-            catch (Exception ex)
-            {
-                Log.Warn("falha ao remover patches: " + ex.Message);
-            }
-            PluginState.GameplayGroupApplied = false;
+            // O host do chainloader e destruido na primeira cena neste jogo. Os hooks e o
+            // estado estatico pertencem a SESSAO, nao ao GameObject do BaseUnityPlugin.
+            // Nao fazer UnpatchSelf nem desligar GameplayGroupApplied aqui (RLP-2).
+            // Rollback de instalacao continua explicito em Awake/PatchRegistry.
+            Log.Info("ciclo de vida: OnDestroy do host; patches de sessao PRESERVADOS; grupo="
+                     + PluginState.GameplayGroupApplied);
+            PatchRegistry.LogOwnership("OnDestroy");
         }
     }
 }

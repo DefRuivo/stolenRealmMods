@@ -7,7 +7,7 @@ Writes the game's internal data to `LogOutput.log`, so a mechanic can be checked
 code instead of guessed. **No gameplay change.**
 
 - **GUID:** `com.gumatos.roguelikedebugger`
-- **Version:** 0.1.2
+- **Version:** 0.1.3
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 

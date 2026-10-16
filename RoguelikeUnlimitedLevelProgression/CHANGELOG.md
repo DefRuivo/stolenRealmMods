@@ -1,21 +1,32 @@
 # Changelog — RoguelikeUnlimitedLevelProgression
 
-## Não publicado — identidade do pacote (13/10/2026)
+> Datas em ISO 8601 (BRT, UTC−03:00). Datas de implementação/auditoria não são datas de publicação.
+> Auditoria documental CHG-REV: 2026-10-16. Este mod permanece sem publicação.
+
+## 0.1.1 — em preparação (revisado em 2026-10-16)
+
+### Ciclo de vida e diagnóstico (RLP-1/RLP-2) — pacote reconstruído da fonte atual em 2026-10-16
+
+- **Causa raiz:** o próprio `Plugin.OnDestroy` chamava `UnpatchSelf()` e desligava `GameplayGroupApplied` quando o jogo destruía o host do chainloader na primeira cena. O boot anunciava os patches, mas o plugin os removia antes do uso; não era prova de que a janela estrutural ou as guardas do motor estivessem erradas.
+- **Correção:** `OnDestroy` preserva patches e estado de sessão, registrando o ciclo de vida e a posse dos alvos. A remoção por falha de instalação/rollback continua explícita em `Awake`/`PatchRegistry`; não foi eliminada globalmente.
+- **Instrumentação:** posse Harmony conferida em Awake/OnDestroy/primeiro hook/pós-batalha, mais razões de recusa e entradas efetivas da política. A leitura do log existente em 2026-10-16 registra `gameplay=20/20` após OnDestroy e `politica: allow=True ... nivel=20 capVanilla=20`. Isso prova retenção dos patches e passagem da política, não substitui toda a matriz de save/reload, recompensas e multiplayer.
+- **Failsafe pós-batalha:** prefix separado, best-effort, em `PostBattleManager.OpenPostBattleMenu`; só tenta conceder avanço em vitória a personagens controlados elegíveis ainda ausentes da lista vanilla, usando a mesma `Policy.CanAdvance`. Não duplica o avanço de quem já está na lista e não substitui o transpiler crítico. É implementação local existente, não a causa raiz do desaparecimento dos patches.
+
+### Identidade do pacote — 2026-10-13 (commit `941e3c3`)
 
 - Nome definitivo: `RoguelikeUnlimitedLevelProgression`; nome de exibição:
   `Roguelike Unlimited Level Progression`.
 - Projeto, assembly, namespace, pacote e harness acompanham o nome definitivo.
   GUID/Harmony owner e diretório de recibos: `com.gumatos.roguelikeunlimitedlevelprogression`.
-- Ícone `RU` 256x256, com a mesma cor e moldura. Versão permanece **0.1.1**;
-  nenhuma lógica de gameplay mudou e a publicação continua bloqueada.
+- Ícone de distribuição 256×256 adicionado em `8cabbe5`; o ícone RU entrou no rename `941e3c3`. A arte local foi substituída novamente depois desse commit e não deve ser descrita como o antigo monograma sem reauditoria. Versão permanece **0.1.1**; o rename em si não mudou gameplay e não publicou o mod.
+- Caminhos de `lib/` do projeto/harness resolvidos pela raiz do checkout (`06564ce`, 2026-10-12); marcador de boot corrigido para `carregado.` (`931bcc4`, 2026-10-12).
 - Como o mod não foi publicado, não há migração de configuração/recibos locais.
   As evidências de rodadas anteriores permanecem imutáveis com a identidade da época.
 
-## 0.1.1
-
+### Proteção da carga — 2026-10-11 (commit `d1de4ea`)
 **Correção de perda silenciosa de nível salvo ao carregar (R3-01, achado ALTO da revisão LEVEL-R3).**
 
-### Correções
+### Correções históricas de R3-01
 
 - **`Character.Load(int)` rebaixava o nível salvo.** O clamp de carga
   `ExperienceLevel = Mathf.Min(MaxLevel, CharacterSaveFile.ExperienceLevel)` usa exatamente a
@@ -42,7 +53,7 @@
 
 ## 0.1.0
 
-**Primeira versão.** Mod novo (nenhum arquivo de mod existente foi alterado), standalone
+**Primeira implementação em preparação (commit `cd8e4ce`, 2026-10-11), nunca publicada.** Mod novo (nenhum arquivo de mod existente foi alterado), standalone
 BepInEx 5 + Harmony, sem ModAPI, sem BetterStats/RSTV.
 
 ### Gameplay
@@ -78,7 +89,7 @@ BepInEx 5 + Harmony, sem ModAPI, sem BetterStats/RSTV.
 - **Multiplayer:** branch vanilla mantido, com aviso de que saves/ledger estendidos não são
   suportados nesta versão.
 
-### Banco de provas (harness isolado)
+### Historical validation baseline (0.1.0 harness snapshot; not the current total)
 
 - Harness `tests/RoguelikeUnlimitedLevelProgression.Harness` (net6.0) que compila os **fontes reais** do
   mod e exercita: o transpiler real sobre a **IL real** da `Assembly-CSharp.dll` de referência

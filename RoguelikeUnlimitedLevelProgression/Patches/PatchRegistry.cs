@@ -190,9 +190,77 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
                 return false;
             }
 
+            // RLP-1 — FAILSAFE de pos-batalha: aplicado SEPARADAMENTE do grupo critico (best-effort).
+            // O grupo critico continua tudo-ou-nada; este prefix apenas ADICIONA o nivel estendido
+            // que a janela vanilla nao concedeu, entao uma falha aqui e' no-op (nao ha estado
+            // parcial: nenhum patch do jogo e' alterado por ele). Motivo: a janela estrutural fica
+            // atras das guardas FastContains/RoguelikeModeActive (IL_0079/IL_008d) e pode nunca ser
+            // alcancada — ver RLP-1.
+            try
+            {
+                var failsafeTarget = Reflect.Method(typeof(PostBattleManager), "OpenPostBattleMenu");
+                var failsafePrefix = Reflect.Method(typeof(PostBattleFailsafePatches), "Prefix");
+                if (failsafeTarget == null || failsafePrefix == null)
+                {
+                    Log.Warn("failsafe de pos-batalha NAO aplicado: "
+                             + (failsafeTarget == null ? "PostBattleManager.OpenPostBattleMenu" : "PostBattleFailsafePatches.Prefix")
+                             + " nao resolvido (sem efeito; grupo critico intacto)");
+                }
+                else
+                {
+                    var failsafeProcessor = harmony.CreateProcessor(failsafeTarget);
+                    failsafeProcessor.AddPrefix(new HarmonyMethod(failsafePrefix));
+                    failsafeProcessor.Patch();
+                    Log.Info("failsafe de pos-batalha aplicado em PostBattleManager.OpenPostBattleMenu");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warn("failsafe de pos-batalha NAO aplicado (" + ex.GetType().Name + ": " + ex.Message
+                         + "); grupo critico intacto");
+            }
+
             Log.Info("Grupo de gameplay aplicado: " + applied.Count + " alvos; janela estrutural encontrada "
                      + BattleResultTranspiler.LastMatchCount + "x");
             return true;
+        }
+
+        /// <summary>Leitura independente do carimbo LastApplied: confere owner de cada alvo AGORA.</summary>
+        internal static void LogOwnership(string origin)
+        {
+            try
+            {
+                List<Plan> plans;
+                List<string> missing;
+                if (!TryBuildPlans(out plans, out missing))
+                {
+                    Log.Refuse("ownership/" + origin, MissingError(missing));
+                    return;
+                }
+                int owned = 0;
+                foreach (var p in plans)
+                {
+                    var info = Harmony.GetPatchInfo(p.Target);
+                    if (info != null && info.Owners.Contains(Plugin.PluginGuid)) owned++;
+                    else Log.Refuse("ownership/" + origin, "owner ausente em " + p.Id);
+                }
+                var target = Reflect.Method(typeof(PostBattleManager), "OpenPostBattleMenu");
+                var failsafe = target == null ? null : Harmony.GetPatchInfo(target);
+                bool prefixOwned = failsafe != null && System.Linq.Enumerable.Any(failsafe.Prefixes,
+                    p => p.owner == Plugin.PluginGuid && p.PatchMethod.DeclaringType == typeof(PostBattleFailsafePatches));
+                var controlTarget = Reflect.Method(typeof(GameLogic), "GetCharacterLootDropModifier");
+                var control = controlTarget == null ? null : Harmony.GetPatchInfo(controlTarget);
+                bool debuggerOwned = control != null && control.Owners.Contains("com.gumatos.roguelikedebugger");
+                Log.Info("ownership [" + origin + "]: gameplay=" + owned + "/" + plans.Count
+                         + " failsafePrefix=" + prefixOwned + " debuggerLootModifier=" + debuggerOwned
+                         + " assembly=" + typeof(Root).Assembly.Location
+                         + " mvid=" + typeof(Root).Module.ModuleVersionId);
+                if (!prefixOwned) Log.Refuse("ownership/" + origin, "prefix failsafe ausente AGORA");
+            }
+            catch (Exception ex)
+            {
+                Log.Warn("ownership [" + origin + "] NAO CONFERIDO: " + ex.GetType().Name + ": " + ex.Message);
+            }
         }
 
         private static void Rollback(Harmony harmony, int count)

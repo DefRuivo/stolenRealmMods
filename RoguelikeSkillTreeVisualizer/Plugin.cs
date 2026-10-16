@@ -57,7 +57,7 @@ namespace RoguelikeSkillTreeVisualizer
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.3.3";
+        public const string Version = "0.3.4";
 
         /// <summary>GUID da API propria (api/Plugin/RealmApiPlugin.cs) — a dependencia declarada acima.</summary>
         public const string ApiGuid = "com.gumatos.realmapi";

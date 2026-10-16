@@ -69,6 +69,7 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
     {
         public static void Postfix(Character __instance, ref float __result)
         {
+            PatchRegistryEvidence.FirstHook("Character.MaxLevel");
             __result = (float)Policy.EffectiveMaxLevel(__instance, __result);
         }
     }
@@ -83,8 +84,8 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
     {
         public static bool Prefix(Character __instance, float val)
         {
-            if (__instance == null) return true;
-            if (val <= XpCurve.VanillaCapLevel) return true;
+            if (__instance == null) return Log.Vanilla("CharacterOwner", "character=null");
+            if (val <= XpCurve.VanillaCapLevel) return Log.Vanilla("Mirror", "nivel <= 20 (mirror vanilla)");
             if (!ExtensionScope.AppliesTo(__instance)) return true;
             try
             {
@@ -116,20 +117,22 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
     {
         public static bool PrefixFloor(int level, ref float __result)
         {
-            if (XpBackend.Suppressed) return true;
-            if (!ExtensionScope.Active) return true;
+            if (XpBackend.Suppressed) return Log.Vanilla("XP", "consulta vanilla suprimida pelo backend");
+            if (!ExtensionScope.Active) return Log.Vanilla("XP", "escopo de personagem inativo");
             double value;
-            if (!XpBackend.TryFloor(level, out value)) return true;
+            if (!XpBackend.TryFloor(level, out value)) return Log.Vanilla("XP.Floor",
+                !XpBackend.Ready ? "backend nao pronto" : level <= XpCurve.VanillaCapLevel ? "nivel <= 20 (curva vanilla)" : "piso calculado nao finito");
             __result = (float)value;
             return false;
         }
 
         public static bool PrefixNext(int level, ref float __result)
         {
-            if (XpBackend.Suppressed) return true;
-            if (!ExtensionScope.Active) return true;
+            if (XpBackend.Suppressed) return Log.Vanilla("XP", "consulta vanilla suprimida pelo backend");
+            if (!ExtensionScope.Active) return Log.Vanilla("XP", "escopo de personagem inativo");
             double value;
-            if (!XpBackend.TryTransition(level, out value)) return true;
+            if (!XpBackend.TryTransition(level, out value)) return Log.Vanilla("XP.Next",
+                !XpBackend.Ready ? "backend nao pronto" : level <= XpCurve.VanillaCapLevel ? "nivel <= 20 (curva vanilla)" : "transicao calculada invalida");
             __result = (float)value;
             return false;
         }
@@ -137,34 +140,36 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
         /// <summary>Inversa analitica, sem loop sem bound (parte05/C).</summary>
         public static bool PrefixLevelFromXp(float experience, ref float __result)
         {
-            if (XpBackend.Suppressed) return true;
-            if (!ExtensionScope.Active) return true;
+            if (XpBackend.Suppressed) return Log.Vanilla("XP", "consulta vanilla suprimida pelo backend");
+            if (!ExtensionScope.Active) return Log.Vanilla("XP", "escopo de personagem inativo");
             double level;
-            if (!XpBackend.TryLevelFromXp(experience, out level)) return true;
+            if (!XpBackend.TryLevelFromXp(experience, out level)) return Log.Vanilla("XP.LevelFromXp",
+                !XpBackend.Ready ? "backend nao pronto" : !XpCurve.IsUsableNumber(experience) ? "XP nao finito" : experience < XpBackend.Floor20 ? "XP abaixo de F20 (curva vanilla)" : "inversa calculada nao finita");
             __result = (float)level;
             return false;
         }
 
         public static bool PrefixXpFromLevel(float level, ref float __result)
         {
-            if (XpBackend.Suppressed) return true;
-            if (!ExtensionScope.Active) return true;
-            if (!XpCurve.IsUsableNumber(level)) return true;
-            if (level <= XpCurve.VanillaCapLevel) return true;
-            if (!XpBackend.Ready) return true;
+            if (XpBackend.Suppressed) return Log.Vanilla("XP", "consulta vanilla suprimida pelo backend");
+            if (!ExtensionScope.Active) return Log.Vanilla("XP", "escopo de personagem inativo");
+            if (!XpCurve.IsUsableNumber(level)) return Log.Vanilla("XP.XpFromLevel", "nivel nao finito");
+            if (level <= XpCurve.VanillaCapLevel) return Log.Vanilla("XP.XpFromLevel", "nivel <= 20 (curva vanilla)");
+            if (!XpBackend.Ready) return Log.Vanilla("XP", "backend nao pronto");
             double value = XpBackend.XpFromLevel(level);
-            if (!XpCurve.IsUsableNumber(value)) return true;
+            if (!XpCurve.IsUsableNumber(value)) return Log.Vanilla("XP.XpFromLevel", "XP calculado nao finito");
             __result = (float)value;
             return false;
         }
 
         public static bool PrefixLevelIndex(float experience, ref int __result)
         {
-            if (XpBackend.Suppressed) return true;
-            if (!ExtensionScope.Active) return true;
-            if (!XpBackend.Ready) return true;
+            if (XpBackend.Suppressed) return Log.Vanilla("XP", "consulta vanilla suprimida pelo backend");
+            if (!ExtensionScope.Active) return Log.Vanilla("XP", "escopo de personagem inativo");
+            if (!XpBackend.Ready) return Log.Vanilla("XP", "backend nao pronto");
             double x = experience;
-            if (!XpCurve.IsUsableNumber(x) || x < XpBackend.Floor20) return true;
+            if (!XpCurve.IsUsableNumber(x)) return Log.Vanilla("XP.LevelIndex", "XP nao finito");
+            if (x < XpBackend.Floor20) return Log.Vanilla("XP.LevelIndex", "XP abaixo de F20 (curva vanilla)");
             __result = XpCurve.LevelIndexFromXp(XpBackend.Floor20, XpBackend.Transition20, x);
             return false;
         }
@@ -179,7 +184,7 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
         public static bool PrefixCharacterOwner(Character __instance, out bool __state)
         {
             __state = false;
-            if (__instance == null) return true;
+            if (__instance == null) return Log.Vanilla("CharacterOwner", "character=null");
             if (!ExtensionScope.AppliesTo(__instance)) return true;
             __state = ExtensionScope.Push(__instance);
             return true;
