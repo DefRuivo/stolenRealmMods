@@ -99,17 +99,19 @@ cima. Nada mais precisa ser feito do lado dele.
 ## 5. Notas técnicas
 
 - `lib/` (na raiz do repositório) é **gitignored**: são cópias das DLLs do jogo e do
-  BepInEx, usadas só para compilar. Todo mod referencia `..\lib\` — nenhum mod
-  depende da pasta de outro mod (isso foi corrigido em 29/09: `BetterStats` e
-  `BetterFont` apontavam para a `lib/` de outro mod).
-- Cada mod é um projeto independente, com `DeployToBepInEx` próprio no `.csproj`
-  (copia a DLL para o perfil local depois do build).
+  BepInEx, usadas só para compilar. Os três mods do pacote padrão usam essas referências.
+  A fonte atual do RSTV também referencia os builds Release da RealmApi em `api/`;
+  ele não está no pacote padrão. Os argumentos extras do script não resolvem dependências
+  nem assemblies auxiliares: não use esse ZIP de uma DLL por mod para distribuir o RSTV atual
+  ou a RealmApi sem resolver o contrato de dependências e os três assemblies da API.
+- Cada mod tem `DeployToBepInEx` próprio no `.csproj`, mas a cópia só ocorre com
+  `-p:DeployToBepInEx=true`. Build comum e empacotamento não instalam (DEPLOY-2).
 - Depois de compilar, a DLL de cada mod fica em
   `<Mod>\bin\Release\netstandard2.1\<Mod>.dll` — é essa que o script empacota
   (**Release** é a configuração padrão). O knob é a variável `CONFIG`:
   `CONFIG=Debug bash tools/pack-for-friends.sh` empacota a build de Debug (o
   `--config Debug` é do outro empacotador, o `tools/pack-thunderstore.py`), mas o
   pacote normal sai de Release. Compile com
-  `dotnet build <Mod>\<Mod>.csproj -c Release -p:DeployToBepInEx=false`: a flag
-  `DeployToBepInEx=false` é obrigatória aqui, senão o build sobrescreve a DLL
-  instalada no perfil do r2modman antes mesmo de empacotar.
+  `dotnet build <Mod>/<Mod>.csproj -c Release -p:DeployToBepInEx=false`: a flag
+  mantém o deploy explicitamente desligado; desde DEPLOY-2 esse já é o padrão.
+  Só `-p:DeployToBepInEx=true` copia a DLL para o perfil do r2modman.

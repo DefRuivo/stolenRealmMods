@@ -6,7 +6,16 @@ nenhuma etapa "adivinha": quem pode sair está escrito no repositório
 ([`release/mods.json`](../release/mods.json)) e quem libera o envio é um clique de aprovação
 no GitHub ([`.github/workflows/publish.yml`](../.github/workflows/publish.yml)).
 
-**Estado hoje (01/10/2026): o projeto tem 6 mods e os SEIS estão publicados na Thunderstore**, sob o
+**Estado conferido em 16/10/2026:** `--listar-nomes` e `release/mods.json` têm **8** entradas:
+seis publicadas em 07/10/2026 (BetterCombatText 0.1.2, BetterFont 1.0.3, BetterStats 1.0.2,
+BetterTooltips 0.1.4, RoguelikeDebugger 0.1.2, RSTV 0.3.3), mais BetterPortuguese 0.1.0 e
+RoguelikeUnlimitedLevelProgression 0.1.1 bloqueados (`publicar:false`). Fonte atual do RSTV
+consome RealmApi 0.1.0; a API ainda não é descoberta nem consta do gate. Não distribuir esse
+fonte como se fosse o ZIP publicado só porque o número de versão coincide. Os campos de motivo
+e `caso_de_hoje` do gate ainda contêm versões antigas; valem os campos estruturados e a
+confirmação pública, sem reescrever esse gate nesta frente documental.
+
+**Fotografia histórica de 01/10/2026 (preservada; não é o estado corrente): o projeto tinha 6 mods e os SEIS estavam publicados na Thunderstore**, sob o
 namespace `DefRuivo_StolenRealmMods` (URL do pacote: `DefRuivo_StolenRealmMods-<Mod>`), e o
 `release/mods.json` **está versionado** com as **6** entradas, todas com `publicar: true` e
 `versao_publicada`/`publicado_em` preenchidos. A leva de **01/10/2026** (run `36801937843`, input
@@ -87,8 +96,9 @@ O upload fica em `https://thunderstore.io/package/create/` e a API em `https://t
 Mesmo sem ser requisito técnico, as **regras globais** mandam respeitar copyright/licença, e
 "**CopyrightOrLicense**" é motivo oficial de rejeição
 (<https://wiki.thunderstore.io/moderation/global-rules> + enum de `PackageListingReportRequest`
-em <https://thunderstore.io/api/docs/>). Hoje **o repo não tem `LICENSE` e nenhum
-README/manifest menciona licença** — nada trava o upload, mas o código fica sem termos de reúso.
+em <https://thunderstore.io/api/docs/>). Em 16/10/2026 **não há `LICENSE` na raiz**, mas a API
+própria declara **MIT** em `api/LICENSE` e em seu README. A licença do módulo não resolve
+automaticamente os termos de reúso dos demais mods; essa decisão continua sendo do dono.
 
 Como não há campo na plataforma, o único mecanismo possível é **por conta própria**: arquivo
 `LICENSE`/`LICENSE.md` na raiz do zip e/ou seção de licença no `README.md`. Opções comuns —
@@ -325,6 +335,10 @@ Como o zip chega ao runner (escolha uma):
 
 Aceitável subir **DLL de mod** (é código nosso). DLL do jogo, nunca.
 
+> Em 16/10/2026 o `gh` **não está instalado** na máquina do dono (`which gh` → nada). Os dois
+> `gh release create` deste documento (aqui e no passo 5) só rodam onde o CLI existir; sem ele,
+> anexe o zip pela interface web do GitHub e informe o `release_tag` no disparo do workflow.
+
 ## 5) Passo a passo de um release
 
 Tudo da raiz do repositório, na máquina com o jogo instalado.
@@ -357,11 +371,17 @@ gh release create thunderstore-1.0.0 dist/gumatos-*.zip --title "Pacotes 1.0.0"
 #    https://thunderstore.io/c/stolen-realm/  +  release/mods.json (versao_publicada/publicado_em)
 ```
 
-**Envio local (sem GitHub)** continua valendo como sempre, e é o caminho mais curto hoje:
-`bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só envia
-com `--go`). Ele roda a trava de segredo e o `tools/release-check.sh` antes de qualquer coisa
-e lê o token de `TCLI_AUTH_TOKEN` / `THUNDERSTORE_TOKEN_FILE` / `~/.thunderstore-token` —
-**nunca** de dentro do repositório (se o arquivo estiver dentro, ele recusa).
+**Envio local legado — não usar `--go` como caminho seguro de release.**
+No empacotador publicado em 16/10/2026, `tools/publish-thunderstore.sh` não lê o gate `release/mods.json`
+nem aplica aprovação humana;
+após empacotar, itera **todos** os `dist/gumatos-*.zip`, inclusive versões antigas que já
+estavam na pasta. O filtro de nome limita o empacotamento, **não** esse laço de envio.
+O dry-run evita o upload, mas ainda exige token e pode executar checks/builds e sobrescrever
+ZIPs. Além disso, o cabeçalho de autorização do envio não usa a variável `TOKEN` lida no início.
+Não foi executado nesta revisão. Há frente em andamento (16/10/2026) que faz o script ler o gate;
+enquanto ela não estiver commitada e provada, vale o texto acima. Corrigir/testar esse script é tarefa própria; até lá use
+somente o workflow revisado, com gate, pacote nominal e aprovação humana. Não há autorização
+de publicação implícita neste guia.
 
 ### 5.1) A verificação de release não escreve mais no perfil (REL-3)
 

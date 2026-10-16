@@ -11,8 +11,10 @@ e a conferencia de shrines so nao aprovou o formato antigo porque se recusou a c
 
 ## Como rodar (sem depender do jogo para o que nao depende)
 
-* Testes de LOGICA PURA (formulas, formatacao, parsers, tabelas, filtros) rodam com `dotnet test` ou um runner
-  simples, referenciando o projeto do mod. Nao precisam do jogo e podem rodar em CI quando o `lib/` estiver disponivel la.
+* Testes de LOGICA PURA (formulas, formatacao, parsers, tabelas, filtros) usam runner proprio
+  ou `dotnet test` quando existir projeto de teste adequado. Os checks Python do CI nao precisam
+  do jogo. Harnesses C# que referenciam mod/tipos do jogo exigem as referencias privadas locais;
+  nao disponibilizar `lib/` no runner publico para cumprir este plano (ver `CI.md`).
 * Testes que precisam de tipos do jogo (Unity/Mathf, TMP, Character) rodam LOCAL, com o `lib/` da maquina do
   desenvolvedor (que e gitignored). Eles declaram isso no cabecalho e falham com mensagem clara quando o `lib/` falta.
 * Testes de CENA (o que so aparece em partida) continuam sendo roteiro para o dono, mas o que da para capturar em
@@ -30,7 +32,7 @@ Flame, vida maxima 3 (Decay), atributo inexistente (o indexador do motor LANCA),
 **INVARIANTES** (valem para todo mod, e cada um vira teste):
 1. Todo numero exibido e o do MOTOR - nada somado a mao.
 2. A lista de auras se diz completa: nenhuma aura viva pode sumir em silencio.
-3. Mods nao se referenciam entre si (zero ocorrencia do nome/GUID de um no codigo do outro).
+3. Dependencias sao explicitas, nao proibidas por contagem de nomes: o manifest atual do RSTV declara `DefRuivo_StolenRealmMods-RealmApi-0.1.0` (hard tambem em `BepInDependency`); o BetterCombatText **nao** declara BetterFont (dependencia de pacote removida em 16/10/2026, DEP-REV). Verificar ausencia de acoplamento acidental e o carregamento/recusa sem a dependencia.
 4. Falha e sempre do lado reversivel e declarada no log, nunca em silencio.
 5. Assinatura de patch por TIPO, parametro por NOME, nunca por indice.
 6. Marcador de vida no boot e contagem REAL de ganchos aplicados.

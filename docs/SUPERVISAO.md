@@ -47,7 +47,8 @@ Máquina travando **não** é produtividade. Reduza e volte a subir quando alivi
 
 ## A REGRA QUE NÃO SE NEGOCIA: REVISÃO INDEPENDENTE
 
-**Toda tarefa executada exige uma tarefa de revisão.** O revisor:
+**Toda tarefa executada exige revisão independente** (a mecânica de mesmo cartão ou filho
+preexistente está em `PROCESSO-REVISAO.md`). O revisor:
 
 - **nunca é o autor**;
 - **tenta refutar**, não confirmar;
@@ -132,8 +133,9 @@ Regra: **campos disjuntos**. Se inevitável, serialize por dependência explíci
 Corolários já aprendidos aqui:
 
 - **Nunca `git add` de diretório nem `-A`** enquanto houver agente trabalhando: sempre **caminho explícito de arquivo**.
-- **Nunca `dotnet build -c Release` sem `-p:DeployToBepInEx=false`** com o jogo aberto: sem a flag o alvo
-  `DeployToBepInEx` **copia a DLL para o perfil do dono**. Já aconteceu, e o jogo travou o arquivo.
+- **Deploy é opt-in** desde DEPLOY-2: build comum ou Release não instala. Mantenha
+  `-p:DeployToBepInEx=false` explícito nas verificações; só `-p:DeployToBepInEx=true` autoriza os alvos
+  de cópia. O incidente de cópia sem flag ocorreu antes desse contrato (`Directory.Build.props`).
 - Antes de commitar, confira o **mtime**: se o arquivo está sendo escrito agora, deixe para o lote seguinte.
 
 ---
@@ -186,8 +188,10 @@ explícita**.
 **Achado sem tarefa é achado perdido.** Quando um agente encontra algo fora do escopo dele, ele **não conserta** — ele
 relata, e a tarefa nasce.
 
-Lembrete de mecânica: **subagente não consegue criar tarefa no Kanban** (o contexto de filho falha nisso). **O agente
-pai cria.** Se o plano da tarefa diz "ao fechar, crie a revisão", esse plano está quebrado — a revisão nasce do pai.
+Lembrete de mecânica: **subagente de `delegate_task` não cria/muta cartões**; o pai registra
+os achados. Worker do dispatcher usa as ferramentas `kanban_*`. Para revisão, siga
+`PROCESSO-REVISAO.md`: mesmo cartão por `kanban_request_review`, ou conclusão da fase para
+liberar filho de revisão já existente; não crie revisão duplicada.
 
 E dependência se declarada assim: `B depende de A`; se `A` bloqueia, `B` espera e `C` continua.
 

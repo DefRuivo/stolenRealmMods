@@ -25,16 +25,23 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | `AMBIENTE.md` | mantenedor | Ambiente reproduzível: versões validadas (BepInEx, Unity, .NET, Python), caminhos do jogo e do perfil do r2modman, a decisão sobre a `biblioteca-de-terceiros` e a regra de backup de DLL. |
 | `MODS-PARA-AMIGOS.md` | mantenedor | Os dois lados da distribuição: como gerar o pacote (`tools/pack-for-friends.sh` → `dist/StolenRealm-Mods-<data>.zip`) e o que o amigo faz com ele. Diz o que **entra** e o que **não entra** no zip. |
 | `LEIA-ME.txt` | usuário final | Instruções de instalação em 5 minutos (r2modman ou BepInEx na mão) + os 3 problemas mais comuns. É este arquivo que vai **dentro** do zip distribuído. |
-| `img/LEIA-ME.txt` | mantenedor | Lista das **capturas de tela pendentes** que o `README.md` da raiz espera nesta pasta (`docs/img/<nome>.png`) — nomes exatos, como capturar e onde cada uma entra. |
+| `img/LEIA-ME.txt` | mantenedor | Lista das **capturas pendentes** que o `README.md` da raiz espera nesta pasta (`docs/img/<nome>.png`) — nomes exatos, como capturar e onde cada uma entra. Os PNG ainda **não existem** (16/10/2026): são **9 links** `docs/img/*.png` sem arquivo, que o GitHub mostra quebrados até a captura. |
 | `RSTV-ANALISE.md` | mantenedor | Pontos de ancoragem do `RoguelikeSkillTreeVisualizer` (RSTV-1) no **decompilado** do jogo: onde a UI que o mod toca é montada, com `arquivo:linha` em cada afirmação. É análise, não implementação. |
 | `cobertura/` | mantenedor | O **censo** do que existe para revisar (CSVs) e os relatórios de revisão. Ver §2. |
 
-O repositório tem, na raiz, uma pasta por mod — `BetterCombatText`, `BetterFont`,
-`BetterStats`, `BetterTooltips`, `RoguelikeDebugger` e
-`RoguelikeSkillTreeVisualizer` (e `RoguelikeBalance`, que ainda não virou mod — `BAL-1`).
-Cada um é um projeto independente, com `DeployToBepInEx` próprio no
-`.csproj`, e os **6** são pacotes Thunderstore completos (`manifest.json`, `README.md`,
-`CHANGELOG.md`, `icon.png`). A descrição de cada mod e o que ele **não** faz está no
+Em 16/10/2026 o empacotador versionado descobre **8** mods na raiz — `BetterCombatText`, `BetterFont`,
+`BetterPortuguese`, `BetterStats`, `BetterTooltips`, `RoguelikeDebugger`,
+`RoguelikeSkillTreeVisualizer` e `RoguelikeUnlimitedLevelProgression` (a mesma lista de oito nomes está no
+gate [`release/mods.json`](../release/mods.json)). Cada um tem projeto e
+metadados próprios; seis estão publicados. `RoguelikeBalance` não existe na árvore atual.
+A [RealmApi própria](../api/README.md) existe em `api/` e é consumida pelo **fonte atual** do RSTV
+(UI clone/clique, dependência obrigatória ≥ 0.1.0): seu projeto é `api/Plugin/RealmApi.csproj` e o
+runtime tem três assemblies. **Atenção ao ler este parágrafo na árvore de trabalho:** em 16/10/2026 há
+uma frente em andamento (PKG-API-1) que ensina o empacotador a reconhecer esse layout — na árvore local
+`--listar-nomes` já imprime **nove** nomes (com `RealmApi`), enquanto o gate segue com oito e a API
+continua fora da Thunderstore. Estado correto = o de `release/mods.json` (oito, nenhum RealmApi).
+Compilar a API em Release antes do RSTV; não confundir fonte local com o ZIP publicado de mesmo número.
+A descrição de cada mod e o que ele **não** faz está no
 `README.md` da pasta do mod; o que cada um faz em uma linha, a versão no disco e o estado
 de publicação estão na tabela de *Pacote Thunderstore*, mais abaixo. `ReloadProbe`
 (`com.gumatos.reloadprobe`) **não** entra nessa conta: é o **harness de bancada** que mede
@@ -227,14 +234,16 @@ copia a DLL, mas desde a DEPLOY-2 ele é **opt-in**: só roda com `-p:DeployToBe
 na mão (ou para conferir que a cópia aconteceu):
 
 ```bash
+PERFIL="$(cygpath -u "$APPDATA")/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
 cp BetterTooltips/bin/Debug/netstandard2.1/BetterTooltips.dll \
-   "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/BetterTooltips/"
+   "$PERFIL/plugins/BetterTooltips/"
 ```
 
-Destino correto, sempre: **uma pasta por mod, com a DLL dentro dela** —
-`plugins\<Mod>\<Mod>.dll`. DLL solta em `plugins/` não carrega; e **backup de DLL
-nunca vai para dentro de `plugins/`** (o BepInEx varre a pasta recursivamente e carrega
-o backup como se fosse mod — ver `AMBIENTE.md`).
+Destino recomendado: **uma pasta por mod, com a DLL dentro dela** —
+`plugins\<Mod>\<Mod>.dll`. O loader também descobre DLL solta; organização por pasta é a
+convenção do projeto, não uma exigência do BepInEx. **Backup de DLL
+nunca vai para dentro de `plugins/`** (a busca de `*.dll` é recursiva, inclusive em pastas
+chamadas `backup` — ver `AMBIENTE.md`).
 
 ### Passo 7 — ciclo do jogo e leitura do log
 
@@ -385,21 +394,25 @@ DENTRO da pasta do mod). Nao existe pasta `src/` nem `thunderstore/`: a estrutur
 mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do `.gitignore` e o alvo
 `DeployToBepInEx` dos csproj.
 
-### Os 6 mods do projeto — o que faz, versão no disco e o que está no ar
+### Os 8 mods descobertos — versão no fonte e publicação (16/10/2026)
 
 | Mod | O que faz (uma linha) | Versão no disco | Na Thunderstore |
 |---|---|---|---|
-| `BetterCombatText` | Contorno/halo suave nos **nomes de inimigos** e nos **rótulos de buff/debuff**, mais o texto do dado nos eventos de rolagem (cada superfície liga/desliga no `.cfg`; não altera gameplay). | 0.1.1 | **PUBLICADO 0.1.0** (`DefRuivo_StolenRealmMods-BetterCombatText`, 01/10/2026) — a **0.1.1 no disco não foi publicada**: nenhuma linha de código mudou, ela bumpa a **dependência para o `BetterFont 1.0.2`** (sem isso o gerenciador instala a 1.0.1, cujo portão de material deixava os textos de combate na fonte original) e corrige o README. **Ordem de envio: o `BetterFont 1.0.2` primeiro.** |
-| `BetterFont` | Troca a fonte da interface pela **serifada** (Times New Roman, com Georgia/Liberation Serif de reserva), preservando cor, contorno e sombra dos textos — **inclusive nos textos de combate** (nome do inimigo, número do dado), que usam outra variante de shader. | 1.0.2 | **PUBLICADO 1.0.1** (`DefRuivo_StolenRealmMods-BetterFont`, 01/10/2026) — a 1.0.0, de 30/09, foi substituída na vitrine. A **1.0.2 no disco não foi publicada**: é o BF-2, que conserta o portão de material (variante de shader deixou de ser recusa) e fecha os buracos de propriedade. |
-| `BetterStats` | Mostra os atributos no formato **`base (combinado)`** na ficha de personagem e na tela de level up. | 1.0.1 | **PUBLICADO 1.0.1** (`DefRuivo_StolenRealmMods-BetterStats`, 01/10/2026). |
-| `BetterTooltips` | Conserta tooltips de skill/status que "mentiam por omissão" e acrescenta ao fim a explicação da mecânica. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-BetterTooltips`, 01/10/2026). |
-| `RoguelikeDebugger` | Ferramenta de **desenvolvimento**: despeja o inventário interno do jogo (skills, status, itens, loot) no `LogOutput.log` — é o dump que gera o censo. | 0.1.1 | **PUBLICADO 0.1.1** (`DefRuivo_StolenRealmMods-RoguelikeDebugger`, 01/10/2026) — categoria **Tools**. |
-| `RoguelikeSkillTreeVisualizer` | Botão `Skills` no **cabeçalho do modal *Remove Skill Trees*** (tela Select Party) e **na barra de baixo do HUD da run** (na linha dos botões nativos de inventário e de skills, no vão livre antes do rotador da barra de skills — RSTV-30), que abre a Skill Tree nativa em **modo somente leitura**, com o contexto real do personagem e sem gastar ponto; na run ele **fica visível com o HUD** (não pisca quando outro personagem age) e o portão decide só o **clique**; o atalho **F10** abre a mesma árvore, inclusive na tela de party (a RSTV-29 removeu o antigo botão da própria tela de party, ao lado do *Choose Powerups*). | 0.3.2 | **PUBLICADO 0.3.2** (`DefRuivo_StolenRealmMods-RoguelikeSkillTreeVisualizer`, 04/10/2026; conferido na API em 06/10/2026) — mas **RSTV-29** (remoção do botão da tela Select Party) e **RSTV-30** (botão na barra de baixo) **ainda NÃO estão publicadas**: o zip no ar é anterior às duas e a descrição dele na vitrine ainda cita o botão antigo. Revisado em jogo pelo dono (a conferência visual da RSTV-30 está pendente). |
+| `BetterCombatText` | Contorno dos nomes de inimigos, rótulos de buff/debuff e dado de eventos. | 0.1.2 | **PUBLICADO 0.1.2**, 07/10/2026. Manifest atual: só `BepInExPack` — a dependência de `BetterFont` foi removida em 16/10/2026 (DEP-REV); o `BetterCombatText/README.md` ainda descreve a política antiga. |
+| `BetterFont` | Fonte serifada com preservação de estilo; textos estilizados por outro mod podem manter a fonte original. | 1.0.3 | **PUBLICADO 1.0.3**, 07/10/2026. |
+| `BetterPortuguese` | Overlay PT-BR Original/Corrigido; sem correções editoriais aprovadas no snapshot inicial. | 0.1.0 | **NÃO PUBLICADO**; `publicar:false`, QA em jogo e aceite pendentes. |
+| `BetterStats` | Atributos `base (combinado)` na ficha e no level-up. | 1.0.2 | **PUBLICADO 1.0.2**, 07/10/2026. |
+| `BetterTooltips` | Correções/notas de tooltips e valores de auras de shrine para o personagem em foco. | 0.1.4 | **PUBLICADO 0.1.4**, 07/10/2026. |
+| `RoguelikeDebugger` | Ferramenta de investigação: inventários e diagnóstico no log. | 0.1.2 | **PUBLICADO 0.1.2**, 07/10/2026. |
+| `RoguelikeSkillTreeVisualizer` | Árvore read-only: HUD inferior da run, modal Remove Skill Trees, level-up e F10. Fonte atual usa RealmApi. | 0.3.3 | **PUBLICADO 0.3.3**, 07/10/2026; mesmo número não prova que o ZIP contém a integração posterior com a API. |
+| `RoguelikeUnlimitedLevelProgression` | Remove teto de nível 20 do Roguelike singleplayer. | 0.1.1 | **NÃO PUBLICADO**; `publicar:false`, runtime/aceite ainda exigidos pelo gate. |
 
 A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `manifest.json` e
-`Plugin.cs`; ver *Fonte única de versão*). O que está no ar é o `versao_publicada` do
-[`release/mods.json`](../release/mods.json), conferido contra a API pública em 01/10/2026
-(`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
+`Plugin.cs`; ver *Fonte única de versão*). `versao_publicada` do
+[`release/mods.json`](../release/mods.json) foi reconferido nos endpoints por pacote em
+**16/10/2026**; as seis versões e datas da tabela coincidiram com `latest.version_number`
+e `latest.date_created` (`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
+Esse resultado não compara o hash do ZIP com o fonte atual nem libera nova publicação.
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
 **Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO): o projeto tem um sétimo pacote DESCOBERTO**,
@@ -423,7 +436,7 @@ ficaram **inalteradas** e a nova é recusada pelo nome (`publicar:false`). A tab
 | `description` | ate 250 chars | OK (172..212) |
 | `website_url` | URL valida | OK |
 | `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 57013..124954 bytes — todos abaixo de 1 MB) |
-| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` — e **uma** dependência entre mods deste repo, em **direção única**: `BetterCombatText 0.1.1` → `BetterFont 1.0.2` (o `BetterFont` não aponta de volta; o porquê está em `release/mods.json`) |
+| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` em todos. Estado atual (16/10/2026): **uma** dependência entre mods deste repo, em **direção única** e ainda não resolvível — `RoguelikeSkillTreeVisualizer 0.3.3` → `DefRuivo_StolenRealmMods-RealmApi-0.1.0` (a API não está publicada, então `python tools/check_dependencias.py` falha por isso e o upload do RSTV seria recusado). A antiga `BetterCombatText` → `BetterFont` foi **removida** em 16/10/2026 (DEP-REV): era dependência de pacote sem dependência obrigatória de código |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
 **A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5

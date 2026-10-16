@@ -1,8 +1,9 @@
 # Stolen Realm — QoL Mods (BepInEx)
 
 Quality-of-life mods for **Stolen Realm** (Steam AppID `1330000`), loaded by **BepInEx 5**.
-No mod touches the game's content, balance or files: each one is a **separate DLL** dropped into
-`BepInEx\plugins\`. Nothing in `Assembly-CSharp.dll` is ever modified.
+The published QoL mods do not change gameplay balance. The repository also contains unpublished
+projects, including RoguelikeUnlimitedLevelProgression, which changes progression. Mods use separate
+DLLs in `BepInEx\plugins\`; `Assembly-CSharp.dll` is never modified.
 
 **English** · [Português (BR)](#português-br)
 
@@ -45,6 +46,10 @@ No mod touches the game's content, balance or files: each one is a **separate DL
 | **BetterTooltips** | Makes skill, status and item tooltips **accurate and complete**: it fixes descriptions that "lied by omission" (missing duration, stack limit, range, whether it stacks with the party…) and appends a short **explanation of how the mechanic actually works** at the end of the tooltip, in the game's own special text colour. |
 | **BetterStats** | Shows your attributes as **`base (combined)`** — the raw value you invested and, in brackets, the final value with powerups, gear and skills. Works on the character sheet and on the level-up screen. It also fixes the value column alignment, which used to overflow the panel. |
 | **BetterFont** | Swaps the game font for a **serif** one (Times New Roman; Georgia or Liberation Serif as fallback). The original font stays as a fallback, so icons and symbols keep rendering (no boxes). |
+| **BetterCombatText** | Outlines enemy names, buff/debuff labels and event dice text. It **does not declare a dependency** on BetterFont — pairing the two is a visual choice, never a requirement (the manifest dependency was removed on 16/10/2026); its own README still describes the older policy. |
+| **RoguelikeSkillTreeVisualizer** | Opens skill trees read-only from the run HUD, removal modal and level-up window, or F10. The current source requires RealmApi; see the developer note below. |
+| **BetterPortuguese** | Unpublished PT-BR overlay project; publication and in-game QA are blocked. |
+| **RoguelikeUnlimitedLevelProgression** | Unpublished singleplayer progression mod; removes the Roguelike level cap. Publication remains blocked. |
 | **RoguelikeDebugger** | **NOT a player mod.** It is a **development tool** of ours: instead of improving the screen, it dumps internal game data into the log file (skill, item, affix, powerup and status inventories). It is used to investigate mechanics. If you just want to play, **do not install it** — it fills the log with thousands of lines. |
 
 ## Prerequisites
@@ -84,9 +89,10 @@ No mod touches the game's content, balance or files: each one is a **separate DL
    `dotnet build` does **not** install anything — only `-p:DeployToBepInEx=true` copies the DLL into
    this machine's r2modman profile.
 
-   ⚠️ **The DLL cannot sit loose in `plugins\`** — it must be inside the mod's folder. And because
-   BepInEx scans that folder **recursively**, **never** keep DLL copies/backups
-   (`*.dll.bak`, `*.disabled`, old copies) inside `plugins\`.
+   Use one folder per mod for organization (BepInEx also discovers loose DLLs).
+   It scans `*.dll` **recursively**: a `backup/OldMod.dll` is still a candidate.
+   Keep backups outside `plugins\`. Renaming the file to `.dll.disabled` disables it;
+   renaming only its parent folder does not.
 9. **Always launch the game from r2modman**, with the **"Start modded"** button. Launching from
    Steam does **not** inject the mods — the game opens normally, with no mods loaded.
 
@@ -102,9 +108,10 @@ No mod touches the game's content, balance or files: each one is a **separate DL
    again, one folder per mod with the DLL inside.
 5. **Launch the game normally.** Done.
 
-> ⚠️ **Backups:** **NEVER** put DLL backups inside `plugins\` (not `.bak`, not `.dll.old`, not a
-> `backup` subfolder). BepInEx scans `plugins\` recursively and tries to load **every** `.dll` it
-> finds as a mod — the backup loads too, the same fixes are applied twice and things break.
+> ⚠️ **Backups:** keep them outside `plugins\`. BepInEx scans `*.dll` recursively,
+> including DLLs inside a folder named `backup` or `*.bak`. Files ending in `.dll.disabled`
+> or `.dll.old` do not match that search. Duplicate candidates can cause conflicts; this
+> does not necessarily mean that the same patches will run twice.
 > Keep backups **outside** `plugins\`.
 
 > ⚠️ **Never modify `Assembly-CSharp.dll`** (in `Stolen Realm_Data\Managed\`). Mods are always a
@@ -143,8 +150,9 @@ Nothing in the game is changed, so uninstalling is just deleting files.
 
 1. Close the game.
 2. Delete the mod's folder inside `BepInEx\plugins\<ModName>\` (or untick it in r2modman's
-   **"Installed"** tab — unticking is reversible, deleting is not). Each mod is independent:
-   removing one **does not affect the others**.
+   **"Installed"** tab — unticking is reversible, deleting is not). Check dependencies first:
+   the current RSTV source declares a hard dependency on RealmApi (compilation references and
+   `BepInDependency ≥ 0.1.0`); RealmApi 0.1.0 is not published yet.
 3. To remove everything (100% clean game), also delete the whole `BepInEx\` folder plus
    `winhttp.dll` and `doorstop_config.ini` from the game folder. No need to reinstall or verify
    files through Steam.
@@ -161,8 +169,8 @@ opens again — and redo it with r2modman. With r2modman, untick the mods and hi
 to confirm the game opens without mods, then re-enable them one at a time.
 
 **2. The game opens but no mod shows up.**
-Check, in order: the path must be exactly `...\BepInEx\plugins\<ModName>\<ModName>.dll` (a
-loose DLL in `plugins\` is mistake #1); you must launch through **"Start modded"**; look for the
+Check, in order: the recommended path is `...\BepInEx\plugins\<ModName>\<ModName>.dll`
+(a loose DLL is also discovered); required dependencies must be installed; launch through **"Start modded"**; look for the
 `... carregado.` line in the log.
 And if you had the old `BetterTexts`, delete that folder: it was renamed to **BetterTooltips**,
 and having both applies the same fixes twice.
@@ -181,14 +189,27 @@ on screen and floods `LogOutput.log`. Only install it to investigate mechanics.
 
 ## Mod identifiers
 
-Useful to confirm what loaded in the log:
+Useful to confirm what loaded in the log. These are **current source versions**, not proof
+that an installed DLL or the published ZIP has the same bytes. Six packages were published on
+October 7, 2026; BetterPortuguese and RoguelikeUnlimitedLevelProgression remain blocked.
+The current RSTV source has a hard dependency on [RealmApi 0.1.0](api/README.md): build
+`api/Plugin/RealmApi.csproj` in Release first, even for a Debug RSTV build. The API runtime
+needs `RealmApi.dll`, `RealmApi.Core.dll` and `RealmApi.Hooks.dll` together; the versioned
+packager does not discover that module, and `release/mods.json` does not gate it (a work-in-progress
+branch in the local tree already teaches the packager this layout — the gate stays the authority).
+Do not distribute a source build as if it were the
+published 0.3.3 package. [Current package table and limits](docs/README.md#pacote-thunderstore--r2modman).
 
 | Mod | GUID (BepInEx internal name) | Name in the log | Version |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
+| RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
 ---
 
@@ -331,10 +352,14 @@ Identificadores internos (úteis para conferir no log):
 
 | Mod | GUID (nome interno do BepInEx) | Nome no log | Versão |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
+| RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
 ---
 
@@ -602,10 +627,14 @@ mantém o projeto.
 
 | Mod | GUID (nome interno do BepInEx) | Nome no log | Versão |
 |---|---|---|---|
-| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.1 |
-| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.1 |
-| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.2 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.1 |
+| BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
+| BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
+| BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
+| RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
 ---
 

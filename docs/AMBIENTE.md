@@ -25,7 +25,11 @@ pasta do jogo tem `MonoBleedingEdge\`; e o BepInEx 5 carrega pelo doorstop
 mods são DLLs .NET gerenciadas (`netstandard2.1`), compiladas contra
 `Assembly-CSharp.dll` — em IL2CPP não haveria esse assembly gerenciado para referenciar.
 
-### Plugins que carregam no perfil `Default` (8)
+### Plugins observados no perfil `Default` (10; `LogOutput.log` lido em 16/10/2026)
+
+Leitura do `LogOutput.log` existente em 16/10/2026; nenhum jogo foi aberto nesta revisão.
+Versão carregada, versão no fonte e versão publicada são fatos distintos. `Loading` comprova
+que o loader encontrou o plugin, não que seus ganchos e efeitos funcionaram.
 
 | Plugin | Origem |
 |---|---|
@@ -34,9 +38,11 @@ mods são DLLs .NET gerenciadas (`netstandard2.1`), compiladas contra
 | `Better Combat Text 0.1.1` | projeto (depende do `Better Font`) |
 | `Better Font 1.0.2` | projeto |
 | `Better Stats 1.0.1` | projeto |
-| `Better Tooltips 0.1.1` | projeto |
+| `Better Tooltips 0.1.4` | projeto |
+| `CAP-1 Probe (instrumento de verificacao) 1.0.0` | instrumento local de verificação |
 | `Roguelike Debugger 0.1.1` | projeto (ferramenta de dev — despeja o dump que alimenta o censo) |
-| `Roguelike Skill Tree Visualizer 0.2.0` | projeto |
+| `Roguelike Skill Tree Visualizer 0.3.3` | projeto |
+| `Roguelike Unlimited Level Progression 0.1.1` | projeto (pacote ainda bloqueado para publicação) |
 
 ---
 
@@ -97,8 +103,12 @@ depois da 0.1.0, foi baixada e instalada, e o ciclo mostrou o **mesmo erro**. Co
 **Por que é seguro:** **nenhum mod deste projeto depende dela** — nenhum
 `BepInDependency`, nenhuma referência a `biblioteca-de-terceiros` nos `.cs`/`.csproj`
 (conferido por varredura no repositório), o log não acusa dependência quebrada, e os
-mods do projeto usam Harmony direto. Com a API desativada o ciclo fecha com **6 plugins
-carregando e zero erro**.
+mods do projeto usam Harmony direto. **Na rodada histórica de desativação**, o ciclo fechou
+com 6 plugins e zero erro; isso não é o total corrente (ver tabela do log acima).
+
+A **RealmApi própria**, em [`api/`](../api/README.md), é outra biblioteca: a fonte atual do
+RSTV depende dela e precisa de seus builds Release antes de compilar. Isso não reativa nem
+substitui a `biblioteca-de-terceiros` de terceiros.
 
 > Os mods do projeto **não** precisam da ModAPI para nada. Se algum dia um mod precisar,
 > é melhor reimplementar o que for necessário do que reativar a API — ela está parada no
@@ -136,21 +146,24 @@ Regras irmãs, pelo mesmo motivo:
 
 ## 5. Checklist rápido para conferir o ambiente
 
+- `dotnet`/Python e os caminhos abaixo foram reconferidos em 16/10/2026. No Git Bash,
+  `%APPDATA%` é sintaxe de cmd.exe e **não expande**; use `$APPDATA` (ou `cygpath -u`).
+
 ```bash
 # versões
 dotnet --version                                        # 6.0.428
 python --version                                        # 3.14.7
-powershell -c "(Get-Item \"$env:APPDATA\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\core\BepInEx.dll\").VersionInfo.FileVersion"   # 5.4.23.5
+powershell.exe -NoProfile -Command '(Get-Item "$env:APPDATA\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\core\BepInEx.dll").VersionInfo.FileVersion'   # 5.4.23.5
 
 # referências de compilação presentes
 cd C:/dev/stolen-realm && ls lib/        # Assembly-CSharp.dll, BepInEx.dll, UnityEngine*, 0Harmony, Sirenix*
 
-# a API está desativada?
-ls "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/biblioteca-de-terceiros/"
+# a API de TERCEIROS está desativada?
+PERFIL="$(cygpath -u "$APPDATA")/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
+python -c 'import os; from pathlib import Path; p=Path(os.environ["APPDATA"])/"r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/biblioteca-de-terceiros"; print("\n".join(x.name for x in p.iterdir()))'
 
-# nada de DLL de backup DENTRO de plugins/  (a lista tem que ficar vazia:
-# o BepInEx carregaria qualquer *.dll ali, inclusive num *.bak/)
-find "%APPDATA%/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins" -path "*bak*" -name "*.dll"
+# conferir backups DENTRO de plugins/ (uma pasta .bak não desativa os *.dll dela)
+python -c 'import os; from pathlib import Path; p=Path(os.environ["APPDATA"])/"r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins"; print("\n".join(str(x.relative_to(p)) for x in p.rglob("*.dll") if "bak" in str(x.relative_to(p))))'
 ```
 
 Depois de qualquer build/instalação, valide pelo **ritual de build** descrito em

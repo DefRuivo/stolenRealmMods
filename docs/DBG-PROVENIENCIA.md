@@ -50,11 +50,15 @@ python tools/verifica_proveniencia_debugger.py <LogOutput.log> [--alvo api/docs/
 
 | veredito | exit | significado |
 |---|---|---|
-| COMPLETO | 0 | cabeçalho completo, identidade conhecida, ganchos coerentes, rodapé presente (e tudo batendo com `--alvo`) — **só este libera** ler ausência de dado como ausência de fato |
+| COMPLETO | 0 | cabeçalho completo, identidade conhecida, ganchos coerentes, rodapé presente (e tudo batendo com `--alvo`) — prova integridade do carimbo, **não** completude de todos os dados do jogo |
 | TRUNCADO | 2 | proveniência válida, mas dump não fechado, gancho falho (`PARCIAL`) ou identidade incompleta (`buildSteam=desconhecido`) |
 | REPROVADO | 1 | sem cabeçalho, campo obrigatório vazio, sha256 fora de 64 hex, bloco incoerente ou divergência com o alvo |
 
-Avisos **não** mudam o veredito, mas precisam ser lidos: `modoLeitura=ativo` significa que a matriz
+Mesmo `COMPLETO` não prova cobertura de categorias, eventos, presets de inimigo ou localização;
+só permite interpretar ausência dentro de um coletor cujo alcance foi comprovado separadamente.
+O verificador não enumera essas entidades. Identidade incompleta e demais `avisos` do verificador
+produzem `TRUNCADO`; `modoLeitura=ativo` é uma nota informativa que não muda o veredito.
+`modoLeitura=ativo` significa que a matriz
 Flame está aplicada e a sessão **não** é observação passiva estrita
 (`RoguelikeDebugger/Patches/FlameShrineProcPatch.cs:278-284,350`). O gate ativo separado, default
 off, é trabalho de outro cartão (P0 DBG14).

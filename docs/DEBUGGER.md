@@ -16,9 +16,13 @@ asset o tempo todo.
 
 ## Estado atual (medido, nao presumido)
 
-Categorias que o dump ja publica: `[Status]`, `[Action]`, `[Skill]`, `[Item]`, `[ItemMod]`,
-`[Powerup]`, `[Loot]`, `[Event]`, `[LifeSteal]`, alem do resumo `[Efeitos]`. Sao 9 arquivos de
-gancho em `RoguelikeDebugger/Patches/`.
+O fonte atual publica `[Status]`, `[Action]`, `[Skill]`, `[Item]`, `[ItemMod]`,
+`[Powerup]`, `[Loot]`, `[Event]`, `[LifeSteal]`, `[Dmg]`, `[Gold]`, `[Exp]` e `[ExpInimigo]`,
+alem do resumo `[Efeitos]` e do carimbo `[Proveniencia]`. Ha **10 arquivos** `.cs` em
+`RoguelikeDebugger/Patches/` (16/10/2026); arquivos nao equivalem a classes/ganchos.
+Inventarios saem no boot; evento, combate, loot, ouro e experiencia dependem do caminho
+exercitado, nao sao todos garantidos por um boot. O [carimbo DBG-PROV-V1](DBG-PROVENIENCIA.md)
+qualifica identidade e fechamento, nao torna o dump um censo universal do jogo.
 
 ## Por que ele E extensivel (e nao por otimismo)
 
@@ -47,6 +51,10 @@ dado faltava.
 > duas.
 
 ## Backlog auditado — fechado no RD-2 (01/10)
+
+As medições e relatos de 01/10 abaixo são fotografias históricas, não comprovantes da
+DLL instalada em 16/10/2026. Conferir o log e a proveniência da sessão antes de usar esses
+contadores como estado atual; nenhum boot novo foi executado nesta revisão documental.
 
 O que a auditoria das auras (`docs/cobertura/revisao/RV-19-shrines.md`, secao 7) pedia e nao
 salia no dump. **Tudo entrou no dump de status** (`ActionStatusInventoryPatch`), campo antes do
@@ -88,12 +96,14 @@ lidos pelo asset com UnityPy; nenhum outro arquivo tem status).
 > da **0** ocorrencias no log de boot inteiro (453 skills + 277 acoes + 600 statuses + 905 itens). Um
 > `X/421` tambem nao cobre isso.
 
-> **Numeracao das linhas:** os `l.NNNN` desta tabela sao do decompilado **regerado em 01/10** com
-> ilspycmd 8.2.0. O arquivo que existe hoje (`%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs`)
-> tem **496.253** linhas — contadas com `wc -l` (e `grep -c ""`, que da o mesmo) em 01/10/2026 — e esse
-> numero muda se o cache for **regerado** (a versao anterior, de 371.804 linhas, nao esta mais no
-> cache): conferir a contagem do arquivo ANTES de citar. As revisoes antigas (RV-13b, RV-19) citam
-> aquele outro decompile — os numeros divergem; o nome do campo e a chave estavel para reconferir.
+> **Numeracao das linhas:** os `l.NNNN` desta tabela sao da fotografia do decompilado
+> **regerado em 01/10/2026** com ilspycmd 8.2.0 (496.253 linhas naquela rodada). O cache privado
+> `%LOCALAPPDATA%\hermes\cache\scratch\cs\Assembly-CSharp.decompiled.cs` **nao existe** em
+> 16/10/2026. Para reconferir, gere uma NOVA saida privada com
+> `ilspycmd lib/Assembly-CSharp.dll` (ou `ilspycmd -t ActionStatusInfo lib/Assembly-CSharp.dll`);
+> confira a numeracao desse novo arquivo antes de citar. As linhas antigas ficam como
+> referencia historica, nao como promessa de arquivo presente. O nome do tipo/campo e a chave
+> estavel de busca.
 
 | campo no dump | campo do motor (decompilado `Assembly-CSharp.decompiled.cs`) | medicao |
 |---|---|---|
@@ -199,7 +209,8 @@ denuncia.
 7. **A DLL do dump so aparece DEPOIS do deploy (ressalva declarada).** Editar o `.cs` de um patch NAO
    muda o dump: quem roda no jogo e a DLL em
    `<perfil>\BepInEx\plugins\RoguelikeDebugger\RoguelikeDebugger.dll`, e um `dotnet build` sem o
-   target `DeployToBepInEx` nao a atualiza. O ciclo e `dotnet build` (que copia para o perfil) →
-   abrir o jogo → ler o `LogOutput.log`. Campo novo que "nao aparece no log" quase sempre e uma DLL
-   que nao chegou ao perfil — e o `-p:DeployToBepInEx=false` do empacotador builda **de proposito**
-   sem instalar (por isso o `dotnet build` da publicacao nao serve para testar o dump).
+   target `DeployToBepInEx` nao a atualiza. O ciclo autorizado e
+   `dotnet build RoguelikeDebugger/RoguelikeDebugger.csproj -p:DeployToBepInEx=true` →
+   abrir o jogo → ler o `LogOutput.log`. **Deploy e opt-in**: build comum nao copia.
+   Campo novo que "nao aparece no log" exige conferir qual DLL chegou ao perfil;
+   `-p:DeployToBepInEx=false` builda de proposito sem instalar.

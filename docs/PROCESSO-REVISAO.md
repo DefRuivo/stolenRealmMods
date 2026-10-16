@@ -1,6 +1,7 @@
 # Processo de revisão (padrão do projeto)
 
-**Regra:** toda tarefa executada neste projeto gera uma tarefa de **revisão independente**.
+**Regra:** toda tarefa executada neste projeto passa por **revisão independente**, no mesmo cartão
+ou no filho de revisão preexistente, conforme o grafo (ver o formato ao final).
 A revisão é o portão de qualidade **antes** de qualquer validação ou aprovação humana.
 Nenhuma entrega vai para o dono (nem para a Thunderstore) sem passar por ela.
 
@@ -27,7 +28,9 @@ própria entrega não é revisão — é continuação do mesmo trabalho.
 3. **As travas rodadas**: build (0 erros), `check_dupes`, `check_chave_compartilhada --estrito`,
    `check_notas_redundantes`, `check_segredos`, `check_versoes`, `valida_pacotes`, `audita_docs`
    — as que fizerem sentido para a área.
-4. **Invariantes do projeto conferidos** conforme a área: mods não se acoplam; assinatura Harmony
+4. **Invariantes do projeto conferidos** conforme a área: dependências explícitas, sem acoplamento
+   acidental (fonte atual do RSTV → RealmApi por `BepInDependency`, referências de compilação e
+   manifest; o BetterCombatText **não** declara BetterFont depois da DEP-REV, 16/10/2026); assinatura Harmony
    por TIPO e parâmetro por NOME (nunca por índice); try/catch e falha-segura; nunca bloquear
    método de fechamento; nada de Bard/música; os ajustes manuais do dono preservados; uma entrada
    por texto nas tabelas.
@@ -45,6 +48,12 @@ própria entrega não é revisão — é continuação do mesmo trabalho.
 
 ## Formato da tarefa de revisão
 
-Título: `REV-<n>: revisar <o que foi entregue>`
-Corpo: o que foi entregue (arquivos/commits) · o veredito esperado por item · as provas
+Quando houver cartão filho de revisão preexistente, o implementador conclui sua fase com
+`kanban_complete` para liberar esse filho. Caso contrário, entrega o **mesmo cartão** por
+`kanban_request_review`; o dispatcher inicia uma execução independente de revisão nele.
+Não criar também uma segunda revisão para a mesma entrega. Achados no mesmo cartão voltam
+por `kanban_request_changes`, com provas e correções exigidas; bloqueio é só impedimento externo.
+
+Para revisão separada já definida no grafo, o título pode ser `REV-<n>: revisar <o que foi entregue>`.
+Corpo/handoff: o que foi entregue (arquivos/commits) · o veredito esperado por item · as provas
 exigidas · as travas a rodar · o que é só olho humano.

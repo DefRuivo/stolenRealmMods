@@ -22,13 +22,14 @@ O CI **não compila** e **não publica**. Isso é decisão, não pendência:
   cogitação. Quem compila é a máquina de desenvolvimento, com o jogo instalado.
 - **Não publica.** Nenhum segredo é lido, nenhum upload acontece. O job declara
   `permissions: contents: read`, então nem se quisesse daria para escrever no repo.
-- **Não empacota.** O `tools/pack-thunderstore.py` exige a DLL buildada, então fica
-  fora. A parte dele que só olha metadado virou
-  [`.github/scripts/valida_pacotes.py`](../.github/scripts/valida_pacotes.py), que lê
-  apenas arquivos versionados.
+- **Não empacota num runner limpo.** O passo 9 chama `tools/pack-thunderstore.py`
+  se encontrar DLL Release; sem DLL chama apenas `--listar-nomes`. Assim, com DLL local
+  o workflow pode gerar ZIPs em `dist/`, mas não os constrói. Metadados são conferidos pelo
+  [validador](../.github/scripts/valida_pacotes.py) antes desse passo.
 
-O efeito prático: o workflow é a mesma trava do `tools/release-check.sh`, mas **cedo**
-— no push, e não na hora de publicar.
+O efeito prático: o workflow antecipa no push os checks de repositório compartilhados com
+`tools/release-check.sh`. Não executa o mesmo conjunto: o release-check também compila;
+ciclo e validação humana continuam separados.
 
 ## Escopo B: publicação (decidido em 30/09/2026)
 
@@ -84,62 +85,61 @@ A última linha traz o arquivo como ele está no GitHub (o que roda de verdade).
 
 ## Os passos, na ordem
 
-O job para no primeiro erro (o GitHub corta o job no primeiro `run` que sai `!= 0`).
-A ordem vai do mais barato/mais grave para o mais caro.
+Ordem efetiva do YAML local em 16/10/2026 (não é prova de execução remota).
+O job para no primeiro erro. O passo 0 imprime ambiente; depois:
 
-| # | comando | o que pega |
+| # no YAML | comando | o que pega |
 |---|---|---|
-| 1 | `python tools/check_segredos.py` | token/credencial nos arquivos **versionados** — o que seria publicado |
-| 2 | `python tools/check_fix_keys.py` | chave das tabelas do `LocalizePatch` que não existe no censo |
-| 3 | `python tools/check_dupes.py` | chave **duplicada** → `ArgumentException` derruba o `LocalizePatch` inteiro (INC-1) |
-| 4 | `python tools/check_notas_redundantes.py` | nota que repete o próprio texto (RV-15) |
-| 5 | `python tools/check_chave_compartilhada.py --estrito` | **a mesma chave** em `TextFixes` **e** em `TextAppends`: o lookup é `if/else if` na mesma chave, então a entrada de `TextAppends` **nunca roda** e a nota não existe em jogo, sem erro no log (BUG-32). As *suspeitas* (texto usado por 2+ donos) seguem **aviso que não reprova**, nos dois modos |
-| 6 | `python .github/scripts/valida_pacotes.py` | manifest, ícone, README e CHANGELOG de cada pacote — **e que toda dependência resolve** (regra 8, PKG-5; ver `tools/check_dependencias.py`) |
-| 7 | `python tools/audita_docs.py` | auditoria das docs contra o disco: contagens, versões, ferramentas citadas, links e caminhos que saíram do repo (promovido de `scratch/` em 30/09/2026) |
-| 8 | `python tools/checa_citacoes.py` | **citação `arquivo:linha`** da doc apontando para arquivo que não existe ou linha fora do arquivo (irmão estreito do `audita_docs`; a terceira citação quebrada do dia, achado 5 da REV-56) |
+| 1 | `python tools/check_segredos.py` | credencial versionada |
+| 2 | `python tools/check_versoes.py` | espelhos de versão divergentes |
+| 3 | `python tools/check_patches.py` | robustez Harmony |
+| 4 | `python tools/check_fix_keys.py` | chaves contra o censo |
+| 5 | `python tools/check_dupes.py` | chaves duplicadas |
+| 6 | `python tools/check_notas_redundantes.py` | redundância/cor; regenera relatório |
+| 7 | `python tools/check_chave_compartilhada.py --estrito` | mesma chave nas duas tabelas |
+| 7b | `python tools/cobertura_ui_localized.py --prova` | prova offline do instrumento, não cobertura runtime |
+| 8 | `python .github/scripts/valida_pacotes.py` | metadados e dependências |
+| 9 | `python tools/pack-thunderstore.py` **somente se houver DLL Release**; senão `--listar-nomes` | empacotador guardado; com DLL pode escrever em `dist/` |
+| 10 | `python tools/audita_docs.py` | auditoria da documentação |
 
-Nenhum passo instala dependência: todos usam só a biblioteca padrão do Python
-(`csv`, `json`, `re`, `struct`, `zlib`, `subprocess`).
+`python tools/checa_citacoes.py` é uma checagem local complementar: **não está no YAML atual**.
+Nenhum desses scripts exige dependência Python externa; isso não torna o empacotamento um build.
 
 ## Rodar tudo na sua máquina
 
-Da raiz do repo, na mesma ordem:
+Rodar todos os checks do YAML inclui um ramo com escrita de ZIPs. No checkout do dono, use
+`--so-conferir` em vez de empacotar sobre entregáveis antigos; reproduza o ramo com escrita em
+uma cópia NOVA. Os checks de notas também regeneram relatório: execute em cópia para preservar
+`docs/cobertura/` e sua curadoria.
 
 ```bash
-python tools/check_segredos.py
-python tools/check_fix_keys.py
-python tools/check_dupes.py
-python tools/check_notas_redundantes.py
-python tools/check_chave_compartilhada.py --estrito
-python .github/scripts/valida_pacotes.py
-python tools/audita_docs.py
-python tools/checa_citacoes.py
+python tools/check_segredos.py &&
+python tools/check_versoes.py &&
+python tools/check_patches.py &&
+python tools/check_fix_keys.py &&
+python tools/check_dupes.py &&
+python tools/check_notas_redundantes.py &&
+python tools/check_chave_compartilhada.py --estrito &&
+python tools/cobertura_ui_localized.py --prova &&
+python .github/scripts/valida_pacotes.py &&
+python tools/pack-thunderstore.py --so-conferir &&
+python tools/audita_docs.py &&
+python tools/checa_citacoes.py  # complementar; não está no workflow
 ```
 
-O passo 5 roda **com** `--estrito` aqui e no CI (o modo do `release-check.sh`): sem a flag o
-script é relatório puro e sai `0` sempre, listando as suspeitas — foi assim enquanto o único
-caso real (a nota de *stack* da `Consumption`, chave nas duas tabelas) existia. Ele foi
-corrigido, então a flag entrou.
-
-Com `bash`/git-bash dá para parar no primeiro erro como o CI faz:
-
-```bash
-for s in check_segredos check_fix_keys check_dupes check_notas_redundantes \
-         check_chave_compartilhada; do python "tools/$s.py" || break; done
-python tools/check_chave_compartilhada.py --estrito   # a flag que o loop nao passa
-python .github/scripts/valida_pacotes.py
-python tools/audita_docs.py
-python tools/checa_citacoes.py
-```
+O encadeamento `&&` para de verdade no primeiro erro. Num clone limpo sem DLL, troque o
+pre-flight por `python tools/pack-thunderstore.py --listar-nomes`, como o guard do YAML.
+`release-check.sh` também compila e deixa ciclo/runtime pendentes no modo normal; não é
+idêntico ao CI. A referência de numeração é a tabela atual acima, não os relatos históricos abaixo.
 
 ## A chamada pronta para o `validate.yml` (CI-4)
 
-O `tools/checa_citacoes.py` é o **passo 10** do [`validate.yml`](../.github/workflows/validate.yml),
-logo depois da auditoria dos docs (passo 9) — é o mesmo tipo de trava (leitura do repositório, sem
-build e sem DLL) e o mais barato dos três últimos. **O bloco abaixo ainda NÃO está no arquivo que
-roda no GitHub:** o `validate.yml` está fora do repositório para quem tem este PAT (falta o escopo
-`workflow`), então não dá para enviá-lo por aqui. O que ficou pronto é a chamada — cole-a no
-`.github/workflows/validate.yml` depois do passo 9, num PAT com escopo `workflow`:
+O `tools/checa_citacoes.py` foi proposto como passo posterior à auditoria, mas **não aparece
+no YAML local de 16/10/2026**; a auditoria efetiva é o passo 10. O bloco abaixo fica preservado
+como **proposta histórica**, não como instrução de colagem nem diagnóstico de credencial atual.
+Não foi verificado o escopo do PAT nem um run remoto nesta revisão. A decisão de incorporar o
+check ao workflow exige tarefa própria e execução prévia verde; o número do passo deve acompanhar
+o YAML, não a numeração antiga do exemplo.
 
 ```yaml
       # 10. Checagem de CITACOES (tools/checa_citacoes.py): toda citacao `arquivo:linha` da doc
