@@ -175,3 +175,23 @@ secrets*
 # ZIP solto na RAIZ: os pacotes vivem em dist/ (ja' ignorado). Ha' ZIPs legitimamente
 # versionados em docs/automacao, por isso o escopo e' a raiz e nao '*.zip'.
 /*.zip
+
+# ---------------------------------------------------------------------------
+# REPO-BLOAT-1 (t_e8beca3f) — AUTORIZADO NOMINALMENTE pelo dono em 16/10/2026
+# (verbatim: "prossiga com a parte 2"; evento owner_authorized no cartao).
+# Conteudo SUPERSEDED do EV-R1: cada v1 abaixo tem par `-v2` que o substitui
+# (corpo identico caractere a caractere apos normalizar o CR; o v1 so' carrega o
+# CR/LF do gravador no Windows). Os arquivos continuam no DISCO e no HISTORICO;
+# saem APENAS do indice. Regra NOMINAL: um caminho por linha, nunca uma arvore.
+# Esta e' a lista aprovada de remocoes do indice desta frente; o bloco ORG-R2
+# acima (linhas 110-117) continua valendo para aquela frente. As 7 linhas e os
+# 7 `git rm --cached` entraram no MESMO commit de proposito: regra de ignore sem
+# `rm --cached` faria `git ls-files -ci --exclude-standard` sair com 7 linhas.
+# ---------------------------------------------------------------------------
+/docs/cobertura/EV-R1/indice.md
+/docs/cobertura/EV-R1/revisao-por-evento.md
+/docs/cobertura/EV-R1/lote-AfterBattle.md
+/docs/cobertura/EV-R1/lote-Normal.md
+/docs/cobertura/EV-R1/lote-NotInEventPool.md
+/docs/cobertura/EV-R1/lote-QuestStart.md
+/docs/cobertura/EV-R1/lote-SemPoolDeclarado.md

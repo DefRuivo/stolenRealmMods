@@ -394,3 +394,56 @@ Para o cartão sair da fase de proposta, é preciso, **em comentário neste cart
 
 Sem essas duas frases, o cartão para aqui: proposta pronta, pacote de decisão pronto, repositório
 intacto.
+
+---
+
+## 9. Fase 2 — EXECUTADA (16/10/2026), com autorização nominal do dono
+
+**Autorização.** Registrada em comentário neste cartão (`t_e8beca3f`) e no evento `owner_authorized`:
+verbatim *"prossiga com a parte 2"*, dono **Guilherme Moraes**, 16/10/2026. **Escopo autorizado =
+exatamente os 7 caminhos da §4.1, e nada além.** Condições acordadas: `git rm --cached` apenas;
+regras nominais de ignore **no mesmo commit**; sem reescrever histórico; sem push; `git ls-files -ci
+--exclude-standard` vazio ao fim.
+
+**Decisão da §4.3, item 3:** como o escopo diz *"nada além dos 7 caminhos"*, ficou **(b) deixar
+`ENTREGA-E-LOCALIZACAO.md` como está**. O doc segue descrevendo o par v1/v2 (histórico) e o
+`LEIA-ME.md:7` continua apontando só os `-v2`; num clone sem os v1 a frase 16-17 descreve o
+histórico, não o checkout. Pendência **aberta**, não silenciada.
+
+**O que foi executado** (mesmo commit, local, sem push):
+
+```bash
+# .gitignore: bloco nominal REPO-BLOAT-1 (7 linhas, padrão das linhas 164-165)
+# git rm --cached dos 7 caminhos da §4.1
+git rm --cached docs/cobertura/EV-R1/indice.md \
+                docs/cobertura/EV-R1/revisao-por-evento.md \
+                docs/cobertura/EV-R1/lote-AfterBattle.md \
+                docs/cobertura/EV-R1/lote-Normal.md \
+                docs/cobertura/EV-R1/lote-NotInEventPool.md \
+                docs/cobertura/EV-R1/lote-QuestStart.md \
+                docs/cobertura/EV-R1/lote-SemPoolDeclarado.md
+```
+
+**Medições desta rodada (reais, no repo — não no piloto):**
+
+| Verificação | Antes | Depois |
+| --- | ---: | ---: |
+| `git ls-files -ci --exclude-standard` | **0** | **0** |
+| `git ls-files -ci` só com o ignore, **sem** o `rm --cached` | 7 linhas | — |
+| Arquivos rastreados | 1.930 | **1.923** |
+| Soma de blobs do HEAD | 93,45 MB | **89,75 MB** (−3,70 MB, −3,96%) |
+| Os 7 arquivos no disco | presentes | **presentes** (nada apagado) |
+| `git check-ignore -v` | — | aponta as linhas novas (`.gitignore:191`…) |
+| `.git` | 67 MB | **67 MB** (não encolhe sem reescrever histórico — §4.2) |
+
+A §4.2 projetou 93,45 → 89,75 MB; medido no HEAD nesta rodada: **98.016.126 B = 93,48 MB** de soma de
+blobs, logo **93,48 → 89,78 MB** (−3,70 MB, −3,96%) — a diferença de 0,03 MB é o arquivo que a outra
+frente acrescentou.
+
+Os números de rastreados diferem 1 unidade da §4.2 (1.930 → 1.923 em vez de 1.929 → 1.922) porque
+outra frente acrescentou 1 arquivo rastreado entre a medição da fase 1 e esta execução; o delta da
+desindexação é exatamente **−7**, como projetado.
+
+**Nota de escopo:** `docs/img/*-icon-fonte.png`, as 4 evidências PNG do AUT-4, `BetterPortuguese/Data`,
+`tools/`, os 19 grupos de duplicatas exatas, os 66 arquivos vazios e os `KIT-*-final*.md` **não foram
+tocados** — a recomendação da fase 1 (§3) foi aceita pela autorização e nada disso saiu do índice.
