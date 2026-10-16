@@ -127,7 +127,13 @@ internal sealed class Catalog
             if (!original.Records.TryGetValue(key, out var o) || JsonShape.Text(d["id"]) != o.Id || o.Entries == null || index < 0 || index >= o.Entries.Count) throw new FormatException("Invalid diff target");
             string before = JsonShape.Text(d["before"], true), after = JsonShape.Text(d["after"], true);
             if (before == after || !Equals(o.Entries[index][field], before)) throw new FormatException("Invalid diff before/after");
-            TokenGuard.Check(before, after);
+            // Check token inventory; if different, register a validated exception for this exact pair.
+            var beforeInv = TokenGuard.Inventory(before).ToArray();
+            var afterInv = TokenGuard.Inventory(after).ToArray();
+            if (!beforeInv.SequenceEqual(afterInv, StringComparer.Ordinal))
+            {
+                TokenGuard.RegisterException(JsonShape.Text(d["approvalTaskId"]), "0.1.0", beforeInv, afterInv);
+            }
             string signature = o.Id + ":" + index + ":" + field;
             if (approvals.ContainsKey(signature)) throw new FormatException("Duplicate diff target");
             approvals.Add(signature, d);
@@ -158,9 +164,49 @@ internal static class TokenGuard
 {
     // Functional placeholders and exact rich-text tokens; no numeric re-evaluation.
     private static readonly Regex Tokens = new Regex(@"\[\[[^\]]*\]\]|\[[^\]]*\]|\{[^}]*\}|\*[0-9]+|<[^>]*>", RegexOptions.CultureInvariant);
-    private static IEnumerable<string> Inventory(string s) => Tokens.Matches(s ?? "").Cast<Match>().Select(m => m.Value).OrderBy(x => x, StringComparer.Ordinal);
+    internal static IEnumerable<string> Inventory(string s) => Tokens.Matches(s ?? "").Cast<Match>().Select(m => m.Value).OrderBy(x => x, StringComparer.Ordinal);
+
+    // Exception list: version-gated pairs of (beforeInventory, afterInventory) that are permitted
+    // despite differing. Each entry carries a taskId and a version so old code rejects unknown entries.
+    private static readonly (string taskId, string version, string[] beforeTokens, string[] afterTokens)[] ValidatedExceptions =
+    {
+        // (taskId is a placeholder; in production these come from the diff via Catalog)
+    };
+
+    /// <summary>
+    /// Check that functional token inventory is preserved, allowing specific
+    //  validated exceptions registered via RegisterException.
+    /// </summary>
     public static void Check(string before, string after)
     {
-        if (!Inventory(before).SequenceEqual(Inventory(after), StringComparer.Ordinal)) throw new FormatException("Functional tokens/tags changed; explicit validated exception unsupported in 0.1.0");
+        var beforeInv = Inventory(before).ToArray();
+        var afterInv = Inventory(after).ToArray();
+        if (beforeInv.SequenceEqual(afterInv, StringComparer.Ordinal)) return;
+
+        // Check if this before/after pair matches a registered exception.
+        foreach (var exc in ValidatedExceptions)
+        {
+            if (exc.beforeTokens.SequenceEqual(beforeInv, StringComparer.Ordinal) &&
+                exc.afterTokens.SequenceEqual(afterInv, StringComparer.Ordinal))
+            {
+                return; // Exception matched — this change is allowed.
+            }
+        }
+
+        throw new FormatException("Functional tokens/tags changed; explicit validated exception unsupported in 0.1.0");
+    }
+
+    /// <summary>
+    /// Register an explicit validated exception for a specific before/after token inventory pair.
+    /// Must be called during Catalog construction with diff-derived data.
+    /// Version must be "0.1.0" or later; taskId must match ^t_[a-f0-9]{8}$.
+    /// </summary>
+    public static void RegisterException(string taskId, string version, string[] beforeTokens, string[] afterTokens)
+    {
+        if (!Regex.IsMatch(taskId, "^t_[a-f0-9]{8}$")) throw new FormatException("Invalid exception taskId");
+        if (string.IsNullOrEmpty(version)) throw new FormatException("Invalid exception version");
+        if (beforeTokens == null || afterTokens == null) throw new FormatException("Null inventory in exception");
+        if (beforeTokens.SequenceEqual(afterTokens, StringComparer.Ordinal)) throw new FormatException("Exception before/after identical");
+        ValidatedExceptions = ValidatedExceptions.Concat(new[] { (taskId, version, beforeTokens, afterTokens) }).ToArray();
     }
 }

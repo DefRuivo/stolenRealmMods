@@ -60,7 +60,7 @@ Lote EV-R2-NORMAL-b08 — Parte 144 (quarto bloco: eventos 156–160)
 - **Chave:** `resources.assets:2545777` — GUID: `b2a823dc-b6c0-48e4-934a-ab7f9a8034ed`
 - **Categoria:** Normal — raridade: **Common (0)** — peso relativo: 1.0
 - **Origem:** `events/wooden coffin`
-- **disabled:** 0
+- **disabled:** 1
 
 ### Texto original
 > The yearning ghost extends her hand pleading for help.
@@ -152,10 +152,10 @@ Lote EV-R2-NORMAL-b08 — Parte 144 (quarto bloco: eventos 156–160)
 ---
 
 ## Evento 159 — Wrath of the Righteous
-- **Chave:** `resources.assets:2545779` — GUID: `78693713-6487-460a-bd29-2337c1eff6fa`
-- **Categoria:** Normal — raridade: **Common (0)** — peso relativo: 1.0
-- **Origem:** `events/wrath of the righteous`
-- **disabled:** 1 ⚠️
+|- **Chave:** `resources.assets:2545779` — GUID: `78693713-6487-460a-bd29-2337c1eff6fa`
+|- **Categoria:** Normal — raridade: **Common (0)** — peso relativo: 1.0
+|- **Origem:** `events/wrath of the righteous`
+|- **disabled:** 1 ⚠️
 
 ### Texto original
 > A noble <gold><b><incr>Paladin<gold></b></incr> stands before you, wreathed in holy light.
@@ -178,11 +178,11 @@ Lote EV-R2-NORMAL-b08 — Parte 144 (quarto bloco: eventos 156–160)
 | 2 | Decline | "Tis' a noble quest, but you cannot accept it now." | "The paladin nods... 'I understand, wanderer.'" |
 
 ### Condições
-- `disabled: 1` ⚠️
-- `allowedNodeTypes: [7]`
-- `minLevel: 3`
-- `allowedTerrainTypes: [7]` (Desert)
-- `LeadsToFortune: 1`
+|- `disabled: 1` ⚠️
+|- `allowedNodeTypes: [7]`
+|- `minLevel: 15` (nota: requer nível 15, não 3)
+|- `allowedTerrainTypes: [3, 2]` (Forest + Swamp, não Desert)
+|- `LeadsToFortune: 0` (nota: não leva a tesouro, diferente do evento 158)
 
 ### Veredito: MELHORAR + REVISAR disabled
 **Problema 1:** `disabled: 1` — evento desativado. O texto é significativamente menor que o evento 158 (apenas 4 parágrafos vs ~10). Parece ser uma versão alternativa/early do mesmo NPC.
@@ -268,7 +268,7 @@ Lote EV-R2-NORMAL-b08 — Parte 144 (quarto bloco: eventos 156–160)
 | Evento | Nome | disabled | Texto original | Opções | Veredito |
 |--------|------|----------|----------------|--------|----------|
 | 141 | The Spell Council | 0 | Bom | 1 | MELHORAR wording |
-| 142 | Torn Portrait | **1** | Mínimo (1 linha) | 1 | MANTER c/ obs (duplicação) |
+| 142 | Torn Portrait | **1** | Mínimo (1 linha) | 1 | MANTER c/ obs (duplicação + disabled) |
 | 143 | Tornado! | 0 | Bom | 1 | MELHORAR wording + estrutura |
 | 144 | Transcendence | 0 | Excelente | 2 | MELHORAR wording + balanceamento |
 | 145 | Treasure Chest | 0 (Mythic) | Genérico | 1 | MELHORAR wording |
@@ -283,23 +283,23 @@ Lote EV-R2-NORMAL-b08 — Parte 144 (quarto bloco: eventos 156–160)
 | 154 | What Lurks | 0 | Bom | 2 | MELHORAR estrutura da opção |
 | 155 | Witch's Cauldron | 0 | Excelente | 2 | MELHORAR naming das opções |
 | 156 | Witch's Pyre | 0 | Excelente | 2 | MELHORAR wording |
-| 157 | Wooden Coffin | 0 | Mínimo (1 linha) | 2 | MELHORAR (texto ausente) |
+| 157 | Wooden Coffin | **1** | Mínimo (1 linha) | 2 | MELHORAR OU REMOVER (disabled + texto ausente) |
 | 158 | Wrath of the Righteous | 0 | Excelente | 2 | MANTER |
-| 159 | Wrath of the Righteous | **1** | Médio | 2 | MELHORAR + REVISAR disabled |
-| 160 | Yours or Mine | **1** | Mínimo (1 linha) | 2 | MELHORAR + REVISAR disabled |
+| 159 | Wrath of the Righteous | **1** | Médio (~5 parágrafos) | 2 | MELHORAR + REVISAR disabled |
+| 160 | Yours or Mine | **1** | Curto (2 frases) | 2 | MELHORAR + REVISAR disabled |
 
 ### Padrões identificados
 1. **Textos vazios:** 4 eventos (148, 149, 152, 153) com TODOS os campos de texto vazios. Prioridade alta.
 2. **Textos mínimos (1 linha):** 3 eventos (142, 157, 160) com texto original de apenas uma frase.
 3. **Duplicação de asset:** Eventos 142/157 compartilham o mesmo texto original ("The yearning ghost extends her hand pleading for help."). Evento 152/153 compartilham o mesmo efeito de status.
-4. **Eventos disabled:** 3 eventos (142, 159, 160) com `disabled: 1`. Verificar se é intencional.
+4. **Eventos disabled:** 4 eventos (142, 157, 159, 160) com `disabled: 1`. Verificar se é intencional.
 5. **Mythic sem destaque:** Evento 145 é o único Mythic do lote mas tem texto genérico.
 6. **Tags HTML malformadas:** Evento 159 tem `<gold><b><incr>Paladin<gold></b></incr>` (tag aberta sem fechar).
 7. **Erro gramatical:** Evento 159 tem "it's corruption" (deveria ser "its").
 
 ### Prioridades de ação
 1. **Alta:** Textos vazios (148, 149, 152, 153) — sem texto, o jogador não tem contexto.
-2. **Média:** Duplicações (142/157, 152/153) e eventos disabled (142, 159, 160) — requer verificação de intenção.
+2. **Média:** Duplicações (142/157, 152/153) e eventos disabled (142, 157, 159, 160) — requer verificação de intenção.
 3. **Baixa:** Wording de eventos existentes — melhorias cosméticas e de consistência.
 
 ---
