@@ -19,7 +19,10 @@ REGRAS (as mesmas que o Thunderstore exige e o pack ja checava)
 ---------------------------------------------------------------
   1. manifest.json existe e e JSON valido, com os campos obrigatorios;
   2. `name` alfanumerico ([A-Za-z0-9_]+) e IGUAL ao nome da pasta do mod
-     (se divergirem, o r2modman instala num caminho diferente do que o README promete);
+     (se divergirem, o r2modman instala num caminho diferente do que o README promete).
+     PKG-API-1: no pacote de layout NAO-RAIZ - o RealmApi, cujos metadados ficam em `api/`,
+     um nivel acima do projeto `api/Plugin/` - o esperado nao e' o nome da pasta e sim o
+     nome do PACOTE, que vem da tabela do empacotador (`--listar-caminhos`);
   3. `version_number` em semver `X.Y.Z` (se ele e o MESMO do .csproj/Plugin.cs NAO e
      daqui: e do `tools/check_versoes.py`, passo 2 do workflow);
   4. `description` nao vazia e <= 250 caracteres (limite do Thunderstore);
@@ -52,6 +55,7 @@ import json
 import os
 import re
 import struct
+import subprocess
 import sys
 
 RAIZ = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -68,6 +72,10 @@ ICONE_LADO = 256
 # Pastas que nunca sao mod (evita varrer lixo e acusar falso positivo).
 IGNORAR = {"docs", "dist", "lib", "scratch", "tools", ".git", ".github",
            "ReloadProbe", "__pycache__"}
+
+# Cache do mapa pasta-de-metadados -> nome do pacote (PKG-API-1), preenchido na primeira
+# chamada de `nome_do_pacote`. None = ainda nao perguntou ao empacotador.
+_MAPA = None
 
 
 def png_tamanho(caminho):
@@ -97,6 +105,31 @@ def pastas_com_manifest():
             continue
         (com if os.path.isfile(os.path.join(pasta, "manifest.json")) else sem).append(nome)
     return com, sem
+
+
+def nome_do_pacote(pasta):
+    """Nome do PACOTE cujos metadados estao em `pasta` (PKG-API-1).
+
+    No layout padrao e' a propria pasta do mod. No layout nao-raiz nao e': os metadados do
+    RealmApi ficam em `api/`, um nivel acima do projeto (`api/Plugin/RealmApi.csproj`), e o
+    nome do pacote e' `RealmApi`. Quem sabe disso e' a tabela do empacotador, nao este
+    script - entao a resposta vem de `tools/pack-thunderstore.py --listar-caminhos`, a
+    MESMA fonte que empacota e que o `publish.yml` consulta. Sem o empacotador (ou se ele
+    falhar) cai no nome da pasta: e' o comportamento antigo, e o check nao morre por isso.
+    """
+    global _MAPA
+    if _MAPA is None:
+        _MAPA = {}
+        try:
+            saida = subprocess.run(
+                [sys.executable, os.path.join(RAIZ, "tools", "pack-thunderstore.py"),
+                 "--listar-caminhos"],
+                stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, timeout=120).stdout
+            for pacote in json.loads(saida.decode("utf-8")):
+                _MAPA[os.path.dirname(pacote["manifest"])] = pacote["nome"]
+        except Exception:  # noqa: BLE001 - descoberta e' conveniencia, nao requisito
+            _MAPA = {}
+    return _MAPA.get(pasta, pasta)
 
 
 def versoes_do_repo():
@@ -190,9 +223,10 @@ def valida(nome):
         if not NOME_VALIDO.match(nome_manifesto):
             erros.append("'name' '%s' nao e alfanumerico (use so A-Z a-z 0-9 _)"
                          % nome_manifesto)
-        if nome_manifesto != nome:
-            erros.append("'name' '%s' != pasta do mod '%s' (o r2modman instalaria "
-                         "noutro caminho do que o README promete)" % (nome_manifesto, nome))
+        esperado = nome_do_pacote(nome)
+        if nome_manifesto != esperado:
+            erros.append("'name' '%s' != pacote '%s' (o r2modman instalaria "
+                         "noutro caminho do que o README promete)" % (nome_manifesto, esperado))
 
     # 3. semver
     versao = manifesto.get("version_number")
@@ -281,15 +315,19 @@ def main():
 
     problemas = 0
     for nome in com:
+        # PKG-API-1: no layout nao-raiz a pasta de metadados nao tem o nome do pacote
+        # (`api/` guarda o RealmApi) - o rotulo mostra os dois para nao confundir.
+        pacote = nome_do_pacote(nome)
+        rotulo = nome if pacote == nome else "%s (pacote %s)" % (nome, pacote)
         erros, dados = valida(nome)
         if erros:
             problemas += len(erros)
-            print("FALHA %-32s %s" % (nome, dados.get("versao") or ""))
+            print("FALHA %-32s %s" % (rotulo, dados.get("versao") or ""))
             for e in erros:
                 print("        - %s" % e)
         else:
             print("ok    %-32s %-8s desc=%-4s icone=%s"
-                  % (nome, dados.get("versao", "?"), dados.get("desc_len", "?"),
+                  % (rotulo, dados.get("versao", "?"), dados.get("desc_len", "?"),
                      dados.get("icone", "?")))
 
     # 8. resolucao de dependencias (PKG-5): toda dependencia tem de RESOLVER. A regra mora

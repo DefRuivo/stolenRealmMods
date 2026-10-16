@@ -169,9 +169,24 @@ jobs:
           if not mods:
               erro('release/mods.json esta sem a lista "mods".')
 
-          # A lista do JSON tem que ser a MESMA que o empacotador descobre - senao existem
-          # duas listas de mods e uma vai envelhecer. A descoberta de mod fica em UM lugar:
-          # o `eh_mod` do tools/pack-thunderstore.py.
+          # A descoberta de mod fica em UM lugar: o `eh_mod` do tools/pack-thunderstore.py.
+          # A comparacao com o release/mods.json tem DUAS direcoes, e elas valem coisas
+          # diferentes (PKG-API-1):
+          #
+          #   * nome NO LEDGER que o empacotador NAO conhece -> ERRO. E' sempre defeito:
+          #     o ledger so decide sobre mod que existe, e um rename/typo deixaria o alvo
+          #     apontando para o nada.
+          #   * nome que o empacotador conhece e o ledger AINDA NAO decidiu -> AVISO. Nao
+          #     e' defeito, e' a ordem natural das coisas: a pasta do mod nasce com o
+          #     codigo e a decisao de publicar vem depois (o RealmApi entrou no
+          #     empacotador em PKG-API-1 e ganha entrada no ledger em PUB-API-2). Mod sem
+          #     entrada NUNCA e' enviado - os alvos saem do ledger -, e o aviso fica no
+          #     resumo do run para o caso nao passar em silencio.
+          #
+          # A igualdade das listas continua sendo o estado esperado (e e' o que acontece
+          # quando os dois lados estao completos). O que nao pode e' uma pasta nova deixar
+          # o pipeline INTEIRO vermelho: com a comparacao literal (`nomes_pack !=
+          # nomes_json`) TODOS os alvos eram reprovados, inclusive os seis liberados.
           p = subprocess.run([sys.executable, 'tools/pack-thunderstore.py', '--listar-nomes'],
                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
           saida = p.stdout.decode('utf-8', 'replace')
@@ -179,10 +194,18 @@ jobs:
               erro('tools/pack-thunderstore.py --listar-nomes saiu %d: %s' % (p.returncode, saida.strip()))
           nomes_pack = [l.strip() for l in saida.splitlines() if l.strip()]
           nomes_json = [m.get('nome') for m in mods]
-          if nomes_pack != nomes_json:
-              erro('release/mods.json e o empacotador divergem - a lista de mods tem uma fonte so '
-                   '(`tools/pack-thunderstore.py --listar-nomes`). JSON=%s | empacotador=%s'
-                   % (nomes_json, nomes_pack))
+          fantasmas = [n for n in nomes_json if n not in nomes_pack]
+          if fantasmas:
+              erro('release/mods.json lista mod(s) que o empacotador NAO conhece: %s. A lista de mods '
+                   'tem uma fonte so (`tools/pack-thunderstore.py --listar-nomes`) e um nome que ela nao '
+                   'devolve e um alvo que nao existe. JSON=%s | empacotador=%s'
+                   % (', '.join(fantasmas), nomes_json, nomes_pack))
+          sem_ledger = [n for n in nomes_pack if n not in nomes_json]
+          if sem_ledger:
+              print('::warning::o empacotador conhece mod(s) sem entrada em release/mods.json: %s. '
+                    'Sem entrada nao ha decisao de publicacao e o mod NAO e enviado (os alvos saem do '
+                    'ledger). Se ele ja pode ser publicado, cadastre a entrada com publicar:true.'
+                    % ', '.join(sem_ledger))
 
           liberados = [m['nome'] for m in mods if m.get('publicar') is True]
 
@@ -218,6 +241,12 @@ jobs:
               linhas.append('| %s | %s | %s | %s |' % (
                   m.get('nome'), 'sim' if m.get('publicar') else 'NAO',
                   m.get('versao_publicada') or '-', m.get('motivo') or ''))
+          # PKG-API-1: mod que o empacotador conhece e o ledger ainda nao decidiu aparece
+          # na tabela como "sem entrada" - TRAVADO de fato, porque sem entrada ele nunca
+          # entra na lista de alvos.
+          for n in sem_ledger:
+              linhas.append('| %s | sem entrada | - | sem decisao em release/mods.json: '
+                            'nunca e enviado |' % n)
           # PKG-5: a ORDEM de envio mora em `ordem_de_envio` deste arquivo (o gate le este
           # arquivo, entao a ordem viaja junto da liberacao). A dependencia publica ANTES do
           # dependente - a Thunderstore recusa no upload a referencia a versao inedita.
@@ -329,7 +358,7 @@ jobs:
           ESCOLHA: ${{ inputs.mod }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, time, urllib.error, urllib.request, zipfile
+          import json, os, re, subprocess, sys, time, urllib.error, urllib.request, zipfile
 
           AUTOR = 'gumatos'          # prefixo dos zips do tools/pack-thunderstore.py (AUTOR)
           API = 'https://thunderstore.io/c/%s/api/v1/package/'   # lista publica da comunidade
@@ -419,6 +448,19 @@ jobs:
 
           enviar, pulados, versoes_alvo = [], [], {}
           linhas_env = []
+
+          # PKG-API-1: onde esta cada arquivo de cada alvo sai do EMPACOTADOR, nao de um
+          # `<Mod>/<Mod>.csproj` escrito aqui. O layout padrao (pasta na raiz, uma DLL) e'
+          # o caso comum, nao a regra: o RealmApi vive em `api/Plugin/RealmApi.csproj` e
+          # produz tres DLLs. `--listar-caminhos` responde as duas coisas (caminhos e o que
+          # tem de existir dentro do zip) pela mesma fonte que empacota.
+          _p = subprocess.run([sys.executable, 'tools/pack-thunderstore.py', '--listar-caminhos'],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          if _p.returncode != 0:
+              erro('tools/pack-thunderstore.py --listar-caminhos saiu %d: %s'
+                   % (_p.returncode, _p.stdout.decode('utf-8', 'replace').strip()))
+          CAMINHOS = {c['nome']: c for c in json.loads(_p.stdout.decode('utf-8'))}
+
           for nome in alvos:
               entradas = [m for m in dados['mods'] if m.get('nome') == nome]
               if not entradas:
@@ -426,11 +468,17 @@ jobs:
                        'entao isto e um defeito do pipeline - nada e enviado.' % nome)
               entrada = entradas[0]
 
+              alvo = CAMINHOS.get(nome)
+              if not alvo:
+                  erro('%s nao esta na descoberta do empacotador (tools/pack-thunderstore.py '
+                       '--listar-caminhos): nao ha como saber o .csproj, o manifesto nem o que '
+                       'tem de existir dentro do zip. Nada e enviado.' % nome)
+
               # --- 4.2 a versao vem do <Version> do .csproj (fonte unica, PKG-2) -----
-              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
+              with open(alvo['csproj'], encoding='utf-8', errors='replace') as fh:
                   achado = re.search(r'<Version>([^<]+)</Version>', fh.read())
               if not achado:
-                  erro('PKG-2: %s/%s.csproj sem <Version> (e o <Version> que manda).' % (nome, nome))
+                  erro('PKG-2: %s sem <Version> (e o <Version> que manda).' % alvo['csproj'])
               versao = achado.group(1).strip()
               versoes_alvo[nome] = versao
 
@@ -441,18 +489,20 @@ jobs:
                        '      Este workflow NAO COMPILA - os .csproj precisam das assemblies do JOGO\n'
                        '      (Assembly-CSharp.dll, UnityEngine, Sirenix) que ficam em lib/ (gitignored).\n'
                        '      Rode na maquina de desenvolvimento, da raiz do repo:\n'
-                       '        dotnet build %s/%s.csproj -c Release -p:DeployToBepInEx=false\n'
+                       '        dotnet build %s -c Release -p:DeployToBepInEx=false\n'
                        '        python tools/pack-thunderstore.py %s\n'
                        '      e traga os zips do dist/ para o runner: anexe-os numa GitHub Release e\n'
                        '      dispare este workflow com o input release_tag apontando para ela.'
-                       % (zip_rel, nome, nome, nome))
+                       % (zip_rel, alvo['csproj'], nome))
 
               with zipfile.ZipFile(zip_rel) as zf:
                   conteudo = zf.namelist()
                   manifesto = json.loads(zf.read('manifest.json').decode('utf-8'))
 
-              obrigatorios = ['manifest.json', 'README.md', 'CHANGELOG.md', 'icon.png',
-                              'plugins/%s/%s.dll' % (nome, nome)]
+              # O que TEM de existir dentro do zip vem do empacotador (`dentro_do_zip`):
+              # os quatro metadados de sempre + o LICENSE do RealmApi + as DLLs na pasta
+              # `plugins/<Pacote>/` - que no pacote nao-raiz sao TRES.
+              obrigatorios = list(alvo['dentro_do_zip'])
               faltando = [f for f in obrigatorios if f not in conteudo]
               if faltando:
                   erro('PACOTE INCOMPLETO (%s): falta %s. Pacote incompleto e pior que pacote '
@@ -463,7 +513,7 @@ jobs:
               if manifesto.get('version_number') != versao:
                   erro('O ZIP ESTA VELHO: manifest.version_number=%s e o <Version> do .csproj e %s. '
                        'Rebuilde e reempacote antes de publicar.' % (manifesto.get('version_number'), versao))
-              with open('%s/manifest.json' % nome, encoding='utf-8') as fh:
+              with open(alvo['manifest'], encoding='utf-8') as fh:
                   manifesto_repo = json.load(fh)
               for campo in ('name', 'version_number', 'description', 'dependencies'):
                   if manifesto_repo.get(campo) != manifesto.get(campo):
@@ -925,7 +975,7 @@ jobs:
           TEAM: ${{ needs.libera.outputs.team }}
         run: |
           python - <<'PY'
-          import json, os, re, sys, urllib.error, urllib.request
+          import json, os, re, subprocess, sys, urllib.error, urllib.request
 
           def erro(msg):
               print('::error::' + msg)
@@ -962,8 +1012,24 @@ jobs:
           publicados = {p.get('full_name'): (p.get('versions') or []) for p in pacotes}
 
           mudou, faltou = [], []
+
+          # PKG-API-1: o caminho do .csproj vem do empacotador (mesma fonte do pre-flight),
+          # nao de um `<Mod>/<Mod>.csproj` escrito aqui - o RealmApi vive em
+          # `api/Plugin/RealmApi.csproj`.
+          _p = subprocess.run([sys.executable, 'tools/pack-thunderstore.py', '--listar-caminhos'],
+                              stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+          if _p.returncode != 0:
+              erro('tools/pack-thunderstore.py --listar-caminhos saiu %d: %s'
+                   % (_p.returncode, _p.stdout.decode('utf-8', 'replace').strip()))
+          CAMINHOS = {c['nome']: c for c in json.loads(_p.stdout.decode('utf-8'))}
+
           for nome in alvos:
-              with open('%s/%s.csproj' % (nome, nome), encoding='utf-8', errors='replace') as fh:
+              alvo = CAMINHOS.get(nome)
+              if not alvo:
+                  erro('%s nao esta na descoberta do empacotador (tools/pack-thunderstore.py '
+                       '--listar-caminhos) - sem o .csproj nao ha versao a conferir. Registro '
+                       'nao e inventado: nada foi gravado para este alvo.' % nome)
+              with open(alvo['csproj'], encoding='utf-8', errors='replace') as fh:
                   versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
               st_viva, detalhe = busca(API_VERSAO % (team, nome, versao))
               viva = detalhe if (st_viva == 200 and isinstance(detalhe, dict)) else None

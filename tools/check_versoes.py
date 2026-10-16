@@ -84,7 +84,7 @@ def main():
         p = pt.caminhos(nome)
         fonte = pt.versao_do_csproj(p)
         no_manifest = versao_do_manifest(p["manifest"])
-        no_plugin, const = pt.versao_do_plugin(nome, p)
+        no_plugin, const, arquivo = pt.versao_do_plugin(nome, p)
         no_readme = pt.versao_do_readme(p)
 
         # marca DIVERGE so ao lado do valor que nao bate com a fonte
@@ -97,7 +97,12 @@ def main():
         print("  %-46s %s%s"
               % ("manifest.json  version_number", no_manifest or "(ausente)",
                  marca(no_manifest) + marca_falta(no_manifest)))
-        rotulo = ("Plugin.cs  const %s =" % const) if const else "Plugin.cs  [BepInPlugin(...)]"
+        # O rotulo nomeia o ARQUIVO onde a versao do plugin foi achada: no layout padrao
+        # e' `Plugin.cs`; no pacote nao-raiz (PKG-API-1) o [BepInPlugin] esta em
+        # `RealmApiPlugin.cs` e a const que ele cita, em `Contracts.cs` - dois arquivos,
+        # e o rotulo fixo "Plugin.cs" apontaria para o lugar errado.
+        base = os.path.basename(arquivo) if arquivo else "Plugin.cs"
+        rotulo = ("%s  const %s =" % (base, const)) if const else "%s  [BepInPlugin(...)]" % base
         print("  %-46s %s%s"
               % (rotulo, no_plugin or "(ausente)",
                  marca(no_plugin) + marca_falta(no_plugin)))

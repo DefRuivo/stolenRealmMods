@@ -19,6 +19,22 @@ pacote .zip na pasta `dist/` seguindo a convencao do Thunderstore:
 Os arquivos ficam na RAIZ do zip (nao dentro de uma pasta) - e assim que o r2modman
 espera encontrar o manifest.json.
 
+LAYOUT NAO-RAIZ (PKG-API-1)
+---------------------------
+Nem todo pacote do repo segue esse layout. O `RealmApi` e' um modulo ANINHADO: o projeto
+do plugin vive em `api/Plugin/RealmApi.csproj` (o csproj carrega o nome do ASSEMBLY, nao
+o da pasta) e a build produz TRES assemblies - o plugin (`RealmApi.dll`) mais as duas
+referencias de projeto que ele carrega em runtime (`RealmApi.Core.dll`,
+`RealmApi.Hooks.dll`). Os metadados do pacote (`manifest.json`, `icon.png`,
+`README.md`, `CHANGELOG.md`, `LICENSE`) ficam em `api/`, um nivel acima do projeto.
+
+Esse caso nao cabe no `eh_mod` (que procura `<Mod>/<Mod>.csproj` na raiz e uma DLL so) e
+por isso vive numa tabela EXPLICITA - `PACOTES_NAO_RAIZ`: quem entra ali e' decisao
+registrada, nao heuristica. O pacote que sai e' o MESMO dos outros oito (metadados na
+raiz do zip, DLLs em `plugins/<Pacote>/`); o que muda e' so ONDE os arquivos nascem no
+repositorio e QUANTAS DLLs entram. O gate de `release/mods.json` continua vendo os nove
+pacotes pela MESMA lista (`--listar-nomes`).
+
 CONFIGURACAO DO BUILD (PKG-6)
 -----------------------------
 O pacote sai da build de **Release** por padrao (`--config Release`), que e a que passou
@@ -242,6 +258,60 @@ def gerar_icone(nome_mod, destino, tamanho=256):
 
 
 # ---------------------------------------------------------------------------
+# PACOTES NAO-RAIZ (PKG-API-1) - modulo aninhado, mais de uma DLL
+# ---------------------------------------------------------------------------
+# O detector `eh_mod` cobre o layout padrao: pasta na raiz, `<Mod>/<Mod>.csproj`, uma
+# DLL em `bin/<Config>/netstandard2.1/`. O RealmApi viola DUAS dessas premissas de uma
+# vez:
+#
+#   1. o projeto NAO esta na raiz - vive em `api/Plugin/`, e o nome do csproj e' o do
+#      ASSEMBLY (`RealmApi.csproj`), nao o da pasta (`Plugin`);
+#   2. a build produz TRES DLLs, nao uma: `RealmApi.dll` (o plugin) mais
+#      `RealmApi.Core.dll` e `RealmApi.Hooks.dll` - as duas referencias de projeto que o
+#      BepInEx precisa resolver ao carregar o plugin (sem elas o plugin nao sobe). As
+#      tres saem da MESMA pasta de saida (`api/Plugin/bin/<Config>/netstandard2.1/`).
+#
+# Por isso este caso e' TABELA, nao palpite do detector: cada entrada diz onde estao os
+# metadados, onde esta o csproj, quais DLLs entram e em que pasta elas vao para dentro
+# do zip. Nao ha heuristica que "descubra" isso sem risco de classificar como pacote
+# alguma pasta que nao e' - `api/Smoke` e' harness de teste e `api/tools/Inspect` e'
+# ferramenta de bancada; nenhum dos dois vira pacote.
+#
+# `dlls` tambem diz, por DLL, QUAL e' a fonte que a trava REL-1 confere (segundo item de
+# cada par): a DLL do plugin contra `api/Plugin/`, a Core contra `api/Core/`, a Hooks
+# contra `api/Hooks/`. Conferir as tres contra a arvore `api/` inteira reprovaria pacote
+# bom - um `.cs` do smoke, que nem entra no zip, e' mais novo que a DLL.
+PACOTES_NAO_RAIZ = {
+    "RealmApi": {
+        # Manifest, icone, README, CHANGELOG, LICENSE.
+        "metadados": ("api",),
+        # Pasta do .csproj e da saida da build.
+        "projeto": ("api", "Plugin"),
+        "csproj": "RealmApi.csproj",
+        # Pasta que recebe as DLLs dentro do zip: plugins/RealmApi/.
+        "pasta_no_zip": "RealmApi",
+        "dlls": (
+            ("RealmApi.dll", ("api", "Plugin")),
+            ("RealmApi.Core.dll", ("api", "Core")),
+            ("RealmApi.Hooks.dll", ("api", "Hooks")),
+        ),
+        # Onde a versao aparece fora do .csproj: o [BepInPlugin] esta no arquivo do
+        # plugin e a const que ele cita (`ApiIdentity.Version`) mora no Core - dois
+        # arquivos, nao um (o layout padrao usa so o Plugin.cs).
+        "versao_em": (("api", "Plugin", "RealmApiPlugin.cs"),
+                      ("api", "Core", "Contracts.cs")),
+        # Arquivo a mais na RAIZ do zip alem dos quatro de sempre.
+        "extras": ("LICENSE",),
+    },
+}
+
+
+def rel(caminho):
+    """Caminho relativo a raiz do repo, com '/' - o que o zip e os gates usam."""
+    return os.path.relpath(caminho, RAIZ).replace(os.sep, "/")
+
+
+# ---------------------------------------------------------------------------
 # Descoberta dos mods
 # ---------------------------------------------------------------------------
 
@@ -277,21 +347,72 @@ def projetos_ignorados():
     return ignorados
 
 
+def eh_pacote_nao_raiz(nome):
+    """O pacote esta na tabela PACOTES_NAO_RAIZ (modulo aninhado, multi-DLL)?"""
+    return nome in PACOTES_NAO_RAIZ
+
+
 def descobrir_mods():
-    """Todos os mods do repo, em ordem alfabetica."""
-    return [entrada for entrada in sorted(os.listdir(RAIZ))
-            if eh_mod(entrada)]
+    """Todos os pacotes do repo, em ordem alfabetica GLOBAL.
+
+    Soma o que o detector acha na raiz (`eh_mod`) com o que esta declarado na tabela
+    PACOTES_NAO_RAIZ. A ordem e' alfabetica sobre o conjunto todo (nao "raiz primeiro"):
+    e' ESTA lista, nesta ordem, que o gate do `publish.yml` compara com o `nome` de cada
+    entrada do `release/mods.json` - entao no ledger o RealmApi entra entre os "R"
+    (antes de RoguelikeDebugger: 'e' < 'o').
+    """
+    na_raiz = [entrada for entrada in os.listdir(RAIZ) if eh_mod(entrada)]
+    return sorted(set(na_raiz) | set(PACOTES_NAO_RAIZ))
 
 
 def caminhos(nome_mod, config=CONFIG_PADRAO):
+    """Todos os caminhos do pacote - no layout padrao ou no nao-raiz (PKG-API-1).
+
+    As chaves que o resto do script consome sao as MESMAS nos dois casos:
+    `dlls` (todas as DLLs que entram no zip: uma no layout padrao, tres no RealmApi),
+    `fontes_por_dll` (a fonte que a trava REL-1 confere para CADA DLL),
+    `versao_em` (os arquivos que carregam a versao alem do .csproj),
+    `pasta_no_zip` (a pasta em plugins/ que recebe as DLLs) e `extras` (arquivos a mais
+    na raiz do zip - vazio no layout padrao).
+    """
+    especial = PACOTES_NAO_RAIZ.get(nome_mod)
+    if especial:
+        meta = os.path.join(RAIZ, *especial["metadados"])
+        projeto = os.path.join(RAIZ, *especial["projeto"])
+        dlls, fontes_por_dll = [], {}
+        for nome, pastas in especial["dlls"]:
+            dll = os.path.join(projeto, "bin", config, TFM, nome)
+            dlls.append(dll)
+            fontes_por_dll[dll] = [os.path.join(RAIZ, *p) for p in pastas]
+        return {
+            "pasta": meta,                          # onde vivem os metadados
+            "csproj": os.path.join(projeto, especial["csproj"]),
+            "dll": dlls[0],
+            "dlls": dlls,
+            "fontes_por_dll": fontes_por_dll,
+            "versao_em": [os.path.join(RAIZ, *f) for f in especial["versao_em"]],
+            "pasta_no_zip": especial["pasta_no_zip"],
+            "extras": [os.path.join(meta, extra) for extra in especial["extras"]],
+            "manifest": os.path.join(meta, "manifest.json"),
+            "readme": os.path.join(meta, "README.md"),
+            "changelog": os.path.join(meta, "CHANGELOG.md"),
+            "icon": os.path.join(meta, "icon.png"),
+        }
+
     pasta = os.path.join(RAIZ, nome_mod)
+    # PKG-6: o caminho da DLL segue a CONFIGURACAO, igual ao $(Configuration) do
+    # MSBuild (bin/<Config>/netstandard2.1/). Antes era fixo em bin/Debug e o pacote
+    # publicado saia da build errada.
+    dll = os.path.join(pasta, "bin", config, TFM, nome_mod + ".dll")
     return {
         "pasta": pasta,
         "csproj": os.path.join(pasta, nome_mod + ".csproj"),
-        # PKG-6: o caminho da DLL segue a CONFIGURACAO, igual ao $(Configuration) do
-        # MSBuild (bin/<Config>/netstandard2.1/). Antes era fixo em bin/Debug e o pacote
-        # publicado saia da build errada.
-        "dll": os.path.join(pasta, "bin", config, TFM, nome_mod + ".dll"),
+        "dll": dll,
+        "dlls": [dll],
+        "fontes_por_dll": {dll: [pasta]},
+        "versao_em": [os.path.join(pasta, "Plugin.cs")],
+        "pasta_no_zip": nome_mod,
+        "extras": [],
         "manifest": os.path.join(pasta, "manifest.json"),
         "plugin": os.path.join(pasta, "Plugin.cs"),
         "readme": os.path.join(pasta, "README.md"),
@@ -429,63 +550,84 @@ def quando(mtime):
 
 
 def artefato_esta_atual(nome_mod, p, config=CONFIG_PADRAO):
-    """A DLL de `bin/<Config>/` corresponde a fonte que esta no repositorio?
+    """TODAS as DLLs do pacote correspondem a fonte que esta no repositorio?
 
-    Levanta `Falha` quando a DLL e MAIS ANTIGA que o arquivo de fonte mais novo do mod -
-    a fonte mudou depois do ultimo build, e o pacote sairia com um binario que nao tem a
-    edicao. Devolve `(mtime_dll, fonte_mais_nova)` quando tudo bate.
+    Levanta `Falha` quando uma DLL e' MAIS ANTIGA que o arquivo de fonte mais novo que
+    entra na compilacao DELA - a fonte mudou depois do ultimo build, e o pacote sairia
+    com um binario que nao tem a edicao. No layout padrao ha uma DLL so; no pacote
+    nao-raiz (PKG-API-1) ha uma por projeto, e cada uma e' conferida contra a fonte do
+    projeto DELA (`fontes_por_dll`).
+
+    Devolve a lista `(mtime_dll, fonte_mais_nova)` por DLL quando tudo bate.
     """
-    mtime_dll = os.path.getmtime(p["dll"])
-    fontes = fontes_do_mod(p["pasta"])
-    if not fontes:
-        return mtime_dll, None
+    conferidas = []
+    for dll in p["dlls"]:
+        mtime_dll = os.path.getmtime(dll)
+        fontes = []
+        for pasta in p["fontes_por_dll"][dll]:
+            fontes.extend(fontes_do_mod(pasta))
+        if not fontes:
+            conferidas.append((mtime_dll, None))
+            continue
 
-    mais_nova = max(fontes, key=os.path.getmtime)
-    mtime_fonte = os.path.getmtime(mais_nova)
-    if mtime_dll < mtime_fonte:
-        raise Falha(
-            "ARTEFATO VELHO (REL-1): a DLL de bin/%s/ e MAIS ANTIGA que a fonte\n"
-            "      DLL   : %s  (%s)\n"
-            "      FONTE : %s  (%s)\n"
-            "      -> o pacote sairia com um binario SEM a edicao acima. Reconstrua a\n"
-            "         partir da FONTE. NUNCA sem a flag: o alvo DeployToBepInEx do .csproj\n"
-            "         copia a DLL para o perfil do r2modman e o jogo passa a rodar o build.\n"
-            "         dotnet build %s/%s.csproj -c %s -p:DeployToBepInEx=false"
-            % (config,
-               os.path.relpath(p["dll"], RAIZ), quando(mtime_dll),
-               os.path.relpath(mais_nova, RAIZ), quando(mtime_fonte),
-               nome_mod, nome_mod, config))
-    return mtime_dll, mais_nova
+        mais_nova = max(fontes, key=os.path.getmtime)
+        mtime_fonte = os.path.getmtime(mais_nova)
+        if mtime_dll < mtime_fonte:
+            raise Falha(
+                "ARTEFATO VELHO (REL-1): a DLL de bin/%s/ e MAIS ANTIGA que a fonte\n"
+                "      DLL   : %s  (%s)\n"
+                "      FONTE : %s  (%s)\n"
+                "      -> o pacote sairia com um binario SEM a edicao acima. Reconstrua a\n"
+                "         partir da FONTE. NUNCA sem a flag: o alvo DeployToBepInEx do .csproj\n"
+                "         copia a DLL para o perfil do r2modman e o jogo passa a rodar o build.\n"
+                "         dotnet build %s -c %s -p:DeployToBepInEx=false"
+                % (config,
+                   os.path.relpath(dll, RAIZ), quando(mtime_dll),
+                   os.path.relpath(mais_nova, RAIZ), quando(mtime_fonte),
+                   rel(p["csproj"]), config))
+        conferidas.append((mtime_dll, mais_nova))
+    return conferidas
 
 
 def versao_do_plugin(nome_mod, p):
-    """A versao que o BepInEx registra no log, lida do `Plugin.cs`.
+    """A versao que o BepInEx registra no log, lida dos arquivos de versao do pacote.
 
     Mesmo criterio de `tools/audita_docs.py` (o CI cobra esse formato): o literal pode
     estar no proprio atributo - `[BepInPlugin("guid", "nome", "0.1.0")]` - ou numa
     constante usada como ultimo argumento - `[BepInPlugin(Guid, "nome", Version)]` com
-    `public const string Version = "0.1.0";` (padrao do RoguelikeSkillTreeVisualizer).
+    `public const string Version = "0.1.0";` (padrao do RoguelikeSkillTreeVisualizer e,
+    tambem, do RealmApi - onde o atributo esta em `api/Plugin/RealmApiPlugin.cs` e a
+    const `ApiIdentity.Version`, em `api/Core/Contracts.cs`; por isso a busca varre
+    TODOS os arquivos de `versao_em`, nunca um so).
 
-    Devolve `(versao, nome_da_constante)`; `(None, None)` quando nao acha.
+    Devolve `(versao, nome_da_constante, arquivo)`; `(None, None, None)` quando nao acha.
+    O arquivo e' o que carrega o literal - e' nele que `--sincronizar-versao` escreve.
     """
-    if not os.path.isfile(p["plugin"]):
-        return None, None
-    with open(p["plugin"], encoding="utf-8", errors="replace") as fh:
-        fonte = fh.read()
+    textos = []
+    for caminho in p["versao_em"]:
+        if os.path.isfile(caminho):
+            with open(caminho, encoding="utf-8", errors="replace") as fh:
+                textos.append((caminho, fh.read()))
 
-    literal = re.search(r'Plugin\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"', fonte)
-    if literal:
-        return literal.group(3), None
+    for caminho, fonte in textos:
+        literal = re.search(r'Plugin\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"', fonte)
+        if literal:
+            return literal.group(3), None, caminho
 
-    atributo = re.search(r"\[BepInPlugin\(([^)]*)\)\]", fonte)
-    if atributo:
+    for _caminho, fonte in textos:
+        atributo = re.search(r"\[BepInPlugin\(([^)]*)\)\]", fonte)
+        if not atributo:
+            continue
         ident = re.search(r",\s*([A-Za-z_][\w.]*)\s*$", atributo.group(1).strip())
-        if ident:
-            nome = ident.group(1).split(".")[-1]
-            const = re.search(r'const\s+string\s+%s\s*=\s*"([^"]+)"' % re.escape(nome), fonte)
+        if not ident:
+            continue
+        nome = ident.group(1).split(".")[-1]
+        for caminho_const, fonte_const in textos:
+            const = re.search(r'const\s+string\s+%s\s*=\s*"([^"]+)"' % re.escape(nome),
+                              fonte_const)
             if const:
-                return const.group(1), nome
-    return None, None
+                return const.group(1), nome, caminho_const
+    return None, None, None
 
 
 def conferir_versoes(nome_mod, p, manifesto):
@@ -504,12 +646,12 @@ def conferir_versoes(nome_mod, p, manifesto):
                     % fonte)
 
     no_manifest = manifesto["version_number"]
-    no_plugin, const = versao_do_plugin(nome_mod, p)
+    no_plugin, const, _arquivo = versao_do_plugin(nome_mod, p)
     no_readme = versao_do_readme(p)
     if no_plugin is None:
-        raise Falha("PKG-2: nao achei a versao em %s/Plugin.cs (esperava o literal no "
+        raise Falha("PKG-2: nao achei a versao em %s (esperava o literal no "
                     "[BepInPlugin(\"guid\", \"nome\", \"x.y.z\")] ou uma const Version)"
-                    % nome_mod)
+                    % ", ".join(rel(c) for c in p["versao_em"]))
     if no_readme is None:
         raise Falha("PKG-3: nao achei a versao em %s/README.md (esperava a linha "
                     "\"- **Version:** x.y.z\", a que os READMEs ja usam)" % nome_mod)
@@ -562,10 +704,10 @@ def sincronizar_versao(nome_mod):
                             % (achado.group(2), fonte))
 
     # --- Plugin.cs: troca o literal da versao (atributo ou const) --------------
-    if os.path.isfile(p["plugin"]):
-        versao_plugin, const = versao_do_plugin(nome_mod, p)
+    versao_plugin, const, arquivo_plugin = versao_do_plugin(nome_mod, p)
+    if arquivo_plugin and os.path.isfile(arquivo_plugin):
         if versao_plugin is not None and versao_plugin != fonte:
-            with open(p["plugin"], encoding="utf-8", newline="") as fh:
+            with open(arquivo_plugin, encoding="utf-8", newline="") as fh:
                 texto = fh.read()
             if const:
                 padrao = re.compile(r'(const\s+string\s+%s\s*=\s*")([^"]*)(")'
@@ -574,10 +716,11 @@ def sincronizar_versao(nome_mod):
                 padrao = re.compile(r'(Plugin\(\s*"[^"]+"\s*,\s*"[^"]+"\s*,\s*")([^"]*)(")')
             novo = padrao.sub(lambda m: m.group(1) + fonte + m.group(3), texto, count=1)
             if novo != texto:
-                with open(p["plugin"], "w", encoding="utf-8", newline="") as fh:
+                with open(arquivo_plugin, "w", encoding="utf-8", newline="") as fh:
                     fh.write(novo)
-                mudancas.append("Plugin.cs: %s %s -> %s"
-                                % ("const %s" % const if const else "[BepInPlugin]",
+                mudancas.append("%s: %s %s -> %s"
+                                % (rel(arquivo_plugin),
+                                   "const %s" % const if const else "[BepInPlugin]",
                                    versao_plugin, fonte))
 
     # --- README.md: troca SO o valor da linha `- **Version:**`, nada mais ---------
@@ -597,19 +740,21 @@ def sincronizar_versao(nome_mod):
 
 
 def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
-    """Pre-flight de UM mod. Devolve (manifesto, dict de caminhos). Levanta Falha."""
+    """Pre-flight de UM pacote. Devolve (manifesto, dict de caminhos). Levanta Falha."""
     p = caminhos(nome_mod, config)
 
     if not os.path.isfile(p["csproj"]):
-        raise Falha("nao e mod: falta %s.csproj" % nome_mod)
+        raise Falha("nao e pacote: falta %s" % rel(p["csproj"]))
 
-    if not os.path.isfile(p["dll"]):
+    # PKG-API-1: um pacote nao-raiz tem TRES DLLs; TODAS tem de existir (faltando uma,
+    # o BepInEx nao resolve o plugin ao carregar - pacote incompleto e' pior que nenhum).
+    faltando = [d for d in p["dlls"] if not os.path.isfile(d)]
+    if faltando:
         raise Falha("DLL NAO BUILDADA: %s\n"
-                    "      -> rode:  dotnet build %s/%s.csproj -c %s "
-                    "-p:DeployToBepInEx=false"
-                    % (os.path.relpath(p["dll"], RAIZ), nome_mod, nome_mod, config))
+                    "      -> rode:  dotnet build %s -c %s -p:DeployToBepInEx=false"
+                    % (", ".join(rel(d) for d in faltando), rel(p["csproj"]), config))
 
-    # REL-1: existir nao basta - a DLL tem de corresponder a fonte de AGORA.
+    # REL-1: existir nao basta - cada DLL tem de corresponder a fonte de AGORA.
     artefato_esta_atual(nome_mod, p, config)
 
     manifesto = ler_manifest(nome_mod, p)
@@ -620,6 +765,14 @@ def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
     for chave in ("readme", "changelog"):
         if not os.path.isfile(p[chave]):
             raise Falha("%s nao existe" % os.path.basename(p[chave]))
+
+    # PKG-API-1: os arquivos a mais que o pacote leva na raiz do zip (hoje so' o
+    # LICENSE do RealmApi). Sao obrigatorios: o pacote promete por contrato o que
+    # `--listar-caminhos` declara em `dentro_do_zip`.
+    for extra in p["extras"]:
+        if not os.path.isfile(extra):
+            raise Falha("%s nao existe (arquivo extra do pacote: %s)"
+                        % (os.path.basename(extra), rel(extra)))
 
     if not os.path.isfile(p["icon"]) and gerar_icone_se_faltar:
         gerar_icone(nome_mod, p["icon"])
@@ -639,21 +792,29 @@ def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
 # ---------------------------------------------------------------------------
 
 def empacotar(nome_mod, manifesto, p):
-    """Monta o stage e zipa. Devolve (caminho do zip, lista de (nome_no_zip, bytes))."""
+    """Monta o stage e zipa. Devolve (caminho do zip, lista de (nome_no_zip, bytes)).
+
+    O formato e' o mesmo para os nove pacotes: metadados na RAIZ do zip e as DLLs em
+    `plugins/<pasta>/`. O que o pacote nao-raiz acrescenta e' (a) mais de uma DLL na
+    mesma pasta `plugins/` e (b) os arquivos de `extras` na raiz (o LICENSE do RealmApi).
+    """
     pasta_pacote = "%s-%s" % (AUTOR, nome_mod)
     stage = os.path.join(STAGE_RAIZ, pasta_pacote)
     if os.path.isdir(stage):
         shutil.rmtree(stage)
-    os.makedirs(os.path.join(stage, "plugins", nome_mod))
+    os.makedirs(os.path.join(stage, "plugins", p["pasta_no_zip"]))
 
     copiados = [("manifest.json", p["manifest"]),
                 ("README.md", p["readme"]),
                 ("CHANGELOG.md", p["changelog"]),
                 ("icon.png", p["icon"])]
+    for extra in p["extras"]:
+        copiados.append((os.path.basename(extra), extra))
     for destino, origem in copiados:
         shutil.copy2(origem, os.path.join(stage, destino))
-    shutil.copy2(p["dll"],
-                 os.path.join(stage, "plugins", nome_mod, nome_mod + ".dll"))
+    for dll in p["dlls"]:
+        shutil.copy2(dll, os.path.join(stage, "plugins", p["pasta_no_zip"],
+                                       os.path.basename(dll)))
 
     versao = manifesto["version_number"]
     zip_path = os.path.join(DIST, "%s-%s.zip" % (pasta_pacote, versao))
@@ -675,6 +836,33 @@ def empacotar(nome_mod, manifesto, p):
     return zip_path, conteudo
 
 
+def mapa_de_caminhos(config=CONFIG_PADRAO):
+    """O layout de CADA pacote, em JSON - fonte unica para os gates.
+
+    O `publish.yml` (pre-flight e registro) precisa saber onde esta o `.csproj` e o
+    `manifest.json` de cada alvo e o que tem de existir dentro do zip. Antes ele
+    reescrevia `<Mod>/<Mod>.csproj` na mao - premissa de layout padrao que o pacote
+    nao-raiz viola (PKG-API-1). Aqui ele le a resposta do mesmo detector que empacota:
+    uma fonte so, nada de segunda lista que envelhece.
+    """
+    mapa = []
+    for nome in descobrir_mods():
+        p = caminhos(nome, config)
+        dentro = ["manifest.json", "README.md", "CHANGELOG.md", "icon.png"]
+        dentro += [os.path.basename(extra) for extra in p["extras"]]
+        dentro += ["plugins/%s/%s" % (p["pasta_no_zip"], os.path.basename(dll))
+                   for dll in p["dlls"]]
+        mapa.append({
+            "nome": nome,
+            "nao_raiz": eh_pacote_nao_raiz(nome),
+            "csproj": rel(p["csproj"]),
+            "manifest": rel(p["manifest"]),
+            "dlls": [rel(dll) for dll in p["dlls"]],
+            "dentro_do_zip": dentro,
+        })
+    return mapa
+
+
 # ---------------------------------------------------------------------------
 # CLI
 # ---------------------------------------------------------------------------
@@ -690,6 +878,11 @@ def main(argv):
                     help="cria um icon.png 256x256 nos mods que estiverem sem")
     ap.add_argument("--listar", action="store_true",
                     help="so lista os mods encontrados e sai")
+    ap.add_argument("--listar-caminhos", action="store_true",
+                    help="imprime, em JSON, o layout de cada pacote (csproj, manifest, "
+                         "DLLs e o que tem de existir DENTRO do zip) - e' o que os "
+                         "gates (publish.yml) consomem em vez de reescrever o caminho "
+                         "do csproj na mao; respeita --config")
     ap.add_argument("--listar-nomes", action="store_true",
                     help="imprime SO os nomes dos mods (um por linha) - para consumir de "
                          "script (scripts/package.ps1); a descoberta de mod fica NUM lugar")
@@ -716,15 +909,32 @@ def main(argv):
             print(m)
         return 0
 
+    if args.listar_caminhos:
+        print(json.dumps(mapa_de_caminhos(args.config), ensure_ascii=False, indent=2))
+        return 0
+
     if args.listar:
         print("Mods encontrados em %s:" % RAIZ)
         for m in todos:
+            if eh_pacote_nao_raiz(m):
+                continue
             print("  - %-18s (csproj com DeployToBepInEx)" % m)
+        nao_raiz = [m for m in todos if eh_pacote_nao_raiz(m)]
         ignorados = projetos_ignorados()
         if ignorados:
             print("Ignorados (tem csproj mas nao sao mod - nao copiam para plugins/):")
             for m in ignorados:
                 print("  - %s" % m)
+        # PKG-API-1: os pacotes do layout nao-raiz saem DEPOIS dos dois blocos de sempre
+        # para que a saida dos oito de raiz continue byte a byte igual (o diff da
+        # entrega fica so' no que e' novo).
+        if nao_raiz:
+            print("Pacotes NAO-RAIZ (PKG-API-1: projeto aninhado, mais de uma DLL - "
+                  "tabela PACOTES_NAO_RAIZ), nao listados acima:")
+            for m in nao_raiz:
+                p = caminhos(m)
+                print("  - %-18s %s  (%d DLL(s) -> plugins/%s/)"
+                      % (m, rel(p["csproj"]), len(p["dlls"]), p["pasta_no_zip"]))
         return 0
 
     alvos = args.mods or todos
