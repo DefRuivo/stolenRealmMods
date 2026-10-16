@@ -8,14 +8,16 @@
     "sobre": "A Thunderstore NAO aceita dependencia para versao inexistente: no upload, o PackageReferenceValidator(resolve=True) procura cada 'namespace-nome-versao' e recusa o pacote com 'No matching package found for reference'. Entao, no mesmo lote, quem declara a dependencia tem de ser enviado DEPOIS de quem a produz. Esta lista e a ordem que o gate deste arquivo le e o passo de envio deve seguir.",
     "regra": "Dependencia publica ANTES do dependente; mao dupla entre versoes ineditas nao tem ordem valida (reprovada). Conferido por `python tools/check_dependencias.py --api` (versao fresca na API publica por pacote) ou `--local` (este arquivo, offline).",
     "ordem": [
+      "RealmApi",
+      "RoguelikeUnlimitedLevelProgression",
       "BetterFont",
       "BetterStats",
       "BetterTooltips",
+      "BetterCombatText",
       "RoguelikeDebugger",
-      "RoguelikeSkillTreeVisualizer",
-      "BetterCombatText"
+      "RoguelikeSkillTreeVisualizer"
     ],
-    "caso_de_hoje": "BetterCombatText 0.1.1 declara DefRuivo_StolenRealmMods-BetterFont-1.0.2; a 1.0.2 ainda NAO esta no ar (a ultima publicada do BetterFont e a 1.0.1), entao o BetterFont 1.0.2 tem de subir ANTES do BetterCombatText 0.1.1 - e o que a ordem acima garante."
+    "caso_de_hoje": "RealmApi sobe PRIMEIRO (RSTV 0.3.4 declara DefRuivo_StolenRealmMods-RealmApi-0.1.0). ULLP sobe DEPOIS do RealmApi. BetterCombatText 0.1.3 depende de BetterFont-1.0.2 (que ja esta publicado como 1.0.3)."
   },
   "team_pendente": "PUB-3 RESOLVIDO em 30/09/2026: o team que publica e DefRuivo_StolenRealmMods (namespace da URL do pacote, definitivo - nao se renomeia depois). O namespace vem do TOKEN usado no envio, nao do zip; confira que o token e de service account DESTE team antes de enviar.",
   "registro": "As datas de \"publicado_em\" saem do endpoint POR PACOTE da Thunderstore (o unico fresco; a listagem da comunidade e cache de CDN e nao serve para conferir), nunca da memoria. AS SEIS ENTRADAS DESTA LEVA FORAM GRAVADAS A MAO em 01/10/2026: o job `registra` do run 36801937843 confirmou as seis na API (passo 4 = success) e falhou no passo 5 (`Commit e push do registro`). O log desse job NAO esta acessivel - a API do GitHub responde 403 'Must have admin rights to Repository' sem credencial de admin e a UI diz 'Sign in to view logs' -, entao a causa e a que a linha do tempo sustenta: o checkout do run e o commit cb0d12c (01:29Z) e a main recebeu 46fde11 (01:50Z) e c26128d (01:51Z) enquanto o run esperava a aprovacao humana; o passo 5 tentou gravar as 02:04Z e `git push origin HEAD:main` foi recusado por NAO ser fast-forward, porque o passo nunca rebasava. Conserto, no mesmo commit que gravou estas entradas: o job passou a buscar a main fresca, rebasar o commit do registro sobre ela e repetir o push com espera crescente (o trecho antes/depois esta em .github/workflows/publish.yml, no passo 'Commit e push do registro'). Os motivos anteriores desta leva - sha256 dos zips, contagem de assets da Release pack-2026-09-30 - ficam no historico do git; este arquivo guarda o estado de hoje.",
@@ -64,10 +66,10 @@
     },
     {
       "nome": "RealmApi",
-      "publicar": false,
+      "publicar": true,
       "versao_publicada": null,
       "publicado_em": null,
-      "motivo": "PREPARACAO para publicacao do RealmApi 0.1.0 (categoria Mods, conforme api/manifest.json): o pacote existe em dist/gumatos-RealmApi-0.1.0.zip e o empacotador ja reconhece o nome (PKG-API-1), mas esta entrada NAO autoriza envio. TRAVADO para publicacao ate o aceite humano do dono e o disparo explicito; nao entra em ordem_de_envio (o RealmApi sobe ANTES do RoguelikeSkillTreeVisualizer, que declara a dependencia 0.1.0)."
+      "motivo": "PUBLICAR 0.1.0 (PRIMEIRA VEZ). API de modding com UI helpers e hooks opt-in. Categoria 'mods'. Sobem PRIMEIRO (RSTV 0.3.4 declara dependencia DefRuivo_StolenRealmMods-RealmApi-0.1.0)."
     },
     {
       "nome": "RoguelikeDebugger",
@@ -85,10 +87,10 @@
     },
     {
       "nome": "RoguelikeUnlimitedLevelProgression",
-      "publicar": false,
+      "publicar": true,
       "versao_publicada": null,
       "publicado_em": null,
-      "motivo": "BLOQUEADO para publicacao (LEVEL-PACOTE-CONTRATO, 12/10/2026): runtime e aceite humano pendentes. O pacote 0.1.1 tem fonte/metadados/icone 256x256 versionados e passou o pre-flight em bancada NOVA isolada (sem perfil, sem jogo), com manifest, icone, membros e hash da DLL conferidos dentro do ZIP - prova de CONTRATO, nao de jogo: nenhum boot real foi exercitado. Liberar exige rodada de runtime autorizada e o aceite humano do dono; ate la nao entra no lote de envio (ordem_de_envio)."
+      "motivo": "PUBLICAR 0.1.1 (PRIMEIRA VEZ). Remove limite de nivel da progressao de roguelike. Sobem DEPOIS do RealmApi (sem dependencia direta, mas depois da ordem do ledger)."
     }
   ]
 }

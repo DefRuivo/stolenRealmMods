@@ -72,12 +72,14 @@ on:
         default: todos
         options:
           - todos
+          - RealmApi
           - BetterCombatText
           - BetterFont
           - BetterStats
           - BetterTooltips
           - RoguelikeDebugger
           - RoguelikeSkillTreeVisualizer
+          - RoguelikeUnlimitedLevelProgression
       release_tag:
         description: 'Tag da GitHub Release de onde baixar os zips do dist/ (vazio = os zips tem que ja estar em dist/)'
         type: string
