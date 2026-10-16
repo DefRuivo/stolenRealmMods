@@ -81,7 +81,9 @@ curl https://raw.githubusercontent.com/DefRuivo/stolenRealmMods/main/.github/wor
 
 A última linha traz o arquivo como ele está no GitHub (o que roda de verdade). Na conferência de
 30/09/2026 o `main` era o mesmo commit do HEAD local. O envio local pelo
-`tools/publish-thunderstore.sh` (dry-run por padrão) continua valendo como caminho alternativo.
+`tools/publish-thunderstore.sh` (dry-run por padrão) continua existindo como caminho **legado**, sem
+gate e sem aprovação humana — ver [`PUBLICACAO.md`](PUBLICACAO.md) §4; o caminho revisado é o
+`publish.yml`.
 
 ## Os passos, na ordem
 

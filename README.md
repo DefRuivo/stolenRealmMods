@@ -205,9 +205,9 @@ published 0.3.3 package. [Current package table and limits](docs/README.md#pacot
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
-| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
-| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.3 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.3 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.4 |
 | BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
 | RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
@@ -263,7 +263,7 @@ Two packages, for two audiences:
 | Audience | Command | Output |
 |---|---|---|
 | **friends** (no account, no terminal) | `bash tools/pack-for-friends.sh` | `dist/StolenRealm-Mods-<date>.zip` (see [docs/MODS-PARA-AMIGOS.md](docs/MODS-PARA-AMIGOS.md)) |
-| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, or `.\scripts\package.ps1 <Mod>`, or `bash tools/publish-thunderstore.sh` | `dist/gumatos-<Mod>-<version>.zip` |
+| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, or `.\scripts\package.ps1 <Mod>`, or `bash tools/publish-thunderstore.sh` (legacy: it packs **and** sends; see [`docs/PUBLICACAO.md`](docs/PUBLICACAO.md)) | `dist/gumatos-<Mod>-<version>.zip` |
 
 Both build in **Release** with `-p:DeployToBepInEx=false`, so making a package never overwrites the
 DLL installed in the profile. `python tools/pack-thunderstore.py --listar-nomes` prints the mods the
@@ -316,9 +316,11 @@ The Thunderstore version is **immutable**: after it is accepted nothing can be e
 
 Two ways to actually send:
 
-- **Local — the simplest today:** `bash tools/publish-thunderstore.sh` is a **dry-run by default**
-  and only uploads with `--go`. It runs the secret gate and the whole `release-check.sh` first, and
-  refuses a token file that lives inside the repository.
+- **Local — legacy, not the safe path:** `bash tools/publish-thunderstore.sh` is a **dry-run by
+  default** and only uploads with `--go`. It runs the secret gate and the whole `release-check.sh`
+  first, and refuses a token file that lives inside the repository — but it does **not** read the
+  gate `release/mods.json`, has no human approval and uploads **every** `dist/gumatos-*.zip` in the
+  folder, old versions included (see [`docs/PUBLICACAO.md`](docs/PUBLICACAO.md)).
 - **GitHub Actions:** [`.github/workflows/publish.yml`](.github/workflows/publish.yml) — manual
   dispatch, with a `mod` input, the approval gate and a pre-flight that refuses a repeated version.
   It does **not** build: it ships the `.zip` produced on the development machine.
@@ -355,9 +357,9 @@ Identificadores internos (úteis para conferir no log):
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
-| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
-| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.3 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.3 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.4 |
 | BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
 | RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
@@ -630,9 +632,9 @@ mantém o projeto.
 | BetterTooltips | `com.gumatos.bettertooltips` | `Better Tooltips` | 0.1.4 |
 | BetterStats | `com.gumatos.betterstats` | `Better Stats` | 1.0.2 |
 | BetterFont | `com.gumatos.betterfont` | `Better Font` | 1.0.3 |
-| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.2 |
-| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.2 |
-| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.3 |
+| RoguelikeDebugger | `com.gumatos.roguelikedebugger` | `Roguelike Debugger` | 0.1.3 |
+| BetterCombatText | `com.gumatos.bettercombattext` | `Better Combat Text` | 0.1.3 |
+| RoguelikeSkillTreeVisualizer | `com.gumatos.roguelikeskilltreevisualizer` | `Roguelike Skill Tree Visualizer` | 0.3.4 |
 | BetterPortuguese (unpublished / não publicado) | `com.gumatos.betterportuguese` | `Better Portuguese` | 0.1.0 |
 | RoguelikeUnlimitedLevelProgression (unpublished / não publicado) | `com.gumatos.roguelikeunlimitedlevelprogression` | `Roguelike Unlimited Level Progression` | 0.1.1 |
 
@@ -687,7 +689,7 @@ Dois pacotes, para dois públicos:
 | Público | Comando | Saída |
 |---|---|---|
 | **amigos** (sem conta e sem terminal) | `bash tools/pack-for-friends.sh` | `dist/StolenRealm-Mods-<data>.zip` (ver [docs/MODS-PARA-AMIGOS.md](docs/MODS-PARA-AMIGOS.md)) |
-| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, ou `.\scripts\package.ps1 <Mod>`, ou `bash tools/publish-thunderstore.sh` | `dist/gumatos-<Mod>-<versao>.zip` |
+| **Thunderstore / r2modman** | `python tools/pack-thunderstore.py [Mod]`, ou `.\scripts\package.ps1 <Mod>`, ou `bash tools/publish-thunderstore.sh` (legado: empacota **e** envia; ver [`docs/PUBLICACAO.md`](docs/PUBLICACAO.md)) | `dist/gumatos-<Mod>-<versao>.zip` |
 
 Os dois compilam em **Release** com `-p:DeployToBepInEx=false`, então gerar pacote **nunca**
 sobrescreve a DLL do perfil. `python tools/pack-thunderstore.py --listar-nomes` lista os mods que o
@@ -741,9 +743,11 @@ A versão na Thunderstore é **imutável**: depois de aceita não se edita nada,
 
 Dois caminhos para enviar de verdade:
 
-- **Local — o mais simples hoje:** `bash tools/publish-thunderstore.sh` é **dry-run por padrão** e só
-  sobe com `--go`. Ele roda a trava de segredo e o `release-check.sh` inteiro antes, e recusa token
-  que esteja dentro do repositório.
+- **Local — legado, não é o caminho seguro:** `bash tools/publish-thunderstore.sh` é **dry-run por
+  padrão** e só sobe com `--go`. Ele roda a trava de segredo e o `release-check.sh` inteiro antes, e
+  recusa token que esteja dentro do repositório — mas **não** lê o gate `release/mods.json`, não tem
+  aprovação humana e sobe **todos** os `dist/gumatos-*.zip` da pasta, versões antigas inclusive (ver
+  [`docs/PUBLICACAO.md`](docs/PUBLICACAO.md)).
 - **GitHub Actions:** [`.github/workflows/publish.yml`](.github/workflows/publish.yml) — disparo
   manual, com input de `mod`, o gate de aprovação e um pre-flight que recusa versão repetida. Ele
   **não** compila: transporta o `.zip` gerado na máquina de desenvolvimento.

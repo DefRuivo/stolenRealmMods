@@ -35,7 +35,7 @@ que o loader encontrou o plugin, não que seus ganchos e efeitos funcionaram.
 |---|---|
 | `Roguelike Classes Mod 0.1.1` | terceiro |
 | `Script Engine 11.1` | terceiro (Thunderstore) — carrega, mas o hot-reload não funciona neste jogo (decisão: parado) |
-| `Better Combat Text 0.1.1` | projeto (depende do `Better Font`) |
+| `Better Combat Text 0.1.1` | projeto (o **par carregado** no perfil é BCT + `Better Font`; o manifest corrente do BCT **não** declara dependência de pacote — foi removida em 16/10/2026, DEP-REV) |
 | `Better Font 1.0.2` | projeto |
 | `Better Stats 1.0.1` | projeto |
 | `Better Tooltips 0.1.4` | projeto |

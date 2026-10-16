@@ -380,7 +380,7 @@ reprova e a release para.
 | `pack-thunderstore.py` | Gera o pacote no padrão do Thunderstore (4 arquivos na raiz + `plugins/<Mod>/<Mod>.dll`) a partir de `<Mod>/bin/<Config>/` (`--config`, padrão **Release**), com pre-flight que **aborta** em vez de gerar pacote inválido: DLL buildada, manifest, README/CHANGELOG, icon 256x256 real e a **versão única** (`.csproj` × `manifest.json` × `Plugin.cs` × `README.md`; `--sincronizar-versao` conserta os espelhos a partir do `.csproj`). `--listar-nomes` dá a lista de mods para scripts. | Empacotar para publicação; `--sincronizar-versao <Mod>` depois de subir o `<Version>` do `.csproj`. |
 | `check_segredos.py` | **Trava de segredo:** varre os arquivos **versionados** procurando credencial (token do Thunderstore, PAT do GitHub, chave privada) e, em seguida, chama o `check_padroes_segredo.py`. Exit 1 e o release para. | **Passo 0 do `release-check.sh`** e **passo 1 do CI**; também roda dentro do `publish-thunderstore.sh` e do job de publicação. |
 | `check_padroes_segredo.py` | O **motor genérico** de credencial: formatos conhecidos (GitHub, Thunderstore, Slack, OpenAI, AWS, Google, GitLab, npm, PEM) **+** string longa de alta entropia, para pegar o que ainda não tem nome. Não guarda valor de token — só formato e medida. | Rodado **pelo** `check_segredos.py` (por isso é parte do passo 0 do `release-check` e do passo 1 do CI). Direto, só para a varredura mais ampla à mão. |
-| `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. | Publicação local, quando o envio sai pela mão (ver [`PUBLICACAO.md`](PUBLICACAO.md)); é o caminho enquanto não se usa o `publish.yml`. |
+| `publish-thunderstore.sh` | Publica os pacotes pela API. **Dry-run por padrão** — só sobe com `--go`. Tira o token de `TCLI_AUTH_TOKEN`, de `$THUNDERSTORE_TOKEN_FILE` ou de `~/.thunderstore-token`; recusa se o arquivo do token estiver dentro do repositório. **Envio local LEGADO — não é caminho seguro de release:** não lê o gate `release/mods.json`, não tem aprovação humana e itera **todos** os `dist/gumatos-*.zip` (inclusive versões antigas); o cabeçalho de autorização do envio **não** usa a variável `TOKEN` lida no início. (Há frente em andamento desde 16/10/2026 que faz o script ler o gate; enquanto ela não estiver commitada e provada, vale o texto acima — ver [`PUBLICACAO.md`](PUBLICACAO.md) §4.) | Legado, na mão (ver [`PUBLICACAO.md`](PUBLICACAO.md) §4); o caminho de hoje é o workflow `publish.yml`, com gate e aprovação humana. |
 | `release-check.sh` | **A trava de release:** roda os passos automatizados 0–7 (segredos → versões → patches → build 0 erros → chaves → duplicadas → notas → chave compartilhada `--estrito`), o passo 8 (**ciclo do jogo**, só no modo explícito `--instalar-no-perfil`) e imprime o **passo 9, humano** (conferência visual em jogo, não automatizável); no fim diz APROVADO/REPROVADO e lista quem falhou. **Não** para no primeiro erro — os passos 0 (segredos), 1 (versões) e 2 (patches TRV-1) **abortam na hora**; os outros acumulam para o relatório. Travas objetivas: duplicadas (`INC-1`), chave nas duas tabelas (`BUG-32`) e versão única (`PKG-2`). | Antes de **qualquer** release ou empacotamento (e é chamada pelo `publish-thunderstore.sh`). |
 | `audita_docs.py` | **Auditoria das docs contra o disco:** contagens declaradas, versão de cada mod (manifest/csproj/plugin), ferramentas citadas x existentes em `tools/`, links relativos, caminhos que saíram do repo e a dependência do Thunderstore. Sai `exit 1` quando alguma afirmação não bate — é o **passo 7 do CI**. Descobre a raiz do repo a partir do próprio arquivo (roda de qualquer diretório) e **marca** os falsos positivos que já conhece (referência histórica ao `BetterTexts`, tabela que diz "não instale", a linha que explica que o `KANBAN.md` não é versionado, script de bancada em `scratch/`) em vez de reprovar. | **Passo 7 do CI**; depois de mexer em qualquer doc (é ele que confere contagem, versão, ferramenta e link). |
 
@@ -398,13 +398,13 @@ mesmo resultado e mover quebraria o pack script, as regras `!*/manifest.json` do
 
 | Mod | O que faz (uma linha) | Versão no disco | Na Thunderstore |
 |---|---|---|---|
-| `BetterCombatText` | Contorno dos nomes de inimigos, rótulos de buff/debuff e dado de eventos. | 0.1.2 | **PUBLICADO 0.1.2**, 07/10/2026. Manifest atual: só `BepInExPack` — a dependência de `BetterFont` foi removida em 16/10/2026 (DEP-REV); o `BetterCombatText/README.md` ainda descreve a política antiga. |
+| `BetterCombatText` | Contorno dos nomes de inimigos, rótulos de buff/debuff e dado de eventos. | 0.1.3 | **PUBLICADO 0.1.2**, 07/10/2026. Manifest atual: só `BepInExPack` — a dependência de `BetterFont` foi removida em 16/10/2026 (DEP-REV); o `BetterCombatText/README.md` ainda descreve a política antiga. |
 | `BetterFont` | Fonte serifada com preservação de estilo; textos estilizados por outro mod podem manter a fonte original. | 1.0.3 | **PUBLICADO 1.0.3**, 07/10/2026. |
 | `BetterPortuguese` | Overlay PT-BR Original/Corrigido; sem correções editoriais aprovadas no snapshot inicial. | 0.1.0 | **NÃO PUBLICADO**; `publicar:false`, QA em jogo e aceite pendentes. |
 | `BetterStats` | Atributos `base (combinado)` na ficha e no level-up. | 1.0.2 | **PUBLICADO 1.0.2**, 07/10/2026. |
 | `BetterTooltips` | Correções/notas de tooltips e valores de auras de shrine para o personagem em foco. | 0.1.4 | **PUBLICADO 0.1.4**, 07/10/2026. |
-| `RoguelikeDebugger` | Ferramenta de investigação: inventários e diagnóstico no log. | 0.1.2 | **PUBLICADO 0.1.2**, 07/10/2026. |
-| `RoguelikeSkillTreeVisualizer` | Árvore read-only: HUD inferior da run, modal Remove Skill Trees, level-up e F10. Fonte atual usa RealmApi. | 0.3.3 | **PUBLICADO 0.3.3**, 07/10/2026; mesmo número não prova que o ZIP contém a integração posterior com a API. |
+| `RoguelikeDebugger` | Ferramenta de investigação: inventários e diagnóstico no log. | 0.1.3 | **PUBLICADO 0.1.2**, 07/10/2026. |
+| `RoguelikeSkillTreeVisualizer` | Árvore read-only: HUD inferior da run, modal Remove Skill Trees, level-up e F10. Fonte atual usa RealmApi. | 0.3.4 | **PUBLICADO 0.3.3**, 07/10/2026; mesmo número não prova que o ZIP contém a integração posterior com a API. |
 | `RoguelikeUnlimitedLevelProgression` | Remove teto de nível 20 do Roguelike singleplayer. | 0.1.1 | **NÃO PUBLICADO**; `publicar:false`, runtime/aceite ainda exigidos pelo gate. |
 
 A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `manifest.json` e
@@ -413,6 +413,9 @@ A versão no disco é a do `<Version>` do `.csproj` (fonte única — confere `m
 **16/10/2026**; as seis versões e datas da tabela coincidiram com `latest.version_number`
 e `latest.date_created` (`curl -s https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/`).
 Esse resultado não compara o hash do ZIP com o fonte atual nem libera nova publicação.
+Depois do bump **preparado** pela `PUB-ALL-1` (16/10/2026), a versão no disco de `BetterCombatText`
+(**0.1.3**), `RoguelikeDebugger` (**0.1.3**) e `RoguelikeSkillTreeVisualizer` (**0.3.4**) está **à frente**
+da publicada: nada foi publicado nesse bump (`release/mods.json` continua com as versões de 07/10/2026).
 Os nomes publicados são o namespace do team: `DefRuivo_StolenRealmMods-<Mod>`.
 
 **Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO): o projeto tem um sétimo pacote DESCOBERTO**,
@@ -422,9 +425,10 @@ está liberado**: a entrada dele em [`release/mods.json`](../release/mods.json) 
 motivo *runtime e aceite humano pendentes* — o pacote passou o pre-flight e foi empacotado em bancada
 NOVA isolada (manifest, ícone, membros e hash da DLL conferidos dentro do ZIP), mas **nenhum boot real
 foi autorizado**, então isso é prova de contrato, não de jogo. Consequência para o gate: o conjunto
-esperado pelo workflow passa a ser 7 nomes (o do `--listar-nomes`), as seis entradas liberadas acima
-ficaram **inalteradas** e a nova é recusada pelo nome (`publicar:false`). A tabela e as contagens acima
-(6 mods, medidas em 01/10/2026) são a fotografia daquela data.
+esperado pelo workflow passou a ser 7 nomes (oito desde 16/10/2026, quando o `BetterPortuguese` entrou
+na descoberta — ver a tabela acima), as seis entradas liberadas acima
+ficaram **inalteradas** e a nova é recusada pelo nome (`publicar:false`). A tabela dos 6 mods e as
+contagens medidas em 01/10/2026 continuam aqui como fotografia daquela data.
 
 **Os parametros que o Thunderstore exige, conferidos um a um nos 6 mods** (contagens medidas com
 `python .github/scripts/valida_pacotes.py`, 01/10/2026: `6 pacotes validados | 0 com problema`):
@@ -436,7 +440,7 @@ ficaram **inalteradas** e a nova é recusada pelo nome (`publicar:false`). A tab
 | `description` | ate 250 chars | OK (172..212) |
 | `website_url` | URL valida | OK |
 | `icon.png` | PNG 256x256, até 1 MB | OK (256x256; 57013..124954 bytes — todos abaixo de 1 MB) |
-| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` em todos. Estado atual (16/10/2026): **uma** dependência entre mods deste repo, em **direção única** e ainda não resolvível — `RoguelikeSkillTreeVisualizer 0.3.3` → `DefRuivo_StolenRealmMods-RealmApi-0.1.0` (a API não está publicada, então `python tools/check_dependencias.py` falha por isso e o upload do RSTV seria recusado). A antiga `BetterCombatText` → `BetterFont` foi **removida** em 16/10/2026 (DEP-REV): era dependência de pacote sem dependência obrigatória de código |
+| `dependencies` | `Autor-Pacote-Versao` | `BepInEx-BepInExPack-5.4.2305` em todos. Estado atual (16/10/2026): **uma** dependência entre mods deste repo, em **direção única** e ainda não resolvível — `RoguelikeSkillTreeVisualizer 0.3.4` → `DefRuivo_StolenRealmMods-RealmApi-0.1.0` (a API não está publicada, então `python tools/check_dependencias.py` falha por isso e o upload do RSTV seria recusado). A antiga `BetterCombatText` → `BetterFont` foi **removida** em 16/10/2026 (DEP-REV): era dependência de pacote sem dependência obrigatória de código |
 | arquivos | README.md e CHANGELOG.md na raiz do pacote | OK |
 
 **A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5
@@ -474,6 +478,9 @@ release que contenha token nem chega a compilar.
 
 ```bash
 bash tools/publish-thunderstore.sh          # dry-run: mostra o que subiria
+# ATENCAO — envio LEGADO e nao seguro (ver PUBLICACAO.md §4): o script nao le o gate
+# release/mods.json, nao tem aprovacao humana e itera TODOS os dist/gumatos-*.zip,
+# inclusive versoes antigas. As duas linhas abaixo sobem o que estiver na pasta:
 bash tools/publish-thunderstore.sh --go     # publica de verdade
 bash tools/publish-thunderstore.sh --go BetterTooltips   # um mod só
 ```
@@ -543,15 +550,18 @@ DLL buildada **na configuração pedida** ou versão única ele **sai com erro s
 `BepInEx/plugins/<Mod>/` -> abrir pelo "Start modded" -> conferir `<Mod> carregado.` no `LogOutput.log`.
 
 **Publicar** — o pipeline existe e está descrito em [`PUBLICACAO.md`](PUBLICACAO.md): quem **pode**
-sair é o gate versionado [`release/mods.json`](../release/mods.json) (**6** entradas, todas com
-`publicar: true`); a **leva de 01/10/2026** é que subiu BetterFont **1.0.1**, BetterStats
+sair é o gate versionado [`release/mods.json`](../release/mods.json) (**8** entradas: **6** com
+`publicar: true` — as que foram publicadas em 07/10/2026 — e **2** com `publicar: false`,
+`BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`); a **leva de 01/10/2026** é que subiu BetterFont **1.0.1**, BetterStats
 **1.0.1**, BetterTooltips **0.1.1**, RoguelikeDebugger **0.1.1**, RoguelikeSkillTreeVisualizer **0.2.0**
 e BetterCombatText **0.1.0** — são as versões **daquela leva**, não as correntes (a versão publicada
 corrente de cada mod é o `versao_publicada` do próprio `release/mods.json`); a lista tem de bater
 com o `tools/pack-thunderstore.py --listar-nomes`, senão o gate **falha**; o envio é o workflow
 [`.github/workflows/publish.yml`](../.github/workflows/publish.yml)
-(**manual**, com aprovação num GitHub Environment) e o envio **local** continua sendo
-`bash tools/publish-thunderstore.sh` (**dry-run** por padrão; só sobe com `--go`). Os dois
+(**manual**, com aprovação num GitHub Environment) e o envio **local**
+`bash tools/publish-thunderstore.sh` continua existindo como caminho **legado** — **dry-run** por
+padrão (só sobe com `--go`), mas sem gate, sem aprovação humana e subindo todos os
+`dist/gumatos-*.zip` da pasta (ver [`PUBLICACAO.md`](PUBLICACAO.md) §4). Os dois
 workflows já estão no remoto — factual verificado em 30/09/2026, ver [`CI.md`](CI.md). A versão nao pode
 repetir uma ja publicada — a **PKG-2** resolveu isso: a versão tem uma fonte (o `<Version>` do
 `.csproj`) e o empacotamento **recusa** pacote quando `manifest.json`, `Plugin.cs` ou `README.md` divergem dela

@@ -50,13 +50,14 @@ para os **7** mods empacotados e os 11 zips. A dependência entre mods é **uma 
 `BetterFont 1.0.1` — pelo motivo registrado em [`release/mods.json`](../release/mods.json).
 
 **Adendo (12/10/2026, LEVEL-PACOTE-CONTRATO):** o projeto passou a ter **7 pacotes descobertos** e o
-`release/mods.json` tem **7** entradas: as seis descritas acima com `publicar: true` e o registro de
+`release/mods.json` passou a ter **7** entradas (oito desde 16/10/2026, com o `BetterPortuguese`): as seis descritas acima com `publicar: true` e o registro de
 publicação **inalterados**, mais `RoguelikeUnlimitedLevelProgression 0.1.1` com `publicar: false` e o motivo
 *runtime e aceite humano pendentes*. Portanto a frase "hoje não há nenhum mod deste repo fora do ar"
 acima vale para a **fotografia de 01/10/2026**, não para hoje: o RLP está fora do ar **de propósito** e
 o gate de publicação o recusa pelo nome (`::error:: ... esta com publicar:false ... NAO sera publicado`),
 sem entrar na `ordem_de_envio`. O conjunto esperado pelo workflow é o do
-`python tools/pack-thunderstore.py --listar-nomes` (7 nomes), e é ele que `release/mods.json` tem de
+`python tools/pack-thunderstore.py --listar-nomes` (7 nomes então; **8** desde 16/10/2026, com o
+`BetterPortuguese` — o `RealmApi` ainda não é descoberto pelo empacotador versionado), e é ele que `release/mods.json` tem de
 espelhar na mesma ordem. Nada aqui autoriza publicação: esta frente não publicou, não fez push e não
 rodou o jogo.
 
@@ -234,9 +235,9 @@ O que o pipeline lê da plataforma é a **API pública da comunidade**:
 ### A ordem de envio (PKG-5)
 
 A Thunderstore **não aceita envio conjunto**: cada upload resolve, na hora, **cada** item de
-`dependencies` contra o que já está no ar. Se o `BetterCombatText 0.1.1` declara
-`DefRuivo_StolenRealmMods-BetterFont-1.0.2` e a `1.0.2` ainda não subiu, o envio do
-`BetterCombatText` é **recusado** — por isso a dependência publica **antes** do dependente.
+`dependencies` contra o que já está no ar. Se um mod declara
+`DefRuivo_StolenRealmMods-BetterFont-1.0.2` e a `1.0.2` ainda não subiu, o envio dele é **recusado** —
+por isso a dependência publica **antes** do dependente.
 
 A ordem do lote mora em [`release/mods.json`](../release/mods.json), no campo
 **`ordem_de_envio`** (que o gate do `publish.yml` lê e imprime no resumo do run); a lista
@@ -257,11 +258,16 @@ BetterFont -> BetterStats -> BetterTooltips -> RoguelikeDebugger
            -> RoguelikeSkillTreeVisualizer -> BetterCombatText
 ```
 
-O caso de hoje: o `BetterCombatText 0.1.1` depende do **`BetterFont 1.0.2`**, que ainda **não
-está no ar** (a última publicada do `BetterFont` é a `1.0.1`, medida na API em `/package/
-DefRuivo_StolenRealmMods/BetterFont/`). Logo, o **`BetterFont 1.0.2` sobe ANTES do
-`BetterCombatText 0.1.1`**. As duas pontas em versão inédita (mão dupla) **não passariam** —
-a REV-10 mapeou esse caso e o `tools/check_dependencias.py` o reprova como ciclo.
+**O caso de hoje (16/10/2026) não é o desse exemplo.** Depois da revisão de dependências (DEP-REV),
+**nenhum** mod deste repositório declara dependência de pacote a outro mod de jogo: o
+`BetterCombatText` **deixou de declarar** `BetterFont` (era dependência de pacote sem dependência
+obrigatória de código). A **única** dependência real está no fonte do
+`RoguelikeSkillTreeVisualizer 0.3.4` — `DefRuivo_StolenRealmMods-RealmApi-0.1.0` — e ela **não resolve**:
+a `RealmApi 0.1.0` não está no ar (o endpoint por pacote devolve `404`). O
+`python tools/check_dependencias.py --local` reprova exatamente por isso, e o upload do RSTV seria
+**recusado** enquanto a API não subir. O campo **`ordem_de_envio.caso_de_hoje`** do próprio
+`release/mods.json` ainda carrega o texto de **01/10/2026** (`BetterCombatText 0.1.1` →
+`BetterFont 1.0.2`): é fotografia antiga, e este documento não reescreve o gate (frente própria).
 
 ## 2) O gate do que pode sair: `release/mods.json`
 
@@ -270,9 +276,12 @@ consultá-lo**. O [`release/mods.json`](../release/mods.json) é o substituto ve
 revisável no diff:
 
 ```json
-{ "nome": "BetterFont", "publicar": false, "versao_publicada": null,
-  "publicado_em": null, "motivo": "primeira publicacao ainda nao feita - ..." }
+{ "nome": "BetterFont", "publicar": true, "versao_publicada": "1.0.3",
+  "publicado_em": "2026-10-07T21:24:48.179123Z", "motivo": "PUBLICAR 1.0.2 (...) — texto longo, no arquivo" }
 ```
+*(trecho **real** do arquivo, com o `motivo` abreviado: o `BetterFont` é `publicar: true` e está no ar
+na `1.0.3`. As duas entradas travadas — `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression` — são
+as únicas com `publicar: false` e `versao_publicada: null`.)*
 
 - **`publicar: true`** é o que libera. O pipeline publica **só** o que estiver `true`.
 - **`publicar: false`** nunca é enviado — nem se você escolher o mod a dedo no disparo
@@ -570,7 +579,7 @@ A árvore completa da API, também sem credencial:
 | [`.github/workflows/validate.yml`](../.github/workflows/validate.yml) | o outro lado da trava: valida a cada `push`/PR (não compila, não publica) — ver [CI.md](CI.md) |
 | [`release/mods.json`](../release/mods.json) | o gate versionado: quem pode sair e o que já saiu |
 | [`tools/pack-thunderstore.py`](../tools/pack-thunderstore.py) | gera o `.zip` que o pipeline transporta (pre-flight de versão única/ícone/DLL) e dá a lista de mods (`--listar-nomes`) |
-| [`tools/publish-thunderstore.sh`](../tools/publish-thunderstore.sh) | publicação pela linha de comando (**dry-run** por padrão; `--go` envia) |
+| [`tools/publish-thunderstore.sh`](../tools/publish-thunderstore.sh) | publicação pela linha de comando (**dry-run** por padrão; `--go` envia) — **legado e não seguro** (não lê o gate, sem aprovação humana, sobe todos os `dist/gumatos-*.zip`; ver §4) |
 | [`.github/scripts/valida_pacotes.py`](../.github/scripts/valida_pacotes.py) | o que o CI confere do pacote **sem** DLL: manifest, ícone 256x256, README e CHANGELOG — **e a resolução das dependências** (regra 8, PKG-5) |
 | [`tools/check_dependencias.py`](../tools/check_dependencias.py) | **PKG-5:** toda dependência (de cada manifest) resolve contra o que está publicado (`--api`) ou contra o lote/`release/mods.json` (`--local`); calcula a **ordem de envio** e reprova mão dupla entre versões inéditas. A regra que o `valida_pacotes.py` importa |
 | [`.github/scripts/`](../.github/scripts) | a pasta das ferramentas que só existem para o CI |
