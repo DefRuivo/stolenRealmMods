@@ -19,6 +19,7 @@ __pycache__/
 # (KANBAN.md e *_INVENTORY.md na raiz seguem FORA do git de proposito)
 *.md
 !README.md
+kanban.db
 
 # ENT-2: a DOCUMENTACAO passa a ser versionada. O '*.md' acima continua valendo
 # para as notas de trabalho na raiz; aqui a documentacao de docs/ e re-incluida.
@@ -162,3 +163,15 @@ secrets*
 # O catalogo derivado regeneravel e o ZIP redundante ficam somente no disco local.
 /docs/cobertura/EV-R1/catalogo-referencias.json
 /docs/cobertura/EV-R1/EV-R1-entrega.zip
+
+# ---------------------------------------------------------------------------
+# REPO-HIG (16/10/2026, revisao pedida pelo dono): regras DEFENSIVAS contra bloat.
+# Nenhuma delas desindexa nada - arquivo ja' rastreado continua rastreado; elas so'
+# impedem que lixo NOVO entre no indice. O 'kanban.db' acima veio do proprio fluxo.
+*.bak
+*.orig
+*.tmp
+/harness-out/
+# ZIP solto na RAIZ: os pacotes vivem em dist/ (ja' ignorado). Ha' ZIPs legitimamente
+# versionados em docs/automacao, por isso o escopo e' a raiz e nao '*.zip'.
+/*.zip
