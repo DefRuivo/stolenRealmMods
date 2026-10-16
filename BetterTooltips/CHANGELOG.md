@@ -1,6 +1,9 @@
 # Changelog — BetterTooltips
 
-## 0.1.4 — the Armor note stops leaking into the combat feed
+> Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
+> CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
+
+## 0.1.4 — 2026-10-07 — the Armor note stops leaking into the combat feed
 
 **What a player sees:** the explanation of how Armor works also showed up in the **combat feed**
 (the line `Increased Armor Applied`); it now appears **only** inside item/skill tooltips. The two
@@ -51,27 +54,9 @@
   `manifest.json`, the literal in `[BepInPlugin(...)]` in `Plugin.cs`, and the `- **Version:**` line in the
   `README.md`).
 
-## RV-48 (03/10) — documentation retraction: the player "`Worship` perk" does NOT exist
+### RV-48 — 2026-10-03 — documentation retraction (corrected 2026-10-07)
 
-> ⚠ **CORRECTED on 07/10 (REL-BT-014).** This section holds two statements that **do not stand up**,
-> flagged in the 0.1.4 section above: (1) that the "doubling" was a **defect of the mod itself** — the
-> owner confirmed the doubling is **correct** and the engine produces it; (2) that the danger auras read
-> the **shrine's** bonus — in the damage path the action's `Source` is the character who **has the aura**.
-> The text below stays as **history**; nothing in it closes RV-49.
-
-**Text/comment correction only** (no formula and no displayed number changed). The RV-30 investigation
-(closed on 03/10) proved that **`worship` has ZERO occurrences in the game's code** (Assembly-CSharp of the
-current build; `Worshiper` likewise). The term's only trace is the homonymous skill ("100% increased
-effect from Shrines", value 100) of the **ENEMY CharacterInfo** `T2_Worshiper` (`resources.assets`
-@1519682296) — **there is no player perk with that name**. The old mentions of a "`Worship` perk"
-(the list of *Shrine Effect Bonus* sources, the "`Worship` factor" and the explanation of the "doubled
-damage") are FABRICATION. The "doubling" registered in game (RV-34) was the **defect of the mod itself**:
-the RV-34 prefix injected the receiver into `Source` and the two DANGER auras (Decay/Flame) read
-`Source["ShrineEffectBonus"]` — the **SHRINE's bonus**, not the player's; the number came out "as if the
-character had a bonus". RV-30 (03/10) stops writing into `Source`. **OPEN item (RV-49):** the fix
-contradicts the owner's in-game measurement and waits for a measurement/decision — it is not committed.
-The REAL sources of *Shrine Effect Bonus*, on screen, are **Omnism I/II** (Chaos) and the
-**Horn of Devotion**.
+The original investigation did not find a player `Worship` perk in the code/data it inspected; it found an enemy `T2_Worshiper`. That is not proof that no such player asset exists. The original claim that the doubling was a defect introduced by this mod and that the damage path used the shrine's bonus was also withdrawn: the owner confirmed the doubling, and the later damage-path reading found `Source` to be the character carrying the aura. RV-30 stopped injecting `Source` in the tooltip evaluator; that code change alone does not settle the number the tooltip should display. RV-49 remains open. This paragraph replaces the repeated false claims, not the owner's acceptance of BUG-34.
 
 ## 0.1.3 — enemy passives with values + absolute Armor/Magic Armor (BT-18..20)
 
@@ -87,11 +72,13 @@ appears through the engine's token (Invulnerable Winter) stay out.
 
 ## 0.1.2 — dynamic value in passives + log marker for the shrine auras
 
+- **Other changes already present by this source series (not future features):** DWA-2 (`46fde11`, 2026-09-30) keeps Dwarven trigger chances **per live instance**, rather than applying the attribute-aura deduplication to them. CHL-1 (`c5eeb5c`) adds the status/skill interaction note using the caster's actual value. The three-colour/note-order fixes (`d586f28`) keep level-2 text distinct from the level-3 note and place notes at the tooltip end; the synergy ordering and weapon notes are recorded in `716ca22`. These were missing from this history; they are not newly added by CHG-REV.
+
 The passives (**Reaper's Toll**, **Hunger**, **Berserker's Blood**) and the **% attribute** skills now
 show the **computed dynamic** value (BT-10..BT-13). The log marker for the shrine auras also publishes the
 **floor** and the **raw** value (MAN-2/REV-47, log only — no text the player sees changes).
 
-## MAN-2 / REV-47 (02/10) — the LOG marker now publishes the FLOOR and the RAW value (log only; nothing packaged)
+### MAN-2 / REV-47 — 2026-10-02 — floor/raw log fields (incorporated in 0.1.2)
 
 Fix of **two holes in the log/dump marker** for the shrine auras (findings 3 and 1 of REV-47).
 **LOG marks only**: no text the player sees, no formula and no number convention
@@ -116,12 +103,9 @@ is read-only code inside try/catch. `tools/checa_shrines.py` now reads the `cru=
 an older build) and the floor line, showed both in the section `LIMITES DO ATRIBUTO NO LOG` and uses the
 floor (as it already used the ceiling) in the ADITIVIDADE block.
 
-## RV-46 (30/09) — the two defects of the blue shrine-aura line (shipped in **0.1.1**, live since 01/10)
+### RV-46 — 2026-09-30 — historical changes shipped in 0.1.1 (not an unreleased entry)
 
-> **Title history:** this section was born as "Not published" (bc394e7, 30/09) — and RV-46 really was
-> unpublished when the note was written; what grew old was the title. RV-46 was packaged inside
-> **0.1.1** (published on 01/10/2026, replacing 0.1.0) and the published zip carries this changelog
-> verbatim, with `AurasUnicas`, `RV-46` and `instancias=` in the DLL.
+> Attribute-aura deduplication remains in use, but DWA-2 (`46fde11`) subsequently retained every live Dwarven trigger instance. The statement below that each aura counts once describes the original RV-46 step, not a universal rule for all effects in the current code. The old launch-day wording mixed timezones; this audit does not assert an unverified historical publication day.
 
 Fix of **two defects** in the `Your active shrine auras:` line. **No damage formula, no formatting
 convention (the Ceil of RV-45, the single sign of 46acd97) and none of the 12 text notes changed** — what
@@ -169,10 +153,7 @@ sentence "no calculation changed" grew old and holds only for the text fixes.
   chain.** Cause: the key `Damage increased by [0]%. Damage taken increased by [0]%. ` was in `TextAppends`
   with the old `RV-9` note (just the healing sentence) — it did not say it is a shrine aura, it gave no base
   and did not cite the *Shrine Effect Bonus*. Fix: the note became `Base 25% damage and +25% damage taken. The value shown already includes the Shrine Effect Bonus (Omnism I/II in Chaos; the Worshiper's Worship perk, +100% effect from Shrines; Horn of Devotion).` and the **healing sentence stayed** (it was not
-  false: the engine adds `DamageMod` to healing) — the note now also covers the shrine. ⚠ **RETRACTION
-  (RV-30 correction, 03/10 · RV-48):** that version of the note cited the "Worship perk", a FABRICATED term
-  (0 occurrences in the code; only the ENEMY CharacterInfo `T2_Worshiper`); TX-1 trimmed the note and the
-  version that is LIVE does not cite "Worship". The 25/25 base comes from the asset (`status.csv:205`:
+  false: the engine adds `DamageMod` to healing) — the note now also covers the shrine. **Correction of the historical wording:** that draft cited a player `Worship` perk without locating such an asset. TX-1 (`95ca3f3`) removed that citation; the current note does not cite it. Failure to locate it is not proof of universal absence. The 25/25 base comes from the asset (`status.csv:205`:
   `DamageMod:Base:Mathf.Round(25 * (1 + Target["ShrineEffectBonus"]/100))` and the `DamageReduction`
   mirrored at -25). The key stays **only** in `TextAppends`: the game's original text did not change, so
   nothing migrated to `TextFixes` (the same key in both tables brings the mod down — INC-1;
@@ -211,10 +192,7 @@ sentence "no calculation changed" grew old and holds only for the text fixes.
   `Base 20%. The value shown already includes the Shrine Effect Bonus (...)`) is the same as in 0.1.1 and
   remains correct on screen. Fallback: with no separable contribution (a `Multiplicative`/`Set` effect — the
   family has none: the 9 buff auras, all the ones that have `AttributeEffects`, are `Base`), the item comes
-  out with the total, as before. ⚠ **RETRACTION (RV-30 correction, 03/10 · RV-48):** the "with/without
-  `Worship`" labels on the screenshots are from the original report — there is no player perk
-  (`worship` = 0 occurrences; only the ENEMY CharacterInfo `T2_Worshiper`); the 100 bonus was the defect of
-  the `Source` injected by the RV-34 prefix.
+  out with the total, as before. **Correction of the old RV-48 retraction:** the "with/without `Worship`" labels belong to the original report, not proof of a located player asset. The claim that the 100 bonus/doubling was caused by a defect in this mod was withdrawn; the owner confirmed the doubling and the damage path reads the aura carrier as `Source`. See 0.1.4; RV-49 remains open.
 - **Version:** 0.1.0 -> **0.1.1** in the three places (`<Version>` in the `.csproj`, `version_number` in the
   `manifest.json`, the literal in `[BepInPlugin(...)]` in the `Plugin.cs`).
 
@@ -232,64 +210,17 @@ First published version.
 - **No gameplay change whatsoever**: the mod only rewrites strings in the localisation funnel
   (`OptionsManager.Localize`).
 
-### Dynamic shrine numbers
+### Dynamic shrine numbers — historical evolution, not all current 0.1.0 behaviour
 
-> ⚠ **History with a correction (07/10, REL-BT-014):** the passages below that attribute the doubling to the
-> "`Worship` perk", that call the doubling a **defect of the mod**, or that say the danger auras use the
-> **shrine's** bonus, are corrected — see the **0.1.4** section at the top. In short: the owner confirmed the
-> **doubling is correct** (the engine produces it), the action's `Source` is whoever **has the aura**, and
-> RV-49 (with or without the factor in the displayed number) **is still open**.
-
-The game's text for the shrine auras always showed the **base value**, even for a character who had the bonus
-that multiplies the aura. The mod started computing with the **real bonus of the character in focus** (30/09):
-
-- **Buff auras (the family's 12 keys)**: the line's value comes out already multiplied by the character's
-  *Shrine Effect Bonus* — **Omnism I/II** (Chaos) and the **Horn of Devotion**. A fixed base of `20%` is no
-  longer shown as `20%` to whoever has the bonus. (The old "`Worship` perk" was FABRICATION — see the RV-48
-  retraction at the top.)
-- **The `Your active shrine auras:` line**: its own block (in the game's special colour) listing **every
-  shrine aura alive on the character in focus**, one item per attribute. It only appears to whoever **is in
-  fact** inside the aura — whoever is outside sees no line at all. The value read is the character's final
-  total (`Character[atributo]`), the same number the sheet shows: the mod **does not add nor apply the factor
-  on top**.
-- **Decay Shrine — damage per turn with a number**: the line `Take [0]% of your Max Health in Shadow Damage per turn.` gains the **literal damage** next to it (eg `10 damage per turn for you`), computed with the
-  character's own **maximum health** — **without** the character's Shrine Effect Bonus (RV-30 correction,
-  03/10 · RV-48: the danger aura reads the `Source` of the status itself, the shrine's).
-- **Flame Shrine — damage per target**: on hover one still does not know **who will attack**, so a single
-  number per attacker is impossible (a limitation of the game). What comes out is the list of **every
-  character inside the aura's area** (party and enemies), with the damage computed over maximum health, the
-  **type** and **that character's** bonus.
-- **The `Worship` factor — RETRACTED (RV-48)**: **there is no player `Worship` perk** (`worship` = 0
-  occurrences in the code; only the ENEMY CharacterInfo `T2_Worshiper`). The "doubled damage" the author
-  registered in game (30/09) was the **DEFECT** of the `Source` injected by the RV-34 prefix: the danger auras
-  read `Source["ShrineEffectBonus"]` (the SHRINE's bonus) and the number came out "as if the character had a
-  bonus". RV-30 (03/10) stops writing into `Source`. Decision pending (RV-49).
-- **The "before the reductions" mark**: both notes (Decay and Flame) start with **`Raw damage, before damage reduction:`** and say the value is before reductions — without armour, resistance or any later mitigation.
-  (The live Decay note came to say the aura scales with the *Shrine Effect Bonus* **of the shrine**, not the
-  character's — RV-30 correction, 03/10.)
-- **`Sustenance I/II` dynamic healing**: the tooltip of every **globule** (Health, Mana, Cleansing, Energy,
-  Power, Refreshing) and of the **potion pickups** (Minor / Healing / Major, health and mana) now shows the
-  real healing, over the maximum health and mana of the character in focus. The percentage comes from the
-  tiers **the game has active** (`Character.Skills`, already resolved by `SkillsThatReplace`): 8% with only
-  I, 20% with only II (if II replaces I) or 28% with both (if it does not replace) — the mod does not decide
-  which case it is, it shows what is active.
-- **When there is no proof, the game's text stays intact**: an attribute missing from this build, a character
-  outside the aura or an expression that cannot be evaluated = **no number** is shown and the log says why.
-  The mod does not estimate.
+- The shrine family has twelve keys, not twelve attribute-buff auras: nine carry attribute effects, Dwarven carries a trigger chance, and Decay/Flame are danger auras. The tooltip evaluator uses the focused character where supported; uncertain context leaves the original text intact and logs why.
+- The original `Your active shrine auras:` block read character totals. RV-44 separated aura contribution from the final total; RV-46 added deduplication and the missing non-attribute effects; DWA-2 retained every live Dwarven trigger instance. The current rule is therefore not universally "one item per attribute" or "each aura once".
+- Decay adds a raw damage projection based on maximum health; Flame lists projections for characters in the aura as possible attackers. These are **before damage reduction**, not predictions of the final mitigated damage. RV-30 stopped injecting the focused character into the danger-aura `Source` slot when evaluating tooltip expressions.
+- **Correction of the old causal claim:** the damage path uses the character carrying the aura as `Source`; the owner confirmed the doubling. It must not be called a defect of the mod or attributed to the shrine's own bonus. Whether the tooltip projection should include that bonus remains RV-49, not a conclusion of this changelog. A player `Worship` asset was not located in the inspected corpus; that does not prove its universal absence.
+- `Sustenance I/II` adds healing information to globules and to the six potion-pickup descriptions, not to potion inventory items just because they share a title. It reads the active `Character.Skills` and the engine's expressions; the data-backed tier cases are I = 8% and II = 20%. The older 28% example was a hypothetical list containing both tiers, not a validated player outcome; the RV-28 matrix in `573596d` records 8/16 and 20/40 for the 100/200 pools, not 28/56.
+- Missing character/attribute or an expression that cannot be evaluated leaves the game's text in place. The maximum-health/mana existence guard was hardened in `573596d` and belongs to the 0.1.4 history above.
 
 ### Not in this mod
 
-- The **Chaos** tree is left out on purpose: it draws a result and the text does not reveal which ones — that
-  is the tree's fun, not a defect.
-- The mod **does not show a number when there is no proof** — it prefers to leave the original text rather
-  than invent a value.
-- The mod **does not apply mitigation** to the number it shows: it is the raw result of the game's formula.
-
-### Checking
-
-The numbers were written against the decompiled code and the game's assets. The old **"`Worship` factor (the
-damage doubles)"** was **RETRACTED (RV-30 correction, 03/10 · RV-48)**: `worship` does not exist in the game's
-code and the "doubling" was the defect of the `Source` injected by the prefix. The owner's measurement and
-the decision on which version stays remain open (RV-49). What is missing is the **final visual check in game**
-of the new lines (the Decay line, the Flame list and the `Your active shrine auras:` block) after the latest
-revision — the shrine tooltip set has not yet been revalidated by looking at the screen.
+- No gameplay formula or mitigation is applied by this mod; the changes are presentation/context for tooltips.
+- The Chaos tree's deliberately hidden random outcome is not revealed.
+- BUG-34's recorded acceptance is preserved. The danger-aura display decision RV-49 remains separate and open; a code/asset audit is not a new visual acceptance.

@@ -1,6 +1,9 @@
-# Changelog
+# Changelog — BetterPortuguese
 
-## 0.1.0
+> Datas em ISO 8601 (BRT, UTC−03:00). Datas de preparação não são datas de publicação.
+> Auditoria documental CHG-REV: 2026-10-16. Nenhuma publicação realizada.
+
+## 0.1.0 — em preparação (implementação registrada em 2026-10-13)
 
 - Projeto independente BetterPortuguese, GUID com.gumatos.betterportuguese; sem editar assets do jogo.
 - Dois snapshots completos Original/Corrigido, embutidos e com cópias auditáveis/hash no pacote.
@@ -9,4 +12,5 @@
 - Config/fila main-thread, leitura runtime do .cfg, refresh UI forçado e falha segura/log limitado.
 - Registry de mods separado, vazio; sem traduções/adaptadores aprovados nesta captura.
 - ZERO correções editoriais aplicadas: gates LANG pendentes; Corrigido é no-op intencional.
-- Debug/Release e bancada offline de core/API/recursos/Harmony. Nenhuma instalação, boot ou publicação; UI/Mono e aceite humano pendentes.
+- **Ícone:** a arte local foi alterada após `917c20a`; isso não modifica os snapshots nem indica aprovação editorial. Preparação de ícone/pacote não fecha os gates LANG.
+- Debug/Release e bancada offline de core/API/recursos/Harmony. Nenhuma instalação, boot ou publicação nesta entrega inicial; UI/Mono e aceite humano pendentes.
