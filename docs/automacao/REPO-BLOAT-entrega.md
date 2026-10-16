@@ -80,8 +80,13 @@ done
 ```
 
 Resultado literal: os cinco lotes e a revisão integral dão **8 linhas de diff** — todas a linha 1
-(`# EV-R1 — Normal (160 eventos)` x `# EV-R1 — Normal (160)`); o índice dá 51 linhas, todas no
-cabeçalho/ponteiros.
+(`# EV-R1 — Normal (160 eventos)` x `# EV-R1 — Normal (160)`). O índice é a exceção: **9 linhas de
+conteúdo diferem** — a linha 1 (`índice de TODOS os PartyEvent instalados` x `índice final v2`), as
+**5 linhas de ponteiro** internas (`lote-*.md` x `lote-*-v2.md`) e **3 assertivas de cabeçalho** (L3,
+L5 e L7) que existem no v1 e foram reescritas no v2. Os ponteiros são a P5; as 3 assertivas têm prova
+de redundância uma por uma na §1.3.1. (Redação corrigida na revisão da rodada 1: a frase anterior,
+"o índice dá 51 linhas, todas no cabeçalho/ponteiros", foi lida como "só H1 e ponteiros", e no
+`indice.md` há conteúdo além disso.)
 
 **Contagem de CR, que fecha a prova de que a única diferença é a tradução de CR/LF** (medida por
 `tr -dc '\r' < arq | wc -c` e `tr -dc '\n' < arq | wc -c`):
@@ -119,10 +124,43 @@ não foram alterados."
 
 ### 1.3 Verificação da exigência do cartão: "se algum v1 tiver informação que o v2 NÃO tem, ele não entra"
 
-Nenhum tem. Como os corpos são idênticos após normalizar o CR (P1), **não existe** string de dado,
-tabela, GUID, SHA de objeto, opção, ação ou recompensa presente no v1 e ausente no v2. A única
-informação exclusiva do v1 é o próprio CR (o defeito) e a palavra "eventos" no título
-("(160 eventos)" x "(160)"). A direção do conjunto é v1 ⊂ v2.
+**Resposta: nenhum dos sete tem informação exclusiva que sobreviva só nele** — mas o `indice.md`
+exigiu prova adicional, e ela está na §1.3.1.
+
+- **Os 6 pares (`lote-*` e `revisao-por-evento`)**: a direção do conjunto é **v1 ⊂ v2**. Como os
+  corpos são idênticos após normalizar o CR (P1), **não existe** string de dado, tabela, GUID, SHA de
+  objeto, opção, ação ou recompensa presente no v1 e ausente no v2. O exclusivo do v1 é o próprio CR
+  (o defeito) e a palavra "eventos" no título ("(160 eventos)" x "(160)").
+- **O `indice.md`**: único caso em que o v2 **reescreve texto** em vez de só corrigir CR/LF — a H1, os
+  5 ponteiros e **3 assertivas de cabeçalho** (L3, L5, L7) que só existem no v1. Pela literalidade do
+  critério do cartão ("se algum v1 tiver informação que o v2 NÃO tem, ele NÃO entra"), isso não pode
+  ser presumido: exige prova de redundância, assertiva por assertiva, em documento **vivo**. A prova
+  está na §1.3.1 e **passa** — o `indice.md` mantém-se na lista.
+
+### 1.3.1 As 3 assertivas exclusivas do `indice.md` (v1) sobrevivem em documentos vivos
+
+Medido por `grep` nos docs vivos em 16/10/2026. Cada assertiva que o v1 tem e o v2 reescreveu aparece
+com os mesmos números e as mesmas proibições em pelo menos um documento que **não** sai do índice:
+
+| assertiva do `indice.md` v1 | onde sobrevive | verbatim |
+| --- | --- | --- |
+| L3 — "256 assets; **255 GUIDs únicos. Não deduplicar por GUID.**" | `LEIA-ME.md:9` | "Existem 255 GUIDs únicos; Battle e Battletest Event compartilham um GUID real e **não foram deduplicados**." |
+| L3 (idem) | `schema.md:21` | "Há uma duplicação real de GUID entre Battle e Battletest Event; ambos ficam no documento. … **Não una nem elimine registros** usando apenas `id` ou título." |
+| L3 (idem) | `ENTREGA-E-LOCALIZACAO.md:37` | "255 GUIDs únicos; a duplicação real Battle/Battletest Event foi preservada." |
+| L3 (contagem) | `indice-v2.md:3` (o próprio v2) | "256 PartyEvent; 404 opções; 449 ações. Todos os assets, inclusive desabilitados e fora do pool." |
+| L5 — "Schema: `eventos.schema.json`; dados: `eventos.json`; originais: `eventos-originais.json`; referências: `catalogo-referencias.json`." | `schema.md:8-11` | "- `eventos.json`: documento canônico para IA; …" · "- `eventos.schema.json`: JSON Schema draft 2020-12, versão 1.0.0." · "- `eventos-originais.json`: os 256 objetos PartyEvent sem normalização de campos." · "- `catalogo-referencias.json`: 2.399 registros de apoio e 3.214 resumos de referências; consulte por `arquivo:path_id`." |
+| L5 (idem) | `ENTREGA-E-LOCALIZACAO.md:13-14` | mesmos dois arquivos, com os mesmos números |
+| L5 (idem) | `indice-v2.md:5` (o próprio v2) | "Dados canônicos: `eventos.json`. Schema: `eventos.schema.json`. Guia: `schema.md`." |
+| L7 — "Todos os textos são **originais em inglês**, inclusive **placeholders**. Não são traduções nem melhorias." | `LEIA-ME.md:11` | "Textos são os **originais em inglês**, não traduções nem propostas de melhoria." |
+| L7 (placeholders, literal) | `schema.md:8` | "os strings originais são preservados, inclusive espaços, controles CR/LF e **placeholders**." |
+| L7 — "**NULL** não é recompensa zero." | `LEIA-ME.md:23` | "**NULL** tem razão, não é zero." |
+| L7 — "Eventos **desabilitados e fora do pool** permanecem." | `LEIA-ME.md:9` | "Foram preservados 42 desabilitados e os eventos sem pool ou fora do pool." |
+| L7 (idem) | `indice-v2.md:3` | "Todos os assets, inclusive desabilitados e fora do pool." |
+
+Cobertura: **L3 = 4 fontes · L5 = 3 fontes · L7 = 4 fontes**, todas fora do v1. A palavra
+"placeholders", que era o único termo literal sem repetição fora do v1, aparece em `schema.md:8`.
+Conclusão: as 3 assertivas do cabeçalho do `indice.md` não se perdem com a desindexação — o arquivo
+era o ponto em dúvida (o v2 o reescreveu), e sem esta prova ele não entraria na lista.
 
 ### 1.4 Quem cita os v1 (e o que acontece se saírem do índice)
 
@@ -263,7 +301,7 @@ Piloto executado em clone descartável (`scratch/piloto-bloat`, commit `ce22b94`
 | Checkout no disco (clone Windows, CRLF) | 100 MB | **96 MB** (−4 MB) |
 | `.git` do clone | 67 MB | **67 MB (não encolhe)** |
 | `git ls-files -ci --exclude-standard` | vazio | **vazio** (verificado no clone) |
-| Arquivos v1 no disco de quem já tinha clone | presentes | presentes (nada é apagado) |
+| Arquivos v1 no disco de quem já tinha clone | presentes | presentes (nada é apagado) † |
 | Arquivos v1 no clone novo | presentes | **ausentes do checkout** (ficam no histórico) |
 
 O `.git` não encolhe porque **não se reescreve histórico**: os blobs v1 continuam alcançáveis pelo
@@ -271,6 +309,10 @@ commit anterior. Medição direta do custo marginal: empacotando todos os objeto
 com e sem os 7 caminhos — **69.022.563 B → 68.637.499 B (−385.064 B, −0,56%)**, porque o v1 é
 comprimido por delta contra o v2 (são quase iguais). Ou seja: o ganho real é de **checkout** e de
 **clareza do índice**, não de tamanho do clone.
+
+† Projeção do procedimento (`git rm --cached` + ignore nominal, §5). Na execução real um passo da
+fase 2 **removeu** os 7 do disco e eles foram restaurados byte a byte; o caso está narrado na **§10**.
+A projeção continua válida para quem rodar os comandos da §5 — `git rm --cached` não toca no disco.
 
 ### 4.3 Dois efeitos colaterais que exigem decisão do dono
 
@@ -375,7 +417,9 @@ O estado tem de sobreviver ao commit; se aparecer qualquer linha, a regra de ign
 ## 7. Travas respeitadas nesta rodada
 
 - Nenhum `filter-branch` / `filter-repo` / reescrita de histórico.
-- Nenhum arquivo apagado do disco (`git rm --cached` preserva; o piloto provou).
+- Nenhum arquivo apagado do disco **nesta fase** (`git rm --cached` preserva; o piloto provou). A
+  fase 2 teve um incidente de disco — os 7 v1 saíram do disco durante a execução e foram restaurados
+  byte a byte na revisão da rodada 1 —, narrado na **§10**.
 - Nenhuma fonte de mod, `manifest.json`, `CHANGELOG.md`, `package.py`, `api/` ou `tools/` tocada.
 - Nenhuma exceção `!` do `.gitignore` alterada; nenhuma linha do `.gitignore` do repo alterada.
 - Nenhum doc vivo editado (as 2 linhas de `ENTREGA-E-LOCALIZACAO.md` ficam como pergunta, §4.3).
@@ -432,9 +476,12 @@ git rm --cached docs/cobertura/EV-R1/indice.md \
 | `git ls-files -ci` só com o ignore, **sem** o `rm --cached` | 7 linhas | — |
 | Arquivos rastreados | 1.930 | **1.923** |
 | Soma de blobs do HEAD | 93,45 MB | **89,75 MB** (−3,70 MB, −3,96%) |
-| Os 7 arquivos no disco | presentes | **presentes** (nada apagado) |
+| Os 7 arquivos no disco | presentes | **presentes** ‡ (mas removidos do disco na execução e restaurados byte a byte; **§10**) |
 | `git check-ignore -v` | — | aponta as linhas novas (`.gitignore:191`…) |
 | `.git` | 67 MB | **67 MB** (não encolhe sem reescrever histórico — §4.2) |
+
+‡ Corrigido na revisão da rodada 1: a revisão mediu a árvore às 15:31 e os 7 **não estavam no
+disco**. O relato completo, a restauração byte a byte (15:38) e as provas estão na **§10**.
 
 A §4.2 projetou 93,45 → 89,75 MB; medido no HEAD nesta rodada: **98.016.126 B = 93,48 MB** de soma de
 blobs, logo **93,48 → 89,78 MB** (−3,70 MB, −3,96%) — a diferença de 0,03 MB é o arquivo que a outra
@@ -460,10 +507,107 @@ tocados** — a recomendação da fase 1 (§3) foi aceita pela autorização e n
 | Arquivos rastreados no clone | **1.923** (era 1.930) |
 | `git ls-files -ci --exclude-standard` no clone | **0 (VAZIO)** |
 | Os 7 v1 no checkout novo | **ausentes** — o clone traz só os `-v2` |
-| Os 7 v1 no **histórico** do clone (`HEAD~1`) | **presentes** (1.924.497 / 1.342.507 / 534.297 / 40.648 / 4.961 / 1.899 / 28.348 B) |
+| Os 7 v1 no **histórico** do clone (`HEAD~1`) | **presentes** — tamanhos de *blob* (1.924.497 / 1.342.507 / 534.297 / 40.648 / 4.961 / 1.899 / 28.348 B); no disco em CRLF os três últimos são 5.178 / 1.999 / 28.632 B (**§10.1**) |
 | `.git` do clone | **67 MB** (não encolhe, como a §4.2 previu) |
 | `git status` do clone | limpo |
 
 **Como desfazer** (se o dono quiser): `git revert 8a5f824` num repo limpo, ou
-`git reset --soft HEAD~1` enquanto o commit não for publicado — nada do disco depende disso, porque
-nenhum arquivo foi apagado.
+`git reset --soft HEAD~1` enquanto o commit não for publicado — o commit não apagou arquivo nenhum
+(ele só tirou os 7 do índice, e o `git revert` os devolve ao índice). O que **esteve** errado foi o
+estado do disco durante a execução da fase 2: os 7 foram removidos por um passo dela e restaurados
+byte a byte na correção — **§10**.
+
+---
+
+## 10. Incidente de disco na fase 2 e correção (revisão da rodada 1, 16/10/2026)
+
+Esta seção foi escrita **depois** de a revisão do cartão (`changes_requested`, rodada 1) reprovar a
+entrega por um defeito bloqueante: os 7 v1 **não estavam no disco**, ao contrário do que as §§4.2, 7 e
+9 e o comentário da fase 2 afirmavam. O que segue é o que se apurou, na ordem, com os horários
+medidos — inclusive o que **não** foi possível determinar.
+
+### 10.1 O que aconteceu
+
+| hora (16/10) | fato | como se sabe |
+| --- | --- | --- |
+| 15:21:08 | commit `8a5f824` (7 `D` + `M .gitignore` + `M` deste doc) | `git log` |
+| 15:21:25 | mtime da pasta `docs/cobertura/EV-R1/` | `stat` — 17 s depois do commit, dentro da janela da run 1615 (15:19:28–15:22:25) |
+| 15:22:25 | fim da run 1615; o comentário da fase 2 afirmou "os 7 continuam no disco (28.632 / 1.924.497 / …)" | quadro do cartão |
+| 15:31:47 | a revisão mede: `ls` da pasta = 21 entradas, **nenhum** dos 7; **changes_requested** | comentário da revisão |
+| 15:33 | os 7 reaparecem no disco, **mas em LF**: 28.348 / 1.853.665 / 1.292.765 / 514.876 / 39.300 / 4.961 / 1.899 B — não era o byte a byte do original | `ls -l`/`md5` medidos no início desta correção |
+| 15:38 | esta correção regrava os 7 com os bytes exatos do `EV-R1-entrega.zip` (§10.2) | `ls -l` + `sha256` |
+
+Mtime de pasta só muda em criação/remoção/renomeação de entrada, e os vizinhos (`indice-v2.md`,
+`lote-*-v2.md` etc.) seguem com mtime de 11/10. Portanto houve **remoção explícita** dos 7 caminhos na
+janela 15:21:08–15:21:25 — não um efeito de `git rm --cached`, que não toca no disco (a §5 receita o
+`--cached` corretamente).
+
+**O comando exato não foi identificado.** O log do cartão (`hermes/kanban/logs/t_e8beca3f.log`)
+trunca cada lote de terminal em "+ N commands"; nessa janela a run 1615 rodou, depois do commit, dois
+lotes seguidos que preparavam o clone descartável `repo-bloat-f2` (o primeiro saiu com `exit 128`). O
+candidato mais provável é um comando de limpeza desse lote com caminho relativo resolvido no repo de
+trabalho em vez do clone. Fica registrado como **causa não determinada** — a janela e o mecanismo
+estão provados; o autor do comando, não.
+
+**Por que os arquivos que reapareceram às 15:33 não bastavam.** Eles vinham em **LF** (28.348 B no
+`indice.md`, 1.853.665 B na revisão), enquanto a árvore de trabalho original é **CRLF** (28.632 B /
+1.924.497 B): seria uma "restauração" que muda os bytes do que existia antes da remoção — o oposto da
+condição 1 da autorização ("os arquivos continuam no disco; ninguém apaga nada"). Por isso esta
+correção regravou os 7 com os bytes do ZIP.
+
+### 10.2 A restauração byte a byte (sem tocar no índice)
+
+**Fonte:** os 7 membros de `docs/cobertura/EV-R1/EV-R1-entrega.zip` (o pacote de entrega do EV-R1, de
+13/10 13:22 — anterior à remoção). O ZIP não foi escolhido por conveniência: provou-se que ele é
+exatamente o que um checkout normal produz. Num clone descartável do próprio repo
+(`scratch/rb1/clone_r20`, `core.autocrlf=true` como nesta máquina, repo sem `.gitattributes`),
+`git checkout 8a5f824^` gera os 7 arquivos **byte a byte idênticos aos membros do ZIP**:
+
+```
+file                        checkout       zip  checkout@8a5f824^ == zip
+indice                         28632     28632  True
+revisao-por-evento           1924497   1924497  True
+lote-Normal                  1342507   1342507  True
+lote-NotInEventPool           534297    534297  True
+lote-SemPoolDeclarado          40648     40648  True
+lote-QuestStart                 5178      5178  True
+lote-AfterBattle                1999      1999  True
+```
+
+Ou seja: ZIP = árvore de trabalho original (CRLF) = o que `git checkout` do blob registrado devolve.
+A regravação foi feita por **escrita direta no disco** (Python gravando os bytes dos membros), e
+**não** por `git checkout <rev> -- <caminho>`, que re-encenaria os arquivos no índice e derrubaria o
+invariante ORG-R2 (`git ls-files` voltaria a 1.930).
+
+**Estado verificado depois da regravação (16/10/2026 15:38):**
+
+| Verificação | Resultado |
+| --- | --- |
+| Bytes dos 7 no disco | 28.632 / 1.924.497 / 1.342.507 / 534.297 / 40.648 / 5.178 / 1.999 (= 3.877.758 B; os blobs somam 3.877.157 B — a diferença de 601 B são os CRs de linha dos 3 arquivos de blob LF) |
+| `sha256` de cada um == `sha256` do membro do ZIP | os 7, `True` |
+| `git ls-files \| wc -l` | **1.923** (inalterado) |
+| `git ls-files -ci --exclude-standard` | **VAZIO (0)** |
+| `git write-tree` == `HEAD^{tree}` | **iguais** (`22cb5b160b36940d37eb20b82a2a6ed409ba5803`) — o índice continua exatamente o do commit; nada foi re-encenado |
+| `git status --porcelain` | **idêntico** ao de antes da regravação (84 entradas, `diff` literal vazio); **0** dos 7 aparece, nem como `??` (são ignorados); a contagem oscila (85 em 15:39) porque outra frente edita a árvore em paralelo |
+| Os 7 no índice do HEAD | **ausentes** — nada voltou a ser rastreado |
+
+**Nenhum dado foi perdido em momento algum:** o commit `8a5f824^` sempre guardou os blobs v1
+(`git cat-file blob 8a5f824^:<caminho>` = 28.348 / 1.924.497 / 1.342.507 / 534.297 / 40.648 / 4.961 /
+1.899 B) e o ZIP guarda a versão de árvore de trabalho dos mesmos 7. A remoção do disco foi um desvio
+de procedimento da run 1615, não uma perda — e está registrada aqui porque as §§4.2, 7 e 9, escritas
+antes, afirmavam o contrário.
+
+### 10.3 Achado documental da revisão (B2) — as 3 assertivas do `indice.md`
+
+A revisão mostrou que a prova da §1.2 era imprecisa para o `indice.md`: além da H1 e dos 5 ponteiros,
+o v1 tem **3 assertivas de cabeçalho (L3, L5, L7)** que o v2 reescreveu. A §1.2 foi corrigida e a
+prova de redundância foi acrescentada na **§1.3.1** (assertiva por assertiva, com `arquivo:linha` e
+verbatim). Conclusão: a desindexação do `indice.md` se sustenta; era o único caminho em que o critério
+literal do cartão poderia tê-lo excluído.
+
+### 10.4 Pendências que continuam abertas
+
+1. `ENTREGA-E-LOCALIZACAO.md:16-17/24-25` segue **sem ajuste** (opção **(b)**, decidida por escopo na
+   §9). Num clone sem os v1, a linha 16-17 descreve o histórico, não o checkout. Decisão do dono.
+2. **O comando que removeu os 7 do disco não foi identificado** (§10.1). Rastreá-lo exigiria o log
+   completo da run 1615, que o quadro do cartão não guarda — passo separado, se o dono quiser.
