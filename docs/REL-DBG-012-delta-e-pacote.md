@@ -216,7 +216,7 @@ efeito observável **não foram medidos em jogo** — ver §7.
 ## 8. Dependências abertas reais
 
 - **De pacote:** apenas `BepInEx-BepInExPack-5.4.2305` (publicada) — o mod é standalone
-  (BepInEx + Harmony direto, sem depender de outro mod nosso nem da `biblioteca-de-terceiros`).
+  (BepInEx + Harmony direto, sem depender de outro mod nosso nem de biblioteca de terceiros).
 - **De ferramenta interna:** `tools/census.py` **consome** o log do boot (o censo de
   tooltips) — é consumidor, não dependência de build/pacote.
 - **Da rodada de runtime (AUT-4):** **não é dependência deste mod.** O conjunto

@@ -34,7 +34,7 @@ Decompilador usado: ILSpy CLI 8.2.0.7535. Artefato C#: 496226 linhas, SHA-256 `8
 
 ### 2.2 Reconciliação chave a chave
 
-`evidence/audit_sources.py` leu o dump existente, comparou as listas com Odin e recontou o corpus; não gerou um dataset de implementação.
+`evidence/audit_sources.py`, ferramenta de bancada do workspace BP-1, fora do repositório e não versionada, leu o dump existente, comparou as listas com Odin e recontou o corpus; não gerou um dataset de implementação.
 
 | Medida | Resultado |
 |---|---:|
@@ -278,6 +278,7 @@ Teste de perf/alocação do lookup e log limitado deve acompanhar o core. Testes
 
 Executado, com exit 0:
 
+    # Bancada do workspace BP-1, fora do repositório; scripts locais não versionados.
     ilspycmd -o <workspace>/evidence/decompiled C:/dev/stolen-realm/lib/Assembly-CSharp.dll
     ilspycmd -t OptionsManager -il C:/dev/stolen-realm/lib/Assembly-CSharp.dll
     ilspycmd -t HarmonyLib.PatchSorter -o <workspace>/evidence/decompiled C:/dev/stolen-realm/lib/0Harmony.dll

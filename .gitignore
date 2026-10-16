@@ -75,7 +75,7 @@ scratch/shot.ps1
 scratch/shot.png
 
 # Scratch: artefatos de trabalho que NUNCA podem ir para um repo PUBLICO.
-# ATENCAO — scratch/backups/ guarda a DLL de TERCEIRO biblioteca-de-terceiros (biblioteca
+# ATENCAO — scratch/backups/ guarda a DLL de TERCEIRO (biblioteca de API de mods
 # do Thunderstore que falha neste build do jogo): redistribuir nao e nosso direito.
 # Tambem ficam fora os logs de ciclo, os JSONs de saida de agente e os scripts de
 # analise avulsos. ORG-R3 promove a implementacao de test-cycle para tools/ e

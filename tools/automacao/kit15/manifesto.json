@@ -118,7 +118,7 @@
     "medida": [
       {"item": "Python 3 stdlib", "versao_testada": "3.14.7 (host do autor)", "status": "MEDIDO nesta rodada"},
       {"item": "Windows 11 + git-bash", "status": "MEDIDO nesta rodada"},
-      {"item": "Unity 2022.3.62f3 / BepInEx 5.4.23.5 / biblioteca-de-terceiros 0.1.0", "status": "NAO_MEDIDO nesta rodada (fonte: KIT-02 matriz de compatibilidade e docs/AMBIENTE.md); runtime em jogo NAO_EXERCITADO"},
+      {"item": "Unity 2022.3.62f3 / BepInEx 5.4.23.5 / biblioteca de terceiros 0.1.0 (pacote nao redistribuivel)", "status": "NAO_MEDIDO nesta rodada (fonte: KIT-02 matriz de compatibilidade e docs/AMBIENTE.md); runtime em jogo NAO_EXERCITADO"},
       {"item": "Linux/macOS", "status": "NAO_MEDIDO"}
     ]
   }

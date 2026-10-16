@@ -77,14 +77,14 @@ modificar**.
 
 ---
 
-## 3. `biblioteca-de-terceiros` — **DESATIVADA** (decisão)
+## 3. Biblioteca de terceiros (API de mods) — **DESATIVADA** (decisão)
 
-A `biblioteca-de-terceiros` é uma **biblioteca de terceiros** (Thunderstore) que estava
+A biblioteca é um pacote de **terceiros** (Thunderstore) que estava
 instalada no perfil. No build atual do jogo ela **não aplica o patch principal**:
 
 ```
 AccessTools.Method: Could not find method for type GameAnalyticsSDK.Setup.Game and name Awake
-biblioteca-de-terceiros.Skills.SkillRegistryPatches+GameAwakePatch::TargetMethod() returned an unexpected result: null
+<biblioteca-de-terceiros>.Skills.SkillRegistryPatches+GameAwakePatch::TargetMethod() returned an unexpected result: null
 ```
 
 Ou seja: o `GameAwakePatch::TargetMethod()` devolve `null` porque a API procura
@@ -96,19 +96,19 @@ depois da 0.1.0, foi baixada e instalada, e o ciclo mostrou o **mesmo erro**. Co
 **atualizar não é a saída.**
 
 **Ação tomada:** a DLL foi **renomeada** para
-`…\BepInEx\plugins\biblioteca-de-terceiros\biblioteca-de-terceiros.dll.disabled`
+`…\BepInEx\plugins\<pasta-do-pacote-de-terceiros>\<biblioteca>.dll.disabled`
 — o BepInEx só carrega `*.dll`, então a renomeação **desativa sem apagar**, e é
 **reversível**: tirar o sufixo `.disabled` volta a ativar.
 
 **Por que é seguro:** **nenhum mod deste projeto depende dela** — nenhum
-`BepInDependency`, nenhuma referência a `biblioteca-de-terceiros` nos `.cs`/`.csproj`
+`BepInDependency`, nenhuma referência à biblioteca nos `.cs`/`.csproj`
 (conferido por varredura no repositório), o log não acusa dependência quebrada, e os
 mods do projeto usam Harmony direto. **Na rodada histórica de desativação**, o ciclo fechou
 com 6 plugins e zero erro; isso não é o total corrente (ver tabela do log acima).
 
 A **RealmApi própria**, em [`api/`](../api/README.md), é outra biblioteca: a fonte atual do
 RSTV depende dela e precisa de seus builds Release antes de compilar. Isso não reativa nem
-substitui a `biblioteca-de-terceiros` de terceiros.
+substitui a biblioteca de terceiros.
 
 > Os mods do projeto **não** precisam da ModAPI para nada. Se algum dia um mod precisar,
 > é melhor reimplementar o que for necessário do que reativar a API — ela está parada no
@@ -120,7 +120,7 @@ substitui a `biblioteca-de-terceiros` de terceiros.
 
 O BepInEx varre `plugins/` **recursivamente**: **qualquer `*.dll` lá dentro é carregado
 como plugin**, inclusive dentro de uma pasta `*.bak`. Isso não é teoria — custou **dois
-ciclos de teste** perdidos: o backup `…\plugins\biblioteca-de-terceiros.0.1.0.bak\biblioteca-de-terceiros.dll`
+ciclos de teste** perdidos: o backup `…\plugins\<pasta-de-terceiros>.0.1.0.bak\<biblioteca>.dll`
 ficou **dentro** de `plugins/` e **era carregado como mod**, mantendo vivo o erro da
 ModAPI mesmo com a original já desativada.
 
@@ -128,8 +128,8 @@ ModAPI mesmo com a original já desativada.
 `…\BepInEx\plugins\`. Hoje há lá:
 
 ```
-scratch\backups\biblioteca-de-terceiros.0.1.0.bak\
-    biblioteca-de-terceiros.dll, manifest.json, icon.png, README.md
+scratch\backups\<pasta-de-terceiros>.0.1.0.bak\
+    <biblioteca>.dll, manifest.json, icon.png, README.md
 ```
 
 (backup completo do pacote 0.1.0, fora do `plugins/` e fora do git).
@@ -160,7 +160,7 @@ cd C:/dev/stolen-realm && ls lib/        # Assembly-CSharp.dll, BepInEx.dll, Uni
 
 # a API de TERCEIROS está desativada?
 PERFIL="$(cygpath -u "$APPDATA")/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx"
-python -c 'import os; from pathlib import Path; p=Path(os.environ["APPDATA"])/"r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/biblioteca-de-terceiros"; print("\n".join(x.name for x in p.iterdir()))'
+python -c 'import os; from pathlib import Path; p=Path(os.environ["APPDATA"])/"r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins/<pasta-do-pacote-de-terceiros>"; print("\n".join(x.name for x in p.iterdir()))'
 
 # conferir backups DENTRO de plugins/ (uma pasta .bak não desativa os *.dll dela)
 python -c 'import os; from pathlib import Path; p=Path(os.environ["APPDATA"])/"r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/plugins"; print("\n".join(str(x.relative_to(p)) for x in p.rglob("*.dll") if "bak" in str(x.relative_to(p))))'

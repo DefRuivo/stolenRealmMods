@@ -8,7 +8,7 @@
   "requisitos": {
     "versao_jogo": "2022.3.62f3",
     "versao_bepinex": "5.4.23.5",
-    "mods_necessarios": ["biblioteca-de-terceiros"]
+    "mods_necessarios": ["ModDeExemplo"]
   },
   "passos": [
     {

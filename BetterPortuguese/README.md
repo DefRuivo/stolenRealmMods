@@ -5,7 +5,7 @@
 - **GUID:** `com.gumatos.betterportuguese`
 - **Status:** implementação inicial, validação offline; NÃO aprovado para publicação ou instalação automática.
 
-Mod BepInEx independente para Stolen Realm, sem alterar gameplay, arquivos do jogo ou outros plugins. Contém os conjuntos completos **Original** e **Corrigido**, selecionáveis pela configuração. Não precisa de BetterTooltips, BetterFont, BetterCombatText nem biblioteca-de-terceiros.
+Mod BepInEx independente para Stolen Realm, sem alterar gameplay, arquivos do jogo ou outros plugins. Contém os conjuntos completos **Original** e **Corrigido**, selecionáveis pela configuração. Não precisa de nenhum outro mod do projeto nem de biblioteca de terceiros.
 
 ## Estado editorial desta versão — importante
 
@@ -35,7 +35,7 @@ Diagnostico = false
 
 É possível editar/salvar o `.cfg` enquanto o jogo está aberto. O driver no `GUIManager.Update` verifica o arquivo a cada segundo de tempo real; mudanças são enfileiradas e publicadas na thread principal. Config com valor inválido, como `Conjunto = Corrigdo` ou um ordinal numérico, desativa overrides até o arquivo ser corrigido. A leitura não regrava comentários/textos manuais do `.cfg`. Mudanças feitas por um gerenciador de configuração também passam pela fila.
 
-O refresh chama `OptionsManager.LocalizeUI(force: true)` e os componentes manuais nativos. Tooltips/dados dinâmicos precisam de próximo hover/refresh. **Não foi testada atualização visual de toda janela aberta**, nem renderização/fontes em português. Original remove alterações BP, mas não remove notas/alterações dos outros mods: para o jogo totalmente vanilla é preciso desativá-los separadamente.
+O refresh é dirigido: somente textos já registrados pelo jogo cuja chave original pertence às correções aprovadas são enviados a `OptionsManager.LocalizeUIText`. Ele roda na thread principal quando a camada efetiva entra ou sai de Corrigido; mudanças apenas de diagnóstico/integração (registro vazio) não refazem a UI. Não chama `LocalizeUI(force: true)` nem relocaliza componentes manuais/objetos de idioma que o BP não altera. Isso evita repetir diagnósticos nativos Screen/Window a cada troca de configuração, sem suprimir logs nem remendar o parser do jogo. Se o registro privado nativo mudar de assinatura, o refresh automático falha com aviso; o lookup segue preservado e a UI pode ser reaberta. Tooltips/dados dinâmicos precisam de próximo hover/refresh. **Não foi testada atualização visual de toda janela aberta**, nem renderização/fontes em português. Original remove alterações BP, mas não remove notas/alterações dos outros mods: para o jogo totalmente vanilla é preciso desativá-los separadamente.
 
 ## Arquitetura e limites de segurança
 

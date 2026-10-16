@@ -116,7 +116,7 @@ documento não escolhe licença.
 
 Endpoint oficial: <https://thunderstore.io/api/experimental/community/stolen-realm/category/> →
 **Audio, Misc, Libraries, Tools, Modpacks, Mods**. O que já está publicado usa: `ebkr-r2modman` =
-**Tools**; `biblioteca-de-terceiros` e `...-Player_Limit_Mod` = **Mods**;
+**Tools**; os demais pacotes da comunidade (uma biblioteca de API e um mod de limite) = **Mods**;
 `BepInEx-BepInExPack` e `Kesomannen-GaleModManager` estão com **categorias vazias**. Os mods
 publicados em 30/09/2026 ficaram, medido na API experimental: `BetterStats`, `BetterTooltips` e
 `RoguelikeSkillTreeVisualizer` = **Mods**; `RoguelikeDebugger` = **Tools**; e o
@@ -133,8 +133,8 @@ listagem dele hoje está **Mods**: o envio da 1.0.1, em 01/10/2026, foi o primei
 | RoguelikeDebugger | **Tools** | Mods | o próprio README diz "ferramenta de desenvolvimento, NÃO é mod de jogador" |
 | RoguelikeSkillTreeVisualizer | **Mods** | Misc | abre a skill tree nativa em modo leitura |
 
-**"Libraries" e "Audio" não se aplicam a nenhum dos mods do repo** — `biblioteca-de-terceiros`
-é biblioteca e mesmo assim está em **Mods**, ou seja a comunidade não usa "Libraries" para mod de API.
+**"Libraries" e "Audio" não se aplicam a nenhum dos mods do repo** — a comunidade tem um pacote de
+biblioteca, e ele mesmo está em **Mods**: a comunidade não usa "Libraries" para pacote de API.
 
 ### O que ficou INDETERMINADO
 

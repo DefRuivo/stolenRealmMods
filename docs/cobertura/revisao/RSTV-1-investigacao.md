@@ -7,8 +7,8 @@
 > projeto, 371.804 linhas). **Todos os números de linha abaixo são DESSE arquivo.**
 > **Reconferência:** cada tipo citado foi re-decompilado por tipo (`ilspycmd -t <Tipo>`) contra a DLL VIVA do jogo
 > (`E:\SteamLibrary\...\Stolen Realm_Data\Managed\Assembly-CSharp.dll`) e os nomes batem. Nada foi inventado.
-> **ModAPI:** os tipos `biblioteca-de-terceiros.UI.SkillTreeUIPatches` e `SkillTreeUI` foram decompilados do DLL 0.1.0
-> (backup) e entram no fim como MAPA de técnica — a API está quebrada no build atual (ver seção), **nunca** como dependência.
+> **Fonte dos pontos de extensão:** o decompilado do PRÓPRIO jogo (o mesmo arquivo acima). Nenhuma
+> biblioteca de terceiros é dependência deste mod — a implementação do botão é nativa (Harmony direto).
 
 ## Veredito geral
 
@@ -307,25 +307,17 @@ Estratégia (com o precedente REAL do jogo):
 
 ---
 
-## Referência: o que a biblioteca-de-terceiros (0.1.0) já faz (mapa, NUNCA dependência)
+## Referência: pontos de extensão da árvore nativa
 
-DLL examinada: `scratch/backups/biblioteca-de-terceiros.0.1.0.bak/biblioteca-de-terceiros.dll`
-(cópia de trabalho em `$TMPDIR/rstv/ModAPI.dll`; decompilada só com `-t`, sem `-o`).
+Os campos que o viewer precisa tocar, lidos no decompilado do jogo (o mesmo arquivo do topo):
 
-- **`biblioteca-de-terceiros.UI.SkillTreeUIPatches`** — patch Harmony em `SkillTreeManager.UpdateSkillTreeItems` (o nosso `UpdateSkillTreeItems`, l.172294):
-  - `Prepare()` → `ReflectionHelper.FindType("SkillTreeManager") != null` (gate de segurança por nome);
-  - `TargetMethod()` → `AccessTools.Method(type, "UpdateSkillTreeItems")`;
-  - `Postfix(object __instance)` → `SkillTreeUI.OnUpdateSkillTreeItems(__instance)`, com try/catch.
-- **`biblioteca-de-terceiros.UI.SkillTreeUI`** — registra tabs extras e injeta de forma preguiçosa no primeiro `UpdateSkillTreeItems`.
-  Lê por reflexão os campos REAIS do manager: `skillTabTypes` (l.172089), `skillTreeTabs` (l.172168, componentes `SkillTreeTab` l.173685),
+- `SkillTreeManager.UpdateSkillTreeItems` (l.172294) é o ponto de entrada do refresh da árvore;
+- campos REAIS do manager: `skillTabTypes` (l.172089), `skillTreeTabs` (l.172168, componentes `SkillTreeTab` l.173685),
   `skillTreeShowers` (l.172087, componentes `SkillTreeShower` l.212851) e `skillItemContainer` (l.172065);
-  clona a última tab (`UIFactory.Clone`) como `SkillTreeTab_<Nome>`, seta o campo `skillType`; clona o último shower como
-  `SkillTree_<Nome>`, seta o campo `Type` e adiciona em `skillItemContainer`.
-  → Confirma os PONTOS DE EXTENSÃO da árvore nativa (conecta com os pontos 9/10 deste relatório).
-- **Atenção:** a API está QUEBRADA no build atual (o `SkillRegistryPatches.GameAwakePatch` mira `Game.Awake` via
-  `AccessTools.Method` e o patch falha no boot — TargetMethod null). Reproduzido no exame: `Prepare()` por nome + `TargetMethod()`
-  por string é a TÉCNICA correta a imitar, mas a API não pode virar dependência runtime deste mod (RSTV-2 é BepInEx+Harmony puro).
+- a árvore nativa monta as abas a partir desses campos — é por eles que uma aba extra se integra sem patch destrutivo.
 
+**Atenção:** a árvore nativa muda de forma entre versões do jogo; qualquer integração precisa ser re-medida por tipo
+(`ilspycmd -t <Tipo>`) contra a DLL viva antes de aplicar.
 ## O que ainda é SEM PROVA (e como fechar — NÃO feito aqui de propósito)
 
 Três itens vivem no PREFAB/asset e são proibidos de provar por código sem abrir o jogo (a regra do RSTV-1 era só investigar):
@@ -352,9 +344,8 @@ grep -n "ToggleSelectedCharacter\|OpenRoguelikePowerupWindow\|roguelikePowerupBu
 # ... e os outros: CharacterChoiceItem, CharacterTileStyle, SkillTreeManager, SkillTreeManagerRoguelike,
 #                 CharacterMenusManager, RoguelikeSkillTreeRemoval, RoguelikePowerupWindow, ReferenceLoader
 
-# 3) a referência da ModAPI (só técnica)
-"$HOME/.dotnet/tools/ilspycmd" "%LOCALAPPDATA%\hermes\cache\scratch\rstv\ModAPI.dll" -t biblioteca-de-terceiros.UI.SkillTreeUIPatches
-"$HOME/.dotnet/tools/ilspycmd" "%LOCALAPPDATA%\hermes\cache\scratch\rstv\ModAPI.dll" -t biblioteca-de-terceiros.UI.SkillTreeUI
+# 3) reconferência dos pontos de extensão, por tipo, na DLL VIVA do jogo
+"$HOME/.dotnet/tools/ilspycmd" "E:/SteamLibrary/steamapps/common/Stolen Realm/Stolen Realm_Data/Managed/Assembly-CSharp.dll" -t SkillTreeManager
 ```
 
 **Conclusão curta:** os 4 pontos que mais erram têm resposta no código — (a) ownership real = `OwnerID == NetworkId`

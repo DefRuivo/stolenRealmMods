@@ -22,7 +22,7 @@ build)** se você vai compilar e instalar alguma coisa. O ambiente de máquina
 | `TEXTO-TOOLTIPS.md` | mantenedor | A **convenção de texto e cor das tooltips**: os **três níveis** (branco = descrição curta com os valores dinâmicos; tom mais escuro = explicação de termos e cálculos; azul = acúmulo das auras de shrine e efeitos provenientes de skills), a **procedência declarada de cada cor** (campo de cor do próprio jogo lido em runtime — cor sem procedência é número inventado) e o teste de comprimento do nível 2 medido pelo `tools/check_notas_redundantes.py`. |
 | `CI.md` | mantenedor | Os **dois workflows** de GitHub Actions: `validate.yml` (só **valida**, a cada `push`/PR na `main`) e `publish.yml` (**manual**, com gate humano), os 7 passos do CI na ordem, como rodar tudo na mão e as armadilhas. |
 | `PUBLICACAO.md` | mantenedor | Publicação na Thunderstore: as regras da plataforma, o gate versionado `release/mods.json`, o Environment `thunderstore`, o passo a passo de um release e as armadilhas. |
-| `AMBIENTE.md` | mantenedor | Ambiente reproduzível: versões validadas (BepInEx, Unity, .NET, Python), caminhos do jogo e do perfil do r2modman, a decisão sobre a `biblioteca-de-terceiros` e a regra de backup de DLL. |
+| `AMBIENTE.md` | mantenedor | Ambiente reproduzível: versões validadas (BepInEx, Unity, .NET, Python), caminhos do jogo e do perfil do r2modman, a decisão sobre a biblioteca de terceiros e a regra de backup de DLL. |
 | `MODS-PARA-AMIGOS.md` | mantenedor | Os dois lados da distribuição: como gerar o pacote (`tools/pack-for-friends.sh` → `dist/StolenRealm-Mods-<data>.zip`) e o que o amigo faz com ele. Diz o que **entra** e o que **não entra** no zip. |
 | `LEIA-ME.txt` | usuário final | Instruções de instalação em 5 minutos (r2modman ou BepInEx na mão) + os 3 problemas mais comuns. É este arquivo que vai **dentro** do zip distribuído. |
 | `img/LEIA-ME.txt` | mantenedor | Lista das **capturas pendentes** que o `README.md` da raiz espera nesta pasta (`docs/img/<nome>.png`) — nomes exatos, como capturar e onde cada uma entra. Os PNG ainda **não existem** (16/10/2026): são **9 links** `docs/img/*.png` sem arquivo, que o GitHub mostra quebrados até a captura. |
@@ -450,8 +450,8 @@ contagens medidas em 01/10/2026 continuam aqui como fotografia daquela data.
 **A dependencia foi VERIFICADA, nao inventada:** a comunidade `stolen-realm` do Thunderstore tem 5
 pacotes, e o pack do BepInEx e `BepInEx-BepInExPack` na versao **5.4.2305** — exatamente a que o perfil
 do r2modman deste PC usa. Consulta: `curl -s https://thunderstore.io/c/stolen-realm/api/v1/package/`.
-`biblioteca-de-terceiros` tambem existe la, mas **nenhum mod nosso depende dela** (esta
-desativada e falha neste build do jogo) — por isso ela nao entra em nenhum manifest.
+A comunidade tambem tem um pacote de **biblioteca de API de terceiros**, mas **nenhum mod nosso depende dele**
+(ele falha neste build do jogo) — por isso ele nao entra em nenhum manifest.
 
 **Estrutura do ZIP** (conferida com `unzip -l`): os 4 arquivos na RAIZ do pacote + `plugins/<Mod>/<Mod>.dll`.
 O r2modman mapeia `plugins/` para `BepInEx/plugins/`, entao a DLL cai no lugar certo.
@@ -468,8 +468,8 @@ Os **seis** mods do projeto estão **no ar** sob esse namespace — o `BetterCom
 faltava, saiu na leva de 01/10/2026. O nome na URL é `DefRuivo_StolenRealmMods-<Mod>`.
 
 > **Ao conferir na API:** a listagem da comunidade (`/c/stolen-realm/api/v1/package/`) é **cache** e
-> ainda devolvia os 5 pacotes antigos (`BepInEx-BepInExPack`, `biblioteca-de-terceiros`,
-> `biblioteca-de-terceiros-Player_Limit_Mod`, `ebkr-r2modman`, `Kesomannen-GaleModManager`) depois da
+> ainda devolvia os 5 pacotes antigos da comunidade (`BepInEx-BepInExPack`, o pacote de API,
+> o mod de limite de jogadores, `ebkr-r2modman` e `Kesomannen-GaleModManager`) depois da
 > publicação, em 30/09/2026. O pacote nosso aparece em
 > `https://thunderstore.io/api/experimental/package/DefRuivo_StolenRealmMods/<Mod>/` (o
 > `BetterCombatText` também responde `200` desde 01/10/2026 — os seis pacotes estão publicados).
