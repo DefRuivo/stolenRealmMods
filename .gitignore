@@ -227,11 +227,14 @@ secrets*
 # testes) e a revisao de CONTEUDO do jogo (docs/cobertura/**), que a auditoria do CI
 # usa como fonte.
 /docs/automacao/**
-!/docs/automacao/PROBLEMAS-E-SOLUCOES.md
-!/docs/automacao/LANG-DECISOES/
-!/docs/automacao/LANG-DECISOES/*.md
+# DOCS-PROC (2, 16/10/2026): o dono pediu TODOS os arquivos que falam do quadro/processo.
+# As excecoes que existiam aqui (PROBLEMAS-E-SOLUCOES.md, LANG-DECISOES/ e schemas/) TAMBEM
+# falam do processo — PROBLEMAS-E-SOLUCOES e' o proprio log de problemas do quadro, e os
+# documentos de decisao citam gates e cartoes. Saem do indice; seguem no disco.
+# UNICA excecao: schemas/ — zero mencao a quadro, e' o formato de dados que os
+# tools RASTREADOS consomem (tools/automacao/**). Conferido por contagem.
 !/docs/automacao/schemas/
-!/docs/automacao/schemas/*.md
+!/docs/automacao/schemas/*
 /docs/SUPERVISAO.md
 /docs/PROCESSO-REVISAO.md
 /docs/REL-DOCS-01-preparacao-docs.md
