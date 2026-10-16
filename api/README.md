@@ -1,14 +1,53 @@
-# RealmApi — API de modding própria para Stolen Realm
+# RealmApi
 
-Módulo `api/` do repositório do projeto. Nome do plugin: **RealmApi**. Namespace: `Gumatos.RealmApi`.
-GUID BepInEx: `com.gumatos.realmapi`. Versão da API: **0.1.0**.
+API de modding para Stolen Realm, com helpers de interface e hooks observacionais opcionais.
+É uma base para outros mods; não adiciona conteúdo jogável por conta própria.
 
-É um mod **próprio**: código escrito neste repositório, publicado sob MIT (`api/LICENSE`), sem copiar
-código de terceiros e sem redistribuir nenhum assembly do jogo. A superfície pública de um pacote
-público de API de terceiros foi apenas **inspecionada por metadados** para planejar a reconstrução; o
-inventário resultante guardado em `api/docs/contract-inventory.json` é **anonimizado** (nomes de
-namespace/host substituídos por `Gumatos.RealmApi.ContractReference.*`), não é código e não é suporte
-prometido.
+- **Version:** 0.1.0
+- **Autor:** gumatos
+- **Categoria:** Mods (`mods`, comunidade `stolen-realm`)
+- **GUID BepInEx:** `com.gumatos.realmapi`
+- **Namespace:** `Gumatos.RealmApi`
+- **Licença:** MIT
+
+> **Pré-lançamento em preparação.** A implementação foi exercitada offline, não validada no processo
+> do jogo nesta entrega. Os hooks vêm desabilitados. O empacotador já monta o ZIP com os três
+> assemblies juntos em `plugins/RealmApi/`; esta página não anuncia um pacote publicado.
+
+## Para jogadores: instalação prevista após liberação
+
+Instale somente quando um mod que você usa pedir esta dependência e houver uma versão liberada.
+Requisito declarado: `BepInEx-BepInExPack-5.4.2305`. Use o gerenciador de mods da comunidade Stolen Realm.
+O pacote completo deverá colocar os três arquivos juntos:
+
+```text
+BepInEx/plugins/RealmApi/
+  RealmApi.dll
+  RealmApi.Core.dll
+  RealmApi.Hooks.dll
+```
+
+Não copie apenas `RealmApi.dll`: o plugin depende de Core e Hooks. Evite cópias antigas em qualquer
+subpasta de `plugins`, porque o BepInEx também as procura recursivamente. Para remover, desinstale pelo
+gerenciador e revise os mods que dependem da API; em instalação manual, retire somente a pasta
+`RealmApi`. Não mantenha backups de DLL dentro de `plugins`.
+
+Arquivo de configuração: `BepInEx/config/com.gumatos.realmapi.cfg`, seção `Safety`:
+
+```ini
+[Safety]
+EnableHooks = false
+```
+
+`false` é o padrão: o plugin registra que os hooks estão desabilitados e não os instala. Ative apenas
+em teste em jogo autorizado. Com `true`, o plugin ainda exige a versão e o hash exatos do alvo abaixo.
+Confira `BepInEx/LogOutput.log` para o motivo de recusa, em vez de desativar as verificações.
+
+**Esse gate controla os hooks instalados pelo plugin, não a família UI inteira.** Um consumidor pode
+vincular a UI e autorizar mutações explicitamente, mesmo com `EnableHooks=false`.
+
+O ícone oficial de 256×256 (arte fornecida pelo autor) acompanha o pacote em `icon.png`. A preparação
+desta versão não instalou no perfil nem publicou o pacote.
 
 ## Versão alvo do jogo (obrigatória, fail-closed)
 
@@ -31,20 +70,26 @@ Os valores vivem em `Gumatos.RealmApi.ApiIdentity` (`api/Core/Contracts.cs`). De
 divergirem, a API não instala hook nenhum**
 (`ApiIdentity.Matches` compara apenas esses dois campos e recusa quando ausentes ou diferentes).
 
-## Estrutura
+## Consumidores existentes no projeto
 
-```
-api/
-  Core/      RealmApi.Core.csproj   -> identidade, HookDescriptor, catálogo de hooks, Signal<T>, RealmAccess,
-                                       notificação; e a familia UI sem UnityEngine (UiFamily/UiOperations/Skills.SkillTree)
-  Hooks/     RealmApi.Hooks.csproj  -> HookInstallation (Harmony) sobre o catálogo
-  Plugin/    RealmApi.csproj        -> RealmApiPlugin (BepInEx), gate de identidade + config EnableHooks;
-                                       e os 5 tipos publicos da familia UI (namespace Gumatos.RealmApi.UI)
-  Smoke/     RealmApi.Smoke.csproj  -> suíte de fumaca offline (net472, Harmony real no CLR)
-  tools/Inspect/Inspect.csproj      -> inventário por metadados (Mono.Cecil), 4 comandos (surface|targets|plugin|ui)
-  tools/check_ui_contract.py        -> conferidor superfície implementada x inventário (familia UI)
-  docs/                             -> evidências medidas (ver docs/README.md)
-```
+São usos concretos no código, não uma afirmação de que as versões publicadas dos consumidores já
+tragam essas integrações:
+
+- **RoguelikeSkillTreeVisualizer (RSTV):** usa `UIFactory.Clone` e `UIFactory.BindClick` por vínculo
+  explícito. TextMeshPro e montagem visual específica continuam no próprio mod.
+- **RoguelikeDebugger:** sonda `ApiIdentity` por reflexão, de forma opcional; mantém identidade local
+  sem a API ou com os hooks desligados.
+- **Ponte RealmApi → KitSdk:** adaptador observacional separado, criado explicitamente pelo host
+  com barramento, estado do produtor, sessão e diagnóstico. Não descobre a API nem instala hooks.
+
+Esses consumidores não acompanham este pacote. A API não depende deles para carregar.
+
+## Para autores de mods
+
+As seções seguintes detalham a superfície e seus limites. Caminhos `api/`, `lib/` e `docs/` são
+referências à árvore do [repositório](https://github.com/DefRuivo/stolenRealmMods/tree/main/api),
+não arquivos prometidos dentro do ZIP. Ferramentas de inspeção e smoke também vivem no repositório;
+o pacote de runtime precisa apenas dos três assemblies próprios e dos metadados da distribuição.
 
 ## Como usar
 
@@ -211,7 +256,7 @@ Ordem fixa; cada passo tem um comando reprodutível.
 1. **Reconferir a identidade.** Rode `sha256sum lib/Assembly-CSharp.dll` e compare com
    `ApiIdentity.AssemblySha256`; confira `buildid` no `appmanifest_1330000.acf` e a versão em
    `globalgamemanagers`. Atualize `api/docs/target-game.json` e `ApiIdentity` **só** se o alvo mudou de verdade.
-   Enquanto os três valores não casarem, o plugin recusa instalar — isso é intencional.
+   Enquanto versão e hash não casarem, o plugin recusa instalar hooks — isso é intencional.
 2. **Regerar a superfície.** `dotnet run --project api/tools/Inspect/Inspect.csproj -c Release -- targets lib/Assembly-CSharp.dll > api/docs/game-targets.json`.
    O comando lê **metadados** (Mono.Cecil); ele não executa o assembly do jogo.
 3. **Recomparar.** Para cada `HookDescriptor` do catálogo, confirme que o tipo existe, que o método tem
@@ -246,8 +291,9 @@ Ordem fixa; cada passo tem um comando reprodutível.
   parâmetro e opcionalidade — não é revisão por leitura.
 - Não altere o `Assembly-CSharp.dll` e não o redistribua. Nunca referencie o assembly do jogo no código
   do plugin (o smoke tem o teste `no-game-assembly-dependency` para impedir essa regressão).
-- Nada de patches de modificação de comportamento nesta base: a API 0.1.0 é observacional. Qualquer
-  cancelamento/substituição de argumentos é uma frente separada.
+- Nada de patches de modificação de comportamento nos hooks desta base: os hooks 0.1.0 são
+  observacionais. A família UI é comportamental e pode mutar a interface com vínculo e opt-in;
+  cancelamento/substituição de argumentos pelos hooks é uma frente separada.
 - Toda afirmação em documento deste módulo precisa vir com caminho de arquivo, contagem ou comando
   reproduzível; o que não for exercitável se declara `NÃO_EXERCITADO` com o motivo.
 - Idioma: português (padrão do repositório).
