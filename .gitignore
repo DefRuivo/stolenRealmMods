@@ -195,3 +195,16 @@ secrets*
 /docs/cobertura/EV-R1/lote-NotInEventPool.md
 /docs/cobertura/EV-R1/lote-QuestStart.md
 /docs/cobertura/EV-R1/lote-SemPoolDeclarado.md
+
+# ---------------------------------------------------------------------------
+# CI-SEG (16/10/2026): a trava de segredo (`tools/check_segredos.py`, passo 1 do
+# validate.yml e do publish.yml) usa heuristica de ENTROPIA a partir de 32 chars.
+# Os relatorios EV-R2 usam nomes de arquivo de 32-35 chars
+# (ex.: EV-R2-NORMAL-b01-parte02-propostas.py) e a heuristica os le' como token —
+# 34 acusacoes em 18 arquivos, todas nomes de arquivo, zero credencial.
+# Enquanto a heuristica nao distinguir nome-de-arquivo de segredo, esses
+# relatorios ficam FORA do indice (seguem no disco). Rever se a trava for revista.
+/docs/automacao/EV-R2-NORMAL-b0*-parte0*.md
+/docs/automacao/EV-R2-NORMAL-b0*-parte0*-*.py
+/docs/automacao/EV-R2-FORAPOOL-b0*-parte0*.md
+/docs/automacao/KIT-14-entrega-run*.md
