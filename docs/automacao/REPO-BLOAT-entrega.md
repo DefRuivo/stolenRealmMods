@@ -447,3 +447,23 @@ desindexação é exatamente **−7**, como projetado.
 **Nota de escopo:** `docs/img/*-icon-fonte.png`, as 4 evidências PNG do AUT-4, `BetterPortuguese/Data`,
 `tools/`, os 19 grupos de duplicatas exatas, os 66 arquivos vazios e os `KIT-*-final*.md` **não foram
 tocados** — a recomendação da fase 1 (§3) foi aceita pela autorização e nada disso saiu do índice.
+
+**Commit da fase 2:** `8a5f824` — *"REPO-BLOAT-1: desindexa os 7 markdown superseded do EV-R1 (v1;
+3,70 MB)"*, **local, sem push**. Ele contém exatamente 9 entradas: os 7 `D` (remoções do índice), o
+`M .gitignore` e o `M` deste documento. Nenhum dos 79 arquivos que a outra frente tem modificados na
+árvore entrou no commit.
+
+**Prova em clone NOVO (feita depois do commit, em clone descartável do próprio repo):**
+
+| Verificação | Resultado |
+| --- | --- |
+| Arquivos rastreados no clone | **1.923** (era 1.930) |
+| `git ls-files -ci --exclude-standard` no clone | **0 (VAZIO)** |
+| Os 7 v1 no checkout novo | **ausentes** — o clone traz só os `-v2` |
+| Os 7 v1 no **histórico** do clone (`HEAD~1`) | **presentes** (1.924.497 / 1.342.507 / 534.297 / 40.648 / 4.961 / 1.899 / 28.348 B) |
+| `.git` do clone | **67 MB** (não encolhe, como a §4.2 previu) |
+| `git status` do clone | limpo |
+
+**Como desfazer** (se o dono quiser): `git revert 8a5f824` num repo limpo, ou
+`git reset --soft HEAD~1` enquanto o commit não for publicado — nada do disco depende disso, porque
+nenhum arquivo foi apagado.
