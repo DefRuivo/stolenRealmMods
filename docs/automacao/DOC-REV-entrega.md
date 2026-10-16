@@ -22,14 +22,15 @@ passou a **carimbar o referente** (`HEAD` × árvore de trabalho).
   `SUPERVISAO.md`, `PROCESSO-REVISAO.md`, `PLANO-DE-TESTES.md`, `MODS-PARA-AMIGOS.md`, `DEBUGGER.md`,
   `DBG-PROVENIENCIA.md`; `api/README.md`, `api/docs/README.md`; `ITEM_INVENTORY.md`,
   `ITEM_MOD_INVENTORY.md`, `STATUS_INVENTORY.md`, `SKILL_INVENTORY.md`, `TOOLTIP_SWEEP.md`.
-- Contexto do repositório, medido em **16/10/2026 14:2x**, no commit `39852b7` + árvore de trabalho:
-  **672 arquivos `.md` versionados** (`git ls-files '*.md'`), **956 arquivos versionados em
+- Contexto do repositório, medido em **16/10/2026 14:20**, no commit `fc24267` (rodada 4) + árvore de
+  trabalho: **672 arquivos `.md` versionados** (`git ls-files '*.md'`), **956 arquivos versionados em
   `docs/automacao/`** (arquivo histórico, fora do escopo) e **135 arquivos `.md`/`.json`/`.txt`
   versionados fora de `automacao/`+`cobertura/`.
-  A contagem **anda sozinha**: as frentes paralelas commitam relatórios em `docs/automacao/` durante o
-  dia (670 → 671 → 672 `.md` ao longo desta tarefa, e 950 → 951 → 956 arquivos em `automacao/`).
-  O número acima é a medida no commit `39852b7`; quem reconferir depois verá outro valor sem que nada
-  tenha ficado errado.
+  As três contagens deram **o mesmo valor** no commit `39852b7` (base do A7, 16/10 13:58) e agora:
+  esta frente só **editou** arquivos existentes, não criou nem apagou nenhum. Elas, porém, **andam
+  sozinhas**: as frentes paralelas commitam relatórios em `docs/automacao/` durante o dia (670 → 671 →
+  672 `.md` ao longo da tarefa, e 950 → 951 → 956 arquivos em `automacao/`).
+  Quem reconferir depois verá outro valor sem que nada tenha ficado errado.
 - Dos 20 do escopo, **11 exigiam correção** e foram corrigidos; 9 não tinham problema factual.
 - Revisão anterior deste cartão morreu por *rate limit* (run 1593) deixando as edições em disco, sem
   commit e sem entrega; elas foram relidas e reverificadas nas rodadas seguintes.
@@ -41,21 +42,21 @@ Legenda de classe: **1** afirmação falsa sobre o estado atual · **2** contrad
 
 | item | arquivo | linha (estado final) | problema | classe | o que foi feito |
 |---|---|---|---|---|---|
-| A1 | `docs/PUBLICACAO.md` | 236-238 e **261-269** | "O caso de hoje: o `BetterCombatText 0.1.1` depende do **`BetterFont 1.0.2`**, que ainda **não está no ar** (a última publicada é a `1.0.1`)" — falso: o manifest do BCT declara **só** `BepInEx-BepInExPack-5.4.2305` desde 16/10 (DEP-REV) e o `BetterFont` no ar é **1.0.3** (07/10) | 1, 2 | reescrito: "O caso de hoje (16/10/2026) **não é** o desse exemplo…" — nenhum mod declara dependência de pacote a outro mod de jogo; a **única** dependência real é `RoguelikeSkillTreeVisualizer 0.3.4 → RealmApi-0.1.0`, que **não resolve** (404 na API) e faz o `check_dependencias.py --local` reprovar; o `ordem_de_envio.caso_de_hoje` do gate fica declarado como fotografia de 01/10 (frente própria). O exemplo acima (236-238) passou a ser **condicional** ("Se um mod declara… `BetterFont-1.0.2`") em vez de citar o par que não existe mais. |
-| A2 | `docs/PUBLICACAO.md` | **278-284** | o bloco `json` apresentado como "o `release/mods.json` é o substituto versionado" mostrava `BetterFont: publicar:false, versao_publicada:null` — o real é `publicar:true`, `"1.0.3"`, `publicado_em 2026-10-07T21:24:48.179123Z` | 1 | substituído por **trecho real** do arquivo (com o `motivo` abreviado) + nota de que as duas travas (`BetterPortuguese`, RLP) são as **únicas** com `publicar:false`/`null`. |
-| A3 | `docs/README.md` | **552-555** | "quem **pode** sair é o gate versionado `release/mods.json` (**6** entradas, todas com `publicar: true`)" — o gate tem **8** entradas: 6 `true` + 2 `false` (`BetterPortuguese`, `RoguelikeUnlimitedLevelProgression`) | 1, 2 | corrigido para "**8** entradas: **6** com `publicar: true` … e **2** com `publicar: false`, `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`"; o mesmo arquivo já dizia 8 nas linhas 32-43. |
+| A1 | `docs/PUBLICACAO.md` | 241-243 e **266-274** | "O caso de hoje: o `BetterCombatText 0.1.1` depende do **`BetterFont 1.0.2`**, que ainda **não está no ar** (a última publicada é a `1.0.1`)" — falso: o manifest do BCT declara **só** `BepInEx-BepInExPack-5.4.2305` desde 16/10 (DEP-REV) e o `BetterFont` no ar é **1.0.3** (07/10) | 1, 2 | reescrito: "O caso de hoje (16/10/2026) **não é** o desse exemplo…" — nenhum mod declara dependência de pacote a outro mod de jogo; a **única** dependência real é `RoguelikeSkillTreeVisualizer 0.3.4 → RealmApi-0.1.0`, que **não resolve** (404 na API) e faz o `check_dependencias.py --local` reprovar; o `ordem_de_envio.caso_de_hoje` do gate fica declarado como fotografia de 01/10 (frente própria). O exemplo acima (241-243) passou a ser **condicional** ("Se um mod declara… `BetterFont-1.0.2`") em vez de citar o par que não existe mais. |
+| A2 | `docs/PUBLICACAO.md` | **283-286** | o bloco `json` apresentado como "o `release/mods.json` é o substituto versionado" mostrava `BetterFont: publicar:false, versao_publicada:null` — o real é `publicar:true`, `"1.0.3"`, `publicado_em 2026-10-07T21:24:48.179123Z` | 1 | substituído por **trecho real** do arquivo (com o `motivo` abreviado) + nota de que as duas travas (`BetterPortuguese`, RLP) são as **únicas** com `publicar:false`/`null`. |
+| A3 | `docs/README.md` | **552-555** | "quem **pode** sair é o gate versionado `release/mods.json` (**6** entradas, todas com `publicar: true`)" — o gate tem **8** entradas: 6 `true` + 2 `false` (`BetterPortuguese`, `RoguelikeUnlimitedLevelProgression`) | 1, 2 | corrigido para "**8** entradas: **6** com `publicar: true` … e **2** com `publicar: false`, `BetterPortuguese` e `RoguelikeUnlimitedLevelProgression`"; o mesmo arquivo já dizia 8 nas linhas 32-43. Na rodada 4, `B1.2` acrescentou o carimbo: **8 em `HEAD`** e **9 na árvore de trabalho**. |
 | A4 | `docs/AMBIENTE.md` | **38** | `Better Combat Text 0.1.1 | projeto (depende do Better Font)` — quinta ocorrência da dependência já removida | 1, 2 | virou "o **par carregado** no perfil é BCT + `Better Font`; o manifest corrente do BCT **não** declara dependência de pacote — foi removida em 16/10/2026 (DEP-REV)". A tabela descreve **o que o log carregou** (rodada de 12/09), não o manifest de hoje. |
-| A5 | `docs/README.md` **383**, **480-486**, **562-565**; `README.md` **266**, **319-323**, **692**, **746-750**; `docs/CI.md` **84-86**; `docs/PUBLICACAO.md` **582** | — | `tools/publish-thunderstore.sh --go` apresentado como caminho de publicação/empacotamento ("o mais simples hoje", "continua valendo como caminho alternativo"), contradizendo `docs/PUBLICACAO.md` §4 (envio **legado**, não lê o gate, itera todos os `dist/gumatos-*.zip`, header de auth sem a variável `TOKEN`) | 2 | os nove pontos foram alinhados à mesma trava e ao mesmo aviso: **legado, não é caminho seguro**, não lê o gate, sem aprovação humana, sobe todos os `dist/gumatos-*.zip`; o caminho de hoje é o `publish.yml`. Conferido em `git show HEAD:tools/publish-thunderstore.sh` (laço `for z in dist/gumatos-*.zip`; header de autorização literal, sem a variável `TOKEN`). |
+| A5 | `docs/README.md` **387**, **484-489**, **566-570**; `README.md` **268**, **321-325**, **694**, **748-752**; `docs/CI.md` **84-86**; `docs/PUBLICACAO.md` **588** | — | `tools/publish-thunderstore.sh --go` apresentado como caminho de publicação/empacotamento ("o mais simples hoje", "continua valendo como caminho alternativo"), contradizendo `docs/PUBLICACAO.md` §4 (envio **legado**, não lê o gate, itera todos os `dist/gumatos-*.zip`, header de auth sem a variável `TOKEN`) | 2 | os nove pontos foram alinhados à mesma trava e ao mesmo aviso: **legado, não é caminho seguro**, não lê o gate, sem aprovação humana, sobe todos os `dist/gumatos-*.zip`; o caminho de hoje é o `publish.yml`. Conferido em `git show HEAD:tools/publish-thunderstore.sh` (laço `for z in dist/gumatos-*.zip`; header de autorização literal, sem a variável `TOKEN`). |
 | A6 | esta entrega | §4 e §5 | a coluna "linha" tinha âncoras erradas: PNG do README em 388…545 (eram 390…547) e `docs/README.md` 393-404/407-411/435 (eram 397-407/412-417/439) | 4 | todas as âncoras foram **remedidas com `grep -n`** depois das edições desta rodada. **Remedidas de novo na rodada 4** (as correções de `B1` somaram linhas acima delas): PNG do README em **394, 404, 410, 415, 444, 458, 464, 541, 551**; `docs/README.md` tabela dos 8 mods **401-412**, "reconferido nos endpoints" **416-419**, linha de `dependencies` **447**; nota da PUB-ALL-1 **420-422**. |
-| A7 | esta entrega | §0 | contagens "670 `.md` versionados / 950 em `docs/automacao/`" contra 671/951 medidos pelo revisor | 1 | remedidas e **carimbadas** (672 / 956 em 16/10/2026, commit `39852b7`) com a explicação de que a contagem cresce a cada commit das frentes paralelas. |
+| A7 | esta entrega | §0 | contagens "670 `.md` versionados / 950 em `docs/automacao/`" contra 671/951 medidos pelo revisor | 1 | remedidas e **carimbadas** (672 / 956 em 16/10/2026, commit `39852b7`) com a explicação de que a contagem cresce a cada commit das frentes paralelas. **Rodada 4:** remedidas no commit `fc24267` (16/10 14:20) — mesmos **672 / 956 / 135** (esta revisão só editou arquivos existentes). |
 
 ### Derivações encontradas ao fechar A1–A7 (não estavam na revisão)
 
 | item | arquivo | linha | problema | classe | o que foi feito |
 |---|---|---|---|---|---|
 | A8 | `README.md` (3 tabelas), `docs/README.md` | 210-212, 362-364, 637-639; 405/410/411, 420-422, 447 | **deriva do dia**: o commit `39852b7` (PUB-ALL-1, 13:58) bumpou `BetterCombatText 0.1.2→0.1.3`, `RoguelikeDebugger 0.1.2→0.1.3` e `RSTV 0.3.3→0.3.4` nos quatro lugares — **depois** do commit da rodada 1 (13:49) e depois da revisão independente. Toda "versão no fonte/disco" das docs passou a mentir por um bump; a dependência do RSTV também era citada como `0.3.3` | 1 | tabelas do README atualizadas para 0.1.3/0.1.3/0.3.4; tabela dos 8 mods descobertos atualizada na coluna "Versão no disco"; linha de `dependencies` para `RoguelikeSkillTreeVisualizer 0.3.4`; acrescentado o parágrafo 420-422 declarando que a versão no disco está **à frente** da publicada (nada foi publicado nesse bump). Conferido contra `*/manifest.json`, `python tools/check_versoes.py` (exit 0) e a API. |
-| A9 | `docs/README.md` | 421-430 | o adendo datado de 12/10 ("o projeto tem um **sétimo** pacote descoberto", "conjunto esperado pelo workflow passa a ser **7** nomes", "a tabela acima (6 mods)") contradizia a tabela de **8** mods descobertos (16/10) logo acima | 2 | adendo mantido como fotografia datada, com o estado corrente ao lado: "7 nomes então; **8** desde 16/10/2026, com o `BetterPortuguese`", e a frase final reescrita para não alegar que a tabela de cima tem 6 mods. |
-| A10 | `docs/PUBLICACAO.md` | 52-53, 57-58 | o adendo de 12/10 dizia "o `release/mods.json` tem **7** entradas" e "o conjunto esperado … (7 nomes)", contra as **8** do cabeçalho do mesmo arquivo (linha 9) | 2 | "passou a ter 7 entradas (oito desde 16/10/2026, com o `BetterPortuguese`)" e "(7 nomes então; **8** desde 16/10/2026 …)". |
+| A9 | `docs/README.md` | 425-434 | o adendo datado de 12/10 ("o projeto tem um **sétimo** pacote descoberto", "conjunto esperado pelo workflow passa a ser **7** nomes", "a tabela acima (6 mods)") contradizia a tabela de **8** mods descobertos (16/10) logo acima | 2 | adendo mantido como fotografia datada, com o estado corrente ao lado: "7 nomes então; **8** desde 16/10/2026, com o `BetterPortuguese`", e a frase final reescrita para não alegar que a tabela de cima tem 6 mods. |
+| A10 | `docs/PUBLICACAO.md` | 57-58, 64 | o adendo de 12/10 dizia "o `release/mods.json` tem **7** entradas" e "o conjunto esperado … (7 nomes)", contra as **8** do cabeçalho do mesmo arquivo (linha 9) | 2 | "passou a ter 7 entradas (oito desde 16/10/2026, com o `BetterPortuguese`)" e "(7 nomes então; **8** desde 16/10/2026 …)". |
 
 ## 1B. Rodada 4 — `B1`: carimbar o referente (`HEAD` × árvore de trabalho)
 
@@ -115,12 +116,12 @@ rodada (`C:/dev/stolen-realm`, 16/10/2026):
 | docs/README.md | 28 | a linha do `img/LEIA-ME.txt` afirmava que o README da raiz usa "notas de captura pendente, sem links para PNG inexistentes" — o README tem **9** links para `docs/img/*.png` sem arquivo | 1, 2 | corrigido para o estado real (9 links quebrados até a captura) |
 | docs/README.md | 32-43 | "na raiz, uma pasta por mod … (e `RoguelikeBalance`, que ainda não virou mod)" — hoje a descoberta tem **8** nomes e `RoguelikeBalance` não existe na árvore | 1 | corrigido |
 | docs/README.md | 32-43 | nada dizia que a API existe em `api/` e é consumida pelo RSTV | 5 | acrescentado (com o limite: não é descoberta pelo empacotador versionado) |
-| docs/README.md | 235-237 | bloco bash usava `%APPDATA%` — no Git Bash é sintaxe de cmd.exe e **não expande** | 3 | trocado por `cygpath -u "$APPDATA"` (comando executado) |
-| docs/README.md | 238-242 | "DLL solta em `plugins/` não carrega" | 1 | corrigido |
+| docs/README.md | 240-243 | bloco bash usava `%APPDATA%` — no Git Bash é sintaxe de cmd.exe e **não expande** | 3 | trocado por `cygpath -u "$APPDATA"` (comando executado). Linha remedida na rodada 4. |
+| docs/README.md | 246-250 | "DLL solta em `plugins/` não carrega" | 1 | corrigido. Linhas remedidas na rodada 4. |
 | docs/README.md | 401-412 | tabela "Os 6 mods" com versões e estado de publicação de 01/10 (BCT 0.1.1 "não publicado", RSTV 0.3.2, etc.) | 1 | reescrita: 8 descobertos, 6 publicados em 07/10/2026 (+ nota da PUB-ALL-1 em 420-422). Linhas remedidas na rodada 4. |
 | docs/README.md | 416-419 | "conferido contra a API pública em 01/10/2026" | 1 | reconferido por endpoint em 16/10/2026 |
 | docs/README.md | 447 | dependência declarada como `BetterCombatText 0.1.1 → BetterFont 1.0.2`; o estado real é `RSTV → RealmApi-0.1.0` (não resolvível) | 1, 2 | reescrito |
-| docs/README.md | 383, 480-486, 552-556, 562-565 | linha de ferramenta + bloco bash do envio local + contagem do gate | 1, 2 | A5 e A3 (a contagem do gate ganhou o carimbo `HEAD` × árvore em `B1.2`) |
+| docs/README.md | 387, 484-489, 552-556, 566-570 | linha de ferramenta + bloco bash do envio local + contagem do gate | 1, 2 | A5 e A3 (a contagem do gate ganhou o carimbo `HEAD` × árvore em `B1.2`). Linhas remedidas na rodada 4. |
 
 ### `docs/AMBIENTE.md`
 
@@ -153,13 +154,13 @@ rodada (`C:/dev/stolen-realm`, 16/10/2026):
 
 | arquivo | linha | problema | classe | ação |
 |---|---|---|---|---|
-| PUBLICACAO.md | 9-18 | "o projeto tem 6 mods e os SEIS estão publicados … `release/mods.json` com as 6 entradas" como estado de hoje | 1 | corrigido (8 entradas, 6 publicadas em 07/10) + foto de 01/10 preservada |
-| PUBLICACAO.md | 52-53, 57-58 | adendo de 12/10 dizendo "7 entradas" / "7 nomes" | 2 | A10 |
-| PUBLICACAO.md | 100-101 | "Hoje o repo **não tem** LICENSE e **nenhum** README/manifest menciona licença" — `api/LICENSE` é MIT e o README da API declara isso | 1 | corrigido (licença do módulo ≠ licença dos demais mods) |
-| PUBLICACAO.md | 236-238, 261-269 | "caso de hoje" com o par BCT→BetterFont, e o exemplo acima afirmando o mesmo par removido | 1, 2 | A1 |
-| PUBLICACAO.md | 278-284 | amostra JSON do gate mentindo sobre o arquivo real | 1 | A2 |
-| PUBLICACAO.md | 340-348 | os dois `gh release create` do documento sem avisar que `gh` **não está instalado** nesta máquina | 3 | aviso acrescentado (`which gh` → nada, 16/10/2026) |
-| PUBLICACAO.md | 383-394, 582 | `tools/publish-thunderstore.sh` recomendado como caminho de envio | 1, 3 | A5 (declarado legado e não seguro; script não foi executado) |
+| PUBLICACAO.md | 9-21 | "o projeto tem 6 mods e os SEIS estão publicados … `release/mods.json` com as 6 entradas" como estado de hoje | 1 | corrigido (8 entradas, 6 publicadas em 07/10) + foto de 01/10 preservada |
+| PUBLICACAO.md | 57-58, 64 | adendo de 12/10 dizendo "7 entradas" / "7 nomes" | 2 | A10 |
+| PUBLICACAO.md | 105-106 | "Hoje o repo **não tem** LICENSE e **nenhum** README/manifest menciona licença" — `api/LICENSE` é MIT e o README da API declara isso | 1 | corrigido (licença do módulo ≠ licença dos demais mods) |
+| PUBLICACAO.md | 241-243, 266-274 | "caso de hoje" com o par BCT→BetterFont, e o exemplo acima afirmando o mesmo par removido | 1, 2 | A1 |
+| PUBLICACAO.md | 283-286 | amostra JSON do gate mentindo sobre o arquivo real | 1 | A2 |
+| PUBLICACAO.md | 345-353 | os dois `gh release create` do documento sem avisar que `gh` **não está instalado** nesta máquina | 3 | aviso acrescentado (`which gh` → nada, 16/10/2026) |
+| PUBLICACAO.md | 389-400, 588 | `tools/publish-thunderstore.sh` recomendado como caminho de envio | 1, 3 | A5 (declarado legado e não seguro; script não foi executado) |
 
 ### `docs/SUPERVISAO.md`
 
@@ -313,8 +314,8 @@ depende de código não commitado:
 - `docs/README.md:552-556` (a contagem do gate);
 - `docs/ESTRUTURA.md:7` e `:12` (a descoberta e o gate; linha do `api/` no layout canônico);
 - `docs/PUBLICACAO.md:9-18` e `:287-290` (estado conferido e travas do gate);
-- `docs/PUBLICACAO.md:383-394` (envio local legado);
-- `docs/README.md:383` (a linha do `publish-thunderstore.sh` na tabela de ferramentas).
+- `docs/PUBLICACAO.md:389-400` (envio local legado);
+- `docs/README.md:387` (a linha do `publish-thunderstore.sh` na tabela de ferramentas).
 
 **Quando a PKG-API-1 e a PUB-API-2 forem commitadas, revisar essas passagens** — o número "8" e a frase
 "não é descoberta pelo empacotador" passam a valer só para `HEAD`, e o carimbo pode voltar a ser um
