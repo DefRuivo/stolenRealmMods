@@ -570,7 +570,8 @@ correção regravou os 7 com os bytes do ZIP.
 **Fonte:** os 7 membros de `docs/cobertura/EV-R1/EV-R1-entrega.zip` (o pacote de entrega do EV-R1, de
 13/10 13:22 — anterior à remoção). O ZIP não foi escolhido por conveniência: provou-se que ele é
 exatamente o que um checkout normal produz. Num clone descartável do próprio repo
-(`scratch/rb1/clone_r20`, `core.autocrlf=true` como nesta máquina, repo sem `.gitattributes`),
+(`scratch/rb1/clone_r20` — descartável, já apagado depois da medição —, `core.autocrlf=true` como
+nesta máquina, repo sem `.gitattributes`),
 `git checkout 8a5f824^` gera os 7 arquivos **byte a byte idênticos aos membros do ZIP**:
 
 ```
