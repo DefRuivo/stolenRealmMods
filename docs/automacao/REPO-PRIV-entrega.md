@@ -4,14 +4,14 @@ Cartao `t_f571f9c0`. Objetivo: tratar (nao esconder) o vazamento de identidade d
 no repositorio PUBLICO, separando por CLASSE - documento vivo pode normalizar; ferramenta
 precisa de resolucao em tempo de execucao; evidencia congelada NAO pode ser reescrita.
 
-Esta e' a **rodada 3**: fecha o achado **B7** da revisao da rodada 2 - a prova de
-nao-regressao do gate de docs aqui nesta pagina nao reproduzia no estado ENTREGUE - e o nit
-de durabilidade. O que mudou esta na secao 0.1; o corpo abaixo ja' e' o estado corrigido.
-(A rodada 2 tinha fechado os 6 achados B1-B6 da rodada 1.)
+Esta e' a **rodada 4**: fecha o achado **B8** da revisao da rodada 3 - esta pagina citava como
+proprio commit um objeto de pre-`amend` que nao esta em ref nenhuma - e o nit de entrega (a
+saida das ferramentas da classe (b) agora esta versionada). O que mudou esta na secao 0.1; o
+corpo abaixo ja' e' o estado corrigido. (A rodada 2 tinha fechado B1-B6; a rodada 3, o B7.)
 
 ## 0. Resumo
 
-### 0.1 O que as rodadas 2 e 3 mudaram (achados B1-B7 da revisao)
+### 0.1 O que as rodadas 2, 3 e 4 mudaram (achados B1-B8 da revisao)
 
 | achado | o que era | o que ficou |
 |---|---|---|
@@ -23,6 +23,8 @@ de durabilidade. O que mudou esta na secao 0.1; o corpo abaixo ja' e' o estado c
 | **B6** | nada commitado (74 arquivos + entregavel apenas na arvore) | commit da rodada 2 (secao 9) |
 | **B7** bloqueante (rodada 3) | a linha do gate nesta pagina afirmava `!! 11 PENDENCIAS` ("byte-identico ao baseline"), mas a prova foi tirada com o entregavel ainda NAO RASTREADO: o gate varre os `.md` de `git ls-files`, e o commit o trouxe para dentro da varredura - e o texto citava o nome de um projeto de bancada que saiu do repo, que e' justamente o que o passo 7 do gate reprova | a citacao literal saiu do texto; o gate passou a ser **executado pelo gerador desta pagina** e a saida integral ficou versionada (secao 5.2) |
 | **nit** (rodada 3) | a secao 8 dizia que as ferramentas ficam em `scratch/` "fora do versionado" e a ultima linha falava em "script versionado" | as duas dizem a mesma coisa agora: os geradores sao de bancada, em `scratch/` (gitignored) |
+| **B8** bloqueante (rodada 4) | esta pagina citava como SEU PROPRIO commit um objeto de pre-`amend` que nao esta em ref nenhuma ("`HEAD` no fechamento desta rodada era `cfcb3f0`" / "o commit desta rodada e' o FILHO de `cfcb3f0`") | o hash do proprio commit saiu da pagina: ela cita so' o **PAI** (estavel, ja' publicado) e o comando com que se MEDE o resto (secoes 1 e 9). Um documento nao consegue citar o commit que o contem - o hash nasce depois do `git commit` e muda a cada `--amend` |
+| **nit** (rodada 4) | a ENTREGA do cartao pede "a saida das ferramentas da classe (b)" e ela existia so' na bancada gitignored (`scratch/repopriv/provas2`, `provas3`) | a saida INTEGRAL das 4 execucoes desta rodada ficou versionada em `docs/automacao/REPO-PRIV-prova-ferramentas.txt` (secao 5.1), no mesmo padrao da prova do gate |
 
 ### 0.2 Numeros finais (medidos, nao estimados)
 
@@ -56,8 +58,25 @@ Token de CAMINHO = `Users` + separador + `<nome>` (cobre `C:/`, `C:\`, `C:\\`,
 | NOVOS, de cartoes PARALELOS (nao deste trabalho) | 4 | 27 |
 
 O rotulo do commit-base e' FIXO (`96a6d60`): cartoes paralelos commitam durante a rodada e o
-ponto de partida do trabalho nao se move. `HEAD` no fechamento desta rodada era
-`cfcb3f0 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)`.
+ponto de partida do trabalho nao se move.
+
+**Qual e' o commit desta rodada (achado B8).** Esta pagina **nao escreve o proprio hash**, de
+proposito: ele so' existe depois do `git commit` e muda a cada `--amend`, entao um texto assim
+envelhece no mesmo instante em que e' escrito - foi o que a rodada 3 fez (citou um objeto de
+pre-`amend` que nao esta em ref nenhuma; a revisao mediu `git merge-base --is-ancestor` = NAO).
+O que fica escrito aqui e' o **PAI** - estavel e ja' publicado - mais o comando com que se mede o
+resto:
+
+```
+git log -1 --format='%H %P'                     # o commit desta rodada e o pai dele (%P)
+git log --format='%H %s' 6826924..main          # filhos desse pai em main; o desta rodada tem
+                                               #  o assunto "REPO-PRIV-1 rodada 4: ..."
+```
+
+No fechamento da rodada 4, esse pai era `6826924 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)`. O commit que carrega esta pagina
+e' o filho dele em `main` **com o assunto desta rodada** - medido agora,
+`git log --format='%H %s' 6826924..main` lista **um** so', e se algum cartao paralelo commitar
+depois a lista cresce: o desta rodada continua sendo o que tem esse assunto.
 
 Os 4 arquivos que apareceram com o token DEPOIS do commit-base nao sao deste trabalho -
 vieram de cartoes paralelos:
@@ -319,6 +338,25 @@ resolviam - a saida terminava em `FAILED (errors=4)` e nao provava nada. Os arqu
 antigos (`provas/prep_antes.out`, `prep_depois.out`, `prep_diff.txt`) foram mantidos, mas
 **nao sao mais a prova**; a prova e' `provas2/prep_inplace.out`.
 
+**Rodada 4 - a saida INTEGRAL desta execucao ficou VERSIONADA** (o cartao pede "a saida das
+ferramentas da classe (b)" na ENTREGA, e ate a rodada 3 ela vivia so' na bancada gitignored
+`provas2/`, `provas3/`): `docs/automacao/REPO-PRIV-prova-ferramentas.txt`, **138
+linhas**, com o stdout+stderr das 4 ferramentas. Exits medidos: `[0, 0, 0, 0]`. Trocas do
+caminho do perfil pelo placeholder declarado `<PERFIL-DO-DONO>` no log: **0**
+(nenhuma ferramenta imprime o caminho do perfil hoje - o valor esta medido e declarado no
+cabecalho do arquivo, e o log nao e' evidencia congelada de rodada anterior: e' saida desta
+execucao, reproduzivel pelos comandos de cada bloco). O gerador reexecuta as 4 ferramentas e
+reescreve o log a cada rodada, e restaura com `git checkout --` o recibo
+`LANG-C4-REVISAO-DONO-verificacao.json` que `--verify-only` regrava. Entre duas execucoes do
+gerador, o log das ferramentas muda em UM lugar so': a linha de tempo decorrido de cada suite
+(unittest imprime `Ran N tests in Xs`; o `N` e' estavel, o `X` nao). Conferir com
+`diff <(primeira saida) <(segunda saida)`; esta pagina, essa sim, sai com o mesmo sha256 nas
+duas execucoes (o gerador nao escreve nenhum numero volatil nela). O log e' produzido pelo
+gerador na mesma arvore, segundos antes do commit desta rodada - e o commit desta rodada **nao
+toca nenhum dos 4 arquivos da classe (b)** (arquivos do commit: 2, os dois textos de prova do
+proprio REPO-PRIV - conferir com `git show --stat`), de modo que o commit nao altera a saida
+acima.
+
 Nota de transparencia: `--verify-only` **reescreve** `LANG-C4-REVISAO-DONO-verificacao.json`
 (o recibo guarda o sha256 do documento calculado sobre o disco; como o repo usa
 `core.autocrlf=true`, disco=CRLF e blob=LF, o valor regravado difere do versionado). Isso
@@ -510,15 +548,24 @@ prova nao existir. Eles sao prova, nao descuido.
 Estao em `scratch/` (bancada, fora do versionado) de proposito: promover a `tools/` e'
 decisao do dono, nao desta rodada.
 
+As duas provas de EXECUCAO desta tarefa **nao** ficam em `scratch/`: elas sao versionadas, para
+poderem ser lidas por quem revisar o repositorio sem a bancada - `docs/automacao/REPO-PRIV-prova-ferramentas.txt`
+(saida integral das 4 ferramentas da classe (b), secao 5.1) e `docs/automacao/REPO-PRIV-prova-audita.txt`
+(saida integral do gate de docs, secao 5.2). As duas sao REESCRITAS pelo gerador a cada execucao.
+
 ## 9. Estado final medido
 
 * **medicao POS-COMMIT** (medida na arvore entregue): **92** arquivos / **1111**
   ocorrencias do token, dos quais **4** arquivos / **27** ocorrencias vieram de
   cartoes PARALELOS depois do commit-base (secao 1). Nenhum arquivo desta entrega carrega o
   token - o entregavel nao reintroduz a identidade que ele trata.
-* **commit desta rodada:** o commit FILHO de `cfcb3f0 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)` (rodada 3: fecha o
-  achado B7 e o nit de durabilidade da revisao da rodada 2). Nada foi empurrado (sem `push`) e
-  o historico nao foi reescrito.
+* **commit desta rodada:** o filho de `6826924 REPO-PRIV-1 rodada 3: prova do gate de docs medida na arvore entregue (fecha o achado B7)` em `main` **com o assunto
+  "REPO-PRIV-1 rodada 4: ..."** (rodada 4: fecha o achado B8 e o nit de entrega da revisao da
+  rodada 3). O hash NAO esta escrito aqui de proposito: um documento nao consegue citar com
+  seguranca o commit que o contem - o hash nasce depois do `git commit` e muda a cada `--amend`
+  (foi o achado B8). A medicao e' `git log -1 --format='%H %P'` (o `%P` tem de devolver esse pai)
+  e `git log --format='%H %s' 6826924..main` (a primeira linha com esse assunto e' o commit
+  desta rodada). Nada foi empurrado (sem `push`) e o historico nao foi reescrito.
 * commit-base do TRABALHO (ancora deste censo): `96a6d60` - FIXO de proposito, porque cartoes
   paralelos commitam durante a rodada e o ponto de partida nao se move.
 * arquivos com o token de caminho: **152** em `96a6d60` -> **92** na arvore
@@ -533,10 +580,14 @@ decisao do dono, nao desta rodada.
 * `python tools/audita_docs.py`: `!! 12 PENDENCIAS` na arvore entregue -
   1 linha nova e ela e' do cartao PARALELO PKG-EN, **0 deste cartao**;
   saida integral versionada em `docs/automacao/REPO-PRIV-prova-audita.txt` (secao 5.2)
+* ferramentas da classe (b): o gerador **reexecuta as 4 a cada rodada**, exits `[0, 0, 0, 0]`,
+  e a saida integral fica versionada em `docs/automacao/REPO-PRIV-prova-ferramentas.txt`
+  (138 linhas) - e' o que a ENTREGA do cartao pede (secao 5.1)
 
 *Nao reescrevi historico, nao dei push, nao toquei em codigo de mod (so' na resolucao de
 caminho dos 4 scripts da classe (b) e no fallback de nome do kit15), nao alterei evidencia
 congelada e nao inventei ocorrencia: toda contagem desta pagina sai de
 `scratch/repopriv/*.json`, gerados pelos scripts de BANCADA de `scratch/` (pasta
 gitignored, fora do versionado - secao 8), e este documento e' ele proprio gerado por
-`scratch/repopriv/gera_entrega3.py`, que roda o gate de docs a cada execucao.*
+`scratch/repopriv/gera_entrega3.py`, que roda o gate de docs E as 4 ferramentas da classe (b) a
+cada execucao.*
