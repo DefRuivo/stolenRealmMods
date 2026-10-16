@@ -1,0 +1,30 @@
+== AUDITORIA EV-R2-NORMAL-b02-parte02 ==
+documento: C:/dev/stolen-realm/docs/automacao/EV-R2-NORMAL-b02-parte02.md
+fontes: eventos.json lote-Normal-v2.md eventos.schema.json catalogo-referencias.json
+
+CHECK A0.documento_existe                            PASS 
+CHECK A1.hashes_declarados                           PASS 4 declarados
+CHECK A2.hashes_conferem                             PASS 
+CHECK B1.total_20                                    PASS 
+CHECK B2.ordinais_21_40                              PASS 
+CHECK B3.categoria_normal                            PASS 
+CHECK B4.chaves_unicas_20                            PASS 
+CHECK B5.ids_unicos_20                               PASS 
+CHECK B6.ordinal_nao_e_path_id                       PASS ordem por secao difere de path_id crescente
+CHECK C1.secoes_no_documento                         PASS 
+CHECK C2.tabela_identidade_doc                       PASS 
+CHECK C3.titulos_lote_vs_eventos                     PASS 
+CHECK D1.jsonpath_existe                             PASS 19 propostas
+CHECK D2.antes_confere_com_fonte                     PASS 
+CHECK D3.depois_difere_de_antes                      PASS 
+CHECK E1.antes_depois_citados_no_doc                 PASS 19 propostas
+CHECK F1.20_vereditos_publicados                     PASS 
+CHECK F2.contagem_veredito_confere                   PASS {'MELHORAR': 11, 'MANTER': 9}
+CHECK F3.inventario_publicado                        PASS 
+CHECK G1.nulls_doc_igual_fonte                       PASS 492 caminhos
+CHECK G2.nulls_existem_e_sao_nulos                   PASS 
+CHECK H1.parte01_preservada                          PASS sha256 cbd464a551efb1420c0032c00c03ecbeee5933781f465a8a12d06c57ef046552
+CHECK H2.fonte_intacta_contagens                     PASS eventos=256 Normal=160 opcoes=404
+CHECK H3.sem_artefato_de_implementacao               PASS 
+
+TOTAL PASS 24 FAIL 0  (propostas auditadas: 19; NULL auditados: 492; refutacoes: 65)

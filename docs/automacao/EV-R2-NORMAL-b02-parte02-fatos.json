@@ -1,0 +1,3957 @@
+{
+ "range": [
+  21,
+  40
+ ],
+ "events": [
+  {
+   "ordinal": 21,
+   "chave": "resources.assets:2545552",
+   "id": "00336dd6-9e0d-4a6a-ae09-a285d9a259be",
+   "titulo": "Boss Fight - Roland",
+   "nome_asset": "Boss Fight - Roland",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 1,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "<color=#7f2b0a><b>Roland:</b></color> \"Go on!  Come at me and see what happens!\"",
+   "texto_len": 80,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545552,
+   "sha256": "7c81dd08ecda2c552e12018d13a3d7f3aea070ae6f1e7072ac27b130b538df19",
+   "caminhos_resource": [
+    "events/boss fight - roland"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Laugh",
+     "texto": "Fight the Bandit Boss and gain [o1a1_status].",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [
+          0
+         ],
+         "itens_rar": [
+          1,
+          2,
+          3
+         ],
+         "status": [
+          {
+           "chave": "resources.assets:2545422",
+           "nome": "Curse of the Reaper"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": "resources.assets:2544644",
+        "nome": "Boss Fight - Roland",
+        "tipo": "BattleInfo"
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Cower",
+     "texto": "Fight the Bandit Boss and gain [o2a1_status].",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545438",
+           "nome": "Endurance"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": "resources.assets:2544644",
+        "nome": "Boss Fight - Roland",
+        "tipo": "BattleInfo"
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 22,
+   "chave": "resources.assets:2545554",
+   "id": "959c1e65-17c3-4405-ab03-47aa9a326334",
+   "titulo": "Brawler's Brew",
+   "nome_asset": "Brawler's Brew",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 0,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "WaterTempleRuins",
+    "ForgottenMines",
+    "CastleGloom",
+    "Emberlands"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "Resting upon a wooden table is a flask filled with an iridescent potion, its glow a beacon amidst the surrounding gloom. Beside it, you find a tattered note scrawled in a spidery script: \"Blast! Can't see further than my own nose, Yet, I feel an undeniable surge of energy coursing through my veins.\r I'm blind as a bat, but I've the strength of a ogre!\"",
+   "texto_len": 354,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545554,
+   "sha256": "7b2e2bdccadf365a4a3054bb8a9f3d23e266bba3d5b7465e1491e5ebaf62781f",
+   "caminhos_resource": [
+    "events/brawler's brew"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 1,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Drink",
+     "texto": "Drink the potion.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "As [name] takes a hearty swig of the potion, [his] expression shifts from apprehension to surprise, and finally to delight. [his] eyes widen, [his] pupils dilate. \"Everything's gone all... fuzzy.\" ",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 3.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545414",
+           "nome": "Brawler's Brew"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "You imagine yourself a muscle-bound figure tripping over stones, or perhaps swinging at foes that were actually trees. You decide not to tempt fate.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": []
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 23,
+   "chave": "resources.assets:2545555",
+   "id": "9c907851-1c3e-4d43-9286-96559cbfda7f",
+   "titulo": "Carved Monolith",
+   "nome_asset": "Carved Monolith",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "FreewindForest"
+   ],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "A monolith, a colossal structure, hewn from pure obsidian towers over you. Carved into the heart of the obsidian is a single rune, a shape foreign to your knowledge. It shimmers with an emerald glow, casting an eerie radiance that pulses with arcane energy. The rune's light dances over the monolith, flowing like an ethereal stream over the obsidian surface, the sheer magic within it making the air buzz with power.",
+   "texto_len": 417,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545555,
+   "sha256": "551ab679d3521dde0065580480f499a63bf97c7f4d3471bbf7da9302cd2d9bb6",
+   "caminhos_resource": [
+    "events/carved monolith"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Activate the blessing",
+     "texto": "Press the palm of your hand upon the monolith.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "As soon as [name]'s fingers make contact, a surge of power washes over [him]. It feels as though a bolt of lightning has struck [his] very core. An alacrity that [he] had never experienced before fills [him].",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545417",
+           "nome": "Celerity"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Heal from the monolith",
+     "texto": "Draw the energy from the obsidian monolith.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "[name]'s fingers brushed against the smooth, cool surface of the obsidian monolith. A surge of energy courses through [his] veins, an electrifying connection that resonates deep within [his] being. The monolith's magic flows into [his] weary form, knitting together [his] wounds and revitalizing [his] spirit.",
+       "efeitos": [
+        {
+         "hp_max_pct": 50.0,
+         "mp_max_pct": 50.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 24,
+   "chave": "resources.assets:2545556",
+   "id": "2ce0dad6-cbb4-4b82-a5fc-5a8eaa096d16",
+   "titulo": "Carved Rune",
+   "nome_asset": "Carved Rune",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [],
+   "allowedTerrainTypes": [
+    "FreewindForest"
+   ],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 1,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "Both",
+   "full_release": "None",
+   "texto": "\n",
+   "texto_len": 1,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545556,
+   "sha256": "ba8b885d478c890b47daa60643a44d5f2095aeb8605e98798e2ae7b17957e70d",
+   "caminhos_resource": [
+    "events/carved rune"
+   ],
+   "n_opcoes": 1,
+   "n_acoes": 1,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Activate",
+     "texto": "Grants [o1a1_status].",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545380",
+           "nome": "Dexterity"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": [
+          {
+           "chave": null,
+           "nome": null
+          }
+         ]
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 25,
+   "chave": "resources.assets:2545560",
+   "id": "19b06250-69cc-41bb-9972-530129c41bf2",
+   "titulo": "Challenger's Gong",
+   "nome_asset": "Challenger's Gong",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "FrostwroughtMountain"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "Tall and gleaming, a gong stands as a sentinel of forgotten times, its radiant surface reflecting the shimmering sunlight. Forged with ancient craftsmanship and bearing the weight of forgotten legends, it calls out to those who dare to strike its resplendent surface. Its mighty clang reverberates through the mountains, carrying a challenge to all who have the audacity to accept. The call is irresistible, a siren's song beckoning warriors from near and far to test their mettle.",
+   "texto_len": 481,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545560,
+   "sha256": "b1e3e322ff0cb1c68470bc97548447ae6948883b3f2924f2793e8f60daa2ff2a",
+   "caminhos_resource": [
+    "events/challenger's gong"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Strike",
+     "texto": "Ring the gong and issue a challenge.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You reach out, hesitant yet resolute, to strike the gong with a weathered mallet that lay beside it. The resounding clang reverberates through the snowy peaks, resonating with an otherworldly power that shakes the very foundation of your soul.\n",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "The fear of the unknown grips your spirit, casting doubt upon your resolve.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 26,
+   "chave": "resources.assets:2545562",
+   "id": "cc9cedb8-b215-4800-b84e-f96c1993fcd3",
+   "titulo": "Cursed Chest",
+   "nome_asset": "Cursed Chest",
+   "categoria": "Normal",
+   "raridade_valor": 2,
+   "raridade_nome": "Rare",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 3,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "CastleGloom",
+    "ForgottenMines",
+    "SunkenSwamplands",
+    "DwarvenHalls"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "ForgottenMines",
+    "CastleGloom",
+    "DwarvenHalls",
+    "SunkenSwamplands"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "You stumble upon a <indigo><b><incr>Cursed Chest</incr></b></indigo>, a grotesque artifact held together by rotting wood and bound by the spine of some poor, unfortunate creature.\n\nThe chest exudes an aura of decay, as if its very existence was tainted by a foul presence. The wood, once sturdy and proud, now warped and decayed, bares the weight of forgotten sorrows. Its presence alone foretells a tale of woe and warns of the dangers that lay within.",
+   "texto_len": 453,
+   "texto_resultados_possiveis": "What will you do?",
+   "origem_path_id": 2545562,
+   "sha256": "8f4b22817619c32879e781c4e5ab70170c737f52d7fc9f7ee217e9dccf723a73",
+   "caminhos_resource": [
+    "events/cursed chest"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Open",
+     "texto": "Attempt to open the chest.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 3,
+       "nome": "Intelligence"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 12,
+       "texto": "As you reach out to pry open its lid, the very earth beneath you quakes, and decaying hands of the undead emerge from the ground, clawing their way toward the surface.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 2.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+         ],
+         "itens_rar": [
+          2,
+          3,
+          4
+         ],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": "resources.assets:2544645",
+        "nome": "Cursed Chest Battle",
+        "tipo": "BattleInfo"
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 0,
+       "texto": "As you pry open its lid, a noxious fog envelops you causing you to cough and sputter. You gasp for fresh air, but you have no time to recover, the very earth beneath you quakes, and decaying hands of the undead emerge from the ground, clawing their way toward the surface.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 2.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+         ],
+         "itens_rar": [
+          2,
+          3,
+          4
+         ],
+         "status": [
+          {
+           "chave": "resources.assets:2545493",
+           "nome": "Cursed"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": "resources.assets:2544645",
+        "nome": "Cursed Chest Battle",
+        "tipo": "BattleInfo"
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "A chilling sense of foreboding grips your soul, and you leave the horror unknown.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": []
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 27,
+   "chave": "resources.assets:2545565",
+   "id": "4c984e21-93c7-4f85-b9dc-524df02adf00",
+   "titulo": "Cursed Chest",
+   "nome_asset": "Cursed Mimic Chest",
+   "categoria": "Normal",
+   "raridade_valor": 2,
+   "raridade_nome": "Rare",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 4,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "CastleGloom",
+    "ForgottenMines",
+    "SunkenSwamplands",
+    "DwarvenHalls"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "ForgottenMines",
+    "CastleGloom",
+    "DwarvenHalls",
+    "SunkenSwamplands"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "You stumble upon a <indigo><b><incr>Cursed Chest</incr></b></indigo>, a grotesque artifact held together by rotting wood and bound by the spine of some poor, unfortunate creature.\n\nThe chest exudes an aura of decay, as if its very existence was tainted by a foul presence. The wood, once sturdy and proud, now warped and decayed, bares the weight of forgotten sorrows. Its presence alone foretells a tale of woe and warns of the dangers that lay within.",
+   "texto_len": 453,
+   "texto_resultados_possiveis": "What will you do?",
+   "origem_path_id": 2545565,
+   "sha256": "ce41a0de26b8daeb0373533e364d569287c979cdc1d75ba4d4890cf219173d35",
+   "caminhos_resource": [
+    "events/cursed mimic chest"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 1,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Open",
+     "texto": "Open the chest.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 3,
+       "nome": "Intelligence"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "As the lid creaks open, the chest reveals its true nature—an abomination known as a <indigo><b><incr>Cursed Mimic</incr></b></indigo>. This mimic, more cunning and malefic than its common brethren, possesses an insidious intelligence that had been honed through dark sorceries and the corruption of ages. Its maw stretches wide, revealing rows of jagged, razor-sharp teeth, as it lunges forward with an unholy hunger.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 2.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+         ],
+         "itens_rar": [
+          2,
+          3,
+          4
+         ],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": "resources.assets:2544645",
+        "nome": "Cursed Chest Battle",
+        "tipo": "BattleInfo"
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "A chilling sense of foreboding grips your soul, and you leave the horror unknown.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": []
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 28,
+   "chave": "resources.assets:2545563",
+   "id": "6b49fc7c-abec-4c0c-8cba-3742c795ec50",
+   "titulo": "Cursed Clock",
+   "nome_asset": "Cursed Clock",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 3,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "CastleGloom"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "The dull chime of an old grandfather clock draws your attention. With every swing of its pendulum, the clock emits a soft, hypnotic tick—a melody that holds the power to ensnare the senses and entrap the unwary. You feel a supernatural force washing over you, like a thick fog seeping into your consciousness. Your eyes fixate upon the pendulum's graceful arc, your mind falling under its subtle spell.\n\nMinutes turn into hours, hours into days, as you stand entranced before the <indigo><b><incr>Cursed Clock</incr></b></indigo>.",
+   "texto_len": 530,
+   "texto_resultados_possiveis": "What will you do?",
+   "origem_path_id": 2545563,
+   "sha256": "cc4fd4c22fd7a756a429cc03031779717e48c779e4636a598e267c8faf96a246",
+   "caminhos_resource": [
+    "events/cursed clock"
+   ],
+   "n_opcoes": 1,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Pull Away",
+     "texto": "Attempt to break free from the enchantment.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 0,
+       "nome": "Might"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 8,
+       "texto": "A glimmer of awareness sparks within your heart. Clinging to the flickering flame of your inner strength, you refuse to surrender completely to the clock's beguilement. Finally, you summon the remnants of your resolve, breaking free from the clutches of the cursed enchantment.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": "Party",
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 0.5,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 1,
+       "texto": "You are caught completely in an eternal moment, lost in a suspended existence where the outside world ceases to exist. Your body weakens, your spirit wanes, as the curse tightens its grip upon you.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545501",
+           "nome": "Slowed"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[1].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 29,
+   "chave": "resources.assets:2545569",
+   "id": "4361a58d-cc5f-4507-a3a6-c4bc74ffaba7",
+   "titulo": "Cursed Tome",
+   "nome_asset": "Cursed Tome",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 3,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "CastleGloom"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "CastleGloom",
+    "DwarvenHalls",
+    "ForgottenMines",
+    "SunkenSwamplands"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "In this realm of forbidden knowledge and ancient magic, where the boundaries between reality and the eldritch blur, you stumble upon a <incr><indigo><b>Dark Tome</b></indigo></incr>, its weathered pages whispering a haunting melody of forbidden secrets. Its words slither into your ears, urging you to partake of its forbidden wisdom.",
+   "texto_len": 334,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545569,
+   "sha256": "dc037a97c9641685d5c3234ae36217091be6dfbfff712f4f0333168b923b6dd5",
+   "caminhos_resource": [
+    "events/cursed tome"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Read",
+     "texto": "Read from the Cursed Tome.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "With trepidation, you open the cursed tome and begin to read aloud from its cursed pages. Your voice, distorted from the horrid language inscribed within, fills the chamber, and as the words spill forth, a dread silence descends upon the room. Shadows coalesce and twist, giving shape to the darkness itself.\n\nFrom the depths of the void, undead creatures emerge, their spectral forms materializing before your very eyes.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545493",
+           "nome": "Cursed"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": true,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "You sense the lurking malevolence within its very essence, so, you resist the book's enticement, your hands withdrawing from its seemingly inviting embrace.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 30,
+   "chave": "resources.assets:2545572",
+   "id": "385b8352-0189-42e2-905c-ee6b0dae867e",
+   "titulo": "Dark Discoveries",
+   "nome_asset": "Dark Discoveries",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 3,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "SunkenSwamplands"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "CastleGloom"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "The powerful and tormented figure of <blue><b><incr>The Necromancer</incr></b></blue> greets you:\n\n\"Brave souls, I beseech you. I stand before you, burdened by the consequences of my actions. In my pursuit of knowledge and power, a few of my undead experiments have escaped my control, their wretched forms bloated with the tormented souls of the damned. I require aid to release those souls so I may reclaim them.\"\n\n\"I offer more than a mere reward for your service. I possess knowledge, ancient and profound, that can unlock the mysteries of the arcane. With my guidance, you shall wield powers beyond mortal comprehension.\"",
+   "texto_len": 626,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545572,
+   "sha256": "dd248b24fbb6f799f526d1300e8a2ac673885d00819a5335c376c5bda8f9f532",
+   "caminhos_resource": [
+    "events/dark discoveries"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Accept",
+     "texto": "Agree to help <b><blue>The Necromancer</blue></b>.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "\"With your aid, the souls of the damned shall be reclaimed, and you shall rise as practitioners of the arcane, wielding a power that can change the Stolen Realm.\"",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545510",
+           "nome": "Dark Discoveries"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "Knowing the darkness that surrounds such endeavors, you refuse to help.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "She nods her head in understanding.\n\n\"Be careful, there are many horrors that dwell in the dark.\"",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 31,
+   "chave": "resources.assets:2545573",
+   "id": "03048d72-af64-4337-8ae9-7475981d36e5",
+   "titulo": "Dead Adventurer",
+   "nome_asset": "Dead Adventurer",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 1,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "The yearning ghost extends her hand pleading for help.",
+   "texto_len": 54,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545573,
+   "sha256": "365632d95be00436c835d4aaabdda7de861741c8198f2369c1228ad59815b418",
+   "caminhos_resource": [
+    "events/dead adventurer"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Reach",
+     "texto": "You reach out to the ghost. Gain [o1a1_status].",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You reach out, but your hand passes through cold air. Memories flood your mind and longing fills your heart.\n\nYou gain [o1a1_status].",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545439",
+           "nome": "Ethereal"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "The chill in the air causes you to hesitate. You leave without helping.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You leave, but the ghost's disappointment haunts your dreams.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 32,
+   "chave": "resources.assets:2545576",
+   "id": "31c21c13-d1fb-4be8-9d45-299dbad44e9e",
+   "titulo": "Desecrated Statue of the First Mountain King",
+   "nome_asset": "Desecrated Statue of the First Mountain King",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 3,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "DwarvenHalls"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "In the heart of these ancient ruins, you stumble upon a sight as awe-inspiring as it is tragic - a statue of a dwarven king, sculpted with meticulous precision from pure gold. Once resplendent and majestic, the statue is now a hollow echo of its former grandeur. It bares the telltale signs of looting, the handiwork of goblins all too clear in the crude scars and scratches that marred its surface.\n\nThe once-noble features of the dwarven king were missing, the statue's head severed from its body. It lay at the base of the statue, its golden eyes gazing up at the heroes with a strange sort of melancholy. As you approach, a voice echoes out from the decapitated head:\n\n\"Well, well, what have we here? A ragtag bunch of adventurers? Come to witness the sorry state of this once majestic form? 'Tis I, the great Mountain King, turned into naught but a pile of rubble by those wretched goblins!\"\n\n\"I demand justice, I say!\"\n\n\"Retrieve me, in all my golden glory, and return me to the halls of my ancestors. Let those goblins quake with fear at the sight of the First Mountain King once more!\"\n",
+   "texto_len": 1094,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545576,
+   "sha256": "23f9c8d8d8927b82bd66e003ce2effed4778f4e47553242a3914521f956c3023",
+   "caminhos_resource": [
+    "events/desecrated statue of the first mountain king"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Accept",
+     "texto": "Bring justice to the gold lootin' goblins.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You agree to help and dwarvish laughter rings in your ears. \n\n\"They will rue the day!\"",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545511",
+           "nome": "Dwarf Rage!"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Loot",
+     "texto": "Take what's left.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You pick up the <gold><b><incr>Gold Statue Head</incr></b></gold> thoughtfully. \n\n\"Oh, You wouldn't  dare!\"\n\nThe voice muffles as you stuff the <gold><b><incr>Gold Statue Head</incr></b></gold> deep into your bag.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": true,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 0,
+         "itens_tabelas": 1,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 33,
+   "chave": "resources.assets:2545577",
+   "id": "06f45978-e4ec-44bf-b216-cd3c84686572",
+   "titulo": "Disturbing Diner",
+   "nome_asset": "Disturbing Diner",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "CastleGloom",
+    "SunkenSwamplands"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "There stands a man before you as chilling as the frosty winds of Frostwrought Mountain. A towering figure, with a burlap sack pulled down tightly over his head and a horrifying apron, spotted with deep crimson stains, wrapped around his broad chest.\n\n\"Good eve,\" he rasps, his voice like gravel and smoke. \"Are you in need of sustenance?\"\n\nThe man extends a gnarled hand, presenting a trio of dishes, each more horrifying than the last.\n\nFirst, a bubbling, steaming cauldron of a soup, its murky surface breaking to reveal human hands, fingers curled as though grasping for escape. Next, a plate of what seems to be oversized cockroaches, their bodies crisp and their wings crackling as if recently deep-fried. And finally, a platter bearing a single, massive, dark purple tentacle. It twitches, even in its cooked state, muscles rippling under its suckered skin, making the dish appear as though it was still alive.",
+   "texto_len": 916,
+   "texto_resultados_possiveis": "The man remains silent, watching with disturbing patience for you to choose.",
+   "origem_path_id": 2545577,
+   "sha256": "8e803f5d3d720c229dd6534562419f95def8db73f92af0ba1cae62f2ec6f8401",
+   "caminhos_resource": [
+    "events/disturbing diner"
+   ],
+   "n_opcoes": 3,
+   "n_acoes": 3,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Crusty Cockroach",
+     "texto": "The cockroach, easily as long as a dagger, gleams in the light. Its chitinous shell is a deep brown, speckled with a dusting of spices. ",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 2,
+       "nome": "Vitality"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "The initial crunch of the shell is followed by a burst of flavors, wildly contrasting the horrifying appearance of the dish. There is a nutty sweetness to it, counteracted by a savory note that is strangely pleasing. The texture is akin to a perfectly roasted poultry, the shell providing a sharp, crispy contrast to the succulent flesh within.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 0.5,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545403",
+           "nome": "Well Fed: Stats"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Hand Soup",
+     "texto": "A dark, brooding broth, the soup has an ethereal quality, swirls of steam dance above it. Peeking out of the opaque depths are the human hands, boiled down to the bone, the eerie spectacle almost hypnotic. ",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 4,
+       "nome": "Reflex"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "The broth is rich and hearty, filled with flavors of earthy roots, a hint of the sea, and something slightly metallic. It is, to your surprise, pleasantly palatable, offering an unusual array of tastes and sensations. The bones themselves are another experience entirely. Crunchy and delicate, they give way easily, revealing the tenderness of the marrow within. It is soft and rich, with a creamy, almost buttery texture that belied its grim origins.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 0.5,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545404",
+           "nome": "Well Fed: Treasure"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 3,
+     "titulo": "Twitching Tentacle",
+     "texto": "The tentacle's slick surface is adorned with rows of suckers. Every few seconds, it twitches, the muscle memory of the creature it once belonged to asserting itself in death.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 1,
+       "nome": "Dexterity"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "It is chewy, the texture similar to calamari but somehow more intense, more primal. The flavor that exploded in your mouth is unexpectedly delicate – an amalgamation of the sea and the earth, a unique savoriness tinged with a briny sweetness.\r\n\r\nThe twitching sensation is a bit disconcerting but, remarkably, it doesn't detract from the experience. It felt almost alive in your mouth, a strange dance that adds an unexpected layer of texture to the meal.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 0.5,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545402",
+           "nome": "Well Fed:  Experience"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[2].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[2].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[2].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[2].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[2].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[2].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[2].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[2].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[2].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[2].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[2].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[2].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[2].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 34,
+   "chave": "resources.assets:2545578",
+   "id": "5777d2ca-8fca-485d-92c8-239f6da0e8a4",
+   "titulo": "Dwarven Drinking Contest",
+   "nome_asset": "Dwarven Drinking Contest",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 1,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "The yearning ghost extends her hand pleading for help.",
+   "texto_len": 54,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545578,
+   "sha256": "2b0bd974e88e2dd3afa68c1a08a9bd0b9930726abab25a5693944d57368229e0",
+   "caminhos_resource": [
+    "events/dwarven drinking contest"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Reach",
+     "texto": "You reach out to the ghost. Gain [o1a1_status].",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You reach out, but your hand passes through cold air. Memories flood your mind and longing fills your heart.\n\nYou gain [o1a1_status].",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545439",
+           "nome": "Ethereal"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "The chill in the air causes you to hesitate. You leave without helping.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You leave, but the ghost's disappointment haunts your dreams.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 35,
+   "chave": "resources.assets:2545579",
+   "id": "7b6c58f0-2671-429e-9807-780a7695d9d8",
+   "titulo": "Dwarven Sentry Wall",
+   "nome_asset": "Dwarven Sentry Wall",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "ForgottenMines",
+    "DwarvenHalls"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "In the flickering light, you behold a colossal barrier, a monument to the dwarves' rocky resilience. Hewn directly from solid bedrock and crafted into the stone visage of a bearded dwarf. A gruff voice calls out at your approach:\n\n\"Aye. And who might ye be? Ye look no dwarf to me.\"\n\nDwarven sentries are notorious for their lack of hospitality to those not of their own. Best to play the part.\n",
+   "texto_len": 395,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545579,
+   "sha256": "0da4075b0819d99283d1d07a5f042453636e05576af93d244d5be7a6419060c3",
+   "caminhos_resource": [
+    "events/dwarven sentry wall"
+   ],
+   "n_opcoes": 1,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Act",
+     "texto": "Do your best impression of a dwarf.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 3,
+       "nome": "Intelligence"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 10,
+       "texto": "\"An' just what is the meaning of this?\" [name] thunders, [his] words ringing out with surprising power. \"Aren't we all children of the stone? By the spirits of the forge, ye should be ashamed, treating kin in such a manner!\"\n\nThe dwarven sentry quitely apologizes and allows you safe passage.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": "Party",
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 1,
+       "texto": "\"Oh. Aye, I'm definitely a dwarf. I be short and angry!\" [name] shouts in pretend indignation.\n\nThe ground beneath you begins to rumble ominously. The massive stone beard of the dwarf statue shifts, the intricately carved mouth slides open to reveal a gaping chasm.\r Suddenly, a torrent of molten steel cascades forth from the dwarf's mouth, the bright, liquid fire spilling out onto the ground before you!",
+       "efeitos": [
+        {
+         "hp_max_pct": -30.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": "Party",
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545499",
+           "nome": "Severely Burned"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[1].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 36,
+   "chave": "resources.assets:2545580",
+   "id": "534013a8-7402-4b00-95aa-dbd337d35ccf",
+   "titulo": "Dwarven Tomb",
+   "nome_asset": "Dwarven Tomb",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "DwarvenHalls",
+    "ForgottenMines"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "DwarvenHalls",
+    "CastleGloom"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "Deep within the winding tunnels of the ancient dwarven halls, you discover a chamber of remarkable grandeur. Its heart holds a dwarven sarcophagus, a marvel of stonemasonry that commands your awe and reverence. Intricately chiseled from solid granite, it is adorned with a cascade of dwarven runes, their angular forms whispering tales of valor and lineage etched into the cold stone.\n",
+   "texto_len": 385,
+   "texto_resultados_possiveis": "What will you do?",
+   "origem_path_id": 2545580,
+   "sha256": "c5d450791f03749a83b90d1a555ee1ba3f26a47d691d84edc17454110f294a9c",
+   "caminhos_resource": [
+    "events/dwarven tomb"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 3,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Loot",
+     "texto": "Remove the stone lid and take what you can.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 0,
+       "nome": "Might"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 16,
+       "texto": "You push hard against the heavy stone lid and it slowly begins to open.\n\nResting reverently in the hands of the long dead dwarf is an object that seems untouched by the passage of time: a finely crafted dwarven horn.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545448",
+           "nome": "Horn of Devotion"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 1,
+       "texto": "You push against the heavy stone lid with all your might, but its of no use.\n\nThe sarcophagus will remain undisturbed.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545504",
+           "nome": "Weakened"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Pay Respect",
+     "texto": "Whatever this soul did in life, they deserve the peace of death.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "As you place your hand on the Tomb in reverence, a sudden loud click, shatters the silence. The sarcophagus lid shifts and opens, releasing a cloud of ancient dust. \n\nResting reverently in the hands of the long dead dwarf is an object that seems untouched by the passage of time: a finely crafted dwarven horn.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545448",
+           "nome": "Horn of Devotion"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[1].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 37,
+   "chave": "resources.assets:2545581",
+   "id": "7022fe7d-f9fb-4407-82ef-4e10f5d45d68",
+   "titulo": "Dwarven Tribute",
+   "nome_asset": "Dwarven Tribute",
+   "categoria": "Normal",
+   "raridade_valor": 3,
+   "raridade_nome": "Legendary",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 4,
+   "allowedNodeTypes": [
+    "Treasure"
+   ],
+   "allowedTerrainTypes": [
+    "ForgottenMines"
+   ],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 0,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "Both",
+   "full_release": "None",
+   "texto": "",
+   "texto_len": 0,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545581,
+   "sha256": "b88d63eee2976eda19a68254723c59bd4862cf8973abedfabac9b4e4b935b5d3",
+   "caminhos_resource": [
+    "events/dwarven tribute"
+   ],
+   "n_opcoes": 1,
+   "n_acoes": 1,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Open",
+     "texto": "",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 0.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": true,
+         "itens_pool": "None",
+         "itens_qtd": 1,
+         "itens_tabelas": 1,
+         "itens_tipos": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          7
+         ],
+         "itens_rar": [
+          1,
+          2
+         ],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 38,
+   "chave": "resources.assets:2545582",
+   "id": "4af726e7-657e-403a-883b-e3221fdd700c",
+   "titulo": "Edwin's Demise",
+   "nome_asset": "Edwin's Demise",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "WaterTempleRuins",
+    "CastleGloom",
+    "DwarvenHalls"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 1,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 1,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [
+    "WaterTempleRuins",
+    "ForgottenMines",
+    "CastleGloom",
+    "Emberlands"
+   ],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": " On a worn table lays a spellbook, its pages yellowed with age, its spine fragile and cracked. Its cover was worn and tattered, suggestive of the countless fingers that had turned its pages, and the innumerable years it has weathered. Parts of the book had been damaged or lost over time, leaving behind an incomplete narrative, like a puzzle missing several pieces:\n\n\"---- there are tales woven with the threads of glory and tragedy alike. Such is the tale of Edwin an unremarkable lad, a mere acolyte of the most basic magics. His journey to fame was as surprising as it was sudden ---- enchantment granted him immense power by ---- a steep price that Edwin willingly paid for the allure of newfound abilities ---- His demonstrations of power quickly catapulted him into fame, attracting vast crowds eager to witness his spectacular displays of magic. Yet ---- The climax of Edwin's tragic tale occurred on a grand stage where he attempted to manifest an impressive display ---- In summary, Edwin's tale is a stark warning about the dangers of unchecked ambition and the dire consequences of misusing power. Infact, only a fool ----\"\n\nThe rest of the page is illegible. However, instructions to cast Edwin's Enchantment are perfectly clear on the page beside it.\n\n",
+   "texto_len": 1266,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545582,
+   "sha256": "4323c60557614e358cbca64276e6c899c4b7854a34fb0381d4d17a5162d70901",
+   "caminhos_resource": [
+    "events/edwin's demise"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Cast",
+     "texto": "Attempt to cast the enchantment.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 3,
+       "nome": "Intelligence"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 12,
+       "texto": "[name] begins reciting the incantation, [his] voice steady, [his] gaze focused. The words fill the chamber, imbued with an ancient power.\n\nAs [he] finishes, [he] feels a tingle of energy stirring within [him], like a flame sparked from the strike of a flint. It builds gradually, an inner warmth growing brighter, more intense. It is [his] life force, [his] very essence, being drawn forth, called upon to fuel [his] magic..",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 3.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545429",
+           "nome": "Edwin's Enchantment"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 1,
+       "texto": "[name] begins reciting the incantation, [his] voice steady, [his] gaze focused. The words fill the chamber, imbued with an ancient power.\n\nBut instead of a burgeoning glow, there is only a fizzling spark. The warmth that was supposed to well up within [him] never came. Instead, a cold numbness spreads through [his] veins. [his] heart pounding in [his] chest, fear pricking [him] like a thousand icy needles.",
+       "efeitos": [
+        {
+         "hp_max_pct": -30.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545491",
+           "nome": "Confused"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Leave",
+     "texto": "You think better of fleeting fame.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": []
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[1].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 39,
+   "chave": "resources.assets:2545583",
+   "id": "2779cca5-013a-4bbc-ba32-e7d25ef7c8b7",
+   "titulo": "Elder Tree",
+   "nome_asset": "Elder Tree",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [
+    "FreewindForest"
+   ],
+   "allowOnAllTerrainTypes": 0,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "A massive <green><b><incr>Elder Tree</incr></b></green> grows here. Its giant body formed not only of wood but of living stone and ore. All around it life seems to flourish as if it were the very heart of the forest.\n\nYou stumble upon an entity as old as time itself: the <green><b><incr>Elder Tree</incr></b></green>. It stands regal and magnificent, its massive trunk adorned with the etchings of time, its gnarled boughs stretching out like the arms of a benevolent giant.\n\nThe air around it hums with an ancient magic, a soothing hum that permeates your senses and seems to soften the edges of the world. A sense of profound tranquility seems to blanket the area around the tree, a bubble of peace amidst the trials of your journey. The tree's aura washes over you, melting away your fatigue, soothing your aches, and calming your mind.",
+   "texto_len": 840,
+   "texto_resultados_possiveis": "",
+   "origem_path_id": 2545583,
+   "sha256": "7726757770037320fd782091ff9422fa4b42c91fb292e1668b7529300a6978c1",
+   "caminhos_resource": [
+    "events/elder tree"
+   ],
+   "n_opcoes": 2,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Rest",
+     "texto": " Enjoy the tranquility the Elder Tree brings.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "You gratefully settle beneath the tree's boughs, your body sinking into the carpet of moss that had grown around the tree's base. As you do, you can feel the lingering energy from the tree seeping into you, mending your wounds and restoring your strength. It is as if the Elder Tree is sharing its vitality, a sacred bond forged between you.",
+       "efeitos": [
+        {
+         "hp_max_pct": 100.0,
+         "mp_max_pct": 100.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    },
+    {
+     "indice": 2,
+     "titulo": "Eat",
+     "texto": "Take fruit from the Elder Tree.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 0,
+       "texto": "As you bite into the radiant fruit, memories not your own flood your mind. You taste the crispness of the dawn, the warmth of countless suns, the whisper of falling rain. You experience the changing seasons, the passage of time, and the endless dance of life and death that the tree had borne witness to. You taste joy and sorrow, the timeless struggle of the forest, and the serene acceptance of the natural cycle.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 2.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[1].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[1].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[1].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[1].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[1].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[1].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[1].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[1].recompensas[0].padrao[0].status.resultado_sorteado"
+   ]
+  },
+  {
+   "ordinal": 40,
+   "chave": "resources.assets:2545584",
+   "id": "b0370015-64ef-4d3c-ac98-d2468992d12d",
+   "titulo": "Enchanted Axe",
+   "nome_asset": "Enchanted Axe",
+   "categoria": "Normal",
+   "raridade_valor": 0,
+   "raridade_nome": "Common",
+   "peso": 1.0,
+   "pool": [
+    "Normal"
+   ],
+   "disabled": 0,
+   "minLevel": 1,
+   "allowedNodeTypes": [
+    "Event"
+   ],
+   "allowedTerrainTypes": [],
+   "allowOnAllTerrainTypes": 1,
+   "allowAtAllTimesOfDay": 1,
+   "allowedTimeOfDay": 0,
+   "allowAtAllLevels": 1,
+   "isLesserEvent": 0,
+   "LeadsToFortune": 0,
+   "KeepInDeckWhenUsed": 0,
+   "requiredStatusesToSpawn": [],
+   "terrainTypesAllowedAtAnyTime": [],
+   "modos": [
+    "Campaign",
+    "Roguelike"
+   ],
+   "historia": "NonStoryOnly",
+   "full_release": "None",
+   "texto": "A colossal axe swings like a pendulum with a force that belies the absence of any hand to wield it, a sentinel denying you passage. It's clear an enchantment lies upon it, old magic, fashioned to keep intruders at bay.\n\nSomeone will have to disrupt the magic to ensure safe passage.\n",
+   "texto_len": 283,
+   "texto_resultados_possiveis": "Who will attempt to disrupt the magic?",
+   "origem_path_id": 2545584,
+   "sha256": "02ba72eb1c8f3afcc4ddcb944a38805c814421ba45b0b8b8669b61f90e175cfb",
+   "caminhos_resource": [
+    "events/enchanted axe"
+   ],
+   "n_opcoes": 1,
+   "n_acoes": 2,
+   "opcoes": [
+    {
+     "indice": 1,
+     "titulo": "Disrupt",
+     "texto": "Use your knowledge of the arcane to dispel the enchantment.",
+     "status_requeridos": [],
+     "ocultar_sem_requisitos": false,
+     "ocultar_se_status": [],
+     "rolagem_bonus": [
+      {
+       "valor": 1,
+       "nome": "Dexterity"
+      }
+     ],
+     "rolagem_misteriosa": false,
+     "acoes": [
+      {
+       "indice": 1,
+       "resultado": "Success",
+       "limite_rolagem": 10,
+       "texto": "[name] whispers the words of an incantation.\n\nSuddenly, the axe's swing began to slow, its unerring rhythm disrupted by magic. The once unstoppable axe comes to a complete halt, hanging motionless in the air. The path is clear.\n\n",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": "Party",
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": true,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      },
+      {
+       "indice": 2,
+       "resultado": "Failure",
+       "limite_rolagem": 1,
+       "texto": "[name] whispers the words of an incantation.\n\nFor a moment, it seems as though the axe slows in its swing. But then, with a resonant hum, it continues its rhythmic arc, the powerful magic refusing to yield.",
+       "efeitos": [
+        {
+         "hp_max_pct": 0.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": "Party",
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 0.5,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        },
+        {
+         "hp_max_pct": -20.0,
+         "mp_max_pct": 0.0,
+         "alvo_default": "Self",
+         "alvo_override": null,
+         "ouro_dar": false,
+         "ouro_razao": 1.0,
+         "ouro_retirar": false,
+         "xp_dar": false,
+         "xp_razao": 1.0,
+         "itens_dar": false,
+         "itens_pool": "Unassigned",
+         "itens_qtd": 1,
+         "itens_tabelas": 0,
+         "itens_tipos": [],
+         "itens_rar": [],
+         "status": [
+          {
+           "chave": "resources.assets:2545497",
+           "nome": "Mortally Wounded"
+          }
+         ],
+         "status_sortear": false,
+         "skills": [],
+         "remocoes": []
+        }
+       ],
+       "batalha_iniciar": false,
+       "batalha_ref": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "evento_encadeado": {
+        "chave": null,
+        "nome": null,
+        "tipo": null
+       },
+       "overrides": 0
+      }
+     ]
+    }
+   ],
+   "nulls": [
+    "$.opcoes[0].efeitos[0].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[0].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[0].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[0].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[0].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[0].evento_encadeado.nome",
+    "$.opcoes[0].efeitos[1].batalha.dados_recompensa_final",
+    "$.opcoes[0].efeitos[1].batalha.referencia.chave",
+    "$.opcoes[0].efeitos[1].batalha.referencia.nome",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[0].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].efeitos[1].recompensas.experiencia.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[1].recompensas.itens.sorteio_final",
+    "$.opcoes[0].efeitos[1].efeitos[1].recompensas.ouro.quantidade_final",
+    "$.opcoes[0].efeitos[1].efeitos[1].recompensas.status.resultado_sorteado",
+    "$.opcoes[0].efeitos[1].evento_encadeado.chave",
+    "$.opcoes[0].efeitos[1].evento_encadeado.nome",
+    "$.opcoes[0].recompensas[0].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[0].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[0].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[0].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[0].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[0].status.resultado_sorteado",
+    "$.opcoes[0].recompensas[1].padrao[1].experiencia.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[1].itens.sorteio_final",
+    "$.opcoes[0].recompensas[1].padrao[1].ouro.quantidade_final",
+    "$.opcoes[0].recompensas[1].padrao[1].status.resultado_sorteado"
+   ]
+  }
+ ],
+ "agregados": {
+  "eventos": 20,
+  "chaves_unicas": 20,
+  "ids_unicos": 20,
+  "opcoes_total": 36,
+  "acoes_total": 38,
+  "acoes_success": 32,
+  "acoes_failure": 6,
+  "sem_narrativa": [
+   24,
+   37
+  ],
+  "disabled": [
+   21,
+   31,
+   34
+  ],
+  "uma_opcao": [
+   24,
+   28,
+   35,
+   37,
+   40
+  ],
+  "com_failure": [
+   26,
+   28,
+   35,
+   36,
+   38,
+   40
+  ],
+  "com_rolagem": [
+   26,
+   27,
+   28,
+   33,
+   35,
+   36,
+   38,
+   40
+  ],
+  "rolagem_sem_failure": [
+   27,
+   33
+  ],
+  "leads_to_fortune": [
+   21,
+   22,
+   23,
+   25,
+   27,
+   29,
+   31,
+   34,
+   36,
+   38
+  ],
+  "raridade": {
+   "Common": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    38,
+    39,
+    40
+   ],
+   "Rare": [
+    26,
+    27
+   ],
+   "Legendary": [
+    37
+   ]
+  },
+  "peso": {
+   "1.0": [
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29,
+    30,
+    31,
+    32,
+    33,
+    34,
+    35,
+    36,
+    37,
+    38,
+    39,
+    40
+   ]
+  },
+  "nulls_total": 492,
+  "inicia_batalha": [
+   21,
+   25,
+   26,
+   27,
+   29
+  ],
+  "emite_status": [
+   21,
+   22,
+   23,
+   24,
+   26,
+   28,
+   29,
+   30,
+   31,
+   32,
+   33,
+   34,
+   35,
+   36,
+   38,
+   40
+  ],
+  "da_item": [
+   32,
+   37
+  ],
+  "da_xp": [
+   28,
+   33,
+   35,
+   39,
+   40
+  ],
+  "da_ouro": [],
+  "acao_sem_texto": [
+   21,
+   24,
+   25,
+   29,
+   37
+  ],
+  "opcao_sem_texto": [
+   37
+  ],
+  "com_status_requerido": [],
+  "batalha_sem_ref": [
+   25,
+   29
+  ],
+  "nulos_por_ordinal": {
+   "21": 22,
+   "22": 13,
+   "23": 26,
+   "24": 13,
+   "25": 26,
+   "26": 22,
+   "27": 11,
+   "28": 26,
+   "29": 26,
+   "30": 26,
+   "31": 26,
+   "32": 26,
+   "33": 39,
+   "34": 26,
+   "35": 26,
+   "36": 39,
+   "37": 13,
+   "38": 26,
+   "39": 26,
+   "40": 34
+  }
+ }
+}

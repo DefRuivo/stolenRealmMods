@@ -1,0 +1,78 @@
+{
+  "testes_executados": 28,
+  "falhas": 0,
+  "erros": 0,
+  "sucesso": true,
+  "saida_real": "test_01_scope_order_unique (__main__.Checks.test_01_scope_order_unique) ... ok\ntest_02_full_contract (__main__.Checks.test_02_full_contract) ... ok\ntest_03_snapshot_exact (__main__.Checks.test_03_snapshot_exact) ... ok\ntest_04_sources_unchanged (__main__.Checks.test_04_sources_unchanged) ... ok\ntest_05_catalog_exact_provenance (__main__.Checks.test_05_catalog_exact_provenance) ... ok\ntest_06_historical_crlf_only (__main__.Checks.test_06_historical_crlf_only) ... ok\ntest_07_literal_before_original_mirrors (__main__.Checks.test_07_literal_before_original_mirrors) ... ok\ntest_08_proposals_in_markdown (__main__.Checks.test_08_proposals_in_markdown) ... ok\ntest_09_metadata_inventories (__main__.Checks.test_09_metadata_inventories) ... ok\ntest_10_counts_independent (__main__.Checks.test_10_counts_independent) ... ok\ntest_11_null_counts_partition (__main__.Checks.test_11_null_counts_partition) ... ok\ntest_12_no_rewards_or_conditions_changes (__main__.Checks.test_12_no_rewards_or_conditions_changes) ... ok\ntest_13_no_hidden_options_or_overrides (__main__.Checks.test_13_no_hidden_options_or_overrides) ... ok\ntest_14_three_no_options_epilogues (__main__.Checks.test_14_three_no_options_epilogues) ... ok\ntest_15_disabled_variants_preserved (__main__.Checks.test_15_disabled_variants_preserved) ... ok\ntest_16_failure_loop_and_empty_effects (__main__.Checks.test_16_failure_loop_and_empty_effects) ... ok\ntest_17_residual_battle_not_activation (__main__.Checks.test_17_residual_battle_not_activation) ... ok\ntest_18_catalog_snapshot_consistency (__main__.Checks.test_18_catalog_snapshot_consistency) ... ok\ntest_19_incoming_exact_independent_scan (__main__.Checks.test_19_incoming_exact_independent_scan) ... ok\ntest_20_empty_fields_and_pptr_counts (__main__.Checks.test_20_empty_fields_and_pptr_counts) ... ok\ntest_21_english_and_tokens_preserved (__main__.Checks.test_21_english_and_tokens_preserved) ... ok\ntest_22_human_pending_limits (__main__.Checks.test_22_human_pending_limits) ... ok\ntest_23_negative_missing_event (__main__.Checks.test_23_negative_missing_event) ... ok\ntest_24_negative_fabricated_reward (__main__.Checks.test_24_negative_fabricated_reward) ... ok\ntest_25_negative_wrong_literal_before (__main__.Checks.test_25_negative_wrong_literal_before) ... ok\ntest_26_negative_missing_placeholder (__main__.Checks.test_26_negative_missing_placeholder) ... ok\ntest_27_negative_reward_path_proposal (__main__.Checks.test_27_negative_reward_path_proposal) ... ok\ntest_28_negative_reordered_key (__main__.Checks.test_28_negative_reordered_key) ... ok\n\n----------------------------------------------------------------------\nRan 28 tests in 0.822s\n\nOK\n",
+  "schema_integral": "NAO_EXERCITADO: biblioteca jsonschema indisponível; apenas contrato/asserções documentais próprias",
+  "runtime": "NAO_EXERCITADO: tarefa proíbe jogo",
+  "contagens_verificadas": {
+    "eventos": 21,
+    "MELHORAR_wording": 19,
+    "MANTER": 2,
+    "opcoes": 29,
+    "acoes": 28,
+    "overrides": 0,
+    "campos_propostos": 40,
+    "substituicoes": 43,
+    "nulls_com_motivo": 336,
+    "nulls_runtime": 244,
+    "nulls_referencia": 92,
+    "referencias_nulas_projetadas": 46,
+    "pptr_nulos_literais": 567,
+    "textos_vazios_auditados": 76,
+    "disabled_1": 2,
+    "eventos_sem_opcoes": 3,
+    "opcoes_ocultas_configuradas": 0,
+    "hideOptionEffectText_ativo": 0,
+    "prompts_deslocados_propostos": 17,
+    "referencias_entrantes_explicitas": 45,
+    "aprovacoes": 0,
+    "mudancas_recompensa": 0,
+    "mudancas_condicao": 0
+  },
+  "fontes_sha256": {
+    "C:\\dev\\stolen-realm\\docs\\cobertura\\EV-R1\\eventos.json": {
+      "sha256": "4a8decac7e98a2b0bf8692057a57789a71b94c230e3b9ca93817f039c86d1d13",
+      "bytes": 14343841
+    },
+    "C:\\dev\\stolen-realm\\docs\\cobertura\\EV-R1\\eventos.schema.json": {
+      "sha256": "6950ec43deba94143150f0584bb87ca5406b3ef16f1ae2f18ad8aa943a62b3bc",
+      "bytes": 7059
+    },
+    "C:\\dev\\stolen-realm\\docs\\cobertura\\EV-R1\\lote-NotInEventPool-v2.md": {
+      "sha256": "72c4ddba4ae8bf4bc50371bf2b207d26abff4525f4d79e7585c801beb37396e9",
+      "bytes": 514868
+    },
+    "C:\\dev\\stolen-realm\\docs\\cobertura\\EV-R1\\schema.md": {
+      "sha256": "a4e62045c51a57bd0eb3084a8c1fb8534b4bfc6303fe38e4a6896e1a96d34cfb",
+      "bytes": 8075
+    },
+    "C:\\dev\\stolen-realm\\docs\\cobertura\\EV-R1\\eventos-originais.json": {
+      "sha256": "e52bb7d0fd34a1cd48065f13c856b130103c3b8618c05db13820639750b27766",
+      "bytes": 2956196
+    },
+    "git:097f950:docs/cobertura/EV-R1/catalogo-referencias.json": {
+      "commit": "097f950677a02e964f7b43fc1b2998b8daa48c3c",
+      "blob": "4e2ea65540dab8acab2ee17aa4a63ad68780443f",
+      "sha256": "8a8d21d1721840e288f42480cb0f24aeac26292be7b01a6830384b4e3f983cfe",
+      "bytes": 26549924,
+      "registros": 2399,
+      "resumos": 3214
+    },
+    "historical_eventos_sha256": "a330439c16a17c73d42793ae84c11181ca42da9dbea2feaaa8c81233ca5015cb",
+    "historical_eventos_semantic_equal": true,
+    "historical_eventos_crlf_normalized_equal": true
+  },
+  "documentos_sha256": {
+    "EV-R2-FORAPOOL-b04-fontes-eventos.json": "85d40aa6ce509ffcdc39440b49a86119ad74c58ec4076d09d5f39e552c243159",
+    "EV-R2-FORAPOOL-b04-fontes-hashes.json": "593dd3b67e6bfced27525b73e21b34cda92f8fd405f5c294d6758b3f3fb82c5f",
+    "EV-R2-FORAPOOL-b04-parte01.md": "2841e69c73c127b4ad074e4c4c92ec9fe4d8dd24d0168f5ad7f128ea7ea81893",
+    "EV-R2-FORAPOOL-b04-parte02.md": "3980b8f210876d4c65d9651061f66badc4df6a57e298cdd954c83181f8b9300e",
+    "EV-R2-FORAPOOL-b04-parte03.md": "2c493139de0fb96d20945c266223cde088552aa47e2e4389f1d1c3f07a4533f7",
+    "EV-R2-FORAPOOL-b04-parte04.md": "9c8934f30d061ab84949842bceae4939e565e63f2bd7638380de949895001ae4",
+    "EV-R2-FORAPOOL-b04-parte05.md": "167904096926ec33c57f96337464ce0f44e24b2723cc7dbad737dbdfafa254ff",
+    "EV-R2-FORAPOOL-b04-propostas-auditadas.json": "031ad24fabd56177865d235470287495e0669c611b7896199b12bfe94c073606",
+    "EV-R2-FORAPOOL-b04-referencias-auditadas.json": "80553047b71a0b514d256ce5f0a377918753df68094d606aa85e2f3bda95b2a7"
+  }
+}

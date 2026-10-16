@@ -1,0 +1,83 @@
+{
+  "arquivo_count": 15,
+  "arquivos": [
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-fontes-eventos.json",
+      "sha256": "85d40aa6ce509ffcdc39440b49a86119ad74c58ec4076d09d5f39e552c243159",
+      "bytes": 936253
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-fontes-hashes.json",
+      "sha256": "593dd3b67e6bfced27525b73e21b34cda92f8fd405f5c294d6758b3f3fb82c5f",
+      "bytes": 1428
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte01.md",
+      "sha256": "2841e69c73c127b4ad074e4c4c92ec9fe4d8dd24d0168f5ad7f128ea7ea81893",
+      "bytes": 3423
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte02.md",
+      "sha256": "3980b8f210876d4c65d9651061f66badc4df6a57e298cdd954c83181f8b9300e",
+      "bytes": 82110
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte03.md",
+      "sha256": "2c493139de0fb96d20945c266223cde088552aa47e2e4389f1d1c3f07a4533f7",
+      "bytes": 110875
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte04.md",
+      "sha256": "9c8934f30d061ab84949842bceae4939e565e63f2bd7638380de949895001ae4",
+      "bytes": 83496
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte05.md",
+      "sha256": "167904096926ec33c57f96337464ce0f44e24b2723cc7dbad737dbdfafa254ff",
+      "bytes": 227237
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-parte06.md",
+      "sha256": "1a96d89bb5efeb3f0a2f60f4d639371410a81d775f9b789bc63a693cdf63acdb",
+      "bytes": 5285
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-propostas-auditadas.json",
+      "sha256": "031ad24fabd56177865d235470287495e0669c611b7896199b12bfe94c073606",
+      "bytes": 579713
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-referencias-auditadas.json",
+      "sha256": "80553047b71a0b514d256ce5f0a377918753df68094d606aa85e2f3bda95b2a7",
+      "bytes": 20156
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-repro-recibo.json",
+      "sha256": "ad9542f5e08f35392eedbd59dfd0567475dedde359b3215080e4022980333cf4",
+      "bytes": 428
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-validacao-repro.json",
+      "sha256": "caf3058aad2ae5f1809ef971f10807447e60160250ad478083f85ba260838a1e",
+      "bytes": 6195
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-validacao-reteste.json",
+      "sha256": "4c30dc6dbd32ce2dd0a1ecd2384d1caed7b380e9baf8ce89e6262d4963206a1c",
+      "bytes": 6195
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-validacao.json",
+      "sha256": "377ac58aeac4b5b2922248761e0a063125491e553f6ee23d2152ad3b2d1bc7e0",
+      "bytes": 6195
+    },
+    {
+      "path": "C:\\dev\\stolen-realm\\docs\\automacao\\EV-R2-FORAPOOL-b04-validar.py",
+      "sha256": "40c95284663dd368d830ae65e33e0b04d028c490e0ffaf29a4ef163367db099b",
+      "bytes": 13482
+    }
+  ],
+  "modo": "somente novos; criação exclusiva; cópia byte a byte por SHA-256",
+  "fonte_canonica_inalterada": true,
+  "commit": "NAO_REALIZADO: somente documentos novos; sem alteração de branch ou arquivos existentes"
+}

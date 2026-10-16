@@ -1,0 +1,39 @@
+== 1. Integridade das fontes ==
+PASS sha256 eventos.json :: 4a8decac7e98a2b0bf8692057a57789a71b94c230e3b9ca93817f039c86d1d13
+PASS sha256 lote-Normal-v2.md :: 83b30ada3d78e596b8c7c0784d5e741b43654b14ab02d5377d8a1b245b84f146
+PASS sha256 eventos.schema.json :: 6950ec43deba94143150f0584bb87ca5406b3ef16f1ae2f18ad8aa943a62b3bc
+PASS sha256 catalogo-referencias.json :: 94077cc887621933abe7bbbbd96e91c5a887478dba8fd000b8f4a4129c3745a5
+PASS parte01 (proposta reprovada) inalterada :: e65daa3413e18adc1d73b6272d936f8d7d593da83e90abfbb06c34f6aee530e9
+PASS parte02 não sobrescreve parte01
+== 2. Cobertura e identidade (20/20, ordem do JSON categoria Normal) ==
+PASS 20 registros :: 20
+PASS ordinais 1..20 únicos
+PASS chave/id/título/categoria/raridade/peso conferem com a fonte :: []
+PASS ordem posicional = ordem do JSON Normal (1..20)
+== 3. Caminhos JSONPath e literais antes->depois ==
+PASS todos os JSONPath resolvem na fonte :: []
+PASS todos os literais 'antes' batem na fonte e depois difere :: []
+PASS 20 registros com veredito e justificativa
+PASS MELHORAR tem natureza e >=1 proposta exata
+PASS MANTER não propõe alteração
+== 4. Vereditos e contagens ==
+PASS MANTER = 7 (#5,11,12,15,16,17,18) :: [5, 11, 12, 15, 16, 17, 18]
+PASS MELHORAR = 13 (restantes) :: [1, 2, 3, 4, 6, 7, 8, 9, 10, 13, 14, 19, 20]
+PASS fonte: 160 eventos categoria Normal, faixa = primeiros 20
+PASS fonte: disabled = [1, 4, 8, 10, 14]
+PASS fonte: texto vazio = [6, 7, 9, 10, 19, 20]
+PASS fonte: texto do fantasma repetido = [1, 8, 14]
+PASS fonte: bônus de rolagem não vazio = [2, 3, 5, 11] (slots vazios 26/32)
+PASS fonte: batalha.iniciar=true = [4, 9, 10, 15, 16, 20]
+PASS fonte: ids duplicados = {'5b740c2b-3480-48f2-997b-88c8291db0c0': 2} (únicos 19, chaves 20)
+PASS fonte: typos originais = {2: ['appeares'], 13: ['whisperes']}
+PASS fonte: PPtr nulo presente em 20/20 (não é anomalia distintiva)
+PASS validação JSON coerente com os fatos
+== 5. Coerência md <-> validação JSON ==
+PASS md existe e tem 20 seções '### <ordinal> —' :: 20
+PASS md cita todas as propostas (código + JSONPath) :: []
+PASS md declara MANTER=7 / MELHORAR=13
+PASS md registra supersessão nominal
+PASS md marca runtime NAO_EXERCITADO
+== RESULTADO ==
+PASS 32 / FAIL 0 / exit 0
