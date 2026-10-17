@@ -32,8 +32,8 @@
     {
       "nome": "BetterCombatText",
       "publicar": true,
-      "versao_publicada": "0.1.2",
-      "publicado_em": "2026-10-07T21:25:22.356125Z",
+      "versao_publicada": "0.1.3",
+      "publicado_em": "2026-10-17T23:47:10.357500Z",
       "motivo": "PUBLICAR 0.1.1 (substitui a 0.1.0, no ar desde 01/10/2026). A 0.1.1 leva o contorno preto duro/opaco no nome do inimigo (UI/UX: _OutlineWidth 0.22, softness 0.05, alfa 0.95) + sombra adaptativa por contraste com a fonte. Revisado pelo dono em jogo. Depende de BetterFont-1.0.2 (sobe DEPOIS do BetterFont)."
     },
     {
