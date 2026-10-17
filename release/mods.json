@@ -88,8 +88,8 @@
     {
       "nome": "RoguelikeUnlimitedLevelProgression",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.1",
+      "publicado_em": "2026-10-17T02:59:35.654040Z",
       "motivo": "PUBLICAR 0.1.1 (PRIMEIRA VEZ). Remove limite de nivel da progressao de roguelike. Sobem DEPOIS do RealmApi (sem dependencia direta, mas depois da ordem do ledger)."
     }
   ]
