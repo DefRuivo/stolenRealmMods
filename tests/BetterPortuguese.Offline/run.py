@@ -22,6 +22,7 @@ def run(command, log):
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
+    ap.add_argument('--expected-changes', type=int, default=14, help='Explicit content assertion for isolated candidate; production default remains 14')
     ap.add_argument('--out', type=Path, default=HERE/'out')
     ap.add_argument('--bepinex-core', type=Path, default=Path.home()/'AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/core')
     a = ap.parse_args(); out = a.out.resolve(); out.mkdir(parents=True, exist_ok=True)
@@ -36,7 +37,7 @@ def main():
     for config in ['Debug', 'Release']:
         run(['dotnet', 'build', REPO/'BetterPortuguese/BetterPortuguese.csproj', '-c', config, '-p:DeployToBepInEx=false', '--no-incremental'], out/f'build-{config.lower()}.log')
     run(['dotnet','build', HERE/'BetterPortuguese.Offline.csproj','-c','Release',f'-p:OfflineDepsDir={deps}'],out/'build-tests.log')
-    core = run(['dotnet', HERE/'bin/Release/net6.0/BetterPortuguese.Offline.dll', REPO],out/'core-tests.log')
+    core = run(['dotnet', HERE/'bin/Release/net6.0/BetterPortuguese.Offline.dll', REPO, str(a.expected_changes)],out/'core-tests.log')
     # Same source core, compiled against desktop CLR, because the local HarmonyX's
     # old MethodInvoker is not compatible with this host's CoreCLR/net6 reflection.
     sdk = subprocess.check_output(['dotnet','--list-sdks']).decode('utf-8').splitlines()[-1]
@@ -51,7 +52,17 @@ def main():
     entry['Value']='corrected'; root['variant']='Corrigido'
     (probe/'fixture.corrigido.json').write_text(json.dumps(root),encoding='utf-8')
     change=dict(id='LANG-00001',key='key',entryIndex=0,field='Value',before='baseline',after='corrected',approvalTaskId='t_00000000')
-    (probe/'fixture.diff.json').write_text(json.dumps([change]),encoding='utf-8')
+    original_root=json.loads((probe/'fixture.original.json').read_text(encoding='utf-8'))
+    changes=[change]
+    for i,key,absent in [(2,'empty',False),(3,'absent',True)]:
+        before=None if absent else []
+        original_root['records'].append(dict(id=f'LANG-{i:05d}',key=key,presentInSource=not absent,entries=before))
+        added=dict(entry,Key=key,Value='added '+key,Feminine=None,Masculine=None,Neutral=None)
+        root['records'].append(dict(id=f'LANG-{i:05d}',key=key,presentInSource=not absent,entries=[added]))
+        changes.append(dict(operation='addEntry',id=f'LANG-{i:05d}',key=key,entryIndex=0,before=before,after=added,approvalTaskId='t_00000000'))
+    (probe/'fixture.original.json').write_text(json.dumps(original_root),encoding='utf-8')
+    (probe/'fixture.corrigido.json').write_text(json.dumps(root),encoding='utf-8')
+    (probe/'fixture.diff.json').write_text(json.dumps(changes),encoding='utf-8')
     command=['dotnet',csc,'-nologo','-noconfig','-nostdlib+','-langversion:10','-target:exe',f'-out:{probe / "HarmonyCoreProbe.exe"}']
     command += [f'-r:{framework/name}' for name in ['mscorlib.dll','System.dll','System.Core.dll']]
     command += [f'-r:{deps/"0Harmony.dll"}', HERE/'HarmonyCoreProbe.cs']
@@ -60,7 +71,7 @@ def main():
     harmony = run([probe/'HarmonyCoreProbe.exe'],out/'harmony-tests.log')
     count = lambda text: tuple(int(n) for n in re.search(r'RESULT passed=(\d+) failed=(\d+)',text).groups())
     cp,cf=count(core); hp,hf=count(harmony)
-    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,totalPassed=cp+hp,totalFailed=cf+hf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised','Synthetic corrections only; production corrected snapshot no-op','No approved mod or manual adapters'])
+    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,totalPassed=cp+hp,totalFailed=cf+hf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Explicit expected changed-key count: {a.expected_changes}; baseline includes 14 approved LANG-C4 changes (t_ec66f0bb)','No approved mod or manual adapters'])
     (out/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(report,indent=2))
     return int(report['totalFailed']!=0)

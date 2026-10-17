@@ -19,6 +19,7 @@ public sealed class Plugin : BaseUnityPlugin
     public const string Guid = "com.gumatos.betterportuguese";
     private static readonly StateQueue States = new StateQueue();
     private static Overlay<LocalizationEntry> overlay;
+    private static ISet<string> changedKeys = new HashSet<string>(StringComparer.Ordinal);
     private static OnceLog limited;
     private static ManualLogSource log;
     private static Action poll;
@@ -57,8 +58,9 @@ public sealed class Plugin : BaseUnityPlugin
         try
         {
             var catalog = Core.Resources.Load(typeof(Plugin).Assembly);
+            changedKeys = new HashSet<string>(catalog.Changed.Keys, StringComparer.Ordinal);
             overlay = new Overlay<LocalizationEntry>(catalog, Bindings.Equal, Bindings.Clone, limited);
-            log.LogInfo("BetterPortuguese 0.1.0: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas. Captura atual SEM correcoes aprovadas.");
+            log.LogInfo("BetterPortuguese 0.1.0: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
         }
         catch (Exception ex) { overlay = null; log.LogError("BetterPortuguese: camada base desativada: " + ex.Message); }
         try { log.LogInfo("BetterPortuguese: registry de mods = " + Core.Resources.LoadMods(typeof(Plugin).Assembly) + "; nenhum adaptador ativo / manuais sem traducao aprovada."); }
@@ -68,6 +70,7 @@ public sealed class Plugin : BaseUnityPlugin
         // GUIManager.Update is a live main-thread driver even when timeScale == 0.
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
+        log.LogInfo("BetterPortuguese 0.1.0 carregado.");
     }
     private void Install(string label, Func<MethodInfo> target, string patch)
     {
@@ -127,18 +130,18 @@ public sealed class Plugin : BaseUnityPlugin
         {
             if (Time.realtimeSinceStartup >= nextPoll)
             { nextPoll = Time.realtimeSinceStartup + 1f; poll?.Invoke(); }
+            var before = States.Current;
             if (States.ApplyPending())
             {
-                refreshPending = true;
+                refreshPending |= RefreshPlan.Needed(before, States.Current);
                 var s = States.Current;
                 log?.LogInfo("BetterPortuguese: estado aplicado na thread principal: " + (s.Valid && s.Active ? s.Variant.ToString() : "desativado") + ", IntegracaoMods=" + s.IntegrateMods + " (0 adaptadores).");
             }
             if (!refreshPending || !SceneManager.GetActiveScene().IsValid() || OptionsManager.instance == null) return;
             // Invalidate BEFORE calling game UI to avoid refresh reentrancy.
             refreshPending = false;
-            OptionsManager.LocalizeUI(force: true);
-            foreach (var m in OptionsManager.ManualLocalizations.ToArray()) if (m != null) m.SetManualLocalization();
-            if (States.Current.Diagnostic) log?.LogInfo("BetterPortuguese: LocalizeUI(force=true) e refresh manual nativo; tooltips no proximo hover.");
+            int refreshed = UiRefresh.Apply(changedKeys, limited);
+            if (States.Current.Diagnostic) log?.LogInfo("BetterPortuguese: refresh dirigido de " + refreshed + " texto(s) aprovado(s); sem LocalizeUI global; tooltips no proximo hover.");
         }
         catch (Exception ex) { limited?.Write("Refresh/config falhou; retorno do jogo preservado: " + ex.GetType().Name); }
     }

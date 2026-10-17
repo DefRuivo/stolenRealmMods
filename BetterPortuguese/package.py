@@ -66,7 +66,26 @@ def main():
         if z.testzip() is not None:raise ValueError('ZIP CRC failure')
         for name,p in files.items():
             if z.read(name)!=p.read_bytes():raise ValueError('ZIP readback differs: '+name)
-    report=dict(package=output.name,packageSha256=sha(output.read_bytes()),packageBytes=output.stat().st_size,members=len(index),files=index,noThirdPartyAssemblies=True,deployed=False,published=False,contentState='NO_HUMAN_APPROVALS_NO_TEXT_CHANGES')
+    # Compute real content state from corrected vs original snapshots.
+    corrected_raw = json.loads((MOD / 'Data/pt-BR.corrigido.json').read_text(encoding='utf-8'))
+    original_raw = json.loads((MOD / 'Data/pt-BR.original.json').read_text(encoding='utf-8'))
+    orig_by_key = {r['key']: r for r in original_raw.get('records', [])}
+    changed_count = 0
+    for rec in corrected_raw.get('records', []):
+        okey = rec['key']
+        if okey in orig_by_key:
+            oe = orig_by_key[okey].get('entries') or []
+            ce = rec.get('entries') or []
+            if len(oe) != len(ce):
+                changed_count += 1
+                continue
+            for o, c in zip(oe, ce):
+                if (o.get('Value') != c.get('Value') or o.get('Feminine') != c.get('Feminine') or
+                    o.get('Masculine') != c.get('Masculine') or o.get('Neutral') != c.get('Neutral')):
+                    changed_count += 1
+                    break
+    content_state = f'{changed_count}_TEXT_CHANGES_DETECTED' if changed_count > 0 else 'NO_HUMAN_APPROVALS_NO_TEXT_CHANGES'
+    report=dict(package=output.name,packageSha256=sha(output.read_bytes()),packageBytes=output.stat().st_size,members=len(index),files=index,noThirdPartyAssemblies=True,deployed=False,published=False,contentState=content_state)
     output.with_suffix('.verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps({k:v for k,v in report.items() if k!='files'},indent=2))
     print(str(output));return 0

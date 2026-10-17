@@ -55,6 +55,20 @@ public static class HarmonyCoreProbe
             var bt=new Harmony(BT);
             try { bp.Patch(target,postfix:Patch("Bp",new[]{BT}));bt.Patch(target,postfix:Patch("Bt",new[]{BP}));order.Clear();Query("key");Mark("dependency cycle detected by pair (not guaranteed order)",order.Count==2 && Harmony.GetPatchInfo(target).Postfixes.All(x=>x.after.Length==1)); }
             finally { bp.UnpatchSelf();bt.UnpatchSelf(); }
+            foreach (string key in new[]{"empty","absent"})
+            {
+                baseline=key=="absent"?null:new List<Entry>();
+                var originalBaseline=baseline;
+                try {
+                    bp.Patch(target,postfix:Patch("Bp",Array.Empty<string>()));
+                    corrected=true;var result=Query(key);
+                    Mark("addEntry real Harmony " + key,result!=null&&result.Count==1&&result[0].Value=="added "+key&&!ReferenceEquals(result,baseline));
+                    Mark("addEntry original list untouched " + key,ReferenceEquals(baseline,originalBaseline)&&(baseline==null||baseline.Count==0));
+                    corrected=false;Mark("addEntry Original reference " + key,ReferenceEquals(Query(key),baseline));corrected=true;
+                    baseline=new List<Entry>{Clone(result[0])};
+                    Mark("addEntry populated unknown writer preserved " + key,ReferenceEquals(Query(key),baseline));
+                } finally {bp.UnpatchSelf();}
+            }
             Mark("all probe owners cleaned",Harmony.GetPatchInfo(target)==null||Harmony.GetPatchInfo(target).Postfixes.Count==0);
             Console.WriteLine("RESULT passed="+passed+" failed=0; no game target patched");return 0;
         }catch(Exception e){Console.WriteLine("FAIL "+e);return 1;}

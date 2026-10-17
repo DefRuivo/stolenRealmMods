@@ -1,1 +1,128 @@
-[]
+[
+  {
+    "id": "LANG-00404",
+    "key": "<b>Damage</b> dealt and taken increased by <b>50</b>%.\n\n<i><color=#808080>\"You have given into your rage!\"</i></color>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano causado e recebido aumentado em <b>50</b>%.\n\n<i><color=#808080>\"Você se entregou à sua fúria!\"</i></color>",
+    "after": "<b>Dano</b> causado e recebido aumentado em <b>50</b>%.\n\n<i><color=#808080>\"Você se entregou à sua fúria!\"</i></color>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00497",
+    "key": "<color=#CBB396>Boss Loot Modifier: </color>+100%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Saque do Chefe: +100%",
+    "after": "<color=#CBB396>Modificador de Saque do Chefe: </color>+100%",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00504",
+    "key": "<color=#CBB396>Loot Modifier: </color>+[modifier value]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Saque: +[modifier value]%",
+    "after": "<color=#CBB396>Modificador de Saque: </color>+[modifier value]%",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00713",
+    "key": "<i><color=#808080>You've made a deal with a devil!</i></color> \n\nIncreases experience, item drops, and gold gained by 50%. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você fez um pacto com o diabo!\n\nAumenta a experiência, a quantidade de itens e ouro obtidos em 50%.",
+    "after": "<i><color=#808080>Você fez um pacto com o diabo!</color></i>\n\nAumenta a experiência, a quantidade de itens e ouro obtidos em 50%.",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00716",
+    "key": "<rainb>Heroes beware, I do not play fair!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Heróis, cuidado, eu não jogo limpo!",
+    "after": "<rainb>Heróis, cuidado, eu não jogo limpo!",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00717",
+    "key": "<rainb>I twisted the Citizens into dark, devilish, Denizens!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Torci os Cidadãos em habitantes escuros e diabólicos!",
+    "after": "<rainb>Torci os Cidadãos em habitantes escuros e diabólicos!",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00719",
+    "key": "<rainb>Let's play a game, try not to get Maimed!</rainb>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vamos jogar um jogo, tente não ser Mutilado!",
+    "after": "<rainb>Vamos jogar um jogo, tente não ser Mutilado!</rainb>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00720",
+    "key": "<rainb>Oh, you're not even trying, would you please just start dying?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Oh, você nem está tentando, poderia por favor começar a morrer?",
+    "after": "<rainb>Oh, você nem está tentando, poderia por favor começar a morrer?",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00722",
+    "key": "<rainb>This Jester's employment, is to kill for enjoyment!</rainb>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Este Bobo tem por ofício matar por diversão!",
+    "after": "<rainb>Este Bobo tem por ofício matar por diversão!</rainb>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00723",
+    "key": "<rainb>Why waste time brawling wtih the Abyss ever calling?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Por que perder tempo brigando com o Abismo sempre a chamar?",
+    "after": "<rainb>Por que perder tempo brigando com o Abismo sempre a chamar?",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00725",
+    "key": "<rainb>With no more health, I've made a fool of myself!</rainb>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Com a saúde esgotada, fiz papel de bobo!",
+    "after": "<rainb>Com a saúde esgotada, fiz papel de bobo!</rainb>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00727",
+    "key": "<rainb>You're bloodied and bruised, and I am amused!</rainb>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você está ensanguentado e machucado, e eu estou divertido!",
+    "after": "<rainb>Você está ensanguentado e machucado, e eu estou divertido!</rainb>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00766",
+    "key": "<shake>ELEMENTAL OVERLOAD!</shake>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "SOBRECARGA ELEMENTAL!",
+    "after": "<shake>SOBRECARGA ELEMENTAL!</shake>",
+    "approvalTaskId": "t_ec66f0bb"
+  },
+  {
+    "id": "LANG-00914",
+    "key": "A robust figure stands by a fireplace, the orange light dancing in her eyes. With a musket resting in her hands and a bear skin rug beneath her boots, she exudes a commanding presence. The sight of the horrifying trophy hanging above the fireplace sends a shiver down your spine - the severed head of the dreaded Pig Butcher.\r <gold><incr><b>Sully Walker, the master hunter</b></incr></gold>, greets you.\n\r\n\"Quite a sight, isn't it?\" she booms, her eyes not leaving you as she gestures to the monstrous head. \"Nothing puts the fear of the wilderness into a man quite like the face of his nightmares, eh?\"\r\n\r\nYou clear your throat, nodding in agreement. The grotesque visage of the Pig Butcher is indeed a horrifying sight to behold.\n\n\"And what about you, wanderer?\" Sully asks, her voice dropping to a conspiratorial whisper. \"What's the most dangerous game you've ever hunted down?\"\n",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Uma figura robusta está ao lado de uma lareira, a luz laranja dançando em seus olhos. Com um mosquete repousando em suas mãos e um tapete de pele de urso sob suas botas, ela exala uma presença imponente. A visão do troféu horrível pendurado acima da lareira envia um arrepio pela sua espinha - a cabeça decepada do temido Açougueiro de Porcos.\n<Sully Walker, a mestra caçadora>, cumprimenta você.\n\n\"Bela visão, não é?\" ela diz em alto e bom som, seus olhos não deixando você enquanto ela gesticula para a cabeça monstruosa. \"Nada coloca o medo do selvagem em um homem como o rosto de seus pesadelos, hein?\"\n\nVocê limpa a garganta, concordando com a cabeça. A visão grotesca do Açougueiro de Porcos é de fato um espetáculo horrível de se ver.\n\n\"E você, viajante?\" Sully pergunta, sua voz baixando para um sussurro conspiratório. \"Qual foi a caça mais perigosa que você já perseguiu?\"",
+    "after": "Uma figura robusta está ao lado de uma lareira, a luz laranja dançando em seus olhos. Com um mosquete repousando em suas mãos e um tapete de pele de urso sob suas botas, ela exala uma presença imponente. A visão do troféu horrível pendurado acima da lareira envia um arrepio pela sua espinha - a cabeça decepada do temido Açougueiro de Porcos.\n<gold><incr><b>Sully Walker, a mestra caçadora</b></incr></gold>, cumprimenta você.\n\n\"Bela visão, não é?\" ela diz em alto e bom som, seus olhos não deixando você enquanto ela gesticula para a cabeça monstruosa. \"Nada coloca o medo do selvagem em um homem como o rosto de seus pesadelos, hein?\"\n\nVocê limpa a garganta, concordando com a cabeça. A visão grotesca do Açougueiro de Porcos é de fato um espetáculo horrível de se ver.\n\n\"E você, viajante?\" Sully pergunta, sua voz baixando para um sussurro conspiratório. \"Qual foi a caça mais perigosa que você já perseguiu?\"",
+    "approvalTaskId": "t_ec66f0bb"
+  }
+]

@@ -6631,7 +6631,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano causado e recebido aumentado em <b>50</b>%.\n\n<i><color=#808080>\"Você se entregou à sua fúria!\"</i></color>",
+          "Value": "<b>Dano</b> causado e recebido aumentado em <b>50</b>%.\n\n<i><color=#808080>\"Você se entregou à sua fúria!\"</i></color>",
           "Key": "<b>Damage</b> dealt and taken increased by <b>50</b>%.\n\n<i><color=#808080>\"You have given into your rage!\"</i></color>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -8209,7 +8209,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Saque do Chefe: +100%",
+          "Value": "<color=#CBB396>Modificador de Saque do Chefe: </color>+100%",
           "Key": "<color=#CBB396>Boss Loot Modifier: </color>+100%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -8323,7 +8323,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Saque: +[modifier value]%",
+          "Value": "<color=#CBB396>Modificador de Saque: </color>+[modifier value]%",
           "Key": "<color=#CBB396>Loot Modifier: </color>+[modifier value]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11688,7 +11688,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você fez um pacto com o diabo!\n\nAumenta a experiência, a quantidade de itens e ouro obtidos em 50%.",
+          "Value": "<i><color=#808080>Você fez um pacto com o diabo!</color></i>\n\nAumenta a experiência, a quantidade de itens e ouro obtidos em 50%.",
           "Key": "<i><color=#808080>You've made a deal with a devil!</i></color> \n\nIncreases experience, item drops, and gold gained by 50%. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11730,7 +11730,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Heróis, cuidado, eu não jogo limpo!",
+          "Value": "<rainb>Heróis, cuidado, eu não jogo limpo!",
           "Key": "<rainb>Heroes beware, I do not play fair!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11748,7 +11748,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Torci os Cidadãos em habitantes escuros e diabólicos!",
+          "Value": "<rainb>Torci os Cidadãos em habitantes escuros e diabólicos!",
           "Key": "<rainb>I twisted the Citizens into dark, devilish, Denizens!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11772,7 +11772,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vamos jogar um jogo, tente não ser Mutilado!",
+          "Value": "<rainb>Vamos jogar um jogo, tente não ser Mutilado!</rainb>",
           "Key": "<rainb>Let's play a game, try not to get Maimed!</rainb>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11790,7 +11790,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Oh, você nem está tentando, poderia por favor começar a morrer?",
+          "Value": "<rainb>Oh, você nem está tentando, poderia por favor começar a morrer?",
           "Key": "<rainb>Oh, you're not even trying, would you please just start dying?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11814,7 +11814,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Este Bobo tem por ofício matar por diversão!",
+          "Value": "<rainb>Este Bobo tem por ofício matar por diversão!</rainb>",
           "Key": "<rainb>This Jester's employment, is to kill for enjoyment!</rainb>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11832,7 +11832,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Por que perder tempo brigando com o Abismo sempre a chamar?",
+          "Value": "<rainb>Por que perder tempo brigando com o Abismo sempre a chamar?",
           "Key": "<rainb>Why waste time brawling wtih the Abyss ever calling?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11856,7 +11856,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Com a saúde esgotada, fiz papel de bobo!",
+          "Value": "<rainb>Com a saúde esgotada, fiz papel de bobo!</rainb>",
           "Key": "<rainb>With no more health, I've made a fool of myself!</rainb>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11880,7 +11880,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você está ensanguentado e machucado, e eu estou divertido!",
+          "Value": "<rainb>Você está ensanguentado e machucado, e eu estou divertido!</rainb>",
           "Key": "<rainb>You're bloodied and bruised, and I am amused!</rainb>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -12450,7 +12450,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "SOBRECARGA ELEMENTAL!",
+          "Value": "<shake>SOBRECARGA ELEMENTAL!</shake>",
           "Key": "<shake>ELEMENTAL OVERLOAD!</shake>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -14272,7 +14272,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Uma figura robusta está ao lado de uma lareira, a luz laranja dançando em seus olhos. Com um mosquete repousando em suas mãos e um tapete de pele de urso sob suas botas, ela exala uma presença imponente. A visão do troféu horrível pendurado acima da lareira envia um arrepio pela sua espinha - a cabeça decepada do temido Açougueiro de Porcos.\n<Sully Walker, a mestra caçadora>, cumprimenta você.\n\n\"Bela visão, não é?\" ela diz em alto e bom som, seus olhos não deixando você enquanto ela gesticula para a cabeça monstruosa. \"Nada coloca o medo do selvagem em um homem como o rosto de seus pesadelos, hein?\"\n\nVocê limpa a garganta, concordando com a cabeça. A visão grotesca do Açougueiro de Porcos é de fato um espetáculo horrível de se ver.\n\n\"E você, viajante?\" Sully pergunta, sua voz baixando para um sussurro conspiratório. \"Qual foi a caça mais perigosa que você já perseguiu?\"",
+          "Value": "Uma figura robusta está ao lado de uma lareira, a luz laranja dançando em seus olhos. Com um mosquete repousando em suas mãos e um tapete de pele de urso sob suas botas, ela exala uma presença imponente. A visão do troféu horrível pendurado acima da lareira envia um arrepio pela sua espinha - a cabeça decepada do temido Açougueiro de Porcos.\n<gold><incr><b>Sully Walker, a mestra caçadora</b></incr></gold>, cumprimenta você.\n\n\"Bela visão, não é?\" ela diz em alto e bom som, seus olhos não deixando você enquanto ela gesticula para a cabeça monstruosa. \"Nada coloca o medo do selvagem em um homem como o rosto de seus pesadelos, hein?\"\n\nVocê limpa a garganta, concordando com a cabeça. A visão grotesca do Açougueiro de Porcos é de fato um espetáculo horrível de se ver.\n\n\"E você, viajante?\" Sully pergunta, sua voz baixando para um sussurro conspiratório. \"Qual foi a caça mais perigosa que você já perseguiu?\"",
           "Key": "A robust figure stands by a fireplace, the orange light dancing in her eyes. With a musket resting in her hands and a bear skin rug beneath her boots, she exudes a commanding presence. The sight of the horrifying trophy hanging above the fireplace sends a shiver down your spine - the severed head of the dreaded Pig Butcher.\r <gold><incr><b>Sully Walker, the master hunter</b></incr></gold>, greets you.\n\r\n\"Quite a sight, isn't it?\" she booms, her eyes not leaving you as she gestures to the monstrous head. \"Nothing puts the fear of the wilderness into a man quite like the face of his nightmares, eh?\"\r\n\r\nYou clear your throat, nodding in agreement. The grotesque visage of the Pig Butcher is indeed a horrifying sight to behold.\n\n\"And what about you, wanderer?\" Sully asks, her voice dropping to a conspiratorial whisper. \"What's the most dangerous game you've ever hunted down?\"\n",
           "TranslatorKey": null,
           "Feminine": null,

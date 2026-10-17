@@ -17,6 +17,7 @@ using Res = BetterPortuguese.Core.Resources;
 internal static class Program
 {
     private static int passed, failed;
+    private static int expectedChanges = 14;
     private static Catalog real, fixture;
     private static string original, corrected, diff;
     private static List<CoreEntry> game;
@@ -84,12 +85,44 @@ internal static class Program
             byte[] data = resource.GetResourceData();
             Check(Res.Sha256(data)==pair.Value && data.SequenceEqual(File.ReadAllBytes(Path.Combine(repo,"BetterPortuguese/Data",pair.Key))), pair.Key);
         }
+        var nativeRegistry=options.Fields.Single(f=>f.Name=="OriginalTextValues");
+        Check(nativeRegistry.IsPrivate&&nativeRegistry.IsStatic&&nativeRegistry.FieldType.FullName=="System.Collections.Generic.Dictionary`2<TextOrTMPText,System.String>","Exact UI registry field");
+        Check(options.Methods.Any(m=>m.Name=="LocalizeUIText"&&m.IsPublic&&m.IsStatic&&m.Parameters.Count==1&&m.Parameters[0].ParameterType.FullName=="TextOrTMPText"));
+        var driver=plugin.Types.Single(t=>t.FullName=="BetterPortuguese.Plugin").Methods.Single(m=>m.Name=="MainThreadPostfix");
+        Check(!driver.Body.Instructions.Any(i=>i.Operand is MethodReference r&&r.Name=="LocalizeUI"),"No global refresh amplification");
+        Check(driver.Body.Instructions.Any(i=>i.Operand is MethodReference r&&r.DeclaringType.Name=="UiRefresh"&&r.Name=="Apply"),"Targeted refresh wired into live driver");
+        var refresher=plugin.Types.Single(t=>t.FullName=="BetterPortuguese.Runtime.UiRefresh").Methods.Single(m=>m.Name=="Apply");
+        Check(refresher.Body.Instructions.Any(i=>i.Operand is MethodReference r&&r.Name=="LocalizeUIText"),"Uses native per-text localizer");
+        Check(!refresher.Body.Instructions.Any(i=>i.Operand is MethodReference r&&(r.Name=="LocalizeUI"||r.Name=="SetManualLocalization")),"No unrelated global/manual calls");
         Console.WriteLine("EVIDENCE real API and DLL resources checked: " + config);
     }
     public static int Main(string[] args)
     {
         string repo=Path.GetFullPath(args.Length>0?args[0]:".");
-        Test("load embedded immutable snapshots",()=>{real=Res.Load(typeof(Program).Assembly); Check(real.Original.Records.Count==9095 && real.Original.ManualCount==2 && real.Changed.Count==0);});
+        if (args.Length > 1) expectedChanges = int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture);
+        if (expectedChanges < 14) throw new ArgumentOutOfRangeException(nameof(expectedChanges));
+        // LANG-C4 A1+A2+A3 aplicado no BP-APL-1 (gate t_ec66f0bb): o snapshot de producao passa a carregar
+        // 14 correcoes aprovadas. Zero aqui significaria aplicacao perdida; outro numero, deriva editorial.
+        Test("load embedded immutable snapshots",()=>{real=Res.Load(typeof(Program).Assembly); Check(real.Original.Records.Count==9095 && real.Original.ManualCount==2 && real.Changed.Count==expectedChanges);});
+        // Synthetic fixture with tag changes that should be ACCEPTED when registered as validated exception.
+        Test("TokenGuard accepts validated tag exception",()=>{
+            var beforeInv = new[]{"<b>", "<gold>"}.OrderBy(x=>x,StringComparer.Ordinal).ToArray();
+            var afterInv  = new[]{"<b>", "<Sully Walker, a mestra caçadora>"}.OrderBy(x=>x,StringComparer.Ordinal).ToArray();
+            TokenGuard.RegisterException("t_abcdef01", "0.1.0", beforeInv, afterInv);
+            TokenGuard.Check("<b>gold<gold>", "<b>valor<Sully Walker, a mestra caçadora>");
+        });
+        Test("TokenGuard rejects unregistered tag change",()=>{
+            Reject(()=>TokenGuard.Check("<gold>","<silver>"));
+        });
+        Test("TokenGuard rejects tag loss",()=>{
+            Reject(()=>TokenGuard.Check("<b><gold>","<b>"));
+        });
+        Test("TokenGuard rejects tag duplication",()=>{
+            Reject(()=>TokenGuard.Check("<b>","<b><b>"));
+        });
+        Test("TokenGuard rejects tag substitution",()=>{
+            Reject(()=>TokenGuard.Check("<gold>","<incr>"));
+        });
         Test("9090/8097/1286/5 lossless corpus",()=>{Check(real.Original.Records.Values.Count(r=>r.PresentInSource)==9090); Check(real.Original.Records.Values.Sum(r=>r.Entries?.Count??0)==8097); Check(real.Original.Records.Values.Count(r=>r.Entries?.Count==0)==1286); Check(real.Original.Records.Values.Count(r=>r.Entries==null)==5);});
         Test("empty mod registry",()=>Check(Res.LoadMods(typeof(Program).Assembly)==0));
         Test("embedded corruption fails SHA and preserves base",()=>{
@@ -99,7 +132,7 @@ internal static class Program
             module.Resources.Remove(old);module.Resources.Add(new EmbeddedResource(old.Name,old.Attributes,bytes));
             using var buffer=new MemoryStream();module.Write(buffer);
             var corrupt=Assembly.Load(buffer.ToArray());
-            try{Res.Read(corrupt,"pt-BR.original.json");}catch(InvalidDataException){Check(real.Changed.Count==0);return;}
+            try{Res.Read(corrupt,"pt-BR.original.json");}catch(InvalidDataException){Check(real.Changed.Count==expectedChanges);return;}
             throw new Exception("corrupted resource accepted");
         });
         Test("missing resource fails closed",()=>{try{Res.Read(typeof(string).Assembly,"pt-BR.original.json");}catch(InvalidDataException){return;}throw new Exception("missing resource accepted");});
@@ -136,6 +169,37 @@ internal static class Program
         Test("API stub binding exact/missing signature",()=>{Check(Bindings.ListTarget()!=null);try{Bindings.Exact(typeof(OptionsManager),"GetLocalizationEntryList",typeof(string),true,typeof(string));}catch(MissingMethodException){return;}throw new Exception("bad binding accepted");});
         Test("game entry clone nine fields",()=>{var e=fixture.Corrected.Records[" exact \n"].Entries[0];var g=Bindings.Clone(e);Check(Bindings.Equal(g,e));g.TranslatorKey="unknown";Check(!Bindings.Equal(g,e));});
         Test("first nonblank/gender lists fixture",()=>{var a=E(" ",null,""," ");var b=E("Value","Female","Male","Neutral");var list=new[]{a,b}.Select(x=>new CoreEntry(JsonShape.Object(StrictJson.Parse(JsonSerializer.Serialize(x))))).ToList();foreach(var f in new[]{"Value","Feminine","Masculine","Neutral"})Check((string)list.First(e=>!string.IsNullOrWhiteSpace((string)e[f]))[f]==(string)b[f]);});
+        Test("refresh only effective overlay transitions",()=>{
+            var on=new Settings();var off=new Settings(active:false);var original=new Settings(variant:Conjunto.Original);
+            Check(RefreshPlan.Needed(off,on)&&RefreshPlan.Needed(on,off)&&RefreshPlan.Needed(on,original)&&RefreshPlan.Needed(original,on));
+            Check(!RefreshPlan.Needed(off,original)&&!RefreshPlan.Needed(on,on));
+        });
+        Test("refresh ignores diagnostic/integration-only config changes",()=>{
+            Check(!RefreshPlan.Needed(new Settings(),new Settings(diagnostic:true)));
+            Check(!RefreshPlan.Needed(new Settings(),new Settings(integrateMods:false)));
+            Check(!RefreshPlan.Needed(new Settings(active:false),new Settings(active:false,variant:Conjunto.Original,diagnostic:true)));
+        });
+        Test("refresh invalid settings restore active overlay",()=>{
+            Check(RefreshPlan.Needed(new Settings(),new Settings(valid:false)));
+            Check(RefreshPlan.Needed(new Settings(valid:false),new Settings()));
+            Check(!RefreshPlan.Needed(new Settings(active:false),new Settings(variant:(Conjunto)99)));
+        });
+        Test("refresh selects approved original keys not native diagnostics",()=>{
+            var rows=new Dictionary<int,string>{{1,"changed"},{2,"Screen: ####x####@##Hz"},{3,"Window: ####x####@##Hz[###dpi]"},{4,"unrelated"},{5,null}};
+            var selected=RefreshPlan.Select(rows,new HashSet<string>(new[]{"changed"},StringComparer.Ordinal));
+            Check(selected.Length==1&&selected[0].Key==1);
+        });
+        Test("refresh exact case/space and duplicate native registrations",()=>{
+            var rows=new Dictionary<int,string>{{1,"key"},{2,"key"},{3," key"},{4,"KEY"}};
+            Check(RefreshPlan.Select(rows,new HashSet<string>(new[]{"key"},StringComparer.Ordinal)).Select(p=>p.Key).SequenceEqual(new[]{1,2}));
+        });
+        Test("refresh snapshot survives registry mutation",()=>{
+            var rows=new Dictionary<int,string>{{1,"key"},{2,"key"}};
+            var plan=RefreshPlan.Select(rows,new HashSet<string>(new[]{"key"},StringComparer.Ordinal));
+            foreach(var p in plan)rows.Remove(p.Key);Check(rows.Count==0&&plan.Length==2);
+        });
+        Test("refresh zero approved changes is empty",()=>Check(RefreshPlan.Select(new Dictionary<int,string>{{1,"key"}},new HashSet<string>()).Length==0));
+        AdditionTests.Run(Test);
         Test("real Debug API/resources",()=>Metadata(repo,"Debug"));
         Test("real Release API/resources",()=>Metadata(repo,"Release"));
         Console.WriteLine("HARMONY execution is a separate desktop-CLR probe (HarmonyCoreProbe.cs); local HarmonyX is not CoreCLR/net6-compatible.");

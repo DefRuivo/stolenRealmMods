@@ -1,12 +1,12 @@
 {
   "schemaVersion": 1,
   "version": "0.1.0",
-  "contentState": "NO_HUMAN_APPROVALS_NO_TEXT_CHANGES",
+  "contentState": "HUMAN_APPROVED_TEXT_CHANGES",
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 3,
-      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+      "bytes": 7542,
+      "sha256": "f75b85b1ab8a4a6812edc35557a590a1ab9a96dc6ad1ebd9a8c5a47a0cd16c9c"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 4814603,
-      "sha256": "43861f9c8665c14496de77129af5dc0204ca8ec1b82c9d9e3801406692e974c8"
+      "bytes": 4814820,
+      "sha256": "3074f5a449fd44e42ed4e2ad8c90d1c5369cd6a2cd2ea7e2fa81ea0cf9a90008"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,11 +38,11 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 0,
+    "changedKeys": 14,
     "approvedModRecords": 0
   },
   "limits": [
-    "No approved corrections yet",
+    "Applied: 14 approved text changes (LANG-C4 A1+A2+A3, gate t_ec66f0bb)",
     "No manual adapter",
     "No approved mod bindings"
   ]

@@ -116,9 +116,18 @@ internal sealed class Catalog
     {
         Original = original; Corrected = corrected; original.ValidateIdentity(corrected);
         var approvals = new Dictionary<string, Dictionary<string, object>>(StringComparer.Ordinal);
+        var additions = new Dictionary<string, EntryAddition>(StringComparer.Ordinal);
         foreach (var raw in diff)
         {
             var d = JsonShape.Object(raw);
+            if (d.ContainsKey("operation"))
+            {
+                var addition = EntryAddition.Parse(d, original);
+                string additionKey = JsonShape.Text(d["key"]);
+                if (additions.ContainsKey(additionKey)) throw new FormatException("Duplicate addEntry target");
+                additions.Add(additionKey, addition);
+                continue;
+            }
             JsonShape.Fields(d, "id", "key", "entryIndex", "field", "before", "after", "approvalTaskId");
             var key = JsonShape.Text(d["key"]); var field = JsonShape.Text(d["field"]); int index = JsonShape.Int(d["entryIndex"]);
             if (!Regex.IsMatch(JsonShape.Text(d["approvalTaskId"]), "^t_[a-f0-9]{8}$")) throw new FormatException("Approval task missing/invalid");
@@ -143,6 +152,14 @@ internal sealed class Catalog
         foreach (var kv in original.Records)
         {
             var o = kv.Value; var c = corrected.Records[kv.Key];
+            if (additions.TryGetValue(kv.Key, out var addition))
+            {
+                if (c.Entries == null || c.Entries.Count != 1 || !addition.After.Same(c.Entries[0]))
+                    throw new FormatException("addEntry not exactly reflected by corrected snapshot: " + o.Id);
+                used++;
+                changed.Add(kv.Key, c);
+                continue;
+            }
             if (Entry.SameLists(o.Entries, c.Entries)) continue;
             if (o.Entries == null || c.Entries == null || o.Entries.Count != c.Entries.Count) throw new FormatException("List/absence operations require a newer validated loader");
             for (int i = 0; i < o.Entries.Count; i++)
@@ -154,7 +171,7 @@ internal sealed class Catalog
                 }
             changed.Add(kv.Key, c);
         }
-        if (used != approvals.Count) throw new FormatException("Diff not reflected by corrected snapshot");
+        if (used != approvals.Count + additions.Count) throw new FormatException("Diff not reflected by corrected snapshot");
         Changed = new ReadOnlyDictionary<string, Record>(changed);
     }
     public static Catalog Parse(string original, string corrected, string diff) => new Catalog(Snapshot.Parse(original, "Original"), Snapshot.Parse(corrected, "Corrigido"), JsonShape.Array(StrictJson.Parse(diff)));
@@ -166,12 +183,18 @@ internal static class TokenGuard
     private static readonly Regex Tokens = new Regex(@"\[\[[^\]]*\]\]|\[[^\]]*\]|\{[^}]*\}|\*[0-9]+|<[^>]*>", RegexOptions.CultureInvariant);
     internal static IEnumerable<string> Inventory(string s) => Tokens.Matches(s ?? "").Cast<Match>().Select(m => m.Value).OrderBy(x => x, StringComparer.Ordinal);
 
-    // Exception list: version-gated pairs of (beforeInventory, afterInventory) that are permitted
-    // despite differing. Each entry carries a taskId and a version so old code rejects unknown entries.
-    private static readonly (string taskId, string version, string[] beforeTokens, string[] afterTokens)[] ValidatedExceptions =
+    // Exception list: version-gated pairs of (taskId, version, beforeInventory, afterInventory) that are permitted
+    // despite differing tokens. Mutable with a lock so RegisterException can append at construction time.
+    private static volatile List<(string taskId, string version, string[] beforeTokens, string[] afterTokens)> validatedExceptions;
+    private static readonly object validatedExceptionsLock = new object();
+    private static List<(string taskId, string version, string[] beforeTokens, string[] afterTokens)> ValidatedExceptions
     {
-        // (taskId is a placeholder; in production these come from the diff via Catalog)
-    };
+        get
+        {
+            if (validatedExceptions == null) lock (validatedExceptionsLock) { if (validatedExceptions == null) validatedExceptions = new(); }
+            return validatedExceptions;
+        }
+    }
 
     /// <summary>
     /// Check that functional token inventory is preserved, allowing specific
@@ -207,6 +230,6 @@ internal static class TokenGuard
         if (string.IsNullOrEmpty(version)) throw new FormatException("Invalid exception version");
         if (beforeTokens == null || afterTokens == null) throw new FormatException("Null inventory in exception");
         if (beforeTokens.SequenceEqual(afterTokens, StringComparer.Ordinal)) throw new FormatException("Exception before/after identical");
-        ValidatedExceptions = ValidatedExceptions.Concat(new[] { (taskId, version, beforeTokens, afterTokens) }).ToArray();
+        ValidatedExceptions.Add((taskId, version, beforeTokens, afterTokens));
     }
 }
