@@ -67,8 +67,8 @@
     {
       "nome": "RealmApi",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-10-17T02:34:23.399876Z",
       "motivo": "PUBLICAR 0.1.0 (PRIMEIRA VEZ). API de modding com UI helpers e hooks opt-in. Categoria 'mods'. Sobem PRIMEIRO (RSTV 0.3.4 declara dependencia DefRuivo_StolenRealmMods-RealmApi-0.1.0)."
     },
     {
