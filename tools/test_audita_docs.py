@@ -141,7 +141,8 @@ class CliTests(unittest.TestCase):
         self.addCleanup(self.tmp.cleanup)
         self.raiz = Path(self.tmp.name)
         (self.raiz / 'tools').mkdir()
-        for nome in ('audita_docs.py', 'docs_proveniencia.py'):
+        for nome in ('audita_docs.py', 'docs_proveniencia.py',
+                     'check_versoes.py', 'pack-thunderstore.py'):
             shutil.copyfile(TOOLS / nome, self.raiz / 'tools' / nome)
         # Fixture declarada: parser simulado só provê o formato necessário ao check 3.
         escrever(self.raiz, 'tools/check_dupes.py', "print('TextFixes 101 entradas | TextAppends 197 entradas')\n")
@@ -264,6 +265,101 @@ class CliTests(unittest.TestCase):
     def test_link_atual_realmente_quebrado_reprova(self):
         self.doc_tracked('[Manual](manual-removido.md)\n')
         self.assert_vermelho('link quebrado -> manual-removido.md')
+
+    # DOCAUD-1: fixtures declaradas, sem alterar os manifests/API do repositorio.
+    def mod_fixture(self, nome, deps, versao='0.1.0', plugin=None):
+        escrever(self.raiz, nome + '/manifest.json', json.dumps({
+            'name': nome, 'version_number': versao, 'dependencies': deps}))
+        escrever(self.raiz, nome + '/' + nome + '.csproj',
+                 '<Project><PropertyGroup><Version>' + versao + '</Version></PropertyGroup></Project>')
+        escrever(self.raiz, nome + '/Plugin.cs', plugin if plugin is not None else
+                 '[BepInPlugin("fixture.guid", "Fixture", "' + versao + '")]')
+
+    def api_fixture(self, versao='0.1.0'):
+        escrever(self.raiz, 'api/manifest.json', json.dumps({
+            'name': 'RealmApi', 'version_number': versao,
+            'dependencies': ['BepInEx-BepInExPack-5.4.2305']}))
+        escrever(self.raiz, 'api/Plugin/RealmApi.csproj',
+                 '<Project><PropertyGroup><Version>' + versao + '</Version></PropertyGroup></Project>')
+        escrever(self.raiz, 'api/Plugin/RealmApiPlugin.cs',
+                 '[BepInPlugin(ApiIdentity.Guid, ApiIdentity.Name, ApiIdentity.Version)]')
+        escrever(self.raiz, 'api/Core/Contracts.cs',
+                 'public static class ApiIdentity { public const string Version = "' + versao + '"; }')
+
+    def test_script_de_bancada_no_mesmo_paragrafo_verde(self):
+        self.doc_tracked('`evidence/audit_sources.py` foi ferramenta de bancada, fora do repositório.\n\n'
+                         'Comandos da bancada (workspace fora do repositório):\n'
+                         '    python <workspace>/evidence/audit_sources.py\n')
+        self.assertIn('ok-contexto: audit_sources.py', self.assert_verde().stdout)
+
+    def test_bancada_em_outro_paragrafo_nao_isenta_script(self):
+        self.doc_tracked('Bancada fora do repositório.\n\nExecute `evidence/audit_sources.py`.\n')
+        self.assert_vermelho('doc cita ferramenta inexistente: audit_sources.py')
+
+    def test_bct_sem_betterfont_verde(self):
+        self.mod_fixture('BetterCombatText', ['BepInEx-BepInExPack-5.4.2305'])
+        self.assert_verde()
+
+    def test_bct_dependencia_antiga_reprova(self):
+        self.mod_fixture('BetterCombatText', ['BepInEx-BepInExPack-5.4.2305',
+                                            'DefRuivo_StolenRealmMods-BetterFont-1.0.3'])
+        self.assert_vermelho('BetterCombatText: dependencia do Thunderstore fora do padrao')
+
+    def test_bct_dependencia_desconhecida_reprova(self):
+        self.mod_fixture('BetterCombatText', ['BepInEx-BepInExPack-5.4.2305', 'Fixture-Outro-1.0.0'])
+        self.assert_vermelho('BetterCombatText: dependencia do Thunderstore fora do padrao')
+
+    def test_rstv_com_api_verde_e_versao_lida_do_manifest(self):
+        for versao in ('0.1.0', '0.2.0'):
+            with self.subTest(versao=versao):
+                self.api_fixture(versao)
+                self.mod_fixture('RoguelikeSkillTreeVisualizer', [
+                    'BepInEx-BepInExPack-5.4.2305', 'DefRuivo_StolenRealmMods-RealmApi-' + versao])
+                self.assert_verde()
+
+    def test_rstv_sem_api_reprova(self):
+        self.api_fixture()
+        self.mod_fixture('RoguelikeSkillTreeVisualizer', ['BepInEx-BepInExPack-5.4.2305'])
+        self.assert_vermelho('RoguelikeSkillTreeVisualizer: dependencia do Thunderstore fora do padrao')
+
+    def test_rstv_com_versao_api_errada_reprova(self):
+        self.api_fixture('0.2.0')
+        self.mod_fixture('RoguelikeSkillTreeVisualizer', [
+            'BepInEx-BepInExPack-5.4.2305', 'DefRuivo_StolenRealmMods-RealmApi-0.1.0'])
+        self.assert_vermelho('RoguelikeSkillTreeVisualizer: dependencia do Thunderstore fora do padrao')
+
+    def test_api_nao_raiz_com_constante_em_outro_arquivo_verde(self):
+        self.api_fixture()
+        proc = self.assert_verde()
+        self.assertRegex(proc.stdout, r'api\s+manifest 0\.1\.0\s+csproj 0\.1\.0\s+plugin 0\.1\.0\s+ALINHADO')
+
+    def test_api_constante_divergente_reprova(self):
+        self.api_fixture()
+        escrever(self.raiz, 'api/Core/Contracts.cs',
+                 'public static class ApiIdentity { public const string Version = "9.9.9"; }')
+        self.assert_vermelho('api: versao diverge entre manifest/csproj/plugin')
+
+    def test_api_constante_ausente_reprova(self):
+        self.api_fixture()
+        (self.raiz / 'api/Core/Contracts.cs').unlink()
+        self.assert_vermelho('api: versao diverge entre manifest/csproj/plugin')
+
+    def test_api_atributo_ausente_reprova(self):
+        self.api_fixture()
+        (self.raiz / 'api/Plugin/RealmApiPlugin.cs').unlink()
+        self.assert_vermelho('api: versao diverge entre manifest/csproj/plugin')
+
+    def test_api_csproj_divergente_reprova(self):
+        self.api_fixture()
+        escrever(self.raiz, 'api/Plugin/RealmApi.csproj', '<Project><Version>9.9.9</Version></Project>')
+        self.assert_vermelho('api: versao diverge entre manifest/csproj/plugin')
+
+    def test_plugin_literal_e_constante_local_continuam_validos(self):
+        for plugin in ('[BepInPlugin("fixture", "Fixture", "0.1.0")]',
+                       '[BepInPlugin(Guid, "Fixture", Version)] public const string Version = "0.1.0";'):
+            with self.subTest(plugin=plugin):
+                self.mod_fixture('BetterCombatText', ['BepInEx-BepInExPack-5.4.2305'], plugin=plugin)
+                self.assert_verde()
 
     def test_catalogo_corrompido_reprova_cli_sem_traceback(self):
         escrever(self.raiz, ARQUIVO, '{')

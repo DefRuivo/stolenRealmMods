@@ -67,6 +67,7 @@ import sys
 from collections import defaultdict
 
 from docs_proveniencia import carregar as carregar_proveniencia, reconhece
+from check_versoes import carregar_empacotador
 
 # RAIZ = repo: este arquivo mora em <repo>/tools/, entao sobe um nivel.
 RAIZ = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -329,43 +330,30 @@ print()
 print('== 5) versoes: csproj x manifest x README x docs ==')
 
 
-def versao_do_plugin(src_pl):
-    """A versao declarada no `[BepInPlugin(...)]` - literal ou via `const string Version`.
-
-    Ha dois estilos no repo: `Plugin("guid", "nome", "0.1.0")` (literal) e
-    `[BepInPlugin(Guid, "nome", Version)]` com `public const string Version = "0.1.0";`.
-    Ler so o literal acusava DIVERGE num mod alinhado (falso positivo de REGRA).
-    """
-    lit = re.search(r'Plugin\(\s*"([^"]+)"\s*,\s*"([^"]+)"\s*,\s*"([^"]+)"', src_pl)
-    if lit:
-        return lit.group(3)
-    attrs = re.search(r'\[BepInPlugin\(([^)]*)\)\]', src_pl)
-    if attrs:
-        ident = re.search(r',\s*([A-Za-z_][\w.]*)\s*$', attrs.group(1).strip())
-        if ident:
-            const = re.search(r'const\s+string\s+%s\s*=\s*"([^"]+)"'
-                              % re.escape(ident.group(1).split('.')[-1]), src_pl)
-            if const:
-                return const.group(1)
-    return '?'
+# DOCAUD-1: reutiliza o MESMO leitor do gate de versoes/empacotador, sem
+# empacotar nem sincronizar nada. A API nao tem csproj/Plugin.cs na raiz:
+# PACOTES_NAO_RAIZ declara api/Plugin/RealmApi.csproj e os DOIS arquivos
+# de versao (RealmApiPlugin.cs -> ApiIdentity.Version em Core/Contracts.cs).
+# Nao basta aceitar a forma indireta: le o literal e continua comparando;
+# constante ausente ou divergente ainda reprova. Sem varredura de bin/obj.
+empacotador = carregar_empacotador()
+pacotes_por_pasta = {os.path.join(*p['metadados']): nome
+                     for nome, p in empacotador.PACOTES_NAO_RAIZ.items()}
 
 
 CANON_DEP = 'BepInEx-BepInExPack-5.4.2305'
 
-# Dependencias EXTRAS esperadas (alem do BepInExPack), por mod. E a DIRECAO UNICA da dependencia
-# entre mods deste repositorio, a mesma registrada em `release/mods.json` (commit ac0210f):
-#
-#     BetterCombatText 0.1.0 -> BetterFont
-#
-# A MAO DUPLA NAO PASSA nesta regra: um `BetterFont` que declare o `BetterCombatText` vira
-# "dependencia fora do padrao" (dependencia a mais na lista). E o caminho de volta que o upload
-# da Thunderstore recusa (`No matching package found for reference`, `PackageReferenceValidator`),
-# porque nenhum dos dois lados existe no ar antes do primeiro envio - nao ha ordem valida.
-#
-# A versao NAO fica escrita aqui: sai do manifest do mod apontado (a que ele declara HOJE), senao
-# um bump do BetterFont deixaria esta regra velha e ela reprovaria um repo correto.
+# Dependencias EXTRAS esperadas (alem do BepInExPack), por mod.
+# DEP-REV (16/10/2026), refletido aqui por DOCAUD-1:
+# - BetterCombatText NAO exige BetterFont no codigo: dependencia de pacote removida.
+# - RoguelikeSkillTreeVisualizer exige RealmApi no codigo/BepInDependency:
+#   a declaracao no manifest foi acrescentada, nao e dependencia acidental.
+# Nao revertemos os manifests para satisfazer uma expectativa velha do auditor.
+# A lista INTEIRA continua sendo comparada: falta, excesso e caminho de volta reprovam.
+# A versao vem do manifest do PACOTE apontado (RealmApi mora em api/), nao de literal
+# aqui, para um bump do alvo nao deixar esta regra desatualizada.
 DEP_EXTRAS = {
-    'BetterCombatText': [('DefRuivo_StolenRealmMods', 'BetterFont')],
+    'RoguelikeSkillTreeVisualizer': [('DefRuivo_StolenRealmMods', 'RealmApi')],
 }
 
 
@@ -383,7 +371,8 @@ for _m in sorted(os.listdir(RAIZ)):
     if not os.path.isfile(_mp):
         continue
     try:
-        versoes_manifest[_m] = json.load(io.open(_mp, encoding='utf-8')).get('version_number')
+        _man = json.load(io.open(_mp, encoding='utf-8'))
+        versoes_manifest[_man.get('name', _m)] = _man.get('version_number')
     except ValueError:
         versoes_manifest[_m] = '?'
 
@@ -393,19 +382,18 @@ for mod in sorted(os.listdir(RAIZ)):
     if not os.path.isfile(mp):
         continue
     man = json.load(io.open(mp, encoding='utf-8'))
-    csproj = ''
-    for f in os.listdir(os.path.join(RAIZ, mod)):
-        if f.endswith('.csproj'):
-            csproj = ler(os.path.join(mod, f))
-    v_cs = re.search(r'<Version>([^<]+)</Version>', csproj)
-    v_pl = versao_do_plugin(ler(os.path.join(mod, 'Plugin.cs')))
+    nome_pacote = pacotes_por_pasta.get(mod, mod)
+    caminhos = empacotador.caminhos(nome_pacote)
+    v_cs = empacotador.versao_do_csproj(caminhos)
+    v_pl, _, _ = empacotador.versao_do_plugin(nome_pacote, caminhos)
     dep = man.get('dependencies', [])
     esperadas = deps_esperadas(mod, versoes_manifest)
     d_ok = dep == esperadas
-    alinha = (v_cs.group(1) if v_cs else '?') == man.get('version_number') == v_pl
+    alinha = (v_cs is not None and v_pl is not None
+              and v_cs == man.get('version_number') == v_pl)
     print('   %-30s manifest %-8s csproj %-8s plugin %-8s %s | dep %s' % (
-        mod, man.get('version_number'), v_cs.group(1) if v_cs else '?',
-        v_pl, 'ALINHADO' if alinha else 'DIVERGE',
+        mod, man.get('version_number'), v_cs or '?',
+        v_pl or '?', 'ALINHADO' if alinha else 'DIVERGE',
         'ok' if d_ok else str(dep)))
     if not alinha:
         problemas.append('%s: versao diverge entre manifest/csproj/plugin' % mod)
