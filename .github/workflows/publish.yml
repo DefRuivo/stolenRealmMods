@@ -786,6 +786,42 @@ jobs:
           path: envio-BetterCombatText
           file: dist/gumatos-BetterCombatText-${{ steps.pre.outputs.VERSAO_BetterCombatText }}.zip
 
+      # 5.7 e 5.8 existem porque o lote de 16/10/2026 trouxe DUAS primeiras publicacoes
+      # (RealmApi e RoguelikeUnlimitedLevelProgression) e estes passos eram fixos, um por
+      # mod: sem eles o pre-flight aprovava o envio e NADA era publicado - o run 38975540607
+      # morreu no passo 6 procurando o RealmApi, que nunca teve passo de envio.
+      - name: "5.7 Publica RealmApi"
+        if: contains(steps.pre.outputs.ENVIAR, '"RealmApi"')
+        continue-on-error: true
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RealmApi
+          version: ${{ steps.pre.outputs.VERSAO_RealmApi }}
+          description: ${{ steps.pre.outputs.DESC_RealmApi }}
+          categories: mods
+          repo: https://thunderstore.io
+          path: envio-RealmApi
+          file: dist/gumatos-RealmApi-${{ steps.pre.outputs.VERSAO_RealmApi }}.zip
+
+      - name: "5.8 Publica RoguelikeUnlimitedLevelProgression"
+        if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeUnlimitedLevelProgression"')
+        continue-on-error: true
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RoguelikeUnlimitedLevelProgression
+          version: ${{ steps.pre.outputs.VERSAO_RoguelikeUnlimitedLevelProgression }}
+          description: ${{ steps.pre.outputs.DESC_RoguelikeUnlimitedLevelProgression }}
+          categories: mods
+          repo: https://thunderstore.io
+          path: envio-RoguelikeUnlimitedLevelProgression
+          file: dist/gumatos-RoguelikeUnlimitedLevelProgression-${{ steps.pre.outputs.VERSAO_RoguelikeUnlimitedLevelProgression }}.zip
+
       # 6. FECHA O CICLO. O resultado do job e decidido AQUI, nao no codigo de saida de cada
       #    envio: os passos 5.x tem `continue-on-error` para um mod com problema nao derrubar
       #    os outros. Este passo pergunta a API (endpoint por pacote, FRESCO) se CADA alvo
