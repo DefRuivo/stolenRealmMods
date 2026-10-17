@@ -1013,7 +1013,7 @@ jobs:
           TEAM: ${{ needs.libera.outputs.team }}
         run: |
           python - <<'PY'
-          import json, os, re, subprocess, sys, urllib.error, urllib.request
+          import json, os, re, subprocess, sys, time, urllib.error, urllib.request
 
           def erro(msg):
               print('::error::' + msg)
@@ -1026,13 +1026,14 @@ jobs:
               dados = json.load(fh)
 
           API_VERSAO = 'https://thunderstore.io/api/experimental/package/%s/%s/%s/'  # team, mod, versao
+          API_PACOTE = 'https://thunderstore.io/api/experimental/package/%s/%s/'
           url = 'https://thunderstore.io/c/%s/api/v1/package/' % dados['comunidade']
           cabecalho = {'User-Agent': 'stolenRealmMods-publish (github.com/DefRuivo/stolenRealmMods)'}
 
           def busca(u):
               try:
                   with urllib.request.urlopen(urllib.request.Request(u, headers=cabecalho),
-                                              timeout=60) as resp:
+                                              timeout=5) as resp:
                       return resp.status, json.load(resp)
               except urllib.error.HTTPError as ex:
                   return ex.code, None
@@ -1069,12 +1070,34 @@ jobs:
                        'nao e inventado: nada foi gravado para este alvo.' % nome)
               with open(alvo['csproj'], encoding='utf-8', errors='replace') as fh:
                   versao = re.search(r'<Version>([^<]+)</Version>', fh.read()).group(1).strip()
-              st_viva, detalhe = busca(API_VERSAO % (team, nome, versao))
-              viva = detalhe if (st_viva == 200 and isinstance(detalhe, dict)) else None
-              if not viva:
+              # PUB-RUN-1: #23 confirmou o upload no latest, mas o registro falhou
+              # lendo apenas a versao exata (404) e a lista antiga. As duas fontes
+              # por pacote podem indexar em momentos diferentes; nenhuma e presumida.
+              def confirmada(v):
+                  return (isinstance(v, dict) and v.get('version_number') == versao
+                          and v.get('is_active') is True and bool(v.get('date_created')))
+
+              viva = None
+              # Tres rodadas, duas leituras de ate 5s e duas esperas de 5s:
+              # ate 40s por alvo, dentro do timeout de 10 min para os nove mods.
+              for tentativa in range(3):
+                  st_viva, detalhe = busca(API_VERSAO % (team, nome, versao))
+                  if st_viva == 200 and confirmada(detalhe):
+                      viva = detalhe
+                      break
+                  st_pacote, pacote = busca(API_PACOTE % (team, nome))
+                  latest = pacote.get('latest') if isinstance(pacote, dict) else None
+                  if st_pacote == 200 and confirmada(latest):
+                      viva = latest
+                      break
                   for v in publicados.get('%s-%s' % (team, nome), []):
-                      if v.get('version_number') == versao:
+                      if confirmada(v):
                           viva = v
+                          break
+                  if viva:
+                      break
+                  if tentativa < 2:
+                      time.sleep(5)
               if not viva:
                   faltou.append('%s v%s' % (nome, versao))
                   continue
@@ -1117,8 +1140,8 @@ jobs:
               erro('registro incompleto: a API publica NAO mostra %s. O que apareceu ja foi '
                    'gravado e commitado; o que falta NAO foi inventado. Confira '
                    'https://thunderstore.io/c/%s/ e, se o pacote estiver no ar (a API tem '
-                   'atraso de indexacao), rode de novo com o input "todos" para o registro '
-                   'fechar.' % (', '.join(faltou), dados['comunidade']))
+                   'atraso de indexacao), reexecute SOMENTE o job de registro que falhou; '
+                   'nao reenvie o pacote e nao use o input todos.' % (', '.join(faltou), dados['comunidade']))
           if not mudou:
               print('::notice::nada a registrar (as versoes ja estavam registradas).')
           PY
@@ -1218,4 +1241,4 @@ jobs:
           echo "Nada e inventado: o registro so recebe versao confirmada no endpoint por pacote, e e"
           echo "ele que faz os proximos releases recusarem versao repetida."
           echo "Se o pacote estiver no ar mas ainda fora do registro (a API tem atraso de indexacao),"
-          echo "rode de novo com o input 'todos': o pre-flight pula o que ja saiu e o registro fecha."
+          echo "Reexecute SOMENTE o job de registro que falhou; nao reenvie o pacote e nao use todos."
