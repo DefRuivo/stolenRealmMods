@@ -48,7 +48,7 @@
       "publicar": false,
       "versao_publicada": null,
       "publicado_em": null,
-      "motivo": "BLOQUEADO para publicacao (BP-4): implementacao 0.1.0 validada somente offline, com Original/Corrigido completos. Corrigido ainda e no-op por ausencia de aprovacoes LANG; registro de mods vazio. Exige aprovacoes editoriais, QA em jogo BP-5 autorizada e aceite humano; build verde nao libera upload."
+      "motivo": "BLOQUEADO para publicacao (BP-6). Pacote 0.1.0 pronto e pre-flightado: 1.314 correcoes aprovadas pelo dono, Original/Corrigido completos, DLL 8f602a4f..., ZIP dist/gumatos-BetterPortuguese-0.1.0.zip. Faltam dois gates humanos: (a) rodada em jogo do dono sobre ESTA identidade - o aceite do BP-5 vale so' para a DLL congelada 2fc17bf4 com 14 correcoes; (b) palavra explicita do dono autorizando o upload. Build verde, ZIP empacotado e suite offline nao liberam upload."
     },
     {
       "nome": "BetterStats",

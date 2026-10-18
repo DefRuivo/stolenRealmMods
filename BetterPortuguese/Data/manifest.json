@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 7542,
-      "sha256": "f75b85b1ab8a4a6812edc35557a590a1ab9a96dc6ad1ebd9a8c5a47a0cd16c9c"
+      "bytes": 841329,
+      "sha256": "a2390f0f90743e2429520f741cf9d35215be2300a1a3bdf6596d18804be544c7"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 4814820,
-      "sha256": "3074f5a449fd44e42ed4e2ad8c90d1c5369cd6a2cd2ea7e2fa81ea0cf9a90008"
+      "bytes": 5380581,
+      "sha256": "8cca99bdbaaaafdbc4caa7e212dae1e8e04eb502ad1aa20b12cf2abe53637cba"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,12 +38,15 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 14,
+    "changedKeys": 1314,
     "approvedModRecords": 0
   },
   "limits": [
-    "Applied: 14 approved text changes (LANG-C4 A1+A2+A3, gate t_ec66f0bb)",
+    "Preserved: 14 approved text changes (LANG-C4 A1+A2+A3, gate t_ec66f0bb)",
     "No manual adapter",
-    "No approved mod bindings"
+    "No approved mod bindings",
+    "Applied checkpoint reconciled: C1=1227, C2=27, C3=36, C5=10; total including C4=1314 unique changed keys",
+    "Six approved C1 additions remain excluded by token guard: LANG-08822, LANG-08823, LANG-08824, LANG-08825, LANG-08826, LANG-08828",
+    "Dataset-only consolidation APL-LANG-1A; build, resource hash synchronization, tests and packaging belong to APL-LANG-1B"
   ]
 }
