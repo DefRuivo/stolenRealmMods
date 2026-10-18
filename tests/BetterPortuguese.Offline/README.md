@@ -2,6 +2,8 @@
 
 Execute da raiz: `python tests/BetterPortuguese.Offline/run.py --out <pasta-nova>`.
 
+A contagem esperada de chaves alteradas é lida de `BetterPortuguese/Data/manifest.json` (`coverage.changedKeys`); `--expected-changes N` só é necessário para candidatos experimentais.
+
 O runner compila Debug/Release com deploy false, executa o core e confere recursos das DLLs e metadata/IL do assembly real via Cecil. StubTypes.cs fornece tipos SINTÉTICOS só para a bancada net6; o plugin real é compilado contra lib/Assembly-CSharp.dll. A ordem real de preprocessing/getters é conferida no IL, não inferida a partir dos stubs.
 
 HarmonyCoreProbe.cs executa o mesmo core de produção com HarmonyX/MonoMod locais em métodos-isca no CLR desktop do Windows. O probe é compilado com Roslyn do SDK instalado e referências locais do .NET Framework; não precisa instalar targeting pack nem trocar o Harmony do dono. Duas ordens de registro, Original/Corrigido, clones, owner ausente, terceiro com baseline divergente e ciclo são exercitados. Ciclo não garante ordem: o teste detecta a dependência cíclica e só verifica que não se perdeu um postfix.
