@@ -1,6 +1,6 @@
 # RoguelikeUnlimitedLevelProgression
 
-Lets a Roguelike run go past level 20 — **singleplayer only, v0.1**.
+Lets a Roguelike run go past level 20 — **tested on singleplayer; multiplayer is not yet tested**.
 
 - **GUID:** `com.gumatos.roguelikeunlimitedlevelprogression`
 - **Harmony owner id:** the same GUID (the mod unpatches by id, never by type).
@@ -55,8 +55,16 @@ update), no forced achievements, no campaign changes.
 
 ## Scope and fail-closed behaviour
 
-- **Singleplayer only.** In `PlayingMultiplayer` the vanilla branch is kept and a warning is
-  logged: extended saves/ledger are not supported yet.
+- **Tested on singleplayer, not yet tested for multiplayer.** In a network session this is *not* a
+  party feature: the mod keeps the vanilla progression branch whenever the game reports
+  `PlayingMultiplayer` and logs a refusal (`refuse("rede", …)`), so **no party-wide extension
+  happens**: the game grants level/XP per owner, and a peer only ever writes **its own**
+  characters — never the host's party state.
+  If a network session does extend anything (for example, if that instance does not report
+  `PlayingMultiplayer`), it applies **only to the characters of the player running the mod**, in
+  that player's own instance; players without the mod keep vanilla behaviour, and extended
+  saves/ledger are not carried across peers. Testing multiplayer — whole party on the same mod
+  version, authority and save/reload across peers — is pending (`MP-BENCH-1` is the bench).
 - **Campaign and AI characters are outside the extended scope** and keep the exact vanilla
   comparison.
 - The gameplay patch group is **all-or-nothing**: if any Harmony target is missing, if any
@@ -118,8 +126,9 @@ contagem da fila, para não ser perdido em silêncio.
 
 Nada mais muda: sem áreas novas, sem endless, sem ouro inventado, sem remover teto de item ou
 de fortune, sem Bard/música, sem conquista forçada e sem alteração de campanha. Campanha e IA
-ficam **fora** do escopo ampliado e mantêm a comparação vanilla; em multiplayer o branch
-vanilla é preservado com aviso. O grupo de patches de gameplay é **tudo-ou-nada**: qualquer
+ficam **fora** do escopo ampliado e mantêm a comparação vanilla. **Testado em singleplayer; multiplayer ainda não testado.** No multiplayer o
+branch vanilla é preservado com aviso e **não existe ampliação para a party**: cada jogador só escreve
+os próprios personagens, nunca o estado da partida do host; a medição de rede ainda está pendente. O grupo de patches de gameplay é **tudo-ou-nada**: qualquer
 alvo ausente, exceção ou recusa do transpiler reverte o mod inteiro.
 
 Build: as DLLs do jogo ficam em `lib/` na **raiz do checkout** (gitignored, nunca versionadas nem
