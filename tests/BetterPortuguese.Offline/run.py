@@ -20,12 +20,19 @@ def run(command, log):
     if result.returncode: raise RuntimeError(f'{command[0]} failed: {result.returncode}; {log}')
     return text
 
+def declared_changes():
+    """Editorial assertion derived from the shipped manifest, never a hard-coded number."""
+    manifest = json.loads((REPO/'BetterPortuguese/Data/manifest.json').read_text(encoding='utf-8-sig'))
+    return int(manifest['coverage']['changedKeys'])
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--expected-changes', type=int, default=14, help='Explicit content assertion for isolated candidate; production default remains 14')
+    ap.add_argument('--expected-changes', type=int, default=None, help='Changed-key content assertion; defaults to coverage.changedKeys in BetterPortuguese/Data/manifest.json')
     ap.add_argument('--out', type=Path, default=HERE/'out')
     ap.add_argument('--bepinex-core', type=Path, default=Path.home()/'AppData/Roaming/r2modmanPlus-local/StolenRealm/profiles/Default/BepInEx/core')
     a = ap.parse_args(); out = a.out.resolve(); out.mkdir(parents=True, exist_ok=True)
+    count_source = 'argument' if a.expected_changes is not None else 'Data/manifest.json coverage.changedKeys'
+    if a.expected_changes is None: a.expected_changes = declared_changes()
     deps = out/'deps'; deps.mkdir(exist_ok=True)
     hashes = {}
     for name in ['0Harmony.dll', 'Mono.Cecil.dll', 'MonoMod.Utils.dll', 'MonoMod.RuntimeDetour.dll']:
@@ -71,7 +78,7 @@ def main():
     harmony = run([probe/'HarmonyCoreProbe.exe'],out/'harmony-tests.log')
     count = lambda text: tuple(int(n) for n in re.search(r'RESULT passed=(\d+) failed=(\d+)',text).groups())
     cp,cf=count(core); hp,hf=count(harmony)
-    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,totalPassed=cp+hp,totalFailed=cf+hf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Explicit expected changed-key count: {a.expected_changes}; baseline includes 14 approved LANG-C4 changes (t_ec66f0bb)','No approved mod or manual adapters'])
+    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,totalPassed=cp+hp,totalFailed=cf+hf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Expected changed-key count: {a.expected_changes} (source: {count_source})','No approved mod or manual adapters'])
     (out/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(report,indent=2))
     return int(report['totalFailed']!=0)

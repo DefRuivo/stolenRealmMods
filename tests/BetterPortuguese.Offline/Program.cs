@@ -17,7 +17,7 @@ using Res = BetterPortuguese.Core.Resources;
 internal static class Program
 {
     private static int passed, failed;
-    private static int expectedChanges = 14;
+    private static int expectedChanges = -1; // resolved in Main: argv, else the embedded Data/manifest.json
     private static Catalog real, fixture;
     private static string original, corrected, diff;
     private static List<CoreEntry> game;
@@ -96,13 +96,21 @@ internal static class Program
         Check(!refresher.Body.Instructions.Any(i=>i.Operand is MethodReference r&&(r.Name=="LocalizeUI"||r.Name=="SetManualLocalization")),"No unrelated global/manual calls");
         Console.WriteLine("EVIDENCE real API and DLL resources checked: " + config);
     }
+    private static int DeclaredChangedKeys()
+    {
+        var root = JsonShape.Object(StrictJson.Parse(Res.Read(typeof(Program).Assembly, "manifest.json")));
+        return JsonShape.Int(JsonShape.Object(root["coverage"])["changedKeys"]);
+    }
     public static int Main(string[] args)
     {
         string repo=Path.GetFullPath(args.Length>0?args[0]:".");
-        if (args.Length > 1) expectedChanges = int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture);
+        expectedChanges = args.Length > 1
+            ? int.Parse(args[1], System.Globalization.CultureInfo.InvariantCulture)
+            : DeclaredChangedKeys();
         if (expectedChanges < 14) throw new ArgumentOutOfRangeException(nameof(expectedChanges));
-        // LANG-C4 A1+A2+A3 aplicado no BP-APL-1 (gate t_ec66f0bb): o snapshot de producao passa a carregar
-        // 14 correcoes aprovadas. Zero aqui significaria aplicacao perdida; outro numero, deriva editorial.
+        // A contagem esperada vem de Data/manifest.json (coverage.changedKeys), recurso com SHA fixado
+        // em ResourceHashes: o teste falha se a aplicacao se perdeu ou se o dataset derivou sem atualizar
+        // o manifesto distribuido. Um numero fixo aqui voltaria a mentir a cada reaplicacao editorial.
         Test("load embedded immutable snapshots",()=>{real=Res.Load(typeof(Program).Assembly); Check(real.Original.Records.Count==9095 && real.Original.ManualCount==2 && real.Changed.Count==expectedChanges);});
         // Synthetic fixture with tag changes that should be ACCEPTED when registered as validated exception.
         Test("TokenGuard accepts validated tag exception",()=>{

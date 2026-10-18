@@ -15,4 +15,4 @@
 - Main-thread configuration/queue, runtime .cfg reading, targeted UI refresh and safe failure/capped logging.
 - Separate, empty mod registry; no approved translations/adapters in this snapshot.
 - **Icon:** the local artwork changed after `917c20a`; this does not modify the snapshots or imply editorial approval.
-- Debug/Release and offline core/API/resource/Harmony test bench. Nothing published in this delivery; publication requires the owner's explicit go-ahead.
+- Debug/Release and offline core/API/resource/Harmony test bench. The runner takes the expected changed-key count from `plugins/BetterPortuguese/Data/manifest.json` (`coverage.changedKeys`), so the documented command runs without flags; `--expected-changes N` only overrides it for experimental candidates. Nothing published in this delivery; publication requires the owner's explicit go-ahead.
