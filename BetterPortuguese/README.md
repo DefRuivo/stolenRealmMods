@@ -210,7 +210,7 @@ dotnet build BetterPortuguese/BetterPortuguese.csproj -c Release -p:DeployToBepI
 python tests/BetterPortuguese.Offline/run.py
 ```
 
-O runner usa o SDK .NET 6 para o core/binding e o CLR desktop do Windows para executar HarmonyX local com o mesmo core de produção. A contagem esperada de chaves alteradas é lida de `Data/manifest.json` (`coverage.changedKeys`), não fixada no código, então o comando acima dispensa flag; `--expected-changes N` continua sobrescrevendo para candidatos experimentais. A DLL HarmonyX 2.9.0.0 desta bancada não funcionou no host net6 (`AccessTools/MethodInvoker`); a alternativa CLR desktop foi executada, não um mock do Harmony. Fixtures são explicitamente sintéticas e não entram nos snapshots distribuídos.
+O runner usa o SDK .NET 6 para o core/binding e o CLR desktop do Windows para executar HarmonyX local com o mesmo core de produção. A DLL HarmonyX 2.9.0.0 desta bancada não funcionou no host net6 (`AccessTools/MethodInvoker`); a alternativa CLR desktop foi executada, não um mock do Harmony. Fixtures são explicitamente sintéticas e não entram nos snapshots distribuídos.
 
 As verificações incluem corpus lossless, aprovação/diff, parser negativo, clones/rollback/conflito, fila/config, metadata da API real e bytes de cada recurso nas DLLs Debug e Release, além de execução de postfixes-isca reais em duas ordens de registro, owner ausente/desconhecido e ciclo. Isso **não** testa o plugin em Mono/Unity, a UI ou notas dos mods. Os builds têm um warning MSB3277 de System.Net.Http pela referência Assembly-CSharp; nenhum erro de compilação.
 
@@ -231,3 +231,5 @@ Para remover uma futura instalação autorizada, desative o mod no perfil ou rem
 Decisão de arquitetura BP-1; Original lossless BP-2; captura Corrigido sem aprovações BP-3. Fonte canônica: LANG-R1 `entrega02/localizacao-ptbr.json`. Os hashes completos e as pendências acompanham Data/; o assembly de referência é identificado pela fonte dos snapshots, não redistribuído. Aprovações editoriais e runtime autorizado BP-5 ainda são gates separados; build verde não libera publicação.
 
 </details>
+
+Nota desta rodada de empacotamento (fora do bloco acima, que segue integral): a contagem esperada de chaves alteradas da bancada de testes é lida de `Data/manifest.json` (`coverage.changedKeys`), não fixada no código, então `python tests/BetterPortuguese.Offline/run.py` dispensa flag; `--expected-changes N` continua sobrescrevendo para candidatos experimentais.
