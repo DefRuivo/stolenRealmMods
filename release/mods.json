@@ -45,10 +45,10 @@
     },
     {
       "nome": "BetterPortuguese",
-      "publicar": false,
+      "publicar": true,
       "versao_publicada": "0.1.0",
       "publicado_em": "2026-10-19T03:12:33.876445Z",
-      "motivo": "SEGURADO no lote de 19/10: o pacote 0.1.1 esta pronto (12 membros, suite 178/0, auditoria 93/0), mas o proprio relatorio da entrega aponta DOIS gates herdados ainda reprovados (slots posicionais da composicao e fixtures negativas). Nao publica com gate vermelho; a 0.1.0 ja esta no ar e segue valida."
+      "motivo": "PUBLICAR 0.1.1: concordancia de genero na raridade + 'Healing'->'Cura por Dano' (BP-COMP-1), adaptador BP<->BetterTooltips integrado (BP-MODS-2) e os dois gates herdados fechados (BP-GATE-1). Autorizado pelo dono (verbatim: 'publique')."
     },
     {
       "nome": "BetterStats",
