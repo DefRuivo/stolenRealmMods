@@ -75,9 +75,9 @@ internal static class Program
         var entryType = gameDll.Types.Single(t=>t.FullName=="LocalizationEntry");
         Check(CoreEntry.Fields.All(f=>entryType.Fields.Any(x=>x.Name==f && x.IsPublic)));
         using var plugin = ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin",config,"netstandard2.1/BetterPortuguese.dll"));
-        Check(plugin.Assembly.Name.Version.ToString()=="0.1.0.0");
+        Check(plugin.Assembly.Name.Version.ToString()=="0.1.1.0");
         var attribute = plugin.Types.Single(t=>t.FullName=="BetterPortuguese.Plugin").CustomAttributes.Single(a=>a.AttributeType.Name=="BepInPlugin");
-        Check((string)attribute.ConstructorArguments[0].Value=="com.gumatos.betterportuguese" && (string)attribute.ConstructorArguments[2].Value=="0.1.0");
+        Check((string)attribute.ConstructorArguments[0].Value=="com.gumatos.betterportuguese" && (string)attribute.ConstructorArguments[2].Value=="0.1.1");
         Check(plugin.Resources.Count==ResourceHashes.Expected.Count);
         foreach (var pair in ResourceHashes.Expected)
         {

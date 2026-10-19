@@ -2,7 +2,7 @@
  <PropertyGroup>
   <TargetFramework>netstandard2.1</TargetFramework><LangVersion>10</LangVersion>
   <AssemblyName>BetterPortuguese</AssemblyName><RootNamespace>BetterPortuguese</RootNamespace>
-  <Version>0.1.0</Version><CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+  <Version>0.1.1</Version><CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   <DeployToBepInEx Condition="'$(DeployToBepInEx)' == ''">false</DeployToBepInEx>
     <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\lib</CommonLibDir>
    </PropertyGroup>
