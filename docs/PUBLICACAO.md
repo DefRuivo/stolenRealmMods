@@ -356,6 +356,34 @@ Aceitável subir **DLL de mod** (é código nosso). DLL do jogo, nunca.
 
 ## 5) Passo a passo de um release
 
+### 5.0) Quanto vai subir: os dois modos de disparo (uma aprovação em ambos)
+
+O pipeline tem **dois modos**, e os dois custam **um único clique** no Environment:
+
+| modo | como disparar | o que sobe | quando usar |
+|---|---|---|---|
+| **lote** | `mod=todos` (default) | **exatamente** os mods com `publicar:true` em `release/mods.json` | várias versões novas de uma vez |
+| **um mod** | `mod=<Nome do mod>` | só aquele mod, mesmo que outros estejam liberados | correção pontual |
+
+O **seletor é o ledger**: `publicar:true` significa "esta versão entra no próximo envio". Para entregar
+três de nove, deixe `publicar:true` só nesses três e dispare `todos` — os outros nem são tocados. Não
+existe caminho de "um clique sem gate": o Environment continua sendo aprovado pelo dono, uma vez por
+run, independentemente de o run levar 1 ou 9 pacotes.
+
+**Duas travas do modo lote, medidas na fonte (`publish.yml`, §4.3):**
+
+1. o pre-flight lê a versão do `<Version>` do `.csproj` de **cada** alvo e exige
+   `dist/gumatos-<Nome>-<versão>.zip` **presente no runner** — o zip vem da GitHub Release apontada por
+   `release_tag`, então **a Release precisa carregar o ZIP de todo mod com `publicar:true`**, mesmo os
+   que já estão naquela versão;
+2. versão **já publicada é pulada** (`nada a enviar - todos os alvos ja estao publicados nesta versao`),
+   então repetir o disparo não duplica nada.
+
+**Ordem de envio:** se algum mod declara dependência de outro **nesta mesma leva**, o dependente só
+resolve depois de o provedor estar no ar — a Thunderstore recusa referência inexistente no upload.
+Na dúvida, encadeie manualmente: suba o provedor primeiro (modo "um mod"), confirme na API, depois os
+dependentes.
+
 Tudo da raiz do repositório, na máquina com o jogo instalado.
 
 ```bash

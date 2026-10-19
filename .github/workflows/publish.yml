@@ -752,6 +752,25 @@ jobs:
           path: envio-RoguelikeDebugger
           file: dist/gumatos-RoguelikeDebugger-${{ steps.pre.outputs.VERSAO_RoguelikeDebugger }}.zip
 
+      # ORDEM FISICA = ORDEM DE ENVIO. O RealmApi sobe ANTES do RSTV porque o RSTV declara
+      # `DefRuivo_StolenRealmMods-RealmApi-0.1.1` e a Thunderstore recusa referencia inexistente.
+      # Nao reordene estes passos sem revisar o grafo de dependencias de release/mods.json.
+      - name: "5.7 Publica RealmApi"
+        if: contains(steps.pre.outputs.ENVIAR, '"RealmApi"')
+        continue-on-error: true
+        uses: GreenTF/upload-thunderstore-package@v4.3
+        with:
+          token: ${{ secrets.THUNDERSTORE_TOKEN }}
+          community: ${{ steps.pre.outputs.COMUNIDADE }}
+          namespace: ${{ steps.pre.outputs.TEAM }}
+          name: RealmApi
+          version: ${{ steps.pre.outputs.VERSAO_RealmApi }}
+          description: ${{ steps.pre.outputs.DESC_RealmApi }}
+          categories: mods
+          repo: https://thunderstore.io
+          path: envio-RealmApi
+          file: dist/gumatos-RealmApi-${{ steps.pre.outputs.VERSAO_RealmApi }}.zip
+
       - name: "5.5 Publica RoguelikeSkillTreeVisualizer"
         if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeSkillTreeVisualizer"')
         # Um mod com problema nao pode derrubar os outros cinco: quem decide o
@@ -792,22 +811,6 @@ jobs:
       # (RealmApi e RoguelikeUnlimitedLevelProgression) e estes passos eram fixos, um por
       # mod: sem eles o pre-flight aprovava o envio e NADA era publicado - o run 38975540607
       # morreu no passo 6 procurando o RealmApi, que nunca teve passo de envio.
-      - name: "5.7 Publica RealmApi"
-        if: contains(steps.pre.outputs.ENVIAR, '"RealmApi"')
-        continue-on-error: true
-        uses: GreenTF/upload-thunderstore-package@v4.3
-        with:
-          token: ${{ secrets.THUNDERSTORE_TOKEN }}
-          community: ${{ steps.pre.outputs.COMUNIDADE }}
-          namespace: ${{ steps.pre.outputs.TEAM }}
-          name: RealmApi
-          version: ${{ steps.pre.outputs.VERSAO_RealmApi }}
-          description: ${{ steps.pre.outputs.DESC_RealmApi }}
-          categories: mods
-          repo: https://thunderstore.io
-          path: envio-RealmApi
-          file: dist/gumatos-RealmApi-${{ steps.pre.outputs.VERSAO_RealmApi }}.zip
-
       - name: "5.8 Publica RoguelikeUnlimitedLevelProgression"
         if: contains(steps.pre.outputs.ENVIAR, '"RoguelikeUnlimitedLevelProgression"')
         continue-on-error: true
