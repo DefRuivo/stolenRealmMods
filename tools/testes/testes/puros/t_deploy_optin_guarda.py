@@ -163,6 +163,24 @@ def corpo():
         arc.exigir("DeployToBepInEx" in saida,
                    "a reprovacao pela CLI nao nomeou o alvo: %s" % saida.strip())
 
+    # BP-GATE option (b): archived negative XML is not an active MSBuild project.
+    # Re-materializing the SAME bytes as .csproj must still fail, even in scratch.
+    isca = next(c["xml"] for c in casos if c["nome"] == "furoA_multilinha_sem_condition")
+    with tempfile.TemporaryDirectory(prefix="dep2-archive-") as raiz:
+        pasta = os.path.join(raiz, "scratch", "kit", "probe", "deploy-negative")
+        os.makedirs(pasta)
+        projeto = os.path.join(pasta, "unsafe.csproj")
+        arquivo = projeto + ".fixture"
+        with open(arquivo, "w", encoding="utf-8") as fh:
+            fh.write(isca)
+        arc.exigir(guarda.analisa_arquivo(arquivo), "XML arquivado perdeu a isca negativa")
+        rc, saida = _roda_cli(caminho_guarda, raiz)
+        arc.igual(rc, 0, "arquivo .fixture foi tratado como projeto: %s" % saida)
+        os.rename(arquivo, projeto)
+        rc, saida = _roda_cli(caminho_guarda, raiz)
+        arc.igual(rc, 1, "projeto inseguro ativo em scratch escapou: %s" % saida)
+        arc.exigir("unsafe.csproj" in saida, "contra-prova nao nomeou o projeto ativo")
+
     _provas_nominais(guarda, caminho_guarda, casos)
 
 

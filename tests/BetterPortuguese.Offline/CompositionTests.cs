@@ -69,7 +69,10 @@ internal static class CompositionTests
                 Check(method.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="ShowTooltip"));
                 Check(method.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="LocalizeEnum"));
             }
+            var display = tooltip.Methods.Single(m=>m.Name=="ShowTooltip");
+            Check(display.Parameters.Single(p=>p.Name=="subtitle").ParameterType.FullName=="System.String");
             var label = tooltip.Methods.Single(m=>m.Name=="GetDamageTypeLabel");
+            Check(label.Parameters.Single().Name=="damageType");
             Check(label.IsStatic && label.ReturnType.FullName=="System.String" && label.Parameters.Single().ParameterType.FullName=="DamageType");
             Check(label.Body.Instructions.Any(i=>i.Operand is string s && s=="[damage type] Damage"));
             Check(label.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="Replace"));
@@ -84,6 +87,18 @@ internal static class CompositionTests
                 }
             Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "[damage type] de Dano");
             Check(catalog.Corrected.Records["Healing"].Entries[0].Value == "Cura");
+        });
+        test("BP-GATE named production arguments in Debug and Release", () => {
+            foreach (string config in new[]{"Debug","Release"})
+            {
+                using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin",config,"netstandard2.1/BetterPortuguese.dll"));
+                var runtime=module.Types.Single(t=>t.FullName=="BetterPortuguese.Runtime.CompositionPatches");
+                var subtitle=runtime.Methods.Single(m=>m.Name=="SubtitlePrefix").Parameters.Single();
+                Check(subtitle.Name=="subtitle" && subtitle.ParameterType.FullName=="System.String&");
+                var damage=runtime.Methods.Single(m=>m.Name=="DamagePostfix");
+                Check(damage.Parameters.Single(p=>p.ParameterType.FullName=="DamageType").Name=="damageType");
+                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==2);
+            }
         });
         test("BP-COMP plugin production hooks wired", () => {
             using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin/Release/netstandard2.1/BetterPortuguese.dll"));

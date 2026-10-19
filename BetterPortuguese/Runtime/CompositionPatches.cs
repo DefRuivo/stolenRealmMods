@@ -34,6 +34,7 @@ internal static class CompositionPatches
             MethodInfo display = Bindings.Exact(typeof(Tooltip), "ShowTooltip", typeof(void), false,
                 typeof(string), typeof(string), typeof(Sprite), typeof(string), typeof(TooltipOffsetInfo),
                 typeof(Color), typeof(Vector3?), typeof(bool), typeof(bool), typeof(float), typeof(ControlGlyphInfo?), typeof(string), typeof(bool));
+            RequireArgument(display, "subtitle", typeof(string));
             var sources = new[] {
                 Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false,
                     typeof(Item), typeof(Transform), typeof(TooltipOffsetInfo), typeof(Character), typeof(bool), typeof(bool), typeof(ControlGlyphInfo?), typeof(string), typeof(Item)),
@@ -49,11 +50,20 @@ internal static class CompositionPatches
         try
         {
             var damage = Bindings.Exact(typeof(Tooltip), "GetDamageTypeLabel", typeof(string), true, typeof(DamageType));
+            RequireArgument(damage, "damageType", typeof(DamageType));
             Patch(harmony, damage, null, nameof(DamagePostfix), null);
             damageReady = true;
             info?.Invoke("BP-COMP: rotulo Healing registrado em Tooltip.GetDamageTypeLabel.");
         }
         catch (Exception ex) { damageReady = false; warnings?.Write("BP-COMP Healing recusado: " + ex.Message); }
+    }
+
+    // Harmony binds these arguments by NAME, not by their slot. Validate before
+    // registering any hook in the group; a missing/renamed/retyped target fails closed.
+    private static void RequireArgument(MethodInfo method, string name, Type type)
+    {
+        if (method == null || method.GetParameters().Count(p => p.Name == name && p.ParameterType == type) != 1)
+            throw new MissingMethodException("BP-COMP argumento ausente ou alterado: " + name);
     }
 
     private static void Patch(Harmony harmony, MethodInfo target, string prefix, string postfix, string finalizer)
@@ -88,28 +98,28 @@ internal static class CompositionPatches
         if (__state != null) itemDepth = __state.Previous;
         return __exception;
     }
-    private static void SubtitlePrefix(ref string __1)
+    private static void SubtitlePrefix(ref string subtitle)
     {
-        string incoming = __1;
+        string incoming = subtitle;
         try
         {
             if (!itemReady || itemDepth == 0 || !Enabled()) return;
             if (!itemAlive) { itemAlive = true; info?.Invoke("BP-COMP: gancho de subtitulo vivo em contexto nativo de item."); }
             string corrected = Composition.ItemSubtitle(incoming, out string reason);
             if (reason != null) warnings?.Write("BP-COMP subtitulo preservado: " + reason);
-            __1 = corrected;
+            subtitle = corrected;
             if (incoming != corrected) infoOnce("raridade corrigida");
         }
-        catch (Exception ex) { __1 = incoming; warnings?.Write("BP-COMP subtitulo preservado por excecao: " + ex.GetType().Name); }
+        catch (Exception ex) { subtitle = incoming; warnings?.Write("BP-COMP subtitulo preservado por excecao: " + ex.GetType().Name); }
     }
-    private static void DamagePostfix(DamageType __0, ref string __result)
+    private static void DamagePostfix(DamageType damageType, ref string __result)
     {
         string incoming = __result;
         try
         {
             if (!damageReady || !Enabled()) return;
             if (!damageAlive) { damageAlive = true; info?.Invoke("BP-COMP: gancho de tipo de dano vivo."); }
-            string corrected = Composition.DamageLabel(__0 == DamageType.Healing, incoming, out string reason);
+            string corrected = Composition.DamageLabel(damageType == DamageType.Healing, incoming, out string reason);
             if (reason != null) warnings?.Write("BP-COMP rotulo preservado: " + reason);
             __result = corrected;
             if (incoming != corrected) infoOnce("Healing corrigido: Cura de Dano -> Cura por Dano");

@@ -32,7 +32,14 @@ public class Tooltip
     [MethodImpl(MethodImplOptions.NoInlining)] public void ShowItemTooltip(ItemInfo item, TooltipOffsetInfo offset) { ShowTooltip("TITLE",Raw,null,"",null,new Color()); }
     [MethodImpl(MethodImplOptions.NoInlining)] public void ShowTransmogTooltip(ItemInfo item, TooltipOffsetInfo offset, ControlGlyphInfo? glyph=null, string footer=null) { ShowTooltip("TITLE",Raw,null,"",null,new Color()); }
     public static string Label="Cura de Dano";
-    [MethodImpl(MethodImplOptions.NoInlining)] public static string GetDamageTypeLabel(DamageType type) { return Label; }
+    [MethodImpl(MethodImplOptions.NoInlining)] public static string GetDamageTypeLabel(DamageType damageType) { return Label; }
+}
+// Deliberate API drift fixtures: same-typed strings swapped, and a renamed enum.
+public class ReorderedTooltip
+{
+    public string Drawn, Title;
+    [MethodImpl(MethodImplOptions.NoInlining)] public void ShowTooltip(string subtitle, string title) { Drawn=subtitle; Title=title; }
+    public static string RenamedDamage(DamageType type) { return "Cura de Dano"; }
 }
 public static class CompositionHarmonyProbe
 {
@@ -47,7 +54,13 @@ public static class CompositionHarmonyProbe
     static int Depth => (int)F("itemDepth").GetValue(null);
     static void Display(Tooltip t)=>t.ShowTooltip("TITLE","Lendário Varinha",null,"Cura de Dano",null,new Color(),isItem:true);
     static void Enter(Tooltip t)=>t.ShowItemTooltip(new Item(),null,null,null);
-    static void Competing(ref string __1) { __1="Outro formato"; }
+    static void Competing(ref string subtitle) { subtitle="Outro formato"; }
+    static void Require(MethodInfo method, string name, Type type) => M("RequireArgument").Invoke(null,new object[]{method,name,type});
+    static bool Reject(MethodInfo method, string name, Type type)
+    {
+        try { Require(method,name,type); return false; }
+        catch (TargetInvocationException ex) { return ex.InnerException is MissingMethodException; }
+    }
     public static int Main()
     {
         var h=new Harmony(BetterPortuguese.Plugin.Guid);
@@ -58,6 +71,18 @@ public static class CompositionHarmonyProbe
             Mark("assembly drift rejected/logged before any hook",!(bool)F("itemReady").GetValue(null)&&!(bool)F("damageReady").GetValue(null)&&logs.Any(s=>s.Contains("SHA-256 divergente")));
             // Bypass only the intentionally mismatching synthetic assembly identity.
             var patch=M("Patch");
+            var displayTarget=typeof(Tooltip).GetMethod("ShowTooltip");
+            var damageTarget=typeof(Tooltip).GetMethod("GetDamageTypeLabel");
+            Require(displayTarget,"subtitle",typeof(string));
+            Require(damageTarget,"damageType",typeof(DamageType));
+            Mark("named argument contracts accepted",true);
+            Mark("missing target fails closed",Reject(null,"subtitle",typeof(string)));
+            Mark("renamed subtitle fails closed",Reject(displayTarget,"renamedSubtitle",typeof(string)));
+            Mark("retyped subtitle fails closed",Reject(displayTarget,"subtitle",typeof(int)));
+            Mark("renamed damageType fails closed",Reject(typeof(ReorderedTooltip).GetMethod("RenamedDamage"),"damageType",typeof(DamageType)));
+            var reordered=typeof(ReorderedTooltip).GetMethod("ShowTooltip");
+            Require(reordered,"subtitle",typeof(string));
+            patch.Invoke(null,new object[]{h,reordered,"SubtitlePrefix",null,null});
             var methods=typeof(Tooltip).GetMethods(BindingFlags.Public|BindingFlags.Instance|BindingFlags.Static|BindingFlags.DeclaredOnly);
             foreach(var m in methods)
             {
@@ -68,6 +93,11 @@ public static class CompositionHarmonyProbe
                 patch.Invoke(null,new object[]{h,m,pre,post,fin});
             }
             F("itemReady").SetValue(null,true);F("damageReady").SetValue(null,true);
+            var moved=new ReorderedTooltip();
+            F("itemDepth").SetValue(null,1);
+            try { moved.ShowTooltip("Lendário Varinha","TITLE unchanged"); }
+            finally { F("itemDepth").SetValue(null,0); }
+            Mark("same-typed argument reorder binds subtitle not title",moved.Drawn=="Lendária Varinha"&&moved.Title=="TITLE unchanged"&&Depth==0);
             var t=new Tooltip();
             Display(t);Mark("no scope => no change even isItem=true",t.Drawn=="Lendário Varinha"&&Depth==0);
             Enter(t);Mark("native-shaped item scope + original executed",t.Drawn=="Lendária Varinha"&&Depth==0);
