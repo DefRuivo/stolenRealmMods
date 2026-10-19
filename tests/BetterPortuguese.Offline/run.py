@@ -76,9 +76,15 @@ def main():
     command += sorted((REPO/'BetterPortuguese/Core').glob('*.cs'))
     run(command,out/'build-harmony-clr.log')
     harmony = run([probe/'HarmonyCoreProbe.exe'],out/'harmony-tests.log')
+    composition_command = ['dotnet', csc, '-nologo', '-noconfig', '-nostdlib+', '-langversion:10', '-target:exe', f'-out:{probe / "CompositionHarmonyProbe.exe"}']
+    composition_command += [f'-r:{framework/name}' for name in ['mscorlib.dll', 'System.dll', 'System.Core.dll']]
+    composition_command += [f'-r:{deps/"0Harmony.dll"}', HERE/'CompositionHarmonyProbe.cs', HERE/'StubTypes.cs', REPO/'BetterPortuguese/Runtime/Bindings.cs', REPO/'BetterPortuguese/Runtime/CompositionPatches.cs']
+    composition_command += sorted((REPO/'BetterPortuguese/Core').glob('*.cs'))
+    run(composition_command, out/'build-composition-clr.log')
+    composition = run([probe/'CompositionHarmonyProbe.exe'], out/'composition-harmony-tests.log')
     count = lambda text: tuple(int(n) for n in re.search(r'RESULT passed=(\d+) failed=(\d+)',text).groups())
-    cp,cf=count(core); hp,hf=count(harmony)
-    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,totalPassed=cp+hp,totalFailed=cf+hf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Expected changed-key count: {a.expected_changes} (source: {count_source})','No approved mod or manual adapters'])
+    cp,cf=count(core); hp,hf=count(harmony); bp,bf=count(composition)
+    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,compositionHarmonyPassed=bp,compositionHarmonyFailed=bf,totalPassed=cp+hp+bp,totalFailed=cf+hf+bf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Expected changed-key count: {a.expected_changes} (source: {count_source})','No approved mod or manual adapters'])
     (out/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(report,indent=2))
     return int(report['totalFailed']!=0)
