@@ -134,13 +134,21 @@ def entradas_do_repo():
     for nome in _pastas_com_manifest():
         caminho = os.path.join(RAIZ, nome, "manifest.json")
         try:
-            manifesto = json.loads(io.open(caminho, encoding="utf-8").read())
+            with io.open(caminho, encoding="utf-8") as arquivo:
+                manifesto = json.load(arquivo)
         except (OSError, ValueError):
             continue
         if not isinstance(manifesto, dict):
             continue
+        # PACOTES-1: dependencias referem o name do manifest, nao a pasta de metadados.
+        # RealmApi vive em api/: usar "api" fazia o mesmo lote liberado reprovar como
+        # pacote inexistente, alem de perder a ordem/ciclo com RealmApi. O gate de
+        # metadados continua cobrando esse name contra o layout do empacotador.
+        nome_pacote = manifesto.get("name")
+        if not isinstance(nome_pacote, str) or not NOME_VALIDO.fullmatch(nome_pacote):
+            nome_pacote = nome  # manifest invalido continua a cargo do gate de metadados
         entradas.append({
-            "nome": nome,
+            "nome": nome_pacote,
             "versao": manifesto.get("version_number"),
             "deps": list(manifesto.get("dependencies") or []),
         })
@@ -149,7 +157,8 @@ def entradas_do_repo():
 
 def ler_mods_json():
     try:
-        return json.loads(io.open(MODS_JSON, encoding="utf-8").read())
+        with io.open(MODS_JSON, encoding="utf-8") as arquivo:
+            return json.load(arquivo)
     except (OSError, ValueError):
         return None
 

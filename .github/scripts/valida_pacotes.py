@@ -143,15 +143,19 @@ def versoes_do_repo():
     com_manifest, _ = pastas_com_manifest()
     for nome in com_manifest:
         try:
-            manifesto = json.loads(io.open(os.path.join(RAIZ, nome, "manifest.json"),
-                                           encoding="utf-8").read())
+            with io.open(os.path.join(RAIZ, nome, "manifest.json"), encoding="utf-8") as arquivo:
+                manifesto = json.load(arquivo)
         except (OSError, ValueError):
             continue
-        versoes[nome] = manifesto.get("version_number")
+        if not isinstance(manifesto, dict):
+            continue
+        # PACOTES-1: a referencia usa RealmApi, nao api. A MESMA identidade do layout
+        # (PKG-API-1) deve indexar versoes; senao namespace/versao da API escapam da regra 5.
+        versoes[nome_do_pacote(nome)] = manifesto.get("version_number")
     team = None
     try:
-        config = json.loads(io.open(os.path.join(RAIZ, "release", "mods.json"),
-                                    encoding="utf-8").read())
+        with io.open(os.path.join(RAIZ, "release", "mods.json"), encoding="utf-8") as arquivo:
+            config = json.load(arquivo)
         team = config.get("team")
     except (OSError, ValueError):
         pass
@@ -204,7 +208,8 @@ def valida(nome):
     caminho_manifest = os.path.join(pasta, "manifest.json")
 
     try:
-        manifesto = json.loads(io.open(caminho_manifest, encoding="utf-8").read())
+        with io.open(caminho_manifest, encoding="utf-8") as arquivo:
+            manifesto = json.load(arquivo)
     except ValueError as erro:
         return ["manifest.json nao e JSON valido: %s" % erro], dados
     if not isinstance(manifesto, dict):
