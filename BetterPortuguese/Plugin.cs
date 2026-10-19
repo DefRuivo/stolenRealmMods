@@ -70,6 +70,7 @@ public sealed class Plugin : BaseUnityPlugin
         // GUIManager.Update is a live main-thread driver even when timeScale == 0.
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
+        CompositionPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
         log.LogInfo("BetterPortuguese 0.1.0 carregado.");
     }
     private void Install(string label, Func<MethodInfo> target, string patch)

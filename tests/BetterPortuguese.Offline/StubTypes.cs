@@ -11,5 +11,6 @@ public class LocalizationEntry
 }
 public static class OptionsManager
 {
+    public static LanguageChoice CurrentLanguage = LanguageChoice.PortugueseBrazil;
     public static List<LocalizationEntry> GetLocalizationEntryList(string original, LanguageChoice languageChoice, bool fallbackToTranslatorKey = false) => null;
 }
