@@ -1,5 +1,1503 @@
 {
   "schemaVersion": 1,
   "locale": "pt-BR",
-  "records": []
+  "modGuid": "com.gumatos.bettertooltips",
+  "modVersion": "0.1.5",
+  "records": [
+    {
+      "id": "BT-0001",
+      "kind": "note",
+      "source": "- Bear (a Grizzly): Stunning Slam, Wild Cleave",
+      "ptBR": "- Urso (Grizzly): Golpe Atordoante, Fenda Selvagem",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0002",
+      "kind": "note",
+      "source": "- Boar: Melee Attack, Fracture",
+      "ptBR": "- Javali: Ataque Corpo a Corpo, Fratura",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0003",
+      "kind": "note",
+      "source": "- Coyote: Melee Attack, Cripple",
+      "ptBR": "- Coiote: Ataque Corpo a Corpo, Aleijar",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0004",
+      "kind": "note",
+      "source": "- Moose: Melee Attack, Ground Slam",
+      "ptBR": "- Alce: Ataque Corpo a Corpo, Golpe no Chão",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0005",
+      "kind": "note",
+      "source": "- Panther: Melee Attack, Shadow Walk",
+      "ptBR": "- Pantera: Ataque Corpo a Corpo, Caminhar nas Sombras",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0006",
+      "kind": "note",
+      "source": "- Raccoon: Melee Attack, Steal Action",
+      "ptBR": "- Guaxinim: Ataque Corpo a Corpo, Roubar Ação",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0007",
+      "kind": "note",
+      "source": "- Raven: Melee Attack, Evasion",
+      "ptBR": "- Corvo: Ataque Corpo a Corpo, Evasão",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0008",
+      "kind": "note",
+      "source": "- Stag: Melee Attack, Stunning Kick",
+      "ptBR": "- Cervo: Ataque Corpo a Corpo, Chute Atordoante",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0009",
+      "kind": "note",
+      "source": "- Wolf: Melee Attack, Howl",
+      "ptBR": "- Lobo: Ataque Corpo a Corpo, Uivo",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0010",
+      "kind": "note",
+      "source": "Absorption scales with your Attack Power and Holy Power.",
+      "ptBR": "A absorção escala com seu Poder de Ataque e Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0011",
+      "kind": "note",
+      "source": "All attributes reduced by 5%.",
+      "ptBR": "Todos os atributos reduzidos em 5%.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0012",
+      "kind": "note",
+      "source": "Allies within 4 hexes of the caster: Muse I reduces Mana Costs by 10%, Muse II by a further 15%.",
+      "ptBR": "Aliados a até 4 hexágonos do conjurador: Musa I reduz os Custos de Mana em 10%, Musa II em mais 15%.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0013",
+      "kind": "note",
+      "source": "Also cannot be targeted by harmful skills, and harmful statuses do not apply.",
+      "ptBR": "Também não pode ser alvo de habilidades nocivas, e status nocivos não são aplicados.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0014",
+      "kind": "note",
+      "source": "Also grants immunity to effects that Disable the character (they cannot perform actions).",
+      "ptBR": "Também concede imunidade a efeitos que Incapacitam o personagem (impedem que execute ações).",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0015",
+      "kind": "note",
+      "source": "Also halves the effect of Chilled.",
+      "ptBR": "Também reduz pela metade o efeito de Resfriado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0016",
+      "kind": "note",
+      "source": "Also immune to being Chilled, Frozen, Stunned or Disabled.",
+      "ptBR": "Também concede imunidade a Resfriado, Congelado, Atordoado e Incapacitado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0017",
+      "kind": "note",
+      "source": "Also increases the healing this character does by the same percentage.",
+      "ptBR": "Também aumenta a cura realizada por este personagem na mesma porcentagem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0018",
+      "kind": "note",
+      "source": "Also increases the healing you do by the same percentage.",
+      "ptBR": "Também aumenta a cura que você realiza na mesma porcentagem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0019",
+      "kind": "note",
+      "source": "Also reduces the healing this character does by the same percentage.",
+      "ptBR": "Também reduz a cura realizada por este personagem na mesma porcentagem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0020",
+      "kind": "note",
+      "source": "Also works with Fist weapons, and it does not apply while wielding a two-handed weapon.",
+      "ptBR": "Também funciona com armas de Punho, e não se aplica ao empunhar uma arma de duas mãos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0021",
+      "kind": "note",
+      "source": "Base 10%; the value shown already includes the Shrine Effect Bonus.",
+      "ptBR": "Base de 10%; o valor exibido já inclui o Bônus de Efeito de Santuário.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0022",
+      "kind": "note",
+      "source": "Base 20%; the value shown already includes the Shrine Effect Bonus.",
+      "ptBR": "Base de 20%; o valor exibido já inclui o Bônus de Efeito de Santuário.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0023",
+      "kind": "note",
+      "source": "Base 25% damage and +25% damage taken; the value shown already includes the Shrine Effect Bonus. Also increases the healing you do by the same percentage.",
+      "ptBR": "Base de 25% de dano e +25% de dano recebido; o valor exibido já inclui o Bônus de Efeito de Santuário. Também aumenta a cura que você realiza na mesma porcentagem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0024",
+      "kind": "note",
+      "source": "Base 50%; the value shown already includes the Shrine Effect Bonus.",
+      "ptBR": "Base de 50%; o valor exibido já inclui o Bônus de Efeito de Santuário.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0025",
+      "kind": "note",
+      "source": "Base 8%; the value shown already includes the Shrine Effect Bonus.",
+      "ptBR": "Base de 8%; o valor exibido já inclui o Bônus de Efeito de Santuário.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0026",
+      "kind": "note",
+      "source": "Benefits from your Might and Intelligence, but does not count as a summon.",
+      "ptBR": "Beneficia-se da sua Força e Inteligência, mas não conta como uma invocação.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0027",
+      "kind": "note",
+      "source": "Cannot move or perform actions.",
+      "ptBR": "Não pode se mover nem executar ações.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0028",
+      "kind": "note",
+      "source": "Cannot move or perform actions; damage taken is increased by 50%.",
+      "ptBR": "Não pode se mover nem executar ações; o dano recebido aumenta em 50%.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0029",
+      "kind": "note",
+      "source": "Cannot take damage.",
+      "ptBR": "Não pode sofrer dano.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0030",
+      "kind": "note",
+      "source": "Counts 2H Axe, 2H Sword, 2H Mace, Polearm, Bow, 2H Gun, and Staff.",
+      "ptBR": "Considera Machado 2M, Espada 2M, Maça 2M, Arma de Haste, Arco, Arma de Fogo 2M e Cajado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0031",
+      "kind": "note",
+      "source": "Counts two one-handed weapons: 1H Sword, 1H Axe, 1H Mace, 1H Gun, Wand, Fist weapons, or Unarmed.",
+      "ptBR": "Considera duas armas de uma mão: Espada 1M, Machado 1M, Maça 1M, Arma de Fogo 1M, Varinha, armas de Punho ou Desarmado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0032",
+      "kind": "note",
+      "source": "Current health is increased by the same percentage and goes back down when the status ends.",
+      "ptBR": "A vida atual aumenta na mesma porcentagem e volta a diminuir quando o status termina.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0033",
+      "kind": "note",
+      "source": "Current health is reduced by the same percentage and comes back when the status ends. This cannot kill.",
+      "ptBR": "A vida atual diminui na mesma porcentagem e é restaurada quando o status termina. Isso não pode matar.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0034",
+      "kind": "note",
+      "source": "Damage and absorption scale with your Attack Power and Holy Power.",
+      "ptBR": "O dano e a absorção escalam com seu Poder de Ataque e Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0035",
+      "kind": "note",
+      "source": "Damage and healing scale with your Attack Power and Holy Power.",
+      "ptBR": "O dano e a cura escalam com seu Poder de Ataque e Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0036",
+      "kind": "note",
+      "source": "Damage scales with your Attack Power and Holy Power.",
+      "ptBR": "O dano escala com seu Poder de Ataque e Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0037",
+      "kind": "note",
+      "source": "Dire Wolf: Melee Attack, Blood Howl",
+      "ptBR": "Lobo Terrível: Ataque Corpo a Corpo, Uivo Sangrento",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0038",
+      "kind": "note",
+      "source": "Does not copy your attributes.",
+      "ptBR": "Não copia seus atributos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0039",
+      "kind": "note",
+      "source": "Each movement point lets you move one extra hex per turn.",
+      "ptBR": "Cada ponto de movimento permite mover-se um hexágono a mais por turno.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0040",
+      "kind": "note",
+      "source": "Each stack adds another 8%; you gain one stack per strike.",
+      "ptBR": "Cada acúmulo acrescenta mais 8%; você ganha um acúmulo por golpe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0041",
+      "kind": "note",
+      "source": "Each stack grants another 10% Max Health; you gain one stack per enemy hit.",
+      "ptBR": "Cada acúmulo concede mais 10% de Vida Máxima; você ganha um acúmulo por inimigo atingido.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0042",
+      "kind": "note",
+      "source": "Each stack is consumed by your next damaging or healing skill.",
+      "ptBR": "Cada acúmulo é consumido pela sua próxima habilidade de dano ou cura.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0043",
+      "kind": "note",
+      "source": "Gains a stack at the end of your turn, and moving removes the status.",
+      "ptBR": "Ganha um acúmulo no final do seu turno, e mover-se remove o status.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0044",
+      "kind": "note",
+      "source": "Grants additional attribute points each time you level up.",
+      "ptBR": "Concede pontos de atributo adicionais a cada avanço de nível.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0045",
+      "kind": "note",
+      "source": "Grizzly: Stunning Slam, Wild Cleave",
+      "ptBR": "Grizzly: Golpe Atordoante, Fenda Selvagem",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0046",
+      "kind": "note",
+      "source": "Guarantees a dodge (100% chance) against incoming attacks; each dodge spends one charge.",
+      "ptBR": "Garante uma esquiva (100% de chance) contra ataques recebidos; cada esquiva consome uma carga.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0047",
+      "kind": "note",
+      "source": "Healing is reduced by effects that lower the target's healing received.",
+      "ptBR": "A cura é reduzida por efeitos que diminuem a cura recebida pelo alvo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0048",
+      "kind": "note",
+      "source": "Healing scales with your Attack Power and Holy Power.",
+      "ptBR": "A cura escala com seu Poder de Ataque e Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0049",
+      "kind": "note",
+      "source": "Healing scales with your Holy Power.",
+      "ptBR": "A cura escala com seu Poder Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0050",
+      "kind": "note",
+      "source": "Heals each turn while the target stays in the holy ground.",
+      "ptBR": "Cura a cada turno enquanto o alvo permanece no solo sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0051",
+      "kind": "note",
+      "source": "Hits everything in a cone reaching 4 hexes from you.",
+      "ptBR": "Atinge tudo em um cone de até 4 hexágonos a partir de você.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0052",
+      "kind": "note",
+      "source": "Increases all damage you deal and all healing you do.",
+      "ptBR": "Aumenta todo o dano que você causa e toda a cura que realiza.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0053",
+      "kind": "note",
+      "source": "Increases life steal by 50%. The aura reaches 3 hexes from its source and applies to allies inside it.",
+      "ptBR": "Aumenta o roubo de vida em 50%. A aura alcança 3 hexágonos a partir da sua origem e se aplica aos aliados dentro dela.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0054",
+      "kind": "note",
+      "source": "Increases the chance for enemies to drop items. Does not affect item rarity. Stacks with your party.",
+      "ptBR": "Aumenta a chance de inimigos deixarem itens. Não afeta a raridade dos itens. Acumula com seu grupo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0055",
+      "kind": "note",
+      "source": "Increases the damage and health of your summoned creatures.",
+      "ptBR": "Aumenta o dano e a vida das suas criaturas invocadas.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0056",
+      "kind": "note",
+      "source": "Increases the gold you earn. Stacks with your party.",
+      "ptBR": "Aumenta o ouro que você recebe. Acumula com seu grupo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0057",
+      "kind": "note",
+      "source": "Increases the number of skill choices offered when leveling up.",
+      "ptBR": "Aumenta o número de opções de habilidade oferecidas ao avançar de nível.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0058",
+      "kind": "note",
+      "source": "Increases the range of your ranged attacks and skills. Does not apply to certain skills.",
+      "ptBR": "Aumenta o alcance dos seus ataques e habilidades à distância. Não se aplica a certas habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0059",
+      "kind": "note",
+      "source": "Invincible: it cannot be damaged.",
+      "ptBR": "Invencível: não pode sofrer dano.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0060",
+      "kind": "note",
+      "source": "Iron Golem: Ground Slam",
+      "ptBR": "Golem de Ferro: Golpe no Chão",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0061",
+      "kind": "note",
+      "source": "It also boosts your first healing, and the bonus is consumed by your first damaging or healing cast.",
+      "ptBR": "Também fortalece sua primeira cura, e o bônus é consumido pela sua primeira conjuração de dano ou cura.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0062",
+      "kind": "note",
+      "source": "It does not change how much Mana they cost, it does nothing for abilities that cost no Mana,",
+      "ptBR": "Não altera o custo de Mana delas, não afeta habilidades que não custam Mana,",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0063",
+      "kind": "note",
+      "source": "It reaches allies within 3 hexes of the seal's bearer.",
+      "ptBR": "Alcança aliados a até 3 hexágonos do portador do selo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0064",
+      "kind": "note",
+      "source": "Lasts 2 turns.",
+      "ptBR": "Dura 2 turnos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0065",
+      "kind": "note",
+      "source": "Lasts 3 turns.",
+      "ptBR": "Dura 3 turnos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0066",
+      "kind": "note",
+      "source": "Lasts 5 turns.",
+      "ptBR": "Dura 5 turnos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0067",
+      "kind": "note",
+      "source": "Lets you remove skill trees from your pool of skill choices (at least 4 trees remain). Can only be chosen at select party screen.",
+      "ptBR": "Permite remover árvores de habilidades do conjunto de opções (pelo menos 4 árvores permanecem). Só pode ser escolhido na tela de seleção do grupo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0068",
+      "kind": "note",
+      "source": "One is summoned at random:",
+      "ptBR": "Uma criatura é invocada aleatoriamente:",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0069",
+      "kind": "note",
+      "source": "Only abilities whose base cooldown is 2 or more are affected: 1-turn cooldowns stay at 1, and basic attacks are unaffected.",
+      "ptBR": "Só afeta habilidades com recarga base de 2 ou mais turnos: recargas de 1 turno permanecem em 1, e ataques básicos não são afetados.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0070",
+      "kind": "note",
+      "source": "Only ranged abilities are affected.",
+      "ptBR": "Só afeta habilidades à distância.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0071",
+      "kind": "note",
+      "source": "Only ranged attacks and skills lose range; melee range is unchanged.",
+      "ptBR": "Só ataques e habilidades à distância perdem alcance; o alcance corpo a corpo não muda.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0072",
+      "kind": "note",
+      "source": "Pack summons are fixed instead of random: Timber Wolf, Tundra Wolf and Dire Wolf.",
+      "ptBR": "As invocações de matilha são fixas em vez de aleatórias: Lobo da Floresta, Lobo da Tundra e Lobo Terrível.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0073",
+      "kind": "note",
+      "source": "Power of Mana increases the damage and healing of abilities that cost Mana.",
+      "ptBR": "O Poder de Mana aumenta o dano e a cura de habilidades que custam Mana.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0074",
+      "kind": "note",
+      "source": "Raven: Melee Attack, Evasion",
+      "ptBR": "Corvo: Ataque Corpo a Corpo, Evasão",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0075",
+      "kind": "note",
+      "source": "Raw damage, before damage reduction: your own Max Health multiplied by the percentage shown; the damage can be 0.",
+      "ptBR": "Dano bruto, antes da redução de dano: sua própria Vida Máxima multiplicada pela porcentagem exibida; o dano pode ser 0.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0076",
+      "kind": "note",
+      "source": "Reapplied each turn to enemies in range of the flower.",
+      "ptBR": "Reaplicado a cada turno aos inimigos ao alcance da flor.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0077",
+      "kind": "note",
+      "source": "Reduced by effects that lower the target's healing received.",
+      "ptBR": "Reduzida por efeitos que diminuem a cura recebida pelo alvo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0078",
+      "kind": "note",
+      "source": "Reduces Cold damage you take.",
+      "ptBR": "Reduz o dano de Frio que você recebe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0079",
+      "kind": "note",
+      "source": "Reduces Fire damage you take.",
+      "ptBR": "Reduz o dano de Fogo que você recebe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0080",
+      "kind": "note",
+      "source": "Reduces Lightning damage you take.",
+      "ptBR": "Reduz o dano de Raio que você recebe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0081",
+      "kind": "note",
+      "source": "Reduces Physical damage you take.",
+      "ptBR": "Reduz o dano Físico que você recebe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0082",
+      "kind": "note",
+      "source": "Reduces all damage you take. Applied before Resistances and Armor.",
+      "ptBR": "Reduz todo o dano que você recebe. Aplicado antes das Resistências e da Armadura.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0083",
+      "kind": "note",
+      "source": "Resistances reduce their damage type by the listed %. If a resistance goes negative, that damage type is amplified instead.",
+      "ptBR": "As Resistências reduzem o dano do seu tipo na porcentagem indicada. Se uma resistência ficar negativa, o dano desse tipo é amplificado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0084",
+      "kind": "note",
+      "source": "Restores health. The amount depends on the effect that applied it.",
+      "ptBR": "Restaura vida. A quantidade depende do efeito que a aplicou.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0085",
+      "kind": "note",
+      "source": "Scales with your character level.",
+      "ptBR": "Escala com o nível do seu personagem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0086",
+      "kind": "note",
+      "source": "Skeletal Archer: Ranged Attack",
+      "ptBR": "Arqueiro Esquelético: Ataque à Distância",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0087",
+      "kind": "note",
+      "source": "Skeletal Mage: Frost Nova, Fireball, Twister, Ghost Armor",
+      "ptBR": "Mago Esquelético: Nova de Gelo, Bola de Fogo, Tornado, Armadura Fantasma",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0088",
+      "kind": "note",
+      "source": "Skeletal Warrior: Melee Attack, Cleave",
+      "ptBR": "Guerreiro Esquelético: Ataque Corpo a Corpo, Fenda",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0089",
+      "kind": "note",
+      "source": "Skill range is reduced to 1 hex.",
+      "ptBR": "O alcance de habilidades é reduzido a 1 hexágono.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0090",
+      "kind": "note",
+      "source": "Stacks up to 10 times, one stack per ally killed.",
+      "ptBR": "Acumula até 10 vezes, um acúmulo por aliado morto.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0091",
+      "kind": "note",
+      "source": "Stacks up to 5 times.",
+      "ptBR": "Acumula até 5 vezes.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0092",
+      "kind": "note",
+      "source": "Stacks up to 8 times.",
+      "ptBR": "Acumula até 8 vezes.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0093",
+      "kind": "note",
+      "source": "That bonus is consumed by your first damaging cast.",
+      "ptBR": "Esse bônus é consumido pela sua primeira conjuração de dano.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0094",
+      "kind": "note",
+      "source": "The 2-hex area is centred on the chosen TARGET, not on the caster.",
+      "ptBR": "A área de 2 hexágonos é centrada no ALVO escolhido, não no conjurador.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0095",
+      "kind": "note",
+      "source": "The 5 counts the chain's HOPS, not different enemies: the bolt can hit the same enemy again, so with only two enemies in range it bounces between them.",
+      "ptBR": "O 5 conta os SALTOS da corrente, não inimigos diferentes: o raio pode atingir o mesmo inimigo novamente; com apenas dois inimigos ao alcance, ele salta entre eles.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0096",
+      "kind": "note",
+      "source": "The 50% roll only decides whether each element lands; the damage can still be dodged, and those are two separate rolls.",
+      "ptBR": "A rolagem de 50% só decide se cada elemento acerta; o dano ainda pode ser esquivado, e essas são duas rolagens separadas.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0097",
+      "kind": "note",
+      "source": "The Dragonkin grants a Slash, a Breath and an Orb of its element: Shadow, Frost, Lightning, Fire or Holy.",
+      "ptBR": "A forma Dracônica concede um Corte, um Sopro e um Orbe do seu elemento: Sombra, Frio, Raio, Fogo ou Sagrado.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0098",
+      "kind": "note",
+      "source": "The attacker takes this damage in return, based on its own Max Health and not on the health of the one it attacked, before damage reduction.",
+      "ptBR": "O atacante recebe esse dano de retorno, calculado sobre a própria Vida Máxima dele e não sobre a vida de quem ele atacou, antes da redução de dano.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0099",
+      "kind": "note",
+      "source": "The aura reaches 3 hexes from its source and applies to allies inside it.",
+      "ptBR": "A aura alcança 3 hexágonos a partir da sua origem e se aplica aos aliados dentro dela.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0100",
+      "kind": "note",
+      "source": "The aura reaches 3 hexes from its source, and it damages enemies that start their turns inside it.",
+      "ptBR": "A aura alcança 3 hexágonos a partir da sua origem e causa dano aos inimigos que começam seus turnos dentro dela.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0101",
+      "kind": "note",
+      "source": "The aura reaches 3 hexes from its source.",
+      "ptBR": "A aura alcança 3 hexágonos a partir da sua origem.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0102",
+      "kind": "note",
+      "source": "The bonus is your missing health as a percentage: up to +100% damage at 1 health.",
+      "ptBR": "O bônus é a porcentagem da sua vida faltante: até +100% de dano com 1 de vida.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0103",
+      "kind": "note",
+      "source": "The cone reaches 4 hexes from you.",
+      "ptBR": "O cone alcança 4 hexágonos a partir de você.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0104",
+      "kind": "note",
+      "source": "The line reaches 10 hexes from you.",
+      "ptBR": "A linha alcança 10 hexágonos a partir de você.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0105",
+      "kind": "note",
+      "source": "The line reaches 5 hexes from you.",
+      "ptBR": "A linha alcança 5 hexágonos a partir de você.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0106",
+      "kind": "note",
+      "source": "The path is a line of up to 7 hexes.",
+      "ptBR": "O trajeto é uma linha de até 7 hexágonos.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0107",
+      "kind": "note",
+      "source": "The pull drags them the whole way: they land on a hex adjacent to you.",
+      "ptBR": "A atração os arrasta por todo o percurso: eles param em um hexágono adjacente a você.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0108",
+      "kind": "note",
+      "source": "This cannot reduce the target below 1 health.",
+      "ptBR": "Isso não pode reduzir o alvo a menos de 1 de vida.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0109",
+      "kind": "note",
+      "source": "Timber Wolf: Melee Attack, Cripple",
+      "ptBR": "Lobo da Floresta: Ataque Corpo a Corpo, Aleijar",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0110",
+      "kind": "note",
+      "source": "Tundra Wolf: Melee Attack, Howl",
+      "ptBR": "Lobo da Tundra: Ataque Corpo a Corpo, Uivo",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0111",
+      "kind": "note",
+      "source": "Undead Berserker: Bleeding Cleave",
+      "ptBR": "Berserker Morto-vivo: Fenda Sangrenta",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0112",
+      "kind": "note",
+      "source": "Undead Ranger: Ranged Attack, Hide In Shadows",
+      "ptBR": "Patrulheiro Morto-vivo: Ataque à Distância, Esconder-se nas Sombras",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0113",
+      "kind": "note",
+      "source": "Undead Wizard: Bone Explosion, Consumption, Ghost Armor",
+      "ptBR": "Mago Morto-vivo: Explosão Óssea, Consumo, Armadura Fantasma",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0114",
+      "kind": "note",
+      "source": "While in the box you cannot move or use abilities.",
+      "ptBR": "Enquanto estiver na caixa, você não pode se mover nem usar habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0115",
+      "kind": "note",
+      "source": "While the tether lasts the Dead One is Invincible: it takes no damage and harmful statuses cannot be applied to it.",
+      "ptBR": "Enquanto o vínculo durar, o Morto é Invencível: não sofre dano e status nocivos não podem ser aplicados a ele.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0116",
+      "kind": "note",
+      "source": "While transformed you gain: Dragonkin Holy Slash, Dragonkin Holy Breath and Dragonkin Holy Blast.",
+      "ptBR": "Enquanto transformado, você ganha: Corte Sagrado Dracônico, Sopro Sagrado Dracônico e Explosão Sagrada Dracônica.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0117",
+      "kind": "note",
+      "source": "While transformed you gain: Energy Drain.",
+      "ptBR": "Enquanto transformado, você ganha: Drenar Energia.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0118",
+      "kind": "note",
+      "source": "While transformed you gain: a further empowered basic attack, Greater Blood Howl and Greater Cursed Bite.",
+      "ptBR": "Enquanto transformado, você ganha: um ataque básico ainda mais forte, Grande Uivo Sangrento e Grande Mordida Amaldiçoada.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0119",
+      "kind": "note",
+      "source": "While transformed you gain: a stronger basic attack, Blood Howl and Cursed Bite.",
+      "ptBR": "Enquanto transformado, você ganha: um ataque básico mais forte, Uivo Sangrento e Mordida Amaldiçoada.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0120",
+      "kind": "note",
+      "source": "Wolf: Melee Attack, Howl",
+      "ptBR": "Lobo: Ataque Corpo a Corpo, Uivo",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0121",
+      "kind": "note",
+      "source": "You can only target the taunter, and you are forced to attack them.",
+      "ptBR": "Você só pode escolher o provocador como alvo e é forçado a atacá-lo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0122",
+      "kind": "note",
+      "source": "Your Might raises its damage; your Intelligence, its health.",
+      "ptBR": "Sua Força aumenta o dano dele; sua Inteligência, a vida.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0123",
+      "kind": "note",
+      "source": "Your skeletal summons are raised as Undead instead: Undead Berserker, Undead Ranger and Undead Wizard.",
+      "ptBR": "Suas invocações esqueléticas são erguidas como Mortos-vivos: Berserker Morto-vivo, Patrulheiro Morto-vivo e Mago Morto-vivo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0124",
+      "kind": "note",
+      "source": "and it does not change the duration or the bonuses of the statuses those abilities apply.",
+      "ptBR": "e não altera a duração nem os bônus dos status aplicados por essas habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0125",
+      "kind": "note",
+      "source": "Stealth: attacking from stealth has 100% critical hit chance.",
+      "ptBR": "Furtividade: atacar em furtividade tem 100% de chance de acerto crítico.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0126",
+      "kind": "note",
+      "source": "Marked Prey: increases damage taken by 10% per stack.",
+      "ptBR": "Presa Marcada: aumenta o dano recebido em 10% por acúmulo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0127",
+      "kind": "note",
+      "source": "Enraged characters are immune to movement impairing effects and knockback.",
+      "ptBR": "Personagens Enfurecidos são imunes a efeitos que prejudicam o movimento e a empurrões.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0128",
+      "kind": "note",
+      "source": "Life Steal: heals you for a percentage of your Max Health each time you hit. Reduced for area of effect abilities.",
+      "ptBR": "Roubo de Vida: cura uma porcentagem da sua Vida Máxima a cada acerto. Reduzido para habilidades de área.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0129",
+      "kind": "note",
+      "source": "Based on your own Max Health, so the amount follows your gear, powerups and skills.",
+      "ptBR": "Calculado sobre sua própria Vida Máxima; a quantidade acompanha seus equipamentos, melhorias e habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0130",
+      "kind": "note",
+      "source": "Based on your own Max Health, so the amount sacrificed follows your gear, powerups and skills.",
+      "ptBR": "Calculado sobre sua própria Vida Máxima; a quantidade sacrificada acompanha seus equipamentos, melhorias e habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0131",
+      "kind": "note",
+      "source": "Counts the health you are missing right now as a share of your maximum health, so the bonus rises as you take damage and falls as you heal.",
+      "ptBR": "Considera a vida que falta agora como uma fração da sua vida máxima; o bônus aumenta ao sofrer dano e diminui ao se curar.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0132",
+      "kind": "note",
+      "source": "Counted on the attribute value you have before this bonus, so the amount grows with your gear, powerups and skills.",
+      "ptBR": "Calculado sobre o valor do atributo antes deste bônus; a quantidade cresce com seus equipamentos, melhorias e habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0133",
+      "kind": "note",
+      "source": "Counted on your current attributes, so the amount follows your gear, powerups and skills.",
+      "ptBR": "Calculado sobre seus atributos atuais; a quantidade acompanha seus equipamentos, melhorias e habilidades.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0134",
+      "kind": "note",
+      "source": "Also increases Magic Armor by the same amount.",
+      "ptBR": "Também aumenta a Armadura Mágica na mesma quantidade.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0135",
+      "kind": "note",
+      "source": "Regenerates 20% of Max Health per turn; Max Health is reduced by 30%.",
+      "ptBR": "Regenera 20% da Vida Máxima por turno; a Vida Máxima é reduzida em 30%.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0136",
+      "kind": "note",
+      "source": "It cannot trigger while Rooted or Stunned, and it lands on an empty hex within 3 hexes of an enemy.",
+      "ptBR": "Não pode ativar enquanto estiver Enraizado ou Atordoado e leva a um hexágono vazio a até 3 hexágonos de um inimigo.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0137",
+      "kind": "note",
+      "source": "Only harmful abilities apply it, and only while the target does not already have Curse.",
+      "ptBR": "Somente habilidades nocivas o aplicam, e apenas enquanto o alvo ainda não tiver Maldição.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0138",
+      "kind": "note",
+      "source": "Counts the death of another enemy allied with it, not the death of your characters.",
+      "ptBR": "Considera a morte de outro inimigo aliado a ele, não a morte dos seus personagens.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0139",
+      "kind": "note",
+      "source": "On death it heals nearby allies; the amount is not stored with this passive, it comes from the ability this enemy casts when it dies.",
+      "ptBR": "Ao morrer, cura aliados próximos; a quantidade não é armazenada nesta passiva: vem da habilidade que este inimigo conjura ao morrer.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0140",
+      "kind": "note",
+      "source": "Reduces all damage you take.",
+      "ptBR": "Reduz todo o dano que você recebe.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0141",
+      "kind": "note",
+      "source": "Armor blocks damage: each {0} Armor reduces damage taken by 1 (capped at {1}% of the incoming damage). Armor and Magic Armor do not reduce Shadow damage.",
+      "ptBR": "A Armadura bloqueia dano: cada {0} de Armadura reduz o dano recebido em 1 (limitado a {1}% do dano recebido). Armadura e Armadura Mágica não reduzem dano de Sombra.",
+      "slots": [
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0142",
+      "kind": "note",
+      "source": "Reduces all damage you take. Applied before Armor and Resistances.",
+      "ptBR": "Reduz todo o dano que você recebe. Aplicado antes da Armadura e das Resistências.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0143",
+      "kind": "note",
+      "source": "Reduces all damage you take. Applied before Resistances.",
+      "ptBR": "Reduz todo o dano que você recebe. Aplicado antes das Resistências.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0144",
+      "kind": "note",
+      "source": "Reduces all damage you take. Applied before Armor.",
+      "ptBR": "Reduz todo o dano que você recebe. Aplicado antes da Armadura.",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0145",
+      "kind": "note",
+      "source": "Effects per point:\n+{0}% Damage & Healing\n+{1}% Summon Damage\n+{2}% Armor & Magic Armor",
+      "ptBR": "Efeitos por ponto:\n+{0}% de Dano e Cura\n+{1}% de Dano de Invocação\n+{2}% de Armadura e Armadura Mágica",
+      "slots": [
+        "number",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0146",
+      "kind": "note",
+      "source": "Effects per point:\n+{0} Crit Rating\n+{1}% Crit Damage\n1 Movement Per {2} Dex (Max 3)",
+      "ptBR": "Efeitos por ponto:\n+{0} de Índice Crítico\n+{1}% de Dano Crítico\n1 de Movimento a cada {2} de Des (Máx. 3)",
+      "slots": [
+        "number",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0147",
+      "kind": "note",
+      "source": "Effects per point:\n+{0} Max Mana\n+{1}% Max Mana\n1 Skill Range Per {2} Int (Max 3)\n+{3}% Summon Health",
+      "ptBR": "Efeitos por ponto:\n+{0} de Mana Máxima\n+{1}% de Mana Máxima\n1 de Alcance de Habilidade a cada {2} de Int (Máx. 3)\n+{3}% de Vida de Invocação",
+      "slots": [
+        "number",
+        "number",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0148",
+      "kind": "note",
+      "source": "Effects per point:\n+{0} Max Health\n+{1}% Max Health",
+      "ptBR": "Efeitos por ponto:\n+{0} de Vida Máxima\n+{1}% de Vida Máxima",
+      "slots": [
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0149",
+      "kind": "note",
+      "source": "Effects per point:\n+{0} Dodge Rating\n+{1}% Dodge Counter Chance\n+{2}% Opportunity Attack Damage\n+{3}% Counter Attack Damage\n1 Counter Attack a turn Per {4} Reflex (Max 3)",
+      "ptBR": "Efeitos por ponto:\n+{0} de Índice de Esquiva\n+{1}% de Chance de Contra-ataque por Esquiva\n+{2}% de Dano de Ataque de Oportunidade\n+{3}% de Dano de Contra-ataque\n1 Contra-ataque por turno a cada {4} de Reflexo (Máx. 3)",
+      "slots": [
+        "number",
+        "number",
+        "number",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0150",
+      "kind": "note",
+      "source": "Picking this up also heals you for {0}% of your Max Health and Max Mana ({1}): {2} health and {3} mana with your current pools.",
+      "ptBR": "Pegar isto também cura {0}% da sua Vida Máxima e Mana Máxima ({1}): {2} de vida e {3} de mana com seus valores atuais.",
+      "slots": [
+        "number",
+        "gameText",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0151",
+      "kind": "note",
+      "source": "Consuming a Globule also heals you for {0}% of your Max Health and Max Mana ({1}): {2} health and {3} mana with your current pools.",
+      "ptBR": "Consumir um Glóbulo também cura {0}% da sua Vida Máxima e Mana Máxima ({1}): {2} de vida e {3} de mana com seus valores atuais.",
+      "slots": [
+        "number",
+        "gameText",
+        "number",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0152",
+      "kind": "note",
+      "source": "In the aura now (raw damage it takes as the attacker, from the attacker's own Max Health): {0}.",
+      "ptBR": "Na aura agora (dano bruto que receberia como atacante, calculado sobre a Vida Máxima do próprio atacante): {0}.",
+      "slots": [
+        "opaque"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0153",
+      "kind": "note",
+      "source": "On death it casts {0}, so the amount healed follows that ability and is not a fixed value.",
+      "ptBR": "Ao morrer, conjura {0}; a cura depende dessa habilidade e não é um valor fixo.",
+      "slots": [
+        "gameText"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0154",
+      "kind": "note",
+      "source": "Heals allies for {0} on death.",
+      "ptBR": "Cura aliados em {0} ao morrer.",
+      "slots": [
+        "gameText"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0155",
+      "kind": "suffix",
+      "source": " ({0} health for you).",
+      "ptBR": " ({0} de vida para você).",
+      "slots": [
+        "richNumber"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0156",
+      "kind": "suffix",
+      "source": " ({0} health per turn for you).",
+      "ptBR": " ({0} de vida por turno para você).",
+      "slots": [
+        "richNumber"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0157",
+      "kind": "suffix",
+      "source": " ({0}% increased damage right now).",
+      "ptBR": " ({0}% de aumento de dano agora).",
+      "slots": [
+        "richNumber"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0158",
+      "kind": "suffix",
+      "source": " ({0} damage per turn for you).",
+      "ptBR": " ({0} de dano por turno para você).",
+      "slots": [
+        "richNumber"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0159",
+      "kind": "header",
+      "source": "Your active shrine auras:",
+      "ptBR": "Suas auras de santuário ativas:",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0160",
+      "kind": "header",
+      "source": "Your skills on this status:",
+      "ptBR": "Suas habilidades neste status:",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0161",
+      "kind": "aura",
+      "source": "Damage {0}%",
+      "ptBR": "Dano {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0162",
+      "kind": "aura",
+      "source": "Crit Chance {0}%",
+      "ptBR": "Chance Crítica {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0163",
+      "kind": "aura",
+      "source": "Dodge {0}%",
+      "ptBR": "Esquiva {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0164",
+      "kind": "aura",
+      "source": "Life Steal {0}%",
+      "ptBR": "Roubo de Vida {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0165",
+      "kind": "aura",
+      "source": "Health per turn {0}%",
+      "ptBR": "Vida por turno {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0166",
+      "kind": "aura",
+      "source": "Mana per turn {0}%",
+      "ptBR": "Mana por turno {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0167",
+      "kind": "aura",
+      "source": "Damage taken {0}%",
+      "ptBR": "Dano recebido {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0168",
+      "kind": "aura",
+      "source": "Stun chance {0}%",
+      "ptBR": "Chance de Atordoar {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0169",
+      "kind": "aura",
+      "source": "Mana Costs reduced by {0}%",
+      "ptBR": "Custos de Mana reduzidos em {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0170",
+      "kind": "aura",
+      "source": "Mana Costs increased by {0}%",
+      "ptBR": "Custos de Mana aumentados em {0}%",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0171",
+      "kind": "aura",
+      "source": "Shadow damage per turn {0}",
+      "ptBR": "Dano de Sombra por turno {0}",
+      "slots": [
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0172",
+      "kind": "aura",
+      "source": "Fire damage to attackers: {0}",
+      "ptBR": "Dano de Fogo aos atacantes: {0}",
+      "slots": [
+        "opaque"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0173",
+      "kind": "aura",
+      "source": "{0} {1}%",
+      "ptBR": "{0} {1}%",
+      "slots": [
+        "gameText",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0174",
+      "kind": "aura",
+      "source": "{0} {1}",
+      "ptBR": "{0} {1}",
+      "slots": [
+        "gameText",
+        "number"
+      ],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0175",
+      "kind": "fragment",
+      "source": "% damage",
+      "ptBR": "% de dano",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0176",
+      "kind": "fragment",
+      "source": "% Max Health",
+      "ptBR": "% de Vida Máxima",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    },
+    {
+      "id": "BT-0177",
+      "kind": "fragment",
+      "source": " per stack",
+      "ptBR": " por acúmulo",
+      "slots": [],
+      "approvalTaskId": "t_2e0fe616"
+    }
+  ]
 }

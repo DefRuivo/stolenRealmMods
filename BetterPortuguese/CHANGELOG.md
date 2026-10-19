@@ -9,6 +9,7 @@
 - Fix rarity gender agreement when composing item names, for example `Lendário Varinha` → `Lendária Varinha`.
 - Fix the composed `Healing` label: `Cura de Dano` → `Cura por Dano`.
 - These are runtime composition patches, not dataset changes. The same 1,319 owner-approved dataset corrections remain byte-for-byte unchanged.
+- Versioned BP-MODS-1 adapter for the optional BetterTooltips 0.1.5 (177 rules in `pt-BR.mods.json`): BP's localized origin is preserved, BT regroups its English block identities, and only BT-owned note/header/aura/fragment text is translated last. Missing or unhomologated BT disables this layer alone, with a warning; no `Update` hook and no BT/game asset edit. Native menu skill/status captures and disabled/English controls are recorded in the task report; live-combat aura/synergy lists are not claimed as runtime-verified.
 - Package preparation only: no installation or publication. Publication requires the owner's explicit go-ahead; offline validation does not replace an in-game check of this exact build.
 
 ## 0.1.0 — in preparation (implementation recorded on 2026-10-13)

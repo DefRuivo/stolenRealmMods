@@ -14,6 +14,7 @@ using BetterPortuguese.Runtime;
 namespace BetterPortuguese;
 
 [BepInPlugin("com.gumatos.betterportuguese", "BetterPortuguese", "0.1.1")]
+[BepInDependency(ModCatalog.BetterTooltipsGuid, BepInDependency.DependencyFlags.SoftDependency)]
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string Guid = "com.gumatos.betterportuguese";
@@ -41,7 +42,7 @@ public sealed class Plugin : BaseUnityPlugin
         Config.SaveOnConfigSet = false;
         active = Config.Bind("Geral", "Ativo", true, "Ativa somente as camadas do BetterPortuguese.");
         variant = Config.Bind("Geral", "Conjunto", Conjunto.Corrigido, "Corrigido (padrao) ou Original. Original deixa a localizacao vigente do jogo intacta.");
-        integrate = Config.Bind("Geral", "IntegracaoMods", true, "Reserva a camada de textos aprovados de mods. 0.1.1: registro vazio, nenhum adaptador ativo.");
+        integrate = Config.Bind("Geral", "IntegracaoMods", true, "Traduz os blocos do BetterTooltips homologado depois da ordem do BT; nao altera a camada base.");
         diagnostic = Config.Bind("Geral", "Diagnostico", false, "Log de estado e patches, sem log por frame/chave.");
         if (createConfig) Config.Save();
         Config.SaveOnConfigSet = true;
@@ -63,7 +64,12 @@ public sealed class Plugin : BaseUnityPlugin
             log.LogInfo("BetterPortuguese 0.1.1: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
         }
         catch (Exception ex) { overlay = null; log.LogError("BetterPortuguese: camada base desativada: " + ex.Message); }
-        try { log.LogInfo("BetterPortuguese: registry de mods = " + Core.Resources.LoadMods(typeof(Plugin).Assembly) + "; nenhum adaptador ativo / manuais sem traducao aprovada."); }
+        ModCatalog mods = null;
+        try
+        {
+            mods = Core.Resources.LoadMods(typeof(Plugin).Assembly);
+            log.LogInfo("BetterPortuguese: registry de mods = " + mods.Count + " regras aprovadas (BetterTooltips " + ModCatalog.BetterTooltipsVersion + ").");
+        }
         catch (Exception ex) { log.LogWarning("BetterPortuguese: camada de mods desativada, base independente: " + ex.Message); }
         harmony = new Harmony(Guid);
         Install("consulta da lista", () => Bindings.ListTarget(), nameof(ListPostfix));
@@ -71,6 +77,7 @@ public sealed class Plugin : BaseUnityPlugin
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
         CompositionPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
+        if (mods != null) BetterTooltipsAdapter.Install(mods, () => States.Current, limited, message => log.LogInfo(message));
         log.LogInfo("BetterPortuguese 0.1.1 carregado.");
     }
     private void Install(string label, Func<MethodInfo> target, string patch)
@@ -136,7 +143,7 @@ public sealed class Plugin : BaseUnityPlugin
             {
                 refreshPending |= RefreshPlan.Needed(before, States.Current);
                 var s = States.Current;
-                log?.LogInfo("BetterPortuguese: estado aplicado na thread principal: " + (s.Valid && s.Active ? s.Variant.ToString() : "desativado") + ", IntegracaoMods=" + s.IntegrateMods + " (0 adaptadores).");
+                log?.LogInfo("BetterPortuguese: estado aplicado na thread principal: " + (s.Valid && s.Active ? s.Variant.ToString() : "desativado") + ", IntegracaoMods=" + s.IntegrateMods + " (" + BetterTooltipsAdapter.Count + " adaptador(es) registrado(s)).");
             }
             if (!refreshPending || !SceneManager.GetActiveScene().IsValid() || OptionsManager.instance == null) return;
             // Invalidate BEFORE calling game UI to avoid refresh reentrancy.

@@ -140,7 +140,7 @@ internal static class Program
             Reject(()=>TokenGuard.Check("<gold>","<incr>"));
         });
         Test("9090/8097/1286/5 lossless corpus",()=>{Check(real.Original.Records.Values.Count(r=>r.PresentInSource)==9090); Check(real.Original.Records.Values.Sum(r=>r.Entries?.Count??0)==8097); Check(real.Original.Records.Values.Count(r=>r.Entries?.Count==0)==1286); Check(real.Original.Records.Values.Count(r=>r.Entries==null)==5);});
-        Test("empty mod registry",()=>Check(Res.LoadMods(typeof(Program).Assembly)==0));
+        Test("versioned BT mod registry",()=>Check(Res.LoadMods(typeof(Program).Assembly).Count==177));
         Test("embedded corruption fails SHA and preserves base",()=>{
             using var module=ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin/Release/netstandard2.1/BetterPortuguese.dll"));
             var old=(EmbeddedResource)module.Resources.Single(r=>r.Name=="BetterPortuguese.Data.pt-BR.original.json");
@@ -217,6 +217,7 @@ internal static class Program
         Test("refresh zero approved changes is empty",()=>Check(RefreshPlan.Select(new Dictionary<int,string>{{1,"key"}},new HashSet<string>()).Length==0));
         AdditionTests.Run(Test);
         CompositionTests.Run(Test, repo, real);
+        ModTests.Run(Test, repo);
         Test("real Debug API/resources",()=>Metadata(repo,"Debug"));
         Test("real Release API/resources",()=>Metadata(repo,"Release"));
         Console.WriteLine("HARMONY execution is a separate desktop-CLR probe (HarmonyCoreProbe.cs); local HarmonyX is not CoreCLR/net6-compatible.");

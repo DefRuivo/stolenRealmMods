@@ -20,8 +20,8 @@
     },
     {
       "path": "pt-BR.mods.json",
-      "bytes": 68,
-      "sha256": "cb7e2437cf1ff68497c2223be77c10f1847ae8314d904943a53ceb6dac1aff65"
+      "bytes": 52403,
+      "sha256": "90b3ee25720d9568da3590c29bbd870cd58766988f55f37749e80eb377ced9a0"
     },
     {
       "path": "pt-BR.original.json",
@@ -39,12 +39,12 @@
     "portugueseKeys": 9090,
     "manualRecords": 2,
     "changedKeys": 1319,
-    "approvedModRecords": 0
+    "approvedModRecords": 177
   },
   "limits": [
     "Preserved: 14 approved text changes (LANG-C4 A1+A2+A3, gate t_ec66f0bb)",
     "No manual adapter",
-    "No approved mod bindings",
+    "BP-MODS-1: one versioned BetterTooltips 0.1.5 adapter; base changes remain 1319; runtime proof in separate report",
     "Applied checkpoint reconciled: C1=1227, C2=27, C3=36, C5=10; total including C4=1314 unique changed keys",
     "Six approved C1 additions remain excluded by token guard: LANG-08822, LANG-08823, LANG-08824, LANG-08825, LANG-08826, LANG-08828",
     "Dataset-only consolidation APL-LANG-1A; build, resource hash synchronization, tests and packaging belong to APL-LANG-1B",

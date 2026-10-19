@@ -26,15 +26,5 @@ internal static class Resources
             if (kv.Key != "pt-BR.mods.json") Read(assembly, kv.Key);
         return Catalog.Parse(Read(assembly, "pt-BR.original.json"), Read(assembly, "pt-BR.corrigido.json"), Read(assembly, "correcoes.diff.json"));
     }
-    public static int LoadMods(Assembly assembly)
-    {
-        var root = JsonShape.Object(StrictJson.Parse(Read(assembly, "pt-BR.mods.json")));
-        JsonShape.Fields(root, "schemaVersion", "locale", "records");
-        if (JsonShape.Int(root["schemaVersion"]) != 1 || JsonShape.Text(root["locale"]) != "pt-BR") throw new FormatException("Invalid mod registry");
-        int count = JsonShape.Array(root["records"]).Count;
-        // No approved mod translations/bindings were delivered by BP-3. Fail closed,
-        // rather than guessing source contexts or claiming all mods are translated.
-        if (count != 0) throw new NotSupportedException("Versioned mod adapters require an approved dataset and a newer plugin");
-        return count;
-    }
+    public static ModCatalog LoadMods(Assembly assembly) => ModCatalog.Parse(Read(assembly, "pt-BR.mods.json"));
 }

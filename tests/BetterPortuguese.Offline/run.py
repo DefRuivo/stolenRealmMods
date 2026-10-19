@@ -33,6 +33,9 @@ def main():
     a = ap.parse_args(); out = a.out.resolve(); out.mkdir(parents=True, exist_ok=True)
     count_source = 'argument' if a.expected_changes is not None else 'Data/manifest.json coverage.changedKeys'
     if a.expected_changes is None: a.expected_changes = declared_changes()
+    import mod_probe
+    corpus, generated = mod_probe.prepare(REPO, out)
+    os.environ['BPMODS_CORPUS'] = str(corpus)
     deps = out/'deps'; deps.mkdir(exist_ok=True)
     hashes = {}
     for name in ['0Harmony.dll', 'Mono.Cecil.dll', 'MonoMod.Utils.dll', 'MonoMod.RuntimeDetour.dll']:
@@ -82,9 +85,10 @@ def main():
     composition_command += sorted((REPO/'BetterPortuguese/Core').glob('*.cs'))
     run(composition_command, out/'build-composition-clr.log')
     composition = run([probe/'CompositionHarmonyProbe.exe'], out/'composition-harmony-tests.log')
+    mods = mod_probe.execute(REPO, HERE, out, deps, probe, csc, framework, run, generated)
     count = lambda text: tuple(int(n) for n in re.search(r'RESULT passed=(\d+) failed=(\d+)',text).groups())
-    cp,cf=count(core); hp,hf=count(harmony); bp,bf=count(composition)
-    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,compositionHarmonyPassed=bp,compositionHarmonyFailed=bf,totalPassed=cp+hp+bp,totalFailed=cf+hf+bf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,limits=['UI/game/Mono not exercised',f'Expected changed-key count: {a.expected_changes} (source: {count_source})','No approved mod or manual adapters'])
+    cp,cf=count(core); hp,hf=count(harmony); bp,bf=count(composition); mp,mf=count(mods)
+    report=dict(corePassed=cp,coreFailed=cf,harmonyPassed=hp,harmonyFailed=hf,compositionHarmonyPassed=bp,compositionHarmonyFailed=bf,modsHarmonyPassed=mp,modsHarmonyFailed=mf,totalPassed=cp+hp+bp+mp,totalFailed=cf+hf+bf+mf,dependencySha256=hashes,noGameTargetPatched=True,deployment=False,runtimeSettings={k:v for k,v in os.environ.items() if k.startswith(('DOTNET_','COMPlus_'))},limits=['UI/game/Mono not exercised by this offline suite',f'Expected changed-key count: {a.expected_changes} (source: {count_source})','One versioned BT adapter; manual records remain unsupported'])
     (out/'verification.json').write_text(json.dumps(report,indent=2)+'\n',encoding='utf-8')
     print(json.dumps(report,indent=2))
     return int(report['totalFailed']!=0)
