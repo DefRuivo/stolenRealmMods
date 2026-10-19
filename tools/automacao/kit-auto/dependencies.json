@@ -1,0 +1,12 @@
+{
+  "schema": "KIT-AUTO/dependencies/1",
+  "files": {
+    "scratch/kit/front-unica.sh": "fbf15da9f148162e8b06d4a3d61bcdb7400be3491c58e5ed6984c8eeb1e8dd1e",
+    "scratch/kit/runtime-isolado.sh": "c40cfd807635f256b7f8a0a4e8c968088b1f6902540f44a7fae2e84f7db231eb",
+    "scratch/kit/kit16-save-isolado.sh": "3a571db3298dd6b4c999445df390aa5745b2f4da157c0666bb6365c3815b93da",
+    "scratch/kit/kit16-junction.ps1": "41e942e458186949c04146090a1426634020592b01a08727524db718787896a2",
+    "scratch/kit/tree_snapshot.py": "1355bf94d57b095db33387fb8dafe92090f39b4df5be91f6d12c37492ed43811",
+    "tools/check_deploy_optin.py": "edd08951ca7ba52ddfc5c79b4868ab744e3cb718d2c10daffb1201276af3d294",
+    "tools/automacao/runtime/coletor.py": "159ff2aa4ffd1d57c26c1722340a3f23d33c73db75450d7ff7d02ab0dd4f7f3d"
+  }
+}

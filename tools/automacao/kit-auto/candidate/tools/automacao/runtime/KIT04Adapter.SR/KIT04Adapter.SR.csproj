@@ -1,0 +1,49 @@
+<!-- KIT-04F: KIT04Adapter.SR — adapter Stolen Realm para o KIT-04 Core -->
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>KIT04Adapter.SR</RootNamespace>
+    <AssemblyName>KIT04Adapter.SR</AssemblyName>
+    <Version>0.1.0</Version>
+    <Description>KIT-04F adapter Stolen Realm: integra KIT-04 Core com o jogo. Desabilitado por padrão.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!-- KIT-15F/F9: paths de referencia SELECIONAVEIS (nao fixos no repositorio do autor).
+         $(RefLibDir) aponta para as DLLs de referencia (BepInEx/Unity) e $(GameManaged) para
+         o Managed do jogo. Ambos podem ser sobrescritos pela linha de comando ou por variavel
+         de ambiente; os defaults so valem quando as pastas existem no disco. -->
+    <RefLibDir Condition="'$(RefLibDir)' == ''">$(MSBuildThisFileDirectory)../../../../lib</RefLibDir>
+    <!-- GameManaged e OPCIONAL: e a pasta Managed do jogo (UnityEngine.ScreenCapture/ImageConversion).
+         Nao ha caminho fixo de maquina aqui; informe com -p:GameManaged=... quando precisar
+         dessas referencias. Sem ele, o build segue com as refs que nao dependem do jogo. -->
+    <GameManaged Condition="'$(GameManaged)' == ''"></GameManaged>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\core\KIT04Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(RefLibDir)/Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization"><HintPath>$(RefLibDir)/Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization.Config"><HintPath>$(RefLibDir)/Sirenix.Serialization.Config.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes"><HintPath>$(RefLibDir)/Sirenix.OdinInspector.Attributes.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Utilities"><HintPath>$(RefLibDir)/Sirenix.Utilities.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="BepInEx"><HintPath>$(RefLibDir)/BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(RefLibDir)/0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(RefLibDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(RefLibDir)/UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(RefLibDir)/UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UI"><HintPath>$(RefLibDir)/UnityEngine.UI.dll</HintPath><Private>false</Private></Reference>
+    <!-- KIT-05F (F8): Input.GetMouseButtonDown para OBSERVAR o clique recebido -->
+    <Reference Include="UnityEngine.InputLegacyModule"><HintPath>$(RefLibDir)/UnityEngine.InputLegacyModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.TextRenderingModule"><HintPath>$(RefLibDir)/UnityEngine.TextRenderingModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.UIModule"><HintPath>$(RefLibDir)/UnityEngine.UIModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.ScreenCaptureModule" Condition="'$(GameManaged)' != ''"><HintPath>$(GameManaged)/UnityEngine.ScreenCaptureModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.ImageConversionModule" Condition="'$(GameManaged)' != ''"><HintPath>$(GameManaged)/UnityEngine.ImageConversionModule.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+{
+  "schema": "KIT-AUTO/frozen-inputs/1",
+  "files": {
+    "AUT4Probe.dll": "431ce1b895d0ade295ed6cd0ab111625fb35ea06e1254e5d2eb1e1dde3eb7467",
+    "AUT4ProbePlugin.cs": "853bde51b5b26a90ea962f59f6f3f0cdf986e757ad831433d1fe905ee5795b6b",
+    "KIT04Core.dll": "0391f5d69f1bb9fba6cd76edbb44bf9a9447535877298d9e0df8c9786bd0e37d",
+    "CorePlugin.cs": "192e463675e2056f3476df2bd3f094e4795e67a130c4392c973c63619b282c59",
+    "RoguelikeSkillTreeVisualizer.dll": "1d0b85e8d0f30d10c4fe7c4e044d30380537e8801a7d39875192459a2e51d5cc",
+    "RealmApi.dll": "764b72d84a976a534292a518d14177b76fdede070bf9979e649efc5df25d19d7",
+    "RealmApi.Core.dll": "d4e72f24e4e7c503bdd32c200b4bfa7635a1529b09451e2a35b5400547d32fb2",
+    "RealmApi.Hooks.dll": "86d7fcf0012e1a611b42e96081609704a23a0129cc9918b3f1004c14a816778a",
+    "PartyDriver.cs": "1ce519ba01ac496f5bdf613b1c00d1f735df5434bef0d19711bb2e9d02e26cb4",
+    "Json.cs": "ae30a1ac059bcf62067047926c13bf43079b30552073540a2f5654551b6b32c6",
+    "IdentidadeDoProbe.cs": "c23574f324f7a70ddeb2edb484daf292ebd92fc07eb0304bfbf343e58d27bfa6",
+    "LeituraAgregados.cs": "f398543671aeb18091bcf89cb126d0d2ac6c71f5cd52ab1080429bc9a37ec641",
+    "RstvPostRender.cs": "8edbf83526656398afb6769a467ea4e6371f2920dc8ac9f383c537afe6cd0d96"
+  },
+  "origin": "Reviewed F5 consumer/F3 Core/RSTV0.3.3, measured locally; not latest release candidate"
+}
