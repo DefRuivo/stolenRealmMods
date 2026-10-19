@@ -1,0 +1,3 @@
+# Insumos congelados são pinados por SHA-256 em frozen-inputs.json: nenhuma
+# conversão de fim de linha pode tocar nestes bytes.
+frozen-inputs/** -text
