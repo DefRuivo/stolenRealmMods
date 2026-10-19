@@ -3,6 +3,11 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.4 — Unreleased
+
+- Added the README source/contribution block linking to https://github.com/DefRuivo/stolenRealmMods for source code, issues, contributions and forks.
+- Documentation release: no new combat-text styling behaviour. The plugin reports the new package version.
+
 ## 0.1.3 — 2026-10-16
 
 **Documentation and dependency metadata release; the visual code is unchanged.** The DLL differs from 0.1.2 only in the version literal it reports.

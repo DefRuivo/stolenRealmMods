@@ -5,7 +5,7 @@ level-up screen: the raw value you invested and the final value with powerups, g
 skills. **No gameplay change.**
 
 - **GUID:** `com.gumatos.betterstats`
-- **Version:** 1.0.2
+- **Version:** 1.0.3
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 
