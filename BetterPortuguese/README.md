@@ -1,6 +1,6 @@
 # BetterPortuguese
 
-- **Version:** 0.1.0
+- **Version:** 0.1.1
 - **Author:** gumatos
 - **GUID:** `com.gumatos.betterportuguese`
 - **Works with:** Stolen Realm v1.3.1 (Steam build 25240684, Unity 2022.3.62f2).
@@ -33,7 +33,7 @@ Provides a Brazilian Portuguese localization overlay with a switch between **Ori
 What the number always means: `Corrigido` carries only text **approved by the owner**. Nothing is applied on the fly and no proposal file is ever loaded as a correction. Approval and runtime verification are separate gates, and this page keeps them separate too:
 
 - **Approval** covers every correction present in `Corrigido` — the owner signed off on each batch, and `correcoes.diff.json` records the approved change for each key.
-- **Runtime verification** is recorded per release, for one exact build. The in-game acceptance run recorded so far exercised an **earlier, 14-correction build** (`BetterPortuguese.dll` SHA-256 `2fc17bf4ed46300a4973c63d8ee6f892a7bf5bbcb6ec6ec138bc394062ac05b4`), not this 0.1.0 package. **The in-game round for this build is pending.**
+- **Runtime verification** is recorded per release, for one exact build. The in-game acceptance run recorded so far exercised an **earlier, 14-correction build** (`BetterPortuguese.dll` SHA-256 `2fc17bf4ed46300a4973c63d8ee6f892a7bf5bbcb6ec6ec138bc394062ac05b4`), not this 0.1.1 package. **The in-game round for this build is pending.**
 - A green build, a packed ZIP or a passing offline suite does not authorize publication.
 
 Both snapshots describe the same 9,095 records from the union of the tables, with 9,090 pt-BR keys present and two manual records preserved without approved pt-BR text. These totals describe the dataset, not coverage of every screen/string in the game, and never mean all 9,090 keys are nonempty translations. A `Corrigido` that adds text to records the game left empty will hold more entries than `Original` while keeping the same 9,095 records — `Original` is that baseline, not a copy of `Corrigido`.
@@ -78,7 +78,7 @@ The core does not mutate asset lists/objects: it creates its own list and object
 
 Strict UTF-8 JSON files are embedded in the DLL and distributed as auditable copies in `plugins/BetterPortuguese/Data/`. Each resource's SHA-256 is pinned in the code. Duplicate JSON members/IDs/keys, an invalid schema, identity drift, an unapproved diff or token loss cause the catalog to be rejected. Proposals in `pendencias.json` are NOT loaded as corrections.
 
-The 0.1.0 loader applies two kinds of approved correction: a text edit to an existing entry (`Value`/`Feminine`/`Masculine`/`Neutral`), and `addEntry` — one neutral `Value` for a known record whose original list is empty or absent, with the functional tokens/tags of the English key preserved. It never appends to a populated list, never invents gender variants, and does not remove entries. Manual translations, tag/token changes and a mod adapter still require new implementation and their own validation, and fail safely in this version.
+The 0.1.1 loader applies two kinds of approved correction: a text edit to an existing entry (`Value`/`Feminine`/`Masculine`/`Neutral`), and `addEntry` — one neutral `Value` for a known record whose original list is empty or absent, with the functional tokens/tags of the English key preserved. It never appends to a populated list, never invents gender variants, and does not remove entries. Manual translations, tag/token changes and a mod adapter still require new implementation and their own validation, and fail safely in this version.
 
 BP writes no material, font, color, number, mechanic, PlayerPrefs or global dictionary. Assembly-CSharp.dll/resources.assets remain intact. The game's native refresh may run its own UI mechanisms; that is not a BP styling patch.
 
@@ -119,7 +119,7 @@ Checks include the lossless corpus, approval/diff, negative parser cases, clones
 After building/testing, use the dedicated packager, which reuses the repository's metadata validation and includes the external JSON files required by BP-1:
 
 ```bash
-python BetterPortuguese/package.py --output dist/gumatos-BetterPortuguese-0.1.0-auditado.zip
+python BetterPortuguese/package.py --output dist/gumatos-BetterPortuguese-0.1.1-auditado.zip
 ```
 
 It refuses to replace an existing ZIP and does not install or publish. The repository's generic packager produces a DLL with embedded resources but does not add the Data copies; **use this command for the auditable delivery**. `Data/manifest.json` describes the snapshots; it is not the root Thunderstore manifest. The packer re-checks the metadata, the pinned resource hashes, both snapshot corpora, the icon (whole PNG, 256×256) and whether the DLL is newer than every source/data file — that last check is what stops a stale binary from shipping.

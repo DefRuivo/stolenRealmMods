@@ -4,6 +4,13 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.1.1 — in preparation (2026-10-19)
+
+- Fix rarity gender agreement when composing item names, for example `Lendário Varinha` → `Lendária Varinha`.
+- Fix the composed `Healing` label: `Cura de Dano` → `Cura por Dano`.
+- These are runtime composition patches, not dataset changes. The same 1,319 owner-approved dataset corrections remain byte-for-byte unchanged.
+- Package preparation only: no installation or publication. Publication requires the owner's explicit go-ahead; offline validation does not replace an in-game check of this exact build.
+
 ## 0.1.0 — in preparation (implementation recorded on 2026-10-13)
 
 - Independent BetterPortuguese project, GUID com.gumatos.betterportuguese; no game assets edited.

@@ -13,7 +13,7 @@ using BetterPortuguese.Runtime;
 
 namespace BetterPortuguese;
 
-[BepInPlugin("com.gumatos.betterportuguese", "BetterPortuguese", "0.1.0")]
+[BepInPlugin("com.gumatos.betterportuguese", "BetterPortuguese", "0.1.1")]
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string Guid = "com.gumatos.betterportuguese";
@@ -41,7 +41,7 @@ public sealed class Plugin : BaseUnityPlugin
         Config.SaveOnConfigSet = false;
         active = Config.Bind("Geral", "Ativo", true, "Ativa somente as camadas do BetterPortuguese.");
         variant = Config.Bind("Geral", "Conjunto", Conjunto.Corrigido, "Corrigido (padrao) ou Original. Original deixa a localizacao vigente do jogo intacta.");
-        integrate = Config.Bind("Geral", "IntegracaoMods", true, "Reserva a camada de textos aprovados de mods. 0.1.0: registro vazio, nenhum adaptador ativo.");
+        integrate = Config.Bind("Geral", "IntegracaoMods", true, "Reserva a camada de textos aprovados de mods. 0.1.1: registro vazio, nenhum adaptador ativo.");
         diagnostic = Config.Bind("Geral", "Diagnostico", false, "Log de estado e patches, sem log por frame/chave.");
         if (createConfig) Config.Save();
         Config.SaveOnConfigSet = true;
@@ -60,7 +60,7 @@ public sealed class Plugin : BaseUnityPlugin
             var catalog = Core.Resources.Load(typeof(Plugin).Assembly);
             changedKeys = new HashSet<string>(catalog.Changed.Keys, StringComparer.Ordinal);
             overlay = new Overlay<LocalizationEntry>(catalog, Bindings.Equal, Bindings.Clone, limited);
-            log.LogInfo("BetterPortuguese 0.1.0: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
+            log.LogInfo("BetterPortuguese 0.1.1: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
         }
         catch (Exception ex) { overlay = null; log.LogError("BetterPortuguese: camada base desativada: " + ex.Message); }
         try { log.LogInfo("BetterPortuguese: registry de mods = " + Core.Resources.LoadMods(typeof(Plugin).Assembly) + "; nenhum adaptador ativo / manuais sem traducao aprovada."); }
@@ -71,7 +71,7 @@ public sealed class Plugin : BaseUnityPlugin
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
         CompositionPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
-        log.LogInfo("BetterPortuguese 0.1.0 carregado.");
+        log.LogInfo("BetterPortuguese 0.1.1 carregado.");
     }
     private void Install(string label, Func<MethodInfo> target, string patch)
     {
