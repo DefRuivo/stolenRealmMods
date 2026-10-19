@@ -14,7 +14,7 @@ namespace Gumatos.RealmApi
     {
         public const string Guid = "com.gumatos.realmapi";
         public const string Name = "RealmApi";
-        public const string Version = "0.1.0";
+        public const string Version = "0.1.1";
         public const int SteamAppId = 1330000;
         public const string GameVersion = "1.3.1";
         public const string SteamBuildId = "25240684";

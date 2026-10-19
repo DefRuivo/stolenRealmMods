@@ -3,6 +3,12 @@
 > Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.
 > CHG-REV documentation audit: 2026-10-16. This mod remains unpublished.
 
+## 0.1.2 — in preparation (2026-10-19)
+
+- **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
+- The README also clarifies the existing validation scope: tested on singleplayer, not yet tested for multiplayer. This is a documentation change, not multiplayer support; the existing network refusal remains unchanged.
+- Bumped the project, manifest, plugin constant and README version together; rebuilt the Release package. No intentional progression, reward or save-format change in this bump.
+
 ## 0.1.1 — in preparation (revised on 2026-10-16)
 
 ### Lifecycle and diagnostics (RLP-1/RLP-2) — package rebuilt from the current source on 2026-10-16

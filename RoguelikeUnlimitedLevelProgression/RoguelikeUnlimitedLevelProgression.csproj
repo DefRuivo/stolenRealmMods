@@ -8,7 +8,7 @@
     <PackageId>RoguelikeUnlimitedLevelProgression</PackageId>
     <!-- PKG-2 (mesma convencao dos outros mods do repo): este <Version> manda.
          Espelhos conferidos: manifest.json:version_number e o literal de [BepInPlugin] no Plugin.cs. -->
-    <Version>0.1.1</Version>
+    <Version>0.1.2</Version>
     <Description>Remove o teto de nivel 20 do modo Roguelike (singleplayer): um nivel por vitoria, XP estendido apos o 20 e recompensas Skills/Itens/Atributos com recibo duravel quando o pool de skills esgota.</Description>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
     <!-- LEVEL-LIB: a `lib` comum do repo e PRIVADA do ambiente (gitignored) e e resolvida

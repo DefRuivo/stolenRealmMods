@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework><LangVersion>10</LangVersion><Nullable>enable</Nullable>
-    <AssemblyName>RealmApi.Core</AssemblyName><RootNamespace>Gumatos.RealmApi</RootNamespace><Version>0.1.0</Version>
+    <AssemblyName>RealmApi.Core</AssemblyName><RootNamespace>Gumatos.RealmApi</RootNamespace><Version>0.1.1</Version>
     <GenerateDocumentationFile>true</GenerateDocumentationFile><NoWarn>$(NoWarn);1591</NoWarn>
     <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
   </PropertyGroup>

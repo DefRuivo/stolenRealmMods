@@ -1,6 +1,6 @@
 {
   "name": "RealmApi",
-  "version_number": "0.1.0",
+  "version_number": "0.1.1",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Modding API for Stolen Realm with UI helpers and opt-in observational hooks. Hooks are disabled by default and require an exact game version and assembly hash match.",
   "dependencies": [

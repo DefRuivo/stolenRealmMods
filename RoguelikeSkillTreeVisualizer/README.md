@@ -4,16 +4,16 @@ Adds a **`Skills`** button that opens the game's **native skill tree**, read-onl
 character you chose. **No skill point is spent. No gameplay change.**
 
 - **GUID:** `com.gumatos.roguelikeskilltreevisualizer`
-- **Version:** 0.3.4
+- **Version:** 0.3.5
 - **Works with:** Stolen Realm v1.3.1 (Roguelike mode only).
 - **Needs:** BepInEx 5 (r2modman installs it for you) **and** the **RealmApi** API
-  (`com.gumatos.realmapi`, **0.1.0 or newer**) — see *Requirements* below.
+  (`com.gumatos.realmapi`, **0.1.1 or newer**) — see *Requirements* below.
 - **Status:** implemented; the read-only window was **checked in game** by the author. The run
   button's new spot on the bottom bar (RSTV-30) still awaits an in-game pass.
 
 ## Requirements
 
-This mod **depends on the RealmApi API** (`com.gumatos.realmapi`, minimum version `0.1.0`) — the
+This mod **depends on the RealmApi API** (`com.gumatos.realmapi`, minimum version `0.1.1`) — the
 project's own library, installed as a **separate package** in the same profile. The generic UI
 plumbing (cloning a native game object, wiring a button click) is no longer written inside this mod:
 it comes from the API's `UI` family (`Gumatos.RealmApi.UI`, source `api/` in the repository).
@@ -128,7 +128,7 @@ come from the game and are **never distributed**. The deploy is **opt-in** (DEPL
 
 ## Português (BR)
 
-> **Requer a API RealmApi** (`com.gumatos.realmapi`, versão mínima **0.1.0**), instalada como
+> **Requer a API RealmApi** (`com.gumatos.realmapi`, versão mínima **0.1.1**), instalada como
 > **pacote separado** no mesmo perfil. A plumbing genérica de UI (clonar um objeto nativo do jogo,
 > ligar o clique de um botão) deixou de ser escrita dentro deste mod: ela vem da família `UI` da API
 > (`Gumatos.RealmApi.UI`, fonte em `api/`). A dependência está declarada no próprio código como um

@@ -4,6 +4,11 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.4 — in preparation (2026-10-19)
+
+- **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
+- Bumped the project, manifest, plugin attribute and README version together; rebuilt the Release package. No intentional gameplay or instrumentation change in this bump.
+
 ## 0.1.3 — 2026-10-16
 
 - **Dump provenance (DBG-R2, commit `097f950`, 2026-10-11):** a `DBG-PROV-V1` header before the patches with the game/DLL identity and hashes; OPEN/PARTIAL state with the hooks really applied; footer CLOSED in `Application.quitting`. Measurement failures are explicit, not estimated values. Without a footer there is no proof of a normal shutdown; a boot census does not prove absence across every asset/preset/localization.

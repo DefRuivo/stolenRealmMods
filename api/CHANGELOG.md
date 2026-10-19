@@ -3,6 +3,13 @@
 > Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 
+## 0.1.1 — in preparation (2026-10-19)
+
+- **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
+- Aligned all three project/assembly versions (`RealmApi`, `RealmApi.Core`, `RealmApi.Hooks`), `ApiIdentity.Version`, the manifest and the README at 0.1.1. The plugin's two versioned log messages now use `ApiIdentity.Version`, so they cannot keep announcing 0.1.0 after a bump.
+- The offline plugin-metadata test now derives its expected assembly version from `ApiIdentity.Version` instead of a hardcoded 0.1.0.0.
+- Rebuilt the Release package with all three DLLs together in `plugins/RealmApi/`. Hook defaults, target guards and the UI surface are unchanged; this preparation neither installs nor publishes anything.
+
 ## 0.1.0 — initial version in preparation (revised on 2026-10-16)
 
 - Base implemented in commit `097f950` (2026-10-11); the manifest and the distribution changelog were prepared locally, still without a commit of their own when this audit was captured. Its own, independent identity: `com.gumatos.realmapi`, namespace `Gumatos.RealmApi`, three assemblies of its own (`RealmApi.dll`, `RealmApi.Core.dll`, `RealmApi.Hooks.dll`).

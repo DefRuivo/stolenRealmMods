@@ -4,7 +4,7 @@ Lets a Roguelike run go past level 20 — **tested on singleplayer; multiplayer 
 
 - **GUID:** `com.gumatos.roguelikeunlimitedlevelprogression`
 - **Harmony owner id:** the same GUID (the mod unpatches by id, never by type).
-- **Version:** 0.1.1
+- **Version:** 0.1.2
 - **Works with:** Stolen Realm (Roguelike mode).
 - **Needs:** BepInEx 5 (r2modman installs it for you) and nothing else — no ModAPI, no BetterStats.
 - **BepInEx display name:** `Roguelike Unlimited Level Progression`

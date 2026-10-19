@@ -50,21 +50,21 @@ namespace RoguelikeSkillTreeVisualizer
     // INT-R1-C4 (11/10): o mod agora e' DEPENDENTE da API propria. A plumbing de UI generica
     // (clonar um objeto nativo e ligar o clique) deixou de ser escrita a mao aqui e vem da familia
     // `UI` da API (`Gumatos.RealmApi.UI`, ver RstvApiUi.cs); sem a API carregada a ponte nao existe.
-    // A dependencia e' explicita e HARD (o padrao do BepInDependency), com a versao MINIMA 0.1.0 —
-    // a mesma versao da familia `UI` (api/README.md). O BepInEx recusa carregar o RSTV quando a API
+    // A dependencia e' explicita e HARD (o padrao do BepInDependency), com a versao MINIMA 0.1.1 —
+    // alinhada ao pacote RealmApi deste lote (BUMP-2). O BepInEx recusa carregar o RSTV quando a API
     // nao esta instalada em versao minima: melhor nao carregar do que carregar sem a plumbing.
     [BepInDependency(ApiGuid, ApiVersionMinima)]
     public class Plugin : BaseUnityPlugin
     {
         public const string Guid = "com.gumatos.roguelikeskilltreevisualizer";
-        public const string Version = "0.3.4";
+        public const string Version = "0.3.5";
 
         /// <summary>GUID da API propria (api/Plugin/RealmApiPlugin.cs) — a dependencia declarada acima.</summary>
         public const string ApiGuid = "com.gumatos.realmapi";
 
-        /// <summary>Versao MINIMA exigida da API: a primeira que tem a familia `UI` completa (21
-        /// assinaturas, 5 tipos) atras do vinculo explicito (INT-R1-C1/t_9fa61e7e).</summary>
-        public const string ApiVersionMinima = "0.1.0";
+        /// <summary>Versao MINIMA exigida da API, alinhada ao pin do pacote deste lote (BUMP-2).
+        /// A familia `UI` existe desde 0.1.0; este piso acompanha a distribuicao, nao uma quebra de API.</summary>
+        public const string ApiVersionMinima = "0.1.1";
 
         internal static ManualLogSource Log { get; private set; }
 

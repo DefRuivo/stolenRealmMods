@@ -6,6 +6,12 @@ that came out of a review.
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.3.5 — in preparation (2026-10-19)
+
+- **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
+- **Dependency alignment:** the package now pins `DefRuivo_StolenRealmMods-RealmApi-0.1.1`; the hard BepInEx minimum and the README requirements also move to 0.1.1. This follows the API package in this batch, not a new UI API or an API break. Publish RealmApi 0.1.1 and confirm that version is available before uploading this mod; use separate per-mod submissions.
+- Bumped the project, manifest, plugin constant and README version together; rebuilt the Release package. No intentional gameplay or button-layout change in this bump.
+
 ## 0.3.4 — 2026-10-16
 
 - **RealmApi UI integration (INT-R1-C4, commit `097f950`, 2026-10-11):** cloning native UI and binding button clicks now go through `UIFactory.Clone` / `UIFactory.BindClick`, with a lazy explicit `UiFamily.Bind(..., allowMutation: true)`. TextMeshPro, prefab-listener clearing and the visual composition remain in this mod; no silent local fallback is added.

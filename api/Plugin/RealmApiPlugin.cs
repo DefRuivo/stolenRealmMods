@@ -19,7 +19,7 @@ namespace Gumatos.RealmApi
         {
             log=Logger;
             if (!Config.Bind("Safety", "EnableHooks", false, "Habilitar somente após autorização de teste em jogo; a versão e hash precisam coincidir.").Value)
-            { log.LogInfo("RealmApi 0.1.0: hooks desabilitados por Safety.EnableHooks=false"); return; }
+            { log.LogInfo("RealmApi "+ApiIdentity.Version+": hooks desabilitados por Safety.EnableHooks=false"); return; }
             try
             {
                 var game=AppDomain.CurrentDomain.GetAssemblies().Single(a=>a.GetName().Name=="Assembly-CSharp");
@@ -30,7 +30,7 @@ namespace Gumatos.RealmApi
                 { log.LogError("RealmApi: alvo incompatível; nenhum hook instalado. Application.version="+Application.version+" assembly.sha256="+hash); return; }
                 installation=HookInstallation.Install(game,HookCatalog.All,ApiIdentity.Guid,ex=>log?.LogError(ex));
                 Application.quitting += Shutdown;
-                log.LogInfo("RealmApi 0.1.0: target 1.3.1 / build-inspecionado 25240684; hooks="+string.Join(",",installation.InstalledIds));
+                log.LogInfo("RealmApi "+ApiIdentity.Version+": target 1.3.1 / build-inspecionado 25240684; hooks="+string.Join(",",installation.InstalledIds));
             }
             catch(Exception ex) { log.LogError("RealmApi: instalação recusada: "+ex); }
         }
