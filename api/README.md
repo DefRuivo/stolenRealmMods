@@ -390,3 +390,8 @@ assemblies para o perfil do r2modman.
 **Não exercitado nesta entrega.** Carregamento pelo BepInEx no processo do jogo, gameplay, saves, multiplayer,
 identidade em runtime, instalação no perfil `r2modman` e a família UI em runtime — tudo declarado
 `NAO_EXERCITADO` com motivo na seção acima. Nenhuma publicação foi feita.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

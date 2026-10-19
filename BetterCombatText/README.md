@@ -136,3 +136,8 @@ legado do Unity; ali entra contorno duro + sombra + negrito). Com o **BetterFont
 de shader diferente deixou de ser recusa no BetterFont nessa versão. Na **1.0.1** eles
 mantinham a **fonte original**, porque o portão do BetterFont recusava o material dos
 textos de combate.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

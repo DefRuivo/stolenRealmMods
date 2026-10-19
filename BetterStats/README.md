@@ -76,3 +76,8 @@ Mostra os atributos como **`base (combinado)`** na ficha de personagem e na tela
 up: o valor puro investido e o valor final com powerups, equipamento e skills. Também
 corrige o alinhamento da coluna de valores. **Não altera gameplay.** Instalação,
 desinstalação e build estão nas seções em inglês acima.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

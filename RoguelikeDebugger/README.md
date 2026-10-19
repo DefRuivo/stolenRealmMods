@@ -92,3 +92,8 @@ despeja os dados internos do jogo (skills, status, itens, loot, ouro, experiênc
 `LogOutput.log` para conferir mecânicas no código. **Não altera gameplay** e não envia
 nada para fora: tudo fica no log local. O dump é enorme — enche o log de milhares de
 linhas a cada boot.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

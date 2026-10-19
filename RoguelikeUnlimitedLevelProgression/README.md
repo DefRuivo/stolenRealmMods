@@ -141,3 +141,8 @@ O código foi **compilado e exercitado** em bancada isolada (harness que compila
 do mod e alimenta o transpiler real com a IL real de `Root.SendGameCompleteFromServer`). A
 execução dentro do jogo — aplicar os patches, jogar nos níveis 21..31, `F20`/`D20` reais,
 save/reload do dono e multiplayer — ainda é **NAO_EXERCITADO** nesta fase.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.
