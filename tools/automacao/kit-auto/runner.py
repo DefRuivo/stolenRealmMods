@@ -14,6 +14,14 @@ def load(name, path):
     spec.loader.exec_module(module)
     return module
 
+LIVE = load('kit_auto_live_guard', HERE / 'live_guard.py')
+# Live-bench environment contract (declared in README and in the delivery doc).
+STALE_MS = LIVE.STALE_MS
+STALE_TOLERANCE_SAMPLES = LIVE.STALE_TOLERANCE_SAMPLES
+FRESH_WAIT_SECONDS = LIVE.FRESH_WAIT_SECONDS
+FOCUS_WAIT_SECONDS = int(os.environ.get('KIT_AUTO_FOCUS_WAIT', str(LIVE.FOCUS_WAIT_SECONDS)))
+Blocked = LIVE.Blocked
+
 def sha(path):
     with Path(path).open('rb') as f:
         return hashlib.file_digest(f, 'sha256').hexdigest()
@@ -25,9 +33,19 @@ def write(path, value):
     Path(path).write_text(json.dumps(value, ensure_ascii=False, indent=2), encoding='utf-8')
 
 def cmd(args, out, label, env=None, timeout=300):
-    p = subprocess.run(args, capture_output=True, timeout=timeout, env=env)
-    (out / (label + '.stdout.log')).write_bytes(p.stdout)
-    (out / (label + '.stderr.log')).write_bytes(p.stderr)
+    """Run a child, capture logs, and never leave it running past `timeout`."""
+    p = subprocess.Popen(args, stdout=subprocess.PIPE, stderr=subprocess.PIPE, env=env)
+    try:
+        o, e = p.communicate(timeout=timeout)
+    except subprocess.TimeoutExpired:
+        p.kill()
+        o, e = p.communicate()
+        (out / (label + '.stdout.log')).write_bytes(o or b'')
+        (out / (label + '.stderr.log')).write_bytes(e or b'')
+        (out / (label + '.timeout.txt')).write_text('killed after %ss' % timeout, encoding='utf-8')
+        raise
+    (out / (label + '.stdout.log')).write_bytes(o)
+    (out / (label + '.stderr.log')).write_bytes(e)
     return {'args': args, 'exit': p.returncode}
 
 def build(repo, out):
@@ -149,16 +167,24 @@ def boot(repo, out, case):
         'SEM_PROBE':False,'NAV_TETO':'3600',
         'NAV_ROTA':'Play;Roguelike;Accept;@PartyCharacter;@PartyAccept;Accept;@HudInitialize',
         'NAV_ALVO':'=RstvRunSkillTreeButton'}
-    state = {'pending':None,'seq':0,'done':False,'actions':[]}
+    guard = LIVE.LiveGuard(focus_wait_s=FOCUS_WAIT_SECONDS)
+    state = {'pending':None,'seq':0,'done':False,'actions':[],'guard':guard,
+             'telemetry':guard.telemetry}
+    def probe_phase(profile):
+        try: return read(profile.parent.parent/'probe/aut4probe.json').get('fase')
+        except (ValueError,OSError): return None
     def live_step(pid, profile, session, result, ps, save):
         path = profile.parent/'recorder/controle-runtime.json'
         try: d = read(path)
         except (ValueError,OSError): return
         e = d.get('engine',{})
         if e.get('pid')!=pid or e.get('sessao')!=session or e.get('adapter_sha256')!=ident['files']['KIT04Adapter.SR.dll']:
-            raise RuntimeError('Live identity mismatch')
-        if abs(time.time()*1000-e.get('utc_unix_ms',0))>5000:
-            raise RuntimeError('Stale live engine heartbeat')
+            raise RuntimeError('Live identity mismatch: pid/session/adapter of controle-runtime.json')
+        # Liveness first: a stale heartbeat is TRANSIENT (bounded) or BLOCKED (named, abort).
+        pulse = guard.heartbeat(e.get('utc_unix_ms',0), time.time()*1000,
+                                probe_fase=probe_phase(profile), frame=e.get('frame'),
+                                janelas=d.get('janelas_ativas'))
+        if not pulse['fresh']: return
         if state['pending'] is not None:
             matches = [x for x in d.get('comandos_auto',[]) if x['seq']==state['pending']]
             if not matches: return
@@ -168,8 +194,11 @@ def boot(repo, out, case):
             state['actions'].append(response['acao']); state['pending']=None
         if state['done']: return
         ctx=d.get('contexto',{})
-        safe=ctx.get('foco_no_jogo') is True and all(ctx.get(k) is False for k in ('chat_aberto','digitando','remapeando'))
-        if not safe: return # no focus forcing and no fabricated guard flags
+        # No focus forcing and no fabricated guard flags: the kit's dispatch goes through the
+        # SAME guard as the hotkey, so real focus is an environment prerequisite (bounded wait).
+        if not guard.gate(ctx, time.time()*1000, probe_fase=probe_phase(profile),
+                          janelas=d.get('janelas_ativas')):
+            return
         if 'observar' not in state['actions']:
             action='observar'; description='KIT-AUTO collection start'
         else:
@@ -190,10 +219,76 @@ def boot(repo, out, case):
         tmp.write_text(request,encoding='utf-8'); tmp.replace(dest)
         state['pending']=state['seq']
         save('auto-request-'+str(state['seq'])+'.json',{'request':request,'engine_before':e,'case':case})
-    ns['live_step']=live_step; ns['auto_state']=state
+    ns['live_step']=live_step; ns['auto_state']=state; ns['Blocked']=Blocked
+    ns['LIVE_CONTRACT']={'stale_ms':STALE_MS,'stale_tolerance_samples':STALE_TOLERANCE_SAMPLES,
+        'fresh_wait_s':FRESH_WAIT_SECONDS,'focus_wait_s':FOCUS_WAIT_SECONDS,
+        'note':'real OS focus on the game window is an environment prerequisite; never forced'}
     source=(HERE/'bench_template.py').read_text(encoding='utf-8')
     ast.parse(source); (target/'expanded.py').write_text(source,encoding='utf-8')
     exec(compile(source,str(target/'expanded.py'),'exec'),ns)
+
+GAME_EXE = Path('E:/SteamLibrary/steamapps/common/Stolen Realm/Stolen Realm.exe')
+
+def ps_text(text, timeout=60):
+    p = subprocess.run(['powershell.exe','-NoProfile','-Command',text], capture_output=True, timeout=timeout)
+    return p.returncode, p.stdout.decode('utf-8', errors='replace').strip()
+
+def recover_orphan(repo, out, label):
+    """Explicit recovery when a boot child is killed on timeout (its `finally` never ran).
+
+    Non-input only: CloseMainWindow (never SetForegroundWindow / synthetic input), then the same
+    restore scripts the bench uses, and only when the game is confirmed closed. If the game is
+    still alive, nothing unsafe is attempted and `refused` says so.
+    """
+    support = load('auto_bench_support', HERE/'bench_support.py')
+    rec = {'label': label, 'steps': []}
+    def procs():
+        rc, o = ps_text("ConvertTo-Json -Compress -InputObject @(Get-Process -Name 'Stolen Realm' -ErrorAction SilentlyContinue | Select-Object Id,Path)")
+        try: return json.loads(o or '[]')
+        except ValueError: return []
+    def close():
+        ps_text("$p=Get-Process -Name 'Stolen Realm' -ErrorAction SilentlyContinue; "
+                "foreach ($x in $p) { if ($x.Path -eq '" + str(GAME_EXE) + "') { $x.CloseMainWindow() | Out-Null } }; exit 0")
+    def k(step, script, action):
+        try:
+            p = subprocess.run(['C:/Program Files/Git/bin/bash.exe',
+                                str(repo/'scratch/kit'/script), action],
+                               cwd=str(repo), capture_output=True, timeout=300)
+            (out/('recover-'+label+'-'+step+'.log')).write_bytes(p.stdout + p.stderr)
+            rec['steps'].append({'step': step, 'exit': p.returncode})
+        except Exception as e:
+            rec['steps'].append({'step': step, 'error': type(e).__name__ + ': ' + str(e)})
+    for attempt in range(2):
+        close()
+        end = time.monotonic() + 30
+        while procs() and time.monotonic() < end: time.sleep(1)
+        rec['steps'].append({'step': 'close-%d' % (attempt+1), 'game_processes': len(procs())})
+        if not procs(): break
+    if procs():
+        rec['refused'] = 'game still alive: no data restore attempted (unsafe to touch the save dir)'
+        return rec
+    backup = support.REAL.parent/'Stolen Realm.kit16-real'
+    if backup.exists():
+        k('data-verificar','kit16-save-isolado.sh','verificar')
+        k('data-restaurar','kit16-save-isolado.sh','restaurar')
+    rec['backup_after'] = backup.exists()
+    rec['production_junction'] = support.REAL.is_junction()
+    if (out/label/'recorder-on/bepinex-iso').exists():
+        k('bepinex-rollback','runtime-isolado.sh','rollback')
+    if (out/label/'recorder-on/bepinex-iso').exists():
+        rec['isolated_profile_remains'] = True
+    if backup.exists() or support.REAL.is_junction():
+        rec['data_restored'] = False
+    else:
+        rec['data_restored'] = True
+    lock = repo/'scratch/kit/lock.txt'
+    if lock.exists():
+        fields = lock.read_text(encoding='utf-8').strip().split('|')
+        if len(fields) == 4 and fields[2].startswith('KITAUTO-'):
+            k('front-release','front-unica.sh','release')
+            rec['lock_released'] = not lock.exists()
+    rec['game_processes_end'] = len(procs())
+    return rec
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
@@ -211,26 +306,58 @@ def main():
     if args.command=='evaluate':
         r=evaluator.evaluate(args.out); print(json.dumps(r,ensure_ascii=True)); return r['exit']
     args.out.mkdir(parents=True,exist_ok=False)
-    result={'schema':'KIT-AUTO/result/1','kit_verdict':'NOT_GRANTED','task_accepted':False,'cases':{}}
+    result={'schema':'KIT-AUTO/result/1','kit_verdict':'NOT_GRANTED','task_accepted':False,'cases':{},
+            'live_contract':{'stale_ms':STALE_MS,'stale_tolerance_samples':STALE_TOLERANCE_SAMPLES,
+                             'fresh_wait_s':FRESH_WAIT_SECONDS,'focus_wait_s':FOCUS_WAIT_SECONDS}}
     try:
         result['preflight']=preflight(args.repo)
         build(args.repo,args.out)
         for case in ('positive','no-export'):
-            call=cmd([sys.executable,str(Path(__file__).resolve()),'boot','--repo',str(args.repo),'--out',str(args.out),'--case',case],args.out,case,timeout=360)
+            try:
+                call=cmd([sys.executable,str(Path(__file__).resolve()),'boot','--repo',str(args.repo),
+                          '--out',str(args.out),'--case',case],args.out,case,timeout=420)
+            except subprocess.TimeoutExpired:
+                rec=recover_orphan(args.repo,args.out,case)
+                result.setdefault('timeout_recovery',{})[case]=rec
+                raise RuntimeError('Boot timeout (%s): child killed without its finally; recovery=%s'
+                                   % (case,json.dumps(rec,ensure_ascii=True)))
             b=args.out/case/'recorder-on/boot01'
+            bootres=read(b/'result.json') if (b/'result.json').is_file() else {}
+            entry={'boot':str(b),'driver_exit':call['exit'],'boot_error':bootres.get('error'),
+                   'blocked_reason':bootres.get('blocked_reason'),'live_engine':bootres.get('live_engine')}
+            result['cases'][case]=entry
+            if bootres.get('blocked_reason'):
+                raise Blocked(bootres['blocked_reason'],
+                              bootres.get('blocked_detail') or bootres.get('error') or 'prerequisite unmet',
+                              dict(bootres.get('environment') or {},case=case,boot=str(b),
+                                   driver_exit=call['exit'],live_engine=bootres.get('live_engine')))
+            if call['exit']!=0:
+                raise RuntimeError('Boot/cleanup failed: %s (driver_exit=%s, error=%s)'
+                                   % (case,call['exit'],bootres.get('error')))
             report=evaluator.evaluate(b)
             write(args.out/(case+'-evaluation.json'),report)
-            result['cases'][case]={'boot':str(b),'driver_exit':call['exit'],'evaluation':report}
-            if call['exit']!=0: raise RuntimeError('Boot/cleanup failed: '+case)
+            entry['evaluation']=report
             expected=0 if case=='positive' else 1
-            if report['exit']!=expected: raise RuntimeError('Unexpected evaluation exit: '+case)
+            if report['exit']!=expected:
+                raise RuntimeError('Unexpected evaluation exit: %s expected %s got %s failures=%s'
+                                   % (case,expected,report['exit'],report.get('failures')))
             if case=='no-export' and report['failures']!=['export_file_exists']:
                 raise RuntimeError('Negative has collateral failures: '+str(report['failures']))
         result['evaluation_exercised']=True
         result['counterproof_exercised']=True
         result['exit']=0
+    except Blocked as e:
+        result['exit']=2
+        result['outcome']='environment_prerequisite_unmet'
+        result['blocked_reason']=e.blocked_reason
+        result['blocked_kind']=e.blocked_kind
+        result['blocked_environment']=e.environment
+        result['error']='EnvironmentPrerequisiteUnmet: '+str(e)
+        result['evaluation_exercised']=False
+        result['counterproof_exercised']=False
     except Exception as e:
-        result['exit']=2; result['error']=type(e).__name__+': '+str(e)
+        result['exit']=2; result['outcome']='failed'
+        result['error']=type(e).__name__+': '+str(e)
     write(args.out/'RESULTADO.json',result)
     print(json.dumps(result,ensure_ascii=True))
     return result['exit']

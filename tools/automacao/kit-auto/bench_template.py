@@ -198,10 +198,31 @@ try:
         time.sleep(0.25)
     RESULT['elapsed_seconds'] = time.monotonic() - started
     RESULT['probe_json_exists'] = (OUT / 'probe/aut4probe.json').exists()
+    if not auto_state['done']:
+        # Named, not generic: the bench window closed before the kit dispatch completed.
+        _tel = auto_state['telemetry']
+        raise Blocked('bench_window_exhausted',
+            'janela da bancada (%.0fs) terminou sem concluir o despacho do kit: acoes=%s, '
+            'fase=%s, foco_no_jogo=%s, heartbeat_max_stale=%.1fs'
+            % (RESULT['elapsed_seconds'], auto_state['actions'],
+               RESULT.get('observed_fase'),
+               (auto_state.get('guard').focus_seen if auto_state.get('guard') else None),
+               _tel.get('max_stale_ms', 0.0) / 1000),
+            {'elapsed_s': round(RESULT['elapsed_seconds'], 1),
+             'actions': list(auto_state['actions']),
+             'probe_fase': RESULT.get('observed_fase'),
+             'focus_seen': (auto_state.get('guard').focus_seen if auto_state.get('guard') else None),
+             'live_engine': dict(_tel)})
     RESULT['pngs'] = [{'name': p.name, 'bytes': p.stat().st_size, 'sha256': sha(p)}
                       for p in (OUT / 'probe').glob('*.png')]
 except Exception as e:
     RESULT['error'] = type(e).__name__ + ': ' + str(e)
+    # KIT-AUTO: environment/timing prerequisite must be distinguishable from a real failure.
+    if getattr(e, 'blocked_reason', None):
+        RESULT['blocked_reason'] = e.blocked_reason
+        RESULT['blocked_kind'] = getattr(e, 'blocked_kind', 'environment')
+        RESULT['blocked_detail'] = str(e)
+        RESULT['environment'] = getattr(e, 'environment', None)
 finally:
     def cleanup_step(name, fn):
         try:
@@ -284,7 +305,16 @@ finally:
                                  'cloud': require_cloud_off()}
     except Exception as e:
         RESULT['cleanup_error'] = type(e).__name__ + ': ' + str(e)
+    try:
+        RESULT['live_contract'] = LIVE_CONTRACT
+        RESULT['live_engine'] = json.loads(json.dumps(auto_state.get('telemetry', {})))
+        RESULT['auto_actions'] = list(auto_state.get('actions', []))
+    except NameError:
+        pass
     save('result.json', RESULT)
     print(json.dumps(RESULT, ensure_ascii=False, indent=2), flush=True)
 
+# exit 3 = environment prerequisite unmet (the bench never reached the assertions)
+if RESULT.get('blocked_reason') and not RESULT.get('cleanup_error') and not RESULT.get('cleanup_errors'):
+    sys.exit(3)
 sys.exit(1 if RESULT.get('error') or RESULT.get('cleanup_error') or RESULT.get('cleanup_errors') else 0)

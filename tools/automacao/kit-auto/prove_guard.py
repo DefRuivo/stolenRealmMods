@@ -3,12 +3,13 @@ from pathlib import Path
 import hashlib, json, os, shutil, subprocess, sys
 W=Path(__file__).resolve().parent
 HERE=W
-OUT=W/'guard-proof';OUT.mkdir(exist_ok=False)
+OUT=W/'guard-proof';OUT.mkdir(exist_ok=True)  # idempotent: rerunning overwrites the case trees
 original=HERE/'candidate/tools/automacao/runtime/KIT04Adapter.SR/PonteControleRSTV.cs'
 original_hash=hashlib.sha256(original.read_bytes()).hexdigest()
 results={}
 for case in ('red','green'):
     root=OUT/case
+    if root.exists(): shutil.rmtree(root)
     shutil.copytree(HERE/'candidate',root,ignore=shutil.ignore_patterns('bin','obj','__pycache__'))
     if case=='red':
         f=root/'tools/automacao/runtime/KIT04Adapter.SR/PonteControleRSTV.cs'

@@ -239,3 +239,8 @@ secrets*
 /docs/PROCESSO-REVISAO.md
 /docs/REL-DOCS-01-preparacao-docs.md
 /docs/REL-DOCS-01R-revisao.md
+
+# KIT-AUTO: artefatos de prova locais (regeneráveis, não produto)
+tools/automacao/kit-auto/guard-proof/
+tools/automacao/kit-auto/live-contract-proof/
+tools/automacao/kit-auto/__pycache__/
