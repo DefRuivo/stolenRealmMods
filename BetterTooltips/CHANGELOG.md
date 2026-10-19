@@ -3,6 +3,11 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.5 — Unreleased
+
+- Added the README source/contribution block linking to https://github.com/DefRuivo/stolenRealmMods for source code, issues, contributions and forks.
+- Documentation release: no new tooltip behaviour. The plugin reports the new package version; the existing RV-49 display decision remains open.
+
 ## 0.1.4 — 2026-10-07 — the Armor note stops leaking into the combat feed
 
 **What a player sees:** the explanation of how Armor works also showed up in the **combat feed**

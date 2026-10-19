@@ -5,7 +5,7 @@ Liberation Serif as fallback), keeping the colour, outline and shadow of the tex
 **No gameplay change.**
 
 - **GUID:** `com.gumatos.betterfont`
-- **Version:** 1.0.3
+- **Version:** 1.0.4
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 
