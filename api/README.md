@@ -3,7 +3,7 @@
 Modding API for Stolen Realm, with UI helpers and optional observational hooks.
 It is a base for other mods; it does not add playable content on its own.
 
-- **Version:** 0.1.0
+- **Version:** 0.1.1
 - **Author:** gumatos
 - **Category:** Mods (`mods`, `stolen-realm` community)
 - **BepInEx GUID:** `com.gumatos.realmapi`

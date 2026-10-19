@@ -49,7 +49,7 @@ internal static class Program
             var attr=plugin.CustomAttributes.Single(a=>a.AttributeType.FullName=="BepInEx.BepInPlugin");
             Check((string)attr.ConstructorArguments[0].Value==ApiIdentity.Guid);
             Check((string)attr.ConstructorArguments[2].Value==ApiIdentity.Version);
-            Check(p.Assembly.Name.Version.ToString()=="0.1.0.0");
+            Check(p.Assembly.Name.Version.ToString()==ApiIdentity.Version+".0");
         });
         Test("no-game-assembly-dependency",()=> {
             using var p=ModuleDefinition.ReadModule(pluginPath);
