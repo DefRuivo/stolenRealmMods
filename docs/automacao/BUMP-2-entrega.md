@@ -95,7 +95,8 @@ Saídas literais e resultados estruturados: `docs/automacao/BUMP-2-evidencias/` 
 - Empacotamento dos quatro alvos pelo empacotador existente: exit 0.
 - `verification.json`: **101 verificações passaram, zero falhas**. Inclui quatro lugares, lista exata/CRC dos ZIPs, igualdade dos metadados e DLLs empacotadas com os arquivos de origem, versões compiladas, pin/mínimo do RSTV e comparação de IL limitada às strings de versão.
 - Contraprovas em cópia isolada: base limpa exit 0; README propositalmente divergente exit 1; `ApiIdentity.Version` divergente exit 1. Fontes canônicos não foram usados para plantar defeitos.
-- **41 arquivos de `plugins/` e `config/` do perfil idênticos antes/depois**, inclusive tamanho, SHA-256 e mtime. As **29 alterações/arquivos não rastreados alheios** encontrados no início foram preservados byte a byte; todos os ZIPs preexistentes de `dist/` permaneceram idênticos.
+- Na medição de `verification.json`, os **41 arquivos de `plugins/` e `config/` do perfil estavam idênticos antes/depois**, inclusive tamanho, SHA-256 e mtime; as **29 alterações/arquivos não rastreados alheios** também estavam preservados byte a byte. Todos os ZIPs preexistentes de `dist/` permaneceram idênticos.
+- Na rechecagem após o commit, perfil e quatro ZIPs continuam idênticos ao verificado. `tests/BetterPortuguese.Offline/Program.cs`, arquivo alheio a esta tarefa, mudou depois da medição anterior (edição concorrente fora do escopo); os outros 28 arquivos alheios continuam idênticos. Não toquei nem restaurei esse arquivo, e ele não entrou no commit BUMP-2. O delta está registrado em `final-state.json` nas evidências.
 - `git diff --check` dos alvos: exit 0.
 
 ### Como reproduzir o caminho de build/pack
