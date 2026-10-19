@@ -124,3 +124,8 @@ bevel, `GLOW_ON`/`BEVEL_ON`, contorno/sombra que o material novo não expõe e a
 ainda sem material; a lista completa está em inglês acima) — com o motivo
 escrito no log (ligue `LogDiagnosticoEstilo`). Instalação, configuração e desinstalação
 estão nas seções em inglês acima.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

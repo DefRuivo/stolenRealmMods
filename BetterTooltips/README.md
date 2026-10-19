@@ -116,3 +116,8 @@ de golpes. Acrescenta a explicação que falta no fim do tooltip, na cor especia
 e corrige erros simples de texto. As auras de shrine de **buff** passam a mostrar o número
 com o **seu** bônus real; as duas de **perigo** (Decay/Flame) seguem sem o fator — pendência
 aberta (RV-49). **Não altera gameplay.**
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

@@ -233,3 +233,8 @@ Decisão de arquitetura BP-1; Original lossless BP-2; captura Corrigido sem apro
 </details>
 
 Nota desta rodada de empacotamento (fora do bloco acima, que segue integral): a contagem esperada de chaves alteradas da bancada de testes é lida de `Data/manifest.json` (`coverage.changedKeys`), não fixada no código, então `python tests/BetterPortuguese.Offline/run.py` dispensa flag; `--expected-changes N` continua sobrescrevendo para candidatos experimentais.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.

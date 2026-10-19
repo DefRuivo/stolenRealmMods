@@ -149,3 +149,8 @@ party. **Nenhum ponto é gasto** e nada que persista muda.
 > **Removido na RSTV-29 (06/10):** existia também um botão `Skills` na tela *Select Party*,
 > ao lado do `Choose Powerups`. Ele **não existe mais** — o botão do modal cobre aquela tela
 > e o atalho F10 continua funcionando ali.
+
+---
+
+**Source, issues and forks:** <https://github.com/DefRuivo/stolenRealmMods> — contributions are welcome.
+**Código-fonte, issues e forks:** <https://github.com/DefRuivo/stolenRealmMods> — contribuições são bem-vindas.
