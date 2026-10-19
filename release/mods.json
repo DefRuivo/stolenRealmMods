@@ -46,8 +46,8 @@
     {
       "nome": "BetterPortuguese",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-10-19T03:12:33.876445Z",
       "motivo": "PUBLICAR 0.1.0 (primeira publicacao do BetterPortuguese). Pacote de 1.319 correcoes aprovadas (inclui o fix LANG-04204 'I'->'I'), passo 5.9 do publish.yml verificado, manifest com categories mods. Autorizado pelo dono em 18/10 (verbatim: 'prossiga com o publish desse novo mod')."
     },
     {
