@@ -24139,5 +24139,14 @@
     "before": "Eu",
     "after": "I",
     "approvalTaskId": "t_872fff67"
+  },
+  {
+    "id": "LANG-06925",
+    "key": "Steal Action",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ação de Roubo",
+    "after": "Roubar Ação",
+    "approvalTaskId": "t_b36fdc06"
   }
 ]

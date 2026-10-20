@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 854275,
-      "sha256": "78d520a40d0ed3187cb913f0e719fcd9f4e6d1cfa3e272d83625e7d42bbf19e2"
+      "bytes": 854476,
+      "sha256": "4a341c0548fad9b38819abdf8a8958dc88e640fdfea05973d979107e6b09eca1"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5380608,
-      "sha256": "88e9cb7f2e606962664f1dcce9f7083bd0fba7c2387479252c17179e446cfe68"
+      "bytes": 5380606,
+      "sha256": "3027829d5eb6d0ff8bd5186d130023fd0ef6296c52c1f3610252959630d8c5ad"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,7 +38,7 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 1319,
+    "changedKeys": 1320,
     "approvedModRecords": 177
   },
   "limits": [
@@ -50,6 +50,7 @@
     "Dataset-only consolidation APL-LANG-1A; build, resource hash synchronization, tests and packaging belong to APL-LANG-1B",
     "BP-L75-1: owner-approved LANG-07575 paragraph break only; 1315 unique changed keys; prior 1314 preserved",
     "BP-TAGS-1: owner-approved <br/> in LANG-01296/LANG-01297 and <size=15> in LANG-07329; 1318 unique changed keys; prior 1315 preserved",
-    "LANG-FIX-1: owner-approved LANG-04204 key I Value Eu -> I (Roman numeral); 1319 unique changed keys; prior 1318 preserved byte for byte"
+    "LANG-FIX-1: owner-approved LANG-04204 key I Value Eu -> I (Roman numeral); 1319 unique changed keys; prior 1318 preserved byte for byte",
+    "BP-FIX-2: owner-approved LANG-06925 Steal Action -> Roubar Acao; 1320 unique changed keys; prior 1319 preserved"
   ]
 }
