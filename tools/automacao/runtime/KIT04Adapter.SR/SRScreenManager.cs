@@ -23,7 +23,9 @@ namespace KIT04Adapter.SR
             "EquipmentPanel",
             "MapPanel",
             "DialogPanel",
-            "PausePanel"
+            "PausePanel",
+            "RstvSkillTreesWindow", // host alternativo (janela separada)
+            "RstvAllSkillTreesPanel" // host atual da aba All Trees (SkillTreesTab.PanelName)
         };
 
         public SRScreenManager(CorePlugin core)

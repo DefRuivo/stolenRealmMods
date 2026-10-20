@@ -31,6 +31,9 @@ namespace KIT04Adapter.SR
         public static ConfigEntry<bool> p_PassivoHabilitado = null!;
 
         private PontePassivaRSTV _ponte = null!;
+        internal static ConfigEntry<bool> ControleHabilitado = null!;
+        internal static ConfigEntry<bool> ControleIniciarObservando = null!;
+        internal static readonly Dictionary<string, ConfigEntry<string>> TeclasControle = new();
         private string? _ultimaTela;
         private int _ultimoTotalPersonagens = -1;
 
@@ -72,8 +75,17 @@ namespace KIT04Adapter.SR
             p_PassivoHabilitado = Config.Bind("Modo", "passivoHabilitado", false,
                 "KIT-05F: habilita a trilha passiva RSTV (observa telas/clique; nada e emitido nem modificado).");
 
+            ControleHabilitado = Config.Bind("Controle", "habilitado", false,
+                "OPT-IN separado: atalhos passivos F7/F8/F9/F10 no mesmo motor do recorder; nunca autoriza gameplay.");
+            ControleIniciarObservando = Config.Bind("Controle", "iniciarObservando", false,
+                "Inicia observacao somente com opt-in explicito; false exige F7.");
+            foreach (var par in PonteControleRSTV.AtalhosPadrao())
+                TeclasControle[par.Key] = Config.Bind("Atalhos", par.Key, par.Value,
+                    "Nome canonico Unity KeyCode; conflito/reservada/tecla invalida desabilita o binding.");
+
             // KIT-14F: liga se o Core ja existir; se nao, fica PENDENTE (sem excecao).
             TentarVincular();
+            SRPassiveRuntime.Instalar(this);
         }
 
         /// <summary>
@@ -103,7 +115,7 @@ namespace KIT04Adapter.SR
                                             | System.Reflection.BindingFlags.Static)
                     .GetValue(null) == null ? "null" : "ok")
                 + " viaLerCore=" + (core == null ? "null" : "ok");
-            if (core == null)
+            if (ReferenceEquals(core, null))
             {
                 _estadoVinculo = "aguardando_core";
                 if (!_avisouEsperaDoCore)
@@ -155,37 +167,24 @@ namespace KIT04Adapter.SR
             return true;
         }
 
+        internal int UpdatesDoPlugin;
+        internal int DestruicoesDoPlugin;
+        internal void RelatarRuntime(string texto) => Logger.LogInfo("[KIT14F3] " + texto);
+        private void OnDestroy()
+        {
+            DestruicoesDoPlugin++;
+            RelatarRuntime("OnDestroy frame=" + Time.frameCount + " updates=" + UpdatesDoPlugin
+                + " motores=" + SRPassiveRuntime.ContarMotores());
+        }
+
         private void Update()
         {
-            // KIT-14F: o vinculo e retomado enquanto o Core nao existir (nada de depender
-            // da ordem de carga do Chainloader).
-            if (!TentarVincular())
-                return;
-
-            if (!p_Habilitado.Value)
-                return;
-
+            UpdatesDoPlugin++;
+            // A trilha passiva pertence exclusivamente ao PlayerLoop: nunca duplica.
+            if (p_PassivoHabilitado.Value) return;
+            if (!TentarVincular() || !p_Habilitado.Value) return;
             var core = LerCore();
-            if (core == null || !core.EstaHabilitado())
-                return;
-
-            // KIT-05F (F8) — TRILHA PASSIVA REAL: observa transicoes de tela e o
-            // clique RECEBIDO no input, alimentando o pipeline limitado do Core.
-            // Nada aqui clica, salva, equipa ou modifica gameplay.
-            if (p_PassivoHabilitado.Value)
-            {
-                var telas = SRScreenManager.TelasMonitoradas;
-                var ativas = new bool[telas.Length];
-                for (int i = 0; i < telas.Length; i++)
-                {
-                    var go = GameObject.Find(telas[i]);
-                    ativas[i] = go != null && go.activeInHierarchy;
-                }
-                bool cliqueObservado = Input.GetMouseButtonDown(0);
-                long agoraMs = (long)(Time.realtimeSinceStartup * 1000f);
-                AlimentarPassivo(ativas, cliqueObservado, agoraMs);
-                return;   // a trilha passiva substitui a emissao por frame
-            }
+            if (ReferenceEquals(core, null) || !core.EstaHabilitado()) return;
 
             // Legado (KIT-04F): emite SOMENTE quando o estado muda (sem spam/frame).
             var telaAtual = _telas.CapturarEstadoAtual();
@@ -222,18 +221,39 @@ namespace KIT04Adapter.SR
         /// engine para ler telas/clique).
         /// </summary>
         public int AlimentarPassivo(bool[] ativas, bool cliqueObservado, long agoraMs)
+            => AlimentarPassivo(ativas, cliqueObservado, agoraMs, null, null);
+
+        // A API offline continua sem procedencia runtime. Somente o motor que le a
+        // engine entrega engine.frame/origem e pede captura dos eventos observados.
+        internal int AlimentarPassivo(bool[] ativas, bool cliqueObservado, long agoraMs,
+            Dictionary<string, object>? origem, Action<Dictionary<string, object>>? aoEvento)
         {
-            if (_ponte == null) return 0;
+            if (!PassivoAutorizado() || _ponte == null) return 0;
             var core = LerCore();
-            if (core == null) return 0;
+            if (ReferenceEquals(core, null)) return 0;
             int registrados = 0;
             foreach (var ev in _ponte.Observar(ativas, cliqueObservado, agoraMs))
             {
+                if (origem != null) ev["engine"] = new Dictionary<string, object>(origem);
                 core.RegistrarEvento("passivo_" + ev["tipo"],
                                      "evento RSTV observado (passivo)", ev);
                 registrados++;
+                aoEvento?.Invoke(ev);
             }
             return registrados;
+        }
+
+        internal Dictionary<string, object> DiagnosticoPonte() => Json.Campos(
+            "vinculado", _vinculado, "ponte_existe", _ponte != null,
+            "ponte_habilitada", _ponte?.Habilitado, "transicoes", _ponte?.Transicoes,
+            "mesmo_pipeline", ReferenceEquals(_ponte?.Pipeline, LerCore()?.Passivo));
+
+        internal static bool PassivoAutorizado()
+        {
+            var core = LerCore();
+            return p_Habilitado != null && p_Habilitado.Value
+                && p_PassivoHabilitado != null && p_PassivoHabilitado.Value
+                && !ReferenceEquals(core, null) && core.EstaHabilitado();
         }
     }
 }

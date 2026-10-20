@@ -86,6 +86,15 @@ namespace KIT04Adapter.SR
             new List<Dictionary<string, object>>();
 
         private bool _observando;
+        private Dictionary<string, object> _engine;
+
+        // Somente o Adapter que acabou de ler a engine fornece esta procedencia.
+        // Harness/offline nao chama isto e continua NAO_EXERCITADO.
+        internal void RegistrarLeituraEngine(Dictionary<string, object> engine)
+        {
+            _engine = (Dictionary<string, object>)CopiaValor(engine);
+            Contexto("engine", (Dictionary<string, object>)CopiaValor(engine));
+        }
 
         public PonteControleRSTV(Dictionary<string, string> atalhos = null,
                                  string[] teclasReservadas = null,
@@ -417,9 +426,9 @@ namespace KIT04Adapter.SR
                 { "esquema", EsquemaExport },
                 { "esquema_controle", EsquemaControle },
                 { "sessao", _idSessao },
-                { "origem", "controle-offline (KIT-06); runtime=NAO_EXERCITADO" },
-                { "runtime", "NAO_EXERCITADO" },
-                { "runtime_exercitado", false },
+                { "origem", _engine == null ? "controle-offline (KIT-06); runtime=NAO_EXERCITADO" : "Unity.PlayerLoop.PostLateUpdate/Input.GetKeyDown" },
+                { "runtime", _engine == null ? "NAO_EXERCITADO" : "EXERCITADO" },
+                { "runtime_exercitado", _engine != null },
                 { "modo", Modo },
                 { "observando", _observando },
                 { "consome_input", ConsomeInput },
@@ -682,8 +691,8 @@ namespace KIT04Adapter.SR
                 { "degradacoes", _degradacoes.Count },
                 { "degradacoes_por_motivo", mapa },
                 { "indicador", Indicador(agoraMs) },
-                { "runtime", "NAO_EXERCITADO" },
-                { "runtime_exercitado", false },
+                { "runtime", _engine == null ? "NAO_EXERCITADO" : "EXERCITADO" },
+                { "runtime_exercitado", _engine != null },
             };
         }
     }

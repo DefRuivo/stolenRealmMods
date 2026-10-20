@@ -27,6 +27,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <!-- KIT-RSTV-INT-1: SRControlRuntime le os guards reais (TMP/Sirenix) para nao disparar
+         atalho durante chat/remapeamento. Todas Private=false: nada de DLL do jogo e distribuida. -->
+    <Reference Include="Unity.TextMeshPro"><HintPath>$(RefLibDir)/Unity.TextMeshPro.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization"><HintPath>$(RefLibDir)/Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization.Config"><HintPath>$(RefLibDir)/Sirenix.Serialization.Config.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.OdinInspector.Attributes"><HintPath>$(RefLibDir)/Sirenix.OdinInspector.Attributes.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Utilities"><HintPath>$(RefLibDir)/Sirenix.Utilities.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="BepInEx"><HintPath>$(RefLibDir)/BepInEx.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="0Harmony"><HintPath>$(RefLibDir)/0Harmony.dll</HintPath><Private>false</Private></Reference>
     <Reference Include="Assembly-CSharp"><HintPath>$(RefLibDir)/Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
