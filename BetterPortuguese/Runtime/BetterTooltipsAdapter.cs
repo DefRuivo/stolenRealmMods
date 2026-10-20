@@ -18,6 +18,7 @@ internal static class BetterTooltipsAdapter
     private static OnceLog warnings;
     private static Action<string> info;
     private static ISet<string> notes;
+    private static OnceLog diagLog;
     private static bool ready, sourceAlive, displayAlive;
     [ThreadStatic] private static int localizing;
     private sealed class Frame { public string Original, Localized; }
@@ -47,6 +48,7 @@ internal static class BetterTooltipsAdapter
             if (display.GetParameters()[3].Name != "description") throw new MissingMethodException("Tooltip description argument changed");
             Hook(h, source, nameof(SourcePrefix), nameof(SourcePostfix), nameof(SourceFinalizer));
             Hook(h, display, nameof(DisplayPrefix), nameof(DisplayPostfix), null);
+            diagLog = new OnceLog(log, 200);
             ready = true;
             info?.Invoke("BP-MODS: 1 adaptador registrado, BetterTooltips " + ModCatalog.BetterTooltipsVersion + "; " + map.Count + " regras; origem BP -> montagem/ordem BT -> traducao final; nenhum patch novo em Update.");
         }
@@ -64,6 +66,21 @@ internal static class BetterTooltipsAdapter
         var p = Harmony.GetPatchInfo(target);
         if ((pre != null && p.Prefixes.Count(x=>x.owner==Owner)!=1) || (post != null && p.Postfixes.Count(x=>x.owner==Owner)!=1) || (fin != null && p.Finalizers.Count(x=>x.owner==Owner)!=1))
             throw new InvalidOperationException("Adapter ownership mismatch: " + target.Name);
+    }
+    // TEMPORARY DIAGNOSTIC (Diagnostico=true): logs the shrine/aura blocks that reach the
+    // translation layer, once per distinct text, so a live hover says exactly what happened.
+    private static void Diag(string tag, string input, string output)
+    {
+        if (input == null || input.IndexOf("shrine", StringComparison.OrdinalIgnoreCase) < 0 &&
+            input.IndexOf("aura", StringComparison.OrdinalIgnoreCase) < 0) return;
+        if (settings?.Invoke()?.Diagnostic != true) return;
+        diagLog?.Write("BP-DIAG " + tag + " changed=" + (input != output)
+            + " in<" + Cut(input) + "> out<" + Cut(output) + ">");
+    }
+    private static string Cut(string text)
+    {
+        string flat = text.Replace("\n", "\\n");
+        return flat.Length <= 400 ? flat : flat.Substring(0, 400) + "…";
     }
     private static bool Enabled()
     {
@@ -121,6 +138,7 @@ internal static class BetterTooltipsAdapter
             if (!Enabled() || __instance == null || __instance.Description == null) return;
             incoming = __instance.Description.text;
             string translated = ModText.Translate(map, incoming, notes, LocalizeName, s=>warnings?.Write("BP-MODS: " + s));
+            Diag("postfix", incoming, translated);
             if (translated != incoming) __instance.Description.text = translated;
         }
         catch (Exception ex) { warnings?.Write("BP-MODS texto renderizado preservado: " + ex.GetType().Name); }
@@ -134,6 +152,7 @@ internal static class BetterTooltipsAdapter
             // The BT prefix has already regrouped ENGLISH identities. Translation
             // changes neither separators, colors nor order, only owned text content.
             description = ModText.Translate(map, incoming, notes, LocalizeName, s=>warnings?.Write("BP-MODS: " + s));
+            Diag("prefix", incoming, description);
             if (!displayAlive && description != incoming) { displayAlive=true; info?.Invoke("BP-MODS: traducao final viva depois da ordem BT."); }
         }
         catch (Exception ex) { description=incoming; warnings?.Write("BP-MODS saida preservada: " + ex.GetType().Name); }
