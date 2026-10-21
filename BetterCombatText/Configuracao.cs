@@ -128,7 +128,7 @@ namespace BetterCombatText
                 alfaSombra: 0.75f,
                 tamanhoExtra: 0f,
                 fundo: "escuro",
-                espacamentoExtra: 22f,
+                espacamentoExtra: 2f,
                 caixaAlta: true);
 
             var secRotulos = "3. Rotulos de buff/debuff (combate)";

@@ -5,13 +5,17 @@
 
 ## 0.1.6 — Unreleased
 
-- **Names now match the game's width and case (BF-STYLE-3b/3c).** Measured on the paired combat capture:
-  the game draws enemy names in upper case and Times New Roman is narrower, so the old output was both
-  lower-case and ~30% shorter. Two opt-in keys were added and enabled by default **for the enemy-name
-  surface only**: `EspacamentoExtra` (writes `characterSpacing`; 22 reproduces the original total advance:
-  252.6 vs 251.8 px on Goblin Marauder, 106.2 vs 107.7 on Knight, 81.8 vs 78.5 on Briar at 1080p) and
-  `CaixaAlta` (`FontStyles.UpperCase`). Cap height stays at 18 px, equal to the original in all three names.
-- Both keys default to the previous behaviour on every other surface; nothing else changes.
+- **Names now match the game's cap height, case and (almost) width (BF-STYLE-3b/3c).** Paired combat
+  captures show the game draws enemy names in upper case, so two opt-in keys were added and enabled by
+  default for the enemy-name surface only: `CaixaAlta` (`FontStyles.UpperCase`) and `EspacamentoExtra`
+  (`characterSpacing`).
+- Clean paired runs (no concurrent change to the owner's profile, 13 captures, 1920x1080):
+  cap height **18 px = 18 px** in all three names. Total advance measured with `EspacamentoExtra=0`:
+  246.2 vs 251.8 px (Goblin Marauder), 99.3 vs 107.7 (Knight), 79.2 vs 78.5 (Briar); with `=22` it
+  overshoots (326.1 / 133.6 / 107.7). The shipped default **2** is the least-squares fit between those
+  two measured points — it is an interpolation, not itself a measured capture.
+- Earlier calibration done on lower-case renders (spacing 22) was wrong: upper case widens the glyphs and
+  most of that tracking became unnecessary.
 
 ## 0.1.5 — Unreleased
 
