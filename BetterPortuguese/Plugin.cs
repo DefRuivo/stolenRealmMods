@@ -77,6 +77,8 @@ public sealed class Plugin : BaseUnityPlugin
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
         CompositionPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
+        // BP-EVENTO: linhas de efeito dos eventos ("★ Reroll a skill") nao passam pelo Localize.
+        EventEffectText.Install(harmony, () => States.Current != null && States.Current.Diagnostic, log);
         if (mods != null) BetterTooltipsAdapter.Install(mods, () => States.Current, limited, message => log.LogInfo(message));
         log.LogInfo("BetterPortuguese 0.1.1 carregado.");
     }
