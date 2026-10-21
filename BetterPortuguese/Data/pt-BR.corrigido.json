@@ -87369,7 +87369,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Grande Acúmulo de Ouro",
+          "Value": "Grande Pilha de Ouro",
           "Key": "Large Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102042,7 +102042,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicada ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
+          "Value": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicado ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
           "Key": "Patient Hunter gives 10% <b>Increased Damage</b> and 1 <b>Skill Range</b> per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102060,7 +102060,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicada ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
+          "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicado ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
           "Key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -103308,7 +103308,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Acúmulo de Ouro",
+          "Value": "Pilha de Ouro",
           "Key": "Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124086,7 +124086,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pequena Acúmulo de Ouro",
+          "Value": "Pequena Pilha de Ouro",
           "Key": "Small Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -138255,7 +138255,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena acúmulo de tesouros em seu rastro.",
+          "Value": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena pilha de tesouros em seu rastro.",
           "Key": "The mimic shrinks back, until, finally, it gives a last gurgling growl in defeat. The taint dissolved, fading away into smoke and shadow, leaving behind an empty silence.\n\nAs the darkness vanishes, it reveals a small mound of treasure in its wake.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -138723,7 +138723,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de acúmulos de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
+          "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de pilhas de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
           "Key": "The rugged treasure hunter Louisiana Sloans looks up from piles of cryptic maps and charts.\n\n\"No one's ever retrieved the Treasure of Moltendunn. You in?\"",
           "TranslatorKey": null,
           "Feminine": null,
@@ -151807,7 +151807,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece um acúmulo cintilante de tesouros.",
+          "Value": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece uma pilha cintilante de tesouros.",
           "Key": "With a final, bone-rattling roar, the Mimic convulses, then collapses, slowly dissolving into an amorphous mass.\n\n\nWhere the Mimic has fallen, a shimmering pile of treasure remains.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -155951,7 +155951,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é um acúmulo de cinzas e um grimório bem gasto.",
+          "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é uma pilha de cinzas e um grimório bem gasto.",
           "Key": "You have defeated the <violet><b><incr>Mad Mage</violet></b></incr>! \n\nAll that remains him is a pile of ash and a well-worn spellbook.",
           "TranslatorKey": null,
           "Feminine": null,

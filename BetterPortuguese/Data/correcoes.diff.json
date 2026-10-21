@@ -13287,7 +13287,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicada ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
+      "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicado ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
       "Key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
       "TranslatorKey": null,
       "Feminine": null,
@@ -17324,7 +17324,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de acúmulos de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
+      "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de pilhas de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
       "Key": "The rugged treasure hunter Louisiana Sloans looks up from piles of cryptic maps and charts.\n\n\"No one's ever retrieved the Treasure of Moltendunn. You in?\"",
       "TranslatorKey": null,
       "Feminine": null,
@@ -20630,7 +20630,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é um acúmulo de cinzas e um grimório bem gasto.",
+      "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é uma pilha de cinzas e um grimório bem gasto.",
       "Key": "You have defeated the <violet><b><incr>Mad Mage</violet></b></incr>! \n\nAll that remains him is a pile of ash and a well-worn spellbook.",
       "TranslatorKey": null,
       "Feminine": null,
@@ -24618,15 +24618,6 @@
     "approvalTaskId": "t_5c274339"
   },
   {
-    "id": "LANG-04789",
-    "key": "Large Pile of Gold",
-    "entryIndex": 0,
-    "field": "Value",
-    "before": "Grande Pilha de Ouro",
-    "after": "Grande Acúmulo de Ouro",
-    "approvalTaskId": "t_5c274339"
-  },
-  {
     "id": "LANG-04988",
     "key": "Lowers All Resistance by 10% per stack.",
     "entryIndex": 0,
@@ -24686,16 +24677,7 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por pilha. Uma pilha é aplicada ao final de cada turno. Qualquer movimento remove todas as pilhas de Caçador Paciente. Acumula até 5 vezes.",
-    "after": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicada ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
-    "approvalTaskId": "t_5c274339"
-  },
-  {
-    "id": "LANG-05662",
-    "key": "Pile of Gold",
-    "entryIndex": 0,
-    "field": "Value",
-    "before": "Pilha de Ouro",
-    "after": "Acúmulo de Ouro",
+    "after": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicado ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
     "approvalTaskId": "t_5c274339"
   },
   {
@@ -24843,15 +24825,6 @@
     "approvalTaskId": "t_5c274339"
   },
   {
-    "id": "LANG-06784",
-    "key": "Small Pile of Gold",
-    "entryIndex": 0,
-    "field": "Value",
-    "before": "Pequena Pilha de Ouro",
-    "after": "Pequena Acúmulo de Ouro",
-    "approvalTaskId": "t_5c274339"
-  },
-  {
     "id": "LANG-06987",
     "key": "Striking with this weapon applies 1 stack of {STA=Bleeding}.",
     "entryIndex": 0,
@@ -24915,15 +24888,6 @@
     "approvalTaskId": "t_5c274339"
   },
   {
-    "id": "LANG-07556",
-    "key": "The mimic shrinks back, until, finally, it gives a last gurgling growl in defeat. The taint dissolved, fading away into smoke and shadow, leaving behind an empty silence.\n\nAs the darkness vanishes, it reveals a small mound of treasure in its wake.",
-    "entryIndex": 0,
-    "field": "Value",
-    "before": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena pilha de tesouros em seu rastro.",
-    "after": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena acúmulo de tesouros em seu rastro.",
-    "approvalTaskId": "t_5c274339"
-  },
-  {
     "id": "LANG-08129",
     "key": "Weapon attacks apply 1 stacks of bleeding.",
     "entryIndex": 0,
@@ -24939,15 +24903,6 @@
     "field": "Value",
     "before": "Ataques com armas aplicam 2 pilhas de sangramento.",
     "after": "Ataques com armas aplicam 2 acúmulos de sangramento.",
-    "approvalTaskId": "t_5c274339"
-  },
-  {
-    "id": "LANG-08297",
-    "key": "With a final, bone-rattling roar, the Mimic convulses, then collapses, slowly dissolving into an amorphous mass.\n\n\nWhere the Mimic has fallen, a shimmering pile of treasure remains.",
-    "entryIndex": 0,
-    "field": "Value",
-    "before": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece uma pilha cintilante de tesouros.",
-    "after": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece um acúmulo cintilante de tesouros.",
     "approvalTaskId": "t_5c274339"
   },
   {
