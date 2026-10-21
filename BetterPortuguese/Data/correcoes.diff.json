@@ -24452,7 +24452,7 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Cada pilha reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 pilhas, você se torna <b>Petrificado</b>, o que consome todas as pilhas de Petrificação.",
-    "after": "Cada acúmulo reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 acúmulos, você se torna <b>Petrificado</b>, o que consome todos os acúmulos de Petrificação.",
+    "after": "Cada acúmulo reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 acúmulos, você se torna <b>Petrificado</b>, o que consome todas as cargas de Petrificação.",
     "approvalTaskId": "t_5c274339"
   },
   {
@@ -24677,7 +24677,7 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por pilha. Uma pilha é aplicada ao final de cada turno. Qualquer movimento remove todas as pilhas de Caçador Paciente. Acumula até 5 vezes.",
-    "after": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicado ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
+    "after": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Ganhe um acúmulo ao final de cada turno; qualquer movimento remove todos eles. Acumula até 5 vezes.",
     "approvalTaskId": "t_5c274339"
   },
   {
@@ -24857,7 +24857,7 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por pilha de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
-    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
+    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 para cada acúmulo de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
     "approvalTaskId": "t_5c274339"
   },
   {
@@ -24929,7 +24929,7 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Suas magias de fogo causam 10% mais dano por pilha de calor nos alvos.",
-    "after": "Suas magias de fogo causam 10% mais dano por acúmulo de calor nos alvos.",
+    "after": "Suas magias de fogo causam 10% mais dano para cada acúmulo de Calor no alvo.",
     "approvalTaskId": "t_5c274339"
   },
   {
@@ -24976,5 +24976,41 @@
     "before": "[0] de <b>Poder</b> absorvido por pilha. Acumula até 10 vezes.",
     "after": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
     "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02954",
+    "key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todas as cargas de Petrificação.",
+    "approvalTaskId": "t_a5e96982"
+  },
+  {
+    "id": "LANG-03154",
+    "key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicado aos inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+    "approvalTaskId": "t_a5e96982"
+  },
+  {
+    "id": "LANG-05592",
+    "key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Ganhe um acúmulo ao final de cada turno;  qualquer movimento remove todos eles.  Acumula até 5 vezes.",
+    "approvalTaskId": "t_a5e96982"
+  },
+  {
+    "id": "LANG-07135",
+    "key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 para cada acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
+    "approvalTaskId": "t_a5e96982"
   }
 ]

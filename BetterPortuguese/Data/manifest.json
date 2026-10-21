@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 892139,
-      "sha256": "ef999c74b657a273f7f41ae690e7248b2baad64708083bef1b584a2d91c9e4a0"
+      "bytes": 919028,
+      "sha256": "3ba531fbc4aa0012f3683de0e4a2325c33e59be1782a580009d7e31999e54d19"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5381024,
-      "sha256": "1cd8916046238be62bdf738850b26c0e99c85c700cc342d57f34550169d0504f"
+      "bytes": 5547223,
+      "sha256": "b9ea8f9c373a45828972927de7e279d9b777b9315ee6bd5b256203474308e68a"
     },
     {
       "path": "pt-BR.mods.json",
@@ -54,6 +54,7 @@
     "BP-FIX-2: owner-approved LANG-06925 Steal Action -> Roubar Acao; 1320 unique changed keys; prior 1319 preserved",
     "BP-FIX-3: owner-approved LANG-06235 Resume -> Continuar and LANG-01474 Battle -> Batalhar; 1322 unique changed keys; prior 1320 preserved",
     "BP-FIX-4: owner-approved LANG-04864 gender agreement (Fortunas, feminine); 1323 unique changed keys",
-    "BP-STACK-1: owner-approved stack vocabulary pilha -> acumulo in every tooltip/event that means a STACK of effect; 1412 unique changed keys. Retificacao: 7 physical piles (Pile of Gold x3, pile of maps, shimmering pile of treasure, pile of ash) reverted to \"pilha\" and the masculine participle fixed in LANG-05591/LANG-05592 (\"Um acumulo e aplicado\") and LANG-03153/LANG-03154 (\"Cada acumulo de Calor aplicado\"); exceptions LANG-00891 (coin pile) and LANG-06885 (verb Empilhar) untouched. R1 review: dataset files rewritten with LF (repo norm) after the CRLF churn."
+    "BP-STACK-1: owner-approved stack vocabulary pilha -> acumulo in every tooltip/event that means a STACK of effect; 1412 unique changed keys. Retificacao: 7 physical piles (Pile of Gold x3, pile of maps, shimmering pile of treasure, pile of ash) reverted to \"pilha\" and the masculine participle fixed in LANG-05591/LANG-05592 (\"Um acumulo e aplicado\") and LANG-03153/LANG-03154 (\"Cada acumulo de Calor aplicado\"); exceptions LANG-00891 (coin pile) and LANG-06885 (verb Empilhar) untouched. R1 review: dataset files rewritten with LF (repo norm) after the CRLF churn.",
+    "BP-WORD-1: owner-approved rewording of stack lines (8 keys); 1412 unique changed keys"
   ]
 }
