@@ -3,6 +3,20 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.5 — Unreleased
+
+- **Enemy-name styling calibrated against the real render (BF-STYLE-3).** Default outline for combat enemy
+  names moved from `_OutlineWidth 0.22` / `_OutlineSoftness 0.05` to **0.35 / 0.10**, and the default
+  underlay shadow is now **off** for that surface. Evidence: the paired combat capture (13 pairs, same
+  scenario, `PlayerInfoWindow`/`StatusIcon` handlers) measured cap height **18 px in both conditions** for
+  three different names, where the previous defaults rendered heavier than the game's own Trajan styling.
+- New opt-in keys on the TMP style sections: `HerdarGeometria` (use the original material's outline/shadow/
+  `_FaceDilate` instead of the configured numbers; colour and alpha still come from the cfg) and
+  `DilatarFace` (writes `_FaceDilate`, previously not exposed). Both default to the old behaviour.
+- Known limit, measured: Times New Roman is narrower than the game's Trajan for these names (advance
+  ~12.3 px vs ~18.0 px per glyph at 1080p). Matching the original width would require `characterSpacing`,
+  which this mod does not expose yet.
+
 ## 0.1.4 — Unreleased
 
 - Added the README source/contribution block linking to https://github.com/DefRuivo/stolenRealmMods for source code, issues, contributions and forks.
