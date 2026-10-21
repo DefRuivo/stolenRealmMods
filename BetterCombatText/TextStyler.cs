@@ -89,6 +89,17 @@ namespace BetterCombatText
                 }
                 MateriaisInstanciados[id] = mat;
 
+                // BF-STYLE-3: a instancia nasce como COPIA do material compartilhado do jogo, entao
+                // aqui — antes de qualquer escrita — estao os valores ORIGINAIS. HerdarGeometria usa
+                // estes numeros em vez dos do cfg: e o que faz o estilo seguir o jogo, nao o mod.
+                float originalOutlineWidth = LerFloat(mat, "_OutlineWidth");
+                float originalOutlineSoftness = LerFloat(mat, "_OutlineSoftness");
+                float originalFaceDilate = LerFloat(mat, "_FaceDilate");
+                float originalUnderlayX = LerFloat(mat, "_UnderlayOffsetX");
+                float originalUnderlayY = LerFloat(mat, "_UnderlayOffsetY");
+                float originalUnderlayDilate = LerFloat(mat, "_UnderlayDilate");
+                float originalUnderlaySoftness = LerFloat(mat, "_UnderlaySoftness");
+
                 var shader = mat.shader;
                 string nomeShader = shader != null ? shader.name : "(sem shader)";
                 bool ehDistanceField = mat.HasProperty("_OutlineWidth");
@@ -98,10 +109,20 @@ namespace BetterCombatText
                 {
                     if (ehDistanceField)
                     {
+                        bool herdar = cfg.HerdarGeometria.Value;
+                        float largura = herdar ? originalOutlineWidth : cfg.LarguraContorno.Value;
+                        float suavidade = herdar ? originalOutlineSoftness : cfg.SuavidadeContorno.Value;
+                        float dilatar = herdar ? originalFaceDilate : cfg.DilatarFace.Value;
                         mat.EnableKeyword("OUTLINE_ON");
                         mat.SetColor("_OutlineColor", cfg.CorContorno);
-                        mat.SetFloat("_OutlineWidth", Mathf.Clamp(cfg.LarguraContorno.Value, 0f, 1f));
-                        mat.SetFloat("_OutlineSoftness", Mathf.Clamp(cfg.SuavidadeContorno.Value, 0f, 1f));
+                        mat.SetFloat("_OutlineWidth", Mathf.Clamp(largura, 0f, 1f));
+                        mat.SetFloat("_OutlineSoftness", Mathf.Clamp(suavidade, 0f, 1f));
+                        if (mat.HasProperty("_FaceDilate") && (herdar || cfg.DilatarFace.Value != 0f))
+                        {
+                            // Nao escrever quando DilatarFace=0 e HerdarGeometria=false: o valor
+                            // original da copia fica intacto (comportamento identico ao de antes).
+                            mat.SetFloat("_FaceDilate", Mathf.Clamp(dilatar, -1f, 1f));
+                        }
                     }
                     else
                     {
@@ -121,10 +142,11 @@ namespace BetterCombatText
                         // clara) E a LEI do contraste com a LETRA (o balde VIRA se a cor escolhida
                         // nao contrastar com a letra) - a reavaliacao so reescreve se o balde muda.
                         BaldeSombraTmp[id] = Configuracao.UsaSombraClara(tmp.color, Plugin.Cfg.CorSombraClara, Plugin.Cfg.CorSombraEscura, cfg.Fundo);
-                        mat.SetFloat("_UnderlayOffsetX", Mathf.Clamp(cfg.SombraOffsetX.Value, -2f, 2f));
-                        mat.SetFloat("_UnderlayOffsetY", Mathf.Clamp(cfg.SombraOffsetY.Value, -2f, 2f));
-                        mat.SetFloat("_UnderlayDilate", Mathf.Clamp(cfg.SombraDilate.Value, -1f, 1f));
-                        mat.SetFloat("_UnderlaySoftness", Mathf.Clamp(cfg.SombraSuavidade.Value, 0f, 1f));
+                        bool herdarSombra = cfg.HerdarGeometria.Value;
+                        mat.SetFloat("_UnderlayOffsetX", Mathf.Clamp(herdarSombra ? originalUnderlayX : cfg.SombraOffsetX.Value, -2f, 2f));
+                        mat.SetFloat("_UnderlayOffsetY", Mathf.Clamp(herdarSombra ? originalUnderlayY : cfg.SombraOffsetY.Value, -2f, 2f));
+                        mat.SetFloat("_UnderlayDilate", Mathf.Clamp(herdarSombra ? originalUnderlayDilate : cfg.SombraDilate.Value, -1f, 1f));
+                        mat.SetFloat("_UnderlaySoftness", Mathf.Clamp(herdarSombra ? originalUnderlaySoftness : cfg.SombraSuavidade.Value, 0f, 1f));
                     }
                     else
                     {
@@ -511,6 +533,13 @@ namespace BetterCombatText
             }
         }
 
+        /// <summary>BF-STYLE-3: le um float do material sem lancar quando a propriedade nao existe
+        /// (fonte bitmap, shader sem underlay). Devolve 0 quando nao ha como ler.</summary>
+        private static float LerFloat(Material m, string propriedade)
+        {
+            try { return m != null && m.HasProperty(propriedade) ? m.GetFloat(propriedade) : 0f; }
+            catch { return 0f; }
+        }
         private static string Nome(TMP_Text t)
         {
             try

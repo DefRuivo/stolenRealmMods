@@ -400,6 +400,12 @@ namespace BetterCombatText
         public readonly ConfigEntry<float> SombraSuavidade;
         public readonly ConfigEntry<float> AlfaSombra;
         public readonly ConfigEntry<float> TamanhoFonteExtra;
+        // BF-STYLE-3: o candidato aprovado em BF-STYLE-2 precisa de dois controles que nao
+        // existiam. `HerdarGeometria` = "nao inventar numero": usa a geometria que o MATERIAL
+        // ORIGINAL do jogo ja tinha (contorno, sombra e _FaceDilate) e aplica so cor/alfa do cfg.
+        // `DilatarFace` escreve `_FaceDilate`, que o mod nao expunha em lugar nenhum.
+        public readonly ConfigEntry<bool> HerdarGeometria;
+        public readonly ConfigEntry<float> DilatarFace;
         // BCT-3: o FUNDO atras do texto ("auto"/"escuro"/"claro"). Declarado, ele MANDA na
         // escolha da sombra (contraste com o fundo > luminancia da letra).
         public readonly ConfigEntry<string> FundoTexto;
@@ -430,6 +436,13 @@ namespace BetterCombatText
             AlfaSombra = cfg.Bind(sec, "AlfaSombra", alfaSombra, "Opacidade da sombra, 0 a 1.");
             TamanhoFonteExtra = cfg.Bind(sec, "TamanhoFonteExtra", tamanhoExtra,
                 "Soma no tamanho da fonte. 0 = NAO MEXE no tamanho (padrao). Valores tipicos: +0.5 a +2.");
+            HerdarGeometria = cfg.Bind(sec, "HerdarGeometria", false,
+                "BF-STYLE-3: true = NAO sobrescreve a geometria (contorno, sombra e _FaceDilate) e usa a do " +
+                "MATERIAL ORIGINAL do jogo; do cfg continua valendo so cor/alfa. e o modo que aproxima o " +
+                "estilo do original em vez de impor numeros fixos.");
+            DilatarFace = cfg.Bind(sec, "DilatarFace", 0f,
+                new ConfigDescription("BF-STYLE-3: engrossamento do miolo da letra (_FaceDilate). 0 = NAO MEXE " +
+                    "(padrao). Ignorado quando HerdarGeometria=true.", new AcceptableValueRange<float>(0f, 1f)));
             FundoTexto = cfg.Bind(sec, "Fundo", fundo,
                 "O FUNDO atras deste texto, que decide a COR da sombra (BCT-3). 'escuro' = cenario " +
                 "escuro: a sombra tem de ser CLARA, senao some (era o defeito dos nomes de inimigo no " +
