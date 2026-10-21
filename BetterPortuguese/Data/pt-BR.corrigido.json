@@ -57367,7 +57367,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Engolido em Fogo do Inferno. Cada acúmulo de <b>Calor</b> aplicada aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
+          "Value": "Engolido em Fogo do Inferno. Cada acúmulo de <b>Calor</b> aplicado aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
           "Key": "Engulfed in Hellfire. Each stack of <b>Heat</b> applied to enemies applies [0] fire damage per turn. Grants Immunity to <b>Heat</b> and <b>Chilled</b>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57385,7 +57385,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicada a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+          "Value": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicado a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
           "Key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
           "TranslatorKey": null,
           "Feminine": null,
