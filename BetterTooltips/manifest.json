@@ -1,6 +1,6 @@
 {
   "name": "BetterTooltips",
-  "version_number": "0.1.5",
+  "version_number": "0.1.6",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Rewrites skill and status tooltips so they stop leaving out what matters, and adds the missing explanation at the end, plus shrine aura values for the character in focus. No gameplay change.",
   "dependencies": [

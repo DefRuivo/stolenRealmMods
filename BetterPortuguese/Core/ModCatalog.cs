@@ -11,7 +11,7 @@ namespace BetterPortuguese.Core;
 internal sealed class ModCatalog
 {
     public const string BetterTooltipsGuid = "com.gumatos.bettertooltips";
-    public const string BetterTooltipsVersion = "0.1.5";
+    public const string BetterTooltipsVersion = "0.1.6";
     public sealed class Rule
     {
         public string Id, Kind, Source, Target;

@@ -1213,6 +1213,40 @@ namespace BetterTooltips.Patches
         /// o sinal é invertido: inverter primeiro arredondaria do lado errado do número
         /// (`Ceil(-53.4) = -53`, que é o `-53` que a ficha mostra; `-Ceil(53.4) = -54`).
         /// </summary>
+        /// <summary>
+        /// HP-1 — valor ABSOLUTO por turno das auras que curam/regeneram em % da Vida (ou Mana) Máxima.
+        /// Fica vazio quando o atributo não é de regeneração. Usa o TOTAL do atributo (o número que a
+        /// linha já mostra) e a grandeza do personagem, então respeita bônus de shrine e de equipamento.
+        /// Devolve "" se não houver como ler a base — nunca chuta número.
+        /// </summary>
+        private static string AbsolutoPorTurno(string nome, Character receptor, float total)
+        {
+            try
+            {
+                string baseNome = nome == "HealthPerTurnPercent" ? "MaxHealth"
+                                 : nome == "ManaPerTurnPercent" ? "MaxMana" : null;
+                if (baseNome == null || receptor == null || Burst2Flame.Game.Instance?.GetAttribute(baseNome) == null)
+                {
+                    return "";
+                }
+                float baseValor = receptor[baseNome];
+                if (baseValor <= 0f || float.IsNaN(baseValor) || float.IsInfinity(baseValor))
+                {
+                    return "";
+                }
+                int porTurno = Mathf.RoundToInt(baseValor * total / 100f);
+                Marca($"HP-1 '{nome}': base {baseNome}={baseValor:0.#} x {total:0.#}% -> {porTurno} por turno");
+                return nome == "HealthPerTurnPercent"
+                    ? " = " + porTurno + " de vida por turno"
+                    : " = " + porTurno + " de mana por turno";
+            }
+            catch (Exception ex)
+            {
+                Marca($"HP-1 '{nome}' sem valor absoluto: {ex.GetType().Name}");
+                return "";
+            }
+        }
+
         private static string TotalComSinal(string nome, float v)
         {
             int n = InteiroDoJogo(v);
@@ -1355,11 +1389,16 @@ namespace BetterTooltips.Patches
                         continue;
                     }
                     float total = receptor[nome];
+                    // HP-1 (pedido do dono, 21/10): as auras de VIDA POR TURNO (Seraph) só mostravam
+                    // a porcentagem; o jogador quer saber QUANTO vai curar naquele turno. O valor
+                    // absoluto sai do MESMO atributo total que já está na linha (o motor já aplicou
+                    // bônus de shrine e de gear) multiplicado pela Vida Máxima do personagem.
+                    string absoluto = AbsolutoPorTurno(nome, receptor, total);
                     float contribuicao;
                     if (ContribuicaoDasAuras(unicas, atributo, receptor, somadas, out contribuicao))
                     {
                         partes.Add(TextDoEfeito(atributo, contribuicao)
-                            + " (total " + TotalComSinal(nome, total) + ")");
+                            + " (total " + TotalComSinal(nome, total) + ")" + absoluto);
                         // O `resto` (total − contribuição) é o pedaço da ficha que NÃO é aura: é ele que
                         // prova, em jogo, se o total é aditivo — com as duas telas do dono (30/09) o
                         // resto deu +25 (DamageMod) e +20 (DamageReduction) nos DOIS casos. RV-46: com o
@@ -1381,7 +1420,7 @@ namespace BetterTooltips.Patches
                         // shrine NÃO tem nenhum desses casos hoje, conferido no censo: 9/9 são
                         // `Base`), o item sai com o total do personagem, como antes.
                         emFallback.Add(nome);
-                        partes.Add(TextDoEfeito(atributo, total));
+                        partes.Add(TextDoEfeito(atributo, total) + absoluto);
                         Marca($"RV-44 item '{nome}' sem separacao: sai com o total do personagem ({ComSinal(total)}%)");
                         MarcaTeto(atributo, receptor, nome, total);
                     }

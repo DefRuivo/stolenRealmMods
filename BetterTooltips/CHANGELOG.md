@@ -3,6 +3,16 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.6 — Unreleased
+
+- **Absolute per-turn value on shrine auras that regenerate (owner request, 21/10).** The active-shrine line
+  used to show only the percentage (`Vida por turno +10% (total +10%)`). It now appends the actual amount
+  for the current character: `= N de vida por turno` (and the same for mana). The number is
+  `MaxHealth x total% / 100` using the SAME total already shown, so shrine/gear bonuses are already in it;
+  with no readable base the suffix is omitted instead of guessing.
+- BetterPortuguese's adapter is pinned to this version (`ModCatalog.BetterTooltipsVersion`), so both were
+  bumped together: 0.1.5 -> 0.1.6.
+
 ## 0.1.5 — Unreleased
 
 - Added the README source/contribution block linking to https://github.com/DefRuivo/stolenRealmMods for source code, issues, contributions and forks.
