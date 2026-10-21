@@ -24148,5 +24148,23 @@
     "before": "Ação de Roubo",
     "after": "Roubar Ação",
     "approvalTaskId": "t_b36fdc06"
+  },
+  {
+    "id": "LANG-06235",
+    "key": "Resume",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Currículo",
+    "after": "Continuar",
+    "approvalTaskId": "t_167dfc63"
+  },
+  {
+    "id": "LANG-01474",
+    "key": "Battle",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Batalha",
+    "after": "Batalhar",
+    "approvalTaskId": "t_167dfc63"
   }
 ]
