@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 855226,
-      "sha256": "0d95e701b28c99e0e6fe22b6d5bdeca19a95b2baff2b648c0c87050893852c20"
+      "bytes": 932453,
+      "sha256": "238df6f1dc9d09c522f3bc8636099e9ca59a97af16d1bf659f8d9021c4b19f7b"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5380606,
-      "sha256": "091573c760dcc172d7100d5ef3b4b693690190712940895ab19c228b7894db4f"
+      "bytes": 5547300,
+      "sha256": "7887ef2a04d68c0f22c5badf1141b29716e5f8bdb05812e666c0b7983c52580a"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,7 +38,7 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 1323,
+    "changedKeys": 1417,
     "approvedModRecords": 177
   },
   "limits": [
@@ -53,6 +53,7 @@
     "LANG-FIX-1: owner-approved LANG-04204 key I Value Eu -> I (Roman numeral); 1319 unique changed keys; prior 1318 preserved byte for byte",
     "BP-FIX-2: owner-approved LANG-06925 Steal Action -> Roubar Acao; 1320 unique changed keys; prior 1319 preserved",
     "BP-FIX-3: owner-approved LANG-06235 Resume -> Continuar and LANG-01474 Battle -> Batalhar; 1322 unique changed keys; prior 1320 preserved",
-    "BP-FIX-4: owner-approved LANG-04864 gender agreement (Fortunas, feminine); 1323 unique changed keys"
+    "BP-FIX-4: owner-approved LANG-04864 gender agreement (Fortunas, feminine); 1323 unique changed keys",
+    "BP-STACK-1: owner-approved stack vocabulary pilha -> acumulo across the dataset; 229 unique changed keys"
   ]
 }

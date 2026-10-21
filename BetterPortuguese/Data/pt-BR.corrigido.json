@@ -7279,7 +7279,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<b>Armadura</b>, <b>Armadura Mágica</b> e <b>Retorno de Dano</b> aumentados em 10% por pilha.",
+          "Value": "<b>Armadura</b>, <b>Armadura Mágica</b> e <b>Retorno de Dano</b> aumentados em 10% por acúmulo.",
           "Key": "<b>Armor</b>, <b>Magic Armor</b>, and <b>Return Damage</b> increased by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -7405,7 +7405,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<b>Dano Causado</b> aumentado em 10% por pilha.",
+          "Value": "<b>Dano Causado</b> aumentado em 10% por acúmulo.",
           "Key": "<b>Damage Dealt</b> increased by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -7819,7 +7819,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<b>Vida Máxima</b> e <b>Dano Causado</b> aumentados em 6% por pilha.",
+          "Value": "<b>Vida Máxima</b> e <b>Dano Causado</b> aumentados em 6% por acúmulo.",
           "Key": "<b>Maximum Health</b> and <b>Damage Dealt</b> increased by 6% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -7855,7 +7855,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<b>Vida Máxima</b> e <b>Mana Máxima</b> reduzidas em 25% por pilha.",
+          "Value": "<b>Vida Máxima</b> e <b>Mana Máxima</b> reduzidas em 25% por acúmulo.",
           "Key": "<b>Maximum Health</b> and <b>Maximum Mana</b> lowered by 25% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -7891,7 +7891,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<b>Saúde Máxima</b> aumentada em 10% por pilha.",
+          "Value": "<b>Saúde Máxima</b> aumentada em 10% por acúmulo.",
           "Key": "<b>Maximum Health</b> increased by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -19767,7 +19767,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Todos os inimigos agora iniciam a batalha com 4 pilhas de <b>Calor</b>.",
+          "Value": "Todos os inimigos agora iniciam a batalha com 4 acúmulos de <b>Calor</b>.",
           "Key": "All enemies now start the battle with 4 stacks of <b>Heat</b>. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -21442,7 +21442,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aplica 1 pilha de Congelado.",
+          "Value": "Aplica 1 acúmulo de Congelado.",
           "Key": "Applies 1 stack of Chilled.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24518,7 +24518,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Os atacantes ganham 4 pilhas de veneno.",
+          "Value": "Os atacantes ganham 4 acúmulos de veneno.",
           "Key": "Attackers gain 4 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24554,7 +24554,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atacantes recebem 2 pilhas de veneno.",
+          "Value": "Atacantes recebem 2 acúmulos de veneno.",
           "Key": "Attackers take 2 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24572,7 +24572,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atacantes recebem 3 pilhas de veneno.",
+          "Value": "Atacantes recebem 3 acúmulos de veneno.",
           "Key": "Attackers take 3 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24716,7 +24716,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques aplicam 1 pilha de {STA=Poisoned}.",
+          "Value": "Ataques aplicam 1 acúmulo de {STA=Poisoned}.",
           "Key": "Attacks apply 1 stack of {STA=Poisoned}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24752,7 +24752,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques aplicam @1@ pilha de veneno.",
+          "Value": "Ataques aplicam @1@ acúmulo de veneno.",
           "Key": "Attacks apply @1@ stack of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24770,7 +24770,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Os ataques agora aplicam 1 pilha de {STA=Poisoned}.",
+          "Value": "Os ataques agora aplicam 1 acúmulo de {STA=Poisoned}.",
           "Key": "Attacks now apply 1 stack of {STA=Poisoned}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24806,7 +24806,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques agora aplicam {STA=Marked Prey}.  Presa Marcada dura 1 turno, e novas pilhas renovam a duração de todas as pilhas existentes. Acumula até 5 vezes.",
+          "Value": "Ataques agora aplicam {STA=Marked Prey}.  Presa Marcada dura 1 turno, e novos acúmulos renovam a duração de todos os acúmulos existentes. Acumula até 5 vezes.",
           "Key": "Attacks now apply {STA=Marked Prey}.  Marked Prey lasts 1 turn and new stacks refresh the duration of all existing stacks. Stacks up to 5 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24824,7 +24824,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com esta arma aplicam 1 pilha de sangramento.",
+          "Value": "Ataques com esta arma aplicam 1 acúmulo de sangramento.",
           "Key": "Attacks with this weapon apply 1 stack of bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24842,7 +24842,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com esta arma causam 2 pilhas de Sangramento.",
+          "Value": "Ataques com esta arma causam 2 acúmulos de Sangramento.",
           "Key": "Attacks with this weapon cause 2 stacks of Bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24860,7 +24860,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com esta arma causam 3 pilhas de Sangramento.",
+          "Value": "Ataques com esta arma causam 3 acúmulos de Sangramento.",
           "Key": "Attacks with this weapon cause 3 stacks of Bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -26513,7 +26513,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques básicos concedem Quebra-Combo. Quebra-Combo aumenta o dano e a cura da sua próxima habilidade que não seja um ataque básico em 10% por pilha. As pilhas são consumidas ao serem usadas.",
+          "Value": "Ataques básicos concedem Quebra-Combo. Quebra-Combo aumenta o dano e a cura da sua próxima habilidade que não seja um ataque básico em 10% por acúmulo. Os acúmulos são consumidos ao serem usados.",
           "Key": "Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -33020,7 +33020,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Não pode ser congelado.  Pilhas de Resfriado não restringem o movimento.  Causado por congelamento recente.",
+          "Value": "Não pode ser congelado.  Acúmulos de Resfriado não restringem o movimento.  Causado por congelamento recente.",
           "Key": "Cannot be frozen.  Chilled stacks do not restrict movement.  Caused by being recently frozen.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -33722,7 +33722,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Faz com que a pele de um aliado alvo secrete veneno. Inimigos que atacam recebem 3 pilhas de {STA=Poisoned}. Dura 3 turnos.",
+          "Value": "Faz com que a pele de um aliado alvo secrete veneno. Inimigos que atacam recebem 3 acúmulos de {STA=Poisoned}. Dura 3 turnos.",
           "Key": "Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38393,7 +38393,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Conjure uma tempestade de raios causando *0 de dano de raio a todos os alvos no alcance. Aplica 10 pilhas de {STA=Shocked}.",
+          "Value": "Conjure uma tempestade de raios causando *0 de dano de raio a todos os alvos no alcance. Aplica 10 acúmulos de {STA=Shocked}.",
           "Key": "Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40497,7 +40497,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cria uma flor mágica que aplica 2 pilhas de {STA=Poisoned} por turno aos inimigos no alcance.",
+          "Value": "Cria uma flor mágica que aplica 2 acúmulos de {STA=Poisoned} por turno aos inimigos no alcance.",
           "Key": "Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40965,7 +40965,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aleija todos os inimigos e aplica 4 pilhas de veneno.",
+          "Value": "Aleija todos os inimigos e aplica 4 acúmulos de veneno.",
           "Key": "Cripples all enemies and applies 4 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -43680,7 +43680,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano aumentado em 10% por pilha.",
+          "Value": "Dano aumentado em 10% por acúmulo.",
           "Key": "Damage increased by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -43698,7 +43698,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano aumentado em 10%, Alcance aumentado em 1 por pilha.",
+          "Value": "Dano aumentado em 10%, Alcance aumentado em 1 por acúmulo.",
           "Key": "Damage increased by 10%, Range increased by 1 per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -44166,7 +44166,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano recebido aumentado em 10% por pilha.",
+          "Value": "Dano recebido aumentado em 10% por acúmulo.",
           "Key": "Damage taken increased by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -45707,7 +45707,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causar dano de raio concede uma pilha de Sobrecarga: cada pilha adiciona .1 de dano de raio ao seu próximo ataque básico. Acumula até o fim do combate ou até seu próximo ataque básico.",
+          "Value": "Causar dano de raio concede um acúmulo de Sobrecarga: cada acúmulo adiciona .1 de dano de raio ao seu próximo ataque básico. Acumula até o fim do combate ou até seu próximo ataque básico.",
           "Key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds .1 lightning damage to your next basic attack. Stacks until combat end or until your next basic attack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -45725,7 +45725,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causar dano elétrico concede uma pilha de Sobrecarga: Cada pilha adiciona <color=#CBB396>[0]</color> de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+          "Value": "Causar dano elétrico concede um acúmulo de Sobrecarga: Cada acúmulo adiciona <color=#CBB396>[0]</color> de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
           "Key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds <color=#CBB396>[0]</color> lightning damage to your next basic attack.\n\n<i><color=#808080>In fury, the sky roars, a tempest untamed,\nLightning cracks, an ephemeral fire, wild and unchained.</color></i>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -45743,7 +45743,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causar dano de raio concede uma pilha de Sobrecarga: cada pilha adiciona [0] de dano de raio ao seu próximo ataque básico.",
+          "Value": "Causar dano de raio concede um acúmulo de Sobrecarga: cada acúmulo adiciona [0] de dano de raio ao seu próximo ataque básico.",
           "Key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds [0] lightning damage to your next basic attack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -45761,7 +45761,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causar dano elétrico concede uma pilha de Sobrecarga: Cada pilha adiciona [0] de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+          "Value": "Causar dano elétrico concede um acúmulo de Sobrecarga: Cada acúmulo adiciona [0] de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
           "Key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds [0] lightning damage to your next basic attack.\n\n<i><color=#808080>In fury, the sky roars, a tempest untamed,\nLightning cracks, an ephemeral fire, wild and unchained.</color></i>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -46646,7 +46646,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa *0 de dano de arma. Aplica 2 pilhas de {STA=Bleeding}.",
+          "Value": "Causa *0 de dano de arma. Aplica 2 acúmulos de {STA=Bleeding}.",
           "Key": "Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -46844,7 +46844,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 5 pilhas de {STA=Bleeding}.",
+          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 5 acúmulos de {STA=Bleeding}.",
           "Key": "Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 5 stacks of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -46862,7 +46862,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 6 pilhas de {STA=Bleeding}.",
+          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 6 acúmulos de {STA=Bleeding}.",
           "Key": "Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -46898,7 +46898,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} ao alvo por 1 turno e aplica 3 pilhas de {STA=Bleeding}.",
+          "Value": "Causa *0 de dano de arma. Aplica {STA=Disabled} ao alvo por 1 turno e aplica 3 acúmulos de {STA=Bleeding}.",
           "Key": "Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -47114,7 +47114,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>2</b> pilhas de {STA=Poisoned}.",
+          "Value": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>2</b> acúmulos de {STA=Poisoned}.",
           "Key": "Deals [0] physical damage and applies {STA=Immobilized} for 1 turn and <b>2</b> stacks of {STA=Poisoned}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -47132,7 +47132,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>3</b> pilhas de {STA=Poisoned}.",
+          "Value": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>3</b> acúmulos de {STA=Poisoned}.",
           "Key": "Deals [0] physical damage and applies {STA=Immobilized} for 1 turn and <b>3</b> stacks of {STA=Poisoned}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -47186,7 +47186,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Causa dano físico em uma área de 4 hexágonos sempre que você agir. Aumenta por pilha.",
+          "Value": "Causa dano físico em uma área de 4 hexágonos sempre que você agir. Aumenta por acúmulo.",
           "Key": "Deals physical damage in a 4 hex area whenever you act. Increased per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53440,7 +53440,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.",
+          "Value": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.",
           "Key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53458,7 +53458,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.  Dura 1 turno.",
+          "Value": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.  Dura 1 turno.",
           "Key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.  Lasts 1 turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53476,7 +53476,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.",
+          "Value": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.",
           "Key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53494,7 +53494,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.  Dura 1 turno.",
+          "Value": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.  Dura 1 turno.",
           "Key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%.  Lasts 1 turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53512,7 +53512,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 5% adicional.",
+          "Value": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 5% adicional.",
           "Key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53602,7 +53602,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 pilhas, você se torna <b>Petrificado</b>, o que consome todas as pilhas de Petrificação.",
+          "Value": "Cada acúmulo reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 acúmulos, você se torna <b>Petrificado</b>, o que consome todos os acúmulos de Petrificação.",
           "Key": "Each stack lowers <b>Movement</b> by 1 and increases <b>Damage Taken</b> by 20%. When you reach 5 stacks you become <b>Petrified</b> which consumes all Petrification stacks.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53620,7 +53620,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 pilhas, você fica @Petrified@, o que consome todas as pilhas de Petrificação.",
+          "Value": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todos os acúmulos de Petrificação.",
           "Key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53638,7 +53638,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de <b>Resfriado</b> agora reduz a saúde máxima do alvo em 5%.",
+          "Value": "Cada acúmulo de <b>Resfriado</b> agora reduz a saúde máxima do alvo em 5%.",
           "Key": "Each stack of <b>Chilled</b> now reduces the target's maxium health by 5%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53656,7 +53656,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de <b>Calor</b> agora aplica [0] de dano de fogo ao alvo por turno.",
+          "Value": "Cada acúmulo de <b>Calor</b> agora aplica [0] de dano de fogo ao alvo por turno.",
           "Key": "Each stack of <b>Heat</b> now applies [0] fire damage to the target per turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53674,7 +53674,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de <b>Choque</b> que você aplicou aumenta sua <b>Chance de Acerto Crítico</b> em 1%.",
+          "Value": "Cada acúmulo de <b>Choque</b> que você aplicou aumenta sua <b>Chance de Acerto Crítico</b> em 1%.",
           "Key": "Each stack of <b>Shocked</b> you've applied increases your <b>Critical Hit Chance</b> by 1%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53692,7 +53692,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de @chilled@ agora reduz a vida máxima do alvo em 5%.",
+          "Value": "Cada acúmulo de @chilled@ agora reduz a vida máxima do alvo em 5%.",
           "Key": "Each stack of @chilled@ now reduces the target's maxium health by 5%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53710,7 +53710,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de @heat@ agora causa [0] de dano de fogo ao alvo por turno.",
+          "Value": "Cada acúmulo de @heat@ agora causa [0] de dano de fogo ao alvo por turno.",
           "Key": "Each stack of @heat@ now applies [0] fire damage to the target per turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53728,7 +53728,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de @shocked@ que você aplicou aumenta sua @critical hit chance@ em 1%.",
+          "Value": "Cada acúmulo de @shocked@ que você aplicou aumenta sua @critical hit chance@ em 1%.",
           "Key": "Each stack of @shocked@ you've applied increases your @critical hit chance@ by 1%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -53746,7 +53746,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de resfriamento que você aplicou aumenta seu dano de frio em 5%.",
+          "Value": "Cada acúmulo de resfriamento que você aplicou aumenta seu dano de frio em 5%.",
           "Key": "Each stack of chilled you've applied increases your cold damage by 5%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -56859,7 +56859,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigos ganham 1 pilha de Petrificação a cada turno.",
+          "Value": "Inimigos ganham 1 acúmulo de Petrificação a cada turno.",
           "Key": "Enemies gain 1 stack of Petrification each turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -56877,7 +56877,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigos ganham 1 pilha de Petrificação ao atingirem Medusa.",
+          "Value": "Inimigos ganham 1 acúmulo de Petrificação ao atingirem Medusa.",
           "Key": "Enemies gain 1 stack of Petrification when hitting Medusa.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -56895,7 +56895,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigos recebem 2 pilhas de veneno.",
+          "Value": "Inimigos recebem 2 acúmulos de veneno.",
           "Key": "Enemies gain 2 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -56913,7 +56913,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigos ganham 3 pilhas de veneno enquanto estiverem na área.",
+          "Value": "Inimigos ganham 3 acúmulos de veneno enquanto estiverem na área.",
           "Key": "Enemies gain 3 stacks of poison while in the area.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -56931,7 +56931,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigos ganham 3 pilhas de veneno.",
+          "Value": "Inimigos ganham 3 acúmulos de veneno.",
           "Key": "Enemies gain 3 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57367,7 +57367,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Engolido em Fogo do Inferno. Cada pilha de <b>Calor</b> aplicada aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
+          "Value": "Engolido em Fogo do Inferno. Cada acúmulo de <b>Calor</b> aplicada aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
           "Key": "Engulfed in Hellfire. Each stack of <b>Heat</b> applied to enemies applies [0] fire damage per turn. Grants Immunity to <b>Heat</b> and <b>Chilled</b>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57385,7 +57385,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envolto em Fogo Infernal. Cada pilha de @heat@ aplicada a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+          "Value": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicada a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
           "Key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58432,7 +58432,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cada pilha de @chilled@ que você aplica aumenta sua @armor@ e sua @magic armor@ em [0].",
+          "Value": "Cada acúmulo de @chilled@ que você aplica aumenta sua @armor@ e sua @magic armor@ em [0].",
           "Key": "Every stack of your @chilled@ applied increases your @armor@ and @magic armor@ by [0].",
           "TranslatorKey": null,
           "Feminine": null,
@@ -59678,7 +59678,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Fadas cercam o alvo, arranhando e mordendo, causando *0 de dano físico e aplicando 1 pilha de {STA=Bleeding} a cada turno.",
+          "Value": "Fadas cercam o alvo, arranhando e mordendo, causando *0 de dano físico e aplicando 1 acúmulo de {STA=Bleeding} a cada turno.",
           "Key": "Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66348,7 +66348,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe uma pilha de Masoquismo cada vez que receber dano. Cada pilha aumenta o dano/cura que você causa em 2%. Dura 1 turno.",
+          "Value": "Ganhe um acúmulo de Masoquismo cada vez que receber dano. Cada acúmulo aumenta o dano/cura que você causa em 2%. Dura 1 turno.",
           "Key": "Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66366,7 +66366,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe uma pilha de Masoquismo cada vez que receber dano. Cada pilha aumenta o dano/cura que você causa em 3% adicionais. Dura 1 turno.",
+          "Value": "Ganhe um acúmulo de Masoquismo cada vez que receber dano. Cada acúmulo aumenta o dano/cura que você causa em 3% adicionais. Dura 1 turno.",
           "Key": "Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66575,7 +66575,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe {6,30}% de Aumento no Dano de Fogo. Suas pilhas de Calor agora reduzem a Cura Recebida em 5% por pilha.\n\n<i><color=#808080>A alma ardente do Senhor Infernicus!</color></i>",
+          "Value": "Ganhe {6,30}% de Aumento no Dano de Fogo. Seus acúmulos de Calor agora reduzem a Cura Recebida em 5% por acúmulo.\n\n<i><color=#808080>A alma ardente do Senhor Infernicus!</color></i>",
           "Key": "Gain {6,30}% Increased Fire Damage. Your stacks of Heat now reduce Healing Received by 5% per stack.\n\n<i><color=#808080>The burning soul of Lord Infernicus!</color></i>\n",
           "TranslatorKey": null,
           "Feminine": null,
@@ -67421,7 +67421,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ser atingido aumenta a <b>Armadura</b>, <b>Armadura Mágica</b> e <b>Dano de Retorno</b> em 10% por pilha. Acumula até 10 vezes.",
+          "Value": "Ser atingido aumenta a <b>Armadura</b>, <b>Armadura Mágica</b> e <b>Dano de Retorno</b> em 10% por acúmulo. Acumula até 10 vezes.",
           "Key": "Getting hit increases <b>Armor</b>, <b>Magic Armor</b>, and <b>Return Damage</b> by 10% per stack. Stacks 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -73658,7 +73658,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cura recebida reduzida em 5% por pilha.",
+          "Value": "Cura recebida reduzida em 5% por acúmulo.",
           "Key": "Healing received reduced by 5% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -76413,7 +76413,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lança uma bola de gelo causando *0 de dano de frio a todos os alvos no alcance. Aplica 5 pilhas de {STA=Chilled}",
+          "Value": "Lança uma bola de gelo causando *0 de dano de frio a todos os alvos no alcance. Aplica 5 acúmulos de {STA=Chilled}",
           "Key": "Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled}",
           "TranslatorKey": null,
           "Feminine": null,
@@ -76467,7 +76467,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lança uma bola de fogo causando *0 de dano de fogo a todos os alvos no alcance. Aplica 10 pilhas de {STA=Heat}",
+          "Value": "Lança uma bola de fogo causando *0 de dano de fogo a todos os alvos no alcance. Aplica 10 acúmulos de {STA=Heat}",
           "Key": "Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat}",
           "TranslatorKey": null,
           "Feminine": null,
@@ -79356,7 +79356,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de golpe crítico recebido aumentado em 10% por pilha. Dura 3 turnos. Pode acumular até 10 vezes.",
+          "Value": "Dano de golpe crítico recebido aumentado em 10% por acúmulo. Dura 3 turnos. Pode acumular até 10 vezes.",
           "Key": "Incoming critical strike damage increased by 10% per stack.  Lasts 3 turns.  Can stack up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -84569,7 +84569,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Uma geada intensa envolve seu inimigo, aplicando 5 pilhas de {STA=Chilled} no alvo.",
+          "Value": "Uma geada intensa envolve seu inimigo, aplicando 5 acúmulos de {STA=Chilled} no alvo.",
           "Key": "Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -87369,7 +87369,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Grande Pilha de Ouro",
+          "Value": "Grande Acúmulo de Ouro",
           "Key": "Large Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91028,7 +91028,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz Todas as Resistências em 10% por pilha.",
+          "Value": "Reduz Todas as Resistências em 10% por acúmulo.",
           "Key": "Lowers All Resistance by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91064,7 +91064,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz o movimento e o alcance em 1 e reduz o Dano em 10% por pilha.",
+          "Value": "Reduz o movimento e o alcance em 1 e reduz o Dano em 10% por acúmulo.",
           "Key": "Lowers movement and range by 1 and lowers Damage by 10% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91082,7 +91082,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz movimento e alcance em 1 e reduz o Dano em 5% por pilha.",
+          "Value": "Reduz movimento e alcance em 1 e reduz o Dano em 5% por acúmulo.",
           "Key": "Lowers movement and range by 1 and lowers Damage by 5% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -93362,7 +93362,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vida máxima aumentada em 5% por pilha. Pode acumular até 10 vezes.",
+          "Value": "Vida máxima aumentada em 5% por acúmulo. Pode acumular até 10 vezes.",
           "Key": "Max Health increased by 5% per stack.  Can stack up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -94298,7 +94298,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Poder aumentado em 5 por pilha.",
+          "Value": "Poder aumentado em 5 por acúmulo.",
           "Key": "Might increased by 5 per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -96721,7 +96721,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pontos de movimento reduzidos em um por pilha. Dura 2 turnos. Cinco pilhas de Resfriado congelam o alvo.",
+          "Value": "Pontos de movimento reduzidos em um por acúmulo. Dura 2 turnos. Cinco acúmulos de Resfriado congelam o alvo.",
           "Key": "Movement points reduced by one per stack.  Lasts 2 turns.  Five stacks of Chilled freezes the target.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102042,7 +102042,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por pilha. Uma pilha é aplicada ao final de cada turno. Qualquer movimento remove todas as pilhas de Caçador Paciente. Acumula até 5 vezes.",
+          "Value": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicada ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
           "Key": "Patient Hunter gives 10% <b>Increased Damage</b> and 1 <b>Skill Range</b> per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102060,7 +102060,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Caçador Paciente concede 10% de @dano aumentado@ por pilha.  Uma pilha é aplicada ao final de cada turno.  Qualquer movimento remove todas as pilhas de Caçador Paciente.  Acumula até 5 vezes.",
+          "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicada ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
           "Key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -103308,7 +103308,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pilha de Ouro",
+          "Value": "Acúmulo de Ouro",
           "Key": "Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -109972,7 +109972,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz <b>Todos os Atributos</b> em <b>10%</b> por pilha.",
+          "Value": "Reduz <b>Todos os Atributos</b> em <b>10%</b> por acúmulo.",
           "Key": "Reduces <b>All Stats</b> by <b>10%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -109990,7 +109990,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Armadura</b> e a <b>Armadura Mágica</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Armadura</b> e a <b>Armadura Mágica</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Armor</b> and <b>Magic Armor</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110008,7 +110008,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Resistência ao Frio</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Resistência ao Frio</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Cold Resistance</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110026,7 +110026,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz o <b>Dano</b> em <b>20%</b> por pilha.",
+          "Value": "Reduz o <b>Dano</b> em <b>20%</b> por acúmulo.",
           "Key": "Reduces <b>Damage</b> by <b>20%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110044,7 +110044,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Resistência a Fogo</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Resistência a Fogo</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Fire Resistance</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110091,7 +110091,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Cura Recebida</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Cura Recebida</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Healing Recieved</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110109,7 +110109,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Inteligência</b> em <b>20%</b> por pilha.",
+          "Value": "Reduz a <b>Inteligência</b> em <b>20%</b> por acúmulo.",
           "Key": "Reduces <b>Intelligence</b> by <b>20%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110127,7 +110127,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Resistência a Relâmpago</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Resistência a Relâmpago</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Lightning Resistance</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110145,7 +110145,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Vida Máxima</b> em <b>10%</b> por pilha.",
+          "Value": "Reduz a <b>Vida Máxima</b> em <b>10%</b> por acúmulo.",
           "Key": "Reduces <b>Max Health</b> by <b>10%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110181,7 +110181,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Força</b> em 20% por pilha.",
+          "Value": "Reduz a <b>Força</b> em 20% por acúmulo.",
           "Key": "Reduces <b>Might</b> by 20% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110199,7 +110199,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz os <b>Pontos de Movimento</b> em <b>1</b> por pilha.",
+          "Value": "Reduz os <b>Pontos de Movimento</b> em <b>1</b> por acúmulo.",
           "Key": "Reduces <b>Movement Points</b> by <b>1</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110217,7 +110217,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a <b>Resistência Física</b> em <b>25%</b> por pilha.",
+          "Value": "Reduz a <b>Resistência Física</b> em <b>25%</b> por acúmulo.",
           "Key": "Reduces <b>Physical Resistance</b> by <b>25%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110235,7 +110235,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz o <b>Alcance</b> em <b>3</b> por pilha.",
+          "Value": "Reduz o <b>Alcance</b> em <b>3</b> por acúmulo.",
           "Key": "Reduces <b>Range</b> by <b>3</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110253,7 +110253,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz <b>Reflexo</b> em <b>20%</b> por pilha.",
+          "Value": "Reduz <b>Reflexo</b> em <b>20%</b> por acúmulo.",
           "Key": "Reduces <b>Reflex</b> by <b>20%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110271,7 +110271,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Todos os Atributos@ em @10%@ por pilha.",
+          "Value": "Reduz @Todos os Atributos@ em @10%@ por acúmulo.",
           "Key": "Reduces @All Stats@ by @10%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110289,7 +110289,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Armadura@ e @Armadura Mágica@ em @25%@ por pilha.",
+          "Value": "Reduz @Armadura@ e @Armadura Mágica@ em @25%@ por acúmulo.",
           "Key": "Reduces @Armor@ and @Magic Armor@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110307,7 +110307,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Resistência ao Frio@ em @25%@ por pilha.",
+          "Value": "Reduz @Resistência ao Frio@ em @25%@ por acúmulo.",
           "Key": "Reduces @Cold Resistance@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110331,7 +110331,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Resistência ao Fogo@ em @25%@ por pilha.",
+          "Value": "Reduz @Resistência ao Fogo@ em @25%@ por acúmulo.",
           "Key": "Reduces @Fire Resistance@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110349,7 +110349,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Cura Recebida@ em @25%@ por pilha.",
+          "Value": "Reduz @Cura Recebida@ em @25%@ por acúmulo.",
           "Key": "Reduces @Healing Recieved@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110367,7 +110367,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Inteligência@ em @20%@ por pilha.",
+          "Value": "Reduz @Inteligência@ em @20%@ por acúmulo.",
           "Key": "Reduces @Intelligence@ by @20%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110385,7 +110385,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Resistência a Relâmpago@ em @25%@ por pilha.",
+          "Value": "Reduz @Resistência a Relâmpago@ em @25%@ por acúmulo.",
           "Key": "Reduces @Lightning Resistance@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110403,7 +110403,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Saúde Máxima@ em @10%@ por pilha.",
+          "Value": "Reduz @Saúde Máxima@ em @10%@ por acúmulo.",
           "Key": "Reduces @Max Health@ by @10%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110439,7 +110439,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Força@ em 20% por pilha.",
+          "Value": "Reduz @Força@ em 20% por acúmulo.",
           "Key": "Reduces @Might@ by 20% per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110457,7 +110457,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Pontos de Movimento@ em @1@ por pilha.",
+          "Value": "Reduz @Pontos de Movimento@ em @1@ por acúmulo.",
           "Key": "Reduces @Movement Points@ by @1@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110475,7 +110475,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Resistência Física@ em @25%@ por pilha.",
+          "Value": "Reduz @Resistência Física@ em @25%@ por acúmulo.",
           "Key": "Reduces @Physical Resistance@ by @25%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110493,7 +110493,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Alcance@ em @1@ por pilha.",
+          "Value": "Reduz @Alcance@ em @1@ por acúmulo.",
           "Key": "Reduces @Range@ by @1@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110511,7 +110511,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz @Reflexo@ em @20%@ por pilha.",
+          "Value": "Reduz @Reflexo@ em @20%@ por acúmulo.",
           "Key": "Reduces @Reflex@ by @20%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110547,7 +110547,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz a Destreza em <b>20%</b> por pilha.",
+          "Value": "Reduz a Destreza em <b>20%</b> por acúmulo.",
           "Key": "Reduces Dexterity by <b>20%</b> per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110565,7 +110565,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reduz Destreza em @20%@ por pilha.",
+          "Value": "Reduz Destreza em @20%@ por acúmulo.",
           "Key": "Reduces Dexterity by @20%@ per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -111465,7 +111465,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Recupere Vida Máxima e Mana a cada turno, aumentado por pilha.",
+          "Value": "Recupere Vida Máxima e Mana a cada turno, aumentado por acúmulo.",
           "Key": "Regain Max Life and Mana each turn, increased per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118719,7 +118719,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O dano de sombra que você causa aplica 2 pilhas de @Veneno@.",
+          "Value": "O dano de sombra que você causa aplica 2 acúmulos de @Veneno@.",
           "Key": "Shadow damage you deal applies 2 stacks of @Poison@.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124086,7 +124086,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pequena Pilha de Ouro",
+          "Value": "Pequena Acúmulo de Ouro",
           "Key": "Small Pile of Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -127817,7 +127817,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atacar com esta arma aplica 1 pilha de {STA=Bleeding}.",
+          "Value": "Atacar com esta arma aplica 1 acúmulo de {STA=Bleeding}.",
           "Key": "Striking with this weapon applies 1 stack of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -127835,7 +127835,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atacar com esta arma aplica 2 pilhas de Veneno.",
+          "Value": "Atacar com esta arma aplica 2 acúmulos de Veneno.",
           "Key": "Striking with this weapon applies 2 stack of Poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -127889,7 +127889,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atacar com esta arma tem 50% de chance de aplicar 1 pilha de {STA=Bleeding}.",
+          "Value": "Atacar com esta arma tem 50% de chance de aplicar 1 acúmulo de {STA=Bleeding}.",
           "Key": "Striking with this weapon has a 50% chance to apply 1 stack of {STA=Bleeding}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130463,7 +130463,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por pilha de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
+          "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
           "Key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of <b>Chilled</b> on targets in a 4 hex radius.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130481,7 +130481,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por pilha de @Chilled@ nos alvos em um raio de 4 hexágonos.",
+          "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
           "Key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -131540,7 +131540,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Gire em um arco de 180 graus atingindo todos os inimigos com *0 de dano de arma. Aplica 2 pilhas de {STA=Bleeding} em todos os alvos atingidos.",
+          "Value": "Gire em um arco de 180 graus atingindo todos os inimigos com *0 de dano de arma. Aplica 2 acúmulos de {STA=Bleeding} em todos os alvos atingidos.",
           "Key": "Swing in a 180 degree arc striking all foes for *0 weapon damage.  Applies 2 stacks of {STA=Bleeding} on all targets hit. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132530,7 +132530,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sofrer dano concede uma pilha de Carga Trovejante.",
+          "Value": "Sofrer dano concede um acúmulo de Carga Trovejante.",
           "Key": "Taking damage grants a stack of Thunder Charged.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132962,7 +132962,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O alvo recebe *0 de dano físico e 1 pilha de {STA=Bleeding} por turno.",
+          "Value": "O alvo recebe *0 de dano físico e 1 acúmulo de {STA=Bleeding} por turno.",
           "Key": "Target takes *0 physical damage and 1 stack of {STA=Bleeding} per turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -138255,7 +138255,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena pilha de tesouros em seu rastro.",
+          "Value": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena acúmulo de tesouros em seu rastro.",
           "Key": "The mimic shrinks back, until, finally, it gives a last gurgling growl in defeat. The taint dissolved, fading away into smoke and shadow, leaving behind an empty silence.\n\nAs the darkness vanishes, it reveals a small mound of treasure in its wake.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -138723,7 +138723,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de pilhas de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
+          "Value": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de acúmulos de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
           "Key": "The rugged treasure hunter Louisiana Sloans looks up from piles of cryptic maps and charts.\n\n\"No one's ever retrieved the Treasure of Moltendunn. You in?\"",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148707,7 +148707,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com armas aplicam 1 pilha de sangramento.",
+          "Value": "Ataques com armas aplicam 1 acúmulo de sangramento.",
           "Key": "Weapon attacks apply 1 stacks of bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148725,7 +148725,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com armas aplicam 2 pilhas de sangramento.",
+          "Value": "Ataques com armas aplicam 2 acúmulos de sangramento.",
           "Key": "Weapon attacks apply 2 stacks of bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -151807,7 +151807,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece uma pilha cintilante de tesouros.",
+          "Value": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece um acúmulo cintilante de tesouros.",
           "Key": "With a final, bone-rattling roar, the Mimic convulses, then collapses, slowly dissolving into an amorphous mass.\n\n\nWhere the Mimic has fallen, a shimmering pile of treasure remains.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -153204,7 +153204,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envolve o alvo em espinhos venenosos. Atacantes recebem 2 pilhas de veneno.",
+          "Value": "Envolve o alvo em espinhos venenosos. Atacantes recebem 2 acúmulos de veneno.",
           "Key": "Wreaths the target in poisonous thorns.  Attackers take 2 stacks of poison.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -155951,7 +155951,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é uma pilha de cinzas e um grimório bem gasto.",
+          "Value": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é um acúmulo de cinzas e um grimório bem gasto.",
           "Key": "You have defeated the <violet><b><incr>Mad Mage</violet></b></incr>! \n\nAll that remains him is a pile of ash and a well-worn spellbook.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -159588,7 +159588,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Seus ataques aplicam 2 pilhas de {STA=Poisoned}.",
+          "Value": "Seus ataques aplicam 2 acúmulos de {STA=Poisoned}.",
           "Key": "Your attacks apply 2 stacks of {STA=Poisoned}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160074,7 +160074,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Suas magias de fogo causam 10% mais dano por pilha de calor nos alvos.",
+          "Value": "Suas magias de fogo causam 10% mais dano por acúmulo de calor nos alvos.",
           "Key": "Your fire spells deal 10% more damage per stack of heat on targets.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160787,7 +160787,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Suas pilhas de <b>Frio</b> agora reduzem o dano do alvo em 2%.",
+          "Value": "Seus acúmulos de <b>Frio</b> agora reduzem o dano do alvo em 2%.",
           "Key": "Your stacks of <b>Chilled</b> now reduce the targets damage by 2%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160805,7 +160805,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Suas pilhas de <b>Resfriado</b> agora reduzem o dano do alvo em 3% adicionais.",
+          "Value": "Seus acúmulos de <b>Resfriado</b> agora reduzem o dano do alvo em 3% adicionais.",
           "Key": "Your stacks of <b>Chilled</b> now reduce the targets damage by an additional 3%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161176,7 +161176,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[0] de <b>Destreza</b> absorvida por pilha. Acumula até 10 vezes.",
+          "Value": "[0] de <b>Destreza</b> absorvida por acúmulo. Acumula até 10 vezes.",
           "Key": "[0] <b>Dexterity</b> absorbed per stack.  Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161194,7 +161194,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[0] <b>Inteligência</b> absorvida por pilha. Acumula até 10 vezes.",
+          "Value": "[0] <b>Inteligência</b> absorvida por acúmulo. Acumula até 10 vezes.",
           "Key": "[0] <b>Intelligence</b> absorbed per stack.  Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161212,7 +161212,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[0] de <b>Poder</b> absorvido por pilha. Acumula até 10 vezes.",
+          "Value": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
           "Key": "[0] <b>Might</b> absorbed per stack.  Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,

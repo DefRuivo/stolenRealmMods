@@ -24175,5 +24175,1202 @@
     "before": "Eleve todos os seus Fortunas possuídos para o nível atual do seu personagem.",
     "after": "Eleve todas as suas Fortunas possuídas para o nível atual do seu personagem.",
     "approvalTaskId": "t_ab4f4692"
+  },
+  {
+    "id": "LANG-00396",
+    "key": "<b>Armor</b>, <b>Magic Armor</b>, and <b>Return Damage</b> increased by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<b>Armadura</b>, <b>Armadura Mágica</b> e <b>Retorno de Dano</b> aumentados em 10% por pilha.",
+    "after": "<b>Armadura</b>, <b>Armadura Mágica</b> e <b>Retorno de Dano</b> aumentados em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-00403",
+    "key": "<b>Damage Dealt</b> increased by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<b>Dano Causado</b> aumentado em 10% por pilha.",
+    "after": "<b>Dano Causado</b> aumentado em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-00426",
+    "key": "<b>Maximum Health</b> and <b>Damage Dealt</b> increased by 6% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<b>Vida Máxima</b> e <b>Dano Causado</b> aumentados em 6% por pilha.",
+    "after": "<b>Vida Máxima</b> e <b>Dano Causado</b> aumentados em 6% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-00428",
+    "key": "<b>Maximum Health</b> and <b>Maximum Mana</b> lowered by 25% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<b>Vida Máxima</b> e <b>Mana Máxima</b> reduzidas em 25% por pilha.",
+    "after": "<b>Vida Máxima</b> e <b>Mana Máxima</b> reduzidas em 25% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-00430",
+    "key": "<b>Maximum Health</b> increased by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<b>Saúde Máxima</b> aumentada em 10% por pilha.",
+    "after": "<b>Saúde Máxima</b> aumentada em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01096",
+    "key": "All enemies now start the battle with 4 stacks of <b>Heat</b>. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Todos os inimigos agora iniciam a batalha com 4 pilhas de <b>Calor</b>.",
+    "after": "Todos os inimigos agora iniciam a batalha com 4 acúmulos de <b>Calor</b>.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01186",
+    "key": "Applies 1 stack of Chilled.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aplica 1 pilha de Congelado.",
+    "after": "Aplica 1 acúmulo de Congelado.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01357",
+    "key": "Attackers gain 4 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Os atacantes ganham 4 pilhas de veneno.",
+    "after": "Os atacantes ganham 4 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01359",
+    "key": "Attackers take 2 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atacantes recebem 2 pilhas de veneno.",
+    "after": "Atacantes recebem 2 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01360",
+    "key": "Attackers take 3 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Atacantes recebem 3 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01368",
+    "key": "Attacks apply 1 stack of {STA=Poisoned}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques aplicam 1 pilha de {STA=Poisoned}.",
+    "after": "Ataques aplicam 1 acúmulo de {STA=Poisoned}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01370",
+    "key": "Attacks apply @1@ stack of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Ataques aplicam @1@ acúmulo de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01371",
+    "key": "Attacks now apply 1 stack of {STA=Poisoned}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Os ataques agora aplicam 1 pilha de {STA=Poisoned}.",
+    "after": "Os ataques agora aplicam 1 acúmulo de {STA=Poisoned}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01373",
+    "key": "Attacks now apply {STA=Marked Prey}.  Marked Prey lasts 1 turn and new stacks refresh the duration of all existing stacks. Stacks up to 5 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Ataques agora aplicam {STA=Marked Prey}.  Presa Marcada dura 1 turno, e novos acúmulos renovam a duração de todos os acúmulos existentes. Acumula até 5 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01374",
+    "key": "Attacks with this weapon apply 1 stack of bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques com esta arma aplicam 1 pilha de sangramento.",
+    "after": "Ataques com esta arma aplicam 1 acúmulo de sangramento.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01375",
+    "key": "Attacks with this weapon cause 2 stacks of Bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques com esta arma causam 2 pilhas de Sangramento.",
+    "after": "Ataques com esta arma causam 2 acúmulos de Sangramento.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01376",
+    "key": "Attacks with this weapon cause 3 stacks of Bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Ataques com esta arma causam 3 acúmulos de Sangramento.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01466",
+    "key": "Basic attacks grant Combo Breaker. Combo Breaker gives your next non basic attack ability 10% damage and healing per stack. Stacks are consumed on use. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques básicos concedem Quebra-Combo. Quebra-Combo aumenta o dano e a cura da sua próxima habilidade que não seja um ataque básico em 10% por pilha. As pilhas são consumidas ao serem usadas.",
+    "after": "Ataques básicos concedem Quebra-Combo. Quebra-Combo aumenta o dano e a cura da sua próxima habilidade que não seja um ataque básico em 10% por acúmulo. Os acúmulos são consumidos ao serem usados.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01827",
+    "key": "Cannot be frozen.  Chilled stacks do not restrict movement.  Caused by being recently frozen.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Não pode ser congelado.  Acúmulos de Resfriado não restringem o movimento.  Causado por congelamento recente.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-01866",
+    "key": "Causes the skin of a target ally to secrete poison. Attacking enemies receive 3 stacks of {STA=Poisoned}. Lasts 3 turns.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Faz com que a pele de um aliado alvo secrete veneno. Inimigos que atacam recebem 3 pilhas de {STA=Poisoned}. Dura 3 turnos.",
+    "after": "Faz com que a pele de um aliado alvo secrete veneno. Inimigos que atacam recebem 3 acúmulos de {STA=Poisoned}. Dura 3 turnos.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02120",
+    "key": "Conjure a storm of lightning dealing *0 lightning damage to all targets in range. Applies 10 stacks of {STA=Shocked}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Conjure uma tempestade de raios causando *0 de dano de raio a todos os alvos no alcance. Aplica 10 pilhas de {STA=Shocked}.",
+    "after": "Conjure uma tempestade de raios causando *0 de dano de raio a todos os alvos no alcance. Aplica 10 acúmulos de {STA=Shocked}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02232",
+    "key": "Creates a magic flower that applies 2 stacks of {STA=Poisoned} per turn to enemies in range.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cria uma flor mágica que aplica 2 pilhas de {STA=Poisoned} por turno aos inimigos no alcance.",
+    "after": "Cria uma flor mágica que aplica 2 acúmulos de {STA=Poisoned} por turno aos inimigos no alcance.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02258",
+    "key": "Cripples all enemies and applies 4 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Aleija todos os inimigos e aplica 4 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02409",
+    "key": "Damage increased by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Dano aumentado em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02410",
+    "key": "Damage increased by 10%, Range increased by 1 per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano aumentado em 10%, Alcance aumentado em 1 por pilha.",
+    "after": "Dano aumentado em 10%, Alcance aumentado em 1 por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02436",
+    "key": "Damage taken increased by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano recebido aumentado em 10% por pilha.",
+    "after": "Dano recebido aumentado em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02521",
+    "key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds .1 lightning damage to your next basic attack. Stacks until combat end or until your next basic attack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Causar dano de raio concede um acúmulo de Sobrecarga: cada acúmulo adiciona .1 de dano de raio ao seu próximo ataque básico. Acumula até o fim do combate ou até seu próximo ataque básico.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02522",
+    "key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds <color=#CBB396>[0]</color> lightning damage to your next basic attack.\n\n<i><color=#808080>In fury, the sky roars, a tempest untamed,\nLightning cracks, an ephemeral fire, wild and unchained.</color></i>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causar dano elétrico concede uma pilha de Sobrecarga: Cada pilha adiciona <color=#CBB396>[0]</color> de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+    "after": "Causar dano elétrico concede um acúmulo de Sobrecarga: Cada acúmulo adiciona <color=#CBB396>[0]</color> de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02523",
+    "key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds [0] lightning damage to your next basic attack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Causar dano de raio concede um acúmulo de Sobrecarga: cada acúmulo adiciona [0] de dano de raio ao seu próximo ataque básico.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02524",
+    "key": "Dealing lightning damage grants a stack of Overcharge: Each stack adds [0] lightning damage to your next basic attack.\n\n<i><color=#808080>In fury, the sky roars, a tempest untamed,\nLightning cracks, an ephemeral fire, wild and unchained.</color></i>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causar dano elétrico concede uma pilha de Sobrecarga: Cada pilha adiciona [0] de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+    "after": "Causar dano elétrico concede um acúmulo de Sobrecarga: Cada acúmulo adiciona [0] de dano elétrico ao seu próximo ataque básico.\n\n<i><color=#808080>Em fúria, o céu ruge, uma tempestade indomável,\nO relâmpago racha, um fogo efêmero, selvagem e desencadeado.</color></i>",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02572",
+    "key": "Deals *0 weapon damage.  Applies 2 stacks of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa *0 de dano de arma. Aplica 2 pilhas de {STA=Bleeding}.",
+    "after": "Causa *0 de dano de arma. Aplica 2 acúmulos de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02583",
+    "key": "Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 5 stacks of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 5 acúmulos de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02584",
+    "key": "Deals *0 weapon damage. Applies {STA=Disabled} for 1 turn and applies 6 stacks of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 6 pilhas de {STA=Bleeding}.",
+    "after": "Causa *0 de dano de arma. Aplica {STA=Disabled} por 1 turno e aplica 6 acúmulos de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02586",
+    "key": "Deals *0 weapon damage. Applies {STA=Disabled} to the target for 1 turn and applies 3 stacks of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa *0 de dano de arma. Aplica {STA=Disabled} ao alvo por 1 turno e aplica 3 pilhas de {STA=Bleeding}.",
+    "after": "Causa *0 de dano de arma. Aplica {STA=Disabled} ao alvo por 1 turno e aplica 3 acúmulos de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02598",
+    "key": "Deals [0] physical damage and applies {STA=Immobilized} for 1 turn and <b>2</b> stacks of {STA=Poisoned}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>2</b> pilhas de {STA=Poisoned}.",
+    "after": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>2</b> acúmulos de {STA=Poisoned}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02599",
+    "key": "Deals [0] physical damage and applies {STA=Immobilized} for 1 turn and <b>3</b> stacks of {STA=Poisoned}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>3</b> pilhas de {STA=Poisoned}.",
+    "after": "Causa [0] de dano físico e aplica {STA=Immobilized} por 1 turno e <b>3</b> acúmulos de {STA=Poisoned}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02602",
+    "key": "Deals physical damage in a 4 hex area whenever you act. Increased per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Causa dano físico em uma área de 4 hexágonos sempre que você agir. Aumenta por pilha.",
+    "after": "Causa dano físico em uma área de 4 hexágonos sempre que você agir. Aumenta por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02944",
+    "key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.",
+    "after": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02945",
+    "key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by 2%.  Lasts 1 turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 2%.  Dura 1 turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02946",
+    "key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.",
+    "after": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02947",
+    "key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 3%.  Lasts 1 turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 3% adicional.  Dura 1 turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02948",
+    "key": "Each hex moved grants a stack of Momentum increasing the damage or healing of your next ability by an additional 5%. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada hexágono percorrido concede uma pilha de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 5% adicional.",
+    "after": "Cada hexágono percorrido concede um acúmulo de Momentum, aumentando o dano ou a cura da sua próxima habilidade em 5% adicional.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02953",
+    "key": "Each stack lowers <b>Movement</b> by 1 and increases <b>Damage Taken</b> by 20%. When you reach 5 stacks you become <b>Petrified</b> which consumes all Petrification stacks.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada pilha reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 pilhas, você se torna <b>Petrificado</b>, o que consome todas as pilhas de Petrificação.",
+    "after": "Cada acúmulo reduz o <b>Movimento</b> em 1 e aumenta o <b>Dano Recebido</b> em 20%. Quando você alcança 5 acúmulos, você se torna <b>Petrificado</b>, o que consome todos os acúmulos de Petrificação.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02954",
+    "key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todos os acúmulos de Petrificação.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02955",
+    "key": "Each stack of <b>Chilled</b> now reduces the target's maxium health by 5%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada pilha de <b>Resfriado</b> agora reduz a saúde máxima do alvo em 5%.",
+    "after": "Cada acúmulo de <b>Resfriado</b> agora reduz a saúde máxima do alvo em 5%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02956",
+    "key": "Each stack of <b>Heat</b> now applies [0] fire damage to the target per turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada pilha de <b>Calor</b> agora aplica [0] de dano de fogo ao alvo por turno.",
+    "after": "Cada acúmulo de <b>Calor</b> agora aplica [0] de dano de fogo ao alvo por turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02957",
+    "key": "Each stack of <b>Shocked</b> you've applied increases your <b>Critical Hit Chance</b> by 1%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada pilha de <b>Choque</b> que você aplicou aumenta sua <b>Chance de Acerto Crítico</b> em 1%.",
+    "after": "Cada acúmulo de <b>Choque</b> que você aplicou aumenta sua <b>Chance de Acerto Crítico</b> em 1%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02958",
+    "key": "Each stack of @chilled@ now reduces the target's maxium health by 5%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo de @chilled@ agora reduz a vida máxima do alvo em 5%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02959",
+    "key": "Each stack of @heat@ now applies [0] fire damage to the target per turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo de @heat@ agora causa [0] de dano de fogo ao alvo por turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02960",
+    "key": "Each stack of @shocked@ you've applied increases your @critical hit chance@ by 1%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo de @shocked@ que você aplicou aumenta sua @critical hit chance@ em 1%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-02961",
+    "key": "Each stack of chilled you've applied increases your cold damage by 5%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cada pilha de resfriamento que você aplicou aumenta seu dano de frio em 5%.",
+    "after": "Cada acúmulo de resfriamento que você aplicou aumenta seu dano de frio em 5%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03126",
+    "key": "Enemies gain 1 stack of Petrification each turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Inimigos ganham 1 acúmulo de Petrificação a cada turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03127",
+    "key": "Enemies gain 1 stack of Petrification when hitting Medusa.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Inimigos ganham 1 pilha de Petrificação ao atingirem Medusa.",
+    "after": "Inimigos ganham 1 acúmulo de Petrificação ao atingirem Medusa.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03128",
+    "key": "Enemies gain 2 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Inimigos recebem 2 pilhas de veneno.",
+    "after": "Inimigos recebem 2 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03129",
+    "key": "Enemies gain 3 stacks of poison while in the area.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Inimigos ganham 3 pilhas de veneno enquanto estiverem na área.",
+    "after": "Inimigos ganham 3 acúmulos de veneno enquanto estiverem na área.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03130",
+    "key": "Enemies gain 3 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Inimigos ganham 3 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03153",
+    "key": "Engulfed in Hellfire. Each stack of <b>Heat</b> applied to enemies applies [0] fire damage per turn. Grants Immunity to <b>Heat</b> and <b>Chilled</b>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Engolido em Fogo do Inferno. Cada pilha de <b>Calor</b> aplicada aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
+    "after": "Engolido em Fogo do Inferno. Cada acúmulo de <b>Calor</b> aplicada aos inimigos causa [0] de dano de fogo por turno. Concede Imunidade a <b>Calor</b> e <b>Frio</b>.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03154",
+    "key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicada a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03211",
+    "key": "Every stack of your @chilled@ applied increases your @armor@ and @magic armor@ by [0].",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Cada acúmulo de @chilled@ que você aplica aumenta sua @armor@ e sua @magic armor@ em [0].",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03279",
+    "key": "Faeries swarm the target clawing and biting for *0 physical damage and applying 1 stack of {STA=Bleeding}  each turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Fadas cercam o alvo, arranhando e mordendo, causando *0 de dano físico e aplicando 1 pilha de {STA=Bleeding} a cada turno.",
+    "after": "Fadas cercam o alvo, arranhando e mordendo, causando *0 de dano físico e aplicando 1 acúmulo de {STA=Bleeding} a cada turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03646",
+    "key": "Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by 2%. Lasts 1 turn. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe uma pilha de Masoquismo cada vez que receber dano. Cada pilha aumenta o dano/cura que você causa em 2%. Dura 1 turno.",
+    "after": "Ganhe um acúmulo de Masoquismo cada vez que receber dano. Cada acúmulo aumenta o dano/cura que você causa em 2%. Dura 1 turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03647",
+    "key": "Gain a stack of Masochism each time you take damage. Each stack increases the damage/healing you deal by an additional 3%. Lasts 1 turn. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe uma pilha de Masoquismo cada vez que receber dano. Cada pilha aumenta o dano/cura que você causa em 3% adicionais. Dura 1 turno.",
+    "after": "Ganhe um acúmulo de Masoquismo cada vez que receber dano. Cada acúmulo aumenta o dano/cura que você causa em 3% adicionais. Dura 1 turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03658",
+    "key": "Gain {6,30}% Increased Fire Damage. Your stacks of Heat now reduce Healing Received by 5% per stack.\n\n<i><color=#808080>The burning soul of Lord Infernicus!</color></i>\n",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe {6,30}% de Aumento no Dano de Fogo. Suas pilhas de Calor agora reduzem a Cura Recebida em 5% por pilha.\n\n<i><color=#808080>A alma ardente do Senhor Infernicus!</color></i>",
+    "after": "Ganhe {6,30}% de Aumento no Dano de Fogo. Seus acúmulos de Calor agora reduzem a Cura Recebida em 5% por acúmulo.\n\n<i><color=#808080>A alma ardente do Senhor Infernicus!</color></i>",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-03705",
+    "key": "Getting hit increases <b>Armor</b>, <b>Magic Armor</b>, and <b>Return Damage</b> by 10% per stack. Stacks 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ser atingido aumenta a <b>Armadura</b>, <b>Armadura Mágica</b> e <b>Dano de Retorno</b> em 10% por pilha. Acumula até 10 vezes.",
+    "after": "Ser atingido aumenta a <b>Armadura</b>, <b>Armadura Mágica</b> e <b>Dano de Retorno</b> em 10% por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04043",
+    "key": "Healing received reduced by 5% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cura recebida reduzida em 5% por pilha.",
+    "after": "Cura recebida reduzida em 5% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04193",
+    "key": "Hurls a ball of Ice dealing *0 cold damage to all targets in range. Applies 5 stacks of {STA=Chilled}",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lança uma bola de gelo causando *0 de dano de frio a todos os alvos no alcance. Aplica 5 pilhas de {STA=Chilled}",
+    "after": "Lança uma bola de gelo causando *0 de dano de frio a todos os alvos no alcance. Aplica 5 acúmulos de {STA=Chilled}",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04196",
+    "key": "Hurls a ball of flame dealing *0 fire damage to all targets in range. Applies 10 stacks of {STA=Heat}",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lança uma bola de fogo causando *0 de dano de fogo a todos os alvos no alcance. Aplica 10 pilhas de {STA=Heat}",
+    "after": "Lança uma bola de fogo causando *0 de dano de fogo a todos os alvos no alcance. Aplica 10 acúmulos de {STA=Heat}",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04351",
+    "key": "Incoming critical strike damage increased by 10% per stack.  Lasts 3 turns.  Can stack up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de golpe crítico recebido aumentado em 10% por pilha. Dura 3 turnos. Pode acumular até 10 vezes.",
+    "after": "Dano de golpe crítico recebido aumentado em 10% por acúmulo. Dura 3 turnos. Pode acumular até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04634",
+    "key": "Intense frost encircles your foe applying 5 stacks of {STA=Chilled} on the target.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Uma geada intensa envolve seu inimigo, aplicando 5 pilhas de {STA=Chilled} no alvo.",
+    "after": "Uma geada intensa envolve seu inimigo, aplicando 5 acúmulos de {STA=Chilled} no alvo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04789",
+    "key": "Large Pile of Gold",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Grande Pilha de Ouro",
+    "after": "Grande Acúmulo de Ouro",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04988",
+    "key": "Lowers All Resistance by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz Todas as Resistências em 10% por pilha.",
+    "after": "Reduz Todas as Resistências em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04990",
+    "key": "Lowers movement and range by 1 and lowers Damage by 10% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz o movimento e o alcance em 1 e reduz o Dano em 10% por pilha.",
+    "after": "Reduz o movimento e o alcance em 1 e reduz o Dano em 10% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-04991",
+    "key": "Lowers movement and range by 1 and lowers Damage by 5% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz movimento e alcance em 1 e reduz o Dano em 5% por pilha.",
+    "after": "Reduz movimento e alcance em 1 e reduz o Dano em 5% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05114",
+    "key": "Max Health increased by 5% per stack.  Can stack up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vida máxima aumentada em 5% por pilha. Pode acumular até 10 vezes.",
+    "after": "Vida máxima aumentada em 5% por acúmulo. Pode acumular até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05166",
+    "key": "Might increased by 5 per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Poder aumentado em 5 por pilha.",
+    "after": "Poder aumentado em 5 por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05300",
+    "key": "Movement points reduced by one per stack.  Lasts 2 turns.  Five stacks of Chilled freezes the target.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pontos de movimento reduzidos em um por pilha. Dura 2 turnos. Cinco pilhas de Resfriado congelam o alvo.",
+    "after": "Pontos de movimento reduzidos em um por acúmulo. Dura 2 turnos. Cinco acúmulos de Resfriado congelam o alvo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05591",
+    "key": "Patient Hunter gives 10% <b>Increased Damage</b> and 1 <b>Skill Range</b> per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por pilha. Uma pilha é aplicada ao final de cada turno. Qualquer movimento remove todas as pilhas de Caçador Paciente. Acumula até 5 vezes.",
+    "after": "Caçador Paciente concede 10% de <b>Dano Aumentado</b> e 1 <b>Alcance de Habilidade</b> por acúmulo. Um acúmulo é aplicada ao final de cada turno. Qualquer movimento remove todos os acúmulos de Caçador Paciente. Acumula até 5 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05592",
+    "key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicada ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-05662",
+    "key": "Pile of Gold",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pilha de Ouro",
+    "after": "Acúmulo de Ouro",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06020",
+    "key": "Reduces <b>All Stats</b> by <b>10%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz <b>Todos os Atributos</b> em <b>10%</b> por pilha.",
+    "after": "Reduz <b>Todos os Atributos</b> em <b>10%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06021",
+    "key": "Reduces <b>Armor</b> and <b>Magic Armor</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Armadura</b> e a <b>Armadura Mágica</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Armadura</b> e a <b>Armadura Mágica</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06022",
+    "key": "Reduces <b>Cold Resistance</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Resistência ao Frio</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Resistência ao Frio</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06023",
+    "key": "Reduces <b>Damage</b> by <b>20%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz o <b>Dano</b> em <b>20%</b> por pilha.",
+    "after": "Reduz o <b>Dano</b> em <b>20%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06024",
+    "key": "Reduces <b>Fire Resistance</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Resistência a Fogo</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Resistência a Fogo</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06026",
+    "key": "Reduces <b>Healing Recieved</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Cura Recebida</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Cura Recebida</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06027",
+    "key": "Reduces <b>Intelligence</b> by <b>20%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Inteligência</b> em <b>20%</b> por pilha.",
+    "after": "Reduz a <b>Inteligência</b> em <b>20%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06028",
+    "key": "Reduces <b>Lightning Resistance</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Resistência a Relâmpago</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Resistência a Relâmpago</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06029",
+    "key": "Reduces <b>Max Health</b> by <b>10%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Vida Máxima</b> em <b>10%</b> por pilha.",
+    "after": "Reduz a <b>Vida Máxima</b> em <b>10%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06031",
+    "key": "Reduces <b>Might</b> by 20% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Força</b> em 20% por pilha.",
+    "after": "Reduz a <b>Força</b> em 20% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06032",
+    "key": "Reduces <b>Movement Points</b> by <b>1</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz os <b>Pontos de Movimento</b> em <b>1</b> por pilha.",
+    "after": "Reduz os <b>Pontos de Movimento</b> em <b>1</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06033",
+    "key": "Reduces <b>Physical Resistance</b> by <b>25%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a <b>Resistência Física</b> em <b>25%</b> por pilha.",
+    "after": "Reduz a <b>Resistência Física</b> em <b>25%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06034",
+    "key": "Reduces <b>Range</b> by <b>3</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz o <b>Alcance</b> em <b>3</b> por pilha.",
+    "after": "Reduz o <b>Alcance</b> em <b>3</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06035",
+    "key": "Reduces <b>Reflex</b> by <b>20%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz <b>Reflexo</b> em <b>20%</b> por pilha.",
+    "after": "Reduz <b>Reflexo</b> em <b>20%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06036",
+    "key": "Reduces @All Stats@ by @10%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Todos os Atributos@ em @10%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06037",
+    "key": "Reduces @Armor@ and @Magic Armor@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Armadura@ e @Armadura Mágica@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06038",
+    "key": "Reduces @Cold Resistance@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Resistência ao Frio@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06040",
+    "key": "Reduces @Fire Resistance@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Resistência ao Fogo@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06041",
+    "key": "Reduces @Healing Recieved@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Cura Recebida@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06042",
+    "key": "Reduces @Intelligence@ by @20%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Inteligência@ em @20%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06043",
+    "key": "Reduces @Lightning Resistance@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Resistência a Relâmpago@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06044",
+    "key": "Reduces @Max Health@ by @10%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Saúde Máxima@ em @10%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06046",
+    "key": "Reduces @Might@ by 20% per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Força@ em 20% por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06047",
+    "key": "Reduces @Movement Points@ by @1@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Pontos de Movimento@ em @1@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06048",
+    "key": "Reduces @Physical Resistance@ by @25%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Resistência Física@ em @25%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06049",
+    "key": "Reduces @Range@ by @1@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Alcance@ em @1@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06050",
+    "key": "Reduces @Reflex@ by @20%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz @Reflexo@ em @20%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06052",
+    "key": "Reduces Dexterity by <b>20%</b> per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reduz a Destreza em <b>20%</b> por pilha.",
+    "after": "Reduz a Destreza em <b>20%</b> por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06053",
+    "key": "Reduces Dexterity by @20%@ per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Reduz Destreza em @20%@ por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06103",
+    "key": "Regain Max Life and Mana each turn, increased per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Recupere Vida Máxima e Mana a cada turno, aumentado por pilha.",
+    "after": "Recupere Vida Máxima e Mana a cada turno, aumentado por acúmulo.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06495",
+    "key": "Shadow damage you deal applies 2 stacks of @Poison@.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "O dano de sombra que você causa aplica 2 acúmulos de @Veneno@.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06784",
+    "key": "Small Pile of Gold",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pequena Pilha de Ouro",
+    "after": "Pequena Acúmulo de Ouro",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06987",
+    "key": "Striking with this weapon applies 1 stack of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atacar com esta arma aplica 1 pilha de {STA=Bleeding}.",
+    "after": "Atacar com esta arma aplica 1 acúmulo de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06988",
+    "key": "Striking with this weapon applies 2 stack of Poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atacar com esta arma aplica 2 pilhas de Veneno.",
+    "after": "Atacar com esta arma aplica 2 acúmulos de Veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-06991",
+    "key": "Striking with this weapon has a 50% chance to apply 1 stack of {STA=Bleeding}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atacar com esta arma tem 50% de chance de aplicar 1 pilha de {STA=Bleeding}.",
+    "after": "Atacar com esta arma tem 50% de chance de aplicar 1 acúmulo de {STA=Bleeding}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07134",
+    "key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of <b>Chilled</b> on targets in a 4 hex radius.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por pilha de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
+    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de <b>Resfriado</b> nos alvos em um raio de 4 hexágonos.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07135",
+    "key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07192",
+    "key": "Swing in a 180 degree arc striking all foes for *0 weapon damage.  Applies 2 stacks of {STA=Bleeding} on all targets hit. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Gire em um arco de 180 graus atingindo todos os inimigos com *0 de dano de arma. Aplica 2 pilhas de {STA=Bleeding} em todos os alvos atingidos.",
+    "after": "Gire em um arco de 180 graus atingindo todos os inimigos com *0 de dano de arma. Aplica 2 acúmulos de {STA=Bleeding} em todos os alvos atingidos.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07247",
+    "key": "Taking damage grants a stack of Thunder Charged.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sofrer dano concede uma pilha de Carga Trovejante.",
+    "after": "Sofrer dano concede um acúmulo de Carga Trovejante.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07271",
+    "key": "Target takes *0 physical damage and 1 stack of {STA=Bleeding} per turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O alvo recebe *0 de dano físico e 1 pilha de {STA=Bleeding} por turno.",
+    "after": "O alvo recebe *0 de dano físico e 1 acúmulo de {STA=Bleeding} por turno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07556",
+    "key": "The mimic shrinks back, until, finally, it gives a last gurgling growl in defeat. The taint dissolved, fading away into smoke and shadow, leaving behind an empty silence.\n\nAs the darkness vanishes, it reveals a small mound of treasure in its wake.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena pilha de tesouros em seu rastro.",
+    "after": "O mímico recua, até que, finalmente, dá um último rosnado gorgolejante em derrota. A corrupção se dissolve, desaparecendo em fumaça e sombra, deixando para trás um silêncio vazio.\n\nÀ medida que a escuridão desaparece, revela uma pequena acúmulo de tesouros em seu rastro.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-07582",
+    "key": "The rugged treasure hunter Louisiana Sloans looks up from piles of cryptic maps and charts.\n\n\"No one's ever retrieved the Treasure of Moltendunn. You in?\"",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "O rústico caçador de tesouros Louisiana Sloans ergue os olhos de acúmulos de mapas e diagramas enigmáticos.\n\n\"Ninguém jamais recuperou o Tesouro de Moltendunn. Você topa?\"",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08129",
+    "key": "Weapon attacks apply 1 stacks of bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques com armas aplicam 1 pilha de sangramento.",
+    "after": "Ataques com armas aplicam 1 acúmulo de sangramento.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08130",
+    "key": "Weapon attacks apply 2 stacks of bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques com armas aplicam 2 pilhas de sangramento.",
+    "after": "Ataques com armas aplicam 2 acúmulos de sangramento.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08297",
+    "key": "With a final, bone-rattling roar, the Mimic convulses, then collapses, slowly dissolving into an amorphous mass.\n\n\nWhere the Mimic has fallen, a shimmering pile of treasure remains.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece uma pilha cintilante de tesouros.",
+    "after": "Com um último rugido que faz tremer os ossos, o Mímico convulsiona, depois colapsa, dissolvendo-se lentamente em uma massa amorfa.\n\nOnde o Mímico caiu, permanece um acúmulo cintilante de tesouros.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08374",
+    "key": "Wreaths the target in poisonous thorns.  Attackers take 2 stacks of poison.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Envolve o alvo em espinhos venenosos. Atacantes recebem 2 pilhas de veneno.",
+    "after": "Envolve o alvo em espinhos venenosos. Atacantes recebem 2 acúmulos de veneno.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08526",
+    "key": "You have defeated the <violet><b><incr>Mad Mage</violet></b></incr>! \n\nAll that remains him is a pile of ash and a well-worn spellbook.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": null,
+    "after": "Você derrotou o <violet><b><incr>Mago Louco</violet></b></incr>! \n\nTudo o que resta dele é um acúmulo de cinzas e um grimório bem gasto.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08725",
+    "key": "Your attacks apply 2 stacks of {STA=Poisoned}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Seus ataques aplicam 2 pilhas de {STA=Poisoned}.",
+    "after": "Seus ataques aplicam 2 acúmulos de {STA=Poisoned}.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08752",
+    "key": "Your fire spells deal 10% more damage per stack of heat on targets.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Suas magias de fogo causam 10% mais dano por pilha de calor nos alvos.",
+    "after": "Suas magias de fogo causam 10% mais dano por acúmulo de calor nos alvos.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08791",
+    "key": "Your stacks of <b>Chilled</b> now reduce the targets damage by 2%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Suas pilhas de <b>Frio</b> agora reduzem o dano do alvo em 2%.",
+    "after": "Seus acúmulos de <b>Frio</b> agora reduzem o dano do alvo em 2%.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08792",
+    "key": "Your stacks of <b>Chilled</b> now reduce the targets damage by an additional 3%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Suas pilhas de <b>Resfriado</b> agora reduzem o dano do alvo em 3% adicionais.",
+    "after": "Seus acúmulos de <b>Resfriado</b> agora reduzem o dano do alvo em 3% adicionais.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08812",
+    "key": "[0] <b>Dexterity</b> absorbed per stack.  Stacks up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[0] de <b>Destreza</b> absorvida por pilha. Acumula até 10 vezes.",
+    "after": "[0] de <b>Destreza</b> absorvida por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08813",
+    "key": "[0] <b>Intelligence</b> absorbed per stack.  Stacks up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[0] <b>Inteligência</b> absorvida por pilha. Acumula até 10 vezes.",
+    "after": "[0] <b>Inteligência</b> absorvida por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
+  },
+  {
+    "id": "LANG-08814",
+    "key": "[0] <b>Might</b> absorbed per stack.  Stacks up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[0] de <b>Poder</b> absorvido por pilha. Acumula até 10 vezes.",
+    "after": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_5c274339"
   }
 ]
