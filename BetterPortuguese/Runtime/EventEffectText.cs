@@ -26,6 +26,15 @@ namespace BetterPortuguese.Runtime
             ["Level up Fortunes"] = "Aumente o nível das suas Fortunas",
         };
 
+        // Textos de botao/rotulo que o jogo escreve com chave propria e que continuam em ingles na
+        // tela (o funil de localizacao nao devolve a entrada pt-BR para elas). Correspondencia EXATA.
+        private static readonly Dictionary<string, string> Baloes = new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["Battle"] = "Batalhar",
+            ["Hard Battle"] = "Batalha Difícil",
+            ["Rest"] = "Descanso",
+        };
+
         private static ManualLogSource _log;
         private static bool _diag;
         private static readonly HashSet<string> _seen = new HashSet<string>(StringComparer.Ordinal);
@@ -42,6 +51,9 @@ namespace BetterPortuguese.Runtime
                 harmony.Patch(
                     AccessTools.Method(typeof(EventResultEffect), nameof(EventResultEffect.SetEventAction)),
                     postfix: new HarmonyMethod(AccessTools.Method(typeof(EventEffectText), nameof(AfterSetAction))));
+                harmony.Patch(
+                    AccessTools.Method(typeof(NavNodeVotingButton), "set_NodeType"),
+                    postfix: new HarmonyMethod(AccessTools.Method(typeof(EventEffectText), nameof(AfterNodeType))));
                 _diag = diagnostico?.Invoke() ?? false;
                 log?.LogInfo("BetterPortuguese: traducao das linhas de efeito de evento registrada (" + Fixes.Count + " regras).");
             }
@@ -66,6 +78,19 @@ namespace BetterPortuguese.Runtime
         {
             try { Apply(__instance); }
             catch (Exception ex) { _log?.LogWarning("BetterPortuguese: efeito de evento preservado: " + ex.GetType().Name); }
+        }
+
+        private static void AfterNodeType(NavNodeVotingButton __instance)
+        {
+            try
+            {
+                if (__instance == null || __instance.NodeTypeText == null) return;
+                string atual = __instance.NodeTypeText.text;
+                if (string.IsNullOrEmpty(atual)) return;
+                if (Baloes.TryGetValue(atual, out var traduzido)) { __instance.NodeTypeText.text = traduzido; return; }
+                if (_diag && _seen.Add("nav:" + atual)) _log?.LogInfo("BP-TEXTO: rotulo de no sem traducao: '" + atual + "'");
+            }
+            catch (Exception ex) { _log?.LogWarning("BetterPortuguese: rotulo de no preservado: " + ex.GetType().Name); }
         }
 
         private static void Apply(EventResultEffect effect)
