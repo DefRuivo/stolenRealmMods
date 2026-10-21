@@ -4,7 +4,7 @@ Makes combat text easier to read: an **outline** around the letters on enemy nam
 buff/debuff labels, plus the **dice text** in roll events. **No gameplay change.**
 
 - **GUID:** `com.gumatos.bettercombattext`
-- **Version:** 0.1.5
+- **Version:** 0.1.6
 - **Works with:** Stolen Realm v1.3.1.
 - **Needs:** BepInEx 5. **BetterFont is optional** — see *Together with BetterFont*.
 

@@ -127,7 +127,9 @@ namespace BetterCombatText
                 sombraSuavidade: 0.05f,
                 alfaSombra: 0.75f,
                 tamanhoExtra: 0f,
-                fundo: "escuro");
+                fundo: "escuro",
+                espacamentoExtra: 22f,
+                caixaAlta: true);
 
             var secRotulos = "3. Rotulos de buff/debuff (combate)";
             Rotulos = new EstiloTextoLegadoCfg(cfg, secRotulos,
@@ -406,6 +408,13 @@ namespace BetterCombatText
         // `DilatarFace` escreve `_FaceDilate`, que o mod nao expunha em lugar nenhum.
         public readonly ConfigEntry<bool> HerdarGeometria;
         public readonly ConfigEntry<float> DilatarFace;
+        // BF-STYLE-3b: Times New Roman e mais estreita que a fonte original dos nomes; sem
+        // tracking o texto fica com ~2/3 da largura. `EspacamentoExtra` escreve `characterSpacing`
+        // do TMP (unidades de fonte: px ~= valor * fontSize / 100).
+        public readonly ConfigEntry<float> EspacamentoExtra;
+        // BF-STYLE-3c: o jogo escreve o nome em CAIXA ALTA (Trajan small caps); Times New Roman
+        // desenha minusculas. `CaixaAlta` liga `FontStyles.UpperCase` no TMP do componente.
+        public readonly ConfigEntry<bool> CaixaAlta;
         // BCT-3: o FUNDO atras do texto ("auto"/"escuro"/"claro"). Declarado, ele MANDA na
         // escolha da sombra (contraste com o fundo > luminancia da letra).
         public readonly ConfigEntry<string> FundoTexto;
@@ -413,7 +422,8 @@ namespace BetterCombatText
         public EstiloTmpCfg(ConfigFile cfg, string sec,
             bool haloAtivo, float largura, float suavidade, string corHex, float alfa,
             bool sombraAtiva, float sombraOffX, float sombraOffY, float sombraDilate,
-            float sombraSuavidade, float alfaSombra, float tamanhoExtra, string fundo)
+            float sombraSuavidade, float alfaSombra, float tamanhoExtra, string fundo,
+            float espacamentoExtra = 0f, bool caixaAlta = false)
         {
             HaloAtivo = cfg.Bind(sec, "Halo", haloAtivo,
                 "Contorno/halo em volta das letras (material do TextMeshPro). Desligue para nao tocar no contorno.");
@@ -440,6 +450,13 @@ namespace BetterCombatText
                 "BF-STYLE-3: true = NAO sobrescreve a geometria (contorno, sombra e _FaceDilate) e usa a do " +
                 "MATERIAL ORIGINAL do jogo; do cfg continua valendo so cor/alfa. e o modo que aproxima o " +
                 "estilo do original em vez de impor numeros fixos.");
+            CaixaAlta = cfg.Bind(sec, "CaixaAlta", caixaAlta,
+                "BF-STYLE-3c: escreve o texto em CAIXA ALTA no componente (FontStyles.UpperCase). " +
+                "O original desenha os nomes em versalete/caixa alta; sem isto o Times New Roman mostra minusculas.");
+            EspacamentoExtra = cfg.Bind(sec, "EspacamentoExtra", espacamentoExtra,
+                new ConfigDescription("BF-STYLE-3b: espacamento entre glifos (characterSpacing do TMP). 0 = NAO MEXE. " +
+                    "Compensa a largura menor do Times New Roman: px ~= valor * fontSize / 100.",
+                    new AcceptableValueRange<float>(-50f, 100f)));
             DilatarFace = cfg.Bind(sec, "DilatarFace", 0f,
                 new ConfigDescription("BF-STYLE-3: engrossamento do miolo da letra (_FaceDilate). 0 = NAO MEXE " +
                     "(padrao). Ignorado quando HerdarGeometria=true.", new AcceptableValueRange<float>(0f, 1f)));

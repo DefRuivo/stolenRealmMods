@@ -33,6 +33,8 @@ namespace BetterCombatText
         // InstanceID -> tamanho de fonte ORIGINAL (para o ajuste ser idempotente).
         private static readonly Dictionary<int, float> TamanhoOriginal = new Dictionary<int, float>();
         private static readonly Dictionary<int, float> TamanhoOriginalLegado = new Dictionary<int, float>();
+        private static readonly Dictionary<int, float> EspacamentoOriginal = new Dictionary<int, float>();
+        private static readonly Dictionary<int, FontStyles> EstiloOriginal = new Dictionary<int, FontStyles>();
         // BCT-2: InstanceID -> BALDE da sombra aplicado (true = letra escura -> sombra clara).
         // Serve para a REAVALIACAO SEM RE-INSTANCIAR: o jogo pode REUSAR o mesmo componente com
         // outra cor de letra; so quando o BALDE vira e que a cor da sombra e reescrita.
@@ -156,6 +158,8 @@ namespace BetterCombatText
                 }
 
                 AplicarTamanho(tmp, cfg.TamanhoFonteExtra.Value, id);
+                AplicarEspacamento(tmp, cfg.EspacamentoExtra.Value, id);
+                AplicarCaixaAlta(tmp, cfg.CaixaAlta.Value, id);
 
                 // O halo/underlay saem para FORA do glifo: sem recalcular o padding o contorno e
                 // cortado na borda do mesh. UpdateMeshPadding() resolve (usa GetPadding(material)).
@@ -245,6 +249,36 @@ namespace BetterCombatText
         }
 
         /// <summary>Ajuste de fonte idempotente: sempre parte do tamanho ORIGINAL do componente.</summary>
+        /// <summary>BF-STYLE-3b: tracking idempotente — sempre parte do espacamento ORIGINAL.</summary>
+        /// <summary>BF-STYLE-3c: liga FontStyles.UpperCase sem perder negrito/italico ja existentes.</summary>
+        private static void AplicarCaixaAlta(TMP_Text tmp, bool ativo, int id)
+        {
+            if (!ativo)
+            {
+                return;
+            }
+            if (!EstiloOriginal.TryGetValue(id, out var original))
+            {
+                original = tmp.fontStyle;
+                EstiloOriginal[id] = original;
+            }
+            tmp.fontStyle = original | FontStyles.UpperCase;
+        }
+
+        private static void AplicarEspacamento(TMP_Text tmp, float extra, int id)
+        {
+            if (extra == 0f)
+            {
+                return;
+            }
+            if (!EspacamentoOriginal.TryGetValue(id, out var original))
+            {
+                original = tmp.characterSpacing;
+                EspacamentoOriginal[id] = original;
+            }
+            tmp.characterSpacing = original + extra;
+        }
+
         private static void AplicarTamanho(TMP_Text tmp, float extra, int id)
         {
             if (extra == 0f)

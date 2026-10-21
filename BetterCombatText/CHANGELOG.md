@@ -3,6 +3,16 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.6 — Unreleased
+
+- **Names now match the game's width and case (BF-STYLE-3b/3c).** Measured on the paired combat capture:
+  the game draws enemy names in upper case and Times New Roman is narrower, so the old output was both
+  lower-case and ~30% shorter. Two opt-in keys were added and enabled by default **for the enemy-name
+  surface only**: `EspacamentoExtra` (writes `characterSpacing`; 22 reproduces the original total advance:
+  252.6 vs 251.8 px on Goblin Marauder, 106.2 vs 107.7 on Knight, 81.8 vs 78.5 on Briar at 1080p) and
+  `CaixaAlta` (`FontStyles.UpperCase`). Cap height stays at 18 px, equal to the original in all three names.
+- Both keys default to the previous behaviour on every other surface; nothing else changes.
+
 ## 0.1.5 — Unreleased
 
 - **Enemy-name styling calibrated against the real render (BF-STYLE-3).** Default outline for combat enemy
