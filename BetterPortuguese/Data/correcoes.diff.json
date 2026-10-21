@@ -24166,5 +24166,14 @@
     "before": "Batalha",
     "after": "Batalhar",
     "approvalTaskId": "t_167dfc63"
+  },
+  {
+    "id": "LANG-04864",
+    "key": "Level up all your owned Fortunes to your current character level.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Eleve todos os seus Fortunas possuídos para o nível atual do seu personagem.",
+    "after": "Eleve todas as suas Fortunas possuídas para o nível atual do seu personagem.",
+    "approvalTaskId": "t_ab4f4692"
   }
 ]
