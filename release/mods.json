@@ -32,8 +32,8 @@
     {
       "nome": "BetterCombatText",
       "publicar": true,
-      "versao_publicada": "0.1.4",
-      "publicado_em": "2026-10-19T16:48:04.590973Z",
+      "versao_publicada": "0.1.6",
+      "publicado_em": "2026-10-22T00:51:03.838973Z",
       "motivo": "PUBLICAR 0.1.6 (21/10, autorizado pelo dono): nomes em combate com caixa alta, altura de 18 px igual ao original e espacamento calibrado por medicao; chaves novas HerdarGeometria/DilatarFace."
     },
     {
@@ -46,8 +46,8 @@
     {
       "nome": "BetterPortuguese",
       "publicar": true,
-      "versao_publicada": "0.1.0",
-      "publicado_em": "2026-10-19T03:12:33.876445Z",
+      "versao_publicada": "0.2.0",
+      "publicado_em": "2026-10-22T00:51:12.650769Z",
       "motivo": "PUBLICAR 0.2.0 (21/10, autorizado pelo dono): traducao das linhas de efeito de evento e do rotulo de no de batalha (Battle->Batalhar) fora do funil de Localize; dataset em 1.412 chaves com Roubar Acao, Continuar, Fortunas e pilha->acumulo; adaptador fixado em BetterTooltips 0.1.6."
     },
     {
@@ -60,8 +60,8 @@
     {
       "nome": "BetterTooltips",
       "publicar": true,
-      "versao_publicada": "0.1.5",
-      "publicado_em": "2026-10-19T16:47:31.772272Z",
+      "versao_publicada": "0.1.6",
+      "publicado_em": "2026-10-22T00:50:56.523730Z",
       "motivo": "PUBLICAR 0.1.6 (21/10, autorizado pelo dono): valor absoluto por turno nas auras de santuario que regeneram (\"= N de vida por turno\"), calculado sobre o total do proprio personagem."
     },
     {
