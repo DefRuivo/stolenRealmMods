@@ -1,6 +1,6 @@
 {
   "name": "BetterPortuguese",
-  "version_number": "0.1.1",
+  "version_number": "0.2.0",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
   "description": "Fixes Brazilian Portuguese text the game shipped mistranslated, in English or with broken markup. Carries both complete sets, Original and Corrigido, switchable in the config. No gameplay change.",
   "dependencies": ["BepInEx-BepInExPack-5.4.2305"],

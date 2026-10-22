@@ -13,11 +13,12 @@ using BetterPortuguese.Runtime;
 
 namespace BetterPortuguese;
 
-[BepInPlugin("com.gumatos.betterportuguese", "BetterPortuguese", "0.1.1")]
+[BepInPlugin(Guid, "BetterPortuguese", Versao)]
 [BepInDependency(ModCatalog.BetterTooltipsGuid, BepInDependency.DependencyFlags.SoftDependency)]
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string Guid = "com.gumatos.betterportuguese";
+    public const string Versao = "0.2.0";
     private static readonly StateQueue States = new StateQueue();
     private static Overlay<LocalizationEntry> overlay;
     private static ISet<string> changedKeys = new HashSet<string>(StringComparer.Ordinal);
@@ -61,7 +62,7 @@ public sealed class Plugin : BaseUnityPlugin
             var catalog = Core.Resources.Load(typeof(Plugin).Assembly);
             changedKeys = new HashSet<string>(catalog.Changed.Keys, StringComparer.Ordinal);
             overlay = new Overlay<LocalizationEntry>(catalog, Bindings.Equal, Bindings.Clone, limited);
-            log.LogInfo("BetterPortuguese 0.1.1: snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
+            log.LogInfo("BetterPortuguese " + Versao + ": snapshots completos; " + catalog.Original.Records.Count + " registros; " + catalog.Changed.Count + " chaves corrigidas aprovadas.");
         }
         catch (Exception ex) { overlay = null; log.LogError("BetterPortuguese: camada base desativada: " + ex.Message); }
         ModCatalog mods = null;
@@ -80,7 +81,7 @@ public sealed class Plugin : BaseUnityPlugin
         // BP-EVENTO: linhas de efeito dos eventos ("★ Reroll a skill") nao passam pelo Localize.
         EventEffectText.Install(harmony, () => States.Current != null && States.Current.Diagnostic, log);
         if (mods != null) BetterTooltipsAdapter.Install(mods, () => States.Current, limited, message => log.LogInfo(message));
-        log.LogInfo("BetterPortuguese 0.1.1 carregado.");
+        log.LogInfo("BetterPortuguese " + Versao + " carregado.");
     }
     private void Install(string label, Func<MethodInfo> target, string patch)
     {

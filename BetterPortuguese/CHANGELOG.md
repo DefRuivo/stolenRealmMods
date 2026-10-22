@@ -4,6 +4,32 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.0 — in preparation (2026-10-21)
+
+- **Textos que não passavam pelo funil de localização agora são traduzidos no display.** As linhas de
+  efeito dos eventos (`★ Reroll a skill`, `★ Level up Fortunes`) vêm do asset do evento e são escritas
+  direto no TMP por `EventOptionSelectionItem.PopulateResultEffects` / `EventResultEffect.SetEventAction`;
+  passam a ser traduzidas por correspondência exata (`Role novamente uma habilidade`, `Aumente o nível das
+  suas Fortunas`). O rótulo do nó de batalha no mapa (`NavNodeVotingButton`) sai em inglês pelo mesmo
+  motivo: `Battle` → `Batalhar`, `Hard Battle` → `Batalha Difícil`, `Rest` → `Descanso`. Rótulo ou linha
+  desconhecida é registrada uma vez no log (`BP-EVENTO` / `BP-TEXTO`) com `Diagnostico=true`, nunca inventada.
+- **Dataset: 1.412 chaves corrigidas** (eram 1.319). Correções aprovadas pelo dono nesta rodada:
+  - `Steal Action` "Ação de Roubo" → **"Roubar Ação"**.
+  - `Resume` "Currículo" → **"Continuar"** (botão de retomar, não currículo).
+  - `Battle` "Batalha" → **"Batalhar"** (verbo, como o botão pede).
+  - `Level up all your owned Fortunes…`: concordância de gênero → "Eleve **todas as suas** Fortunas possuídas…".
+  - **"pilha" → "acúmulo" em 133 entradas** (stack de efeito), com concordância refeita
+    (`um acúmulo`, `os acúmulos`, `novos acúmulos`, particípios masculinos). Pilhas FÍSICAS preservadas
+    ("Pilha de Ouro", "pilha de tesouros", "pilhas de mapas", "pilha de cinzas").
+  - Redação das linhas de acúmulo (8 chaves): "consome todas as cargas de Petrificação",
+    "Ganhe um acúmulo ao final de cada turno; qualquer movimento remove todos eles",
+    "aplicado aos inimigos", "para cada acúmulo de Resfriado/Calor nos alvos".
+  - Quatro chaves com template `@tag@` (`LANG-02954/03154/05592/07135`) passaram a ser `addEntry`
+    no diff — como `edit` elas derrubavam o parse e desligavam a camada base inteira.
+- **Adaptador BP↔BetterTooltips fixado em BetterTooltips 0.1.6** (constante e `modVersion` do
+  `pt-BR.mods.json`, 177 regras).
+- Nenhum asset do jogo é editado; tudo é sobreposição em runtime.
+
 ## 0.1.1 — in preparation (2026-10-19)
 
 - Fix rarity gender agreement when composing item names, for example `Lendário Varinha` → `Lendária Varinha`.

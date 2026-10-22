@@ -1,6 +1,6 @@
 # BetterPortuguese
 
-- **Version:** 0.1.1
+- **Version:** 0.2.0
 - **Author:** gumatos
 - **GUID:** `com.gumatos.betterportuguese`
 - **Works with:** Stolen Realm v1.3.1 (Steam build 25240684, Unity 2022.3.62f2).
