@@ -7867,25 +7867,6 @@
   },
   {
     "operation": "addEntry",
-    "id": "LANG-02954",
-    "key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
-    "entryIndex": 0,
-    "before": [],
-    "after": {
-      "Value": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todos os acúmulos de Petrificação.",
-      "Key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
-      "TranslatorKey": null,
-      "Feminine": null,
-      "Masculine": null,
-      "Neutral": null,
-      "LanguageGender": 0,
-      "CanBeGendered": false,
-      "NeedsGenderInfo": false
-    },
-    "approvalTaskId": "t_5c274339"
-  },
-  {
-    "operation": "addEntry",
     "id": "LANG-02958",
     "key": "Each stack of @chilled@ now reduces the target's maxium health by 5%.",
     "entryIndex": 0,
@@ -8263,25 +8244,6 @@
       "NeedsGenderInfo": false
     },
     "approvalTaskId": "t_71e4b22a"
-  },
-  {
-    "operation": "addEntry",
-    "id": "LANG-03154",
-    "key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
-    "entryIndex": 0,
-    "before": [],
-    "after": {
-      "Value": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicado a inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
-      "Key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
-      "TranslatorKey": null,
-      "Feminine": null,
-      "Masculine": null,
-      "Neutral": null,
-      "LanguageGender": 0,
-      "CanBeGendered": false,
-      "NeedsGenderInfo": false
-    },
-    "approvalTaskId": "t_5c274339"
   },
   {
     "operation": "addEntry",
@@ -13282,25 +13244,6 @@
   },
   {
     "operation": "addEntry",
-    "id": "LANG-05592",
-    "key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
-    "entryIndex": 0,
-    "before": [],
-    "after": {
-      "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Um acúmulo é aplicado ao final de cada turno.  Qualquer movimento remove todos os acúmulos de Caçador Paciente.  Acumula até 5 vezes.",
-      "Key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
-      "TranslatorKey": null,
-      "Feminine": null,
-      "Masculine": null,
-      "Neutral": null,
-      "LanguageGender": 0,
-      "CanBeGendered": false,
-      "NeedsGenderInfo": false
-    },
-    "approvalTaskId": "t_5c274339"
-  },
-  {
-    "operation": "addEntry",
     "id": "LANG-05594",
     "key": "Paused",
     "entryIndex": 0,
@@ -15844,25 +15787,6 @@
       "NeedsGenderInfo": false
     },
     "approvalTaskId": "t_71e4b22a"
-  },
-  {
-    "operation": "addEntry",
-    "id": "LANG-07135",
-    "key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
-    "entryIndex": 0,
-    "before": [],
-    "after": {
-      "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 por acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
-      "Key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
-      "TranslatorKey": null,
-      "Feminine": null,
-      "Masculine": null,
-      "Neutral": null,
-      "LanguageGender": 0,
-      "CanBeGendered": false,
-      "NeedsGenderInfo": false
-    },
-    "approvalTaskId": "t_5c274339"
   },
   {
     "operation": "addEntry",
@@ -24978,39 +24902,79 @@
     "approvalTaskId": "t_5c274339"
   },
   {
+    "operation": "addEntry",
     "id": "LANG-02954",
     "key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
     "entryIndex": 0,
-    "field": "Value",
-    "before": null,
-    "after": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todas as cargas de Petrificação.",
+    "before": [],
+    "after": {
+      "Value": "Cada acúmulo reduz @movement@ em 1 e aumenta @Damage Taken@ em 20%. Ao atingir 5 acúmulos, você fica @Petrified@, o que consome todas as cargas de Petrificação.",
+      "Key": "Each stack lowers @movement@ by 1 and increases @Damage Taken@ by 20%. When you reach 5 stacks you become @Petrified@ which consumes all Petrification stacks.",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
     "approvalTaskId": "t_a5e96982"
   },
   {
+    "operation": "addEntry",
     "id": "LANG-03154",
     "key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
     "entryIndex": 0,
-    "field": "Value",
-    "before": null,
-    "after": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicado aos inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+    "before": [],
+    "after": {
+      "Value": "Envolto em Fogo Infernal. Cada acúmulo de @heat@ aplicado aos inimigos causa [0] de dano de fogo por turno. Concede imunidade a @heat@ e @chilled@.",
+      "Key": "Engulfed in Hellfire. Each stack of @heat@ applied to enemies applies [0] fire damage per turn. Grants Immunity to @heat@ and @chilled@.",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
     "approvalTaskId": "t_a5e96982"
   },
   {
+    "operation": "addEntry",
     "id": "LANG-05592",
     "key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
     "entryIndex": 0,
-    "field": "Value",
-    "before": null,
-    "after": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Ganhe um acúmulo ao final de cada turno;  qualquer movimento remove todos eles.  Acumula até 5 vezes.",
+    "before": [],
+    "after": {
+      "Value": "Caçador Paciente concede 10% de @dano aumentado@ por acúmulo.  Ganhe um acúmulo ao final de cada turno;  qualquer movimento remove todos eles.  Acumula até 5 vezes.",
+      "Key": "Patient Hunter gives 10% @increased damage@ per stack.  A stack is applied at the end of each turn.  Making any movement removes all stacks of Patient Hunter.  Stacks up to 5 times.",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
     "approvalTaskId": "t_a5e96982"
   },
   {
+    "operation": "addEntry",
     "id": "LANG-07135",
     "key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
     "entryIndex": 0,
-    "field": "Value",
-    "before": null,
-    "after": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 para cada acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
+    "before": [],
+    "after": {
+      "Value": "Invoca uma explosão de energia congelada causando *0 de dano de frio mais um adicional de *0 para cada acúmulo de @Chilled@ nos alvos em um raio de 4 hexágonos.",
+      "Key": "Summons a blast of frozen energy dealing *0 cold damage plus an additional *0 per stack of @Chilled@ on targets in a 4 hex radius.",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
     "approvalTaskId": "t_a5e96982"
   }
 ]

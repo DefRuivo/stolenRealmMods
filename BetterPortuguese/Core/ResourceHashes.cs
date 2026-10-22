@@ -2,8 +2,8 @@ using System.Collections.Generic;
 namespace BetterPortuguese.Core;
 public static class ResourceHashes {
 public static readonly IReadOnlyDictionary<string,string> Expected = new Dictionary<string,string> {
- { "correcoes.diff.json", "3ba531fbc4aa0012f3683de0e4a2325c33e59be1782a580009d7e31999e54d19" },
- { "manifest.json", "9706fee2f6705f5dff716ee7ab96c69e47fdf2ef69c516452bc8ee2a42caf7c9" },
+ { "correcoes.diff.json", "47e8f915fd4ef9a73e251d0adb056f86bf9c015b00511c3cac7cdceeea2ec348" },
+ { "manifest.json", "e192ebf76dd52a120239014bc15ebbf29009b8f54adbb8d1bacd6a18f6cb5bc3" },
  { "pendencias.json", "778e0f9e0d269b15802ab620a18a5ffec1768aeb761428bbd0de75d66fb6dfaf" },
  { "pt-BR.corrigido.json", "b9ea8f9c373a45828972927de7e279d9b777b9315ee6bd5b256203474308e68a" },
  { "pt-BR.mods.json", "4310f52c22e08bc2e443a5db77984a6b86f346543b14074d1d5daa185cd20c6b" },

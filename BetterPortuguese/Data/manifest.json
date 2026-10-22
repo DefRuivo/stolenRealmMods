@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 919028,
-      "sha256": "3ba531fbc4aa0012f3683de0e4a2325c33e59be1782a580009d7e31999e54d19"
+      "bytes": 917061,
+      "sha256": "47e8f915fd4ef9a73e251d0adb056f86bf9c015b00511c3cac7cdceeea2ec348"
     },
     {
       "path": "pendencias.json",
