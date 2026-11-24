@@ -1,10 +1,17 @@
-# Changelog — RoguelikeSkillTreeVisualizer
+﻿# Changelog — RoguelikeSkillTreeVisualizer
 
 `RSTV-nn` codes are the change identifiers used across this mod's notes; an `F` suffix marks a fix
 that came out of a review.
 
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
+
+## 0.3.7 — 2026-11-24
+
+- **A árvore do Bard aparece também na janela nativa “Remove Skill Trees”.** Até aqui esse modal listava todas as classes menos o Bard, mesmo com a aba de Skills já mostrando as 12. Causa: o mod **hospeda a própria lista** dentro dessa janela, e a exclusão explícita de `SkillType.Bard` (que saiu em 0.3.6) continuava valendo ali — não era o jogo omitindo a árvore.
+- **Rede de segurança + diagnóstico:** novo postfix em `RoguelikeSkillTreeRemoval.RefreshAvailableSkillTrees` que só **acrescenta** (nunca remove) o que o cálculo nativo tiver deixado de fora, e apenas o que o mod comprova visível naquele instante. Lista nativa vazia não é tocada (jogo ainda carregando). Cada abertura registra `RSTV-REM` com a lista final ou com o que foi acrescentado.
+- Verificado em jogo na beta 1.4.8: `RSTV: patches Harmony aplicados (16/16 ganchos)` e `RSTV-REM: lista de remocao ja estava completa (12 arvores: Fire, Lightning, Cold, Warrior, Light, Ranger, Shadow, Thief, Monk, Nature, Chaos, Bard)`.
+
 
 ## 0.3.6 — 2026-11-23
 
