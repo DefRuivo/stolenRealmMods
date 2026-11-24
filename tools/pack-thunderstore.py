@@ -766,6 +766,19 @@ def verificar(nome_mod, config=CONFIG_PADRAO, gerar_icone_se_faltar=False):
         if not os.path.isfile(p[chave]):
             raise Falha("%s nao existe" % os.path.basename(p[chave]))
 
+    # BOM-1: a Thunderstore RECUSA o pacote com "CHANGELOG.md starts with a UTF-8 BOM".
+    # O erro so aparecia no upload, depois do zip pronto e as vezes depois do release no
+    # GitHub - caro e silencioso. Aqui vira falha de pre-flight, no arquivo exato.
+    for chave in ("readme", "changelog", "manifest"):
+        alvo = p.get(chave)
+        if not alvo or not os.path.isfile(alvo):
+            continue
+        with open(alvo, "rb") as fh:
+            if fh.read(3) == b"\xef\xbb\xbf":
+                raise Falha("BOM-1: %s comeca com BOM UTF-8 e a Thunderstore recusa o pacote\n"
+                            "      -> regrave o arquivo como UTF-8 SEM BOM (o BOM nao e' conteudo)"
+                            % rel(alvo))
+
     # PKG-API-1: os arquivos a mais que o pacote leva na raiz do zip (hoje so' o
     # LICENSE do RealmApi). Sao obrigatorios: o pacote promete por contrato o que
     # `--listar-caminhos` declara em `dentro_do_zip`.

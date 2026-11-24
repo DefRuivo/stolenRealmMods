@@ -1,4 +1,4 @@
-﻿# Changelog — RoguelikeSkillTreeVisualizer
+# Changelog — RoguelikeSkillTreeVisualizer
 
 `RSTV-nn` codes are the change identifiers used across this mod's notes; an `F` suffix marks a fix
 that came out of a review.

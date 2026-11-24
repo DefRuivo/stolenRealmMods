@@ -81,9 +81,9 @@
     {
       "nome": "RoguelikeSkillTreeVisualizer",
       "publicar": true,
-      "versao_publicada": "0.3.6",
-      "publicado_em": "2026-11-24T02:11:39.000000Z",
-      "motivo": "PUBLICAR 0.3.5 (lote de 19/10): versao nova com o bloco de fonte/contribuicao no README. Autorizado pelo dono (verbatim: 'nao precisa mostrar a tabela so suba a nova release'). | Compatibilidade com a build beta 1.4.8 (Bard Pack), buildid 26767595, publicada em 24/11/2026."
+      "versao_publicada": "0.3.7",
+      "publicado_em": "2026-11-24T04:26:05.000000Z",
+      "motivo": "PUBLICAR 0.3.5 (lote de 19/10): versao nova com o bloco de fonte/contribuicao no README. Autorizado pelo dono (verbatim: 'nao precisa mostrar a tabela so suba a nova release'). | Compatibilidade com a build beta 1.4.8 (Bard Pack), buildid 26767595, publicada em 24/11/2026. | 0.3.7: Bard tambem na janela nativa Remove Skill Trees (24/11/2026)."
     },
     {
       "nome": "RoguelikeUnlimitedLevelProgression",
