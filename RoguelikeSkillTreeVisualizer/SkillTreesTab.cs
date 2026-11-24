@@ -33,8 +33,8 @@ namespace RoguelikeSkillTreeVisualizer
     ///     INSTANCIA e dependem de `skillTreeShowers[]` e do estado vivo. Aqui o layout e
     ///     REIMPLEMENTADO desacoplado (mesma formula de `PopulateTree`, l.177739-177772, e de
     ///     `ProcessDependencyLines`, l.177056), sem tocar no manager.
-    ///  4. SAO ~10 classes visiveis (Bard fora por decisao do dono; `Basic`/`Innate` NAO sao arvores —
-    ///     excluidos em l.170113; Chaos condicional pelo `FullReleaseModeEnabled`/DLC). A lista espelha
+    ///  4. SAO 11 classes visiveis (12 no pior caso) — `Basic`/`Innate` NAO sao arvores (excluidos em
+    ///     l.170113); Bard e Chaos sao condicionais (DLC/`FullReleaseModeEnabled`). A lista espelha
     ///     `RefreshAvailableSkillTrees`.
     ///  5. `MenuTabManager.Underline` tem largura FIXA no prefab (~74.5): ao selecionar a aba, a largura
     ///     e ajustada para a do rotulo (`preferredWidth`) e RESTAURADA ao sair.
@@ -927,10 +927,13 @@ namespace RoguelikeSkillTreeVisualizer
         /// <summary>
         /// A LISTA DE CLASSES — espelho de <c>RefreshAvailableSkillTrees</c> (l.170100-170118): percorre
         /// <c>MiscSettings.SkillTabTypes</c> (l.141356) e exige, por tipo, (a) nao ser
-        /// <c>Basic</c>/<c>Innate</c> (nao sao arvores, l.170113), (b) <c>MeetsDLCRequirements(type)</c>,
-        /// (c) existir skill com <c>!Disabled &amp;&amp; !DontIncludeInTree &amp;&amp;
-        /// FullReleaseModeEnabled(skill)</c>. O BARD e pulado por decisao do dono (nao esta no jogo) —
-        /// e, mesmo que estivesse, o predicado (c) o excluiria.
+        /// <c>Basic</c>/<c>Innate</c> (nao sao arvores, l.170113), (b) <c>MeetsDLCRequirements(type)</c>
+        /// (que ja embute o <c>IsDlcHidden</c>), (c) existir skill com <c>!Disabled &amp;&amp;
+        /// !DontIncludeInTree &amp;&amp; FullReleaseModeEnabled(skill)</c>.
+        /// O BARD nao e mais pulado: desde a build beta 1.4.8 (Bard Pack DLC) o jogo tem a arvore nova.
+        /// Ele so aparece se estiver em <c>SkillTabTypes</c>, tiver o DLC liberado (nao oculto) e passar
+        /// o predicado (c). Em build antiga o resultado e' o mesmo de antes: ou o Bard nao esta em
+        /// <c>SkillTabTypes</c>, ou o DLC o barra — ver docs/automacao/SR-BETA-03-bard.md.
         /// </summary>
         internal static List<SkillType> TiposDaAba()
         {
@@ -952,11 +955,6 @@ namespace RoguelikeSkillTreeVisualizer
                 for (int i = 0; i < todos.Count; i++)
                 {
                     SkillType tipo = todos[i];
-                    if (tipo == SkillType.Bard)
-                    {
-                        continue;
-                    }
-
                     if (tipo == SkillType.Basic || tipo == SkillType.Innate)
                     {
                         continue;
@@ -1398,7 +1396,7 @@ namespace RoguelikeSkillTreeVisualizer
 
             Plugin.Log.LogInfo("RSTV-16: barra de classes com " + tipos.Count + " botao(oes) via " +
                                (viaNativo ? "SkillTreeTab NATIVO (icone+nome)" : "botao montado a MAO (icone+nome)") + " — " +
-                               nomes + " (Bard FORA; Basic/Innate fora; DLC/FullRelease respeitados).");
+                               nomes + " (Basic/Innate fora; DLC/FullRelease respeitados; Bard incluido quando o jogo o expoe).");
         }
 
         /// <summary>

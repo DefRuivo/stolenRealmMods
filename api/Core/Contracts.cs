@@ -14,11 +14,18 @@ namespace Gumatos.RealmApi
     {
         public const string Guid = "com.gumatos.realmapi";
         public const string Name = "RealmApi";
-        public const string Version = "0.1.1";
+        public const string Version = "0.1.2";
         public const int SteamAppId = 1330000;
-        public const string GameVersion = "1.3.1";
-        public const string SteamBuildId = "25240684";
-        public const string AssemblySha256 = "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a";
+
+        // POLÍTICA DE PIN (SR-BETA-06): um pin único e exato, apontando para a build instalada
+        // (open_beta 1.4.8 / build 26767595). NÃO é faixa e NÃO aceita "qualquer sha": o portão
+        // existe para recusar build não inspecionada, e cada build exige nova medição
+        // (sha256sum + apiprobe 4/4 hooks + Smoke) antes de virar um pin novo. A build 1.3.1
+        // (25240684 / 8bb4a7c5…) fica fora de propósito: aceitá-la junto dobraria a superfície
+        // verificada e reabriria um alvo que já não é o que o dono usa.
+        public const string GameVersion = "1.4.8";
+        public const string SteamBuildId = "26767595";
+        public const string AssemblySha256 = "6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a";
 
         /// <summary>Gate fail-closed: valores ausentes/divergentes não permitem hooks.</summary>
         public static bool Matches(string version, string sha256) =>

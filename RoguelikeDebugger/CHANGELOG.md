@@ -4,6 +4,14 @@
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.1.5 — 2026-11-23
+
+- **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack).** As mudanças abaixo existem para o mod funcionar nessa build; o comportamento na 1.3.1 estável é preservado.
+
+- **Beta 1.4.8 (Bard Pack):** `SkillTrigger.TriggerSource` foi removido do jogo; a fonte do gatilho passou a viver em `Character._SkillTriggerSources`, por personagem e só em runtime. O dump do `Flame Shrine` agora resolve a propriedade por reflexão e, quando ela não existe, diz isso em vez de mentir.
+- Compila e roda nas duas builds (1.3.1 e beta 1.4.8); 14/14 ganchos Harmony aplicados na beta, com o log lendo `buildSteam=26767595` e `sha256Alvo=6e97d5f5…`.
+- Ver `docs/automacao/SR-BETA-01-infra-RD.md`.
+
 ## 0.1.4 — in preparation (2026-10-19)
 
 - **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.

@@ -6,6 +6,15 @@ that came out of a review.
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.3.6 — 2026-11-23
+
+- **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack, que adiciona o Bard).** O objetivo desta versão é o mod funcionar nessa build e exibir a árvore nova do Bard; o comportamento na 1.3.1 estável é preservado (a lista de classes não muda quando o jogo não expõe o Bard).
+
+- **A árvore do Bard aparece.** A exclusão explícita de `SkillType.Bard` saiu; o mod continua data-driven (`MiscSettings.SkillTabTypes` + `MeetsDLCRequirements` + “tem skill visível”), então o Bard entra quando o jogo o expõe e a lista não muda em build antiga. Na beta 1.4.8 a barra passa a ter 12 botões: Fire, Lightning, Cold, Warrior, Light, Ranger, Shadow, Thief, Monk, Nature, Chaos e Bard.
+- **Dependência passa a `DefRuivo_StolenRealmMods-RealmApi-0.1.2`** (mínimo `0.1.2` também em `Plugin.cs` e no README). Não é mudança de API: a 0.1.1, já publicada, ficou com o alvo antigo (1.3.1) e a Thunderstore não aceita reenvio da mesma versão. **Publique RealmApi 0.1.2 primeiro** — a Thunderstore recusa dependência para versão inexistente.
+- **Correção de gancho na beta:** `SkillTreeManager.Initialize` ganhou o parâmetro `Character`, e o patch preso à assinatura antiga falhava com “Patching exception in method null” (o log fechava em 14/15). O alvo agora é resolvido em runtime e o postfix entra em todo overload com `List<SkillInfo>` + `bool creating`; na beta o log fecha em **15/15 ganchos** e nomeia a assinatura casada.
+- Ver `docs/automacao/SR-BETA-03-bard.md`.
+
 ## 0.3.5 — in preparation (2026-10-19)
 
 - **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.

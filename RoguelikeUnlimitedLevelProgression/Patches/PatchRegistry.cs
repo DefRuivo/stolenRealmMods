@@ -220,6 +220,34 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
                          + "); grupo critico intacto");
             }
 
+            // R-ULLP-1 — clamp de BuildCode.CreateCharacter (tipo NOVO da beta 1.4.8).
+            // Best-effort, mesma regra do failsafe acima: o postfix apenas RESTAURA o nivel que o
+            // clamp vanilla rebaixou (e so quando a configuracao do dono pede nivel acima do vanilla).
+            // Sem ele o comportamento e' exatamente o de hoje, portanto uma falha aqui nao deixa
+            // estado parcial e nao pode derrubar o grupo critico.
+            try
+            {
+                MethodInfo bcTarget;
+                MethodInfo bcPostfix;
+                string bcDetail;
+                if (!BuildCodePatches.TryResolve(out bcTarget, out bcPostfix, out bcDetail))
+                {
+                    Log.Info("build code: postfix NAO aplicado (" + bcDetail + "); grupo critico intacto");
+                }
+                else
+                {
+                    var bcProcessor = harmony.CreateProcessor(bcTarget);
+                    bcProcessor.AddPostfix(new HarmonyMethod(bcPostfix));
+                    bcProcessor.Patch();
+                    Log.Info("build code: postfix aplicado em " + bcDetail + " (R-ULLP-1)");
+                }
+            }
+            catch (Exception ex)
+            {
+                Log.Warn("build code: postfix NAO aplicado (" + ex.GetType().Name + ": " + ex.Message
+                         + "); grupo critico intacto");
+            }
+
             Log.Info("Grupo de gameplay aplicado: " + applied.Count + " alvos; janela estrutural encontrada "
                      + BattleResultTranspiler.LastMatchCount + "x");
             return true;

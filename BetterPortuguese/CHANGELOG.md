@@ -4,7 +4,20 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.1 — 2026-11-23
+
+- **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack).** As mudanças abaixo existem para o mod funcionar nessa build; o comportamento na 1.3.1 estável é preservado.
+
+- **Identidade de build atualizada para a beta 1.4.8** (`Assembly-CSharp` sha256 `6e97d5f5…d7a`): a camada compilada (BP-COMP) voltou a ser aceita, em vez de recusada pelo pin da 1.3.1. A recusa continua fail-closed quando o hash não bate, e a mensagem agora traz medido e esperado.
+- Ver `docs/automacao/SR-BETA-06-pin.md`.
+
 ## 0.2.0 — in preparation (2026-10-21)
+
+- **SR-BETA-06 — trava de assembly re-pinada para a build em uso (1.4.8).** `Composition.AssemblySha256` passa a
+  `6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a` (medido no `Assembly-CSharp.dll` instalado,
+  branch `open_beta`, build 26767595). Mesma política do RealmApi: pin único e exato, não faixa; se o hash não bater,
+  BP-COMP/BP-MODS continuam sendo **recusados** e a mensagem agora mostra medido **e** esperado. O dataset pt-BR e
+  `Core/ResourceHashes.cs` continuam os da extração 1.3.1 — re-extrair contra 1.4.8 é passo do dono.
 
 - **Textos que não passavam pelo funil de localização agora são traduzidos no display.** As linhas de
   efeito dos eventos (`★ Reroll a skill`, `★ Level up Fortunes`) vêm do asset do evento e são escritas

@@ -3,12 +3,21 @@
 > Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 
+## 0.1.2 — 2026-11-23
+
+- **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack).** Esta versão existe para a API funcionar nessa build; o comportamento na 1.3.1 estável deixa de ser aceito pelo gate por decisão de política (pin único e exato).
+- **Correção de registro:** a entrada 0.1.1 abaixo dizia que a 0.1.1 "nunca foi publicada". Isso estava errado — a **0.1.1 está publicada desde 2026-10-19** (`release/mods.json`). Como a Thunderstore recusa reenvio da mesma versão, o re-pin do alvo para a beta **não podia** entrar na 0.1.1: por isso a 0.1.2.
+- `ApiIdentity` = `0.1.2`, `GameVersion=1.4.8`, `SteamBuildId=26767595`, `AssemblySha256=6e97d5f5…d7a`; `Safety.EnableHooks` continua `false` por decisão do dono; o log de recusa informa esperado e medido.
+- `SkillTree` mantém `Bard=13` e `Basic=14` no fim do enum. **Ordem de publicação obrigatória:** esta 0.1.2 **antes** do RoguelikeSkillTreeVisualizer 0.3.6, que passou a declarar `RealmApi-0.1.2` — a Thunderstore recusa dependência para versão inexistente.
+
+
 ## 0.1.1 — in preparation (2026-10-19)
 
 - **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
 - Aligned all three project/assembly versions (`RealmApi`, `RealmApi.Core`, `RealmApi.Hooks`), `ApiIdentity.Version`, the manifest and the README at 0.1.1. The plugin's two versioned log messages now use `ApiIdentity.Version`, so they cannot keep announcing 0.1.0 after a bump.
 - The offline plugin-metadata test now derives its expected assembly version from `ApiIdentity.Version` instead of a hardcoded 0.1.0.0.
 - Rebuilt the Release package with all three DLLs together in `plugins/RealmApi/`. Hook defaults, target guards and the UI surface are unchanged; this preparation neither installs nor publishes anything.
+- **SR-BETA-06 — alvo re-pinado para a build em uso (1.4.8).** `ApiIdentity` passa a `GameVersion=1.4.8`, `SteamBuildId=26767595` e `AssemblySha256=6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a` (medido no `Assembly-CSharp.dll` instalado, branch `open_beta`). Política: **pin único e exato**, não faixa — a build 1.3.1 (`25240684` / `8bb4a7c5…`) deixa de ser aceita pelo gate. `Safety.EnableHooks` continua `false` por decisão do dono; o log de recusa agora diz versão/build/hash esperados e medidos, para o dono saber por que nada foi instalado. `SkillTree` ganhou `Bard=13` e `Basic=14` **no fim** do enum (nada foi renumerado; mapeamento para `SkillType` documentado no próprio arquivo). Versão do pacote **não** subiu: 0.1.1 nunca foi publicada e a mudança é aditiva — consumidores (RSTV) não precisam recompilar.
 
 ## 0.1.0 — initial version in preparation (revised on 2026-10-16)
 

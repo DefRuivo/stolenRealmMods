@@ -1,36 +1,38 @@
 {
   "schemaVersion": 1,
-  "measuredAt": "2026-10-11T03:46:53-03:00",
+  "measuredAt": "2026-11-23T00:00:00-03:00",
   "steamAppId": 1330000,
-  "gameVersion": "1.3.1",
-  "steamBuildId": "25240684",
+  "steamBranch": "open_beta",
+  "gameVersion": "1.4.8",
+  "steamBuildId": "26767595",
   "unityVersion": "2022.3.62f2",
-  "assemblyCSharpSha256": "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a",
-  "assemblyCSharpBytes": 7712768,
+  "assemblyCSharpSha256": "6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a",
+  "assemblyCSharpBytes": 9193984,
   "provenance": [
     {
       "field": "gameVersion",
-      "evidence": "PlayerSettings (classId 129, pathId 1, serializedVersion 22) lido de Stolen Realm_Data/globalgamemanagers da instalacao local; versionStrings[0].value = \"1.3.1\"",
-      "reproducible": "strings/offset scan em <jogo>/Stolen Realm_Data/globalgamemanagers; ver scratch privado do workspace (fora do repo)"
+      "evidence": "PlayerSettings de Stolen Realm_Data/globalgamemanagers da instalacao local (branch open_beta); versionStrings[0].value = \"1.4.8\"",
+      "reproducible": "grep -a -o -m1 '1\\.4\\.[0-9]' '<jogo>/Stolen Realm_Data/globalgamemanagers'"
     },
     {
       "field": "steamBuildId",
-      "evidence": "appmanifest_1330000.acf: buildid = 25240684",
-      "reproducible": "grep -a 'buildid' <steamapps>/appmanifest_1330000.acf"
+      "evidence": "appmanifest_1330000.acf: buildid = 26767595, BetaKey = open_beta",
+      "reproducible": "grep -a -E 'buildid|BetaKey' <steamapps>/appmanifest_1330000.acf"
     },
     {
       "field": "assemblyCSharpSha256",
-      "evidence": "<jogo>/Stolen Realm_Data/Managed/Assembly-CSharp.dll e lib/Assembly-CSharp.dll do repo tem o MESMO hash",
-      "reproducible": "sha256sum lib/Assembly-CSharp.dll"
+      "evidence": "<jogo>/Stolen Realm_Data/Managed/Assembly-CSharp.dll (9193984 bytes), medido nesta rodada. O lib/ do repo AINDA contem a build 1.3.1 (8bb4a7c5...), mantida so como referencia de compilacao ate o dono atualizar lib/",
+      "reproducible": "sha256sum '<jogo>/Stolen Realm_Data/Managed/Assembly-CSharp.dll'"
     },
     {
       "field": "unityVersion",
-      "evidence": "globalgamemanagers serializedVersion 22 / unityVersion = 2022.3.62f2",
-      "reproducible": "leitura do cabecalho de <jogo>/Stolen Realm_Data/globalgamemanagers"
+      "evidence": "globalgamemanagers / unityVersion = 2022.3.62f2",
+      "reproducible": "grep -a -o -m3 '2022\\.3\\.[0-9]*f[0-9]' '<jogo>/Stolen Realm_Data/globalgamemanagers'"
     }
   ],
+  "pinPolicy": "Pin unico e exato (build 26767595 / sha256 6e97d5f5...). Nao e faixa e nao aceita qualquer sha: cada build nova exige nova medicao (sha256sum + Smoke actual-game-hash + apiprobe) antes de virar pin. Ver docs/automacao/SR-BETA-06-pin.md.",
   "notExercised": [
-    "Runtime BepInEx/Unity: nenhum carregamento no jogo nesta rodada (autorizacao explicita pendente).",
+    "Runtime BepInEx/Unity: nenhum carregamento no jogo nesta rodada (Safety.EnableHooks segue false por decisao do dono).",
     "Assembly-CSharp e' alvo de LEITURA de metadados/hash apenas; o arquivo do jogo nunca e' modificado nem redistribuido."
   ]
 }

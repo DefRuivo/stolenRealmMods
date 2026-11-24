@@ -29,6 +29,13 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
         public const string ExpectedAssemblySha256 =
             "8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a";
 
+        /// <summary>
+        /// Assembly-CSharp da `open_beta` 1.4.8 (buildid 26767595) — segunda referencia suportada.
+        /// O pin continua sendo uma lista fechada de builds conhecidos: qualquer outra DLL falha.
+        /// </summary>
+        public const string OpenBetaAssemblySha256 =
+            "6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a";
+
         private static string _libDir = @"C:\dev\stolen-realm\lib";
         private static readonly List<string> _probeDirs = new List<string>();
         private static string _outDir;
@@ -157,6 +164,7 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
             RunSuite("diagnostics", TestDiagnostics);
             RunSuite("policy", TestPolicyMatrix);
             RunSuite("loadclamp", TestLoadClamp);
+            RunSuite("buildcode", TestBuildCodeClamp);
             RunSuite("xpcurve", TestXpCurve);
             RunSuite("xpbackend", TestXpBackend);
             RunSuite("ledger", TestLedger);
@@ -216,9 +224,12 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
             }
             catch (Exception ex) { Fail("assemblies.hash", ex.Message); return; }
 
-            Check(hash == ExpectedAssemblySha256, "assembly.sha256_matches_spec",
-                "sha256 da Assembly-CSharp.dll de referencia = " + hash,
-                "hash divergente: obtido " + hash + " esperado " + ExpectedAssemblySha256);
+            bool known = hash == ExpectedAssemblySha256 || hash == OpenBetaAssemblySha256;
+            Check(known, "assembly.sha256_matches_spec",
+                "sha256 da Assembly-CSharp.dll de referencia = " + hash
+                + (hash == OpenBetaAssemblySha256 ? " (open_beta 1.4.8 / buildid 26767595)" : " (build 1.3.1)"),
+                "hash divergente: obtido " + hash + " esperado " + ExpectedAssemblySha256
+                + " (1.3.1) ou " + OpenBetaAssemblySha256 + " (open_beta 1.4.8)");
         }
 
         private static void TestIdentityAndIl()
@@ -968,6 +979,255 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
                 "GiveExperience rebaixou o personagem: " + give);
         }
 
+        // ------------------------------------------------------------------ R-ULLP-1
+        /// <summary>
+        /// R-ULLP-1: clamp de BuildCode.CreateCharacter. Ancora na IL REAL da DLL (o clamp existe,
+        /// e' unico e usa o MESMO getter patcheado pelo mod) + decisao pura que cobre os dois casos
+        /// do cartao: MaxLevel=0 (default) nao muda nada; MaxLevel acima do vanilla preserva o nivel.
+        /// </summary>
+        private static void TestBuildCodeClamp()
+        {
+            Section("BUILD CODE x TETO ACIMA DO VANILLA (R-ULLP-1)");
+
+            if (_acs == null) { Fail("buildcode.no_assembly", "Assembly-CSharp de referencia nao carregada"); return; }
+
+            var bc = _acs.GetType("BuildCode", false);
+            if (bc == null)
+            {
+                NotExercised("buildcode.clamp_present",
+                    "BuildCode nao existe nesta DLL de referencia (build anterior a open_beta 1.4.8): o postfix e' opcional e nada e' aplicado");
+            }
+            else
+            {
+                MethodInfo target;
+                MethodInfo postfix;
+                string detail;
+                bool resolved = BuildCodePatches.TryResolve(out target, out postfix, out detail);
+                Check(resolved && target != null && target.DeclaringType == bc && target.Name == "CreateCharacter"
+                      && target.ReturnType == typeof(Character) && target.GetParameters().Length == 0
+                      && postfix != null && postfix.DeclaringType == typeof(BuildCodePatches),
+                    "buildcode.target_resolved",
+                    "alvo do postfix resolvido por reflexao: " + detail,
+                    "alvo do postfix inesperado: " + detail);
+
+                if (target != null)
+                {
+                    List<CodeInstruction> il = null;
+                    try { il = IlLoader.Read(target); }
+                    catch (Exception ex) { Fail("buildcode.il_read", Flatten(ex)); }
+                    if (il != null)
+                    {
+                        int w = FindBuildCodeClampWindow(il);
+                        Check(w >= 0, "buildcode.clamp_window_present_in_real_il",
+                            "clamp presente na IL real (instrucao " + w + "): Character.get_MaxLevel -> Mathf.Min(_, BuildCode.ExperienceLevel) -> Character.set_ExperienceLevel",
+                            "janela do clamp NAO encontrada na IL real de BuildCode.CreateCharacter");
+                        int count = CountBuildCodeClampWindows(il);
+                        Check(count == 1, "buildcode.clamp_window_unique",
+                            "exatamente 1 janela de clamp em BuildCode.CreateCharacter",
+                            "esperava 1 janela de clamp, encontrei " + count);
+                        if (w >= 0)
+                        {
+                            var getter = il[w - 3].operand as MethodInfo;
+                            var patchedGetter = Reflect.PropertyGetter(typeof(Character), "MaxLevel");
+                            Check(getter != null && patchedGetter != null && getter == patchedGetter,
+                                "buildcode.clamp_reads_the_patched_getter",
+                                "o clamp le Character.get_MaxLevel — o MESMO alvo do postfix MaxLevelPatches do mod (por isso o nivel do build code depende do teto que o mod publica)",
+                                "getter do clamp != alvo patcheado: " + (getter == null ? "(nulo)" : getter.Name));
+
+                            var setter = il[w + 1].operand as MethodInfo;
+                            Check(setter != null && setter.Name == "set_ExperienceLevel" && setter.DeclaringType == typeof(Character),
+                                "buildcode.clamp_writes_experience_level",
+                                "o resultado do Mathf.Min e' gravado por Character.set_ExperienceLevel (unico efeito do clamp)",
+                                "instrucao seguinte ao Mathf.Min nao e' Character.set_ExperienceLevel: "
+                                + (setter == null ? "(nulo)" : setter.DeclaringType.Name + "." + setter.Name));
+                        }
+                    }
+
+                    // Quem chama: CharacterMenusManager.ShowBuildCode(BuildCode).
+                    var menus = _acs.GetType("CharacterMenusManager", false);
+                    var show = Reflect.Method(menus, "ShowBuildCode");
+                    Check(show != null, "buildcode.caller_showbuildcode_present",
+                        "CharacterMenusManager.ShowBuildCode encontrado", "CharacterMenusManager.ShowBuildCode NAO encontrado");
+                    if (show != null)
+                    {
+                        List<CodeInstruction> showIl = null;
+                        try { showIl = IlLoader.Read(show); }
+                        catch (Exception ex) { Fail("buildcode.caller_il_read", Flatten(ex)); }
+                        bool callsCreate = false;
+                        if (showIl != null)
+                            foreach (var ins in showIl)
+                            {
+                                var mi = ins.operand as MethodInfo;
+                                if (mi != null && mi.Name == "CreateCharacter" && mi.DeclaringType == bc) { callsCreate = true; break; }
+                            }
+                        Check(callsCreate, "buildcode.caller_calls_createcharacter",
+                            "ShowBuildCode chama BuildCode.CreateCharacter (caminho: importar build code -> ShowBuildCode -> CreateCharacter -> clamp)",
+                            "ShowBuildCode NAO chama BuildCode.CreateCharacter na IL real");
+                    }
+                }
+            }
+
+            // ---- decisao pura (codigo real do mod) ----
+            var def = DefaultBuildCodeInputs();
+            def.BuildCodeLevel = 30d;
+            def.AssignedLevel = 20d; // clamp vanilla: Mathf.Min(MaxLevel=20, 30)
+            BuildCodeDenial d;
+            bool keep = BuildCodePolicyCore.ShouldPreserve(in def, out d);
+            Check(!keep && d == BuildCodeDenial.VoluntaryCap,
+                "buildcode.default_config_changes_nothing",
+                "Progression.MaxLevel=0 (default): nenhuma restauracao; o clamp vanilla continua dando " + def.AssignedLevel
+                + " e nada muda no comportamento atual (motivo=" + d + ")",
+                "default mexeu no build code: keep=" + keep + " motivo=" + d);
+
+            var cap = DefaultBuildCodeInputs();
+            cap.VoluntaryCap = 25;
+            cap.BuildCodeLevel = 30d;
+            cap.AssignedLevel = 20d;
+            keep = BuildCodePolicyCore.ShouldPreserve(in cap, out d);
+            Check(keep && d == BuildCodeDenial.None,
+                "buildcode.cap_above_vanilla_preserves_level",
+                "Progression.MaxLevel=25 (acima do vanilla): build code de nivel 30 preserva 30 (o clamp vanilla daria 20)",
+                "teto acima do vanilla NAO restaurou: keep=" + keep + " motivo=" + d);
+
+            var noClamp = DefaultBuildCodeInputs();
+            noClamp.VoluntaryCap = 25; noClamp.BuildCodeLevel = 18d; noClamp.AssignedLevel = 18d;
+            keep = BuildCodePolicyCore.ShouldPreserve(in noClamp, out d);
+            Check(!keep && d == BuildCodeDenial.NoClamp,
+                "buildcode.no_downgrade_no_write",
+                "build code 18 (abaixo do teto vanilla): nada foi rebaixado, nenhuma escrita (motivo=" + d + ")",
+                "escreveu sem rebaixamento: keep=" + keep + " motivo=" + d);
+
+            var mp = DefaultBuildCodeInputs();
+            mp.VoluntaryCap = 25; mp.BuildCodeLevel = 30d; mp.AssignedLevel = 20d; mp.IsMultiplayer = true;
+            keep = BuildCodePolicyCore.ShouldPreserve(in mp, out d);
+            Check(!keep && d == BuildCodeDenial.Multiplayer,
+                "buildcode.multiplayer_refuses",
+                "multiplayer efetivo: nivel NAO restaurado (mesma regra do escopo do mod)",
+                "multiplayer restaurou: keep=" + keep + " motivo=" + d);
+
+            var off = DefaultBuildCodeInputs();
+            off.VoluntaryCap = 25; off.BuildCodeLevel = 30d; off.AssignedLevel = 20d; off.ModEnabled = false;
+            keep = BuildCodePolicyCore.ShouldPreserve(in off, out d);
+            Check(!keep && d == BuildCodeDenial.ModDisabled,
+                "buildcode.mod_disabled_refuses",
+                "mod desligado: clamp vanilla intacto (motivo=" + d + ")",
+                "mod desligado restaurou: keep=" + keep + " motivo=" + d);
+
+            var campaign = DefaultBuildCodeInputs();
+            campaign.VoluntaryCap = 25; campaign.BuildCodeLevel = 30d; campaign.AssignedLevel = 20d; campaign.IsRoguelikeMode = false;
+            keep = BuildCodePolicyCore.ShouldPreserve(in campaign, out d);
+            Check(!keep && d == BuildCodeDenial.WrongMode,
+                "buildcode.outside_roguelike_refuses",
+                "fora do modo roguelike: clamp vanilla intacto (motivo=" + d + ")",
+                "fora do roguelike restaurou: keep=" + keep + " motivo=" + d);
+
+            var below = DefaultBuildCodeInputs();
+            below.VoluntaryCap = 15; below.BuildCodeLevel = 30d; below.AssignedLevel = 15d;
+            keep = BuildCodePolicyCore.ShouldPreserve(in below, out d);
+            Check(!keep && d == BuildCodeDenial.VoluntaryCap,
+                "buildcode.cap_below_vanilla_refuses",
+                "teto voluntario 15 (abaixo do vanilla): NAO desvia o clamp — teto menor continua mandando (motivo=" + d + ")",
+                "teto abaixo do vanilla desviou o clamp: keep=" + keep + " motivo=" + d);
+
+            var huge = DefaultBuildCodeInputs();
+            huge.VoluntaryCap = 25; huge.BuildCodeLevel = 5000d; huge.AssignedLevel = 20d;
+            keep = BuildCodePolicyCore.ShouldPreserve(in huge, out d);
+            Check(!keep && d == BuildCodeDenial.SafetyBound,
+                "buildcode.unrepresentable_level_refuses",
+                "build code 5000 acima do teto de representacao (4000): NAO restaura (fail-closed), clamp vanilla mantido",
+                "restaurou nivel nao representavel: keep=" + keep + " motivo=" + d);
+
+            // ---- face "jogo" sem jogo carregado: fail-closed (GameState.IsMultiplayer()=true) ----
+            try
+            {
+                PluginState.Reset();
+                Log.ResetSeenForTests();
+                PluginState.MaxLevelConfig = 25;
+                PluginState.GameplayGroupApplied = true;
+                double? runtime = Policy.BuildCodeLevelOverride(30d, 20d);
+                Check(!runtime.HasValue, "buildcode.runtime_offline_refuses",
+                    "Policy.BuildCodeLevelOverride com config 25 e build code 30 devolve nulo sem jogo carregado (GameState.IsMultiplayer()=true): o postfix nao escreve nada",
+                    "runtime restaurou sem jogo: " + (runtime.HasValue ? runtime.Value.ToString() : "nulo"));
+
+                BuildCodePatches.Postfix(null, null);
+                Pass("buildcode.postfix_null_safe", "BuildCodePatches.Postfix(null, null) nao lanca e nao escreve (guarda de entrada)");
+            }
+            catch (Exception ex)
+            {
+                Fail("buildcode.runtime_offline_refuses", Flatten(ex));
+            }
+            finally
+            {
+                PluginState.Reset();
+                Log.ResetSeenForTests();
+            }
+        }
+
+        private static BuildCodeLevelInputs DefaultBuildCodeInputs()
+        {
+            return new BuildCodeLevelInputs
+            {
+                ModEnabled = true,
+                TargetsPresent = true,
+                CurveUsable = true,
+                IsMultiplayer = false,
+                IsRoguelikeMode = true,
+                VanillaCap = 20,
+                VoluntaryCap = 0,
+                SafetyBound = 4000,
+                BuildCodeLevel = 0d,
+                AssignedLevel = 0d,
+            };
+        }
+
+        /// <summary>
+        /// Indice da instrucao `call Mathf.Min(float,float)` da janela
+        ///   ldloc/ldloc -> callvirt Character.get_MaxLevel -> ldarg.0 -> ldfld BuildCode.ExperienceLevel
+        ///   -> call Mathf.Min -> callvirt Character.set_ExperienceLevel
+        /// na IL real de BuildCode.CreateCharacter. -1 quando ausente.
+        /// </summary>
+        private static int FindBuildCodeClampWindow(IList<CodeInstruction> ins)
+        {
+            for (int i = 0; i + 1 < ins.Count; i++)
+            {
+                if (ins[i].opcode != OpCodes.Call) continue;
+                var min = ins[i].operand as MethodInfo;
+                if (min == null || min.Name != "Min" || min.DeclaringType == null
+                    || min.DeclaringType.Name != "Mathf" || min.GetParameters().Length != 2) continue;
+                if (i < 3) continue;
+
+                var getter = ins[i - 3].operand as MethodInfo;
+                var field = ins[i - 1].operand as FieldInfo;
+                var setter = ins[i + 1].operand as MethodInfo;
+                if (getter == null || getter.Name != "get_MaxLevel" || getter.DeclaringType != typeof(Character)) continue;
+                if (field == null || field.Name != "ExperienceLevel") continue;
+                if (ins[i - 2].opcode != OpCodes.Ldarg_0) continue;
+                if (setter == null || setter.Name != "set_ExperienceLevel") continue;
+                return i;
+            }
+            return -1;
+        }
+
+        private static int CountBuildCodeClampWindows(IList<CodeInstruction> ins)
+        {
+            int n = 0;
+            for (int i = 0; i + 1 < ins.Count; i++)
+            {
+                if (ins[i].opcode != OpCodes.Call) continue;
+                var min = ins[i].operand as MethodInfo;
+                if (min == null || min.Name != "Min" || min.DeclaringType == null
+                    || min.DeclaringType.Name != "Mathf" || min.GetParameters().Length != 2) continue;
+                if (i < 3) continue;
+                var getter = ins[i - 3].operand as MethodInfo;
+                var field = ins[i - 1].operand as FieldInfo;
+                var setter = ins[i + 1].operand as MethodInfo;
+                if (getter != null && getter.Name == "get_MaxLevel" && getter.DeclaringType == typeof(Character)
+                    && field != null && field.Name == "ExperienceLevel"
+                    && setter != null && setter.Name == "set_ExperienceLevel") n++;
+            }
+            return n;
+        }
+
         private static string Describe2(MethodBase m)
         {
             return m == null ? "(nulo)" : m.DeclaringType.Name + "." + m.Name + "(" + m.GetParameters().Length + " parametros)";
@@ -1457,6 +1717,8 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
                 "backup/restauracao de save+sidecar no perfil do dono esta fora do escopo autorizado desta fase");
             NotExercised("xp.real_serialized_parameters",
                 "GlobalSettings serializado (ExperienceBasePerLevel/ExperienceExponentialGainPerLevel/ExperienceOffset/NumStatsPerNewLevel) nao pode ser lido (parser EOF desde a R1); F20/D20 reais vem do jogo em runtime");
+            NotExercised("buildcode.import_in_game",
+                "importar um build code dentro do jogo (CharacterMenusManager.ShowBuildCode -> BuildCode.CreateCharacter com o postfix ativo) exige abrir o jogo e passar pelo menu de build code; aqui so a IL real, a resolucao do alvo e a decisao de PolicyCore foram exercitadas");
             NotExercised("plugin.bepinex_lifecycle",
                 "Plugin.Awake/config (BaseUnityPlugin) exige o host BepInEx carregado dentro do jogo");
         }

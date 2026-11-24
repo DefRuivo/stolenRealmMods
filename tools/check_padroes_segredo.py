@@ -58,7 +58,10 @@ def classificar_dado_publico(v):
     Proveniencia e limites: docs/automacao/ORG-PRE-SEG-parte01.md.
     Nao carrega listas do repo: um literal novo nao se autoautoriza.
     """
-    if re.fullmatch(r'(?:RESTORED_SHA=|sha256Alvo=|SHA256)[0-9a-f]{64}', v):
+    # Hash de ARTEFATO/JOGO rotulado no proprio texto (`AssemblySha256=<hex>`): e' valor
+    # publico por construcao (o sha256 de um binario publicado) e nao credencial. A regra
+    # continua exigindo o ROTULO junto do valor - um hex solto e sem rotulo nao ganha excecao.
+    if re.fullmatch(r'(?:RESTORED_SHA=|sha256Alvo=|SHA256|AssemblySha256=|assemblyCSharpSha256=)[0-9a-f]{64}', v):
         return 'sha256-rotulado'
     if v == 'KIT09-RSTV25b-sem-aresta-inventada':
         return 'criterio-kit09'
@@ -168,6 +171,11 @@ def main():
                 if (classificar_dado_publico(v) is not None
                         and _CAMPO_SECRETO_ANTES.search(linha[:m.start()])):
                     achados.append('%s:%d  FORMATO  dado publico em campo de credencial' % (f, i))
+                    continue
+                # Publico PROVADO pela propria forma (hash de artefato rotulado): nao e
+                # segredo e nao deve passar pelo heuristico de entropia. O que continua
+                # sendo detectado e' o hex SOLTO ou o valor em campo de credencial (acima).
+                if classificar_dado_publico(v) is not None:
                     continue
                 if not parece_segredo(v) or len(v) < LIMIAR_COMPRIMENTO:
                     continue

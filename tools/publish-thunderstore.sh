@@ -24,7 +24,10 @@
 set -u
 cd "$(dirname "$0")/.." || exit 1
 RAIZ="$(pwd)"
-API="https://thunderstore.io/api/experimental/package/upload/"
+# A API mudou: o antigo /api/experimental/package/upload/ responde 404. O caminho atual aceita
+# multipart com `file` + `metadata` (JSON) e devolve o pacote publicado. Conferido em 24/11/2026.
+API="https://thunderstore.io/api/experimental/submission/upload/"
+AUTOR="${THUNDERSTORE_AUTHOR:-DefRuivo_StolenRealmMods}"
 
 GO=0; SO=""
 for a in "$@"; do
@@ -188,11 +191,12 @@ while IFS='|' read -r nome z versao; do
     continue
   fi
   printf '   subindo %-46s ' "$(basename "$z")"
-  RESP="$(curl -s -w '\n%{http_code}' --max-time 300 -H "Authorization: Bearer ***" -F "file=@$z" "$API")"
+  META=$(printf '{"author_name":"%s","communities":["stolen-realm"],"has_nsfw_content":false}' "$AUTOR")
+  RESP="$(curl -s -w '\n%{http_code}' --max-time 300 -H "Authorization: Bearer $TOKEN" -F "file=@$z" -F "metadata=$META" "$API")"
   CODE="$(printf '%s' "$RESP" | tail -1)"
   CORPO="$(printf '%s' "$RESP" | sed '$d')"
   if [ "$CODE" = "200" ]; then
-    URL="$(printf '%s' "$CORPO" | python -c "import sys,json;d=json.load(sys.stdin);print(d.get('package_version',{}).get('full_name','?')+' v'+str(d.get('package_version',{}).get('version_number','?')))" 2>/dev/null || echo '?')"
+    URL="$(printf '%s' "$CORPO" | python -c "import sys,json;d=json.load(sys.stdin);print(d.get('full_name') or (d.get('package_version',{}) or {}).get('full_name','?'))" 2>/dev/null || echo '?')"
     echo "OK  $URL"
   else
     echo "FALHOU (HTTP $CODE)"

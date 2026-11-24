@@ -163,6 +163,30 @@ namespace RoguelikeDebugger.Patches
             return sb.ToString();
         }
 
+        /// <summary>O `TriggerSource` do gatilho, sem depender do build. Build ANTIGO: propriedade
+        /// `Character TriggerSource`, escrita em `Character` quando `UseTriggerSource`
+        /// (`skillTrigger.TriggerSource = actionStatus.Source`) e lida em `ProcessSkillTriggers`
+        /// (`trigger.UseTriggerSource && trigger.TriggerSource != null ? trigger.TriggerSource : this`).
+        /// Build BETA (1.4.8): o campo SAIU do tipo — a fonte virou lista PARALELA no Character
+        /// (`_SkillTriggerSources`, indice a indice com `_SkillTriggers`), preenchida com
+        /// `UseTriggerSource ? actionStatus.Source : null`. No asset (que e o que o dump le) nao ha
+        /// mais nada a ler: o valor agora e POR PERSONAGEM e so existe no runtime. Reflexao para o
+        /// mesmo codigo rodar nos dois builds e dizer a verdade do build em uso.</summary>
+        private static string FonteDoGatilho(SkillTrigger tg)
+        {
+            PropertyInfo p = typeof(SkillTrigger).GetProperty("TriggerSource",
+                BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+            if (p == null)
+            {
+                return "(campo removido neste build: a fonte do gatilho vive em Character._SkillTriggerSources, so no runtime)";
+            }
+            return Seguro("ts", () =>
+            {
+                object v = p.GetValue(tg, null);
+                return v == null ? "(null)" : Descreve((Character)v);
+            });
+        }
+
         // ------------------------------------------------------------------ dicionarios do motor
 
         private static readonly string[] ChavesDeDano =
@@ -422,7 +446,7 @@ namespace RoguelikeDebugger.Patches
                     Marca("BOOT gatilho[" + i + "] triggerType=" + (int)tg.TriggerType + " (" + tg.TriggerType
                         + ") condition='" + Limpa(tg.Condition ?? "") + "' alvos='" + Limpa(tg.Targets ?? "")
                         + "' useTriggerSource=" + Seguro("uts", () => tg.UseTriggerSource ? "SIM" : "nao")
-                        + " triggerSource=" + (tg.TriggerSource == null ? "(null)" : Descreve(tg.TriggerSource))
+                        + " triggerSource=" + FonteDoGatilho(tg)
                         + " cd=" + Seguro("cd", () => tg.Cooldown.ToString("0.#"))
                         + " maxUses='" + Limpa(tg.MaxNumUses ?? "") + "'");
                     Marca("BOOT gatilho[" + i + "] generalEffects=" + EfeitosInfo.Descreve(tg.GeneralEffects));

@@ -1,9 +1,11 @@
 # BetterPortuguese
 
-- **Version:** 0.2.0
+- **Version:** 0.2.1
 - **Author:** gumatos
 - **GUID:** `com.gumatos.betterportuguese`
-- **Works with:** Stolen Realm v1.3.1 (Steam build 25240684, Unity 2022.3.62f2).
+- **Works with:** Stolen Realm v1.4.8 (Steam `open_beta`, build 26767595, Unity 2022.3.62f2). The assembly gate was
+  re-pinned to this build in SR-BETA-06; the pt-BR snapshots are still the 1.3.1 extraction, so lines whose English
+  baseline changed are passed through untouched until the dataset is re-extracted (see "Keeping it working").
 - **Needs:** BepInEx 5 (r2modman installs it for you).
 - **Status:** package built and under release review; nothing is published and publication requires the owner's explicit go-ahead. The in-game round for this exact build is still pending (see *Validation state* below).
 
@@ -130,7 +132,7 @@ The mod reads both snapshots from inside the DLL and matches the game's Portugue
 
 - **It cannot break the game.** An override happens only while the game's current list still equals the recorded baseline. Anything that no longer matches is passed through untouched, so a changed or new text simply stays exactly as the game wrote it.
 - **The visible signal is the text itself.** A line that still appears in English (or in the old wording) no longer matched its key and was skipped — nothing is rewritten silently. `Diagnostico = true` plus the BepInEx log name the conflict by ID.
-- **A new game version needs a re-measurement, not just a rebuild.** This release targets Stolen Realm **v1.3.1**, Steam build **25240684**, Unity **2022.3.62f2**, measured against `Assembly-CSharp.dll` SHA-256 `8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a`. That identity is recorded in the `source` block of `Data/pt-BR.original.json` and in `api/docs/target-game.json`. After an update: re-extract both snapshots, re-pin the resource hashes, rerun the offline suite and the in-game check, then ship a new version — a published version is immutable, so a version bump is the fix.
+- **A new game version needs a re-measurement, not just a rebuild.** The **assembly gate** now targets Stolen Realm **v1.4.8**, Steam `open_beta` build **26767595**, Unity **2022.3.62f2**, `Assembly-CSharp.dll` SHA-256 `6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a` (SR-BETA-06). The **dataset** snapshots and `Core/ResourceHashes.cs` are still the 1.3.1 extraction — the 1.3.1 identity they record stays honest until they are re-extracted against 1.4.8. After an update: re-extract both snapshots, re-pin the resource hashes, rerun the offline suite and the in-game check, then ship a new version — a published version is immutable, so a version bump is the fix.
 
 **How to help:** if a line is still untranslated (or wrong) in game, copy the exact English text and, with `Diagnostico = true`, the matching BepInEx log line. The English line is the key every correction is matched against, so a paraphrase cannot be applied.
 

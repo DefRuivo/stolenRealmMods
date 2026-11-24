@@ -3,7 +3,7 @@
 Modding API for Stolen Realm, with UI helpers and optional observational hooks.
 It is a base for other mods; it does not add playable content on its own.
 
-- **Version:** 0.1.1
+- **Version:** 0.1.2
 - **Author:** gumatos
 - **Category:** Mods (`mods`, `stolen-realm` community)
 - **BepInEx GUID:** `com.gumatos.realmapi`
@@ -82,10 +82,16 @@ and are used in the update step (`api/docs/target-game.json`) — **they are not
 | Field | Value | Checked at runtime? | How it was measured |
 |---|---|---|---|
 | Steam AppID | `1330000` | **NO** (documented identity) | game Steam manifest |
-| Game version | `1.3.1` | **YES** (`Application.version`) | `PlayerSettings` in `<game>/Stolen Realm_Data/globalgamemanagers` |
-| Steam Build | `25240684` | **NO** (documented identity) | `buildid` in `appmanifest_1330000.acf` |
+| Game version | `1.4.8` | **YES** (`Application.version`) | `PlayerSettings` in `<game>/Stolen Realm_Data/globalgamemanagers` (Steam branch `open_beta`) |
+| Steam Build | `26767595` | **NO** (documented identity) | `buildid` in `appmanifest_1330000.acf` (`BetaKey open_beta`) |
 | Unity | `2022.3.62f2` | **NO** (documented identity) | header of `globalgamemanagers` |
-| Assembly-CSharp SHA-256 | `8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a` | **YES** (`sha256sum`) | `sha256sum lib/Assembly-CSharp.dll` (same as the game's `Managed/Assembly-CSharp.dll`) |
+| Assembly-CSharp SHA-256 | `6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a` | **YES** (`sha256sum`) | `sha256sum '<game>/Stolen Realm_Data/Managed/Assembly-CSharp.dll'` |
+
+**Política de pin (SR-BETA-06): um alvo por vez, exato.** Não é faixa e não é "qualquer sha": cada build nova
+exige nova medição (`sha256sum` + `Smoke actual-game-hash` + `apiprobe`) e vira um pin novo. A build 1.3.1
+(`25240684` / `8bb4a7c5…`) foi **retirada** do gate de propósito. O `lib/Assembly-CSharp.dll` do repo ainda é a
+1.3.1 (referência de compilação, fora do escopo desta troca); builds da beta são feitos na cópia de trabalho com
+o assembly instalado.
 
 The values live in `Gumatos.RealmApi.ApiIdentity` (`api/Core/Contracts.cs`). Detail and reproducibility:
 `api/docs/target-game.json`. **If the version (`Application.version`) or the SHA-256 of the `Assembly-CSharp`
@@ -365,10 +371,11 @@ observacionais opcionais. Ela **não adiciona conteúdo jogável sozinha**.
 de tooltip; e não descobre sozinha onde o jogo guarda cada hospedeiro de UI (isso é do consumidor, via `UiHosts`).
 
 **Versão alvo do jogo (fail-closed).** O gate de runtime (`ApiIdentity.Matches`) compara **apenas** a versão
-(`Application.version` = `1.3.1`) e o SHA-256 do `Assembly-CSharp.dll`
-(`8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a`). AppID `1330000`, Build Steam `25240684` e
-Unity `2022.3.62f2` são identidade **documentada** do alvo, não comparadas em runtime. Se versão ou hash
-divergirem, a API **não instala hook nenhum**.
+(`Application.version` = `1.4.8`) e o SHA-256 do `Assembly-CSharp.dll`
+(`6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a`). AppID `1330000`, Build Steam `26767595` (branch
+`open_beta`) e Unity `2022.3.62f2` são identidade **documentada** do alvo, não comparadas em runtime. Se versão ou hash
+divergirem, a API **não instala hook nenhum**. O pin é único e exato, não uma faixa: a build 1.3.1 não é mais aceita
+(ver `docs/automacao/SR-BETA-06-pin.md`).
 
 **Instalar (previsto para depois da liberação).** Instale só quando um mod que você usa pedir esta dependência e
 houver versão liberada. Requisito declarado: `BepInEx-BepInExPack-5.4.2305`. O pacote completo põe os **três**

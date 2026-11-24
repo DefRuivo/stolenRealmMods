@@ -34,8 +34,9 @@ internal static class BetterTooltipsAdapter
                 throw new InvalidOperationException("BetterTooltips ausente; sem adaptador");
             if (plugin.Metadata.Version.ToString() != ModCatalog.BetterTooltipsVersion)
                 throw new InvalidOperationException("versao BT nao homologada: " + plugin.Metadata.Version);
-            if (Core.Resources.Sha256(File.ReadAllBytes(typeof(Tooltip).Assembly.Location)) != Composition.AssemblySha256)
-                throw new InvalidOperationException("Assembly-CSharp divergente; adaptador recusado");
+            string actual = Core.Resources.Sha256(File.ReadAllBytes(typeof(Tooltip).Assembly.Location));
+            if (actual != Composition.AssemblySha256)
+                throw new InvalidOperationException("Assembly-CSharp divergente; adaptador recusado (medido " + actual + ", esperado " + Composition.AssemblySha256 + ")");
             Assembly assembly = plugin.Instance.GetType().Assembly;
             Type funnel = assembly.GetType("BetterTooltips.Patches.LocalizePatch", true);
             MethodInfo source = Bindings.Exact(funnel, "AplicarNotasDoFunil", typeof(void), true, typeof(string), typeof(string).MakeByRefType());
@@ -99,8 +100,9 @@ internal static class BetterTooltipsAdapter
         }
         finally { localizing--; }
     }
-    // __1 is deliberate: BT's argument is literally named __result although it
-    // RETURNS VOID. Binding checks its exact name/type before installing this hook.
+    // slot explicito na assinatura por tipo: __1 = parametro de saida do funil do BT,
+    // que o BetterTooltips nomeia __result apesar de o metodo retornar void. O binding
+    // confere nome e tipo antes de instalar; __0 nunca e usado.
     private static void SourcePrefix(string original, ref string __1, out Frame __state)
     {
         __state = null;
@@ -112,6 +114,9 @@ internal static class BetterTooltipsAdapter
         }
         catch (Exception ex) { warnings?.Write("BP-MODS origem preservada: " + ex.GetType().Name); }
     }
+    // slot explicito na assinatura por tipo: __1 = parametro de saida do funil do BT,
+    // que o BetterTooltips nomeia __result apesar de o metodo retornar void. O binding
+    // confere nome e tipo antes de instalar; __0 nunca e usado.
     private static void SourcePostfix(ref string __1, Frame __state)
     {
         if (__state == null) return;
@@ -122,6 +127,9 @@ internal static class BetterTooltipsAdapter
         }
         catch (Exception ex) { __1=__state.Localized; warnings?.Write("BP-MODS composicao recusada, origem preservada: " + ex.GetType().Name); }
     }
+    // slot explicito na assinatura por tipo: __1 = parametro de saida do funil do BT,
+    // que o BetterTooltips nomeia __result apesar de o metodo retornar void. O binding
+    // confere nome e tipo antes de instalar; __0 nunca e usado.
     private static Exception SourceFinalizer(Exception __exception, ref string __1, Frame __state)
     {
         if (__exception != null && __state != null) __1=__state.Localized;

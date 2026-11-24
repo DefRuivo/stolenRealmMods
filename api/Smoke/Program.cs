@@ -18,10 +18,15 @@ internal static class Program
         string pluginPath=args.Length>1 ? args[1] : throw new ArgumentException("Informe o caminho da DLL do plugin para inspeção de metadados");
         var fixture=Assembly.GetExecutingAssembly();
         Test("managed-core-load",()=>Check(typeof(ApiIdentity).Assembly.GetName().Name=="RealmApi.Core"));
-        Test("identity-positive",()=>Check(ApiIdentity.Matches("1.3.1",ApiIdentity.AssemblySha256)));
-        Test("identity-wrong-version",()=>Check(!ApiIdentity.Matches("1.3.2",ApiIdentity.AssemblySha256)));
-        Test("identity-wrong-hash",()=>Check(!ApiIdentity.Matches("1.3.1",new string('0',64))));
+        Test("identity-positive",()=>Check(ApiIdentity.Matches(ApiIdentity.GameVersion,ApiIdentity.AssemblySha256)));
+        Test("identity-wrong-version",()=>Check(!ApiIdentity.Matches("1.3.1",ApiIdentity.AssemblySha256)));
+        Test("identity-wrong-hash",()=>Check(!ApiIdentity.Matches(ApiIdentity.GameVersion,new string('0',64))));
         Test("identity-null-fails-closed",()=>Check(!ApiIdentity.Matches(null!,null!)));
+        // Política de pin único (SR-BETA-06): a build antiga 1.3.1 não é aceita por nenhuma combinação.
+        Test("identity-old-build-rejected",()=>Check(!ApiIdentity.Matches("1.3.1","8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a")
+            && !ApiIdentity.Matches("1.4.8","8bb4a7c512da20770a81dfac0347e9a68a8c0eff736f4566c52a66923b37855a")));
+        // Enum append-only: valores públicos antigos não podem ser renumerados (RSTV/mods em campo).
+        Test("skill-tree-append-only",()=>Check((int)SkillTree.Chaos==0&&(int)SkillTree.Warrior==12&&(int)SkillTree.Bard==13&&(int)SkillTree.Basic==14));
         Test("subscription-null-rejected",()=>Throws<ArgumentNullException>(()=>new Signal<int>().Subscribe(null!)));
         Test("subscription-dispose-idempotent",()=> { var s=new Signal<int>(); int n=0; var h=s.Subscribe(x=>n+=x); s.Publish(2); h.Dispose();h.Dispose();s.Publish(9);Check(n==2); });
         Test("subscriber-isolation",()=> { var s=new Signal<int>();int ok=0,errors=0;using var a=s.Subscribe(_=>throw new Exception());using var b=s.Subscribe(_=>ok++);s.Publish(0,_=>errors++);Check(ok==1&&errors==1); });

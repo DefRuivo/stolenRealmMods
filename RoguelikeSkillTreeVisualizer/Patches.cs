@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 using Burst2Flame;
 using HarmonyLib;
 using UnityEngine;
@@ -194,10 +195,101 @@ namespace RoguelikeSkillTreeVisualizer
     // `GameLogic.CurrentlySelectedCharacter` mudar com a arvore aberta (l.110071-110073), o que
     // trocaria o contexto exibido e o numero de pontos. Com a sessao ativa, reafirmamos o snapshot
     // do personagem alvo e 0 pontos (o gate do clique e `CanLevel`, l.444990).
+    //
+    // SR-BETA-03 (23/11) — O ALVO DEIXOU DE SER FIXO
+    // Ate aqui o alvo vinha declarado no atributo: `Initialize(List<SkillInfo>, int, bool)`. Na beta
+    // 1.4.8 o jogo acrescentou parametros (`Initialize(List<SkillInfo>, int, bool creating = false,
+    // Character character = null)`), e o Harmony — que casa a assinatura EXATA pedida no atributo —
+    // nao achou mais o metodo: o gancho estourava com "Patching exception in method null" e o log
+    // fechava em "14/15 ganchos". Compilava, mas a rede de seguranca ficava fora do ar.
+    // Correcao: o(s) alvo(s) sao resolvidos EM RUNTIME por nome (`TargetMethods`, suportado pelo
+    // PatchClassProcessor do Harmony 2.9 usado aqui) e o postfix entra em TODO overload que tenha
+    // (List<SkillInfo> na 1a posicao) + (bool `creating`). Cada assinatura casada — e cada uma
+    // descartada — vai para o log; zero alvos = ERROR explicito, nunca um "14/15" silencioso.
     // ---------------------------------------------------------------------------------------------
-    [HarmonyPatch(typeof(SkillTreeManager), nameof(SkillTreeManager.Initialize), new[] { typeof(List<SkillInfo>), typeof(int), typeof(bool) })]
+    [HarmonyPatch(typeof(SkillTreeManager))]
     internal static class SkillTreeManagerInitializePatch
     {
+        // `Initialize` e publico hoje; NonPublic fica na varredura para sobreviver a uma build que
+        // o torne interno — o filtro logo abaixo e' que decide o que entra.
+        private const BindingFlags Instancia = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance;
+
+        /// <summary>
+        /// Alvos do postfix, resolvidos por reflexao (o atributo acima NAO declara metodo, entao o
+        /// Harmony chama este metodo e aplica o patch em cada retorno — <c>BulkPatch</c>).
+        /// O postfix exige `bool creating`; por isso so entram overloads que tenham esse parametro.
+        /// </summary>
+        private static IEnumerable<MethodBase> TargetMethods()
+        {
+            List<MethodBase> alvos = new List<MethodBase>();
+
+            try
+            {
+                MethodInfo[] todos = typeof(SkillTreeManager).GetMethods(Instancia);
+                for (int i = 0; i < todos.Length; i++)
+                {
+                    MethodInfo m = todos[i];
+                    if (m.Name != "Initialize")
+                    {
+                        continue;
+                    }
+
+                    ParameterInfo[] ps = m.GetParameters();
+                    bool temLista = ps.Length > 0 && ps[0].ParameterType == typeof(List<SkillInfo>);
+                    bool temCreating = false;
+                    bool temCharacter = false;
+                    for (int p = 0; p < ps.Length; p++)
+                    {
+                        if (ps[p].ParameterType == typeof(bool) && ps[p].Name == "creating")
+                        {
+                            temCreating = true;
+                        }
+
+                        if (ps[p].ParameterType == typeof(Character))
+                        {
+                            temCharacter = true;
+                        }
+                    }
+
+                    if (temLista && temCreating)
+                    {
+                        alvos.Add(m);
+                        Plugin.Log.LogInfo("RSTV-2: gancho Initialize CASADO — " + Descrever(m) +
+                                           (temCharacter ? " (build com o parametro extra 'Character')" : ""));
+                    }
+                    else
+                    {
+                        Plugin.Log.LogInfo("RSTV-2: Initialize DESCARTADO (nao tem List<SkillInfo> + bool creating) — " +
+                                           Descrever(m));
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Plugin.Log.LogError("RSTV: falha ao resolver os overloads de SkillTreeManager.Initialize por reflexao — " + e);
+            }
+
+            if (alvos.Count == 0)
+            {
+                Plugin.Log.LogError("RSTV: NENHUM overload de SkillTreeManager.Initialize com (List<SkillInfo>, ..., bool creating) " +
+                                    "nesta build — a rede de seguranca do modo somente leitura NAO sera aplicada.");
+            }
+
+            return alvos;
+        }
+
+        private static string Descrever(MethodInfo m)
+        {
+            ParameterInfo[] ps = m.GetParameters();
+            string texto = m.ReturnType.Name + " " + m.Name + "(";
+            for (int i = 0; i < ps.Length; i++)
+            {
+                texto += (i > 0 ? ", " : "") + ps[i].ParameterType.Name + " " + ps[i].Name;
+            }
+
+            return texto + ")";
+        }
+
         [HarmonyPostfix]
         private static void Postfix(SkillTreeManager __instance, bool creating)
         {

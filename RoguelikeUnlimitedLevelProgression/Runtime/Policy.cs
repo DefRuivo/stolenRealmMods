@@ -220,5 +220,53 @@ namespace RoguelikeUnlimitedLevelProgression.Runtime
                 return vanillaValue;
             }
         }
+
+        /// <summary>
+        /// R-ULLP-1: nivel que deve SUBSTITUIR o resultado do clamp de BuildCode.CreateCharacter,
+        /// ou null para deixar o clamp vanilla como esta.
+        ///
+        /// Por que aqui e nao dentro do getter Character.MaxLevel: o getter nao sabe que o leitor e'
+        /// um personagem de build code (o personagem recem-criado nao e' IsRoguelikeCharacter e o
+        /// retorno dele e' inegociavel — mexer nisso atingiria todos os leitores do jogo). A
+        /// restauracao e' feita DEPOIS do clamp, no unico ponto onde o proprio BuildCode declara o
+        /// nivel que quer, e o clamp de Character.Load(int) fica intocado.
+        /// </summary>
+        public static double? BuildCodeLevelOverride(double buildCodeLevel, double assignedLevel)
+        {
+            try
+            {
+                var i = new BuildCodeLevelInputs
+                {
+                    ModEnabled = PluginState.Enabled,
+                    TargetsPresent = PluginState.GameplayGroupApplied,
+                    IsMultiplayer = GameState.IsMultiplayer(),
+                    IsRoguelikeMode = GameState.IsRoguelikeMode(),
+                    VanillaCap = XpCurve.VanillaCapLevel,
+                    VoluntaryCap = PluginState.MaxLevelConfig,
+                    BuildCodeLevel = buildCodeLevel,
+                    AssignedLevel = assignedLevel,
+                };
+
+                bool ready = XpBackend.EnsureReady();
+                i.CurveUsable = ready;
+                i.SafetyBound = ready ? XpBackend.SafetyBound : 0;
+
+                BuildCodeDenial denial;
+                if (!BuildCodePolicyCore.ShouldPreserve(in i, out denial))
+                {
+                    Log.Refuse("buildcode", "nivel do build code NAO restaurado (" + denial + ")");
+                    return null;
+                }
+
+                Log.Info("build code: nivel " + buildCodeLevel + " PRESERVADO (clamp vanilla daria "
+                         + assignedLevel + "; Progression.MaxLevel=" + i.VoluntaryCap + ")");
+                return buildCodeLevel;
+            }
+            catch (Exception ex)
+            {
+                Log.WarnOnce("BuildCodeLevelOverride: falha (" + ex.GetType().Name + ": " + ex.Message + "); clamp vanilla mantido");
+                return null;
+            }
+        }
     }
 }

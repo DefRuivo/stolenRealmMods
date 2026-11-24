@@ -26,7 +26,7 @@ internal static class CompositionPatches
             // No edits to the assembly; this is a read-only guard for the new group only.
             string actual = Core.Resources.Sha256(File.ReadAllBytes(typeof(Tooltip).Assembly.Location));
             if (actual != Composition.AssemblySha256)
-                throw new InvalidOperationException("Assembly-CSharp SHA-256 divergente: " + actual);
+                throw new InvalidOperationException("Assembly-CSharp SHA-256 divergente: medido " + actual + ", esperado " + Composition.AssemblySha256 + " (build homologada; re-inspecionar antes de re-pinar)");
         }
         catch (Exception ex) { warnings?.Write("BP-COMP recusado: " + ex.Message); return; }
         try

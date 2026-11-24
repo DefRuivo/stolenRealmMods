@@ -142,4 +142,93 @@ namespace RoguelikeUnlimitedLevelProgression.Core
             return bound > floor ? bound : floor;
         }
     }
+
+    /// <summary>Motivo de recusa/aceite ao desviar o clamp de BuildCode.CreateCharacter.</summary>
+    public enum BuildCodeDenial
+    {
+        None = 0,
+        /// <summary>General.Enabled=False: nada muda.</summary>
+        ModDisabled = 1,
+        /// <summary>Grupo de gameplay nao aplicado (sem extensao de nivel).</summary>
+        TargetMissing = 2,
+        /// <summary>Curva/backend indisponivel ou nivel nao numerico.</summary>
+        NumericGuard = 3,
+        /// <summary>Multiplayer efetivo: o mod nao amplia escopo.</summary>
+        Multiplayer = 4,
+        /// <summary>Fora do modo roguelike: o clamp vanilla decide.</summary>
+        WrongMode = 5,
+        /// <summary>Progression.MaxLevel ausente/abaixo do teto vanilla: nada muda (default).</summary>
+        VoluntaryCap = 6,
+        /// <summary>O clamp vanilla nao rebaixou nada: nao ha o que restaurar.</summary>
+        NoClamp = 7,
+        /// <summary>O nivel do build code passaria do teto de representacao (fail-closed).</summary>
+        SafetyBound = 8,
+    }
+
+    /// <summary>
+    /// Entradas da decisao de R-ULLP-1 (build code com nivel acima do teto vanilla). Todos os
+    /// fatos vem do jogo em Policy.BuildCodeLevelOverride; aqui so a decisao pura.
+    /// </summary>
+    public struct BuildCodeLevelInputs
+    {
+        public bool ModEnabled;
+        /// <summary>Grupo critico de gameplay aplicado (sem ele nao ha extensao de nivel).</summary>
+        public bool TargetsPresent;
+        /// <summary>Curva de XP real disponivel (XpBackend.EnsureReady).</summary>
+        public bool CurveUsable;
+        public bool IsMultiplayer;
+        public bool IsRoguelikeMode;
+        /// <summary>Teto vanilla (XpCurve.VanillaCapLevel / RoguelikeSettings.RoguelikeMaxLevel).</summary>
+        public int VanillaCap;
+        /// <summary>Progression.MaxLevel: 0 = sem teto voluntario; &gt;= 21 = teto acima do vanilla.</summary>
+        public int VoluntaryCap;
+        /// <summary>Teto de representacao derivado (XpBackend.SafetyBound); 0 = indisponivel.</summary>
+        public int SafetyBound;
+        /// <summary>Nivel que o build code declara (BuildCode.ExperienceLevel).</summary>
+        public double BuildCodeLevel;
+        /// <summary>Nivel que o clamp vanilla deixou no personagem recem-criado.</summary>
+        public double AssignedLevel;
+    }
+
+    /// <summary>
+    /// DECISAO de R-ULLP-1. O clamp de BuildCode.CreateCharacter le Character.MaxLevel, mas o
+    /// personagem em construcao esta fora do escopo ampliado (IsRoguelikeCharacter=False nesse
+    /// instante, e o getter patcheado devolve o valor vanilla), entao um build code acima do teto
+    /// vanilla nasce rebaixado em silencio. Verdadeiro = restaurar o nivel declarado pelo build code.
+    ///
+    /// Fail-closed: sem configuracao do dono acima do teto vanilla (default = 0), em multiplayer,
+    /// fora do modo roguelike, sem o grupo aplicado ou com nivel nao representavel, devolve false e
+    /// o clamp vanilla fica INTACTO (nada muda).
+    /// </summary>
+    public static class BuildCodePolicyCore
+    {
+        public static bool ShouldPreserve(in BuildCodeLevelInputs i, out BuildCodeDenial denial)
+        {
+            if (!i.ModEnabled) { denial = BuildCodeDenial.ModDisabled; return false; }
+            if (!i.TargetsPresent) { denial = BuildCodeDenial.TargetMissing; return false; }
+            if (!i.CurveUsable
+                || !XpCurve.IsUsableNumber(i.BuildCodeLevel)
+                || !XpCurve.IsUsableNumber(i.AssignedLevel))
+            {
+                denial = BuildCodeDenial.NumericGuard;
+                return false;
+            }
+            if (i.IsMultiplayer) { denial = BuildCodeDenial.Multiplayer; return false; }
+            if (!i.IsRoguelikeMode) { denial = BuildCodeDenial.WrongMode; return false; }
+
+            // Default (MaxLevel=0) ou teto abaixo/igual ao vanilla: o dono NAO pediu nivel acima do
+            // vanilla, entao o clamp vanilla continua valendo sem nenhuma intervencao.
+            if (i.VoluntaryCap <= i.VanillaCap) { denial = BuildCodeDenial.VoluntaryCap; return false; }
+
+            if (i.BuildCodeLevel <= i.AssignedLevel) { denial = BuildCodeDenial.NoClamp; return false; }
+            if (i.SafetyBound <= 0 || i.BuildCodeLevel > i.SafetyBound)
+            {
+                denial = BuildCodeDenial.SafetyBound;
+                return false;
+            }
+
+            denial = BuildCodeDenial.None;
+            return true;
+        }
+    }
 }

@@ -3,6 +3,14 @@
 > Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.
 > CHG-REV documentation audit: 2026-10-16. This mod remains unpublished.
 
+## 0.1.3 — 2026-11-23
+
+- **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack).** As mudanças abaixo existem para o mod funcionar nessa build; o comportamento na 1.3.1 estável é preservado.
+
+- **Build code não nasce mais rebaixado (R-ULLP-1).** A beta 1.4.8 trouxe `BuildCode.CreateCharacter`, que faz `Mathf.Min(Character.MaxLevel, ExperienceLevel)` — e `MaxLevel` é o getter que este mod patcheia, então o clamp devolvia o teto vanilla e o nível caía em silêncio. Um postfix fail-closed preserva o nível quando a configuração do dono permite passar do vanilla, com releitura para conferir; o clamp de `Character.Load` segue intocado.
+- Na beta o log mostra `build code: postfix aplicado em BuildCode.CreateCharacter(0 parametros) -> Character` e `ownership [Awake]: gameplay=20/20`.
+- Ver `docs/automacao/SR-BETA-07-buildcode.md`.
+
 ## 0.1.2 — in preparation (2026-10-19)
 
 - **Source and contributions:** the README now links to the source repository, so users can report issues, contribute or make a fork: https://github.com/DefRuivo/stolenRealmMods.
