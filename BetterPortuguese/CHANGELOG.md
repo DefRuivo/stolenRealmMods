@@ -4,6 +4,18 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.2 — 2026-11-25
+
+- **BP-CTX-1: revisão contextual do PT-BR aprovada pelo dono, aplicada ao dataset.** 56 entradas passam a usar o
+  vocabulário do jogo: `Might` como atributo vira **Força** (sem tocar em `Power`/Poder, nomes próprios nem o verbo
+  modal); `Party` vira **Grupo** nos retratos e eventos; a duração de efeito passa a dizer **turno** em vez de "virar";
+  o Bardo fica padronizado em **canção** e **acúmulo**, preservando alcance, custo de mana e a diferença entre tocar
+  de novo e repetir no início do turno.
+- O diff aprovado passa de 1412 para 1464 chaves; 4 chaves já aprovadas foram reaprovadas com o texto novo. Nada de
+  loot, XP, escolha de recompensa ou mecânica foi alterado.
+- **Pendente:** 31 chaves que só existem na beta 1.4.9 (Bardo) não estão no snapshot LANG-R1 e precisam da
+  reextração do snapshot antes de poderem ser aplicadas.
+
 ## 0.2.1 — 2026-11-23
 
 - **Compatibilidade com a nova versão beta do jogo: 1.4.8 / buildid 26767595 (Bard Pack).** As mudanças abaixo existem para o mod funcionar nessa build; o comportamento na 1.3.1 estável é preservado.

@@ -1297,7 +1297,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "(Canção) Aliados a até 4 hexágonos de você ganham 5 Poder. Toda vez que Verso do Valor é lançado consecutivamente, ganha Crescendo do Valor: aumenta a quantidade de Poder concedida pelo Verso do Valor em 5. Acumula. Perde todas as acumulações se você tocar uma canção diferente. Duração: 1 turno.",
+          "Value": "(Canção) Aliados a até 4 hexágonos de você ganham 5 de Força. Sempre que tocar Verso de Valor de novo em sequência, ganhe um acúmulo de Crescendo de Valor. Cada acúmulo aumenta em 5 a Força concedida pelo Verso de Valor. Você perde todos os acúmulos ao tocar outra canção. Duração: 1 turno.",
           "Key": "(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -17038,7 +17038,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Custo de AP: Nenhum",
+          "Value": "Custo de PA: nenhum",
           "Key": "AP Cost: None",
           "TranslatorKey": null,
           "Feminine": null,
@@ -19054,7 +19054,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Após terminar de atribuir personagens ao seu grupo, pressione <b>Aceitar Grupo</b>.",
+          "Value": "Ao terminar de adicionar os personagens ao grupo, selecione <b>Aceitar Grupo</b>.",
           "Key": "After you have finished assigning characters to your party, press <b>Accept Party</b>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -35864,7 +35864,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escolha como Grupo",
+          "Value": "Escolha em grupo",
           "Key": "Choose As Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40659,7 +40659,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Crescendo da Rapidez",
+          "Value": "Crescendo da Agilidade",
           "Key": "Crescendo of Swiftness",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40695,7 +40695,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Crescendo do Verso do Valor. Cada acúmulo aumenta o poder da canção.",
+          "Value": "Crescendo do Verso de Valor. Cada acúmulo aumenta o efeito da canção.",
           "Key": "Crescendo of Verse of Valor. Each stack increases the power of the song.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -43518,7 +43518,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O dano causado rouba [0] pontos de <b>Poder</b>. Dura toda a batalha. Acumula até 10 vezes.",
+          "Value": "O dano que você causa rouba [0] pontos de <b>Força</b>. O efeito dura até o fim da batalha e acumula até 10 vezes.",
           "Key": "Damage caused steals [0] points of <b>Might</b>. Lasts the entire battle. Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65538,7 +65538,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Frio equivalente a 10% do seu Poder.",
+          "Value": "Ganhe dano de frio adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Cold equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65592,7 +65592,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Fogo igual a 10% do seu Poder.",
+          "Value": "Ganhe dano de fogo adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Fire equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65646,7 +65646,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Raio equivalente a 10% do seu Poder.",
+          "Value": "Ganhe dano de raio adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Lightning equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65754,7 +65754,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Receba Cura Adicional nas Curações igual a 50% do seu Poder.",
+          "Value": "Suas curas ganham um bônus equivalente a 50% da sua Força.",
           "Key": "Gain Additional Healing to Heals equal to 50% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65880,7 +65880,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano de Arma Adicional igual a 35% do seu Poder.",
+          "Value": "Ganhe dano de arma adicional equivalente a 35% da sua Força.",
           "Key": "Gain Additional Weapon Damage equal to 35% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65898,7 +65898,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Obtenha Dano de Arma Adicional igual a 40% do seu Poder.",
+          "Value": "Ganhe dano de arma adicional equivalente a 40% da sua Força.",
           "Key": "Gain Additional Weapon Damage equal to 40% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65970,7 +65970,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
+          "Value": "Ganhe Armadura e Armadura Mágica equivalentes a 2x sua Força. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
           "Key": "Gain Armor and Magic Armor equal to 2x your Might. 10% chance upon getting hit to cast Level [level value] {SKL=Pain Suppression}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66042,7 +66042,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Armadura e Armadura Mágica iguais ao seu Poder.",
+          "Value": "Ganhe Armadura e Armadura Mágica em valor igual à sua Força.",
           "Key": "Gain Armor and Magic Armor equal to your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66096,7 +66096,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Obtenha Poder Sagrado aumentado em 20% do seu Poder.",
+          "Value": "Ganhe um bônus de Poder Sagrado equivalente a 20% da sua Força.",
           "Key": "Gain Increased Holy Power equal to 20% of your Might. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66114,7 +66114,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Poder Sagrado aumentado em 40% do seu Poder.",
+          "Value": "Ganhe um bônus de Poder Sagrado equivalente a 40% da sua Força.",
           "Key": "Gain Increased Holy Power equal to 40% of your Might. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66719,7 +66719,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A dificuldade do jogo escala com o número de membros do grupo.",
+          "Value": "A dificuldade do jogo se ajusta ao número de membros do grupo.",
           "Key": "Game difficulty scales with the number of party members",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66737,7 +66737,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A dificuldade do jogo escala com o tamanho do seu grupo. Se você decidir embarcar com um único aventureiro ou um grupo completo de 6, seus inimigos estarão à altura do desafio.",
+          "Value": "A dificuldade do jogo se ajusta ao tamanho do grupo. Com um só aventureiro ou um grupo completo de 6, os inimigos estarão à altura do desafio.",
           "Key": "Game difficulty scales with the size of your party.  Whether you decide to embark with a single adventurer or a full party of 6, your enemies will be equal to the challenge.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72568,7 +72568,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Personagens hardcore são deletados após a morte do grupo em batalha. Tem certeza?",
+          "Value": "Se o grupo morrer em batalha, os personagens do modo Hardcore serão excluídos. Tem certeza?",
           "Key": "Hardcore characters are deleted upon the party's death in battle.  Are you sure?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72829,7 +72829,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Destreza por acúmulo.",
+          "Value": "Harmonia: +1 de Destreza por acúmulo.",
           "Key": "Harmony: +1 Dexterity per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72887,7 +72887,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Poder por acumulação.",
+          "Value": "Harmonia: +1 de Força por acúmulo.",
           "Key": "Harmony: +1 Might per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72916,7 +72916,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Reflexo por acúmulo.",
+          "Value": "Harmonia: +1 de Reflexo por acúmulo.",
           "Key": "Harmony: +1 Reflex per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72945,7 +72945,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Vitalidade por acúmulo.",
+          "Value": "Harmonia: +1 de Vitalidade por acúmulo.",
           "Key": "Harmony: +1 Vitality per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -73993,7 +73993,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Custo de Mana como Vida",
+          "Value": "Custo de Mana Pago com Vida",
           "Key": "Health As Mana Cost",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78582,7 +78582,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão permanentemente deletados.",
+          "Value": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão excluídos permanentemente.",
           "Key": "In Hardcore mode if your whole party dies in battle, your characters are permenately deleted.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78600,7 +78600,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Na Festa",
+          "Value": "No grupo",
           "Key": "In Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -79518,7 +79518,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumente <b>Poder</b> em 20%.",
+          "Value": "Aumente a <b>Força</b> em 20%.",
           "Key": "Increase <b>Might</b> by 20%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88943,7 +88943,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vida por Acerto Básica",
+          "Value": "Vida por Acerto com Ataque Básico",
           "Key": "Life On Hit Basic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -94298,7 +94298,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Poder aumentado em 5 por acúmulo.",
+          "Value": "Força aumentada em 5 por acúmulo.",
           "Key": "Might increased by 5 per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -98974,7 +98974,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Não perca mais acúmulos de Crescendo ao tocar outra música.",
+          "Value": "Você não perde mais acúmulos de Crescendo ao tocar outra canção.",
           "Key": "No longer lose Crescendo stacks when playing another song.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -101772,7 +101772,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Festa",
+          "Value": "Grupo",
           "Key": "Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102714,7 +102714,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Festa Petrificada",
+          "Value": "Grupo Petrificado",
           "Key": "Petrified Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -104955,7 +104955,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Poção do Poder",
+          "Value": "Poção de Força",
           "Key": "Potion of Might",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112326,7 +112326,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Remove o custo de AP de todas as habilidades de invocação.",
+          "Value": "Remove o custo de PA de todas as habilidades de invocação.",
           "Key": "Removes the AP cost from all summoning skills.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -117315,7 +117315,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aura do Selo de Força",
+          "Value": "Aura do Selo da Força",
           "Key": "Seal of Might Aura",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124731,7 +124731,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "As músicas não limpam mais o Crescendo umas das outras.",
+          "Value": "Tocar outra canção não remove mais os acúmulos de Crescendo.",
           "Key": "Songs no longer clear each other's Crescendo.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -126258,7 +126258,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Iniciar Batalha Pontos de Movimento Livre",
+          "Value": "Pontos de Movimento Livre no Início da Batalha",
           "Key": "Start Battle Free Movement Points",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128717,7 +128717,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocar Saúde",
+          "Value": "Saúde das Invocações",
           "Key": "Summon Health",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128735,7 +128735,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocar Vida Fixa",
+          "Value": "Saúde das Invocações (valor fixo)",
           "Key": "Summon Health Flat",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128753,7 +128753,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [10]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [10]%.",
           "Key": "Summon Health increased by [10]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128771,7 +128771,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [12]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [12]%.",
           "Key": "Summon Health increased by [12]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128789,7 +128789,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [4]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [4]%.",
           "Key": "Summon Health increased by [4]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128807,7 +128807,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [6]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [6]%.",
           "Key": "Summon Health increased by [6]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128825,7 +128825,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [8]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [8]%.",
           "Key": "Summon Health increased by [8]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -134307,7 +134307,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A funcionalidade <color=#CBB396>Desencalhar</color> é para aqueles que encontram bugs que travam o jogo.\n\n<b>A equipe recarregará o jogo no último ponto em que a missão foi salva</b>.\n\nVocê gostaria de prosseguir?",
+          "Value": "Use <color=#CBB396>Desencalhar</color> se algum erro travar o jogo.\n\n<b>O grupo voltará ao último ponto em que a missão foi salva</b>.\n\nDeseja continuar?",
           "Key": "The <color=#CBB396>Unstuck</color> feature is for those who encounter bugs that lock up the game.  \n\n<b>The party will reload the game at the last point the quest was saved</b>.\n\nWould you like to proceed?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -134883,7 +134883,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O elo do Morto com este mundo se enfraquece. Restam mais [0] rodada(s).",
+          "Value": "O elo do Morto com este mundo se enfraquece. Rodadas restantes: [0].",
           "Key": "The Dead One's tether to this world wanes.  Lasts [0] more round(s).",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141822,7 +141822,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Para adicionar um personagem à <b>Equipe</b>, selecione um <b>Quadrado de Personagem</b>.\n\nA <b>dificuldade</b> aumenta conforme o número de personagens na sua equipe.",
+          "Value": "Para adicionar um personagem ao <b>grupo</b>, selecione o <b>cartão do personagem</b>.\n\nA <b>dificuldade</b> se ajusta ao número de personagens do grupo.",
           "Key": "To add a character to the <b>Party</b>, select a <b>Character Tile</b>.\n\n<b>Difficulty</b> scales with the number of characters in your party.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -149978,7 +149978,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+          "Value": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
           "Key": "Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -150007,7 +150007,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga adicional de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+          "Value": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo adicional de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
           "Key": "Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -156992,7 +156992,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você deve atribuir um <color=#CBB396>Personagem</color> a este jogador antes de acessar este menu.\n\nVocê pode adicionar um <color=#CBB396>Personagem</color> à equipe abrindo o <color=#CBB396>Menu do Jogo</color> e, em seguida, selecionando <color=#CBB396>Trocar Equipe</color>.",
+          "Value": "Você precisa atribuir um <color=#CBB396>personagem</color> a este jogador antes de abrir este menu.\n\nPara adicionar um <color=#CBB396>personagem</color> ao grupo, abra o <color=#CBB396>Menu do Jogo</color> e selecione <color=#CBB396>Alterar Grupo</color>.",
           "Key": "You must assign a <color=#CBB396>Character</color> to this player before accessing this menu.  \n\nYou can add a <color=#CBB396>Character</color> to the party by opening the <color=#CBB396>Game Menu</color>, then selecting <color=#CBB396>Change Party</color>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160362,7 +160362,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Seus próximos 3 ataques básicos não têm custo de AP.",
+          "Value": "Seus próximos 3 ataques básicos não custam PA.",
           "Key": "Your next 3 basic attacks have no AP cost.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160380,7 +160380,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Seus próximos 3 ataques básicos não têm custo de AP. Aplica {STA=Exhaustion}.",
+          "Value": "Seus próximos 3 ataques básicos não custam PA. Aplica {STA=Exhaustion}.",
           "Key": "Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160722,7 +160722,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Suas músicas começam com 5 acúmulos de Crescendo.",
+          "Value": "Suas canções começam com 5 acúmulos de Crescendo.",
           "Key": "Your songs start with 5 stacks of Crescendo.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161212,7 +161212,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
+          "Value": "[0] de <b>Força</b> absorvida por acúmulo. Acumula até 10 vezes.",
           "Key": "[0] <b>Might</b> absorbed per stack.  Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -163159,7 +163159,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[player] quer iniciar um evento de festa!",
+          "Value": "[player] quer iniciar um evento de grupo!",
           "Key": "[player] wants to start a party event!",
           "TranslatorKey": null,
           "Feminine": null,

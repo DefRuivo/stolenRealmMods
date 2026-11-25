@@ -14674,7 +14674,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Aura do Selo de Força",
+      "Value": "Aura do Selo da Força",
       "Key": "Seal of Might Aura",
       "TranslatorKey": null,
       "Feminine": null,
@@ -14684,7 +14684,7 @@
       "CanBeGendered": false,
       "NeedsGenderInfo": false
     },
-    "approvalTaskId": "t_71e4b22a"
+    "approvalTaskId": "t_ce680634"
   },
   {
     "operation": "addEntry",
@@ -23611,8 +23611,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar Nível [level value] {SKL=Pain Suppression}.",
-    "after": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
-    "approvalTaskId": "t_0bddb861"
+    "after": "Ganhe Armadura e Armadura Mágica equivalentes a 2x sua Força. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "id": "LANG-03635",
@@ -24583,8 +24583,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Poder aumentado em 5 por pilha.",
-    "after": "Poder aumentado em 5 por acúmulo.",
-    "approvalTaskId": "t_5c274339"
+    "after": "Força aumentada em 5 por acúmulo.",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "id": "LANG-05300",
@@ -24898,8 +24898,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "[0] de <b>Poder</b> absorvido por pilha. Acumula até 10 vezes.",
-    "after": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
-    "approvalTaskId": "t_5c274339"
+    "after": "[0] de <b>Força</b> absorvida por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "operation": "addEntry",
@@ -24976,5 +24976,473 @@
       "NeedsGenderInfo": false
     },
     "approvalTaskId": "t_a5e96982"
+  },
+  {
+    "id": "LANG-02398",
+    "key": "Damage caused steals [0] points of <b>Might</b>. Lasts the entire battle. Stacks up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O dano causado rouba [0] pontos de <b>Poder</b>. Dura toda a batalha. Acumula até 10 vezes.",
+    "after": "O dano que você causa rouba [0] pontos de <b>Força</b>. O efeito dura até o fim da batalha e acumula até 10 vezes.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03601",
+    "key": "Gain Added Damage to Cold equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Frio equivalente a 10% do seu Poder.",
+    "after": "Ganhe dano de frio adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03604",
+    "key": "Gain Added Damage to Fire equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Fogo igual a 10% do seu Poder.",
+    "after": "Ganhe dano de fogo adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03607",
+    "key": "Gain Added Damage to Lightning equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Raio equivalente a 10% do seu Poder.",
+    "after": "Ganhe dano de raio adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03613",
+    "key": "Gain Additional Healing to Heals equal to 50% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Receba Cura Adicional nas Curações igual a 50% do seu Poder.",
+    "after": "Suas curas ganham um bônus equivalente a 50% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03620",
+    "key": "Gain Additional Weapon Damage equal to 35% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano de Arma Adicional igual a 35% do seu Poder.",
+    "after": "Ganhe dano de arma adicional equivalente a 35% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03621",
+    "key": "Gain Additional Weapon Damage equal to 40% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Obtenha Dano de Arma Adicional igual a 40% do seu Poder.",
+    "after": "Ganhe dano de arma adicional equivalente a 40% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03629",
+    "key": "Gain Armor and Magic Armor equal to your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Armadura e Armadura Mágica iguais ao seu Poder.",
+    "after": "Ganhe Armadura e Armadura Mágica em valor igual à sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03632",
+    "key": "Gain Increased Holy Power equal to 20% of your Might. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Obtenha Poder Sagrado aumentado em 20% do seu Poder.",
+    "after": "Ganhe um bônus de Poder Sagrado equivalente a 20% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03633",
+    "key": "Gain Increased Holy Power equal to 40% of your Might. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Poder Sagrado aumentado em 40% do seu Poder.",
+    "after": "Ganhe um bônus de Poder Sagrado equivalente a 40% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04061",
+    "key": "Health As Mana Cost",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Custo de Mana como Vida",
+    "after": "Custo de Mana Pago com Vida",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04360",
+    "key": "Increase <b>Might</b> by 20%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumente <b>Poder</b> em 20%.",
+    "after": "Aumente a <b>Força</b> em 20%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04874",
+    "key": "Life On Hit Basic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vida por Acerto Básica",
+    "after": "Vida por Acerto com Ataque Básico",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05748",
+    "key": "Potion of Might",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Poção do Poder",
+    "after": "Poção de Força",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07037",
+    "key": "Summon Health",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocar Saúde",
+    "after": "Saúde das Invocações",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07038",
+    "key": "Summon Health Flat",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocar Vida Fixa",
+    "after": "Saúde das Invocações (valor fixo)",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07039",
+    "key": "Summon Health increased by [10]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [10]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [10]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07040",
+    "key": "Summon Health increased by [12]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [12]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [12]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07041",
+    "key": "Summon Health increased by [4]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [4]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [4]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07042",
+    "key": "Summon Health increased by [6]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [6]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [6]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07043",
+    "key": "Summon Health increased by [8]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [8]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [8]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-00071",
+    "key": "(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "(Canção) Aliados a até 4 hexágonos de você ganham 5 Poder. Toda vez que Verso do Valor é lançado consecutivamente, ganha Crescendo do Valor: aumenta a quantidade de Poder concedida pelo Verso do Valor em 5. Acumula. Perde todas as acumulações se você tocar uma canção diferente. Duração: 1 turno.",
+    "after": "(Canção) Aliados a até 4 hexágonos de você ganham 5 de Força. Sempre que tocar Verso de Valor de novo em sequência, ganhe um acúmulo de Crescendo de Valor. Cada acúmulo aumenta em 5 a Força concedida pelo Verso de Valor. Você perde todos os acúmulos ao tocar outra canção. Duração: 1 turno.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-02241",
+    "key": "Crescendo of Swiftness",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Crescendo da Rapidez",
+    "after": "Crescendo da Agilidade",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-02243",
+    "key": "Crescendo of Verse of Valor. Each stack increases the power of the song.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Crescendo do Verso do Valor. Cada acúmulo aumenta o poder da canção.",
+    "after": "Crescendo do Verso de Valor. Cada acúmulo aumenta o efeito da canção.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04000",
+    "key": "Harmony: +1 Dexterity per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Destreza por acúmulo.",
+    "after": "Harmonia: +1 de Destreza por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04002",
+    "key": "Harmony: +1 Might per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Poder por acumulação.",
+    "after": "Harmonia: +1 de Força por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04003",
+    "key": "Harmony: +1 Reflex per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Reflexo por acúmulo.",
+    "after": "Harmonia: +1 de Reflexo por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04004",
+    "key": "Harmony: +1 Vitality per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Vitalidade por acúmulo.",
+    "after": "Harmonia: +1 de Vitalidade por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05421",
+    "key": "No longer lose Crescendo stacks when playing another song.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Não perca mais acúmulos de Crescendo ao tocar outra música.",
+    "after": "Você não perde mais acúmulos de Crescendo ao tocar outra canção.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06818",
+    "key": "Songs no longer clear each other's Crescendo.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "As músicas não limpam mais o Crescendo umas das outras.",
+    "after": "Tocar outra canção não remove mais os acúmulos de Crescendo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08199",
+    "key": "Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+    "after": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08200",
+    "key": "Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga adicional de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+    "after": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo adicional de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08788",
+    "key": "Your songs start with 5 stacks of Crescendo.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Suas músicas começam com 5 acúmulos de Crescendo.",
+    "after": "Suas canções começam com 5 acúmulos de Crescendo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-00945",
+    "key": "AP Cost: None",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Custo de AP: Nenhum",
+    "after": "Custo de PA: nenhum",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06149",
+    "key": "Removes the AP cost from all summoning skills.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Remove o custo de AP de todas as habilidades de invocação.",
+    "after": "Remove o custo de PA de todas as habilidades de invocação.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06901",
+    "key": "Start Battle Free Movement Points",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Iniciar Batalha Pontos de Movimento Livre",
+    "after": "Pontos de Movimento Livre no Início da Batalha",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07371",
+    "key": "The Dead One's tether to this world wanes.  Lasts [0] more round(s).",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O elo do Morto com este mundo se enfraquece. Restam mais [0] rodada(s).",
+    "after": "O elo do Morto com este mundo se enfraquece. Rodadas restantes: [0].",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08768",
+    "key": "Your next 3 basic attacks have no AP cost.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Seus próximos 3 ataques básicos não têm custo de AP.",
+    "after": "Seus próximos 3 ataques básicos não custam PA.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08769",
+    "key": "Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Seus próximos 3 ataques básicos não têm custo de AP. Aplica {STA=Exhaustion}.",
+    "after": "Seus próximos 3 ataques básicos não custam PA. Aplica {STA=Exhaustion}.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-01057",
+    "key": "After you have finished assigning characters to your party, press <b>Accept Party</b>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Após terminar de atribuir personagens ao seu grupo, pressione <b>Aceitar Grupo</b>.",
+    "after": "Ao terminar de adicionar os personagens ao grupo, selecione <b>Aceitar Grupo</b>.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-01985",
+    "key": "Choose As Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escolha como Grupo",
+    "after": "Escolha em grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03666",
+    "key": "Game difficulty scales with the number of party members",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A dificuldade do jogo escala com o número de membros do grupo.",
+    "after": "A dificuldade do jogo se ajusta ao número de membros do grupo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03667",
+    "key": "Game difficulty scales with the size of your party.  Whether you decide to embark with a single adventurer or a full party of 6, your enemies will be equal to the challenge.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A dificuldade do jogo escala com o tamanho do seu grupo. Se você decidir embarcar com um único aventureiro ou um grupo completo de 6, seus inimigos estarão à altura do desafio.",
+    "after": "A dificuldade do jogo se ajusta ao tamanho do grupo. Com um só aventureiro ou um grupo completo de 6, os inimigos estarão à altura do desafio.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03991",
+    "key": "Hardcore characters are deleted upon the party's death in battle.  Are you sure?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Personagens hardcore são deletados após a morte do grupo em batalha. Tem certeza?",
+    "after": "Se o grupo morrer em batalha, os personagens do modo Hardcore serão excluídos. Tem certeza?",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04308",
+    "key": "In Hardcore mode if your whole party dies in battle, your characters are permenately deleted.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão permanentemente deletados.",
+    "after": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão excluídos permanentemente.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04309",
+    "key": "In Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Na Festa",
+    "after": "No grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05576",
+    "key": "Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Festa",
+    "after": "Grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05629",
+    "key": "Petrified Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Festa Petrificada",
+    "after": "Grupo Petrificado",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07339",
+    "key": "The <color=#CBB396>Unstuck</color> feature is for those who encounter bugs that lock up the game.  \n\n<b>The party will reload the game at the last point the quest was saved</b>.\n\nWould you like to proceed?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A funcionalidade <color=#CBB396>Desencalhar</color> é para aqueles que encontram bugs que travam o jogo.\n\n<b>A equipe recarregará o jogo no último ponto em que a missão foi salva</b>.\n\nVocê gostaria de prosseguir?",
+    "after": "Use <color=#CBB396>Desencalhar</color> se algum erro travar o jogo.\n\n<b>O grupo voltará ao último ponto em que a missão foi salva</b>.\n\nDeseja continuar?",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07753",
+    "key": "To add a character to the <b>Party</b>, select a <b>Character Tile</b>.\n\n<b>Difficulty</b> scales with the number of characters in your party.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Para adicionar um personagem à <b>Equipe</b>, selecione um <b>Quadrado de Personagem</b>.\n\nA <b>dificuldade</b> aumenta conforme o número de personagens na sua equipe.",
+    "after": "Para adicionar um personagem ao <b>grupo</b>, selecione o <b>cartão do personagem</b>.\n\nA <b>dificuldade</b> se ajusta ao número de personagens do grupo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08582",
+    "key": "You must assign a <color=#CBB396>Character</color> to this player before accessing this menu.  \n\nYou can add a <color=#CBB396>Character</color> to the party by opening the <color=#CBB396>Game Menu</color>, then selecting <color=#CBB396>Change Party</color>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você deve atribuir um <color=#CBB396>Personagem</color> a este jogador antes de acessar este menu.\n\nVocê pode adicionar um <color=#CBB396>Personagem</color> à equipe abrindo o <color=#CBB396>Menu do Jogo</color> e, em seguida, selecionando <color=#CBB396>Trocar Equipe</color>.",
+    "after": "Você precisa atribuir um <color=#CBB396>personagem</color> a este jogador antes de abrir este menu.\n\nPara adicionar um <color=#CBB396>personagem</color> ao grupo, abra o <color=#CBB396>Menu do Jogo</color> e selecione <color=#CBB396>Alterar Grupo</color>.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08929",
+    "key": "[player] wants to start a party event!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[player] quer iniciar um evento de festa!",
+    "after": "[player] quer iniciar um evento de grupo!",
+    "approvalTaskId": "t_ce680634"
   }
 ]

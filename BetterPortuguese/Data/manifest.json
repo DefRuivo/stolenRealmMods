@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 917061,
-      "sha256": "47e8f915fd4ef9a73e251d0adb056f86bf9c015b00511c3cac7cdceeea2ec348"
+      "bytes": 936733,
+      "sha256": "e3913c4435dab6bebd65529f3c504a0c674a037d3dc808d25c7d9064241b871d"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5547223,
-      "sha256": "b9ea8f9c373a45828972927de7e279d9b777b9315ee6bd5b256203474308e68a"
+      "bytes": 5547284,
+      "sha256": "78f622f0f6947aaa9b6928f7b03ccbc4412773333ffe5cbb4caedfd6304a959b"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,7 +38,7 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 1412,
+    "changedKeys": 1464,
     "approvedModRecords": 177
   },
   "limits": [
@@ -55,6 +55,7 @@
     "BP-FIX-3: owner-approved LANG-06235 Resume -> Continuar and LANG-01474 Battle -> Batalhar; 1322 unique changed keys; prior 1320 preserved",
     "BP-FIX-4: owner-approved LANG-04864 gender agreement (Fortunas, feminine); 1323 unique changed keys",
     "BP-STACK-1: owner-approved stack vocabulary pilha -> acumulo in every tooltip/event that means a STACK of effect; 1412 unique changed keys. Retificacao: 7 physical piles (Pile of Gold x3, pile of maps, shimmering pile of treasure, pile of ash) reverted to \"pilha\" and the masculine participle fixed in LANG-05591/LANG-05592 (\"Um acumulo e aplicado\") and LANG-03153/LANG-03154 (\"Cada acumulo de Calor aplicado\"); exceptions LANG-00891 (coin pile) and LANG-06885 (verb Empilhar) untouched. R1 review: dataset files rewritten with LF (repo norm) after the CRLF churn.",
-    "BP-WORD-1: owner-approved rewording of stack lines (8 keys); 1412 unique changed keys"
+    "BP-WORD-1: owner-approved rewording of stack lines (8 keys); 1412 unique changed keys",
+    "BP-CTX-1: owner-approved contextual PT-BR review (attributes/party/turn/Bard) - 55 field edits + 1 re-added entry, 4 previously approved keys re-approved under t_ce680634; 31 beta-1.4.9 keys pending snapshot refresh"
   ]
 }
