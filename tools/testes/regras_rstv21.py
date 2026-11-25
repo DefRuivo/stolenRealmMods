@@ -547,9 +547,15 @@ def falhas_da_janela(src_janela):
         if "overrideSorting" in elevar:
             falhas.append("`ElevarTooltip` ainda da `overrideSorting` — erguer o canvas RAIZ esconde a "
                           "janela atras do modal (o bug 'botao morto' de 03/10)")
-        if "SetParent" not in elevar:
+        if not re.search(r'\btooltip\.SetParent\s*\(', elevar):
             falhas.append("`ElevarTooltip` nao REPARENTA o tooltip para dentro da janela (SetParent) — "
                           "sem isso ele fica atras do fundo")
+        # BTT-SIZE-1 (1.4.9): `worldPositionStays=true` CONVERTE a escala local do tooltip para a
+        # escala do canvas de destino (1,8). Reparentar com `false` e posicionar por mundo preserva
+        # a escala nativa, inclusive quando o `ScalingChanger` troca Normal/Small.
+        if re.search(r'\btooltip\.SetParent\s*\([^;]*,\s*true\s*\)', elevar):
+            falhas.append("`ElevarTooltip` reparenta com `worldPositionStays=true` — isso converte a "
+                          "escala do tooltip para a do canvas da janela (BTT-SIZE-1)")
 
     if "RestaurarTooltip" not in efetivo:
         falhas.append("nao ha `RestaurarTooltip` — a ordenacao do tooltip do jogo ficaria alterada "
@@ -683,7 +689,7 @@ _DEFEITO_CANVAS = "            // DEFEITO: sem raiz propria (a janela morreria c
 _ANCORA_ATUALIZAR = "                if (_root != null && _root.activeSelf && !DonoVivo())"
 _DEFEITO_ATUALIZAR = "                if (_root != null && _root.activeSelf)"
 
-_ANCORA_TOOLTIP_SETPARENT = "                tooltip.SetParent(_root.transform, true);"
+_ANCORA_TOOLTIP_SETPARENT = "                tooltip.SetParent(_tooltipCamada, false);"
 _DEFEITO_TOOLTIP_SETPARENT = "                // DEFEITO: tooltip sem reparent (fica atras do fundo)"
 
 
@@ -750,6 +756,16 @@ def fonte_com_tooltip_raiz(src=None):
     if _ANCORA_TOOLTIP_SETPARENT not in texto:
         return texto
     return texto.replace(_ANCORA_TOOLTIP_SETPARENT, _DEFEITO_TOOLTIP_SETPARENT, 1)
+
+
+def fonte_com_reparent_conversao(src=None):
+    """A MESMA janela reparentando o tooltip com `worldPositionStays=true` (o defeito BTT-SIZE-1:
+    a escala local do tooltip e CONVERTIDA para a escala do canvas da janela)."""
+    texto = fonte(caminho_janela()) if src is None else src
+    if _ANCORA_TOOLTIP_SETPARENT not in texto:
+        return texto
+    return texto.replace(_ANCORA_TOOLTIP_SETPARENT,
+                         _ANCORA_TOOLTIP_SETPARENT.replace(", false)", ", true)"), 1)
 
 
 # --- plantios das LACUNAS DE COBERTURA do RSTV-21 (fundo / tooltip / entradas / Mostrar) ---------

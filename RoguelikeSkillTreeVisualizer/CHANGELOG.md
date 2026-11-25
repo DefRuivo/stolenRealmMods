@@ -6,6 +6,10 @@ that came out of a review.
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.3.8
+
+- All Skill Trees keeps the native size of skill tooltips. Closing the window or changing resolution while it is open no longer leaves shared tooltips scaled incorrectly.
+
 ## 0.3.7 — 2026-11-24
 
 - **A árvore do Bard aparece também na janela nativa “Remove Skill Trees”.** Até aqui esse modal listava todas as classes menos o Bard, mesmo com a aba de Skills já mostrando as 12. Causa: o mod **hospeda a própria lista** dentro dessa janela, e a exclusão explícita de `SkillType.Bard` (que saiu em 0.3.6) continuava valendo ali — não era o jogo omitindo a árvore.

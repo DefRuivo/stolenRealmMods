@@ -78,8 +78,10 @@ namespace RoguelikeSkillTreeVisualizer
         /// (assim ele desenha acima do fundo escuro). O pai/sibling antigos ficam guardados e sao
         /// RESTAURADOS no <see cref="RestaurarTooltip"/>.</summary>
         private static bool _tooltipMovido;
+        private static Transform _tooltipEmprestado;
         private static Transform _tooltipPaiAntigo;
         private static int _tooltipSiblingAntigo;
+        private static RectTransform _tooltipCamada;
         private static Outline _outlineDoTooltip;   // RSTV-23f: contorno adicionado ao tooltip (removido ao fechar)
 
         /// <summary>A janela esta visivel AGORA? Exige tambem o dono vivo (o modal ainda em cena).</summary>
@@ -209,6 +211,8 @@ namespace RoguelikeSkillTreeVisualizer
 
             // 1) RAIZ — um Canvas em OVERLAY proprio, ACIMA do canvas do jogo (sortingOrder + 100).
             GameObject root = new GameObject(RootName, typeof(RectTransform));
+            // CanvasScaler aplica os valores em OnEnable. Configure antes da primeira ativacao.
+            root.SetActive(false);
             UnityEngine.Object.DontDestroyOnLoad(root);
 
             Canvas canvas = root.AddComponent<Canvas>();
@@ -281,6 +285,7 @@ namespace RoguelikeSkillTreeVisualizer
             _root = root;
             _conteudo = conteudoRt;
 
+            root.SetActive(true);
             ElevarTooltip();
             return _conteudo;
         }
@@ -313,14 +318,29 @@ namespace RoguelikeSkillTreeVisualizer
                 }
 
                 Transform tooltip = gui.tooltip.transform;
+                if (!(tooltip.parent is RectTransform pai) || pai == null)
+                {
+                    return;
+                }
                 _tooltipPaiAntigo = tooltip.parent;
                 _tooltipSiblingAntigo = tooltip.GetSiblingIndex();
 
-                // worldPositionStays=true mantém a posicao de mundo (o tooltip e posicionado por mundo
-                // a cada ShowSkillTooltip; aqui so trocamos o canvas onde ele desenha).
-                tooltip.SetParent(_root.transform, true);
-                tooltip.SetAsLastSibling();
+                if (_tooltipCamada == null)
+                {
+                    _tooltipCamada = new GameObject("RstvTooltipLayer", typeof(RectTransform)).GetComponent<RectTransform>();
+                    _tooltipCamada.SetParent(_root.transform, false);
+                }
+                _tooltipCamada.SetAsLastSibling();
+                SincronizarCamadaDoTooltip();
+
+                // A camada tem a geometria do pai nativo. Mudar de pai SEM converter a escala
+                // mantem localScale nativa, inclusive quando ScalingChanger troca Normal/Small.
+                Vector3 posicao = tooltip.position;
+                _tooltipEmprestado = tooltip;
                 _tooltipMovido = true;
+                tooltip.SetParent(_tooltipCamada, false);
+                tooltip.position = posicao;
+                Canvas.preWillRenderCanvases += SincronizarCamadaDoTooltip;
 
                 // RSTV-23f: o tooltip some no fundo escuro da janela (~15 vs ~9-13 de brilho). Um Outline
                 // preto de 2px no Image dele cria uma borda que o separa do painel. Guardado para ser
@@ -343,8 +363,27 @@ namespace RoguelikeSkillTreeVisualizer
             }
             catch (Exception e)
             {
+                RestaurarTooltip();
                 Plugin.Log.LogWarning("RSTV-21: nao deu para mover o tooltip para a janela: " + e.Message);
             }
+        }
+
+        // O CanvasScaler de cada canvas roda antes deste callback. A compensacao fica SOMENTE
+        // no pai temporario, nao no tooltip compartilhado, e acompanha mudancas de resolucao.
+        private static void SincronizarCamadaDoTooltip()
+        {
+            RectTransform pai = _tooltipPaiAntigo as RectTransform;
+            if (pai == null || _root == null || _tooltipCamada == null) return;
+
+            Vector3 raiz = _root.transform.lossyScale;
+            if (Mathf.Approximately(raiz.x, 0f) || Mathf.Approximately(raiz.y, 0f) || Mathf.Approximately(raiz.z, 0f)) return;
+            Vector3 nativa = pai.lossyScale;
+            Vector3 escala = new Vector3(nativa.x / raiz.x, nativa.y / raiz.y, nativa.z / raiz.z);
+            if (_tooltipCamada.pivot != pai.pivot) _tooltipCamada.pivot = pai.pivot;
+            if (_tooltipCamada.sizeDelta != pai.rect.size) _tooltipCamada.sizeDelta = pai.rect.size;
+            if (_tooltipCamada.localScale != escala) _tooltipCamada.localScale = escala;
+            if (_tooltipCamada.position != pai.position || _tooltipCamada.rotation != pai.rotation)
+                _tooltipCamada.SetPositionAndRotation(pai.position, pai.rotation);
         }
 
         /// <summary>Devolve o tooltip ao pai/indice originais (o ajuste de <see cref="ElevarTooltip"/>).</summary>
@@ -357,16 +396,24 @@ namespace RoguelikeSkillTreeVisualizer
 
             try
             {
-                GUIManager gui = GUIManager.instance;
-                if (gui != null && gui.tooltip != null && _tooltipPaiAntigo != null)
+                Canvas.preWillRenderCanvases -= SincronizarCamadaDoTooltip;
+                Transform tooltip = _tooltipEmprestado;
+                if (tooltip != null && tooltip.parent == _tooltipCamada && _tooltipPaiAntigo != null)
                 {
-                    Transform tooltip = gui.tooltip.transform;
-                    tooltip.SetParent(_tooltipPaiAntigo, true);
+                    Vector3 posicao = tooltip.position;
+                    tooltip.SetParent(_tooltipPaiAntigo, false);
+                    tooltip.position = posicao;
                     int alvo = Mathf.Min(_tooltipSiblingAntigo, _tooltipPaiAntigo.childCount - 1);
                     if (alvo >= 0)
                     {
                         tooltip.SetSiblingIndex(alvo);
                     }
+                }
+                else if (tooltip != null && tooltip.parent == _tooltipCamada)
+                {
+                    // O pai nativo foi destruido na troca de cena: sem o emprestimo, o filho
+                    // teria sido destruido junto dele. Nao o retenha no canvas persistente.
+                    UnityEngine.Object.Destroy(tooltip.gameObject);
                 }
             }
             catch (Exception e)
@@ -375,6 +422,7 @@ namespace RoguelikeSkillTreeVisualizer
             }
 
             _tooltipMovido = false;
+            _tooltipEmprestado = null;
             _tooltipPaiAntigo = null;
 
             // RSTV-23f: remove o contorno que o `ElevarTooltip` adicionou ao tooltip (nao deixar residuo).

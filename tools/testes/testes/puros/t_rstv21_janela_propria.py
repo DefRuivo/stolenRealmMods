@@ -203,6 +203,18 @@ def corpo():
                "as checagens PASSARAM com o `ElevarTooltip` sem reparentar o tooltip (ele ficaria atras "
                "do fundo, ilegivel): %s" % " | ".join(falhas))
 
+    # 11b) PROVA DE FOGO 5b (BTT-SIZE-1, 1.4.9): reparentar com `worldPositionStays=true` CONVERTE a
+    #      escala local do tooltip para a do canvas da janela — outro jeito de passar na checagem de
+    #      presenca do `SetParent` e ainda assim ampliar o tooltip.
+    conversao = reg.fonte_com_reparent_conversao(src_janela)
+    arc.exigir(conversao != src_janela,
+               "o plantio 'reparent com conversao de escala' nao encontrou a ancora do `SetParent` do "
+               "tooltip: a checagem nao le o trecho certo")
+    falhas = reg.falhas_da_janela(conversao)
+    arc.exigir(len(falhas) >= 1 and any("worldPositionStays" in f or "BTT-SIZE-1" in f for f in falhas),
+               "as checagens PASSARAM com o tooltip reparentado com `worldPositionStays=true` (escala "
+               "convertida para a do canvas): %s" % " | ".join(falhas))
+
     # 12) PROVA DE FOGO 6: o FUNDO deixa de consumir o clique — a MOLDURA mantem `raycastTarget =
     #     true`, que era justamente o que enganava a checagem antiga por texto solto. A checagem
     #     nova amarra a Image DO FUNDO (`RstvWindowBackdrop`) e REPROVA.
