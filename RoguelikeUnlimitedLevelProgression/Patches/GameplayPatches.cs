@@ -9,10 +9,15 @@ using RoguelikeUnlimitedLevelProgression.Runtime;
 namespace RoguelikeUnlimitedLevelProgression.Patches
 {
     /// <summary>
-    /// Patch CRITICO do resultado de batalha (parte06 §1). Unico lugar onde a comparacao
-    /// `character.Level &lt; settings.RoguelikeMaxLevel` e substituida por Policy.CanAdvance.
-    /// Em qualquer duvida o transpiler devolve as instrucoes ORIGINAIS e o grupo de gameplay
-    /// inteiro e revertido pelo PatchRegistry (fail-closed).
+    /// ANALISE OFFLINE da janela de teto do resultado de batalha (parte06 §1) — <b>NAO registrado em
+    /// runtime</b>. Desde a 0.1.4 (BANTER-1) nenhum patch Harmony toca
+    /// <c>Root.SendGameCompleteFromServer</c>: o HarmonyX reemite o corpo e o emissor retargeta o
+    /// <c>leave</c> do <c>if</c> do banter (#317 -&gt; #322), fazendo o ramo <c>else</c> rodar junto e
+    /// produzindo a segunda fala no heroi. A concessao do nivel estendido acontece no prefix de
+    /// <c>PostBattleManager.OpenPostBattleMenu</c>.
+    /// O que sobrou aqui serve ao harness: localizar a janela estrutural na DLL real e provar que ela
+    /// continua existindo (alarme de drift quando o jogo mudar). Se algum dia voltar a ser registrado,
+    /// o defeito volta — o harness tem uma checagem que proibe isso.
     /// </summary>
     public static class BattleResultPatches
     {

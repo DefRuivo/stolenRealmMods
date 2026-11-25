@@ -1,3 +1,9 @@
+## 0.1.4 — 2026-11-25
+- **No Harmony patch on the battle-result method.** `Root.SendGameCompleteFromServer` is now left untouched. HarmonyX rebuilds any patched method with its ILManipulator, and that emitter drops the `leave` that ends the banter `if` and re-emits it against the end of the handler: the branch retargets from `#410` to `#322`, so the `else` branch runs *in addition to* the `if`. In game that showed as a second defeat line placed on the player's hero, followed by a click-to-continue wait before the reward window. Even an identity transpiler reproduced it.
+- **Post-battle prefix is now the granting point and part of the fail-closed group.** It receives the same list instance the game passes to the reward window, grants with the same expression the vanilla loop used (`GiveExperience(ExpForNextLevel)`) and still consults `Policy.CanAdvance`; the duplicate-guard keeps one grant per battle. Failure to apply it now rolls the whole group back instead of leaving an extended cap without a granting hook.
+- **Parity guard:** a character outside `GameLogic.AllMyCharacters` is skipped, like the vanilla loop's `FastContains` guard. Campaign and multiplayer keep the vanilla path.
+- The window analyser stays in the codebase only for the offline harness (drift alarm on the real IL); a harness check now fails if the result method ever gets a Harmony patch again.
+
 # Changelog — RoguelikeUnlimitedLevelProgression
 
 > Dates use ISO 8601 (BRT, UTC−03:00). Implementation/audit dates are not publication dates.

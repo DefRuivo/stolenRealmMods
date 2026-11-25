@@ -596,11 +596,33 @@ namespace RoguelikeUnlimitedLevelProgression.Harness
 
                 var names = new List<string>();
                 foreach (var p in plans) names.Add(p.Id);
-                Check(names.Contains("Root.SendGameCompleteFromServer") && names.Contains("Character.get_MaxLevel")
+                Check(names.Contains("Character.get_MaxLevel")
                       && names.Contains("RoguelikeManager.GetSkillChoices") && names.Contains("Character.SyncCharacterToPreset"),
                     "registry.critical_targets_present",
-                    "alvos criticos presentes: " + names.Count + " ids, incluindo o bloco de resultado, MaxLevel, GetSkillChoices e SyncCharacterToPreset",
+                    "alvos criticos presentes: " + names.Count + " ids, incluindo MaxLevel, GetSkillChoices e SyncCharacterToPreset",
                     "faltam alvos criticos: " + string.Join(", ", names.ToArray()));
+
+                // BANTER-1: a regressao que custou 22 s de espera e a segunda fala no heroi.
+                // Nenhum plano pode ter como alvo o metodo de resultado; o contrato e' so' resolvido.
+                bool touchesResult = false;
+                foreach (var p in plans)
+                {
+                    if (p.Target != null && p.Target.DeclaringType == typeof(Root)
+                        && p.Target.Name == "SendGameCompleteFromServer") touchesResult = true;
+                }
+                Check(!touchesResult, "registry.result_method_not_patched",
+                    "Root.SendGameCompleteFromServer NAO esta na lista de planos (BANTER-1): nenhum prefix/postfix/transpiler Harmony no metodo, entao o HarmonyX nao reemite o corpo nem retargeta o `leave` do banter",
+                    "Root.SendGameCompleteFromServer voltou a receber patch Harmony — a duplicacao do banter (leave #317 -> #322) volta com ele");
+
+                PatchRegistry.Plan postBattle = null;
+                foreach (var p in plans)
+                {
+                    if (p.Id == "PostBattleManager.OpenPostBattleMenu") postBattle = p;
+                }
+                Check(postBattle != null && postBattle.Prefix != null && postBattle.Transpiler == null,
+                    "registry.postbattle_prefix_is_critical",
+                    "PostBattleManager.OpenPostBattleMenu esta no grupo fail-closed com prefix (concessor do nivel estendido) e sem transpiler",
+                    postBattle == null ? "OpenPostBattleMenu nao esta na lista de planos" : "plano presente mas prefix=" + (postBattle.Prefix == null ? "null" : "ok") + " transpiler=" + (postBattle.Transpiler == null ? "null" : "presente"));
 
                 NotExercised("registry.apply_and_rollback_effective",
                     "aplicar de fato (Harmony.CreateProcessor/Patch) exige o leitor de IL do MonoMod, que neste host .NET 6 lanca NotSupportedException('Body-less method') mesmo para metodo do proprio harness (SPIKE da rodada 727); rollback efetivo nao pode ser exercitado aqui");

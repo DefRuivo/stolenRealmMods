@@ -4,7 +4,7 @@ Lets a Roguelike run go past level 20 — **tested on singleplayer; multiplayer 
 
 - **GUID:** `com.gumatos.roguelikeunlimitedlevelprogression`
 - **Harmony owner id:** the same GUID (the mod unpatches by id, never by type).
-- **Version:** 0.1.3
+- **Version:** 0.1.4
 - **Works with:** Stolen Realm (Roguelike mode).
 - **Needs:** BepInEx 5 (r2modman installs it for you) and nothing else — no ModAPI, no BetterStats.
 - **BepInEx display name:** `Roguelike Unlimited Level Progression`
@@ -68,11 +68,15 @@ update), no forced achievements, no campaign changes.
 - **Campaign and AI characters are outside the extended scope** and keep the exact vanilla
   comparison.
 - The gameplay patch group is **all-or-nothing**: if any Harmony target is missing, if any
-  patch throws or if the critical transpiler refuses the target, every patch of the mod is
-  reverted (`Harmony.UnpatchID(guid)`), so the game never runs half-patched.
-- The critical patch matches the IL **structurally** (member signatures + a unique window) and
-  requires exactly one match; labels/exception blocks are preserved. No local index or IL
-  offset is hardcoded.
+  patch throws or if the post-battle granting prefix cannot be resolved, every patch of the
+  mod is reverted (`Harmony.UnpatchID(guid)`), so the game never runs half-patched.
+- **No Harmony patch is applied to `Root.SendGameCompleteFromServer`** (BANTER-1). HarmonyX
+  rebuilds any patched method with its ILManipulator, which re-emits the `leave` that ends the
+  banter `if` against the end of the handler; the branch retargets into the `else`, which then
+  runs *in addition to* the `if` — a second defeat line on the hero plus a click-to-continue wait
+  before the rewards. The extended level is granted in the `PostBattleManager.OpenPostBattleMenu`
+  prefix, on the same list instance the reward window consumes, with the same `Policy.CanAdvance`
+  decision and the vanilla duplicate guard.
 
 ## Build
 
@@ -108,8 +112,9 @@ copies the DLL to `.../profiles/Default/BepInEx/plugins/RoguelikeUnlimitedLevelP
 ## Not exercised yet
 
 The v0.1 code was built and exercised in an isolated harness (the mod's own sources compiled
-into a test executable that feeds the **real transpiler** the **real IL** of
-`Root.SendGameCompleteFromServer` read from the reference `Assembly-CSharp.dll`), plus the
+into a test executable that locates the cap window in the **real IL** of
+`Root.SendGameCompleteFromServer` read from the reference `Assembly-CSharp.dll`, and asserts that
+this method carries no patch at all), plus the
 policy/XP/ledger suites. It has **not** been run inside the game yet: applying the patches at
 runtime, gameplay at levels 21..31, the real runtime `F20`/`D20`, the owner's save/reload and
 multiplayer remain to be verified in game.
@@ -129,7 +134,10 @@ de fortune, sem Bard/música, sem conquista forçada e sem alteração de campan
 ficam **fora** do escopo ampliado e mantêm a comparação vanilla. **Testado em singleplayer; multiplayer ainda não testado.** No multiplayer o
 branch vanilla é preservado com aviso e **não existe ampliação para a party**: cada jogador só escreve
 os próprios personagens, nunca o estado da partida do host; a medição de rede ainda está pendente. O grupo de patches de gameplay é **tudo-ou-nada**: qualquer
-alvo ausente, exceção ou recusa do transpiler reverte o mod inteiro.
+alvo ausente, exceção ou prefix de pós-batalha ausente reverte o mod inteiro. O método de
+resultado (`Root.SendGameCompleteFromServer`) **não** recebe patch: o HarmonyX reemite o corpo e o
+emissor desloca o `leave` do banter para dentro do `else`, o que duplicava a fala no herói e travava
+a recompensa. O nível estendido é concedido no prefix de `OpenPostBattleMenu`.
 
 Build: as DLLs do jogo ficam em `lib/` na **raiz do checkout** (gitignored, nunca versionadas nem
 copiadas para o repositório/worktree) e são resolvidas por caminho relativo ao próprio checkout,
@@ -138,7 +146,8 @@ sem caminho absoluto do computador do dono. Um clone/worktree isolado sem `lib/`
 `-p:CommonLibDir=<caminho absoluto>`; não existe fallback silencioso.
 
 O código foi **compilado e exercitado** em bancada isolada (harness que compila os fontes reais
-do mod e alimenta o transpiler real com a IL real de `Root.SendGameCompleteFromServer`). A
+do mod, que localiza a janela de teto na IL real de `Root.SendGameCompleteFromServer` e prova que
+esse método não recebe patch nenhum). A
 execução dentro do jogo — aplicar os patches, jogar nos níveis 21..31, `F20`/`D20` reais,
 save/reload do dono e multiplayer — ainda é **NAO_EXERCITADO** nesta fase.
 

@@ -51,9 +51,25 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
             var tRogue = typeof(RoguelikeManager);
 
             // --- grupo de gameplay ---
-            Add("Root.SendGameCompleteFromServer",
-                Reflect.Method(typeof(Root), "SendGameCompleteFromServer"),
-                transpiler: Reflect.Method(typeof(BattleResultPatches), "Transpiler"));
+
+            // BANTER-1 (1.4.9 / 26878331): Root.SendGameCompleteFromServer NAO recebe patch nenhum.
+            // Qualquer patch Harmony nesse metodo (prefix, postfix, transpiler — ate' um transpiler
+            // que devolve as instrucoes intactas) faz o HarmonyX RECONSTRUIR o corpo inteiro com o
+            // ILManipulator, e o emissor descarta o `leave` que sai do `if` do banter (#317) e emite
+            // um `leave` sintetico para o fim do handler: o alvo vira #322, o inicio do `else`, e o
+            // ramo do `else` passa a rodar EM ADICAO ao `if`. Sintoma medido: segunda fala atribuida
+            // ao heroi e espera por clique antes da janela de recompensa.
+            // A concessao do nivel estendido vive no prefix de PostBattleManager.OpenPostBattleMenu
+            // (mesma lista, mesma Policy). Aqui so' se verifica o CONTRATO: se o metodo sumir, o
+            // grupo inteiro recusa aplicar (fail-closed) em vez de seguir sem a garantia.
+            if (Reflect.Method(typeof(Root), "SendGameCompleteFromServer") == null)
+            {
+                missing.Add("Root.SendGameCompleteFromServer#contrato-nao-patcheado");
+            }
+
+            Add("PostBattleManager.OpenPostBattleMenu",
+                Reflect.Method(typeof(PostBattleManager), "OpenPostBattleMenu"),
+                prefix: Reflect.Method(typeof(PostBattleFailsafePatches), "Prefix"));
 
             Add("Character.get_MaxLevel",
                 Reflect.PropertyGetter(tCharacter, "MaxLevel"),
@@ -181,45 +197,6 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
                 }
             }
 
-            if (!BattleResultTranspiler.LastApplied)
-            {
-                error = "transpiler critico do resultado recusou o alvo ("
-                        + (BattleResultTranspiler.LastFailure ?? "motivo desconhecido")
-                        + "); grupo de gameplay revertido inteiro";
-                Rollback(harmony, applied.Count);
-                return false;
-            }
-
-            // RLP-1 — FAILSAFE de pos-batalha: aplicado SEPARADAMENTE do grupo critico (best-effort).
-            // O grupo critico continua tudo-ou-nada; este prefix apenas ADICIONA o nivel estendido
-            // que a janela vanilla nao concedeu, entao uma falha aqui e' no-op (nao ha estado
-            // parcial: nenhum patch do jogo e' alterado por ele). Motivo: a janela estrutural fica
-            // atras das guardas FastContains/RoguelikeModeActive (IL_0079/IL_008d) e pode nunca ser
-            // alcancada — ver RLP-1.
-            try
-            {
-                var failsafeTarget = Reflect.Method(typeof(PostBattleManager), "OpenPostBattleMenu");
-                var failsafePrefix = Reflect.Method(typeof(PostBattleFailsafePatches), "Prefix");
-                if (failsafeTarget == null || failsafePrefix == null)
-                {
-                    Log.Warn("failsafe de pos-batalha NAO aplicado: "
-                             + (failsafeTarget == null ? "PostBattleManager.OpenPostBattleMenu" : "PostBattleFailsafePatches.Prefix")
-                             + " nao resolvido (sem efeito; grupo critico intacto)");
-                }
-                else
-                {
-                    var failsafeProcessor = harmony.CreateProcessor(failsafeTarget);
-                    failsafeProcessor.AddPrefix(new HarmonyMethod(failsafePrefix));
-                    failsafeProcessor.Patch();
-                    Log.Info("failsafe de pos-batalha aplicado em PostBattleManager.OpenPostBattleMenu");
-                }
-            }
-            catch (Exception ex)
-            {
-                Log.Warn("failsafe de pos-batalha NAO aplicado (" + ex.GetType().Name + ": " + ex.Message
-                         + "); grupo critico intacto");
-            }
-
             // R-ULLP-1 — clamp de BuildCode.CreateCharacter (tipo NOVO da beta 1.4.8).
             // Best-effort, mesma regra do failsafe acima: o postfix apenas RESTAURA o nivel que o
             // clamp vanilla rebaixou (e so quando a configuracao do dono pede nivel acima do vanilla).
@@ -248,8 +225,8 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
                          + "); grupo critico intacto");
             }
 
-            Log.Info("Grupo de gameplay aplicado: " + applied.Count + " alvos; janela estrutural encontrada "
-                     + BattleResultTranspiler.LastMatchCount + "x");
+            Log.Info("Grupo de gameplay aplicado: " + applied.Count + " alvos; "
+                     + "Root.SendGameCompleteFromServer sem patch (BANTER-1)");
             return true;
         }
 
@@ -272,18 +249,19 @@ namespace RoguelikeUnlimitedLevelProgression.Patches
                     if (info != null && info.Owners.Contains(Plugin.PluginGuid)) owned++;
                     else Log.Refuse("ownership/" + origin, "owner ausente em " + p.Id);
                 }
-                var target = Reflect.Method(typeof(PostBattleManager), "OpenPostBattleMenu");
-                var failsafe = target == null ? null : Harmony.GetPatchInfo(target);
-                bool prefixOwned = failsafe != null && System.Linq.Enumerable.Any(failsafe.Prefixes,
-                    p => p.owner == Plugin.PluginGuid && p.PatchMethod.DeclaringType == typeof(PostBattleFailsafePatches));
+                // BANTER-1: o metodo de resultado nao pode ter NENHUM patch deste mod. Se aparecer
+                // um, o corpo foi reemitido e a duplicacao do banter volta.
+                var resultTarget = Reflect.Method(typeof(Root), "SendGameCompleteFromServer");
+                var resultInfo = resultTarget == null ? null : Harmony.GetPatchInfo(resultTarget);
+                bool resultPatched = resultInfo != null && resultInfo.Owners.Contains(Plugin.PluginGuid);
                 var controlTarget = Reflect.Method(typeof(GameLogic), "GetCharacterLootDropModifier");
                 var control = controlTarget == null ? null : Harmony.GetPatchInfo(controlTarget);
                 bool debuggerOwned = control != null && control.Owners.Contains("com.gumatos.roguelikedebugger");
                 Log.Info("ownership [" + origin + "]: gameplay=" + owned + "/" + plans.Count
-                         + " failsafePrefix=" + prefixOwned + " debuggerLootModifier=" + debuggerOwned
+                         + " resultPatched=" + resultPatched + " debuggerLootModifier=" + debuggerOwned
                          + " assembly=" + typeof(Root).Assembly.Location
                          + " mvid=" + typeof(Root).Module.ModuleVersionId);
-                if (!prefixOwned) Log.Refuse("ownership/" + origin, "prefix failsafe ausente AGORA");
+                if (resultPatched) Log.Refuse("ownership/" + origin, "Root.SendGameCompleteFromServer PATCHED (BANTER-1)");
             }
             catch (Exception ex)
             {
