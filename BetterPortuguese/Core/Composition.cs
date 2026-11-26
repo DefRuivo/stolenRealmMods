@@ -6,12 +6,15 @@ namespace BetterPortuguese.Core;
 // Composition, not dictionary edits. Exact output allowlists intentionally refuse drift.
 internal static class Composition
 {
-    // POLÍTICA DE PIN (SR-BETA-06): mesma decisão do realmapi — pin único e exato na build
-    // instalada (open_beta 1.4.8 / build 26767595). Divergiu o sha256, a composição é recusada
-    // (BP-COMP/BP-MODS): build nova exige re-medição e re-pin, nunca "aceitar qualquer sha".
+    // POLÍTICA DE PIN (SR-BETA-06 / SR-QA-PIN): pin único e exato na build instalada (open_beta
+    // 1.4.9 / build 26878331). Divergiu o sha256, a composição é recusada (BP-COMP/BP-MODS):
+    // build nova exige re-medição e re-pin, nunca "aceitar qualquer sha".
+    // Re-homologação de 26/11/2026: os alvos de composição foram comparados corpo a corpo entre
+    // 1.4.8 e 1.4.9 (todas as 2324 classes top-level; só SteamManager, BardSkillTest e
+    // <PrivateImplementationDetails> mudaram) e as assinaturas por NOME continuam iguais.
     // Este valor duplica ApiIdentity.AssemblySha256 de propósito (o BetterPortuguese não
     // referencia RealmApi); os dois pins têm de mudar juntos.
-    public const string AssemblySha256 = "6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a";
+    public const string AssemblySha256 = "f3f0069b3a21e7939ed85d9d31ec5ec7cb4c24015811e25350ed2239a25ed182";
     internal enum Agreement { Masculine, Feminine, MasculinePlural, FemininePlural }
     internal static readonly IReadOnlyDictionary<string, Agreement> Nouns = new Dictionary<string, Agreement>(StringComparer.Ordinal)
     {
