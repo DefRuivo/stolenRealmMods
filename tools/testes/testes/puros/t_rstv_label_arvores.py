@@ -45,11 +45,21 @@ def corpo():
     arc.exigir(any("C1" in f or "0.3.9" in f for f in f1),
                "as checagens PASSARAM com o rotulo corrompido: %s" % " | ".join(f1))
 
-    # 3) PROVA DE FOGO 2 (variante nova): o MESMO texto errado escrito como escape tambem reprova.
+    # 3) PROVA DE FOGO 2 (variante nova): o MESMO texto errado escrito como escape tambem reprova
+    #    PELO VALOR (nao so pela proibicao de escape) - foi o buraco que a revisao independente achou.
     escapado = reg.fonte_com_rotulo_escapado(src)
     arc.exigir(escapado != src, "o plantio da variante escapada nao encontrou a ancora")
     f2 = reg.falhas_do_rotulo(escapado)
-    arc.exigir(len(f2) >= 1, "as checagens PASSARAM com o rotulo errado escrito como escape")
+    arc.exigir(any(("decodifica para" in f) or ("C1" in f) for f in f2),
+               "a variante escapada do mojibake passou sem acusar o VALOR: %s" % " | ".join(f2))
+
+    # 4) PROVA DE FOGO 3: texto CERTO escrito como escape passa no valor, mas reprova por ilegibilidade.
+    correto_escapado = src.replace(reg.ASSINATURA + '"\u00c1rvores"',
+                                   reg.ASSINATURA + '"\\u00C1rvores"', 1)
+    arc.exigir(correto_escapado != src, "o plantio do escape correto nao encontrou a ancora")
+    f3 = reg.falhas_do_rotulo(correto_escapado)
+    arc.exigir(len(f3) == 1 and "escape unicode" in f3[0],
+               "o escape do texto CORRETO devia reprovar so por legibilidade, veio: %s" % " | ".join(f3))
 
     print("RSTV-LABEL: TabLabel = %r (%s); o mojibake da 0.3.9 e a variante escapada reprovam"
           % (reg.ROTULO, reg.pontos(reg.ROTULO)))

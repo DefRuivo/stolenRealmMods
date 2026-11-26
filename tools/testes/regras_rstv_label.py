@@ -42,20 +42,29 @@ def fonte(caminho):
         return fh.read()
 
 
+_ESCAPE = re.compile(r"\\(u[0-9a-fA-F]{4}|x[0-9a-fA-F]{2,4}|.)", re.S)
+
+
+def decodificar_escapes(bruto):
+    """Decodifica \\uXXXX e \\xXX LITERALMENTE, como o compilador C# faz.
+
+    Nao usa `unicode_escape`: ele mistura bytes com texto, estoura em caracteres fora de latin-1 e
+    faz `\\u00C3\\u0081` virar 'Á' - foi o defeito que a revisao independente achou nesta trava.
+    """
+    def troca(m):
+        corpo = m.group(1)
+        if corpo[0] in "ux" and len(corpo) > 1:
+            return chr(int(corpo[1:], 16))
+        simples = {"n": "\n", "t": "\t", "r": "\r", "0": "\0", "\\": "\\", '"': '"', "'": "'"}
+        return simples.get(corpo) or corpo
+
+    return _ESCAPE.sub(troca, bruto)
+
+
 def _literal(src):
-    """O valor da constante, ou None. Aceita escape unicode e quebra de linha no meio."""
-    efetivo = rec.codigo_efetivo(src)
-    i = efetivo.find(ASSINATURA)
-    if i < 0:
-        return None
-    bruto = efetivo[i + len(ASSINATURA):]
-    if not bruto.startswith('"'):
-        return None
-    fim = bruto.find('"', 1)
-    if fim < 0:
-        return None
-    return bruto[1:fim].encode("utf-8").decode("unicode_escape").encode("latin-1").decode("utf-8") \
-        if "\\u" in bruto[1:fim] else bruto[1:fim]
+    """O valor da constante depois de decodificar escapes; None se a constante nao existe."""
+    bruto = _literal_bruto(src)
+    return None if bruto is None else decodificar_escapes(bruto)
 
 
 def _literal_bruto(src):
