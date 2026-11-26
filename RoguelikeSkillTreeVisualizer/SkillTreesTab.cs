@@ -81,7 +81,7 @@ namespace RoguelikeSkillTreeVisualizer
         // PT-BR: o rotulo passa por OptionsManager.Localize (l.246), mas a chave "All Trees" nao existe
         // no dicionario do jogo — entao a constante E o texto final. "Arvores" cabe no mesmo orcamento
         // de largura medido para "All Trees" (~78u) e cabe na trava FixarLarguraDaAba.
-        internal const string TabLabel = "Ãrvores";
+        internal const string TabLabel = "Árvores";
         internal const string PanelName = "RstvAllSkillTreesPanel";
         internal const string ClassBarName = "RstvClassBar";
         internal const string TreeAreaName = "RstvTreeArea";
