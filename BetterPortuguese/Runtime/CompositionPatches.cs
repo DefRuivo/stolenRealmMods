@@ -122,7 +122,7 @@ internal static class CompositionPatches
             string corrected = Composition.DamageLabel(damageType == DamageType.Healing, incoming, out string reason);
             if (reason != null) warnings?.Write("BP-COMP rotulo preservado: " + reason);
             __result = corrected;
-            if (incoming != corrected) infoOnce("Healing corrigido: Cura de Dano -> Cura por Dano");
+            if (incoming != corrected) infoOnce("Healing corrigido para Cura por Dano");
         }
         catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo preservado por excecao: " + ex.GetType().Name); }
     }

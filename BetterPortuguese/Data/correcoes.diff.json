@@ -29401,5 +29401,59 @@
     "before": "Concluído",
     "after": "Concluída",
     "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02150",
+    "key": "Consuming any Globule heals you for 8% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 8% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 8% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02148",
+    "key": "Consuming any Globule heals you for 12% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 12% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 12% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02149",
+    "key": "Consuming any Globule heals you for 20% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 20% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 20% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02295",
+    "key": "Critical hit chance increased by [0]%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chance de acerto crítico aumentado em [0]%.",
+    "after": "Chance de acerto crítico aumentada em [0]%.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-04554",
+    "key": "Increases movement of all allies within 4 hexes by 3.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumenta o movimento de todos os aliados em até 4 hexágonos em 3.",
+    "after": "Aumenta em 3 o movimento de todos os aliados em um raio de 4 hexágonos.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-08853",
+    "key": "[damage type] Damage",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[damage type] de Dano",
+    "after": "Dano [damage type]",
+    "approvalTaskId": "t_8398cafa"
   }
 ]

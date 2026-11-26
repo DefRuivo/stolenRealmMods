@@ -91,6 +91,10 @@ internal static class Composition
         reason = null;
         if (!healing) return incoming;
         if (incoming == "Cura por Dano") return incoming;
+        // O template pt-BR de "[damage type] Damage" virou "Dano [damage type]" (SR-QA-03), entao o tipo
+        // Healing chega aqui como "Dano Cura". A forma antiga ("Cura de Dano") fica aceita logo abaixo
+        // para nao quebrar dataset anterior nem o probe; qualquer outra forma continua recusada.
+        if (incoming == "Dano Cura") return "Cura por Dano";
         if (incoming != "Cura de Dano") { reason = "rotulo Healing divergente"; return incoming; }
         return "Cura por Dano";
     }

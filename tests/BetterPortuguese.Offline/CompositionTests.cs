@@ -51,6 +51,7 @@ internal static class CompositionTests
         });
         test("BP-COMP Healing exact output and idempotence", () => {
             Check(Composition.DamageLabel(true, "Cura de Dano", out string r) == "Cura por Dano" && r == null);
+            Check(Composition.DamageLabel(true, "Dano Cura", out r) == "Cura por Dano" && r == null);
             Check(Composition.DamageLabel(true, "Cura por Dano", out r) == "Cura por Dano" && r == null);
         });
         foreach (string text in new[] { null, "Healing Damage", "Cura de Dano Crítico", "Cura de Dano ", "<color=#00FF00>Cura de Dano</color>", "Dano de Cura", "custom" })
@@ -85,7 +86,7 @@ internal static class CompositionTests
                     var record = catalog.Corrected.Records[key];
                     Check(record.Entries.Count==1 && Composition.Nouns.ContainsKey(record.Entries[0].Value));
                 }
-            Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "[damage type] de Dano");
+            Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "Dano [damage type]");
             Check(catalog.Corrected.Records["Healing"].Entries[0].Value == "Cura");
         });
         test("BP-GATE named production arguments in Debug and Release", () => {

@@ -38920,7 +38920,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 12% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 12% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 12% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38938,7 +38938,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 20% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 20% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 20% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38956,7 +38956,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 8% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 8% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 8% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41643,7 +41643,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chance de acerto crítico aumentado em [0]%.",
+          "Value": "Chance de acerto crítico aumentada em [0]%.",
           "Key": "Critical hit chance increased by [0]%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -83064,7 +83064,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumenta o movimento de todos os aliados em até 4 hexágonos em 3.",
+          "Value": "Aumenta em 3 o movimento de todos os aliados em um raio de 4 hexágonos.",
           "Key": "Increases movement of all allies within 4 hexes by 3.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161936,7 +161936,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[damage type] de Dano",
+          "Value": "Dano [damage type]",
           "Key": "[damage type] Damage",
           "TranslatorKey": null,
           "Feminine": null,
