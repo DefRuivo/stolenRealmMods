@@ -18,7 +18,7 @@ namespace BetterPortuguese;
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string Guid = "com.gumatos.betterportuguese";
-    public const string Versao = "0.2.2";
+    public const string Versao = "0.2.3";
     private static readonly StateQueue States = new StateQueue();
     private static Overlay<LocalizationEntry> overlay;
     private static ISet<string> changedKeys = new HashSet<string>(StringComparer.Ordinal);

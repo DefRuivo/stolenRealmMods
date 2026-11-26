@@ -4,6 +4,26 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.3 — 2026-11-26
+
+- **BP-FINAL: revisão contextual do catálogo inteiro, aprovada pelo dono.** 432 propostas aplicadas ao dataset
+  (424 edições de valor e 8 entradas que o jogo deixou vazias), sobre 9.383 chaves revisadas em 114 lotes e um
+  parecer independente de 581 propostas. O diff passa de 1464 para 1894 chaves alteradas; não houve mudança de
+  loot, XP, custo, alcance, dano ou qualquer outro número de mecânica — tokens, números e tag de marcação foram
+  conferidos chave a chave contra o original.
+- **Erros de tradução corrigidos:** `Rapier` → **Florete**, `Butchery` → **Carnificina**, `Dexterous` → **Habilidoso**,
+  `Stack` → **Acúmulo**, `Momentum` → **Ímpeto**, `Guarding`/`Negating`/`Nullifying` → **Defesa/Neutralizante/Anulador**,
+  `Giant Ray` → **Raia-gigante** (não "Raio"), `Master Swordfish` → **Peixe-espada Mestre**, `Level Up Fortunes`
+  → **Aumentar o nível das Fortunas**.
+- **Nomenclatura decidida pelo dono:** `Imp` → **Diabrete** (família inteira, incluindo `Jungle Imp` e `Red Imp`);
+  `Timber Wolf` → **Lobo Cinzento**; `Dire` → **Atroz** (Lobo Atroz, Mordida Atroz, Uivo Atroz, Lobisomem Atroz);
+  `Reroll` → **Rerolar** (Rerolar Habilidade, Rerolar Modificadores, Custo para Rerolar).
+- **Interface:** `Join` → **Entrar**, `Choose Battle`/`Exit Test Battle` → **Escolher batalha**/**Sair do teste de batalha**,
+  e a família `A P Cost Mod` unificada em **Modificador de Custo de PA de …** (duas entradas diziam "Ponto de Ação"
+  por extenso no meio das outras).
+- **A tabela de efeitos de evento passa a dizer "Rerolar uma habilidade"**, para não contradizer o título do cartão.
+- **Pendente:** 31 chaves aprovadas que só existem na beta 1.4.9 continuam fora do pacote (snapshot LANG-R1).
+
 ## 0.2.2 — 2026-11-25
 
 - **BP-CTX-1: revisão contextual do PT-BR aprovada pelo dono, aplicada ao dataset.** 56 entradas passam a usar o

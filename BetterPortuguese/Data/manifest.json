@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 936733,
-      "sha256": "e3913c4435dab6bebd65529f3c504a0c674a037d3dc808d25c7d9064241b871d"
+      "bytes": 1074564,
+      "sha256": "5442d6a8641f048865b814da2e9ced4cdfcd3efea63ed7ef7405b7264108ab46"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5547284,
-      "sha256": "78f622f0f6947aaa9b6928f7b03ccbc4412773333ffe5cbb4caedfd6304a959b"
+      "bytes": 5549447,
+      "sha256": "814f1082162b6128598aff9818632fb1070104dae19be93786aaaa0a869defa4"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,7 +38,7 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 1464,
+    "changedKeys": 1894,
     "approvedModRecords": 177
   },
   "limits": [
@@ -56,6 +56,7 @@
     "BP-FIX-4: owner-approved LANG-04864 gender agreement (Fortunas, feminine); 1323 unique changed keys",
     "BP-STACK-1: owner-approved stack vocabulary pilha -> acumulo in every tooltip/event that means a STACK of effect; 1412 unique changed keys. Retificacao: 7 physical piles (Pile of Gold x3, pile of maps, shimmering pile of treasure, pile of ash) reverted to \"pilha\" and the masculine participle fixed in LANG-05591/LANG-05592 (\"Um acumulo e aplicado\") and LANG-03153/LANG-03154 (\"Cada acumulo de Calor aplicado\"); exceptions LANG-00891 (coin pile) and LANG-06885 (verb Empilhar) untouched. R1 review: dataset files rewritten with LF (repo norm) after the CRLF churn.",
     "BP-WORD-1: owner-approved rewording of stack lines (8 keys); 1412 unique changed keys",
-    "BP-CTX-1: owner-approved contextual PT-BR review (attributes/party/turn/Bard) - 55 field edits + 1 re-added entry, 4 previously approved keys re-approved under t_ce680634; 31 beta-1.4.9 keys pending snapshot refresh"
+    "BP-CTX-1: owner-approved contextual PT-BR review (attributes/party/turn/Bard) - 55 field edits + 1 re-added entry, 4 previously approved keys re-approved under t_ce680634; 31 beta-1.4.9 keys pending snapshot refresh",
+    "BP-FINAL: owner-approved contextual review of the whole catalogue on build 26878331 - 432 applied proposals (424 value edits, 8 entries re-added) plus the 3 owner nomenclature decisions (Imp=Diabrete, Timber Wolf=Lobo Cinzento, Dire=Atroz, Reroll=Rerolar); 1464 prior changed keys preserved"
   ]
 }
