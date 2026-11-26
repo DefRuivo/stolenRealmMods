@@ -83,6 +83,15 @@ internal static class CompositionTests
             Check(label.IsStatic && label.ReturnType.FullName=="System.String" && label.Parameters.Single().ParameterType.FullName=="DamageType");
             Check(label.Body.Instructions.Any(i=>i.Operand is string s && s=="[damage type] Damage"));
             Check(label.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="Replace"));
+            var itemDescription = tooltip.Methods.Single(m=>m.Name=="AppendItemMods");
+            Check(!itemDescription.IsStatic && itemDescription.ReturnType.FullName=="System.String");
+            Check(itemDescription.Parameters.Select(p=>p.ParameterType.FullName).SequenceEqual(new[]{"Item","Item"}));
+            Check(itemDescription.Parameters[0].Name=="item");
+            bool CallsTooltip(object operand, string name) => operand is MethodReference method && method.DeclaringType.FullName=="Tooltip" && method.Name==name;
+            Check(itemDescription.Body.Instructions.Count(i=>CallsTooltip(i.Operand,"GetDamageTypeLabel"))==1);
+            var itemSearch = module.Types.Single(t=>t.FullName=="ItemSearch").Methods.Single(m=>m.Name=="BuildItemSearchText");
+            Check(itemSearch.Body.Instructions.Count(i=>CallsTooltip(i.Operand,"GetDamageTypeLabel"))==1);
+            Check(!itemSearch.Body.Instructions.Any(i=>CallsTooltip(i.Operand,"AppendItemMods")));
             var quality=module.Types.Single(t=>t.FullName=="ItemQuality").Fields.Where(f=>f.HasConstant).ToArray();
             Check(quality.Select(f=>f.Name).SequenceEqual(new[]{"Common","Uncommon","Rare","Legendary","Mythic"}));
             Check(quality.Select(f=>Convert.ToInt32(f.Constant)).SequenceEqual(Enumerable.Range(0,quality.Length)));
@@ -109,7 +118,11 @@ internal static class CompositionTests
                 Check(fortune.Parameters.Single(p=>p.ParameterType.FullName=="Burst2Flame.ActionStatusInfo").Name=="actionStatusInfo");
                 var damage=runtime.Methods.Single(m=>m.Name=="DamagePostfix");
                 Check(damage.Parameters.Single(p=>p.ParameterType.FullName=="DamageType").Name=="damageType");
-                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==4);
+                var physical = runtime.Methods.Single(m=>m.Name=="PhysicalItemDescriptionPostfix");
+                Check(physical.Parameters.Single(p=>p.Name=="item").ParameterType.FullName=="Item");
+                Check(physical.Parameters.Single(p=>p.Name=="__runOriginal").ParameterType.FullName=="System.Boolean");
+                Check(physical.Parameters.Single(p=>p.Name=="__result").ParameterType.FullName=="System.String&");
+                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==5);
             }
         });
         test("BP-COMP plugin production hooks wired", () => {

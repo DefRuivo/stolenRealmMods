@@ -15,7 +15,8 @@ using UnityEngine;
 namespace UnityEngine { public class Sprite {} public class Transform {} public struct Color {} public struct Vector3 {} }
 namespace BetterPortuguese { public static class Plugin { public const string Guid="bp.composition.offline"; } }
 public class Item {} public class ItemInfo {} public class TooltipOffsetInfo {} public class Character {} public struct ControlGlyphInfo {}
-public enum DamageType { Physical, Healing, Fire }
+public enum DamageType { Physical, Healing, Fire, Cold }
+public class Weapon : Item { public DamageType DamageType { get; set; } }
 public enum ItemQuality { Common, Uncommon, Rare, Legendary, Mythic }
 public enum StatusType { Buff, Fortune }
 public enum PersistentDurationType { Normal }
@@ -26,12 +27,13 @@ public class Tooltip
     public string Raw = "Lendário Varinha", Drawn;
     public string Title, Description, InnerDrawn;
     public bool Throw, Nested;
+    public string BigText, FixtureDamageLine;
     public Tooltip Comparison;
     [MethodImpl(MethodImplOptions.NoInlining)] public void ShowTooltip(string title, string subtitle, Sprite icon, string description, TooltipOffsetInfo offset, Color color, Vector3? pos=null, bool showIcon=true, bool isItem=false, float alpha=1, ControlGlyphInfo? glyph=null, string footer=null, bool equipped=false) { Drawn=subtitle; Title=title; Description=description; }
     [MethodImpl(MethodImplOptions.NoInlining)] public void ShowItemTooltip(Item item, Transform hovering, TooltipOffsetInfo offset, Character character, bool showComp=true, bool fromLink=false, ControlGlyphInfo? glyph=null, string footer=null, Item comparison=null)
     {
         if (Nested) { Nested=false; ShowItemTooltip(new ItemInfo(),null); }
-        ShowTooltip("TITLE",Raw,null,"DESCRIPTION",null,new Color());
+        ShowTooltip("TITLE",Raw,null,AppendItemMods(item,comparison),null,new Color());
         if (Comparison!=null) Comparison.ShowTooltip("COMPARISON",Comparison.Raw,null,"",null,new Color());
         if (Throw) throw new InvalidOperationException("native failure");
     }
@@ -51,6 +53,13 @@ public class Tooltip
     }
     public static string Label="Cura de Dano";
     [MethodImpl(MethodImplOptions.NoInlining)] public static string GetDamageTypeLabel(DamageType damageType) { return Label; }
+    [MethodImpl(MethodImplOptions.NoInlining)] public string AppendItemMods(Item item, Item compItem=null)
+    {
+        if (FixtureDamageLine != null) return FixtureDamageLine;
+        if (!(item is Weapon weapon)) return "DESCRIPTION";
+        BigText="<color=#FFFFFF>7-11</color>";
+        return "<color=#FFFFFF>"+GetDamageTypeLabel(weapon.DamageType)+"</color>\nBônus [0] — Dano Físico";
+    }
 }
 // Deliberate API drift fixtures: same-typed strings swapped, and a renamed enum.
 public class ReorderedTooltip
@@ -83,6 +92,7 @@ public static class CompositionHarmonyProbe
     }
     public static int Main()
     {
+        Console.OutputEncoding = new System.Text.UTF8Encoding(false);
         var h=new Harmony(BetterPortuguese.Plugin.Guid);
         var other=new Harmony("foreign.composition.offline");
         try
@@ -110,11 +120,13 @@ public static class CompositionHarmonyProbe
                 if(m.Name=="ShowTooltip")pre="SubtitlePrefix";
                 if(m.Name=="ShowItemTooltip"||m.Name=="ShowTransmogTooltip"){pre="EnterItem";fin="LeaveItem";}
                 if(m.Name=="GetDamageTypeLabel")post="DamagePostfix";
+                if(m.Name=="AppendItemMods" && M("PhysicalItemDescriptionPostfix")!=null)post="PhysicalItemDescriptionPostfix";
                 if(m.Name=="ShowActionStatusTooltip" && M("EnterFortune")!=null){pre="EnterFortune";fin="LeaveFortune";}
                 patch.Invoke(null,new object[]{h,m,pre,post,fin});
             }
             F("itemReady").SetValue(null,true);F("damageReady").SetValue(null,true);
             F("fortuneReady")?.SetValue(null,true);
+            F("physicalDescriptionReady")?.SetValue(null,true);
             var moved=new ReorderedTooltip();
             F("itemDepth").SetValue(null,1);
             try { moved.ShowTooltip("Lendário Varinha","TITLE unchanged"); }
@@ -165,10 +177,55 @@ public static class CompositionHarmonyProbe
             var display=methods.Single(m=>m.Name=="ShowTooltip");
             other.Patch(display,prefix:new HarmonyMethod(typeof(CompositionHarmonyProbe).GetMethod("Competing",BindingFlags.Static|BindingFlags.NonPublic)));
             t.Raw="Lendário Varinha";Enter(t);Mark("foreign prefix output preserved",t.Drawn=="Outro formato");other.UnpatchSelf();
+            var weapon=new Weapon{DamageType=DamageType.Physical};
+            void DrawWeapon() => t.ShowItemTooltip(weapon,null,null,null);
+            string line(string label) => "<color=#FFFFFF>"+label+"</color>\nBônus [0] — Dano Físico";
+            Tooltip.Label="Dano Físico";
+            Mark("physical outside native item tooltip unchanged",Tooltip.GetDamageTypeLabel(DamageType.Physical)==Tooltip.Label);
+            DrawWeapon(); Mark("physical item tooltip expected lowercase damage type; got "+t.Description,t.Description==line("Dano físico")&&t.BigText=="<color=#FFFFFF>7-11</color>"&&Depth==0);
+            weapon.DamageType=DamageType.Fire; DrawWeapon(); Mark("other damage enum with identical incoming label unchanged",t.Description==line(Tooltip.Label));
+            weapon.DamageType=DamageType.Cold; Tooltip.Label="Dano Frio"; DrawWeapon();
+            Mark("cold weapon tooltip unchanged",t.Description==line("Dano Frio"));
+            weapon.DamageType=DamageType.Healing; Tooltip.Label="Dano Cura"; DrawWeapon();
+            Mark("healing weapon tooltip retains existing composition",t.Description==line("Cura por Dano"));
+            weapon.DamageType=DamageType.Physical;
+            Tooltip.Label="Dano Físico";
+            foreach(var s in new[]{new Settings(active:false),new Settings(variant:Conjunto.Original),new Settings(valid:false)})
+            {current=s;DrawWeapon();Mark("physical item tooltip blocked by settings "+s.Active+s.Valid+s.Variant,t.Description==line(Tooltip.Label));}
+            current=new Settings();OptionsManager.CurrentLanguage=LanguageChoice.English;
+            DrawWeapon();Mark("physical eligible-looking label in English untouched",t.Description==line(Tooltip.Label));
+            OptionsManager.CurrentLanguage=LanguageChoice.PortugueseBrazil;
+            foreach (string unrecognized in new[]{"Dano físico","Dano Físico Crítico","<b>Dano Físico</b>","Físico de Dano","Dano Físico ","Physical Damage",null})
+            {Tooltip.Label=unrecognized; DrawWeapon();Mark("physical unexpected or already correct label untouched: "+unrecognized,t.Description==line(unrecognized));}
+            foreach (string nonNative in new[]{"<color=#ABCDE>Dano Físico</color>\n", "<color=#FFFFFZ>Dano Físico</color>\n", "<color=#FFFFFFFF>Dano Físico</color>\n", "Header\n"+line("Dano Físico"),"<color=#FFFFFF>Dano Físico</color> extra"})
+            {t.FixtureDamageLine=nonNative;DrawWeapon();Mark("physical does not touch a non-native first line",t.Description==nonNative);}
+            t.FixtureDamageLine=line("Dano Físico"); Enter(t);
+            Mark("nonweapon with identical native-looking prefix untouched",t.Description==t.FixtureDamageLine);
+            t.FixtureDamageLine="<color=#aB12Ff>Dano Físico</color>\nrest"; DrawWeapon();
+            Mark("physical exact native first line preserves any RGB case",t.Description=="<color=#aB12Ff>Dano físico</color>\nrest");
+            t.FixtureDamageLine=null;
+            var nativeDescription = methods.Single(m=>m.Name=="AppendItemMods");
+            other.Patch(nativeDescription, prefix:new HarmonyMethod(typeof(CompositionHarmonyProbe).GetMethod(nameof(ReplaceNativeDescription), BindingFlags.Static | BindingFlags.NonPublic)));
+            try
+            {
+                t.BigText="native method not called";
+                DrawWeapon();
+                Mark("physical skips a replacement from another Harmony owner; got "+t.Description,t.Description==ForeignDescription && t.BigText=="native method not called");
+            }
+            finally { other.UnpatchSelf(); }
+            Tooltip.Label="Dano Físico";throwSettings=true;DrawWeapon();
+            Mark("physical settings exception preserves native description",t.Description==line(Tooltip.Label)&&Depth==0);throwSettings=false;
+            Tooltip.Label="Cura de Dano";
             h.UnpatchSelf();Enter(t);Mark("unpatched negative control exhibits both defects",t.Drawn=="Lendário Varinha"&&Tooltip.GetDamageTypeLabel(DamageType.Healing)=="Cura de Dano");
             Console.WriteLine("RESULT passed="+passed+" failed=0; SYNTHETIC CLR, game/UI/Mono NOT exercised");return 0;
         }
         catch(Exception ex){Console.WriteLine("FAIL "+ex);return 1;}
         finally{h.UnpatchSelf();other.UnpatchSelf();}
+    }
+    private const string ForeignDescription = "<color=#FFFFFF>Dano Físico</color>\nDescrição de outro owner";
+    private static bool ReplaceNativeDescription(ref string __result)
+    {
+        __result = ForeignDescription;
+        return false;
     }
 }

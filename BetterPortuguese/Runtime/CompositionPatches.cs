@@ -15,7 +15,7 @@ internal static class CompositionPatches
     [ThreadStatic] private static FortuneContext fortuneContext;
     private sealed class ScopeFrame { public int Previous; }
     private struct FortuneContext { public Tooltip Target; public ItemQuality Quality; }
-    private static bool itemReady, fortuneReady, damageReady, itemAlive, damageAlive;
+    private static bool itemReady, fortuneReady, damageReady, physicalDescriptionReady, itemAlive, damageAlive;
     private static Func<Settings> settings;
     private static OnceLog warnings;
     private static Action<string> info;
@@ -80,6 +80,14 @@ internal static class CompositionPatches
             info?.Invoke("BP-COMP: rotulo Healing registrado em Tooltip.GetDamageTypeLabel.");
         }
         catch (Exception ex) { damageReady = false; warnings?.Write("BP-COMP Healing recusado: " + ex.Message); }
+        try
+        {
+            var description = Bindings.Exact(typeof(Tooltip), "AppendItemMods", typeof(string), false, typeof(Item), typeof(Item));
+            RequireArgument(description, "item", typeof(Item));
+            Patch(harmony, description, null, nameof(PhysicalItemDescriptionPostfix), null);
+            physicalDescriptionReady = true;
+        }
+        catch (Exception ex) { physicalDescriptionReady = false; warnings?.Write("BP-COMP rotulo de item recusado: " + ex.Message); }
     }
 
     // Harmony binds these arguments by NAME, not by their slot. Validate before
@@ -183,6 +191,32 @@ internal static class CompositionPatches
             if (incoming != corrected) infoOnce("Healing corrigido para Cura por Dano");
         }
         catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo preservado por excecao: " + ex.GetType().Name); }
+    }
+    private static void PhysicalItemDescriptionPostfix(Item item, bool __runOriginal, ref string __result)
+    {
+        string incoming = __result;
+        try
+        {
+            if (!physicalDescriptionReady || !__runOriginal || !(item is Weapon weapon) || weapon.DamageType != DamageType.Physical || incoming == null) return;
+            // The game's weapon description starts with this colored line. BigText (numbers) and
+            // ItemSearch's use of GetDamageTypeLabel are separate; do not rewrite either of them.
+            const string tag = "<color=#";
+            const string originalLabel = "Dano Físico";
+            const string firstLineTail = originalLabel + "</color>\n";
+            const int rgbEnd = 8 + 6; // "<color=#" + six RGB digits
+            const int labelStart = rgbEnd + 1;
+            if (incoming.Length < labelStart + firstLineTail.Length || !incoming.StartsWith(tag, StringComparison.Ordinal) ||
+                incoming[rgbEnd] != '>' || string.CompareOrdinal(incoming, labelStart, firstLineTail, 0, firstLineTail.Length) != 0) return;
+            for (int i = tag.Length; i < rgbEnd; i++)
+            {
+                char c = incoming[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) return;
+            }
+            if (!Enabled()) return;
+            __result = incoming.Substring(0, labelStart) + "Dano físico" + incoming.Substring(labelStart + originalLabel.Length);
+            infoOnce("rotulo de arma fisica corrigido em Tooltip.AppendItemMods");
+        }
+        catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo de item preservado por excecao: " + ex.GetType().Name); }
     }
     private static readonly System.Collections.Generic.HashSet<string> applied = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
     private static void infoOnce(string text) { if (applied.Add(text)) info?.Invoke("BP-COMP: " + text + "."); }
