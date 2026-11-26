@@ -4,6 +4,22 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.5 — 2026-11-26
+
+- **Revisão SR-QA aplicada ao dataset, com o pin re-homologado.** Seis textos do laudo do playtest:
+  `LANG-02150/02148/02149` passam a dizer **Glóbulo** (o recurso dos itens) em vez de "Globule";
+  `LANG-02295` corrige a concordância (**aumentada**); `LANG-04554` (**Reunir**) separa o bônus de 3 do
+  raio de 4 hexágonos; e `LANG-08853` vira `Dano [damage type]`, que mostra **Dano Físico** em vez de
+  "Físico de Dano" — o contrato de Healing (`Core/Composition.cs`) acompanha e segue emitindo
+  **Cura por Dano**.
+- **Nomes de itens com afixo (SR-QA-05).** `LANG-08859` passa a pôr o nome antes do prefixo
+  (`[item name] [item prefix] [item suffix]`), e os 16 prefixos possessivos viram forma pós-nominal
+  ("do Treinador", "do Invocador"), resolvendo "Selvagem Escudo com Lâmina" e "Treinador(a) de Chapéu".
+  Concordância de adjetivo continua fora do alcance do dado (o loader não aceita `LanguageGender`).
+- **Pin de composição na 1.4.9.** `Composition.AssemblySha256` passa a `f3f0069b…` (build 26878331),
+  após comparação corpo a corpo dos alvos Harmony entre 1.4.8 e 1.4.9 — BP-COMP/BP-MODS deixam de ser
+  recusados nessa build. O `lib/Assembly-CSharp.dll` do repositório acompanha. Diff: 1897 → 1918 chaves.
+
 ## 0.2.4 — 2026-11-26
 
 - **Três achados da conferência em jogo.** O selo dos cards de dificuldade passa a concordar com o gênero de

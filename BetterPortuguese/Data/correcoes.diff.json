@@ -27036,8 +27036,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Embalmador",
-    "after": "Embalsamador",
-    "approvalTaskId": "t_c9697bd7"
+    "after": "do Embalsamador",
+    "approvalTaskId": "t_4146957e"
   },
   {
     "id": "LANG-03071",
@@ -28424,8 +28424,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Salvador",
-    "after": "Do Salvador",
-    "approvalTaskId": "t_c9697bd7"
+    "after": "do Salvador",
+    "approvalTaskId": "t_4146957e"
   },
   {
     "id": "LANG-06422",
@@ -29455,5 +29455,140 @@
     "before": "[damage type] de Dano",
     "after": "Dano [damage type]",
     "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-08859",
+    "key": "[item prefix] [item name] [item suffix]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[item prefix] [item name] [item suffix]",
+    "after": "[item name] [item prefix] [item suffix]",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-01843",
+    "key": "Caretaker's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Zelador dos",
+    "after": "do Zelador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-03907",
+    "key": "Gravekeeper's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Guardião das Tumbas",
+    "after": "do Coveiro",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-04730",
+    "key": "Keeper's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Guardião dos",
+    "after": "do Guardião",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-04871",
+    "key": "Lich's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Liches",
+    "after": "do Lich",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05014",
+    "key": "Magician's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Mago",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05019",
+    "key": "Magus'",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Magos'",
+    "after": "do Arquimago",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05100",
+    "key": "Master's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mestre dos Mestres",
+    "after": "do Mestre",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05244",
+    "key": "Mortician's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Funerária",
+    "after": "do Agente Funerário",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05362",
+    "key": "Necromancer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Necromante",
+    "after": "do Necromante",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-06821",
+    "key": "Sorcerer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Feiticeiro",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07114",
+    "key": "Summoner's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocador de",
+    "after": "do Invocador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07257",
+    "key": "Tamer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Domadores",
+    "after": "do Domador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07798",
+    "key": "Trainer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Treinador(a) de",
+    "after": "do Treinador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-08347",
+    "key": "Wizard's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Bruxo",
+    "approvalTaskId": "t_4146957e"
   }
 ]

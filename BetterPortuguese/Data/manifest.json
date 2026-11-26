@@ -5,8 +5,8 @@
   "files": [
     {
       "path": "correcoes.diff.json",
-      "bytes": 1077190,
-      "sha256": "4d8b10c265bf8244c32a8af58fe8734f83440d954e796945c854d0e73d77a82e"
+      "bytes": 1080314,
+      "sha256": "68f2b7f7571bfad444ecc9b27f9cb7d23dff3c60543f4da809b01177ced72679"
     },
     {
       "path": "pendencias.json",
@@ -15,8 +15,8 @@
     },
     {
       "path": "pt-BR.corrigido.json",
-      "bytes": 5549440,
-      "sha256": "ff0bc487bed1b4a3a86580b59ebf0313238ec5a755869d8a28e3178038258fe5"
+      "bytes": 5549429,
+      "sha256": "2c50e71cbb52eb35b8011ea0925cc3321c1b3e519d846abd2b6d120e17e957a5"
     },
     {
       "path": "pt-BR.mods.json",
@@ -38,7 +38,7 @@
     "gameRecords": 9095,
     "portugueseKeys": 9090,
     "manualRecords": 2,
-    "changedKeys": 1903,
+    "changedKeys": 1918,
     "approvedModRecords": 177
   },
   "limits": [

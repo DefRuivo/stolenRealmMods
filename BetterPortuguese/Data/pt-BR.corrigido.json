@@ -33320,7 +33320,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Zelador dos",
+          "Value": "do Zelador",
           "Key": "Caretaker's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -55051,7 +55051,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Embalsamador",
+          "Value": "do Embalsamador",
           "Key": "Embalmer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -71068,7 +71068,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Guardião das Tumbas",
+          "Value": "do Coveiro",
           "Key": "Gravekeeper's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86320,7 +86320,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Guardião dos",
+          "Value": "do Guardião",
           "Key": "Keeper's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88913,7 +88913,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Liches",
+          "Value": "do Lich",
           "Key": "Lich's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91531,7 +91531,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Mago",
           "Key": "Magician's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91621,7 +91621,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Magos'",
+          "Value": "do Arquimago",
           "Key": "Magus'",
           "TranslatorKey": null,
           "Feminine": null,
@@ -93101,7 +93101,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mestre dos Mestres",
+          "Value": "do Mestre",
           "Key": "Master's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95737,7 +95737,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Funerária",
+          "Value": "do Agente Funerário",
           "Key": "Mortician's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97927,7 +97927,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Necromante",
+          "Value": "do Necromante",
           "Key": "Necromancer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116951,7 +116951,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Do Salvador",
+          "Value": "do Salvador",
           "Key": "Savior's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124832,7 +124832,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Feiticeiro",
           "Key": "Sorcerer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130139,7 +130139,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocador de",
+          "Value": "do Invocador",
           "Key": "Summoner's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132746,7 +132746,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Domadores",
+          "Value": "do Domador",
           "Key": "Tamer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -142680,7 +142680,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Treinador(a) de",
+          "Value": "do Treinador",
           "Key": "Trainer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -152790,7 +152790,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Bruxo",
           "Key": "Wizard's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -162044,7 +162044,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[item prefix] [item name] [item suffix]",
+          "Value": "[item name] [item prefix] [item suffix]",
           "Key": "[item prefix] [item name] [item suffix]",
           "TranslatorKey": null,
           "Feminine": null,
