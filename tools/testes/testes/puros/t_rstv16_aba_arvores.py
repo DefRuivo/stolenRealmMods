@@ -73,14 +73,14 @@ def corpo():
     arc.exigir(not falhas_ap, "a aposentadoria regrediu em %d ponto(s): %s"
                % (len(falhas_ap), " | ".join(falhas_ap)))
 
-    # 4) O FILTRO DAS CLASSES: 11 (Bard/Basic/Innate fora), e o defeito do Bard e' diferente.
+    # 4) O FILTRO DAS CLASSES: 12 (Basic/Innate fora; o Bard ENTRA desde a beta 1.4.8).
     classes = reg.classes_da_aba(reg.TIPOS_ASSET)
-    arc.exigir("Bard" not in classes, "o filtro deixou o Bard entrar: %s" % classes)
+    arc.exigir("Bard" in classes, "o filtro deixou o Bard FORA (ele esta no jogo): %s" % classes)
     arc.exigir("Basic" not in classes and "Innate" not in classes,
                "o filtro deixou Basic/Innate entrarem (nao sao arvores): %s" % classes)
-    arc.igual(len(classes), 11, "o numero de classes da aba (14 no asset - Bard - Basic - Innate)")
-    arc.exigir(classes != reg.classes_com_bard(reg.TIPOS_ASSET),
-               "o modelo nao distingue a regra nova da que inclui o Bard — nao prova nada")
+    arc.igual(len(classes), 12, "o numero de classes da aba (14 no asset - Basic - Innate)")
+    arc.exigir(classes != reg.classes_sem_bard(reg.TIPOS_ASSET),
+               "o modelo nao distingue a regra atual da que exclui o Bard — nao prova nada")
 
     # 4b) DLC e skill visivel CORTAM a classe (o Chaos condicional do jogo).
     sem_dlc = reg.classes_da_aba(reg.TIPOS_ASSET, dlc_ok={"Chaos": False})
@@ -98,14 +98,14 @@ def corpo():
     arc.exigir(reg.conteudo_apos_clique(3, True) != reg.conteudo_apos_clique(3, False),
                "os dois caminhos dao o mesmo conteudo: o modelo nao prove a diferenca do ponto 8")
 
-    # 6) PROVA DE FOGO NO FONTE 1: com o FILTRO do Bard removido, as checagens reprovam pelo motivo certo.
-    com_bard = reg.fonte_com_bard_incluido(src_tab)
-    arc.exigir(com_bard != src_tab,
-               "o plantio do defeito 'Bard' nao encontrou a ancora (`if (tipo == SkillType.Bard)`): a "
+    # 6) PROVA DE FOGO NO FONTE 1: com o Bard EXCLUIDO a mao, as checagens reprovam pelo motivo certo.
+    sem_bard = reg.fonte_com_bard_excluido(src_tab)
+    arc.exigir(sem_bard != src_tab,
+               "o plantio do defeito 'Bard' nao encontrou a ancora (`SkillType tipo = todos[i];`): a "
                "checagem nao le o trecho certo")
-    falhas_bard = reg.falhas_da_aba(com_bard)
+    falhas_bard = reg.falhas_da_aba(sem_bard)
     arc.exigir(len(falhas_bard) >= 1 and any("Bard" in f for f in falhas_bard),
-               "as checagens PASSARAM (ou reprovaram por outro motivo) com o Bard incluido: %s"
+               "as checagens PASSARAM (ou reprovaram por outro motivo) com o Bard excluido: %s"
                % " | ".join(falhas_bard))
 
     # 7) PROVA DE FOGO NO FONTE 2: com a aba FORA do array publico (o "Tabbing broke"), reprova.

@@ -139,7 +139,7 @@ def _corpo_da_classe(src, marcador):
 # ------------------------------------------------------------- modelos puros ---
 #
 # A LISTA DE CLASSES. A regra IMPLEMENTADA espelha `RefreshAvailableSkillTrees` (l.170113): fora
-# Bard (decisao do dono), Basic/Innate (nao sao arvores), e as que falham DLC/predicado de skill.
+# Basic/Innate (nao sao arvores) e as que falham DLC/predicado de skill. O Bard ENTRA desde a beta 1.4.8.
 TIPOS_ASSET = ["Fire", "Lightning", "Cold", "Warrior", "Light", "Ranger",
                "Shadow", "Thief", "Basic", "Innate", "Monk", "Nature", "Chaos", "Bard"]
 
@@ -147,15 +147,13 @@ NAO_ARVORES = ("Basic", "Innate")
 
 
 def classes_da_aba(tipos, dlc_ok=None, com_skill=None):
-    """A regra IMPLEMENTADA: tira Bard, tira Basic/Innate, exige DLC e skill visivel.
+    """A regra IMPLEMENTADA: tira Basic/Innate, exige DLC e skill visivel (o Bard entra).
 
     `dlc_ok`/`com_skill` sao os predicados do jogo, por tipo (default: tudo visivel). O Chaos cai
     aqui pelo `FullReleaseModeEnabled`/DLC, como no jogo.
     """
     saida = []
     for t in tipos:
-        if t == "Bard":
-            continue
         if t in NAO_ARVORES:
             continue
         if dlc_ok is not None and not dlc_ok.get(t, True):
@@ -167,12 +165,9 @@ def classes_da_aba(tipos, dlc_ok=None, com_skill=None):
     return saida
 
 
-def classes_com_bard(tipos, dlc_ok=None, com_skill=None):
-    """O DEFEITO plantado: a lista NAO filtra o Bard (o cartao dizia que Bard aparecia)."""
-    saida = classes_da_aba(tipos, dlc_ok, com_skill)
-    if "Bard" in tipos and "Bard" not in saida:
-        saida.append("Bard")
-    return saida
+def classes_sem_bard(tipos, dlc_ok=None, com_skill=None):
+    """O DEFEITO plantado: a lista EXCLUI o Bard (o comportamento ate a 0.3.5)."""
+    return [t for t in classes_da_aba(tipos, dlc_ok, com_skill) if t != "Bard"]
 
 
 #
@@ -273,8 +268,13 @@ def falhas_da_aba(src_tab):
     if tipos is None:
         falhas.append("nao achei %s no SkillTreesTab.cs" % TIPOS)
     else:
-        if "SkillType.Bard" not in tipos:
-            falhas.append("TiposDaAba NAO exclui o Bard (decisao do dono: nao esta no jogo)")
+        # O Bardo passou a existir na beta 1.4.8: a lista e data-driven (MiscSettings.SkillTabTypes +
+        # MeetsDLCRequirements + TemSkillsVisiveis), entao nao pode haver exclusao explicita dele.
+        if "SkillType.Bard" in tipos:
+            falhas.append("TiposDaAba cita o Bard explicitamente (ele esta no jogo desde a beta 1.4.8; "
+                          "a lista tem de ser data-driven, sem exclusao por classe)")
+        if "SkillTabTypes" not in tipos:
+            falhas.append("TiposDaAba nao le `MiscSettings.SkillTabTypes` (lista de classes nao e data-driven)")
         if "SkillType.Basic" not in tipos or "SkillType.Innate" not in tipos:
             falhas.append("TiposDaAba nao exclui `Basic`/`Innate` (nao sao arvores — l.170113)")
         if "MeetsDLCRequirements" not in tipos:
@@ -366,13 +366,13 @@ def falhas_da_aposentadoria(src_readonly, src_plugin, src_run, src_patches):
 
 # ------------------------------------------------------------ plantio de defeitos ---
 
-_ANCORA_BARD = """                    if (tipo == SkillType.Bard)
+# O Bardo passou a existir na beta 1.4.8: o defeito agora e EXCLUI-lo explicitamente.
+_ANCORA_BARD = """                    SkillType tipo = todos[i];"""
+_DEFEITO_BARD = """                    SkillType tipo = todos[i];
+                    if (tipo == SkillType.Bard)
                     {
                         continue;
-                    }
-
-"""
-_DEFEITO_BARD = ""
+                    }"""
 
 _ANCORA_ARRAY = """                MenuTab[] novo = new MenuTab[antigo.Length + 1];
                 Array.Copy(antigo, novo, antigo.Length);
@@ -385,8 +385,8 @@ _ANCORA_PREDICADO = """                if (s == null || s.SkillType != tipo || s
 _DEFEITO_PREDICADO = """                if (s == null || s.SkillType != tipo)"""
 
 
-def fonte_com_bard_incluido(src=None):
-    """O MESMO fonte com o FILTRO do Bard removido (a premissa falsa do cartao), em memoria."""
+def fonte_com_bard_excluido(src=None):
+    """O MESMO fonte com uma EXCLUSAO explicita do Bard plantada, em memoria."""
     texto = fonte(caminho_aba()) if src is None else src
     if _ANCORA_BARD not in texto:
         return texto

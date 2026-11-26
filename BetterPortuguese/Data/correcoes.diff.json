@@ -29374,5 +29374,32 @@
     "before": "o Monstruo",
     "after": "o Monstruoso",
     "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07938",
+    "key": "Unlocked",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Desbloqueado",
+    "after": "Desbloqueada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02795",
+    "key": "Difficulty: [difficulty name]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dificuldade: [difficulty name]",
+    "after": "[difficulty name]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02022",
+    "key": "Cleared",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Concluído",
+    "after": "Concluída",
+    "approvalTaskId": "t_c9697bd7"
   }
 ]

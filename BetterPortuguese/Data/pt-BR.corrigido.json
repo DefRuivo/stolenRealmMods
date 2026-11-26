@@ -36597,7 +36597,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Concluído",
+          "Value": "Concluída",
           "Key": "Cleared",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50693,7 +50693,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dificuldade: [difficulty name]",
+          "Value": "[difficulty name]",
           "Key": "Difficulty: [difficulty name]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -145299,7 +145299,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Desbloqueado",
+          "Value": "Desbloqueada",
           "Key": "Unlocked",
           "TranslatorKey": null,
           "Feminine": null,

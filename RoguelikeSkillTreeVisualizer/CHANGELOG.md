@@ -6,6 +6,13 @@ that came out of a review.
 > Publication dates use ISO 8601 (BRT, UTC−03:00); undated older headings do not assert a release date.
 > CHG-REV documentation audit: 2026-10-16. These repository corrections do not modify previously published ZIPs.
 
+## 0.3.9 — 2026-11-26
+
+- **O rótulo da aba deixa de ser inglês.** Era `All Trees`, escrito direto na constante e sem chave no
+  dicionário do jogo (o `OptionsManager.Localize` da l.246 não tinha o que traduzir). Passa a **Árvores**,
+  que cabe no mesmo orçamento de largura medido para o rótulo antigo (~78u) e não desloca as três abas
+  nativas, porque `FixarLarguraDaAba` continua travando a largura na maior delas.
+
 ## 0.3.8
 
 - All Skill Trees keeps the native size of skill tooltips. Closing the window or changing resolution while it is open no longer leaves shared tooltips scaled incorrectly.

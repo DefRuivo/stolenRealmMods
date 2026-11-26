@@ -4,6 +4,17 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.4 — 2026-11-26
+
+- **Três achados da conferência em jogo.** O selo dos cards de dificuldade passa a concordar com o gênero de
+  "dificuldade": `LANG-02022` (`Cleared`) e `LANG-07938` (`Unlocked`) viram **Concluída** e **Desbloqueada**.
+  E o HUD deixa de escrever "Dificuldade: Dificuldade III": `LANG-02795` perde o prefixo e mostra só o nome.
+  Diff: 1894 → 1897 chaves. `LANG-02097` chegou a ser trocado por engano (o selo não usa essa chave) e voltou
+  ao original antes de empacotar.
+- **Por que uma versão nova:** a 0.2.3 é o mesmo dataset com esses três rótulos errados; ela não foi publicada,
+  mas o pacote já existia em `dist/` e ficou travado por outro processo, então o corrigido sai como 0.2.4 em vez
+  de sobrescrever o arquivo antigo.
+
 ## 0.2.3 — 2026-11-26
 
 - **BP-FINAL: revisão contextual do catálogo inteiro, aprovada pelo dono.** 432 propostas aplicadas ao dataset
