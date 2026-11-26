@@ -14,7 +14,19 @@ using UnityEngine;
 
 namespace UnityEngine { public class Sprite {} public class Transform {} public struct Color {} public struct Vector3 {} }
 namespace BetterPortuguese { public static class Plugin { public const string Guid="bp.composition.offline"; } }
-public class Item {} public class ItemInfo {} public class TooltipOffsetInfo {} public class Character {} public struct ControlGlyphInfo {}
+public class ItemInfo { public string ItemName; }
+public class ItemMod { public string name; }
+public class Item
+{
+    public ItemInfo ItemInfo;
+    public ItemMod PrefixMod;
+    public string NativeName;
+    public int Price, Armor;
+    public ItemQuality Rarity;
+    public int NameReads;
+    public string ItemName { [MethodImpl(MethodImplOptions.NoInlining)] get { NameReads++; return NativeName; } }
+}
+public class TooltipOffsetInfo {} public class Character {} public struct ControlGlyphInfo {}
 public enum DamageType { Physical, Healing, Fire, Cold }
 public class Weapon : Item { public DamageType DamageType { get; set; } }
 public enum ItemQuality { Common, Uncommon, Rare, Legendary, Mythic }
@@ -127,6 +139,12 @@ public static class CompositionHarmonyProbe
             F("itemReady").SetValue(null,true);F("damageReady").SetValue(null,true);
             F("fortuneReady")?.SetValue(null,true);
             F("physicalDescriptionReady")?.SetValue(null,true);
+            var itemNameTarget = typeof(Item).GetProperty(nameof(Item.ItemName)).GetGetMethod();
+            if (M("ItemNamePostfix") != null)
+            {
+                patch.Invoke(null,new object[]{h,itemNameTarget,null,"ItemNamePostfix",null});
+                F("itemNameReady").SetValue(null,true);
+            }
             var moved=new ReorderedTooltip();
             F("itemDepth").SetValue(null,1);
             try { moved.ShowTooltip("Lendário Varinha","TITLE unchanged"); }
@@ -216,6 +234,43 @@ public static class CompositionHarmonyProbe
             Tooltip.Label="Dano Físico";throwSettings=true;DrawWeapon();
             Mark("physical settings exception preserves native description",t.Description==line(Tooltip.Label)&&Depth==0);throwSettings=false;
             Tooltip.Label="Cura de Dano";
+            var tunic = new Item { ItemInfo = new ItemInfo { ItemName = "Blood Mask Tunic" }, PrefixMod = new ItemMod { name = "Reinforced" }, NativeName = "Túnica da Máscara de Sangue Reforçado", Price = 1680, Armor = 4, Rarity = ItemQuality.Rare };
+            var info = tunic.ItemInfo; var prefixMod = tunic.PrefixMod;
+            string name = tunic.ItemName;
+            Mark("QA05 observed feminine item expected Reforçada; got " + name, name == "Túnica da Máscara de Sangue Reforçada");
+            Mark("QA05 only the returned name changes",ReferenceEquals(tunic.ItemInfo, info) && ReferenceEquals(tunic.PrefixMod,prefixMod) && tunic.NativeName=="Túnica da Máscara de Sangue Reforçado" && tunic.Price==1680 && tunic.Armor==4 && tunic.Rarity==ItemQuality.Rare);
+            tunic.PrefixMod = new ItemMod { name = "Bolstered" };
+            Mark("QA05 second native prefix with the same masculine PT value",tunic.ItemName=="Túnica da Máscara de Sangue Reforçada");
+            foreach (var c in new[]{
+                ("Bladed Buckler", "Wild", "Escudo com Lâmina Selvagem"),
+                ("Stone-Cleaver", "Elusive", "Corta-Pedra Elusivo"),
+                ("Summoner's Hat", "Trainer's", "Chapéu do Invocador do Treinador"),
+                ("Scimitar", (string)null, "Cimitarra"),
+                ("Blood Mask Tunic", (string)null, "Túnica da Máscara de Sangue Reforçado"),
+                ("Unrelated", "Reinforced", "Túnica da Máscara de Sangue Reforçado"),
+                ("Blood Mask Tunic", "ForeignAfix", "Túnica da Máscara de Sangue Reforçado"),
+                ("Blood Mask Tunic", "Reinforced", "Túnica da Máscara de Sangue Reforçada"),
+                ("Blood Mask Tunic", "Reinforced", "Reforçado Túnica da Máscara de Sangue"),
+                ("Blood Mask Tunic", "Reinforced", "Túnica da Máscara de Sangue Reforçado do Treinador"),
+                ("Blood Mask Tunic", "Reinforced", "Túnica da Máscara de Sangue Reforçado<color=#FF0099>*</color>"),
+                ("Blood Mask Tunic", "Reinforced", (string)null) })
+            {
+                var control=new Item { ItemInfo=new ItemInfo { ItemName=c.Item1 }, PrefixMod=c.Item2==null ? null : new ItemMod {name=c.Item2}, NativeName=c.Item3 };
+                Mark("QA05 out-of-scope item/output preserved: "+c.Item1+"/"+c.Item2+"/"+c.Item3,control.ItemName==c.Item3);
+            }
+            foreach (var s in new[]{new Settings(active:false),new Settings(variant:Conjunto.Original),new Settings(valid:false)})
+            {current=s;Mark("QA05 setting preserves name "+s.Active+s.Valid+s.Variant,tunic.ItemName==tunic.NativeName);}
+            current=new Settings();OptionsManager.CurrentLanguage=LanguageChoice.English;
+            Mark("QA05 English gate preserves eligible-looking text",tunic.ItemName==tunic.NativeName);
+            OptionsManager.CurrentLanguage=LanguageChoice.PortugueseBrazil;throwSettings=true;
+            Mark("QA05 settings exception leaves native name untouched",tunic.ItemName==tunic.NativeName);throwSettings=false;
+            other.Patch(itemNameTarget,prefix:new HarmonyMethod(typeof(CompositionHarmonyProbe).GetMethod(nameof(ReplaceItemName),BindingFlags.Static|BindingFlags.NonPublic)));
+            try
+            {
+                int reads = tunic.NameReads;
+                Mark("QA05 foreign prefix skips original and owns its text",tunic.ItemName==tunic.NativeName && tunic.NameReads==reads);
+            }
+            finally { other.UnpatchSelf(); }
             h.UnpatchSelf();Enter(t);Mark("unpatched negative control exhibits both defects",t.Drawn=="Lendário Varinha"&&Tooltip.GetDamageTypeLabel(DamageType.Healing)=="Cura de Dano");
             Console.WriteLine("RESULT passed="+passed+" failed=0; SYNTHETIC CLR, game/UI/Mono NOT exercised");return 0;
         }
@@ -223,6 +278,7 @@ public static class CompositionHarmonyProbe
         finally{h.UnpatchSelf();other.UnpatchSelf();}
     }
     private const string ForeignDescription = "<color=#FFFFFF>Dano Físico</color>\nDescrição de outro owner";
+    private static bool ReplaceItemName(Item __instance, ref string __result) { __result=__instance.NativeName; return false; }
     private static bool ReplaceNativeDescription(ref string __result)
     {
         __result = ForeignDescription;

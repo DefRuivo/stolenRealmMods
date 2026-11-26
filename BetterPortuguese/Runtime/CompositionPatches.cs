@@ -15,7 +15,7 @@ internal static class CompositionPatches
     [ThreadStatic] private static FortuneContext fortuneContext;
     private sealed class ScopeFrame { public int Previous; }
     private struct FortuneContext { public Tooltip Target; public ItemQuality Quality; }
-    private static bool itemReady, fortuneReady, damageReady, physicalDescriptionReady, itemAlive, damageAlive;
+    private static bool itemReady, fortuneReady, damageReady, physicalDescriptionReady, itemNameReady, itemAlive, damageAlive;
     private static Func<Settings> settings;
     private static OnceLog warnings;
     private static Action<string> info;
@@ -88,6 +88,13 @@ internal static class CompositionPatches
             physicalDescriptionReady = true;
         }
         catch (Exception ex) { physicalDescriptionReady = false; warnings?.Write("BP-COMP rotulo de item recusado: " + ex.Message); }
+        try
+        {
+            var itemName = Bindings.Exact(typeof(Item), "get_ItemName", typeof(string), false);
+            Patch(harmony, itemName, null, nameof(ItemNamePostfix), null);
+            itemNameReady = true;
+        }
+        catch (Exception ex) { itemNameReady = false; warnings?.Write("BP-COMP nome de item recusado: " + ex.Message); }
     }
 
     // Harmony binds these arguments by NAME, not by their slot. Validate before
@@ -192,6 +199,23 @@ internal static class CompositionPatches
         }
         catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo preservado por excecao: " + ex.GetType().Name); }
     }
+    private static void ItemNamePostfix(Item __instance, bool __runOriginal, ref string __result)
+    {
+        const string masculine = "Túnica da Máscara de Sangue Reforçado";
+        if (!itemNameReady || !__runOriginal || !string.Equals(__result, masculine, StringComparison.Ordinal)) return;
+        try
+        {
+            if (!Enabled() || __instance == null) return;
+            // Use the item's and prefix's native identities, not a word-ending heuristic.
+            var itemInfo = __instance.ItemInfo;
+            if (itemInfo == null || itemInfo.ItemName != "Blood Mask Tunic") return;
+            var prefix = __instance.PrefixMod;
+            if (prefix == null || (prefix.name != "Reinforced" && prefix.name != "Bolstered")) return;
+            __result = "Túnica da Máscara de Sangue Reforçada";
+        }
+        catch (Exception ex) { warnings?.Write("BP-COMP nome de item preservado por excecao: " + ex.GetType().Name); }
+    }
+
     private static void PhysicalItemDescriptionPostfix(Item item, bool __runOriginal, ref string __result)
     {
         string incoming = __result;

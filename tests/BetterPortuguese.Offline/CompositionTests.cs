@@ -106,6 +106,22 @@ internal static class CompositionTests
             Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "Dano [damage type]");
             Check(catalog.Corrected.Records["Healing"].Entries[0].Value == "Cura");
         });
+        test("QA05 pinned native ItemName getter, consumers and catalog identities", () => {
+            using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"lib/Assembly-CSharp.dll"));
+            var item = module.Types.Single(t=>t.FullName=="Item");
+            var getter = item.Properties.Single(p=>p.Name=="ItemName").GetMethod;
+            Check(!getter.IsStatic && getter.Parameters.Count==0 && getter.ReturnType.FullName=="System.String");
+            Check(!getter.Body.HasExceptionHandlers);
+            Check(getter.Body.Instructions.Any(i=>i.Operand is MethodReference m && m.DeclaringType.FullName=="OptionsManager" && m.Name=="GetLanguageGender"));
+            Check(getter.Body.Instructions.Any(i=>i.Operand is string s && s=="[item prefix] [item name] [item suffix]"));
+            foreach (var consumer in new[]{"ItemSlot","Tooltip","ItemSearch"})
+                Check(module.Types.Single(t=>t.FullName==consumer).Methods.Where(m=>m.HasBody)
+                    .Any(m=>m.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.DeclaringType.FullName=="Item" && r.Name=="get_ItemName")));
+            Check(catalog.Corrected.Records["Blood Mask Tunic"].Entries[0].Value=="Túnica da Máscara de Sangue");
+            foreach (string key in new[]{"Reinforced","Bolstered"})
+                Check(catalog.Corrected.Records[key].Entries[0].Value=="Reforçado");
+            Check(catalog.Corrected.Records["[item prefix] [item name] [item suffix]"].Entries[0].Value=="[item name] [item prefix] [item suffix]");
+        });
         test("BP-GATE named production arguments in Debug and Release", () => {
             foreach (string config in new[]{"Debug","Release"})
             {
@@ -122,6 +138,9 @@ internal static class CompositionTests
                 Check(physical.Parameters.Single(p=>p.Name=="item").ParameterType.FullName=="Item");
                 Check(physical.Parameters.Single(p=>p.Name=="__runOriginal").ParameterType.FullName=="System.Boolean");
                 Check(physical.Parameters.Single(p=>p.Name=="__result").ParameterType.FullName=="System.String&");
+                var itemName = runtime.Methods.Single(m=>m.Name=="ItemNamePostfix");
+                Check(itemName.Parameters.Select(p=>p.Name).SequenceEqual(new[]{"__instance","__runOriginal","__result"}));
+                Check(itemName.Parameters.Select(p=>p.ParameterType.FullName).SequenceEqual(new[]{"Item","System.Boolean","System.String&"}));
                 Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==5);
             }
         });
