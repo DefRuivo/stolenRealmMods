@@ -1,6 +1,6 @@
 # BetterPortuguese
 
-- **Version:** 0.2.5
+- **Version:** 0.2.6
 - **Author:** gumatos
 - **GUID:** `com.gumatos.betterportuguese`
 - **Works with:** Stolen Realm v1.4.8 (Steam `open_beta`, build 26767595, Unity 2022.3.62f2). The assembly gate was

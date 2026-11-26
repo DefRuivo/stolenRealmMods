@@ -4,6 +4,15 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.6 — 2026-11-26
+
+- **Concordância do texto flutuante de status (SR-QA-09).** "Proteção Elemental Aplicado",
+  "Resistência ao Controle Aplicado", "Fúria de Batalha Aplicado", "Terra Ardente Aplicado" e as
+  demais 7 entradas de núcleo feminino passam a "Aplicada". Grupo novo `BP-COMP-STATUS`, com pin do
+  assembly, casamento por NOME de parâmetro em `GameLogic::OverheadMessage`, tabela fechada de 11 nomes
+  e falha fechada em três camadas. Troca global foi recusada: quebraria 120 das 154 ocorrências reais
+  (Indestrutível, Calor, Reunir, Chocado).
+
 ## 0.2.5 — 2026-11-26
 
 - **Revisão SR-QA aplicada ao dataset, com o pin re-homologado.** Seis textos do laudo do playtest:

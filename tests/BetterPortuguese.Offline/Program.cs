@@ -219,6 +219,7 @@ internal static class Program
         Test("refresh zero approved changes is empty",()=>Check(RefreshPlan.Select(new Dictionary<int,string>{{1,"key"}},new HashSet<string>()).Length==0));
         AdditionTests.Run(Test);
         CompositionTests.Run(Test, repo, real);
+        StatusTests.Run(Test);
         ModTests.Run(Test, repo);
         Test("real Debug API/resources",()=>Metadata(repo,"Debug"));
         Test("real Release API/resources",()=>Metadata(repo,"Release"));
