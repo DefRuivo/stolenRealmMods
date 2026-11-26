@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BetterPortuguese.Core;
+using Burst2Flame;
 using HarmonyLib;
 using UnityEngine;
 
@@ -11,8 +12,10 @@ namespace BetterPortuguese.Runtime;
 internal static class CompositionPatches
 {
     [ThreadStatic] private static int itemDepth;
+    [ThreadStatic] private static FortuneContext fortuneContext;
     private sealed class ScopeFrame { public int Previous; }
-    private static bool itemReady, damageReady, itemAlive, damageAlive;
+    private struct FortuneContext { public Tooltip Target; public ItemQuality Quality; }
+    private static bool itemReady, fortuneReady, damageReady, itemAlive, damageAlive;
     private static Func<Settings> settings;
     private static OnceLog warnings;
     private static Action<string> info;
@@ -29,24 +32,45 @@ internal static class CompositionPatches
                 throw new InvalidOperationException("Assembly-CSharp SHA-256 divergente: medido " + actual + ", esperado " + Composition.AssemblySha256 + " (build homologada; re-inspecionar antes de re-pinar)");
         }
         catch (Exception ex) { warnings?.Write("BP-COMP recusado: " + ex.Message); return; }
+        bool displayReady = false;
         try
         {
             MethodInfo display = Bindings.Exact(typeof(Tooltip), "ShowTooltip", typeof(void), false,
                 typeof(string), typeof(string), typeof(Sprite), typeof(string), typeof(TooltipOffsetInfo),
                 typeof(Color), typeof(Vector3?), typeof(bool), typeof(bool), typeof(float), typeof(ControlGlyphInfo?), typeof(string), typeof(bool));
             RequireArgument(display, "subtitle", typeof(string));
-            var sources = new[] {
-                Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false,
-                    typeof(Item), typeof(Transform), typeof(TooltipOffsetInfo), typeof(Character), typeof(bool), typeof(bool), typeof(ControlGlyphInfo?), typeof(string), typeof(Item)),
-                Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo)),
-                Bindings.Exact(typeof(Tooltip), "ShowTransmogTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo), typeof(ControlGlyphInfo?), typeof(string))
-            };
+            RequireArgument(display, "isItem", typeof(bool));
             Patch(harmony, display, nameof(SubtitlePrefix), null, null);
-            foreach (var source in sources) Patch(harmony, source, nameof(EnterItem), null, nameof(LeaveItem));
-            itemReady = true;
-            info?.Invoke("BP-COMP: composicao de raridade registrada (3 origens + ShowTooltip; inclui comparacao; sem transpiler).");
+            displayReady = true;
         }
-        catch (Exception ex) { itemReady = false; warnings?.Write("BP-COMP raridade recusada: " + ex.Message); }
+        catch (Exception ex) { warnings?.Write("BP-COMP subtitulo recusado: " + ex.Message); }
+        if (displayReady)
+        {
+            try
+            {
+                var sources = new[] {
+                    Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false,
+                        typeof(Item), typeof(Transform), typeof(TooltipOffsetInfo), typeof(Character), typeof(bool), typeof(bool), typeof(ControlGlyphInfo?), typeof(string), typeof(Item)),
+                    Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo)),
+                    Bindings.Exact(typeof(Tooltip), "ShowTransmogTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo), typeof(ControlGlyphInfo?), typeof(string))
+                };
+                foreach (var source in sources) Patch(harmony, source, nameof(EnterItem), null, nameof(LeaveItem));
+                itemReady = true;
+                info?.Invoke("BP-COMP: composicao de raridade registrada (3 origens + ShowTooltip; inclui comparacao; sem transpiler).");
+            }
+            catch (Exception ex) { itemReady = false; warnings?.Write("BP-COMP raridade recusada: " + ex.Message); }
+            try
+            {
+                var source = Bindings.Exact(typeof(Tooltip), "ShowActionStatusTooltip", typeof(void), false,
+                    typeof(ActionStatusInfo), typeof(Character), typeof(Character), typeof(Item), typeof(PersistentDurationType),
+                    typeof(string), typeof(float), typeof(bool), typeof(string), typeof(ActionStatus), typeof(string));
+                RequireArgument(source, "actionStatusInfo", typeof(ActionStatusInfo));
+                Patch(harmony, source, nameof(EnterFortune), null, nameof(LeaveFortune));
+                fortuneReady = true;
+                info?.Invoke("BP-COMP: subtitulo de Fortuna registrado (origem nativa; sem transpiler).");
+            }
+            catch (Exception ex) { fortuneReady = false; warnings?.Write("BP-COMP Fortuna recusada: " + ex.Message); }
+        }
         try
         {
             var damage = Bindings.Exact(typeof(Tooltip), "GetDamageTypeLabel", typeof(string), true, typeof(DamageType));
@@ -98,11 +122,45 @@ internal static class CompositionPatches
         if (__state != null) itemDepth = __state.Previous;
         return __exception;
     }
-    private static void SubtitlePrefix(ref string subtitle)
+    private static void EnterFortune(Tooltip __instance, ActionStatusInfo actionStatusInfo, out FortuneContext? __state)
+    {
+        __state = null;
+        if (!fortuneReady) return;
+        // Mute the outer context during a nested non-Fortune tooltip. When no scope is
+        // active the common non-Fortune path does not need a saved frame.
+        try
+        {
+            bool fortune = actionStatusInfo != null && actionStatusInfo.StatusType == StatusType.Fortune;
+            if (!fortune && ReferenceEquals(fortuneContext.Target, null)) return;
+            __state = fortuneContext;
+            fortuneContext = fortune ? new FortuneContext { Target = __instance, Quality = actionStatusInfo.Rarity } : default;
+        }
+        catch (Exception ex)
+        {
+            __state = fortuneContext;
+            fortuneContext = default;
+            warnings?.Write("BP-COMP Fortuna preservada por excecao de contexto: " + ex.GetType().Name);
+        }
+    }
+    private static Exception LeaveFortune(Exception __exception, FortuneContext? __state)
+    {
+        if (__state.HasValue) fortuneContext = __state.Value;
+        return __exception;
+    }
+    private static void SubtitlePrefix(object __instance, ref string subtitle, bool isItem)
     {
         string incoming = subtitle;
         try
         {
+            var scope = fortuneContext;
+            if (fortuneReady && !isItem && ReferenceEquals(scope.Target, __instance))
+            {
+                if (!Enabled()) return;
+                subtitle = Composition.FortuneSubtitle((int)scope.Quality, incoming, out string fortuneReason);
+                if (fortuneReason != null) warnings?.Write("BP-COMP Fortuna preservada: " + fortuneReason);
+                if (incoming != subtitle) infoOnce("subtitulo de Fortuna corrigido");
+                return;
+            }
             if (!itemReady || itemDepth == 0 || !Enabled()) return;
             if (!itemAlive) { itemAlive = true; info?.Invoke("BP-COMP: gancho de subtitulo vivo em contexto nativo de item."); }
             string corrected = Composition.ItemSubtitle(incoming, out string reason);

@@ -46,6 +46,8 @@ internal static class Composition
         new[] { "Lendário", "Lendária", "Lendários", "Lendárias" },
         new[] { "Mítico", "Mítica", "Míticos", "Míticas" }
     };
+    private static readonly (string Original, string Corrected)[] FortuneLabels = Array.ConvertAll(Rarities,
+        forms => (forms[0] + " Sorte", "Fortuna " + forms[(int)Agreement.Feminine].ToLowerInvariant()));
 
     public static bool Enabled(Settings settings, bool portuguese, out string reason)
     {
@@ -87,6 +89,19 @@ internal static class Composition
         if (lines[found] == replacement) return incoming;
         lines[found] = replacement;
         return string.Join("\n", lines);
+    }
+
+    // The caller has already proved it's a Fortune, and supplies the asset's exact tier.
+    // Never rename the game's shared rarity or Fortune localization keys.
+    public static string FortuneSubtitle(int quality, string incoming, out string reason)
+    {
+        reason = null;
+        if ((uint)quality >= (uint)FortuneLabels.Length) { reason = "raridade de Fortuna desconhecida"; return incoming; }
+        var (original, corrected) = FortuneLabels[quality];
+        if (incoming == corrected) return incoming;
+        if (incoming == original) return corrected;
+        reason = "subtitulo de Fortuna divergente";
+        return incoming;
     }
 
     public static string DamageLabel(bool healing, string incoming, out string reason)

@@ -4,6 +4,12 @@
 > CHG-REV documentation audit: 2026-10-16. No publication performed.
 > BP-6 packaging: 2026-10-17 (BRT). Release package built and pre-flighted; nothing published.
 
+## 0.2.7 — 2026-11-26
+
+- **Subtítulo de Fortuna (SR-QA-07):** `Raro Sorte` passa a `Fortuna rara` no tooltip nativo, com a
+  mesma ordem nas demais raridades. A correção não altera o título, os efeitos nem as traduções de
+  raridade compartilhadas com itens; só vale em PT-BR com `Corrigido`, na build 1.4.9 homologada.
+
 ## 0.2.6 — 2026-11-26
 
 - **Concordância do texto flutuante de status (SR-QA-09).** "Proteção Elemental Aplicado",

@@ -72,12 +72,20 @@ internal static class CompositionTests
             }
             var display = tooltip.Methods.Single(m=>m.Name=="ShowTooltip");
             Check(display.Parameters.Single(p=>p.Name=="subtitle").ParameterType.FullName=="System.String");
+            Check(display.Parameters.Single(p=>p.Name=="isItem").ParameterType.FullName=="System.Boolean");
+            var fortune=tooltip.Methods.Single(m=>m.Name=="ShowActionStatusTooltip" && m.Parameters.Count==11);
+            Check(!fortune.IsStatic && fortune.ReturnType.FullName=="System.Void");
+            Check(fortune.Parameters.Single(p=>p.Name=="actionStatusInfo").ParameterType.FullName=="Burst2Flame.ActionStatusInfo");
+            Check(fortune.Body.Instructions.Count(i=>i.Operand is MethodReference r && r.DeclaringType.Name=="Tooltip" && r.Name=="ShowTooltip")==1);
+            Check(fortune.Body.Instructions.Count(i=>i.Operand is GenericInstanceMethod r && r.Name=="LocalizeEnum" && r.GenericArguments.Any(t=>t.Name=="ItemQuality" || t.Name=="StatusType"))==2);
             var label = tooltip.Methods.Single(m=>m.Name=="GetDamageTypeLabel");
             Check(label.Parameters.Single().Name=="damageType");
             Check(label.IsStatic && label.ReturnType.FullName=="System.String" && label.Parameters.Single().ParameterType.FullName=="DamageType");
             Check(label.Body.Instructions.Any(i=>i.Operand is string s && s=="[damage type] Damage"));
             Check(label.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="Replace"));
-            Check(module.Types.Single(t=>t.FullName=="ItemQuality").Fields.Where(f=>f.HasConstant).Select(f=>f.Name).SequenceEqual(new[]{"Common","Uncommon","Rare","Legendary","Mythic"}));
+            var quality=module.Types.Single(t=>t.FullName=="ItemQuality").Fields.Where(f=>f.HasConstant).ToArray();
+            Check(quality.Select(f=>f.Name).SequenceEqual(new[]{"Common","Uncommon","Rare","Legendary","Mythic"}));
+            Check(quality.Select(f=>Convert.ToInt32(f.Constant)).SequenceEqual(Enumerable.Range(0,quality.Length)));
             foreach (var type in new[]{"ItemType","EquipmentType"})
                 foreach (var field in module.Types.Single(t=>t.FullName==type).Fields.Where(f=>f.HasConstant))
                 {
@@ -94,11 +102,14 @@ internal static class CompositionTests
             {
                 using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin",config,"netstandard2.1/BetterPortuguese.dll"));
                 var runtime=module.Types.Single(t=>t.FullName=="BetterPortuguese.Runtime.CompositionPatches");
-                var subtitle=runtime.Methods.Single(m=>m.Name=="SubtitlePrefix").Parameters.Single();
-                Check(subtitle.Name=="subtitle" && subtitle.ParameterType.FullName=="System.String&");
+                var subtitle=runtime.Methods.Single(m=>m.Name=="SubtitlePrefix");
+                Check(subtitle.Parameters.Single(p=>p.Name=="subtitle").ParameterType.FullName=="System.String&");
+                Check(subtitle.Parameters.Single(p=>p.Name=="isItem").ParameterType.FullName=="System.Boolean");
+                var fortune=runtime.Methods.Single(m=>m.Name=="EnterFortune");
+                Check(fortune.Parameters.Single(p=>p.ParameterType.FullName=="Burst2Flame.ActionStatusInfo").Name=="actionStatusInfo");
                 var damage=runtime.Methods.Single(m=>m.Name=="DamagePostfix");
                 Check(damage.Parameters.Single(p=>p.ParameterType.FullName=="DamageType").Name=="damageType");
-                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==2);
+                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==4);
             }
         });
         test("BP-COMP plugin production hooks wired", () => {
