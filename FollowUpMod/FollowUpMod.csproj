@@ -1,0 +1,39 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <LangVersion>10</LangVersion>
+    <AssemblyName>FollowUpMod</AssemblyName>
+    <RootNamespace>FollowUpMod</RootNamespace>
+    <PackageId>FollowUpMod</PackageId>
+    <Version>0.1.0</Version>
+    <Description>Ajusta o nivel do personagem ao minimo do grupo de co-op Roguelike, sem rebaixar personagens altos e sem gravar a promocao no save.</Description>
+    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+    <CommonLibDir Condition="'$(CommonLibDir)' == ''">$(MSBuildThisFileDirectory)..\lib</CommonLibDir>
+    <GameLibDir Condition="'$(GameLibDir)' == ''">E:\SteamLibrary\steamapps\common\Stolen Realm\Stolen Realm_Data\Managed</GameLibDir>
+  </PropertyGroup>
+
+  <Target Name="ValidateFollowUpLibs" BeforeTargets="ResolveAssemblyReferences">
+    <Error Condition="!Exists('$(CommonLibDir)')" Text="FU-LIB: lib de referencias nao encontrada em '$(CommonLibDir)'. Rode na raiz do checkout canonico ou passe -p:CommonLibDir=..." />
+    <Error Condition="!Exists('$(GameLibDir)\Facepunch.Steamworks.Win64.dll')" Text="FU-LIB: Facepunch.Steamworks.Win64.dll ausente em '$(GameLibDir)' (dependencia do lobby Steam)." />
+  </Target>
+
+  <ItemGroup>
+    <Reference Include="BepInEx"><HintPath>$(CommonLibDir)\BepInEx.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="0Harmony"><HintPath>$(CommonLibDir)\0Harmony.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine"><HintPath>$(CommonLibDir)\UnityEngine.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="UnityEngine.CoreModule"><HintPath>$(CommonLibDir)\UnityEngine.CoreModule.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Assembly-CSharp"><HintPath>$(CommonLibDir)\Assembly-CSharp.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Sirenix.Serialization"><HintPath>$(CommonLibDir)\Sirenix.Serialization.dll</HintPath><Private>false</Private></Reference>
+    <Reference Include="Facepunch.Steamworks.Win64"><HintPath>$(GameLibDir)\Facepunch.Steamworks.Win64.dll</HintPath><Private>false</Private></Reference>
+  </ItemGroup>
+
+  <!-- DEPLOY-2: opt-in explicito. Build comum NAO instala nada no perfil. -->
+  <Target Name="DeployToBepInEx" AfterTargets="Build" Condition="'$(DeployToBepInEx)' == 'true'">
+    <PropertyGroup>
+      <PluginsDir>$(USERPROFILE)\AppData\Roaming\r2modmanPlus-local\StolenRealm\profiles\Default\BepInEx\plugins\$(AssemblyName)\</PluginsDir>
+    </PropertyGroup>
+    <MakeDir Directories="$(PluginsDir)" />
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(PluginsDir)" />
+    <Message Importance="high" Text="FU: $(TargetFileName) copiado para $(PluginsDir)" />
+  </Target>
+</Project>
