@@ -68,7 +68,7 @@ public static class ModsHarmonyProbe
             BepInEx.Bootstrap.Chainloader.PluginInfos[ModCatalog.BetterTooltipsGuid]=new BepInEx.Bootstrap.PluginInfo{Metadata=new BepInEx.Bootstrap.Meta{Version=new Version("9.9.9")},Instance=new object()};
             BetterTooltipsAdapter.Install(map,()=>current,new OnceLog(s=>logs.Add(s)),s=>logs.Add(s));
             Check(BetterTooltipsAdapter.Count==0&&logs.Any(s=>s.Contains("versao BT nao homologada")),"BT version drift rejected before patching");
-            BepInEx.Bootstrap.Chainloader.PluginInfos[ModCatalog.BetterTooltipsGuid].Metadata.Version=new Version("0.1.5");
+            BepInEx.Bootstrap.Chainloader.PluginInfos[ModCatalog.BetterTooltipsGuid].Metadata.Version=new Version(ModCatalog.BetterTooltipsVersion);
             BetterTooltipsAdapter.Install(map,()=>current,new OnceLog(s=>logs.Add(s)),s=>logs.Add(s));
             Check(BetterTooltipsAdapter.Count==0&&logs.Any(s=>s.Contains("Assembly-CSharp divergente")),"game identity drift rejected before patching");
             Field("map",map);Field("settings",(Func<Settings>)(()=>current));Field("warnings",new OnceLog(s=>logs.Add(s)));Field("info",(Action<string>)(s=>logs.Add(s)));Field("ready",true);Field("notes",BTOrder._conteudosDeNota);

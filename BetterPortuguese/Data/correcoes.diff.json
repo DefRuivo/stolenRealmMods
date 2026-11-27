@@ -14294,7 +14294,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Sortear Novamente os Modificadores",
+      "Value": "Rerolar Modificadores",
       "Key": "Reroll Modifiers",
       "TranslatorKey": null,
       "Feminine": null,
@@ -14304,7 +14304,7 @@
       "CanBeGendered": false,
       "NeedsGenderInfo": false
     },
-    "approvalTaskId": "t_71e4b22a"
+    "approvalTaskId": "t_c9697bd7"
   },
   {
     "operation": "addEntry",
@@ -14674,7 +14674,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Aura do Selo de Força",
+      "Value": "Aura do Selo da Força",
       "Key": "Seal of Might Aura",
       "TranslatorKey": null,
       "Feminine": null,
@@ -14684,7 +14684,7 @@
       "CanBeGendered": false,
       "NeedsGenderInfo": false
     },
-    "approvalTaskId": "t_71e4b22a"
+    "approvalTaskId": "t_ce680634"
   },
   {
     "operation": "addEntry",
@@ -15092,7 +15092,7 @@
     "entryIndex": 0,
     "before": [],
     "after": {
-      "Value": "Transformado em um Lobisomem Feroz. Ataque básico fortalecido. Recebe novas habilidades. Saúde Máxima aumentada em 30%.",
+      "Value": "Transformado em um Lobisomem Atroz. Ataque básico fortalecido. Recebe novas habilidades. Saúde Máxima aumentada em 30%.",
       "Key": "Shapeshifted into a Dire Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by 30%.",
       "TranslatorKey": null,
       "Feminine": null,
@@ -15102,7 +15102,7 @@
       "CanBeGendered": false,
       "NeedsGenderInfo": false
     },
-    "approvalTaskId": "t_71e4b22a"
+    "approvalTaskId": "t_c9697bd7"
   },
   {
     "operation": "addEntry",
@@ -23611,8 +23611,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar Nível [level value] {SKL=Pain Suppression}.",
-    "after": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
-    "approvalTaskId": "t_0bddb861"
+    "after": "Ganhe Armadura e Armadura Mágica equivalentes a 2x sua Força. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "id": "LANG-03635",
@@ -24583,8 +24583,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "Poder aumentado em 5 por pilha.",
-    "after": "Poder aumentado em 5 por acúmulo.",
-    "approvalTaskId": "t_5c274339"
+    "after": "Força aumentada em 5 por acúmulo.",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "id": "LANG-05300",
@@ -24898,8 +24898,8 @@
     "entryIndex": 0,
     "field": "Value",
     "before": "[0] de <b>Poder</b> absorvido por pilha. Acumula até 10 vezes.",
-    "after": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
-    "approvalTaskId": "t_5c274339"
+    "after": "[0] de <b>Força</b> absorvida por acúmulo. Acumula até 10 vezes.",
+    "approvalTaskId": "t_ce680634"
   },
   {
     "operation": "addEntry",
@@ -24976,5 +24976,4619 @@
       "NeedsGenderInfo": false
     },
     "approvalTaskId": "t_a5e96982"
+  },
+  {
+    "id": "LANG-02398",
+    "key": "Damage caused steals [0] points of <b>Might</b>. Lasts the entire battle. Stacks up to 10 times.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O dano causado rouba [0] pontos de <b>Poder</b>. Dura toda a batalha. Acumula até 10 vezes.",
+    "after": "O dano que você causa rouba [0] pontos de <b>Força</b>. O efeito dura até o fim da batalha e acumula até 10 vezes.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03601",
+    "key": "Gain Added Damage to Cold equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Frio equivalente a 10% do seu Poder.",
+    "after": "Ganhe dano de frio adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03604",
+    "key": "Gain Added Damage to Fire equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Fogo igual a 10% do seu Poder.",
+    "after": "Ganhe dano de fogo adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03607",
+    "key": "Gain Added Damage to Lightning equal to 10% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano Adicional de Raio equivalente a 10% do seu Poder.",
+    "after": "Ganhe dano de raio adicional equivalente a 10% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03613",
+    "key": "Gain Additional Healing to Heals equal to 50% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Receba Cura Adicional nas Curações igual a 50% do seu Poder.",
+    "after": "Suas curas ganham um bônus equivalente a 50% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03620",
+    "key": "Gain Additional Weapon Damage equal to 35% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Dano de Arma Adicional igual a 35% do seu Poder.",
+    "after": "Ganhe dano de arma adicional equivalente a 35% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03621",
+    "key": "Gain Additional Weapon Damage equal to 40% of your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Obtenha Dano de Arma Adicional igual a 40% do seu Poder.",
+    "after": "Ganhe dano de arma adicional equivalente a 40% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03629",
+    "key": "Gain Armor and Magic Armor equal to your Might.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Armadura e Armadura Mágica iguais ao seu Poder.",
+    "after": "Ganhe Armadura e Armadura Mágica em valor igual à sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03632",
+    "key": "Gain Increased Holy Power equal to 20% of your Might. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Obtenha Poder Sagrado aumentado em 20% do seu Poder.",
+    "after": "Ganhe um bônus de Poder Sagrado equivalente a 20% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03633",
+    "key": "Gain Increased Holy Power equal to 40% of your Might. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe Poder Sagrado aumentado em 40% do seu Poder.",
+    "after": "Ganhe um bônus de Poder Sagrado equivalente a 40% da sua Força.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04061",
+    "key": "Health As Mana Cost",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Custo de Mana como Vida",
+    "after": "Custo de Mana Pago com Vida",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04360",
+    "key": "Increase <b>Might</b> by 20%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumente <b>Poder</b> em 20%.",
+    "after": "Aumente a <b>Força</b> em 20%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04874",
+    "key": "Life On Hit Basic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vida por Acerto Básica",
+    "after": "Vida por Acerto com Ataque Básico",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05748",
+    "key": "Potion of Might",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Poção do Poder",
+    "after": "Poção de Força",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07037",
+    "key": "Summon Health",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocar Saúde",
+    "after": "Saúde das Invocações",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07038",
+    "key": "Summon Health Flat",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocar Vida Fixa",
+    "after": "Saúde das Invocações (valor fixo)",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07039",
+    "key": "Summon Health increased by [10]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [10]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [10]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07040",
+    "key": "Summon Health increased by [12]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [12]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [12]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07041",
+    "key": "Summon Health increased by [4]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [4]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [4]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07042",
+    "key": "Summon Health increased by [6]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [6]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [6]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07043",
+    "key": "Summon Health increased by [8]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento de [8]% na Saúde Invocada",
+    "after": "Aumenta a Saúde das Invocações em [8]%.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-00071",
+    "key": "(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "(Canção) Aliados a até 4 hexágonos de você ganham 5 Poder. Toda vez que Verso do Valor é lançado consecutivamente, ganha Crescendo do Valor: aumenta a quantidade de Poder concedida pelo Verso do Valor em 5. Acumula. Perde todas as acumulações se você tocar uma canção diferente. Duração: 1 turno.",
+    "after": "(Canção) Aliados a até 4 hexágonos de você ganham 5 de Força. Sempre que tocar Verso de Valor de novo em sequência, ganhe um acúmulo de Crescendo de Valor. Cada acúmulo aumenta em 5 a Força concedida pelo Verso de Valor. Você perde todos os acúmulos ao tocar outra canção. Duração: 1 turno.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-02241",
+    "key": "Crescendo of Swiftness",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Crescendo da Rapidez",
+    "after": "Crescendo da Agilidade",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-02243",
+    "key": "Crescendo of Verse of Valor. Each stack increases the power of the song.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Crescendo do Verso do Valor. Cada acúmulo aumenta o poder da canção.",
+    "after": "Crescendo do Verso de Valor. Cada acúmulo aumenta o efeito da canção.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04000",
+    "key": "Harmony: +1 Dexterity per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Destreza por acúmulo.",
+    "after": "Harmonia: +1 de Destreza por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04002",
+    "key": "Harmony: +1 Might per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Poder por acumulação.",
+    "after": "Harmonia: +1 de Força por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04003",
+    "key": "Harmony: +1 Reflex per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Reflexo por acúmulo.",
+    "after": "Harmonia: +1 de Reflexo por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04004",
+    "key": "Harmony: +1 Vitality per stack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Harmonia: +1 Vitalidade por acúmulo.",
+    "after": "Harmonia: +1 de Vitalidade por acúmulo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05421",
+    "key": "No longer lose Crescendo stacks when playing another song.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Não perca mais acúmulos de Crescendo ao tocar outra música.",
+    "after": "Você não perde mais acúmulos de Crescendo ao tocar outra canção.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06818",
+    "key": "Songs no longer clear each other's Crescendo.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "As músicas não limpam mais o Crescendo umas das outras.",
+    "after": "Tocar outra canção não remove mais os acúmulos de Crescendo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08199",
+    "key": "Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+    "after": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08200",
+    "key": "Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga adicional de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+    "after": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo adicional de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08788",
+    "key": "Your songs start with 5 stacks of Crescendo.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Suas músicas começam com 5 acúmulos de Crescendo.",
+    "after": "Suas canções começam com 5 acúmulos de Crescendo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-00945",
+    "key": "AP Cost: None",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Custo de AP: Nenhum",
+    "after": "Custo de PA: nenhum",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06149",
+    "key": "Removes the AP cost from all summoning skills.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Remove o custo de AP de todas as habilidades de invocação.",
+    "after": "Remove o custo de PA de todas as habilidades de invocação.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-06901",
+    "key": "Start Battle Free Movement Points",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Iniciar Batalha Pontos de Movimento Livre",
+    "after": "Pontos de Movimento Livre no Início da Batalha",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07371",
+    "key": "The Dead One's tether to this world wanes.  Lasts [0] more round(s).",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O elo do Morto com este mundo se enfraquece. Restam mais [0] rodada(s).",
+    "after": "O elo do Morto com este mundo se enfraquece. Rodadas restantes: [0].",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08768",
+    "key": "Your next 3 basic attacks have no AP cost.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Seus próximos 3 ataques básicos não têm custo de AP.",
+    "after": "Seus próximos 3 ataques básicos não custam PA.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08769",
+    "key": "Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Seus próximos 3 ataques básicos não têm custo de AP. Aplica {STA=Exhaustion}.",
+    "after": "Seus próximos 3 ataques básicos não custam PA. Aplica {STA=Exhaustion}.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-01057",
+    "key": "After you have finished assigning characters to your party, press <b>Accept Party</b>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Após terminar de atribuir personagens ao seu grupo, pressione <b>Aceitar Grupo</b>.",
+    "after": "Ao terminar de adicionar os personagens ao grupo, selecione <b>Aceitar Grupo</b>.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-01985",
+    "key": "Choose As Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escolha como Grupo",
+    "after": "Escolha em grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03666",
+    "key": "Game difficulty scales with the number of party members",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A dificuldade do jogo escala com o número de membros do grupo.",
+    "after": "A dificuldade do jogo se ajusta ao número de membros do grupo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03667",
+    "key": "Game difficulty scales with the size of your party.  Whether you decide to embark with a single adventurer or a full party of 6, your enemies will be equal to the challenge.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A dificuldade do jogo escala com o tamanho do seu grupo. Se você decidir embarcar com um único aventureiro ou um grupo completo de 6, seus inimigos estarão à altura do desafio.",
+    "after": "A dificuldade do jogo se ajusta ao tamanho do grupo. Com um só aventureiro ou um grupo completo de 6, os inimigos estarão à altura do desafio.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-03991",
+    "key": "Hardcore characters are deleted upon the party's death in battle.  Are you sure?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Personagens hardcore são deletados após a morte do grupo em batalha. Tem certeza?",
+    "after": "Se o grupo morrer em batalha, os personagens do modo Hardcore serão excluídos. Tem certeza?",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04308",
+    "key": "In Hardcore mode if your whole party dies in battle, your characters are permenately deleted.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão permanentemente deletados.",
+    "after": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão excluídos permanentemente.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-04309",
+    "key": "In Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Na Festa",
+    "after": "No grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05576",
+    "key": "Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Festa",
+    "after": "Grupo",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-05629",
+    "key": "Petrified Party",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Festa Petrificada",
+    "after": "Grupo Petrificado",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07339",
+    "key": "The <color=#CBB396>Unstuck</color> feature is for those who encounter bugs that lock up the game.  \n\n<b>The party will reload the game at the last point the quest was saved</b>.\n\nWould you like to proceed?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A funcionalidade <color=#CBB396>Desencalhar</color> é para aqueles que encontram bugs que travam o jogo.\n\n<b>A equipe recarregará o jogo no último ponto em que a missão foi salva</b>.\n\nVocê gostaria de prosseguir?",
+    "after": "Use <color=#CBB396>Desencalhar</color> se algum erro travar o jogo.\n\n<b>O grupo voltará ao último ponto em que a missão foi salva</b>.\n\nDeseja continuar?",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-07753",
+    "key": "To add a character to the <b>Party</b>, select a <b>Character Tile</b>.\n\n<b>Difficulty</b> scales with the number of characters in your party.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Para adicionar um personagem à <b>Equipe</b>, selecione um <b>Quadrado de Personagem</b>.\n\nA <b>dificuldade</b> aumenta conforme o número de personagens na sua equipe.",
+    "after": "Para adicionar um personagem ao <b>grupo</b>, selecione o <b>cartão do personagem</b>.\n\nA <b>dificuldade</b> se ajusta ao número de personagens do grupo.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08582",
+    "key": "You must assign a <color=#CBB396>Character</color> to this player before accessing this menu.  \n\nYou can add a <color=#CBB396>Character</color> to the party by opening the <color=#CBB396>Game Menu</color>, then selecting <color=#CBB396>Change Party</color>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você deve atribuir um <color=#CBB396>Personagem</color> a este jogador antes de acessar este menu.\n\nVocê pode adicionar um <color=#CBB396>Personagem</color> à equipe abrindo o <color=#CBB396>Menu do Jogo</color> e, em seguida, selecionando <color=#CBB396>Trocar Equipe</color>.",
+    "after": "Você precisa atribuir um <color=#CBB396>personagem</color> a este jogador antes de abrir este menu.\n\nPara adicionar um <color=#CBB396>personagem</color> ao grupo, abra o <color=#CBB396>Menu do Jogo</color> e selecione <color=#CBB396>Alterar Grupo</color>.",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-08929",
+    "key": "[player] wants to start a party event!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[player] quer iniciar um evento de festa!",
+    "after": "[player] quer iniciar um evento de grupo!",
+    "approvalTaskId": "t_ce680634"
+  },
+  {
+    "id": "LANG-00005",
+    "key": "\nTurns Remaining: <color=#CBB396>[turn value]</color>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Turnos Restantes: <color=#CBB396>[turn value]</color>",
+    "after": "Turnos restantes: <color=#CBB396>[turn value]</color>",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00007",
+    "key": "       To Mine\n",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Para Minerar",
+    "after": "Minerar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00008",
+    "key": "       To Move Fishing Bar\n\n<size= 13><color=#CBB396>To Reel In</color></size>\nKeep Fishing Bar Under Fish\n",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Para Mover a Barra de Pesca\n\n<size= 13><color=#CBB396>Para Recolher</color></size>\nMantenha a Barra de Pesca Sob o Peixe",
+    "after": "Mover a barra de pesca\n\n<size= 13><color=#CBB396>Recolher</color></size>\nMantenha a barra de pesca sob o peixe",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00027",
+    "key": "\"<bounce>ALL HAIL, LORD OF THE COWARDS!</bounce>\" the Dummies taunt. \"We can't even hit you back, ya ninny!\".",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "\"<bounce>TODOS SAÚDEM, SENHOR DOS COVARDES!</bounce>\" zombam os Manequins. \"Nem conseguimos te acertar de volta, seu boboca!\".",
+    "after": "\"<bounce>SAÚDEM TODOS O SENHOR DOS COVARDES!</bounce>\" provocam os Manequins. \"Nem conseguimos acertar você de volta, seu boboca!\".",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00047",
+    "key": "\"If looks could kill I'd be dead already!\"",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Se olhares matassem, eu já estaria morto!",
+    "after": "\"Se olhares matassem, eu já estaria morto!\"",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00048",
+    "key": "\"My grandmother could hit harder than you, and she was inanimate!\"",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Minha avó batia mais forte que você, e ela era inanimada!",
+    "after": "\"Minha avó batia mais forte que você, e ela era inanimada!\"",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00078",
+    "key": "+ 10% increased Gold Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 10% de aumento na Procura de Ouro",
+    "after": "+ 10% de aumento na obtenção de ouro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00081",
+    "key": "+ 100% increased Treasure Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 100% de aumento na Descoberta de Tesouros",
+    "after": "+ 100% de aumento na obtenção de tesouros",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00097",
+    "key": "+ 20% increased Gold Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 20% de aumento na Procura por Ouro",
+    "after": "+ 20% de aumento na obtenção de ouro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00098",
+    "key": "+ 20% increased Treasure Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 20% de aumento na Procura por Tesouros",
+    "after": "+ 20% de aumento na obtenção de tesouros",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00108",
+    "key": "+ 30% increased Gold Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 30% de aumento na Procura por Ouro",
+    "after": "+ 30% de aumento na obtenção de ouro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00111",
+    "key": "+ 40% increased Treasure Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 40% de aumento na Procura por Tesouros",
+    "after": "+ 40% de aumento na obtenção de tesouros",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00114",
+    "key": "+ 50% increased Gold Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 50% de aumento na Procura de Ouro",
+    "after": "+ 50% de aumento na obtenção de ouro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00120",
+    "key": "+ 60% increased Treasure Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 60% de aumento na Descoberta de Tesouros",
+    "after": "+ 60% de aumento na obtenção de tesouros",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00122",
+    "key": "+ 80% increased Treasure Find",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+ 80% de aumento na Procura por Tesouros",
+    "after": "+ 80% de aumento na obtenção de tesouros",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00130",
+    "key": "+10 added Armor and Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+10 de Armadura e Armadura Mágica adicionados",
+    "after": "+10 de Armadura e Armadura Mágica adicionadas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00131",
+    "key": "+100 added Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+100 de Armadura Mágica Adicionada",
+    "after": "+100 de Armadura Mágica adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00132",
+    "key": "+100 added Physical Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+100 de Armadura Física Adicionada",
+    "after": "+100 de Armadura Física adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00134",
+    "key": "+20 added Armor and Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+20 de Armadura e Armadura Mágica adicionados",
+    "after": "+20 de Armadura e Armadura Mágica adicionadas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00135",
+    "key": "+20 added Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+20 de Armadura Mágica Adicionada",
+    "after": "+20 de Armadura Mágica adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00137",
+    "key": "+30 added Armor and Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+30 de Armadura e Armadura Mágica adicionados",
+    "after": "+30 de Armadura e Armadura Mágica adicionadas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00138",
+    "key": "+40 added Armor and Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+40 de Armadura e Armadura Mágica adicionados",
+    "after": "+40 de Armadura e Armadura Mágica adicionadas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00139",
+    "key": "+40 added Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+40 de Armadura Mágica Adicionada",
+    "after": "+40 de Armadura Mágica adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00140",
+    "key": "+40 added Physical Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+40 de Armadura Física Adicionada",
+    "after": "+40 de Armadura Física adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00141",
+    "key": "+50 added Armor and Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+50 de Armadura e Armadura Mágica adicionados",
+    "after": "+50 de Armadura e Armadura Mágica adicionadas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00142",
+    "key": "+60 added Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+60 de Armadura Mágica Adicionada",
+    "after": "+60 de Armadura Mágica adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00144",
+    "key": "+80 added Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+80 de Armadura Mágica Adicionada",
+    "after": "+80 de Armadura Mágica adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00145",
+    "key": "+80 added Physical Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+80 de Armadura Física Adicionada",
+    "after": "+80 de Armadura Física adicionada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00154",
+    "key": "+[10] Damage to Shadow",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[10] de Dano contra Sombra",
+    "after": "+[10] de Dano de Sombra",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00179",
+    "key": "+[4] Damage to Fire",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[4] de Dano por Fogo",
+    "after": "+[4] de Dano de Fogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00180",
+    "key": "+[4] Damage to Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[4] de Dano por Raio",
+    "after": "+[4] de Dano de Raio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00193",
+    "key": "+[6] Damage to Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[6] de Dano por Raio",
+    "after": "+[6] de Dano de Raio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00205",
+    "key": "+[8] Damage to Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[8] de Dano em Relâmpago",
+    "after": "+[8] de Dano de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00215",
+    "key": "+[stat value]% Armor & Magic Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[stat value]% de Armadura & Armadura Mágica",
+    "after": "+[stat value]% de Armadura e Armadura Mágica",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00218",
+    "key": "+[stat value]% Damage & Healing",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "+[stat value]% de Dano & Cura",
+    "after": "+[stat value]% de Dano e Cura",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00225",
+    "key": "- Button",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Botão",
+    "after": "Botão -",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00308",
+    "key": "1 Movement Per [stat value] Dex (Max 3)",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "1 Movimento A Cada [stat value] de Destreza (Máx. 3)",
+    "after": "1 Ponto de Movimento a cada [stat value] de Destreza (Máx. 3)",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00314",
+    "key": "10% chance on hit to cast Level [level value] {SKL=Consumption}",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "10% de chance ao acertar de lançar Nível [level value] {SKL=Consumption}",
+    "after": "10% de chance ao acertar de conjurar {SKL=Consumption} no nível [level value]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00325",
+    "key": "10% chance to cast Level [level value] {SKL=Meteor} when Striking.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "10% de chance de lançar Nível [level value] {SKL=Meteor} ao Atacar.",
+    "after": "10% de chance de conjurar {SKL=Meteor} de nível [level value] ao atacar.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00475",
+    "key": "<color=#00FF00>Furious Fodder I</color>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#00FF00>Fúria Alimentar I</color>",
+    "after": "<color=#00FF00>Bucha de Canhão Furiosa I</color>",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00492",
+    "key": "<color=#00FFFF>Muddled Movement II</color>",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#00FFFF>Movimento Turvo II</color>",
+    "after": "<color=#00FFFF>Movimento Confuso II</color>",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00505",
+    "key": "<color=#CBB396>Narrator:</color> \"The start of any adventure is taken not with the feet, but with the heart.\" your father would say.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> \"O início de qualquer aventura não é dado com os pés, mas sim com o coração.\" seu pai diria.",
+    "after": "<color=#CBB396>Narrador:</color> \"Toda aventura começa não com os pés, mas com o coração\", costumava dizer seu pai.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00506",
+    "key": "<color=#CBB396>Narrator:</color> A chilling blackness seeps into the very recesses of your mind, obscuring your memories like a mist over a once-familiar landscape.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Uma negritude arrepiante infiltra-se nos recônditos da sua mente, obscurecendo suas memórias como uma névoa sobre uma paisagem outrora familiar.",
+    "after": "<color=#CBB396>Narrador:</color> Uma escuridão arrepiante se infiltra nos recônditos da sua mente, obscurecendo suas memórias como a névoa sobre uma paisagem que um dia lhe foi familiar.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00508",
+    "key": "<color=#CBB396>Narrator:</color> Amidst the encroaching gloom, you cling to the fleeting hope that time yet remains to rescue your father from his dire fate.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Em meio ao crepúsculo que avança, você se agarra à fugaz esperança de que ainda resta tempo para resgatar seu pai de seu terrível destino.",
+    "after": "<color=#CBB396>Narrador:</color> Em meio à escuridão que avança, você se agarra à esperança fugaz de que ainda haja tempo para resgatar seu pai de seu terrível destino.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00514",
+    "key": "<color=#CBB396>Narrator:</color> As you set foot into the vast, sun-scorched expanse of Wyrmrest Desert, the words of Ironheart echo ominously in your mind.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Ao pisar na vasta e queimada pelo sol extensão do Deserto de Wyrmrest, as palavras de Ironheart ecoam de forma ominosa em sua mente.",
+    "after": "<color=#CBB396>Narrador:</color> Ao pisar na vasta extensão escaldada pelo sol do Deserto de Wyrmrest, as palavras de Ironheart ecoam de forma sinistra em sua mente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00518",
+    "key": "<color=#CBB396>Narrator:</color> But now, the tribes and communities that had once flourished were gone, their echoes lost amidst the sprawling green.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Mas agora, as tribos e comunidades que uma vez floresceram haviam desaparecido, seus ecos perdidos no meio do verde expansivo.",
+    "after": "<color=#CBB396>Narrador:</color> Mas agora, as tribos e comunidades que um dia floresceram haviam desaparecido, e seus ecos se perdiam em meio à imensidão verdejante.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00519",
+    "key": "<color=#CBB396>Narrator:</color> Common thugs like these, once mere nuisances on the outskirts of civilization, had grown bolder and more rampant.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Bandidos comuns como esses, antes meras inconveniências nas periferias da civilização, tornaram-se mais ousados e frequentes.",
+    "after": "<color=#CBB396>Narrador:</color> Bandidos comuns como esses, antes meros incômodos nos arredores da civilização, haviam se tornado mais ousados e proliferado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00524",
+    "key": "<color=#CBB396>Narrator:</color> Dragons are not just the beasts of mere legend, but living embodiments of the primal forces that shaped the world. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Dragões não são apenas as bestas das meras lendas, mas encarnações vivas das forças primais que moldaram o mundo.",
+    "after": "<color=#CBB396>Narrador:</color> Dragões não são apenas criaturas de lendas, mas encarnações vivas das forças primordiais que moldaram o mundo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00525",
+    "key": "<color=#CBB396>Narrator:</color> Each of your father's lessons was a building block in the foundation of the warrior you had become.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Cada uma das lições do seu pai foi um bloco de construção na fundação do guerreiro que você se tornou.",
+    "after": "<color=#CBB396>Narrador:</color> Cada lição do seu pai foi um alicerce na formação do guerreiro que você se tornou.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00526",
+    "key": "<color=#CBB396>Narrator:</color> Each page of this worn leather-bound book is imbued with the essence of your father, a guiding light in the dim paths of uncertainty and danger that lay ahead.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Cada página deste livro de couro desgastado é impregnada com a essência de seu pai, uma luz guia nos caminhos sombrios da incerteza e do perigo que se encontram à frente.",
+    "after": "<color=#CBB396>Narrador:</color> Cada página deste livro encadernado em couro gasto está impregnada da essência do seu pai, uma luz guia pelos caminhos sombrios de incerteza e perigo que o aguardam.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00527",
+    "key": "<color=#CBB396>Narrator:</color> Each step forward is a step further from the life you once knew. Names and faces, once dear and cherished, slip away into the abyss, leaving behind a hollow emptiness.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Cada passo à frente é um passo mais distante da vida que você uma vez conheceu. Nomes e rostos, outrora queridos e estimados, deslizam para o abismo, deixando para trás um vazio oco.",
+    "after": "<color=#CBB396>Narrador:</color> Cada passo adiante é um passo para mais longe da vida que você conhecia. Nomes e rostos, antes queridos e estimados, desaparecem no abismo, deixando para trás um vazio.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00530",
+    "key": "<color=#CBB396>Narrator:</color> Guided by the pages of your father's journal, you find your path leading to the Emerald Jungle, a realm as wild as it is verdant.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Guiado pelas páginas do diário do seu pai, você encontra seu caminho levando à Selva Esmeralda, um reino tão selvagem quanto é verdejante.",
+    "after": "<color=#CBB396>Narrador:</color> Guiado pelas páginas do diário do seu pai, você segue um caminho que o leva à Selva Esmeralda, um lugar tão selvagem quanto verdejante.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00534",
+    "key": "<color=#CBB396>Narrator:</color> Here, amidst the flames and ash, you will face one, a creature of myth and majesty, so fearsome and terrible it caused all of the realm to cower and shrink.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Aqui, em meio às chamas e cinzas, você enfrentará um, uma criatura de mito e majestade, tão temível e terrível que fez todo o reino se acovardar e encolher.",
+    "after": "<color=#CBB396>Narrador:</color> Aqui, em meio às chamas e às cinzas, você enfrentará uma criatura mítica e majestosa, tão temível e terrível que fez todo o reino se acovardar e encolher.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00537",
+    "key": "<color=#CBB396>Narrator:</color> Hope moves you forward. Hope that the curse that has long shadowed this land can finally be lifted. That peace and light can be restored to a realm that has known too much darkness.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A esperança te move para frente. A esperança de que a maldição que há muito tempo assombra esta terra possa finalmente ser levantada. Que a paz e a luz possam ser restauradas a um reino que conheceu muita escuridão.",
+    "after": "<color=#CBB396>Narrador:</color> A esperança impulsiona você. A esperança de que a maldição que há muito assombra esta terra possa enfim ser desfeita. De que a paz e a luz possam voltar a um reino que conheceu escuridão demais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00538",
+    "key": "<color=#CBB396>Narrator:</color> In days of yore, this swamp was a verdant expanse teeming with life, sustaining a multitude of creatures in its nurturing embrace.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Nos tempos antigos, este pântano era uma vasta extensão verdejante, repleta de vida, sustentando uma multitude de criaturas em seu abraço acolhedor.",
+    "after": "<color=#CBB396>Narrador:</color> Nos tempos antigos, este pântano era uma vasta extensão verdejante, repleta de vida, que sustentava inúmeras criaturas em seu abraço acolhedor.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00539",
+    "key": "<color=#CBB396>Narrator:</color> In recent times, a palpable shadow of unease and fear had begun to creep across the land, casting a dark pall over a once-peaceful realm. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Nos tempos recentes, uma sombra palpável de inquietação e medo começou a se espalhar pela terra, lançando um manto escuro sobre um reino outrora pacífico.",
+    "after": "<color=#CBB396>Narrador:</color> Nos últimos tempos, uma sombra palpável de inquietação e medo começou a se espalhar pela terra, lançando um manto sombrio sobre um reino outrora pacífico.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00544",
+    "key": "<color=#CBB396>Narrator:</color> It is as if your father had been racing against time, trying to piece together a puzzle that was constantly shifting and changing in his mind.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> É como se seu pai estivesse competindo contra o tempo, tentando montar um quebra-cabeça que estava constantemente se alterando e mudando em sua mente.",
+    "after": "<color=#CBB396>Narrador:</color> É como se seu pai estivesse correndo contra o tempo, tentando montar um quebra-cabeça que mudava constantemente em sua mente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00546",
+    "key": "<color=#CBB396>Narrator:</color> It was here, among these ancient stones, that your father first showed signs of his ailment. You recall his once sharp eyes clouded with confusion, his confident steps becoming uncertain.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Foi aqui, entre estas pedras antigas, que seu pai mostrou os primeiros sinais de sua doença. Você se lembra de seus olhos outrora aguçados nublados pela confusão, seus passos confiantes se tornando incertos.",
+    "after": "<color=#CBB396>Narrador:</color> Foi aqui, entre estas pedras antigas, que seu pai mostrou os primeiros sinais da doença. Você se lembra de seus olhos, antes tão aguçados, turvados pela confusão, e de seus passos confiantes se tornando incertos.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00547",
+    "key": "<color=#CBB396>Narrator:</color> It was no mere coincidence, you realize, that the tragic events traced their origins back to the aftermath of the dragons' defeat.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Não foi mera coincidência, você percebe, que os eventos trágicos tiveram suas origens rastreadas até as consequências da derrota dos dragões.",
+    "after": "<color=#CBB396>Narrador:</color> Você percebe que não foi mera coincidência os eventos trágicos terem tido origem no período após a derrota dos dragões.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00550",
+    "key": "<color=#CBB396>Narrator:</color> King Ironheart, a figure of legend, was as stern as the stone from which his kingdom was carved, yet he possessed a deep appreciation for the relics of the past.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O Rei Coração de Ferro, uma figura lendária, era tão severo quanto a pedra da qual seu reino foi esculpido, contudo, possuía uma profunda apreciação pelas relíquias do passado.",
+    "after": "<color=#CBB396>Narrador:</color> O Rei Coração de Ferro, figura lendária, era tão severo quanto a pedra de que seu reino foi esculpido, mas apreciava profundamente as relíquias do passado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00551",
+    "key": "<color=#CBB396>Narrator:</color> Kingdoms and towns, once beacons of hospitality and trade, had turned inwards, their gates closed to outsiders.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Reinos e cidades, outrora faróis de hospitalidade e comércio, voltaram-se para dentro, seus portões fechados para os forasteiros.",
+    "after": "<color=#CBB396>Narrador:</color> Reinos e cidades, outrora faróis de hospitalidade e comércio, haviam se fechado, com os portões cerrados para forasteiros.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00555",
+    "key": "<color=#CBB396>Narrator:</color> Once, the Emerald Jungle had been a vibrant mosaic of tribes and cultures, a tapestry of communal harmony where the songs of different peoples mingled with the calls of exotic birds and the rustling of ancient trees.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Uma vez, a Selva Esmeralda fora um vibrante mosaico de tribos e culturas, um tecido de harmonia comunitária onde as canções de diferentes povos se misturavam aos chamados de pássaros exóticos e ao farfalhar de árvores ancestrais.",
+    "after": "<color=#CBB396>Narrador:</color> Outrora, a Selva Esmeralda era um mosaico vibrante de tribos e culturas, uma tapeçaria de harmonia comunitária onde as canções de diferentes povos se misturavam aos chamados de pássaros exóticos e ao farfalhar de árvores ancestrais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00558",
+    "key": "<color=#CBB396>Narrator:</color> Stories such as this were usually the stuff of legends and folktales. But in recent times it had become all too common, a reflection of a world increasingly ensnared by turmoil and darkness.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Histórias como esta geralmente eram coisas de lendas e contos populares. Mas, nos tempos recentes, havia se tornado algo muito comum, um reflexo de um mundo cada vez mais enredado por tumulto e escuridão.",
+    "after": "<color=#CBB396>Narrador:</color> Histórias como essa costumavam ser coisa de lendas e contos populares. Mas, nos últimos tempos, tornaram-se comuns demais, reflexo de um mundo cada vez mais enredado em tumulto e escuridão.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00561",
+    "key": "<color=#CBB396>Narrator:</color> The Sultan's subjects, once engaged in the pursuits of trade, art, and learning, were now conscripted into a relentless search for items of arcane power.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Os súditos do Sultão, outrora envolvidos nas buscas pelo comércio, arte e aprendizado, agora eram recrutados para uma busca incansável por itens de poder arcano.",
+    "after": "<color=#CBB396>Narrador:</color> Os súditos do Sultão, outrora dedicados ao comércio, à arte e ao aprendizado, agora eram recrutados para uma busca incansável por itens de poder arcano.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00562",
+    "key": "<color=#CBB396>Narrator:</color> The air around the castle is thick with a palpable darkness, a malevolence that seems to seep from the very stones of the fortress.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O ar ao redor do castelo é denso com uma escuridão palpável, uma malevolência que parece emanar das próprias pedras da fortaleza.",
+    "after": "<color=#CBB396>Narrador:</color> O ar ao redor do castelo está carregado de uma escuridão palpável, uma malevolência que parece emanar das próprias pedras da fortaleza.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00563",
+    "key": "<color=#CBB396>Narrator:</color> The air is thick with humidity, a palpable presence that clings to the skin and fills the lungs with the heavy scent of earth and growth.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O ar está denso com a umidade, uma presença palpável que se agarra à pele e enche os pulmões com o aroma pesado da terra e do crescimento.",
+    "after": "<color=#CBB396>Narrador:</color> O ar está carregado de umidade, uma presença palpável que gruda na pele e enche os pulmões com o cheiro forte de terra e vegetação.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00565",
+    "key": "<color=#CBB396>Narrator:</color> The dragons, magnificent and terrifying creatures of legend, had been defeated in an event so shrouded in mystery that it was scarcely more than a whisper in the winds of history.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Os dragões, criaturas magníficas e aterrorizantes da lenda, haviam sido derrotados em um evento tão envolto em mistério que mal era mais do que um sussurro nos ventos da história.",
+    "after": "<color=#CBB396>Narrador:</color> Os dragões, criaturas magníficas e aterrorizantes das lendas, foram derrotados em um acontecimento tão envolto em mistério que mal passava de um sussurro nos ventos da história.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00566",
+    "key": "<color=#CBB396>Narrator:</color> The dwarven halls, once grand and resplendent, now stand in ruins, a shadow of their former majesty.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Os salões anões, outrora grandiosos e resplendentes, agora estão em ruínas, uma sombra de sua antiga majestade.",
+    "after": "<color=#CBB396>Narrador:</color> Os salões dos anões, outrora grandiosos e resplandecentes, agora estão em ruínas, sombras do que foram.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00567",
+    "key": "<color=#CBB396>Narrator:</color> The feather, the amulet, the coin, the crown, the jewel, the bear each give their memories, a reminder of purpose, a lifeline in the sea of despair that threatens to engulf you.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A pena, o amuleto, a moeda, a coroa, a joia, o urso, cada um oferece suas memórias, um lembrete do propósito, um salva-vidas no mar de desespero que ameaça te engolir.",
+    "after": "<color=#CBB396>Narrador:</color> A pena, o amuleto, a moeda, a coroa, a joia e o urso, cada um oferece suas memórias: um lembrete do propósito, uma tábua de salvação no mar de desespero que ameaça engolir você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00568",
+    "key": "<color=#CBB396>Narrator:</color> The idea that your father, in the grip of his illness, had traversed these same dangerous lands is a thought that fills you with a deep, unsettling dread.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A ideia de que seu pai, em meio à sua doença, atravessou estas mesmas terras perigosas é um pensamento que lhe preenche com um profundo e inquietante temor.",
+    "after": "<color=#CBB396>Narrador:</color> A ideia de que seu pai, em meio à doença, atravessou essas mesmas terras perigosas é profundamente inquietante e o enche de temor.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00569",
+    "key": "<color=#CBB396>Narrator:</color> The journal spoke of a king who had once been just and fair, now turned into a mere jester of the encroaching darkness, his will enslaved by the very shadows that ruled his kingdom.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O diário falava de um rei que uma vez foi justo e íntegro, agora transformado em um mero bobo da escuridão que avançava, sua vontade escravizada pelas próprias sombras que governavam seu reino.",
+    "after": "<color=#CBB396>Narrador:</color> O diário falava de um rei que um dia fora justo e íntegro, mas que agora se tornara um mero bufão da escuridão que avançava, com a vontade escravizada pelas próprias sombras que governavam seu reino.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00578",
+    "key": "<color=#CBB396>Narrator:</color> The onset of his illness was subtle at first, like a creeping mist, but it soon enveloped him completely.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O início de sua doença foi sutil no começo, como uma névoa que se aproxima, mas logo o envolveu completamente.",
+    "after": "<color=#CBB396>Narrador:</color> O início da doença foi sutil, como uma névoa que se aproxima, mas logo o envolveu por completo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00580",
+    "key": "<color=#CBB396>Narrator:</color> The swamp is a labyrinth of deceit, its paths leading to dead ends and treacherous pitfalls, its air heavy with the threat of unseen horrors.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O pântano é um labirinto de enganos, seus caminhos levam a becos sem saída e armadilhas traiçoeiras, seu ar pesado com a ameaça de horrores invisíveis.",
+    "after": "<color=#CBB396>Narrador:</color> O pântano é um labirinto de enganos: seus caminhos levam a becos sem saída e armadilhas traiçoeiras, e o ar está carregado da ameaça de horrores invisíveis.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00581",
+    "key": "<color=#CBB396>Narrator:</color> The transformation of the Sultan's lands in the Wyrmrest Desert from a welcoming oasis of culture and hospitality into a realm of suspicion and guarded secrecy was a stark and disheartening change.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A transformação das terras do Sultão no Deserto de Wyrmrest de um oásis acolhedor de cultura e hospitalidade para um reino de suspeita e segredo guardado foi uma mudança drástica e desanimadora.",
+    "after": "<color=#CBB396>Narrador:</color> A transformação das terras do Sultão no Deserto de Wyrmrest, de um oásis acolhedor de cultura e hospitalidade em um reino de suspeita e segredo, foi drástica e desalentadora.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00582",
+    "key": "<color=#CBB396>Narrator:</color> The undergrowth rustles with the movements of unseen predators, and the air is filled with the distant, haunting cries of creatures unknown.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O sub-bosque se agita com os movimentos de predadores invisíveis, e o ar é preenchido pelos distantes e assustadores gritos de criaturas desconhecidas.",
+    "after": "<color=#CBB396>Narrador:</color> O sub-bosque se agita com os movimentos de predadores ocultos, e o ar se enche dos gritos distantes e sinistros de criaturas desconhecidas.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00583",
+    "key": "<color=#CBB396>Narrator:</color> The very air around you seems to thrum with a palpable sense of unease, as if the mountain itself was holding its breath, waiting for some unnamed dread to unfurl.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> O próprio ar ao seu redor parece vibrar com um palpável senso de inquietação, como se a montanha em si estivesse segurando a respiração, à espera de algum terror sem nome se desenrolar.",
+    "after": "<color=#CBB396>Narrador:</color> O próprio ar ao seu redor parece vibrar com uma inquietação palpável, como se a própria montanha prendesse a respiração, à espera de que algum terror sem nome se manifestasse.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00584",
+    "key": "<color=#CBB396>Narrator:</color> These majestic and fearsome creatures, which had long been woven into the lore of your world, are said to have been vanquished in a monumental but enigmatic battle. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Essas criaturas majestosas e temíveis, que há muito tempo foram tecidas na mitologia do seu mundo, dizem ter sido derrotadas em uma batalha monumental, porém enigmática.",
+    "after": "<color=#CBB396>Narrador:</color> Dizem que essas criaturas majestosas e temíveis, há muito presentes nas lendas do seu mundo, foram derrotadas em uma batalha monumental, mas enigmática.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00585",
+    "key": "<color=#CBB396>Narrator:</color> These relics were sought after with a zeal that bordered on fanaticism, spurred on by the Sultan's unquenchable thirst for dominance.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Essas relíquias eram procuradas com um zelo que beirava o fanatismo, impulsionadas pela sede insaciável de dominação do Sultão.",
+    "after": "<color=#CBB396>Narrador:</color> Essas relíquias eram procuradas com um zelo que beirava o fanatismo, impulsionado pela sede insaciável de domínio do Sultão.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00588",
+    "key": "<color=#CBB396>Narrator:</color> This festering sore upon the land, shrouded in mists and the stench of rot, was once a vibrant, life-filled forest",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Esta ferida purulenta sobre a terra, envolta em névoas e no fedor da decomposição, já foi uma floresta vibrante e cheia de vida.",
+    "after": "<color=#CBB396>Narrador:</color> Esta ferida purulenta na terra, envolta em névoas e no fedor da decomposição, já foi uma floresta vibrante e cheia de vida.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00590",
+    "key": "<color=#CBB396>Narrator:</color> Trouble had not just found its way to Freewind as of late.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Os problemas não haviam encontrado seu caminho até Freewind apenas recentemente.",
+    "after": "<color=#CBB396>Narrador:</color> Freewind já enfrentava problemas muito antes de recentemente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00594",
+    "key": "<color=#CBB396>Narrator:</color> With each step crunching through the pristine snow, a sense of profound contemplation envelopes you.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A cada passo quebrando a neve intocada, um sentido de profunda contemplação te envolve.",
+    "after": "<color=#CBB396>Narrador:</color> A cada passo que afunda na neve intocada, uma profunda contemplação toma conta de você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00597",
+    "key": "<color=#CBB396>Narrator:</color> Yet, with each step, you feel a growing sense of exhilaration. In this land of fire, you are on the cusp of a new chapter in the tale that had begun in the pages of your father's journal.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Ainda assim, a cada passo, você sente um crescente senso de euforia. Nesta terra de fogo, você está à beira de um novo capítulo na história que começou nas páginas do diário do seu pai.",
+    "after": "<color=#CBB396>Narrador:</color> Ainda assim, a cada passo, você sente uma euforia crescente. Nesta terra de fogo, está prestes a iniciar um novo capítulo da história que começou nas páginas do diário do seu pai.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00600",
+    "key": "<color=#CBB396>Narrator:</color> You can now cherish the memories of joyous moments spent with him, instead of being haunted by the somber shadows that once lingered.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Agora você pode valorizar as memórias dos momentos alegres passados com ele, em vez de ser assombrado pelas sombrias sombras que uma vez permaneceram.",
+    "after": "<color=#CBB396>Narrador:</color> Agora você pode guardar com carinho as lembranças dos momentos alegres que passou com ele, em vez de continuar assombrado pelas sombras sombrias que antes pairavam.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00611",
+    "key": "<color=#CBB396>Narrator:</color> Your father had chronicled the darkness in his writings. It had descended upon the land following the defeat of the dragons, a shadow that twisted and corrupted.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> Seu pai havia registrado a escuridão em seus escritos. Ela havia descido sobre a terra após a derrota dos dragões, uma sombra que torcia e corrompia.",
+    "after": "<color=#CBB396>Narrador:</color> Seu pai havia registrado a escuridão em seus escritos. Ela havia descido sobre a terra após a derrota dos dragões, uma sombra que distorcia e corrompia.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00613",
+    "key": "<color=#CBB396>Narrator:</color> Your father's mind, once a tapestry of stories and knowledge, became fragmented, a puzzle with pieces lost in the mists of time.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<color=#CBB396>Narrador:</color> A mente do seu pai, outrora um tecido de histórias e conhecimentos, tornou-se fragmentada, um quebra-cabeça com peças perdidas nas névoas do tempo.",
+    "after": "<color=#CBB396>Narrador:</color> A mente do seu pai, outrora um mosaico de histórias e conhecimentos, fragmentou-se, como um quebra-cabeça com peças perdidas nas névoas do tempo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00781",
+    "key": "<shake>SKELETON LEGION RISE!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "<shake>LEGIAO DE ESQUELETOS, ERGAM-SE!",
+    "after": "<shake>LEGIÃO DE ESQUELETOS, ERGAM-SE!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00789",
+    "key": "<sprite=0>25000   <sprite=1>25000   Difficulty: Heart of the Realm",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "25000 <sprite=0> 25000 <sprite=1> Dificuldade: Coração do Reino",
+    "after": "<sprite=0> 25000   <sprite=1> 25000   Dificuldade: Coração do Reino",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00833",
+    "key": "A <color=#FFD700>Gold Statue of the First Mountain King</color> glitters before you!\n\nDwarves are legendary for their craftsmanship and this work of art is no exception. Painstaking detail has been made from the clasp of his golden boots to the braids of his glorious beard! And of course, it is made entirely of <wave><color=#FFD700>solid gold</color></wave>!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Uma <color=#FFD700>Estátua de Ouro do Primeiro Rei da Montanha</color> brilha diante de você!\n\nOs anões são lendários por sua habilidade artesanal e esta obra de arte não é exceção. Detalhes minuciosos foram feitos desde o fecho de suas botas douradas até as tranças de sua gloriosa barba! E claro, é feita inteiramente de <wave><color=#FFD700>ouro maciço</color></wave>!",
+    "after": "Uma <color=#FFD700>Estátua de Ouro do Primeiro Rei da Montanha</color> brilha diante de você!\n\nOs anões são lendários por seu talento artesanal, e esta obra de arte não é exceção. Cada detalhe foi feito com esmero, do fecho de suas botas douradas às tranças de sua gloriosa barba! E, claro, ela é inteiramente de <wave><color=#FFD700>ouro maciço</color></wave>!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00844",
+    "key": "A Battle Event",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Um Evento de Batalha",
+    "after": "Um evento de batalha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00846",
+    "key": "A P Cost Mod Basic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador Básico de Custo de AP",
+    "after": "Modificador Básico de Custo de PA",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00847",
+    "key": "A P Cost Mod Cold",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Frio",
+    "after": "Modificador de Custo de PA de Frio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00848",
+    "key": "A P Cost Mod Fire",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Fogo",
+    "after": "Modificador de Custo de PA de Fogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00850",
+    "key": "A P Cost Mod Light",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Leve",
+    "after": "Modificador de Custo de PA de Luz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00851",
+    "key": "A P Cost Mod Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Relâmpago",
+    "after": "Modificador de Custo de PA de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00852",
+    "key": "A P Cost Mod Monk",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Monge",
+    "after": "Modificador de Custo de PA de Monge",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00853",
+    "key": "A P Cost Mod Ranger",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de Ponto de Ação do Patrulheiro",
+    "after": "Modificador de Custo de PA de Patrulheiro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00855",
+    "key": "A P Cost Mod Thief",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de PA Ladrão",
+    "after": "Modificador de Custo de PA de Ladrão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00856",
+    "key": "A P Cost Mod Warrior",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modificador de Custo de Ponto de Ação Guerreiro",
+    "after": "Modificador de Custo de PA de Guerreiro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00857",
+    "key": "A Warrior is a weapons-oriented armored melee fighter who battles using skill, strategy and tactics.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Um Guerreiro é um lutador corpo a corpo blindado e orientado para armas que batalha usando habilidade, estratégia e táticas.",
+    "after": "Um Guerreiro é um combatente corpo a corpo, encouraçado e especializado em armas, que luta com habilidade, estratégia e tática.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00923",
+    "key": "A special thanks goes out to all our backers!  \n\nYour support is what allowed Stolen Realm to become a reality!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Um agradecimento especial a todos os nossos apoiadores!\n\nSeu suporte foi o que permitiu que Stolen Realm se tornasse realidade!",
+    "after": "Agradecemos especialmente a todos os nossos apoiadores!\n\nFoi o apoio de vocês que tornou Stolen Realm realidade!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00940",
+    "key": "A well timed healing or mana potion can turn the tide of battle. ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Uma poção de cura ou de mana usada no momento certo pode virar o jogo da batalha.",
+    "after": "Uma poção de cura ou de mana usada na hora certa pode virar o rumo da batalha.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00942",
+    "key": "ALRIGHT YE SISSY, LET'S SEE WHAT YOU'VE GOT!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "CERTO SUA MOLENGA, VAMOS VER O QUE VOCÊ TEM!",
+    "after": "TÁ BOM, SUA MOLENGA, VAMOS VER O QUE VOCÊ TEM!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-00958",
+    "key": "Absorbs the next attack.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Absorbe o próximo ataque.",
+    "after": "Absorve o próximo ataque.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01015",
+    "key": "Action Status Duration Mod Beneficial Source",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Status da Ação Duração Modificação Benéfica Fonte",
+    "after": "Modificador de Duração de Status da Ação Benéfico na Origem",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01016",
+    "key": "Action Status Duration Mod Beneficial Target",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Status da Ação Duração Modificador Benéfico Alvo",
+    "after": "Modificador de Duração de Status da Ação Benéfico no Alvo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01017",
+    "key": "Action Status Duration Mod Harmful Source",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Estado da Ação Duração Modificação Prejudicial Origem",
+    "after": "Modificador de Duração de Status da Ação Prejudicial na Origem",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01018",
+    "key": "Action Status Duration Mod Harmful Target",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Status da Ação Duração Mod Prejudicial Alvo",
+    "after": "Modificador de Duração de Status da Ação Prejudicial no Alvo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01160",
+    "key": "Animal Companion Grizzly",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Companheiro Animal Urso Pardo",
+    "after": "Companheiro Animal: Urso-pardo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01161",
+    "key": "Animal Companion Raven",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Companheiro Animal Corvo",
+    "after": "Companheiro Animal: Corvo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01162",
+    "key": "Animal Companion Wolf",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Companheiro Animal Lobo",
+    "after": "Companheiro Animal: Lobo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01191",
+    "key": "Applies Curse on striking and when struck",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aplica Maldição ao atacar e quando atacado",
+    "after": "Aplica Maldição ao acertar e ao ser atingido",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01266",
+    "key": "As Tlaloc commands!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Conforme Tlaloc ordena!",
+    "after": "Como Tlaloc ordena!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-01323",
+    "key": "As you slowly turn the crank, music plays...",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "Ao girar a manivela lentamente, uma música começa a tocar...",
+      "Key": "As you slowly turn the crank, music plays...",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01326",
+    "key": "As you take the Frozen Heart it's numbing cold begins to feel... comfortable.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ao pegar o Coração Congelado, seu frio entorpecedor começa a se tornar... confortável.",
+    "after": "Ao pegar o Coração Congelado, o frio entorpecedor começa a parecer... confortável.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01382",
+    "key": "Attempt to disable the Acid Trap.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tente desativar a Armadilha de Ácido.",
+    "after": "Tente desativar a Armadilha Ácida.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01383",
+    "key": "Attempt to disarm the Saw Trap.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tente desarmar a Armadilha Serra.",
+    "after": "Tente desarmar a Armadilha de Serra.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01423",
+    "key": "Awfully kind of you to bring us your gold.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Terrivelmente gentil da sua parte nos trazer seu ouro.",
+    "after": "Que gentileza a sua nos trazer o ouro.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01425",
+    "key": "Awk!...I'll give ye a cracker!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cacá!... Eu te dou uma bolacha!",
+    "after": "Cac! Vou te dar uma bolacha!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01479",
+    "key": "Battle Point Value Mod",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Valor Modificador do Ponto de Batalha",
+    "after": "Modificador do Valor de Ponto de Batalha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01488",
+    "key": "Bear Charm",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feitiço do Urso",
+    "after": "Amuleto do Urso",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01551",
+    "key": "Blackguard Halberdier",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Bandeirante Alabardeiro",
+    "after": "Alabardeiro do Guarda Negro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01589",
+    "key": "Block All",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Bloquear Tudo",
+    "after": "Bloqueio Total",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01591",
+    "key": "Block Elemental",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Elemental do Bloco",
+    "after": "Bloqueio Elemental",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01592",
+    "key": "Block Fire",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Bloquear Fogo",
+    "after": "Bloqueio de Fogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01593",
+    "key": "Block Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Relâmpago Bloqueador",
+    "after": "Bloqueio de Raios",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01601",
+    "key": "Blood Berry",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sangue de Amora",
+    "after": "Amora Sangrenta",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01624",
+    "key": "Bloodletter",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Derramador de Sangue",
+    "after": "Sangrador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01630",
+    "key": "Blue Dragon Whelp Egg",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ovo de Dragonete Azul",
+    "after": "Ovo de Filhote de Dragão Azul",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01664",
+    "key": "Boot Blade",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lâmina Bota",
+    "after": "Lâmina de Bota",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01692",
+    "key": "Brass Knuckles",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Soqueira de Bronze",
+    "after": "Soqueira de Latão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01723",
+    "key": "Bristlethorn Patch",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Bosque de Espinhos",
+    "after": "Moita de Espinheiro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01755",
+    "key": "Butchery",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Açougue",
+    "after": "Carnificina",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01799",
+    "key": "Can I interest you in an upgrade?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Posso te interessar em um upgrade?",
+    "after": "Posso lhe oferecer uma melhoria?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01800",
+    "key": "Can only be harmed by destroying Soul Fetishes.  Immune to movement imparing effects.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Só pode ser ferido destruindo Fetiches da Alma. Imune a efeitos que prejudicam o movimento.",
+    "after": "Só pode ser ferido pela destruição dos Fetiches da Alma. Imune a efeitos que prejudicam o movimento.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01840",
+    "key": "Captain's Sidearm",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Arma Lateral do Capitão",
+    "after": "Arma Secundária do Capitão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01878",
+    "key": "Cave Spiderling",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aranha das Cavernas Jovem",
+    "after": "Aranhinha da Caverna",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01891",
+    "key": "Chain Helm",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Elmo de Corrente",
+    "after": "Elmo de Cota de Malha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01905",
+    "key": "Champion damage & health increased by 50%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano e saúde do campeão aumentados em 50%",
+    "after": "Dano e vida do campeão aumentados em 50%.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01915",
+    "key": "Change",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mudança",
+    "after": "Alterar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01986",
+    "key": "Choose Battle",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escolha Batalha",
+    "after": "Escolher batalha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-01997",
+    "key": "Choose a skill to reroll ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escolha uma habilidade para jogar novamente.",
+    "after": "Escolha uma habilidade para rerolar ",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02038",
+    "key": "Coach Gun",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espingarda do Treinador",
+    "after": "Espingarda de Cano Duplo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02070",
+    "key": "Come at me! Combat is formidable and your enemies cut you off at each turn. You understand the ins and outs of tactical RPGs and the specific dangers that lurk in Stolen Realm.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Venha até mim! O combate é formidável e seus inimigos te interceptam a cada virada. Você entende os detalhes dos RPGs táticos e os perigos específicos que espreitam no Reino Roubado.",
+    "after": "Venha me enfrentar! O combate é implacável, e seus inimigos interceptam você a cada turno. Você entende as nuances dos RPGs táticos e os perigos específicos que espreitam no Reino Roubado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02074",
+    "key": "Come see the finest jewelry in all the Stolen Realm!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Venha ver as joias mais finas de todo o Reino Roubado!",
+    "after": "Venha ver as melhores joias de todo o Reino Roubado!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02203",
+    "key": "Corrupted roots poison you!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Raízes corrompidas te envenenam!",
+    "after": "Raízes corrompidas envenenam você!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02285",
+    "key": "Critical Hit Damage and Healing increased by [35]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de Golpe Crítico e Cura aumentados em [35]%",
+    "after": "Dano de acerto crítico e cura aumentados em [35]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02286",
+    "key": "Critical Hit Damage and Healing increased by [45]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de Acerto Crítico e Cura aumentados em [45]%",
+    "after": "Dano de acerto crítico e cura aumentados em [45]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02287",
+    "key": "Critical Hit Damage and Healing increased by [55]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de Golpe Crítico e Cura aumentados em [55]%",
+    "after": "Dano de acerto crítico e cura aumentados em [55]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02288",
+    "key": "Critical Hit chance increased by 5%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chance de Acerto Crítico aumentado em 5%.",
+    "after": "Chance de acerto crítico aumentada em 5%.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02335",
+    "key": "Currently In Battle",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atualmente em Batalha",
+    "after": "Em batalha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02361",
+    "key": "Cyclone Kick",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chute Ciclone",
+    "after": "Chute Ciclônico",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02363",
+    "key": "D-Pad Left",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Esquerda no D-Pad",
+    "after": "Direcional para a esquerda",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02364",
+    "key": "D-Pad Right",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Direcional Direita",
+    "after": "Direcional para a direita",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02449",
+    "key": "Damage you deal applies 2 stacks of <b>Poison</b>.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O dano que você causa aplica 2 camadas de <b>Veneno</b>.",
+    "after": "O dano que você causa aplica 2 acúmulos de <b>Veneno</b>.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02461",
+    "key": "Dandelion Bud",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Botão-de-ouro",
+    "after": "Botão de dente-de-leão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02481",
+    "key": "Dark Ritualed Recently",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Recentemente Submetido a um Ritual Sombrio",
+    "after": "Submetido recentemente a um Ritual Sombrio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02684",
+    "key": "Defeat The Broker.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Derrote O Corretor.",
+    "after": "Derrote o Corretor.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02720",
+    "key": "Delete Character?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Excluir Personagem?",
+    "after": "Excluir personagem?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02736",
+    "key": "Destroy Item?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Destrui Item?",
+    "after": "Destruir item?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02754",
+    "key": "Dexterity increased [12]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Destreza aumentada [12]",
+    "after": "Destreza aumentada em [12]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02756",
+    "key": "Dexterity increased [3]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Destreza aumentada [3]",
+    "after": "Destreza aumentada em [3]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02758",
+    "key": "Dexterity increased [6]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Destreza aumentada [6]",
+    "after": "Destreza aumentada em [6]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02775",
+    "key": "Dexterous",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Destróz",
+    "after": "Habilidoso",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02798",
+    "key": "Dire",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Terrível",
+    "after": "Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02799",
+    "key": "Dire Bite",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mordida Feroz",
+    "after": "Mordida Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02800",
+    "key": "Dire Howl",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Uivo Ameaçador",
+    "after": "Uivo Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02801",
+    "key": "Dire Wolf",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lobo Feroz",
+    "after": "Lobo Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02804",
+    "key": "Disabled Immunity",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Imunidade Desativada",
+    "after": "Imunidade a Desativação",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02820",
+    "key": "Dismiss Shapeshift",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dispensar Transformação",
+    "after": "Encerrar Transformação",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02821",
+    "key": "Dismiss your active shapeshift.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Desfaça sua transformação ativa.",
+    "after": "Encerre sua transformação ativa.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02867",
+    "key": "Dodging incoming attacks.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Esquivando de ataques recebidos.",
+    "after": "Esquivando-se de ataques recebidos.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02986",
+    "key": "Effects Per Point",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Efeitos Por Ponto",
+    "after": "Efeitos por ponto",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03013",
+    "key": "Elemental skill damage increased",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade elemental aumentado",
+    "after": "Dano de habilidade elemental aumentado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03025",
+    "key": "Elite Enemy",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Inimigo de Elite",
+    "after": "Inimigo de elite",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03030",
+    "key": "Embalmer",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Embalmador",
+    "after": "Embalsamador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03031",
+    "key": "Embalmer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Embalmador",
+    "after": "do Embalsamador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-03071",
+    "key": "Empty Slot",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espaço Vazio",
+    "after": "Espaço vazio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03147",
+    "key": "Energy Globule",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Globulo de Energia",
+    "after": "Glóbulo de Energia",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03165",
+    "key": "Enter Password",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Digite a Senha",
+    "after": "Digite a senha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03173",
+    "key": "Equip Item",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Equipar Item",
+    "after": "Equipar item",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03187",
+    "key": "Ethereal",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Etereo",
+    "after": "Etéreo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03190",
+    "key": "Evade the falling debris and find cover.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Desvie dos escombros caindo e encontre abrigo.",
+    "after": "Desvie dos escombros que caem e encontre abrigo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03214",
+    "key": "Everyone wants to be a berserker until its time to go berserk!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Todo mundo quer ser um berserker até chegar a hora de enlouquecer!",
+    "after": "Todo mundo quer ser berserker até chegar a hora de entrar em fúria!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03232",
+    "key": "Exit Game",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sair do Jogo",
+    "after": "Sair do jogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03233",
+    "key": "Exit Test Battle",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Teste de Batalha de Saída",
+    "after": "Sair do teste de batalha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03235",
+    "key": "Exp",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Exp",
+    "after": "EXP",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03281",
+    "key": "Failed to join game. Please check your internet connection and try again.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Falha ao entrar no jogo. Por favor, verifique sua conexão com a internet e tente novamente.",
+    "after": "Falha ao entrar no jogo. Verifique sua conexão com a internet e tente novamente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03282",
+    "key": "Failed to join game. Please try again.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Falha ao entrar no jogo. Por favor, tente novamente.",
+    "after": "Falha ao entrar no jogo. Tente novamente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03303",
+    "key": "Feed em to the fishes!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dê-os de comida para os peixes!",
+    "after": "Joguem eles para os peixes!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03304",
+    "key": "Feeling lucky?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Se sentindo com sorte?",
+    "after": "Está se sentindo com sorte?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03345",
+    "key": "Fire Resistance increased by 15%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência a Fogo aumentada em 15%",
+    "after": "Resistência ao Fogo aumentada em 15%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03346",
+    "key": "Fire Resistance increased by 5%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência a Fogo aumentada em 5%",
+    "after": "Resistência ao Fogo aumentada em 5%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03355",
+    "key": "Fire resistance increased",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência a fogo aumentada",
+    "after": "Resistência ao fogo aumentada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03357",
+    "key": "Fire skill damage increased",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de habilidade de fogo aumentado",
+    "after": "Dano de habilidade de Fogo aumentado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03359",
+    "key": "Fire skill damage increased by [12]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade de fogo aumentado em [12]%",
+    "after": "Dano de habilidade de Fogo aumentado em [12]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03360",
+    "key": "Fire skill damage increased by [15]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de habilidade de fogo aumentado em [15]%",
+    "after": "Dano de habilidade de Fogo aumentado em [15]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03361",
+    "key": "Fire skill damage increased by [3]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade de fogo aumentado em [3]%",
+    "after": "Dano de habilidade de Fogo aumentado em [3]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03363",
+    "key": "Fire skill damage increased by [6]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade de fogo aumentado em [6]%",
+    "after": "Dano de habilidade de Fogo aumentado em [6]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03365",
+    "key": "Fire skill damage increased by [9]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade de fogo aumentado em [9]%",
+    "after": "Dano de habilidade de Fogo aumentado em [9]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03395",
+    "key": "Flanged Mace",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Maça com Flanges",
+    "after": "Maça flangeada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03411",
+    "key": "Fodder have 2 additional modifiers",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Forragem tem 2 modificadores adicionais.",
+    "after": "Forragens têm 2 modificadores adicionais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03412",
+    "key": "Fodder have 3 additional modifiers",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Forragem tem 3 modificadores adicionais.",
+    "after": "Forragens têm 3 modificadores adicionais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03432",
+    "key": "Force Cancel Event",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cancelar Evento de Força",
+    "after": "Forçar cancelamento do evento",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03433",
+    "key": "Force Destructible",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Força Destrutível",
+    "after": "Forçar destrutível",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03434",
+    "key": "Force Enemy Mod",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mod de Forçar Inimigo",
+    "after": "Forçar mod de inimigo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03435",
+    "key": "Force Event",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Forçar Evento",
+    "after": "Forçar evento",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03436",
+    "key": "Force Kick",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chute Força",
+    "after": "Chute de Força",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03437",
+    "key": "Force Profession",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Profissão de Força",
+    "after": "Forçar profissão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03488",
+    "key": "Free Casting",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lançamento Livre",
+    "after": "Conjuração gratuita",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03507",
+    "key": "Frigid air swirls around the decaying heart.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O ar gélido circula ao redor do coração em decomposição.",
+    "after": "Um ar gélido circula ao redor do coração em decomposição.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03563",
+    "key": "Gain 1 additional movement",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe 1 movimento adicional",
+    "after": "Ganhe 1 Ponto de Movimento adicional",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03579",
+    "key": "Gain 2 additional movement",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ganhe 2 de movimento adicional.",
+    "after": "Ganhe 2 Pontos de Movimento adicionais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03690",
+    "key": "Gemstone Wand Rod",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Varinha de Pedra Preciosa",
+    "after": "Haste de Varinha com Pedra Preciosa",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03720",
+    "key": "Giant Ray",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Raio Gigante",
+    "after": "Raia-gigante",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03726",
+    "key": "Gilded Hatchet",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Machado Dourado",
+    "after": "Machadinha Dourada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03728",
+    "key": "Gilded Rapier",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espada Reta Dourada",
+    "after": "Florete Dourado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03783",
+    "key": "Goblin Club",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Clube dos Goblins",
+    "after": "Clava Goblin",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03786",
+    "key": "Goblin Matchete",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Goblin Machete",
+    "after": "Machete Goblin",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03818",
+    "key": "Golden Valkyrie Plate",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Placa da Valquíria Dourada",
+    "after": "Armadura de placas da Valquíria Dourada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03845",
+    "key": "Grants 2 additional Action Points. Lowers movement points by 5.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Concede 2 Pontos de Ação adicionais. Reduz os pontos de movimento em 5.",
+    "after": "Concede 2 Pontos de Ação adicionais. Reduz os Pontos de Movimento em 5.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03903",
+    "key": "Grave Kiss Patch",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Patch do Beijo Mortal",
+    "after": "Campo de Grave Kiss",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03922",
+    "key": "Greater difficulties reward increased loot drops",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Maiores dificuldades recompensam com mais itens saqueados.",
+    "after": "Dificuldades mais altas oferecem mais itens como saque.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03957",
+    "key": "Guarding",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Guardando",
+    "after": "Defesa",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03966",
+    "key": "Hail traveler! I've got just what you need! The best trinkets, medallions, rings, and amulets across all the Stolen Realm!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Salve, viajante! Tenho exatamente o que você precisa! Os melhores bibelôs, medalhões, anéis e amuletos de todo o Reino Roubado!",
+    "after": "Salve, viajante! Tenho exatamente o que você precisa: os melhores acessórios, medalhões, anéis e amuletos de todo o Reino Roubado!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-03970",
+    "key": "Hailstone Staff",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cajado de Pedra de Granizo",
+    "after": "Cajado de Granizo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04070",
+    "key": "Heart Signet",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Anel de Sinete",
+    "after": "Sinete do Coração",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04152",
+    "key": "Honor is to be true to the best one knows.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Honra é ser verdadeiro com o melhor que se sabe.",
+    "after": "Honra é ser fiel ao que se sabe de melhor.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04163",
+    "key": "Host has chosen to Retry the Quest",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O anfitrião escolheu Tentar a Missão Novamente.",
+    "after": "O anfitrião escolheu tentar a missão novamente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04164",
+    "key": "Host has chosen to Return to Town",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O anfitrião escolheu Retornar à Cidade",
+    "after": "O anfitrião escolheu retornar à cidade.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04165",
+    "key": "Host has chosen to go to Character Select",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O anfitrião escolheu ir para a Seleção de Personagem.",
+    "after": "O anfitrião escolheu ir para a seleção de personagem.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04167",
+    "key": "Hosting Game",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Hospedando Jogo",
+    "after": "Hospedando jogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04185",
+    "key": "Hunter's Trappings",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Armadilhas do Caçador",
+    "after": "Equipamento do Caçador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04231",
+    "key": "I'm... am... fungi...",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Eu sou... sou... fungos...",
+    "after": "Eu sou... sou... fungo...",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04237",
+    "key": "I..feed!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Eu... alimento-me!",
+    "after": "Eu... me alimento!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04273",
+    "key": "Icicle",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Gelo em forma de estalactite",
+    "after": "Estalactite de Gelo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04275",
+    "key": "If you find that battles are too easy or hard, you can adjust the difficulty on the <color=#CBB396>Party Select</color> screen.\n\nIncreased difficulty rewards more loot!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Se você achar que as batalhas estão muito fáceis ou difíceis, você pode ajustar a dificuldade na tela de <color=#CBB396>Seleção de Grupo</color>.\n\nAumentar a dificuldade recompensa com mais saques!",
+    "after": "Se as batalhas estiverem fáceis ou difíceis demais, você pode ajustar a dificuldade na tela de <color=#CBB396>Seleção de Grupo</color>.\n\nDificuldades maiores oferecem mais saque!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04276",
+    "key": "Ignite",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Acender",
+    "after": "Incendiar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04294",
+    "key": "Immune to all movement impairing effects and knockback.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Imune a todos os efeitos de redução de movimento e repulsão.",
+    "after": "Imune a todos os efeitos que reduzem o movimento e à repulsão.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04301",
+    "key": "Imp Horns",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chifres de Imp",
+    "after": "Chifres de Diabrete",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04378",
+    "key": "Increase all <b>Elemental Resistances</b> by an additional 8%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumente todas as <b>Resistências Elementais</b> em 8% adicionais.",
+    "after": "Aumente todas as <b>Resistências Elementais</b> em mais 8%.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04675",
+    "key": "It was said King Ladomir had everything a man could desire before he turned to Necromancy for more.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dizia-se que o Rei Ladomir tinha tudo o que um homem poderia desejar antes de se voltar para a Necromancia por mais.",
+    "after": "Dizia-se que o Rei Ladomir tinha tudo o que um homem poderia desejar antes de recorrer à necromancia em busca de mais.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04706",
+    "key": "Join",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Junte-se",
+    "after": "Entrar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-04707",
+    "key": "Join  Debug",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "Entrar  Debug",
+      "Key": "Join  Debug",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04713",
+    "key": "Jungle Creeperling",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Carniçal da Selva",
+    "after": "Filhote de Trepadeira da Selva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04715",
+    "key": "Jungle Imp Devil",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Diabo Duende da Selva",
+    "after": "Diabo Diabrete da Selva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04717",
+    "key": "Jungle Imp Savage",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ímpio Selvagem da Selva",
+    "after": "Selvagem Diabrete da Selva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04720",
+    "key": "Jungle Spore Patch",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Plantação de Esporos da Selva",
+    "after": "Área de Esporos da Selva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04729",
+    "key": "Keep Settings?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Manter Configurações?",
+    "after": "Manter as configurações?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04841",
+    "key": "Let's even the playing field!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vamos nivelar o campo de jogo!",
+    "after": "Vamos deixar as coisas mais equilibradas!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04851",
+    "key": "Level 3 Mage",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mago Nível 3",
+    "after": "Mago de nível 3",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04859",
+    "key": "Level Up Fortunes",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Fortunas de Nível Superior",
+    "after": "Aumentar o nível das Fortunas",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04860",
+    "key": "Level Up!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Avance de Nível!",
+    "after": "Subiu de nível!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04866",
+    "key": "Leviathan Plate",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Placa Leviatã",
+    "after": "Armadura de Placas do Leviatã",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04881",
+    "key": "Life Steal Light",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Roubo de Vida Leve",
+    "after": "Roubo de Vida de Luz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04885",
+    "key": "Life Steal Nature",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Natureza do Roubo de Vida",
+    "after": "Roubo de Vida de Natureza",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04908",
+    "key": "Light, Blind you!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Luz, cegue-te!",
+    "after": "Luz, cegue-o!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04912",
+    "key": "Lightning Garb",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Traje Relâmpago",
+    "after": "Traje de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04914",
+    "key": "Lightning Hood",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Capuz Relâmpago",
+    "after": "Capuz de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04917",
+    "key": "Lightning Resistance increased by 15%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência a Relâmpagos aumentada em 15%",
+    "after": "Resistência a Relâmpago aumentada em 15%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-04924",
+    "key": "Lightning Wraps",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Envoltórios de Relâmpago",
+    "after": "Faixas de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05071",
+    "key": "Masochism I",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Masochismo I",
+    "after": "Masoquismo I",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05094",
+    "key": "Master Swordfish",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espadachim Mestre",
+    "after": "Peixe-espada Mestre",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05218",
+    "key": "Momentum",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Momento",
+    "after": "Ímpeto",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05222",
+    "key": "Momentum Value",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Valor do Momento",
+    "after": "Valor do Ímpeto",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05253",
+    "key": "Mourning Star",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Estrela da Manhã",
+    "after": "Estrela Lúgubre",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05255",
+    "key": "Mouse Assignment",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Designação de Mouse",
+    "after": "Atribuição do mouse",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05256",
+    "key": "MouseLeftButton",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "BotãoEsquerdoDoMouse",
+    "after": "Botão esquerdo do mouse",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05259",
+    "key": "MouseRightButton",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "BotãoDireitoDoMouse",
+    "after": "Botão direito do mouse",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05271",
+    "key": "Move up to, and activate the <b>Portal</b> to start a new quest.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Avance até e ative o <b>Portal</b> para iniciar uma nova missão.",
+    "after": "Vá até o <b>Portal</b> e ative-o para iniciar uma nova missão.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05308",
+    "key": "Muddled Movement III",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Movimento Turvo III",
+    "after": "Movimento Confuso III",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05318",
+    "key": "Musket Pistol",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pistola Mosquete",
+    "after": "Pistola-mosquete",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05323",
+    "key": "Must complete\n<color=#CBB396><size=16>[difficulty name]</size></color>\nto unlock",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Deve completar\n<color=#CBB396><size=16>[difficulty name]</size></color>\npara desbloquear",
+    "after": "Conclua\n<color=#CBB396><size=16>[difficulty name]</size></color>\npara desbloquear",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05337",
+    "key": "Mystery fo this really long item that can't possibly fit ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mistério deste item realmente longo que não pode possivelmente caber",
+    "after": "Mistério deste item tão longo que não cabe",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05351",
+    "key": "Navigate Down",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Navegue para Baixo",
+    "after": "Navegar para baixo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05352",
+    "key": "Navigate Up",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Navegar para Cima",
+    "after": "Navegar para cima",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05367",
+    "key": "Negating",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Negando",
+    "after": "Neutralizante",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05451",
+    "key": "Novice Gi",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Novato Gi",
+    "after": "Gi de Novato",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05455",
+    "key": "Nullifying",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Anulando",
+    "after": "Anulador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05466",
+    "key": "Obsidian Cestus",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cesto de Obsidiana",
+    "after": "Cestus de Obsidiana",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05498",
+    "key": "Olive Chapeau",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chapéu de Oliva",
+    "after": "Chapéu Verde-oliva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05499",
+    "key": "Olive Coat",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Casaco de Oliva",
+    "after": "Casaco Verde-oliva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05501",
+    "key": "Olive Tunic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Túnica de Oliva",
+    "after": "Túnica Verde-oliva",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05571",
+    "key": "Paralyzing Sting",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ferroadas Paralisantes",
+    "after": "Ferroada Paralisante",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-05623",
+    "key": "Persisting Events",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "Eventos persistentes",
+      "Key": "Persisting Events",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05671",
+    "key": "Pirate's Cutlass",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cutelo do Pirata",
+    "after": "Sabre do Pirata",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05726",
+    "key": "Polish",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Polonês",
+    "after": "Polir",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05765",
+    "key": "Power Globule",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Globulo de Poder",
+    "after": "Glóbulo de Poder",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05796",
+    "key": "Primitive Rags",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Trapo Primitivo",
+    "after": "Trapos Primitivos",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05820",
+    "key": "Pupil's Cap",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Capuz do Aprendiz",
+    "after": "Boné do Aprendiz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05829",
+    "key": "Quaking Fist",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Punho Tremor",
+    "after": "Punho Tremulante",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05835",
+    "key": "Quest Complete!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Missão Completa!",
+    "after": "Missão concluída!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05837",
+    "key": "Quest Failed",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Missão Fracassada",
+    "after": "Missão Falhou",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05885",
+    "key": "Raise Skeletal Henchman",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocar Capanga Esquelético",
+    "after": "Erguer Capanga Esquelético",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05895",
+    "key": "Raise Undead Wizard",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Erguer Mago Morto-Vivo",
+    "after": "Erguer Mago Morto-vivo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05896",
+    "key": "Raise a Mighty Iron Golem to fight for you.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Erga um Poderoso Golem de Ferro para lutar por você.",
+    "after": "Erga um poderoso Golem de Ferro para lutar por você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05897",
+    "key": "Raise a Undead Wizard to fight by your side.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Erga um Feiticeiro Morto-vivo para lutar ao seu lado.",
+    "after": "Erga um Mago Morto-vivo para lutar ao seu lado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05905",
+    "key": "Range Adder",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance",
+    "after": "Acréscimo de Alcance",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05906",
+    "key": "Range Adder Basic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance Básico",
+    "after": "Acréscimo Básico de Alcance",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05908",
+    "key": "Range Adder Fire",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance de Fogo",
+    "after": "Acréscimo de Alcance de Fogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05910",
+    "key": "Range Adder Lightning",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance Relâmpago",
+    "after": "Acréscimo de Alcance de Relâmpago",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05911",
+    "key": "Range Adder Physical",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance Físico",
+    "after": "Acréscimo de Alcance Físico",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05912",
+    "key": "Range Adder Shadow",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adicionador de Alcance Sombrio",
+    "after": "Acréscimo de Alcance Sombrio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-05928",
+    "key": "Rapier",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espada Rápida",
+    "after": "Florete",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06003",
+    "key": "Red Imp Firebreather",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Diabrete Soprador de Fogo",
+    "after": "Diabrete Vermelho Soprador de Fogo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06004",
+    "key": "Red Imp Sapper",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Diabrete Sapador Vermelho",
+    "after": "Diabrete Vermelho Sapador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06005",
+    "key": "Red Imp Skirmisher",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escaramuçador Diabrete Vermelho",
+    "after": "Diabrete Vermelho Escaramuçador",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06070",
+    "key": "Reek Bah!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Fedorento! Bah!",
+    "after": "Que fedor! Bah!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06099",
+    "key": "Refund All",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Reembolsar Tudo",
+    "after": "Reembolsar tudo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06122",
+    "key": "Relocate",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Relocalizar",
+    "after": "Realocar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06123",
+    "key": "Remaining Points 3",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pontos Restantes 3",
+    "after": "Pontos restantes: 3",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06143",
+    "key": "Removes all negative status effects.  Can be used when Disabled.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Remove todos os efeitos de status negativos. Pode ser usado quando Desabilitado.",
+    "after": "Remove todos os efeitos de status negativos. Pode ser usado quando estiver Desabilitado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06158",
+    "key": "Requirements Not Met",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Requisitos Não Atendidos",
+    "after": "Requisitos não atendidos",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06166",
+    "key": "Reroll a skill",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Role novamente uma habilidade",
+    "after": "Rerolar uma habilidade",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06167",
+    "key": "Reroll a skill!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Role novamente uma habilidade!",
+    "after": "Rerolar uma habilidade!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06187",
+    "key": "Resist Physical",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistir Físico",
+    "after": "Resistência Física",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06201",
+    "key": "Restore health and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Restaure vida e mana.",
+    "after": "Restaure a vida e a mana.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06281",
+    "key": "Rise Champion! Bring me their blood.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Erga-se, Campeão! Traga-me o sangue deles.",
+    "after": "Erga-se, campeão! Traga-me o sangue deles.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06283",
+    "key": "Rise fiends, Bring me their souls!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Surgi, demônios, tragam-me suas almas!",
+    "after": "Ergam-se, demônios! Tragam-me suas almas!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06289",
+    "key": "Ritual Sickness",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Doença Ritualistica",
+    "after": "Doença Ritualística",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06291",
+    "key": "River Moss",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Rio Musgo",
+    "after": "Musgo-do-rio",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06306",
+    "key": "Roguelike characters must be within [level value] levels of eachother!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Personagens de roguelike devem estar dentro de [level value] níveis um do outro!",
+    "after": "Personagens no modo roguelike devem estar a no máximo [level value] níveis uns dos outros!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06331",
+    "key": "Ruella, the Houndmaster",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ruella, a Mestre dos Cães",
+    "after": "Ruella, Mestre dos Cães",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06367",
+    "key": "Sand Sultan Simitar",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sultão da Areia Simitar",
+    "after": "Cimitarra do Sultão das Areias",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06372",
+    "key": "Sand Sultan Wrap",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Enrolado do Sultão das Areias",
+    "after": "Manto do Sultão das Areias",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06378",
+    "key": "Sanguine Sage Patch",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mancha do Sábio Sanguíneo",
+    "after": "Mancha de Sábio Sanguíneo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06380",
+    "key": "Sapphire Cestus",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Cesto de Safira",
+    "after": "Cestus de Safira",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06382",
+    "key": "Sapphire Poleaxe",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Machado de Alabarda de Safira",
+    "after": "Machado de haste de Safira",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06396",
+    "key": "Savior's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Salvador",
+    "after": "do Salvador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-06422",
+    "key": "Search the Castle for <b>The Jester</b>, and bring an end to his evil.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Procure pelo Castelo pelo <b>O Bobo da Corte</b>, e ponha um fim à sua maldade.",
+    "after": "Procure no Castelo por <b>O Bobo da Corte</b> e ponha fim à sua maldade.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06449",
+    "key": "Select a <b>Skill Tab</b> to display the skills in it's tree.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Selecione uma <b>Aba de Habilidade</b> para exibir as habilidades na sua árvore.",
+    "after": "Selecione uma <b>Aba de Habilidades</b> para exibir as habilidades na árvore correspondente.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06460",
+    "key": "Self Doubt",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Auto-dúvida",
+    "after": "Autodúvida",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06463",
+    "key": "Send Gold",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Envie Ouro",
+    "after": "Enviar Ouro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06474",
+    "key": "Seraph Aura",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aura Serafim",
+    "after": "Aura de Serafim",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06475",
+    "key": "Seraph Shrine",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Santuário Serafim",
+    "after": "Santuário de Serafim",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06476",
+    "key": "Serpant Sturgeon",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Esturjão Serpente",
+    "after": "Esturjão-serpente",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06479",
+    "key": "Set All Attributes To Highest",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Definir Todos os Atributos para o Mais Alto",
+    "after": "Definir todos os atributos com o valor mais alto",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06494",
+    "key": "Shadow Walk",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Caminhada Sombria",
+    "after": "Caminhar nas Sombras",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06500",
+    "key": "Shadow skill damage increased by [12]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade Sombria aumentado em [12]%",
+    "after": "Dano de habilidades de Sombra aumentado em [12]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06501",
+    "key": "Shadow skill damage increased by [15]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade Sombria aumentado em [15]%",
+    "after": "Dano de habilidades de Sombra aumentado em [15]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06502",
+    "key": "Shadow skill damage increased by [3]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade Sombria aumentado em [3]%",
+    "after": "Dano de habilidades de Sombra aumentado em [3]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06504",
+    "key": "Shadow skill damage increased by [6]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano da habilidade Sombria aumentado em [6]%",
+    "after": "Dano de habilidades de Sombra aumentado em [6]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06506",
+    "key": "Shadow skill damage increased by [9]%",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dano de habilidade sombria aumentado em [9]%",
+    "after": "Dano de habilidades de Sombra aumentado em [9]%",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06512",
+    "key": "Shadows... taste... good!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sombras... têm... um bom gosto!",
+    "after": "Sombras... têm... gosto bom!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06513",
+    "key": "Shadowstalker Body Armor",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Armadura Corporal Espreitador das Sombras",
+    "after": "Armadura corporal do Espreitador das Sombras",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06530",
+    "key": "Shapeshift Dire Werewolf",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação em Lobisomem Feroz",
+    "after": "Transformação em Lobisomem Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06535",
+    "key": "Shapeshift Vampire Bat",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Morcego Vampiro Metamorfo",
+    "after": "Transformação em Morcego Vampiro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06546",
+    "key": "Shapeshift: Black Dragonkin",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação: Parente do Dragão Negro",
+    "after": "Transformação: Dragão Negro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06549",
+    "key": "Shapeshift: Dire Werewolf",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação: Lobisomem Feroz",
+    "after": "Transformação: Lobisomem Atroz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06550",
+    "key": "Shapeshift: Green Dragonkin",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação: Parente do Dragão Verde",
+    "after": "Transformação: Dragão Verde",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06551",
+    "key": "Shapeshift: Red Dragonkin",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação: Parente do Dragão Vermelho",
+    "after": "Transformação: Dragão Vermelho",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06554",
+    "key": "Shapeshift: White Dragonkin",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Transformação: Parente do Dragão Branco",
+    "after": "Transformação: Dragão Branco",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06590",
+    "key": "Shield Of Light Value",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escudo da Luz Valor",
+    "after": "Valor do Escudo da Luz",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06592",
+    "key": "Shield Of Retribution Start Value",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Escudo da Retribuição Valor Inicial",
+    "after": "Valor inicial do Escudo da Retribuição",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06660",
+    "key": "Silver Vein",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Veia de Prata",
+    "after": "Veio de Prata",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06661",
+    "key": "Silver-Edged Axe",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Machado com Borda de Prata",
+    "after": "Machado com fio de prata",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06662",
+    "key": "Silver-Edged Dagger",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Adaga de Borda Prateada",
+    "after": "Adaga com fio prateado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06664",
+    "key": "Silver-Edged Shortsword",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Espada Curta de Prata Afiada",
+    "after": "Espada curta com fio prateado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06684",
+    "key": "Skeletal Sharpshooter",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Atirador Esquelético Preciso",
+    "after": "Atirador de elite esquelético",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06737",
+    "key": "Skin Walker",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Andarilho da Pele",
+    "after": "Metamorfo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06741",
+    "key": "Skull Mace",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Maça Caveira",
+    "after": "Maça com caveira",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06764",
+    "key": "Sledge Hammer",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Martelo de Aríete",
+    "after": "Marreta",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06771",
+    "key": "Slow Immunity",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Imunidade Lenta",
+    "after": "Imunidade a Lentidão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06801",
+    "key": "So much for a fair fight!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tanto faz por uma luta justa!",
+    "after": "Que luta justa, hein!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06885",
+    "key": "Stack",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Empilhar",
+    "after": "Acúmulo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06908",
+    "key": "Stat Changes If Equipped",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Alterações de Status se Equipado",
+    "after": "Alterações nos atributos ao equipar",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06934",
+    "key": "Steam Host",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Anfitrião a Vapor",
+    "after": "Anfitrião Steam",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06953",
+    "key": "Stone Wraps",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Envoltórios de Pedra",
+    "after": "Faixas de Pedra",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-06970",
+    "key": "Stormbringer II",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tempestade II",
+    "after": "Portador da Tempestade II",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07004",
+    "key": "Subjecting your will upon those who cannot resist?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Submeter sua vontade àqueles que não podem resistir?",
+    "after": "Impor sua vontade àqueles que não podem resistir?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07107",
+    "key": "Summon health increased.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumento da saúde invocada.",
+    "after": "Saúde das invocações aumentada.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07111",
+    "key": "Summon resistance increased",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência à invocação aumentada",
+    "after": "Resistência das invocações aumentada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07112",
+    "key": "Summon resistance increased by 5%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Resistência à invocação aumentada em 5%.",
+    "after": "Resistência das invocações aumentada em 5%.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07126",
+    "key": "Summons a Dire Wolf to fight for you.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invoca um Lobo Feroz para lutar por você.",
+    "after": "Invoca um Lobo Atroz para lutar por você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07132",
+    "key": "Summons a Timber Wolf to fight for you",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invoca um Lobo Silvestre para lutar por você.",
+    "after": "Invoca um Lobo Cinzento para lutar por você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07239",
+    "key": "Take the spellbook for yourself.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Pegue o livro de feitiços para si mesmo.",
+    "after": "Pegue o livro de feitiços para você.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07261",
+    "key": "Target Dummy Fodder",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Alvo de Treinamento Inútil",
+    "after": "Alvo de Treinamento descartável",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07296",
+    "key": "Team Index Override",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Índice de Superação da Equipe",
+    "after": "Índice de Substituição da Equipe",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07310",
+    "key": "Teleports the caster to the target location in a flash holy light.  Unaffected by increased range modifiers.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Teletransporta o conjurador para a localização alvo em um relâmpago de luz sagrada. Não é afetado por modificadores de aumento de alcance.",
+    "after": "Teletransporta o conjurador para o local escolhido com um clarão de luz sagrada. Não é afetado por modificadores de aumento de alcance.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07311",
+    "key": "Teleports the caster to the target location in a flash of lightning.  Unaffected by increased range modifiers.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Teletransporta o conjurador para a localização alvo num relâmpago. Não é afetado por modificadores de aumento de alcance.",
+    "after": "Teletransporta o conjurador para o local escolhido com um clarão de relâmpago. Não é afetado por modificadores de aumento de alcance.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07312",
+    "key": "Teleports the target to the location of your choosing in a flash of lightning.  Unaffected by increased range modifiers.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Teletransporta o alvo para o local de sua escolha num piscar de relâmpagos. Não é afetado por modificadores de aumento de alcance.",
+    "after": "Teletransporta o alvo para o local escolhido com um clarão de relâmpago. Não é afetado por modificadores de aumento de alcance.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07365",
+    "key": "The Cryomancer uses oppressive frost spells to slow and freeze her foes stopping them in their tracks.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O Criomante utiliza feitiços opressores de gelo para desacelerar e congelar seus inimigos, parando-os em seus caminhos.",
+    "after": "A Criomante usa feitiços de gelo opressivos para desacelerar e congelar seus inimigos, detendo-os no lugar.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07383",
+    "key": "The Eternal Battle rages!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "A Batalha Eterna se enfurece!",
+    "after": "A Batalha Eterna continua!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07412",
+    "key": "The Monk is a powerful martial artist with the ability to move enemies around, pulling them and knocking them out of place.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "O Monge é um poderoso artista marcial com a habilidade de mover inimigos, puxando-os e derrubando-os de seus lugares.",
+    "after": "O Monge é um poderoso artista marcial capaz de deslocar inimigos, puxando-os e tirando-os de posição.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-07591",
+    "key": "The shrine to the Merqueen undulates before you. The sirens beautiful melody calls for you to enter, promising glory, gold and companionship.",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "O santuário da Rainha das Sereias ondula diante de você. A bela melodia das sereias chama você a entrar, prometendo glória, ouro e companhia.",
+      "Key": "The shrine to the Merqueen undulates before you. The sirens beautiful melody calls for you to enter, promising glory, gold and companionship.",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07717",
+    "key": "Thunderforce",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Força Trovão",
+    "after": "Força do Trovão",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07723",
+    "key": "Tier 4 & 5 Coming Soon",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Níveis 4 & 5 Em Breve",
+    "after": "Níveis 4 e 5 em breve",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07728",
+    "key": "Tier [tier value] [skill type] Active Skill",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tier [tier value] [skill type] Habilidade Ativa",
+    "after": "Habilidade ativa de [skill type] de nível [tier value]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07729",
+    "key": "Tier [tier value] [skill type] Passive Skill",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Tier [tier value] [skill type] Habilidade Passiva",
+    "after": "Habilidade passiva de [skill type] de nível [tier value]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07734",
+    "key": "Timber Wolf Alpha",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Lobo Alfa da Madeira",
+    "after": "Lobo Cinzento Alfa",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07745",
+    "key": "Tlaloc Hierophant",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Hierofante Tlaloc",
+    "after": "Hierofante de Tlaloc",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07747",
+    "key": "Tlaloc Mystic",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Místico Tlaloc",
+    "after": "Místico de Tlaloc",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07764",
+    "key": "Toadstool Patch",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Campo de Cogumelos Venenosos",
+    "after": "Área de Cogumelos Venenosos",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-07767",
+    "key": "Toggle Quest Complete ",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "Alternar missão concluída ",
+      "Key": "Toggle Quest Complete ",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "operation": "addEntry",
+    "id": "LANG-07768",
+    "key": "Toggle: Middle Mouse Click",
+    "entryIndex": 0,
+    "before": [],
+    "after": {
+      "Value": "Alternar: clique do botão do meio do mouse",
+      "Key": "Toggle: Middle Mouse Click",
+      "TranslatorKey": null,
+      "Feminine": null,
+      "Masculine": null,
+      "Neutral": null,
+      "LanguageGender": 0,
+      "CanBeGendered": false,
+      "NeedsGenderInfo": false
+    },
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07884",
+    "key": "Twitch Streamer Mode Enabled",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Modo Streamer do Twitch Ativado",
+    "after": "Modo de transmissão da Twitch ativado",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07912",
+    "key": "Underground Pool",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Piscina Subterrânea",
+    "after": "Lago Subterrâneo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07937",
+    "key": "Unlock Roguelike Presets",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Desbloquear Presets Roguelike",
+    "after": "Desbloquear predefinições roguelike",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07959",
+    "key": "Use an action by selecting it's icon in the <b>Skillbar</b>, then select a target to cast it.  \n\nActions require <b>Action Points</b> and/or <b>Mana</b> to use them.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Use uma ação selecionando seu ícone na <b>Barra de Habilidades</b>, depois selecione um alvo para lançá-la.\n\nAções requerem <b>Pontos de Ação</b> e/ou <b>Mana</b> para serem usadas.",
+    "after": "Use uma ação selecionando seu ícone na <b>Barra de Habilidades</b> e, em seguida, selecione um alvo para usá-la.\n\nAs ações exigem <b>Pontos de Ação</b> e/ou <b>Mana</b>.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07971",
+    "key": "Valuables",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Valiosos",
+    "after": "Itens valiosos",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08031",
+    "key": "Visit the Blacksmith to forge powerful modifiers on your gear with crafting materials you find throughout your adventures.  ",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Visite o Ferreiro para forjar modificadores poderosos em seus equipamentos com materiais de criação que você encontrar durante suas aventuras.",
+    "after": "Visite o Ferreiro para forjar modificadores poderosos no seu equipamento usando materiais de criação encontrados durante suas aventuras.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08089",
+    "key": "Warmachine Gauntlet",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Manopla Máquina de Guerra",
+    "after": "Manopla da Máquina de Guerra",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08100",
+    "key": "Watch as your reflection steps fully into this world.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Observe enquanto seu reflexo adentra completamente neste mundo.",
+    "after": "Observe enquanto seu reflexo entra por completo neste mundo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08107",
+    "key": "We don’t really know how to survive this difficulty. Perhaps you will?",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Nós realmente não sabemos como sobreviver a esta dificuldade. Talvez você saiba?",
+    "after": "Não sabemos bem como sobreviver a esta dificuldade. Talvez você consiga?",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08114",
+    "key": "We'll be takin' yer gold now.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Nós vamos pegar seu ouro agora.",
+    "after": "Vamos pegar teu ouro agora.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08128",
+    "key": "Weapon attacks apply 1 stack of bleeding.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ataques com armas aplicam 1 camada de sangramento.",
+    "after": "Ataques com armas aplicam 1 acúmulo de sangramento.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08152",
+    "key": "Weapon of Choice",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Arma de Escolha",
+    "after": "Arma Favorita",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08155",
+    "key": "Wee, all the way home!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Ui, todo o caminho até em casa!",
+    "after": "Eba, até em casa!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08279",
+    "key": "Wish for a powerful monster to fight by your side.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Deseje por um monstro poderoso para lutar ao seu lado.",
+    "after": "Deseje que um monstro poderoso lute ao seu lado.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08355",
+    "key": "Wolfshead Hood",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Capuz de Cabeça de Lobo",
+    "after": "Capuz com Cabeça de Lobo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08358",
+    "key": "Wooden Heater",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aquecedor de Madeira",
+    "after": "Escudo Heater de Madeira",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08388",
+    "key": "Ye be sinkin' to the Abyss!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Vós estareis afundando no Abismo!",
+    "after": "Cês vão afundar no Abismo!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08390",
+    "key": "Yer in luck! I'm the best Armorsmith in all the Stolen Realm. If yer lookin' for a sturdy breastplate to keep your chest intact, or a solid bucket to protect your noggin', you've come to the right place!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você está com sorte! Sou o melhor ferreiro de armaduras de todo o Reino Roubado. Se está procurando por uma couraça resistente para manter seu peito intacto, ou um balde sólido para proteger sua cabeça, você veio ao lugar certo!",
+    "after": "Cê tá com sorte! Sou o melhor ferreiro de armaduras de todo o Reino Roubado. Se tá procurando uma couraça resistente pra manter o peito intacto, ou um balde sólido pra proteger a cabeça, veio ao lugar certo!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08547",
+    "key": "You have something happen to you just not sure what",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Algo aconteceu com você, só não tenho certeza do que.",
+    "after": "Algo acontece com você, mas não sei bem o quê.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08606",
+    "key": "You reach out and place the palm of your hand on the Ice.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você estende a mão e coloca a palma da sua mão sobre o Gelo.",
+    "after": "Você estende a mão e põe a palma sobre o Gelo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08636",
+    "key": "You should be curious, not afraid.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você deve ser curioso, não temeroso.",
+    "after": "Você deveria estar curioso, não com medo.",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08716",
+    "key": "You've rerolled a skill!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Você redefiniu uma habilidade!",
+    "after": "Você rerolou uma habilidade!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08739",
+    "key": "Your courage has failed you!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Sua coragem falhou com você!",
+    "after": "Sua coragem o abandonou!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08901",
+    "key": "[name] sent you [value] Gold!",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[name] enviou para você [value] de Ouro!",
+    "after": "[name] enviou [value] de Ouro para você!",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08936",
+    "key": "[source] dealt [value] Damage to [target]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[source] causou [value] de Dano a [target]",
+    "after": "[source] causou [value] de dano a [target]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08937",
+    "key": "[source] dealt [value] Damage to self",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[source] causou [value] de Dano a si mesmo.",
+    "after": "[source] causou [value] de dano a si mesmo",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08979",
+    "key": "of  Spines",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "das Espinhos",
+    "after": "dos Espinhos",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-08993",
+    "key": "of Flame",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "das Chamas",
+    "after": "da Chama",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09000",
+    "key": "of Lapis",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "de Lápis",
+    "after": "de Lápis-lazúli",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09028",
+    "key": "of the Gargantuan",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "dos Gigantescos",
+    "after": "do Gigantesco",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09037",
+    "key": "of the Journeyman",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "do Aprendiz",
+    "after": "do Oficial",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09046",
+    "key": "of the Mender",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "dos Curandeiros",
+    "after": "do Curandeiro",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09047",
+    "key": "of the Monstrosity",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "da Abominação",
+    "after": "da Monstruosidade",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09048",
+    "key": "of the Mortician",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "do Necrotério",
+    "after": "do Agente funerário",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09056",
+    "key": "of the Spark",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "do Brilho",
+    "after": "da Centelha",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-09075",
+    "key": "the Monstrous",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "o Monstruo",
+    "after": "o Monstruoso",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-07938",
+    "key": "Unlocked",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Desbloqueado",
+    "after": "Desbloqueada",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02795",
+    "key": "Difficulty: [difficulty name]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Dificuldade: [difficulty name]",
+    "after": "[difficulty name]",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02022",
+    "key": "Cleared",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Concluído",
+    "after": "Concluída",
+    "approvalTaskId": "t_c9697bd7"
+  },
+  {
+    "id": "LANG-02150",
+    "key": "Consuming any Globule heals you for 8% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 8% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 8% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02148",
+    "key": "Consuming any Globule heals you for 12% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 12% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 12% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02149",
+    "key": "Consuming any Globule heals you for 20% of max life and mana.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Consumir qualquer Globule cura você em 20% da vida máxima e mana.",
+    "after": "Consumir qualquer Glóbulo cura você em 20% da vida máxima e mana.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-02295",
+    "key": "Critical hit chance increased by [0]%.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Chance de acerto crítico aumentado em [0]%.",
+    "after": "Chance de acerto crítico aumentada em [0]%.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-04554",
+    "key": "Increases movement of all allies within 4 hexes by 3.",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Aumenta o movimento de todos os aliados em até 4 hexágonos em 3.",
+    "after": "Aumenta em 3 o movimento de todos os aliados em um raio de 4 hexágonos.",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-08853",
+    "key": "[damage type] Damage",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[damage type] de Dano",
+    "after": "Dano [damage type]",
+    "approvalTaskId": "t_8398cafa"
+  },
+  {
+    "id": "LANG-08859",
+    "key": "[item prefix] [item name] [item suffix]",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "[item prefix] [item name] [item suffix]",
+    "after": "[item name] [item prefix] [item suffix]",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-01843",
+    "key": "Caretaker's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Zelador dos",
+    "after": "do Zelador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-03907",
+    "key": "Gravekeeper's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Guardião das Tumbas",
+    "after": "do Coveiro",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-04730",
+    "key": "Keeper's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Guardião dos",
+    "after": "do Guardião",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-04871",
+    "key": "Lich's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Liches",
+    "after": "do Lich",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05014",
+    "key": "Magician's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Mago",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05019",
+    "key": "Magus'",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Magos'",
+    "after": "do Arquimago",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05100",
+    "key": "Master's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Mestre dos Mestres",
+    "after": "do Mestre",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05244",
+    "key": "Mortician's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Funerária",
+    "after": "do Agente Funerário",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-05362",
+    "key": "Necromancer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Necromante",
+    "after": "do Necromante",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-06821",
+    "key": "Sorcerer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Feiticeiro",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07114",
+    "key": "Summoner's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Invocador de",
+    "after": "do Invocador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07257",
+    "key": "Tamer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Domadores",
+    "after": "do Domador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-07798",
+    "key": "Trainer's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Treinador(a) de",
+    "after": "do Treinador",
+    "approvalTaskId": "t_4146957e"
+  },
+  {
+    "id": "LANG-08347",
+    "key": "Wizard's",
+    "entryIndex": 0,
+    "field": "Value",
+    "before": "Feiticeiro(a)",
+    "after": "do Bruxo",
+    "approvalTaskId": "t_4146957e"
   }
 ]

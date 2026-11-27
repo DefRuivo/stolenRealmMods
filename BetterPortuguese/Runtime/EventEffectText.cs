@@ -22,7 +22,7 @@ namespace BetterPortuguese.Runtime
     {
         private static readonly Dictionary<string, string> Fixes = new Dictionary<string, string>(StringComparer.Ordinal)
         {
-            ["Reroll a skill"] = "Role novamente uma habilidade",
+            ["Reroll a skill"] = "Rerolar uma habilidade",
             ["Level up Fortunes"] = "Aumente o nível das suas Fortunas",
         };
 

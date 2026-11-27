@@ -6,12 +6,15 @@ namespace BetterPortuguese.Core;
 // Composition, not dictionary edits. Exact output allowlists intentionally refuse drift.
 internal static class Composition
 {
-    // POLÍTICA DE PIN (SR-BETA-06): mesma decisão do realmapi — pin único e exato na build
-    // instalada (open_beta 1.4.8 / build 26767595). Divergiu o sha256, a composição é recusada
-    // (BP-COMP/BP-MODS): build nova exige re-medição e re-pin, nunca "aceitar qualquer sha".
+    // Pin único e exato na Steam public 1.4.9 / 26878331, publicada com o mesmo assembly
+    // da open_beta inspecionada. Divergiu o SHA-256, a composição é recusada (BP-COMP/BP-MODS):
+    // build nova exige re-medição e re-pin, nunca "aceitar qualquer sha".
+    // Re-homologação de 26/11/2026: os alvos de composição foram comparados corpo a corpo entre
+    // 1.4.8 e 1.4.9 (todas as 2324 classes top-level; só SteamManager, BardSkillTest e
+    // <PrivateImplementationDetails> mudaram) e as assinaturas por NOME continuam iguais.
     // Este valor duplica ApiIdentity.AssemblySha256 de propósito (o BetterPortuguese não
     // referencia RealmApi); os dois pins têm de mudar juntos.
-    public const string AssemblySha256 = "6e97d5f543b631443af6b5c9b4737c46ce72bf3b4b2bd909abc8f478b2782d7a";
+    public const string AssemblySha256 = "f3f0069b3a21e7939ed85d9d31ec5ec7cb4c24015811e25350ed2239a25ed182";
     internal enum Agreement { Masculine, Feminine, MasculinePlural, FemininePlural }
     internal static readonly IReadOnlyDictionary<string, Agreement> Nouns = new Dictionary<string, Agreement>(StringComparer.Ordinal)
     {
@@ -43,6 +46,8 @@ internal static class Composition
         new[] { "Lendário", "Lendária", "Lendários", "Lendárias" },
         new[] { "Mítico", "Mítica", "Míticos", "Míticas" }
     };
+    private static readonly (string Original, string Corrected)[] FortuneLabels = Array.ConvertAll(Rarities,
+        forms => (forms[0] + " Sorte", "Fortuna " + forms[(int)Agreement.Feminine].ToLowerInvariant()));
 
     public static bool Enabled(Settings settings, bool portuguese, out string reason)
     {
@@ -86,11 +91,28 @@ internal static class Composition
         return string.Join("\n", lines);
     }
 
+    // The caller has already proved it's a Fortune, and supplies the asset's exact tier.
+    // Never rename the game's shared rarity or Fortune localization keys.
+    public static string FortuneSubtitle(int quality, string incoming, out string reason)
+    {
+        reason = null;
+        if ((uint)quality >= (uint)FortuneLabels.Length) { reason = "raridade de Fortuna desconhecida"; return incoming; }
+        var (original, corrected) = FortuneLabels[quality];
+        if (incoming == corrected) return incoming;
+        if (incoming == original) return corrected;
+        reason = "subtitulo de Fortuna divergente";
+        return incoming;
+    }
+
     public static string DamageLabel(bool healing, string incoming, out string reason)
     {
         reason = null;
         if (!healing) return incoming;
         if (incoming == "Cura por Dano") return incoming;
+        // O template pt-BR de "[damage type] Damage" virou "Dano [damage type]" (SR-QA-03), entao o tipo
+        // Healing chega aqui como "Dano Cura". A forma antiga ("Cura de Dano") fica aceita logo abaixo
+        // para nao quebrar dataset anterior nem o probe; qualquer outra forma continua recusada.
+        if (incoming == "Dano Cura") return "Cura por Dano";
         if (incoming != "Cura de Dano") { reason = "rotulo Healing divergente"; return incoming; }
         return "Cura por Dano";
     }

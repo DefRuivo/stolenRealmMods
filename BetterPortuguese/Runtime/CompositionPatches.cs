@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using BetterPortuguese.Core;
+using Burst2Flame;
 using HarmonyLib;
 using UnityEngine;
 
@@ -11,8 +12,10 @@ namespace BetterPortuguese.Runtime;
 internal static class CompositionPatches
 {
     [ThreadStatic] private static int itemDepth;
+    [ThreadStatic] private static FortuneContext fortuneContext;
     private sealed class ScopeFrame { public int Previous; }
-    private static bool itemReady, damageReady, itemAlive, damageAlive;
+    private struct FortuneContext { public Tooltip Target; public ItemQuality Quality; }
+    private static bool itemReady, fortuneReady, damageReady, physicalDescriptionReady, itemNameReady, itemAlive, damageAlive;
     private static Func<Settings> settings;
     private static OnceLog warnings;
     private static Action<string> info;
@@ -29,24 +32,45 @@ internal static class CompositionPatches
                 throw new InvalidOperationException("Assembly-CSharp SHA-256 divergente: medido " + actual + ", esperado " + Composition.AssemblySha256 + " (build homologada; re-inspecionar antes de re-pinar)");
         }
         catch (Exception ex) { warnings?.Write("BP-COMP recusado: " + ex.Message); return; }
+        bool displayReady = false;
         try
         {
             MethodInfo display = Bindings.Exact(typeof(Tooltip), "ShowTooltip", typeof(void), false,
                 typeof(string), typeof(string), typeof(Sprite), typeof(string), typeof(TooltipOffsetInfo),
                 typeof(Color), typeof(Vector3?), typeof(bool), typeof(bool), typeof(float), typeof(ControlGlyphInfo?), typeof(string), typeof(bool));
             RequireArgument(display, "subtitle", typeof(string));
-            var sources = new[] {
-                Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false,
-                    typeof(Item), typeof(Transform), typeof(TooltipOffsetInfo), typeof(Character), typeof(bool), typeof(bool), typeof(ControlGlyphInfo?), typeof(string), typeof(Item)),
-                Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo)),
-                Bindings.Exact(typeof(Tooltip), "ShowTransmogTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo), typeof(ControlGlyphInfo?), typeof(string))
-            };
+            RequireArgument(display, "isItem", typeof(bool));
             Patch(harmony, display, nameof(SubtitlePrefix), null, null);
-            foreach (var source in sources) Patch(harmony, source, nameof(EnterItem), null, nameof(LeaveItem));
-            itemReady = true;
-            info?.Invoke("BP-COMP: composicao de raridade registrada (3 origens + ShowTooltip; inclui comparacao; sem transpiler).");
+            displayReady = true;
         }
-        catch (Exception ex) { itemReady = false; warnings?.Write("BP-COMP raridade recusada: " + ex.Message); }
+        catch (Exception ex) { warnings?.Write("BP-COMP subtitulo recusado: " + ex.Message); }
+        if (displayReady)
+        {
+            try
+            {
+                var sources = new[] {
+                    Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false,
+                        typeof(Item), typeof(Transform), typeof(TooltipOffsetInfo), typeof(Character), typeof(bool), typeof(bool), typeof(ControlGlyphInfo?), typeof(string), typeof(Item)),
+                    Bindings.Exact(typeof(Tooltip), "ShowItemTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo)),
+                    Bindings.Exact(typeof(Tooltip), "ShowTransmogTooltip", typeof(void), false, typeof(ItemInfo), typeof(TooltipOffsetInfo), typeof(ControlGlyphInfo?), typeof(string))
+                };
+                foreach (var source in sources) Patch(harmony, source, nameof(EnterItem), null, nameof(LeaveItem));
+                itemReady = true;
+                info?.Invoke("BP-COMP: composicao de raridade registrada (3 origens + ShowTooltip; inclui comparacao; sem transpiler).");
+            }
+            catch (Exception ex) { itemReady = false; warnings?.Write("BP-COMP raridade recusada: " + ex.Message); }
+            try
+            {
+                var source = Bindings.Exact(typeof(Tooltip), "ShowActionStatusTooltip", typeof(void), false,
+                    typeof(ActionStatusInfo), typeof(Character), typeof(Character), typeof(Item), typeof(PersistentDurationType),
+                    typeof(string), typeof(float), typeof(bool), typeof(string), typeof(ActionStatus), typeof(string));
+                RequireArgument(source, "actionStatusInfo", typeof(ActionStatusInfo));
+                Patch(harmony, source, nameof(EnterFortune), null, nameof(LeaveFortune));
+                fortuneReady = true;
+                info?.Invoke("BP-COMP: subtitulo de Fortuna registrado (origem nativa; sem transpiler).");
+            }
+            catch (Exception ex) { fortuneReady = false; warnings?.Write("BP-COMP Fortuna recusada: " + ex.Message); }
+        }
         try
         {
             var damage = Bindings.Exact(typeof(Tooltip), "GetDamageTypeLabel", typeof(string), true, typeof(DamageType));
@@ -56,6 +80,21 @@ internal static class CompositionPatches
             info?.Invoke("BP-COMP: rotulo Healing registrado em Tooltip.GetDamageTypeLabel.");
         }
         catch (Exception ex) { damageReady = false; warnings?.Write("BP-COMP Healing recusado: " + ex.Message); }
+        try
+        {
+            var description = Bindings.Exact(typeof(Tooltip), "AppendItemMods", typeof(string), false, typeof(Item), typeof(Item));
+            RequireArgument(description, "item", typeof(Item));
+            Patch(harmony, description, null, nameof(PhysicalItemDescriptionPostfix), null);
+            physicalDescriptionReady = true;
+        }
+        catch (Exception ex) { physicalDescriptionReady = false; warnings?.Write("BP-COMP rotulo de item recusado: " + ex.Message); }
+        try
+        {
+            var itemName = Bindings.Exact(typeof(Item), "get_ItemName", typeof(string), false);
+            Patch(harmony, itemName, null, nameof(ItemNamePostfix), null);
+            itemNameReady = true;
+        }
+        catch (Exception ex) { itemNameReady = false; warnings?.Write("BP-COMP nome de item recusado: " + ex.Message); }
     }
 
     // Harmony binds these arguments by NAME, not by their slot. Validate before
@@ -98,11 +137,45 @@ internal static class CompositionPatches
         if (__state != null) itemDepth = __state.Previous;
         return __exception;
     }
-    private static void SubtitlePrefix(ref string subtitle)
+    private static void EnterFortune(Tooltip __instance, ActionStatusInfo actionStatusInfo, out FortuneContext? __state)
+    {
+        __state = null;
+        if (!fortuneReady) return;
+        // Mute the outer context during a nested non-Fortune tooltip. When no scope is
+        // active the common non-Fortune path does not need a saved frame.
+        try
+        {
+            bool fortune = actionStatusInfo != null && actionStatusInfo.StatusType == StatusType.Fortune;
+            if (!fortune && ReferenceEquals(fortuneContext.Target, null)) return;
+            __state = fortuneContext;
+            fortuneContext = fortune ? new FortuneContext { Target = __instance, Quality = actionStatusInfo.Rarity } : default;
+        }
+        catch (Exception ex)
+        {
+            __state = fortuneContext;
+            fortuneContext = default;
+            warnings?.Write("BP-COMP Fortuna preservada por excecao de contexto: " + ex.GetType().Name);
+        }
+    }
+    private static Exception LeaveFortune(Exception __exception, FortuneContext? __state)
+    {
+        if (__state.HasValue) fortuneContext = __state.Value;
+        return __exception;
+    }
+    private static void SubtitlePrefix(object __instance, ref string subtitle, bool isItem)
     {
         string incoming = subtitle;
         try
         {
+            var scope = fortuneContext;
+            if (fortuneReady && !isItem && ReferenceEquals(scope.Target, __instance))
+            {
+                if (!Enabled()) return;
+                subtitle = Composition.FortuneSubtitle((int)scope.Quality, incoming, out string fortuneReason);
+                if (fortuneReason != null) warnings?.Write("BP-COMP Fortuna preservada: " + fortuneReason);
+                if (incoming != subtitle) infoOnce("subtitulo de Fortuna corrigido");
+                return;
+            }
             if (!itemReady || itemDepth == 0 || !Enabled()) return;
             if (!itemAlive) { itemAlive = true; info?.Invoke("BP-COMP: gancho de subtitulo vivo em contexto nativo de item."); }
             string corrected = Composition.ItemSubtitle(incoming, out string reason);
@@ -122,9 +195,52 @@ internal static class CompositionPatches
             string corrected = Composition.DamageLabel(damageType == DamageType.Healing, incoming, out string reason);
             if (reason != null) warnings?.Write("BP-COMP rotulo preservado: " + reason);
             __result = corrected;
-            if (incoming != corrected) infoOnce("Healing corrigido: Cura de Dano -> Cura por Dano");
+            if (incoming != corrected) infoOnce("Healing corrigido para Cura por Dano");
         }
         catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo preservado por excecao: " + ex.GetType().Name); }
+    }
+    private static void ItemNamePostfix(Item __instance, bool __runOriginal, ref string __result)
+    {
+        const string masculine = "Túnica da Máscara de Sangue Reforçado";
+        if (!itemNameReady || !__runOriginal || !string.Equals(__result, masculine, StringComparison.Ordinal)) return;
+        try
+        {
+            if (!Enabled() || __instance == null) return;
+            // Use the item's and prefix's native identities, not a word-ending heuristic.
+            var itemInfo = __instance.ItemInfo;
+            if (itemInfo == null || itemInfo.ItemName != "Blood Mask Tunic") return;
+            var prefix = __instance.PrefixMod;
+            if (prefix == null || (prefix.name != "Reinforced" && prefix.name != "Bolstered")) return;
+            __result = "Túnica da Máscara de Sangue Reforçada";
+        }
+        catch (Exception ex) { warnings?.Write("BP-COMP nome de item preservado por excecao: " + ex.GetType().Name); }
+    }
+
+    private static void PhysicalItemDescriptionPostfix(Item item, bool __runOriginal, ref string __result)
+    {
+        string incoming = __result;
+        try
+        {
+            if (!physicalDescriptionReady || !__runOriginal || !(item is Weapon weapon) || weapon.DamageType != DamageType.Physical || incoming == null) return;
+            // The game's weapon description starts with this colored line. BigText (numbers) and
+            // ItemSearch's use of GetDamageTypeLabel are separate; do not rewrite either of them.
+            const string tag = "<color=#";
+            const string originalLabel = "Dano Físico";
+            const string firstLineTail = originalLabel + "</color>\n";
+            const int rgbEnd = 8 + 6; // "<color=#" + six RGB digits
+            const int labelStart = rgbEnd + 1;
+            if (incoming.Length < labelStart + firstLineTail.Length || !incoming.StartsWith(tag, StringComparison.Ordinal) ||
+                incoming[rgbEnd] != '>' || string.CompareOrdinal(incoming, labelStart, firstLineTail, 0, firstLineTail.Length) != 0) return;
+            for (int i = tag.Length; i < rgbEnd; i++)
+            {
+                char c = incoming[i];
+                if (!((c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f'))) return;
+            }
+            if (!Enabled()) return;
+            __result = incoming.Substring(0, labelStart) + "Dano físico" + incoming.Substring(labelStart + originalLabel.Length);
+            infoOnce("rotulo de arma fisica corrigido em Tooltip.AppendItemMods");
+        }
+        catch (Exception ex) { __result = incoming; warnings?.Write("BP-COMP rotulo de item preservado por excecao: " + ex.GetType().Name); }
     }
     private static readonly System.Collections.Generic.HashSet<string> applied = new System.Collections.Generic.HashSet<string>(StringComparer.Ordinal);
     private static void infoOnce(string text) { if (applied.Add(text)) info?.Invoke("BP-COMP: " + text + "."); }

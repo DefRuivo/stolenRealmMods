@@ -72,7 +72,11 @@ internal static class ModTests
         });
         test("BT map malformed/version/token drift rejected",()=>{
             string json=File.ReadAllText(Path.Combine(repo,"BetterPortuguese/Data/pt-BR.mods.json"));
-            foreach(string mutant in new[]{json.Replace("0.1.5","9.9.9"),json.Replace("BT-0001","BAD"),json.Replace("Não pode se mover nem executar ações.","Não pode [9].")})
+            int mStart=json.IndexOf("\"modVersion\"");
+            int q1=json.IndexOf('"',json.IndexOf(':',mStart))+1,q2=json.IndexOf('"',q1);
+            string declaredVersion=json.Substring(q1,q2-q1);
+            string mutantVersion=json.Substring(0,q1)+"9.9.9"+json.Substring(q2);
+            foreach(string mutant in new[]{mutantVersion,json.Replace("BT-0001","BAD"),json.Replace("Não pode se mover nem executar ações.","Não pode [9].")})
             {bool refused=false;try{ModCatalog.Parse(mutant);}catch(FormatException){refused=true;}check(refused);}
         });
     }

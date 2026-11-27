@@ -18,7 +18,7 @@ namespace BetterPortuguese;
 public sealed class Plugin : BaseUnityPlugin
 {
     public const string Guid = "com.gumatos.betterportuguese";
-    public const string Versao = "0.2.1";
+    public const string Versao = "0.2.7";
     private static readonly StateQueue States = new StateQueue();
     private static Overlay<LocalizationEntry> overlay;
     private static ISet<string> changedKeys = new HashSet<string>(StringComparer.Ordinal);
@@ -78,6 +78,9 @@ public sealed class Plugin : BaseUnityPlugin
         // No objects are created in Awake and plugin Update is deliberately unused.
         Install("fila/config/refresh", () => Bindings.Exact(typeof(GUIManager), "Update", typeof(void), false, Type.EmptyTypes), nameof(MainThreadPostfix));
         CompositionPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
+        // BP-COMP-STATUS: concordancia do texto flutuante de status ("[status name] Aplicado").
+        // Grupo proprio, com pin + casamento por NOME de parametro + try/catch no prefixo.
+        StatusPatches.Install(harmony, () => States.Current, limited, message => log.LogInfo(message));
         // BP-EVENTO: linhas de efeito dos eventos ("★ Reroll a skill") nao passam pelo Localize.
         EventEffectText.Install(harmony, () => States.Current != null && States.Current.Diagnostic, log);
         if (mods != null) BetterTooltipsAdapter.Install(mods, () => States.Current, limited, message => log.LogInfo(message));

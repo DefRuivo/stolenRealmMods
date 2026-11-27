@@ -77,8 +77,11 @@ namespace RoguelikeSkillTreeVisualizer
         // Fortunes=83.67. "All Skill Trees" dava ~163u (~1.7x a maior) e, como o grupo e
         // CENTRADO, a aba larga empurrava as 3 nativas para a esquerda — o "re-centralizar" do
         // grupo que o dono viu (image_660d3b/image_894109). "All Trees" (~78u) fica dentro do
-        // padrao nativo; e `FixarLarguraDaAba` ainda trava a largura na da maior aba nativa.
-        internal const string TabLabel = "All Trees";
+        // padrao nativo; `FixarLarguraDaAba` reserva apenas o tamanho do proprio rotulo.
+        // PT-BR: o rotulo passa por OptionsManager.Localize (l.246), mas a chave "All Trees" nao existe
+        // no dicionario do jogo — entao a constante E o texto final. "Arvores" cabe no mesmo orcamento
+        // de largura medido para "All Trees" (~78u); a aba mede o texto que realmente usa.
+        internal const string TabLabel = "Árvores";
         internal const string PanelName = "RstvAllSkillTreesPanel";
         internal const string ClassBarName = "RstvClassBar";
         internal const string TreeAreaName = "RstvTreeArea";
@@ -219,10 +222,8 @@ namespace RoguelikeSkillTreeVisualizer
                 {
                     _aba = existente;
                     _rotuloAba = existente.GetComponentInChildren<TextMeshProUGUI>(true);
-                    // RSTV-17: a injecao e idempotente, mas a LARGURA das abas nativas so existe
-                    // depois do 1o layout — repetir aqui (barato, so reescreve o LayoutElement) faz a
-                    // trava valer quando a medida finalmente esta disponivel, sem criar 2a aba.
-                    FixarLarguraDaAba(existente.gameObject, mgr);
+                    // Releia a largura para a fonte/texto da abertura atual, sem criar outra aba.
+                    FixarLarguraDaAba(existente.gameObject, _rotuloAba);
                     return;
                 }
 
@@ -251,10 +252,7 @@ namespace RoguelikeSkillTreeVisualizer
                     Aviso("o clone da aba ficou SEM TextMeshProUGUI — a aba aparece sem rotulo");
                 }
 
-                // RSTV-17: o grupo de abas do header e CENTRADO e cada aba tem a largura do proprio
-                // rotulo — a aba nova, se ficar mais larga que as nativas, re-centraliza o grupo.
-                // Aqui ela trava na largura da MAIOR aba nativa (lida das 3 abas do jogo).
-                FixarLarguraDaAba(clone, mgr);
+                FixarLarguraDaAba(clone, rotulo);
 
                 MenuTab nova = clone.GetComponent<MenuTab>();
                 if (nova == null)
@@ -331,23 +329,21 @@ namespace RoguelikeSkillTreeVisualizer
         }
 
         /// <summary>
-        /// RSTV-17 — trava a largura da aba nova na largura da MAIOR aba NATIVA.
-        /// <para>
-        /// O HLG do header ('Menu Tab Manager') tem <c>childAlignment = MiddleCenter</c> e
-        /// <c>childControlWidth = true</c>: cada aba mede o proprio rotulo e o grupo e centrado.
-        /// Como as abas nativas medem 97.82 / 87.12 / 83.67 (unidades do prefab), um rotulo mais
-        /// largo empurra as 3 para a esquerda. Um <c>LayoutElement</c> (prioridade 1, acima do
-        /// TMP) fixa a largura da aba nova na maior nativa — assim o grupo fica tao equilibrado
-        /// quanto as 3 abas do jogo. Se as nativas ainda nao tiverem sido medidas (largura 0),
-        /// NADA e fixado (o comportamento nativo fica intacto).
-        /// </para>
+        /// SR-QA-01: o grupo centrado usa a largura de cada aba. Emprestar a maior largura
+        /// nativa faz Personagem invadir o botao + CODIGO, que fica fora desse grupo.
+        /// Dimensione so o clone: largura do seu texto mais folga para o alvo de clique.
         /// </summary>
-        private static void FixarLarguraDaAba(GameObject clone, MenuTabManager mgr)
+        private static void FixarLarguraDaAba(GameObject clone, TextMeshProUGUI rotulo)
         {
             try
             {
-                float largura = LarguraDaAbaNativa(mgr, clone);
-                if (largura <= 1f)
+                if (rotulo == null || rotulo.font == null || string.IsNullOrEmpty(rotulo.text))
+                {
+                    return;
+                }
+
+                float largura = rotulo.preferredWidth;
+                if (largura <= 1f || float.IsNaN(largura) || float.IsInfinity(largura))
                 {
                     return;
                 }
@@ -358,12 +354,10 @@ namespace RoguelikeSkillTreeVisualizer
                     le = clone.AddComponent<LayoutElement>();
                 }
 
-                le.preferredWidth = largura;
-                le.minWidth = 0f;
+                const float folgaPorLado = 6f;
+                le.minWidth = Mathf.Ceil(largura);
+                le.preferredWidth = le.minWidth + 2f * folgaPorLado;
                 le.flexibleWidth = 0f;
-
-                Plugin.Log.LogInfo("RSTV-17: largura da aba '" + TabLabel + "' travada em " +
-                                   largura.ToString("0.##") + "u (a maior aba nativa) para o grupo centrado nao desequilibrar.");
             }
             catch (Exception e)
             {
@@ -371,50 +365,6 @@ namespace RoguelikeSkillTreeVisualizer
             }
         }
 
-        /// <summary>
-        /// A largura da aba nativa mais larga das <c>MenuTabs</c> do header (o <c>preferredWidth</c>
-        /// do TMP de cada aba — que e exatamente o que o HLG com <c>childControlWidth</c> usa).
-        /// Fallback: a largura ja resolvida do RectTransform. A aba nova e excluida da conta.
-        /// </summary>
-        private static float LarguraDaAbaNativa(MenuTabManager mgr, GameObject nova)
-        {
-            float maior = 0f;
-            MenuTab[] abas = mgr != null ? mgr.MenuTabs : null;
-            if (abas != null)
-            {
-                for (int i = 0; i < abas.Length; i++)
-                {
-                    MenuTab aba = abas[i];
-                    if (aba == null || aba.gameObject == null || aba.gameObject == nova)
-                    {
-                        continue;
-                    }
-
-                    float largura = 0f;
-                    TextMeshProUGUI tmp = aba.GetComponentInChildren<TextMeshProUGUI>(true);
-                    if (tmp != null)
-                    {
-                        largura = tmp.preferredWidth;
-                    }
-
-                    if (largura <= 1f)
-                    {
-                        RectTransform rt = aba.transform as RectTransform;
-                        if (rt != null)
-                        {
-                            largura = rt.rect.width;
-                        }
-                    }
-
-                    if (largura > maior)
-                    {
-                        maior = largura;
-                    }
-                }
-            }
-
-            return maior;
-        }
 
         // ---------------------------------------------------------------------------------------
         // 2) ABRIR A ABA (o clique, e o caminho do botao/atalho)

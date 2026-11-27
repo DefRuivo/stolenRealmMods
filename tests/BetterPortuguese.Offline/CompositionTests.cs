@@ -51,6 +51,7 @@ internal static class CompositionTests
         });
         test("BP-COMP Healing exact output and idempotence", () => {
             Check(Composition.DamageLabel(true, "Cura de Dano", out string r) == "Cura por Dano" && r == null);
+            Check(Composition.DamageLabel(true, "Dano Cura", out r) == "Cura por Dano" && r == null);
             Check(Composition.DamageLabel(true, "Cura por Dano", out r) == "Cura por Dano" && r == null);
         });
         foreach (string text in new[] { null, "Healing Damage", "Cura de Dano Crítico", "Cura de Dano ", "<color=#00FF00>Cura de Dano</color>", "Dano de Cura", "custom" })
@@ -71,12 +72,29 @@ internal static class CompositionTests
             }
             var display = tooltip.Methods.Single(m=>m.Name=="ShowTooltip");
             Check(display.Parameters.Single(p=>p.Name=="subtitle").ParameterType.FullName=="System.String");
+            Check(display.Parameters.Single(p=>p.Name=="isItem").ParameterType.FullName=="System.Boolean");
+            var fortune=tooltip.Methods.Single(m=>m.Name=="ShowActionStatusTooltip" && m.Parameters.Count==11);
+            Check(!fortune.IsStatic && fortune.ReturnType.FullName=="System.Void");
+            Check(fortune.Parameters.Single(p=>p.Name=="actionStatusInfo").ParameterType.FullName=="Burst2Flame.ActionStatusInfo");
+            Check(fortune.Body.Instructions.Count(i=>i.Operand is MethodReference r && r.DeclaringType.Name=="Tooltip" && r.Name=="ShowTooltip")==1);
+            Check(fortune.Body.Instructions.Count(i=>i.Operand is GenericInstanceMethod r && r.Name=="LocalizeEnum" && r.GenericArguments.Any(t=>t.Name=="ItemQuality" || t.Name=="StatusType"))==2);
             var label = tooltip.Methods.Single(m=>m.Name=="GetDamageTypeLabel");
             Check(label.Parameters.Single().Name=="damageType");
             Check(label.IsStatic && label.ReturnType.FullName=="System.String" && label.Parameters.Single().ParameterType.FullName=="DamageType");
             Check(label.Body.Instructions.Any(i=>i.Operand is string s && s=="[damage type] Damage"));
             Check(label.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.Name=="Replace"));
-            Check(module.Types.Single(t=>t.FullName=="ItemQuality").Fields.Where(f=>f.HasConstant).Select(f=>f.Name).SequenceEqual(new[]{"Common","Uncommon","Rare","Legendary","Mythic"}));
+            var itemDescription = tooltip.Methods.Single(m=>m.Name=="AppendItemMods");
+            Check(!itemDescription.IsStatic && itemDescription.ReturnType.FullName=="System.String");
+            Check(itemDescription.Parameters.Select(p=>p.ParameterType.FullName).SequenceEqual(new[]{"Item","Item"}));
+            Check(itemDescription.Parameters[0].Name=="item");
+            bool CallsTooltip(object operand, string name) => operand is MethodReference method && method.DeclaringType.FullName=="Tooltip" && method.Name==name;
+            Check(itemDescription.Body.Instructions.Count(i=>CallsTooltip(i.Operand,"GetDamageTypeLabel"))==1);
+            var itemSearch = module.Types.Single(t=>t.FullName=="ItemSearch").Methods.Single(m=>m.Name=="BuildItemSearchText");
+            Check(itemSearch.Body.Instructions.Count(i=>CallsTooltip(i.Operand,"GetDamageTypeLabel"))==1);
+            Check(!itemSearch.Body.Instructions.Any(i=>CallsTooltip(i.Operand,"AppendItemMods")));
+            var quality=module.Types.Single(t=>t.FullName=="ItemQuality").Fields.Where(f=>f.HasConstant).ToArray();
+            Check(quality.Select(f=>f.Name).SequenceEqual(new[]{"Common","Uncommon","Rare","Legendary","Mythic"}));
+            Check(quality.Select(f=>Convert.ToInt32(f.Constant)).SequenceEqual(Enumerable.Range(0,quality.Length)));
             foreach (var type in new[]{"ItemType","EquipmentType"})
                 foreach (var field in module.Types.Single(t=>t.FullName==type).Fields.Where(f=>f.HasConstant))
                 {
@@ -85,19 +103,45 @@ internal static class CompositionTests
                     var record = catalog.Corrected.Records[key];
                     Check(record.Entries.Count==1 && Composition.Nouns.ContainsKey(record.Entries[0].Value));
                 }
-            Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "[damage type] de Dano");
+            Check(catalog.Corrected.Records["[damage type] Damage"].Entries[0].Value == "Dano [damage type]");
             Check(catalog.Corrected.Records["Healing"].Entries[0].Value == "Cura");
+        });
+        test("QA05 pinned native ItemName getter, consumers and catalog identities", () => {
+            using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"lib/Assembly-CSharp.dll"));
+            var item = module.Types.Single(t=>t.FullName=="Item");
+            var getter = item.Properties.Single(p=>p.Name=="ItemName").GetMethod;
+            Check(!getter.IsStatic && getter.Parameters.Count==0 && getter.ReturnType.FullName=="System.String");
+            Check(!getter.Body.HasExceptionHandlers);
+            Check(getter.Body.Instructions.Any(i=>i.Operand is MethodReference m && m.DeclaringType.FullName=="OptionsManager" && m.Name=="GetLanguageGender"));
+            Check(getter.Body.Instructions.Any(i=>i.Operand is string s && s=="[item prefix] [item name] [item suffix]"));
+            foreach (var consumer in new[]{"ItemSlot","Tooltip","ItemSearch"})
+                Check(module.Types.Single(t=>t.FullName==consumer).Methods.Where(m=>m.HasBody)
+                    .Any(m=>m.Body.Instructions.Any(i=>i.Operand is MethodReference r && r.DeclaringType.FullName=="Item" && r.Name=="get_ItemName")));
+            Check(catalog.Corrected.Records["Blood Mask Tunic"].Entries[0].Value=="Túnica da Máscara de Sangue");
+            foreach (string key in new[]{"Reinforced","Bolstered"})
+                Check(catalog.Corrected.Records[key].Entries[0].Value=="Reforçado");
+            Check(catalog.Corrected.Records["[item prefix] [item name] [item suffix]"].Entries[0].Value=="[item name] [item prefix] [item suffix]");
         });
         test("BP-GATE named production arguments in Debug and Release", () => {
             foreach (string config in new[]{"Debug","Release"})
             {
                 using var module = ModuleDefinition.ReadModule(Path.Combine(repo,"BetterPortuguese/bin",config,"netstandard2.1/BetterPortuguese.dll"));
                 var runtime=module.Types.Single(t=>t.FullName=="BetterPortuguese.Runtime.CompositionPatches");
-                var subtitle=runtime.Methods.Single(m=>m.Name=="SubtitlePrefix").Parameters.Single();
-                Check(subtitle.Name=="subtitle" && subtitle.ParameterType.FullName=="System.String&");
+                var subtitle=runtime.Methods.Single(m=>m.Name=="SubtitlePrefix");
+                Check(subtitle.Parameters.Single(p=>p.Name=="subtitle").ParameterType.FullName=="System.String&");
+                Check(subtitle.Parameters.Single(p=>p.Name=="isItem").ParameterType.FullName=="System.Boolean");
+                var fortune=runtime.Methods.Single(m=>m.Name=="EnterFortune");
+                Check(fortune.Parameters.Single(p=>p.ParameterType.FullName=="Burst2Flame.ActionStatusInfo").Name=="actionStatusInfo");
                 var damage=runtime.Methods.Single(m=>m.Name=="DamagePostfix");
                 Check(damage.Parameters.Single(p=>p.ParameterType.FullName=="DamageType").Name=="damageType");
-                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==2);
+                var physical = runtime.Methods.Single(m=>m.Name=="PhysicalItemDescriptionPostfix");
+                Check(physical.Parameters.Single(p=>p.Name=="item").ParameterType.FullName=="Item");
+                Check(physical.Parameters.Single(p=>p.Name=="__runOriginal").ParameterType.FullName=="System.Boolean");
+                Check(physical.Parameters.Single(p=>p.Name=="__result").ParameterType.FullName=="System.String&");
+                var itemName = runtime.Methods.Single(m=>m.Name=="ItemNamePostfix");
+                Check(itemName.Parameters.Select(p=>p.Name).SequenceEqual(new[]{"__instance","__runOriginal","__result"}));
+                Check(itemName.Parameters.Select(p=>p.ParameterType.FullName).SequenceEqual(new[]{"Item","System.Boolean","System.String&"}));
+                Check(runtime.Methods.Single(m=>m.Name=="Install").Body.Instructions.Count(i=>i.Operand is MethodReference r && r.Name=="RequireArgument")==5);
             }
         });
         test("BP-COMP plugin production hooks wired", () => {

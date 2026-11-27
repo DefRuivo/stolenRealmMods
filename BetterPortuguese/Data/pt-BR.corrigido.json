@@ -66,7 +66,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Turnos Restantes: <color=#CBB396>[turn value]</color>",
+          "Value": "Turnos restantes: <color=#CBB396>[turn value]</color>",
           "Key": "\nTurns Remaining: <color=#CBB396>[turn value]</color>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102,7 +102,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Para Minerar",
+          "Value": "Minerar",
           "Key": "       To Mine\n",
           "TranslatorKey": null,
           "Feminine": null,
@@ -120,7 +120,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Para Mover a Barra de Pesca\n\n<size= 13><color=#CBB396>Para Recolher</color></size>\nMantenha a Barra de Pesca Sob o Peixe",
+          "Value": "Mover a barra de pesca\n\n<size= 13><color=#CBB396>Recolher</color></size>\nMantenha a barra de pesca sob o peixe",
           "Key": "       To Move Fishing Bar\n\n<size= 13><color=#CBB396>To Reel In</color></size>\nKeep Fishing Bar Under Fish\n",
           "TranslatorKey": null,
           "Feminine": null,
@@ -462,7 +462,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "\"<bounce>TODOS SAÚDEM, SENHOR DOS COVARDES!</bounce>\" zombam os Manequins. \"Nem conseguimos te acertar de volta, seu boboca!\".",
+          "Value": "\"<bounce>SAÚDEM TODOS O SENHOR DOS COVARDES!</bounce>\" provocam os Manequins. \"Nem conseguimos acertar você de volta, seu boboca!\".",
           "Key": "\"<bounce>ALL HAIL, LORD OF THE COWARDS!</bounce>\" the Dummies taunt. \"We can't even hit you back, ya ninny!\".",
           "TranslatorKey": null,
           "Feminine": null,
@@ -832,7 +832,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Se olhares matassem, eu já estaria morto!",
+          "Value": "\"Se olhares matassem, eu já estaria morto!\"",
           "Key": "\"If looks could kill I'd be dead already!\"",
           "TranslatorKey": null,
           "Feminine": null,
@@ -850,7 +850,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Minha avó batia mais forte que você, e ela era inanimada!",
+          "Value": "\"Minha avó batia mais forte que você, e ela era inanimada!\"",
           "Key": "\"My grandmother could hit harder than you, and she was inanimate!\"",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1297,7 +1297,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "(Canção) Aliados a até 4 hexágonos de você ganham 5 Poder. Toda vez que Verso do Valor é lançado consecutivamente, ganha Crescendo do Valor: aumenta a quantidade de Poder concedida pelo Verso do Valor em 5. Acumula. Perde todas as acumulações se você tocar uma canção diferente. Duração: 1 turno.",
+          "Value": "(Canção) Aliados a até 4 hexágonos de você ganham 5 de Força. Sempre que tocar Verso de Valor de novo em sequência, ganhe um acúmulo de Crescendo de Valor. Cada acúmulo aumenta em 5 a Força concedida pelo Verso de Valor. Você perde todos os acúmulos ao tocar outra canção. Duração: 1 turno.",
           "Key": "(Song) Allies within 4 hexes of you gain 5 Might. Every time Verse of Valor is cast consecutively, gain Crescendo of Valor: increases the amount of Might given by Verse of Valor by 5. Stacks. Lose all stacks if you play a different song. Duration: 1 turn.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1456,7 +1456,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 10% de aumento na Procura de Ouro",
+          "Value": "+ 10% de aumento na obtenção de ouro",
           "Key": "+ 10% increased Gold Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1510,7 +1510,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 100% de aumento na Descoberta de Tesouros",
+          "Value": "+ 100% de aumento na obtenção de tesouros",
           "Key": "+ 100% increased Treasure Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1798,7 +1798,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 20% de aumento na Procura por Ouro",
+          "Value": "+ 20% de aumento na obtenção de ouro",
           "Key": "+ 20% increased Gold Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1816,7 +1816,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 20% de aumento na Procura por Tesouros",
+          "Value": "+ 20% de aumento na obtenção de tesouros",
           "Key": "+ 20% increased Treasure Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -1996,7 +1996,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 30% de aumento na Procura por Ouro",
+          "Value": "+ 30% de aumento na obtenção de ouro",
           "Key": "+ 30% increased Gold Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2050,7 +2050,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 40% de aumento na Procura por Tesouros",
+          "Value": "+ 40% de aumento na obtenção de tesouros",
           "Key": "+ 40% increased Treasure Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2104,7 +2104,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 50% de aumento na Procura de Ouro",
+          "Value": "+ 50% de aumento na obtenção de ouro",
           "Key": "+ 50% increased Gold Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2212,7 +2212,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 60% de aumento na Descoberta de Tesouros",
+          "Value": "+ 60% de aumento na obtenção de tesouros",
           "Key": "+ 60% increased Treasure Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2248,7 +2248,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+ 80% de aumento na Procura por Tesouros",
+          "Value": "+ 80% de aumento na obtenção de tesouros",
           "Key": "+ 80% increased Treasure Find",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2392,7 +2392,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+10 de Armadura e Armadura Mágica adicionados",
+          "Value": "+10 de Armadura e Armadura Mágica adicionadas",
           "Key": "+10 added Armor and Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2410,7 +2410,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+100 de Armadura Mágica Adicionada",
+          "Value": "+100 de Armadura Mágica adicionada",
           "Key": "+100 added Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2428,7 +2428,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+100 de Armadura Física Adicionada",
+          "Value": "+100 de Armadura Física adicionada",
           "Key": "+100 added Physical Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2464,7 +2464,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+20 de Armadura e Armadura Mágica adicionados",
+          "Value": "+20 de Armadura e Armadura Mágica adicionadas",
           "Key": "+20 added Armor and Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2482,7 +2482,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+20 de Armadura Mágica Adicionada",
+          "Value": "+20 de Armadura Mágica adicionada",
           "Key": "+20 added Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2518,7 +2518,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+30 de Armadura e Armadura Mágica adicionados",
+          "Value": "+30 de Armadura e Armadura Mágica adicionadas",
           "Key": "+30 added Armor and Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2536,7 +2536,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+40 de Armadura e Armadura Mágica adicionados",
+          "Value": "+40 de Armadura e Armadura Mágica adicionadas",
           "Key": "+40 added Armor and Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2554,7 +2554,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+40 de Armadura Mágica Adicionada",
+          "Value": "+40 de Armadura Mágica adicionada",
           "Key": "+40 added Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2572,7 +2572,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+40 de Armadura Física Adicionada",
+          "Value": "+40 de Armadura Física adicionada",
           "Key": "+40 added Physical Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2590,7 +2590,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+50 de Armadura e Armadura Mágica adicionados",
+          "Value": "+50 de Armadura e Armadura Mágica adicionadas",
           "Key": "+50 added Armor and Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2608,7 +2608,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+60 de Armadura Mágica Adicionada",
+          "Value": "+60 de Armadura Mágica adicionada",
           "Key": "+60 added Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2644,7 +2644,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+80 de Armadura Mágica Adicionada",
+          "Value": "+80 de Armadura Mágica adicionada",
           "Key": "+80 added Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2662,7 +2662,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+80 de Armadura Física Adicionada",
+          "Value": "+80 de Armadura Física adicionada",
           "Key": "+80 added Physical Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -2824,7 +2824,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[10] de Dano contra Sombra",
+          "Value": "+[10] de Dano de Sombra",
           "Key": "+[10] Damage to Shadow",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3274,7 +3274,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[4] de Dano por Fogo",
+          "Value": "+[4] de Dano de Fogo",
           "Key": "+[4] Damage to Fire",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3292,7 +3292,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[4] de Dano por Raio",
+          "Value": "+[4] de Dano de Raio",
           "Key": "+[4] Damage to Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3526,7 +3526,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[6] de Dano por Raio",
+          "Value": "+[6] de Dano de Raio",
           "Key": "+[6] Damage to Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3742,7 +3742,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[8] de Dano em Relâmpago",
+          "Value": "+[8] de Dano de Relâmpago",
           "Key": "+[8] Damage to Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3922,7 +3922,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[stat value]% de Armadura & Armadura Mágica",
+          "Value": "+[stat value]% de Armadura e Armadura Mágica",
           "Key": "+[stat value]% Armor & Magic Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -3976,7 +3976,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "+[stat value]% de Dano & Cura",
+          "Value": "+[stat value]% de Dano e Cura",
           "Key": "+[stat value]% Damage & Healing",
           "TranslatorKey": null,
           "Feminine": null,
@@ -4102,7 +4102,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Botão",
+          "Value": "Botão -",
           "Key": "- Button",
           "TranslatorKey": null,
           "Feminine": null,
@@ -5640,7 +5640,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "1 Movimento A Cada [stat value] de Destreza (Máx. 3)",
+          "Value": "1 Ponto de Movimento a cada [stat value] de Destreza (Máx. 3)",
           "Key": "1 Movement Per [stat value] Dex (Max 3)",
           "TranslatorKey": null,
           "Feminine": null,
@@ -5792,7 +5792,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "10% de chance ao acertar de lançar Nível [level value] {SKL=Consumption}",
+          "Value": "10% de chance ao acertar de conjurar {SKL=Consumption} no nível [level value]",
           "Key": "10% chance on hit to cast Level [level value] {SKL=Consumption}",
           "TranslatorKey": null,
           "Feminine": null,
@@ -5990,7 +5990,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "10% de chance de lançar Nível [level value] {SKL=Meteor} ao Atacar.",
+          "Value": "10% de chance de conjurar {SKL=Meteor} de nível [level value] ao atacar.",
           "Key": "10% chance to cast Level [level value] {SKL=Meteor} when Striking.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -8689,7 +8689,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#00FF00>Fúria Alimentar I</color>",
+          "Value": "<color=#00FF00>Bucha de Canhão Furiosa I</color>",
           "Key": "<color=#00FF00>Furious Fodder I</color>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -8995,7 +8995,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#00FFFF>Movimento Turvo II</color>",
+          "Value": "<color=#00FFFF>Movimento Confuso II</color>",
           "Key": "<color=#00FFFF>Muddled Movement II</color>",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9229,7 +9229,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> \"O início de qualquer aventura não é dado com os pés, mas sim com o coração.\" seu pai diria.",
+          "Value": "<color=#CBB396>Narrador:</color> \"Toda aventura começa não com os pés, mas com o coração\", costumava dizer seu pai.",
           "Key": "<color=#CBB396>Narrator:</color> \"The start of any adventure is taken not with the feet, but with the heart.\" your father would say.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9247,7 +9247,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Uma negritude arrepiante infiltra-se nos recônditos da sua mente, obscurecendo suas memórias como uma névoa sobre uma paisagem outrora familiar.",
+          "Value": "<color=#CBB396>Narrador:</color> Uma escuridão arrepiante se infiltra nos recônditos da sua mente, obscurecendo suas memórias como a névoa sobre uma paisagem que um dia lhe foi familiar.",
           "Key": "<color=#CBB396>Narrator:</color> A chilling blackness seeps into the very recesses of your mind, obscuring your memories like a mist over a once-familiar landscape.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9283,7 +9283,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Em meio ao crepúsculo que avança, você se agarra à fugaz esperança de que ainda resta tempo para resgatar seu pai de seu terrível destino.",
+          "Value": "<color=#CBB396>Narrador:</color> Em meio à escuridão que avança, você se agarra à esperança fugaz de que ainda haja tempo para resgatar seu pai de seu terrível destino.",
           "Key": "<color=#CBB396>Narrator:</color> Amidst the encroaching gloom, you cling to the fleeting hope that time yet remains to rescue your father from his dire fate.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9391,7 +9391,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Ao pisar na vasta e queimada pelo sol extensão do Deserto de Wyrmrest, as palavras de Ironheart ecoam de forma ominosa em sua mente.",
+          "Value": "<color=#CBB396>Narrador:</color> Ao pisar na vasta extensão escaldada pelo sol do Deserto de Wyrmrest, as palavras de Ironheart ecoam de forma sinistra em sua mente.",
           "Key": "<color=#CBB396>Narrator:</color> As you set foot into the vast, sun-scorched expanse of Wyrmrest Desert, the words of Ironheart echo ominously in your mind.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9463,7 +9463,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Mas agora, as tribos e comunidades que uma vez floresceram haviam desaparecido, seus ecos perdidos no meio do verde expansivo.",
+          "Value": "<color=#CBB396>Narrador:</color> Mas agora, as tribos e comunidades que um dia floresceram haviam desaparecido, e seus ecos se perdiam em meio à imensidão verdejante.",
           "Key": "<color=#CBB396>Narrator:</color> But now, the tribes and communities that had once flourished were gone, their echoes lost amidst the sprawling green.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9481,7 +9481,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Bandidos comuns como esses, antes meras inconveniências nas periferias da civilização, tornaram-se mais ousados e frequentes.",
+          "Value": "<color=#CBB396>Narrador:</color> Bandidos comuns como esses, antes meros incômodos nos arredores da civilização, haviam se tornado mais ousados e proliferado.",
           "Key": "<color=#CBB396>Narrator:</color> Common thugs like these, once mere nuisances on the outskirts of civilization, had grown bolder and more rampant.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9571,7 +9571,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Dragões não são apenas as bestas das meras lendas, mas encarnações vivas das forças primais que moldaram o mundo.",
+          "Value": "<color=#CBB396>Narrador:</color> Dragões não são apenas criaturas de lendas, mas encarnações vivas das forças primordiais que moldaram o mundo.",
           "Key": "<color=#CBB396>Narrator:</color> Dragons are not just the beasts of mere legend, but living embodiments of the primal forces that shaped the world. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9589,7 +9589,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Cada uma das lições do seu pai foi um bloco de construção na fundação do guerreiro que você se tornou.",
+          "Value": "<color=#CBB396>Narrador:</color> Cada lição do seu pai foi um alicerce na formação do guerreiro que você se tornou.",
           "Key": "<color=#CBB396>Narrator:</color> Each of your father's lessons was a building block in the foundation of the warrior you had become.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9607,7 +9607,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Cada página deste livro de couro desgastado é impregnada com a essência de seu pai, uma luz guia nos caminhos sombrios da incerteza e do perigo que se encontram à frente.",
+          "Value": "<color=#CBB396>Narrador:</color> Cada página deste livro encadernado em couro gasto está impregnada da essência do seu pai, uma luz guia pelos caminhos sombrios de incerteza e perigo que o aguardam.",
           "Key": "<color=#CBB396>Narrator:</color> Each page of this worn leather-bound book is imbued with the essence of your father, a guiding light in the dim paths of uncertainty and danger that lay ahead.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9625,7 +9625,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Cada passo à frente é um passo mais distante da vida que você uma vez conheceu. Nomes e rostos, outrora queridos e estimados, deslizam para o abismo, deixando para trás um vazio oco.",
+          "Value": "<color=#CBB396>Narrador:</color> Cada passo adiante é um passo para mais longe da vida que você conhecia. Nomes e rostos, antes queridos e estimados, desaparecem no abismo, deixando para trás um vazio.",
           "Key": "<color=#CBB396>Narrator:</color> Each step forward is a step further from the life you once knew. Names and faces, once dear and cherished, slip away into the abyss, leaving behind a hollow emptiness.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9679,7 +9679,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Guiado pelas páginas do diário do seu pai, você encontra seu caminho levando à Selva Esmeralda, um reino tão selvagem quanto é verdejante.",
+          "Value": "<color=#CBB396>Narrador:</color> Guiado pelas páginas do diário do seu pai, você segue um caminho que o leva à Selva Esmeralda, um lugar tão selvagem quanto verdejante.",
           "Key": "<color=#CBB396>Narrator:</color> Guided by the pages of your father's journal, you find your path leading to the Emerald Jungle, a realm as wild as it is verdant.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9751,7 +9751,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Aqui, em meio às chamas e cinzas, você enfrentará um, uma criatura de mito e majestade, tão temível e terrível que fez todo o reino se acovardar e encolher.",
+          "Value": "<color=#CBB396>Narrador:</color> Aqui, em meio às chamas e às cinzas, você enfrentará uma criatura mítica e majestosa, tão temível e terrível que fez todo o reino se acovardar e encolher.",
           "Key": "<color=#CBB396>Narrator:</color> Here, amidst the flames and ash, you will face one, a creature of myth and majesty, so fearsome and terrible it caused all of the realm to cower and shrink.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9805,7 +9805,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A esperança te move para frente. A esperança de que a maldição que há muito tempo assombra esta terra possa finalmente ser levantada. Que a paz e a luz possam ser restauradas a um reino que conheceu muita escuridão.",
+          "Value": "<color=#CBB396>Narrador:</color> A esperança impulsiona você. A esperança de que a maldição que há muito assombra esta terra possa enfim ser desfeita. De que a paz e a luz possam voltar a um reino que conheceu escuridão demais.",
           "Key": "<color=#CBB396>Narrator:</color> Hope moves you forward. Hope that the curse that has long shadowed this land can finally be lifted. That peace and light can be restored to a realm that has known too much darkness.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9823,7 +9823,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Nos tempos antigos, este pântano era uma vasta extensão verdejante, repleta de vida, sustentando uma multitude de criaturas em seu abraço acolhedor.",
+          "Value": "<color=#CBB396>Narrador:</color> Nos tempos antigos, este pântano era uma vasta extensão verdejante, repleta de vida, que sustentava inúmeras criaturas em seu abraço acolhedor.",
           "Key": "<color=#CBB396>Narrator:</color> In days of yore, this swamp was a verdant expanse teeming with life, sustaining a multitude of creatures in its nurturing embrace.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9841,7 +9841,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Nos tempos recentes, uma sombra palpável de inquietação e medo começou a se espalhar pela terra, lançando um manto escuro sobre um reino outrora pacífico.",
+          "Value": "<color=#CBB396>Narrador:</color> Nos últimos tempos, uma sombra palpável de inquietação e medo começou a se espalhar pela terra, lançando um manto sombrio sobre um reino outrora pacífico.",
           "Key": "<color=#CBB396>Narrator:</color> In recent times, a palpable shadow of unease and fear had begun to creep across the land, casting a dark pall over a once-peaceful realm. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9931,7 +9931,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> É como se seu pai estivesse competindo contra o tempo, tentando montar um quebra-cabeça que estava constantemente se alterando e mudando em sua mente.",
+          "Value": "<color=#CBB396>Narrador:</color> É como se seu pai estivesse correndo contra o tempo, tentando montar um quebra-cabeça que mudava constantemente em sua mente.",
           "Key": "<color=#CBB396>Narrator:</color> It is as if your father had been racing against time, trying to piece together a puzzle that was constantly shifting and changing in his mind.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9967,7 +9967,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Foi aqui, entre estas pedras antigas, que seu pai mostrou os primeiros sinais de sua doença. Você se lembra de seus olhos outrora aguçados nublados pela confusão, seus passos confiantes se tornando incertos.",
+          "Value": "<color=#CBB396>Narrador:</color> Foi aqui, entre estas pedras antigas, que seu pai mostrou os primeiros sinais da doença. Você se lembra de seus olhos, antes tão aguçados, turvados pela confusão, e de seus passos confiantes se tornando incertos.",
           "Key": "<color=#CBB396>Narrator:</color> It was here, among these ancient stones, that your father first showed signs of his ailment. You recall his once sharp eyes clouded with confusion, his confident steps becoming uncertain.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -9985,7 +9985,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Não foi mera coincidência, você percebe, que os eventos trágicos tiveram suas origens rastreadas até as consequências da derrota dos dragões.",
+          "Value": "<color=#CBB396>Narrador:</color> Você percebe que não foi mera coincidência os eventos trágicos terem tido origem no período após a derrota dos dragões.",
           "Key": "<color=#CBB396>Narrator:</color> It was no mere coincidence, you realize, that the tragic events traced their origins back to the aftermath of the dragons' defeat.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10039,7 +10039,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O Rei Coração de Ferro, uma figura lendária, era tão severo quanto a pedra da qual seu reino foi esculpido, contudo, possuía uma profunda apreciação pelas relíquias do passado.",
+          "Value": "<color=#CBB396>Narrador:</color> O Rei Coração de Ferro, figura lendária, era tão severo quanto a pedra de que seu reino foi esculpido, mas apreciava profundamente as relíquias do passado.",
           "Key": "<color=#CBB396>Narrator:</color> King Ironheart, a figure of legend, was as stern as the stone from which his kingdom was carved, yet he possessed a deep appreciation for the relics of the past.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10057,7 +10057,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Reinos e cidades, outrora faróis de hospitalidade e comércio, voltaram-se para dentro, seus portões fechados para os forasteiros.",
+          "Value": "<color=#CBB396>Narrador:</color> Reinos e cidades, outrora faróis de hospitalidade e comércio, haviam se fechado, com os portões cerrados para forasteiros.",
           "Key": "<color=#CBB396>Narrator:</color> Kingdoms and towns, once beacons of hospitality and trade, had turned inwards, their gates closed to outsiders.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10129,7 +10129,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Uma vez, a Selva Esmeralda fora um vibrante mosaico de tribos e culturas, um tecido de harmonia comunitária onde as canções de diferentes povos se misturavam aos chamados de pássaros exóticos e ao farfalhar de árvores ancestrais.",
+          "Value": "<color=#CBB396>Narrador:</color> Outrora, a Selva Esmeralda era um mosaico vibrante de tribos e culturas, uma tapeçaria de harmonia comunitária onde as canções de diferentes povos se misturavam aos chamados de pássaros exóticos e ao farfalhar de árvores ancestrais.",
           "Key": "<color=#CBB396>Narrator:</color> Once, the Emerald Jungle had been a vibrant mosaic of tribes and cultures, a tapestry of communal harmony where the songs of different peoples mingled with the calls of exotic birds and the rustling of ancient trees.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10183,7 +10183,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Histórias como esta geralmente eram coisas de lendas e contos populares. Mas, nos tempos recentes, havia se tornado algo muito comum, um reflexo de um mundo cada vez mais enredado por tumulto e escuridão.",
+          "Value": "<color=#CBB396>Narrador:</color> Histórias como essa costumavam ser coisa de lendas e contos populares. Mas, nos últimos tempos, tornaram-se comuns demais, reflexo de um mundo cada vez mais enredado em tumulto e escuridão.",
           "Key": "<color=#CBB396>Narrator:</color> Stories such as this were usually the stuff of legends and folktales. But in recent times it had become all too common, a reflection of a world increasingly ensnared by turmoil and darkness.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10237,7 +10237,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Os súditos do Sultão, outrora envolvidos nas buscas pelo comércio, arte e aprendizado, agora eram recrutados para uma busca incansável por itens de poder arcano.",
+          "Value": "<color=#CBB396>Narrador:</color> Os súditos do Sultão, outrora dedicados ao comércio, à arte e ao aprendizado, agora eram recrutados para uma busca incansável por itens de poder arcano.",
           "Key": "<color=#CBB396>Narrator:</color> The Sultan's subjects, once engaged in the pursuits of trade, art, and learning, were now conscripted into a relentless search for items of arcane power.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10255,7 +10255,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O ar ao redor do castelo é denso com uma escuridão palpável, uma malevolência que parece emanar das próprias pedras da fortaleza.",
+          "Value": "<color=#CBB396>Narrador:</color> O ar ao redor do castelo está carregado de uma escuridão palpável, uma malevolência que parece emanar das próprias pedras da fortaleza.",
           "Key": "<color=#CBB396>Narrator:</color> The air around the castle is thick with a palpable darkness, a malevolence that seems to seep from the very stones of the fortress.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10273,7 +10273,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O ar está denso com a umidade, uma presença palpável que se agarra à pele e enche os pulmões com o aroma pesado da terra e do crescimento.",
+          "Value": "<color=#CBB396>Narrador:</color> O ar está carregado de umidade, uma presença palpável que gruda na pele e enche os pulmões com o cheiro forte de terra e vegetação.",
           "Key": "<color=#CBB396>Narrator:</color> The air is thick with humidity, a palpable presence that clings to the skin and fills the lungs with the heavy scent of earth and growth.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10309,7 +10309,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Os dragões, criaturas magníficas e aterrorizantes da lenda, haviam sido derrotados em um evento tão envolto em mistério que mal era mais do que um sussurro nos ventos da história.",
+          "Value": "<color=#CBB396>Narrador:</color> Os dragões, criaturas magníficas e aterrorizantes das lendas, foram derrotados em um acontecimento tão envolto em mistério que mal passava de um sussurro nos ventos da história.",
           "Key": "<color=#CBB396>Narrator:</color> The dragons, magnificent and terrifying creatures of legend, had been defeated in an event so shrouded in mystery that it was scarcely more than a whisper in the winds of history.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10327,7 +10327,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Os salões anões, outrora grandiosos e resplendentes, agora estão em ruínas, uma sombra de sua antiga majestade.",
+          "Value": "<color=#CBB396>Narrador:</color> Os salões dos anões, outrora grandiosos e resplandecentes, agora estão em ruínas, sombras do que foram.",
           "Key": "<color=#CBB396>Narrator:</color> The dwarven halls, once grand and resplendent, now stand in ruins, a shadow of their former majesty.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10345,7 +10345,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A pena, o amuleto, a moeda, a coroa, a joia, o urso, cada um oferece suas memórias, um lembrete do propósito, um salva-vidas no mar de desespero que ameaça te engolir.",
+          "Value": "<color=#CBB396>Narrador:</color> A pena, o amuleto, a moeda, a coroa, a joia e o urso, cada um oferece suas memórias: um lembrete do propósito, uma tábua de salvação no mar de desespero que ameaça engolir você.",
           "Key": "<color=#CBB396>Narrator:</color> The feather, the amulet, the coin, the crown, the jewel, the bear each give their memories, a reminder of purpose, a lifeline in the sea of despair that threatens to engulf you.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10363,7 +10363,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A ideia de que seu pai, em meio à sua doença, atravessou estas mesmas terras perigosas é um pensamento que lhe preenche com um profundo e inquietante temor.",
+          "Value": "<color=#CBB396>Narrador:</color> A ideia de que seu pai, em meio à doença, atravessou essas mesmas terras perigosas é profundamente inquietante e o enche de temor.",
           "Key": "<color=#CBB396>Narrator:</color> The idea that your father, in the grip of his illness, had traversed these same dangerous lands is a thought that fills you with a deep, unsettling dread.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10381,7 +10381,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O diário falava de um rei que uma vez foi justo e íntegro, agora transformado em um mero bobo da escuridão que avançava, sua vontade escravizada pelas próprias sombras que governavam seu reino.",
+          "Value": "<color=#CBB396>Narrador:</color> O diário falava de um rei que um dia fora justo e íntegro, mas que agora se tornara um mero bufão da escuridão que avançava, com a vontade escravizada pelas próprias sombras que governavam seu reino.",
           "Key": "<color=#CBB396>Narrator:</color> The journal spoke of a king who had once been just and fair, now turned into a mere jester of the encroaching darkness, his will enslaved by the very shadows that ruled his kingdom.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10543,7 +10543,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O início de sua doença foi sutil no começo, como uma névoa que se aproxima, mas logo o envolveu completamente.",
+          "Value": "<color=#CBB396>Narrador:</color> O início da doença foi sutil, como uma névoa que se aproxima, mas logo o envolveu por completo.",
           "Key": "<color=#CBB396>Narrator:</color> The onset of his illness was subtle at first, like a creeping mist, but it soon enveloped him completely.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10579,7 +10579,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O pântano é um labirinto de enganos, seus caminhos levam a becos sem saída e armadilhas traiçoeiras, seu ar pesado com a ameaça de horrores invisíveis.",
+          "Value": "<color=#CBB396>Narrador:</color> O pântano é um labirinto de enganos: seus caminhos levam a becos sem saída e armadilhas traiçoeiras, e o ar está carregado da ameaça de horrores invisíveis.",
           "Key": "<color=#CBB396>Narrator:</color> The swamp is a labyrinth of deceit, its paths leading to dead ends and treacherous pitfalls, its air heavy with the threat of unseen horrors.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10597,7 +10597,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A transformação das terras do Sultão no Deserto de Wyrmrest de um oásis acolhedor de cultura e hospitalidade para um reino de suspeita e segredo guardado foi uma mudança drástica e desanimadora.",
+          "Value": "<color=#CBB396>Narrador:</color> A transformação das terras do Sultão no Deserto de Wyrmrest, de um oásis acolhedor de cultura e hospitalidade em um reino de suspeita e segredo, foi drástica e desalentadora.",
           "Key": "<color=#CBB396>Narrator:</color> The transformation of the Sultan's lands in the Wyrmrest Desert from a welcoming oasis of culture and hospitality into a realm of suspicion and guarded secrecy was a stark and disheartening change.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10615,7 +10615,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O sub-bosque se agita com os movimentos de predadores invisíveis, e o ar é preenchido pelos distantes e assustadores gritos de criaturas desconhecidas.",
+          "Value": "<color=#CBB396>Narrador:</color> O sub-bosque se agita com os movimentos de predadores ocultos, e o ar se enche dos gritos distantes e sinistros de criaturas desconhecidas.",
           "Key": "<color=#CBB396>Narrator:</color> The undergrowth rustles with the movements of unseen predators, and the air is filled with the distant, haunting cries of creatures unknown.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10633,7 +10633,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> O próprio ar ao seu redor parece vibrar com um palpável senso de inquietação, como se a montanha em si estivesse segurando a respiração, à espera de algum terror sem nome se desenrolar.",
+          "Value": "<color=#CBB396>Narrador:</color> O próprio ar ao seu redor parece vibrar com uma inquietação palpável, como se a própria montanha prendesse a respiração, à espera de que algum terror sem nome se manifestasse.",
           "Key": "<color=#CBB396>Narrator:</color> The very air around you seems to thrum with a palpable sense of unease, as if the mountain itself was holding its breath, waiting for some unnamed dread to unfurl.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10651,7 +10651,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Essas criaturas majestosas e temíveis, que há muito tempo foram tecidas na mitologia do seu mundo, dizem ter sido derrotadas em uma batalha monumental, porém enigmática.",
+          "Value": "<color=#CBB396>Narrador:</color> Dizem que essas criaturas majestosas e temíveis, há muito presentes nas lendas do seu mundo, foram derrotadas em uma batalha monumental, mas enigmática.",
           "Key": "<color=#CBB396>Narrator:</color> These majestic and fearsome creatures, which had long been woven into the lore of your world, are said to have been vanquished in a monumental but enigmatic battle. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10669,7 +10669,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Essas relíquias eram procuradas com um zelo que beirava o fanatismo, impulsionadas pela sede insaciável de dominação do Sultão.",
+          "Value": "<color=#CBB396>Narrador:</color> Essas relíquias eram procuradas com um zelo que beirava o fanatismo, impulsionado pela sede insaciável de domínio do Sultão.",
           "Key": "<color=#CBB396>Narrator:</color> These relics were sought after with a zeal that bordered on fanaticism, spurred on by the Sultan's unquenchable thirst for dominance.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10723,7 +10723,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Esta ferida purulenta sobre a terra, envolta em névoas e no fedor da decomposição, já foi uma floresta vibrante e cheia de vida.",
+          "Value": "<color=#CBB396>Narrador:</color> Esta ferida purulenta na terra, envolta em névoas e no fedor da decomposição, já foi uma floresta vibrante e cheia de vida.",
           "Key": "<color=#CBB396>Narrator:</color> This festering sore upon the land, shrouded in mists and the stench of rot, was once a vibrant, life-filled forest",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10759,7 +10759,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Os problemas não haviam encontrado seu caminho até Freewind apenas recentemente.",
+          "Value": "<color=#CBB396>Narrador:</color> Freewind já enfrentava problemas muito antes de recentemente.",
           "Key": "<color=#CBB396>Narrator:</color> Trouble had not just found its way to Freewind as of late.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10831,7 +10831,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A cada passo quebrando a neve intocada, um sentido de profunda contemplação te envolve.",
+          "Value": "<color=#CBB396>Narrador:</color> A cada passo que afunda na neve intocada, uma profunda contemplação toma conta de você.",
           "Key": "<color=#CBB396>Narrator:</color> With each step crunching through the pristine snow, a sense of profound contemplation envelopes you.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10885,7 +10885,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Ainda assim, a cada passo, você sente um crescente senso de euforia. Nesta terra de fogo, você está à beira de um novo capítulo na história que começou nas páginas do diário do seu pai.",
+          "Value": "<color=#CBB396>Narrador:</color> Ainda assim, a cada passo, você sente uma euforia crescente. Nesta terra de fogo, está prestes a iniciar um novo capítulo da história que começou nas páginas do diário do seu pai.",
           "Key": "<color=#CBB396>Narrator:</color> Yet, with each step, you feel a growing sense of exhilaration. In this land of fire, you are on the cusp of a new chapter in the tale that had begun in the pages of your father's journal.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -10939,7 +10939,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Agora você pode valorizar as memórias dos momentos alegres passados com ele, em vez de ser assombrado pelas sombrias sombras que uma vez permaneceram.",
+          "Value": "<color=#CBB396>Narrador:</color> Agora você pode guardar com carinho as lembranças dos momentos alegres que passou com ele, em vez de continuar assombrado pelas sombras sombrias que antes pairavam.",
           "Key": "<color=#CBB396>Narrator:</color> You can now cherish the memories of joyous moments spent with him, instead of being haunted by the somber shadows that once lingered.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11137,7 +11137,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> Seu pai havia registrado a escuridão em seus escritos. Ela havia descido sobre a terra após a derrota dos dragões, uma sombra que torcia e corrompia.",
+          "Value": "<color=#CBB396>Narrador:</color> Seu pai havia registrado a escuridão em seus escritos. Ela havia descido sobre a terra após a derrota dos dragões, uma sombra que distorcia e corrompia.",
           "Key": "<color=#CBB396>Narrator:</color> Your father had chronicled the darkness in his writings. It had descended upon the land following the defeat of the dragons, a shadow that twisted and corrupted.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -11173,7 +11173,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<color=#CBB396>Narrador:</color> A mente do seu pai, outrora um tecido de histórias e conhecimentos, tornou-se fragmentada, um quebra-cabeça com peças perdidas nas névoas do tempo.",
+          "Value": "<color=#CBB396>Narrador:</color> A mente do seu pai, outrora um mosaico de histórias e conhecimentos, fragmentou-se, como um quebra-cabeça com peças perdidas nas névoas do tempo.",
           "Key": "<color=#CBB396>Narrator:</color> Your father's mind, once a tapestry of stories and knowledge, became fragmented, a puzzle with pieces lost in the mists of time.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -14148,7 +14148,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "<shake>LEGIAO DE ESQUELETOS, ERGAM-SE!",
+          "Value": "<shake>LEGIÃO DE ESQUELETOS, ERGAM-SE!",
           "Key": "<shake>SKELETON LEGION RISE!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -14292,7 +14292,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "25000 <sprite=0> 25000 <sprite=1> Dificuldade: Coração do Reino",
+          "Value": "<sprite=0> 25000   <sprite=1> 25000   Dificuldade: Coração do Reino",
           "Key": "<sprite=0>25000   <sprite=1>25000   Difficulty: Heart of the Realm",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15000,7 +15000,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Uma <color=#FFD700>Estátua de Ouro do Primeiro Rei da Montanha</color> brilha diante de você!\n\nOs anões são lendários por sua habilidade artesanal e esta obra de arte não é exceção. Detalhes minuciosos foram feitos desde o fecho de suas botas douradas até as tranças de sua gloriosa barba! E claro, é feita inteiramente de <wave><color=#FFD700>ouro maciço</color></wave>!",
+          "Value": "Uma <color=#FFD700>Estátua de Ouro do Primeiro Rei da Montanha</color> brilha diante de você!\n\nOs anões são lendários por seu talento artesanal, e esta obra de arte não é exceção. Cada detalhe foi feito com esmero, do fecho de suas botas douradas às tranças de sua gloriosa barba! E, claro, ela é inteiramente de <wave><color=#FFD700>ouro maciço</color></wave>!",
           "Key": "A <color=#FFD700>Gold Statue of the First Mountain King</color> glitters before you!\n\nDwarves are legendary for their craftsmanship and this work of art is no exception. Painstaking detail has been made from the clasp of his golden boots to the braids of his glorious beard! And of course, it is made entirely of <wave><color=#FFD700>solid gold</color></wave>!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15198,7 +15198,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Um Evento de Batalha",
+          "Value": "Um evento de batalha",
           "Key": "A Battle Event",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15234,7 +15234,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador Básico de Custo de AP",
+          "Value": "Modificador Básico de Custo de PA",
           "Key": "A P Cost Mod Basic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15252,7 +15252,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Frio",
+          "Value": "Modificador de Custo de PA de Frio",
           "Key": "A P Cost Mod Cold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15270,7 +15270,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Fogo",
+          "Value": "Modificador de Custo de PA de Fogo",
           "Key": "A P Cost Mod Fire",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15306,7 +15306,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Leve",
+          "Value": "Modificador de Custo de PA de Luz",
           "Key": "A P Cost Mod Light",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15324,7 +15324,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Relâmpago",
+          "Value": "Modificador de Custo de PA de Relâmpago",
           "Key": "A P Cost Mod Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15342,7 +15342,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Monge",
+          "Value": "Modificador de Custo de PA de Monge",
           "Key": "A P Cost Mod Monk",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15360,7 +15360,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de Ponto de Ação do Patrulheiro",
+          "Value": "Modificador de Custo de PA de Patrulheiro",
           "Key": "A P Cost Mod Ranger",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15396,7 +15396,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de PA Ladrão",
+          "Value": "Modificador de Custo de PA de Ladrão",
           "Key": "A P Cost Mod Thief",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15414,7 +15414,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modificador de Custo de Ponto de Ação Guerreiro",
+          "Value": "Modificador de Custo de PA de Guerreiro",
           "Key": "A P Cost Mod Warrior",
           "TranslatorKey": null,
           "Feminine": null,
@@ -15432,7 +15432,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Um Guerreiro é um lutador corpo a corpo blindado e orientado para armas que batalha usando habilidade, estratégia e táticas.",
+          "Value": "Um Guerreiro é um combatente corpo a corpo, encouraçado e especializado em armas, que luta com habilidade, estratégia e tática.",
           "Key": "A Warrior is a weapons-oriented armored melee fighter who battles using skill, strategy and tactics.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -16642,7 +16642,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Um agradecimento especial a todos os nossos apoiadores!\n\nSeu suporte foi o que permitiu que Stolen Realm se tornasse realidade!",
+          "Value": "Agradecemos especialmente a todos os nossos apoiadores!\n\nFoi o apoio de vocês que tornou Stolen Realm realidade!",
           "Key": "A special thanks goes out to all our backers!  \n\nYour support is what allowed Stolen Realm to become a reality!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -16948,7 +16948,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Uma poção de cura ou de mana usada no momento certo pode virar o jogo da batalha.",
+          "Value": "Uma poção de cura ou de mana usada na hora certa pode virar o rumo da batalha.",
           "Key": "A well timed healing or mana potion can turn the tide of battle. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -16984,7 +16984,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "CERTO SUA MOLENGA, VAMOS VER O QUE VOCÊ TEM!",
+          "Value": "TÁ BOM, SUA MOLENGA, VAMOS VER O QUE VOCÊ TEM!",
           "Key": "ALRIGHT YE SISSY, LET'S SEE WHAT YOU'VE GOT!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -17038,7 +17038,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Custo de AP: Nenhum",
+          "Value": "Custo de PA: nenhum",
           "Key": "AP Cost: None",
           "TranslatorKey": null,
           "Feminine": null,
@@ -17272,7 +17272,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Absorbe o próximo ataque.",
+          "Value": "Absorve o próximo ataque.",
           "Key": "Absorbs the next attack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -18298,7 +18298,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Status da Ação Duração Modificação Benéfica Fonte",
+          "Value": "Modificador de Duração de Status da Ação Benéfico na Origem",
           "Key": "Action Status Duration Mod Beneficial Source",
           "TranslatorKey": null,
           "Feminine": null,
@@ -18316,7 +18316,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Status da Ação Duração Modificador Benéfico Alvo",
+          "Value": "Modificador de Duração de Status da Ação Benéfico no Alvo",
           "Key": "Action Status Duration Mod Beneficial Target",
           "TranslatorKey": null,
           "Feminine": null,
@@ -18334,7 +18334,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Estado da Ação Duração Modificação Prejudicial Origem",
+          "Value": "Modificador de Duração de Status da Ação Prejudicial na Origem",
           "Key": "Action Status Duration Mod Harmful Source",
           "TranslatorKey": null,
           "Feminine": null,
@@ -18352,7 +18352,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Status da Ação Duração Mod Prejudicial Alvo",
+          "Value": "Modificador de Duração de Status da Ação Prejudicial no Alvo",
           "Key": "Action Status Duration Mod Harmful Target",
           "TranslatorKey": null,
           "Feminine": null,
@@ -19054,7 +19054,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Após terminar de atribuir personagens ao seu grupo, pressione <b>Aceitar Grupo</b>.",
+          "Value": "Ao terminar de adicionar os personagens ao grupo, selecione <b>Aceitar Grupo</b>.",
           "Key": "After you have finished assigning characters to your party, press <b>Accept Party</b>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -20952,7 +20952,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Companheiro Animal Urso Pardo",
+          "Value": "Companheiro Animal: Urso-pardo",
           "Key": "Animal Companion Grizzly",
           "TranslatorKey": null,
           "Feminine": null,
@@ -20970,7 +20970,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Companheiro Animal Corvo",
+          "Value": "Companheiro Animal: Corvo",
           "Key": "Animal Companion Raven",
           "TranslatorKey": null,
           "Feminine": null,
@@ -20988,7 +20988,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Companheiro Animal Lobo",
+          "Value": "Companheiro Animal: Lobo",
           "Key": "Animal Companion Wolf",
           "TranslatorKey": null,
           "Feminine": null,
@@ -21532,7 +21532,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aplica Maldição ao atacar e quando atacado",
+          "Value": "Aplica Maldição ao acertar e ao ser atingido",
           "Key": "Applies Curse on striking and when struck",
           "TranslatorKey": null,
           "Feminine": null,
@@ -22882,7 +22882,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Conforme Tlaloc ordena!",
+          "Value": "Como Tlaloc ordena!",
           "Key": "As Tlaloc commands!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -23928,7 +23928,19 @@
       "id": "LANG-01323",
       "key": "As you slowly turn the crank, music plays...",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "Ao girar a manivela lentamente, uma música começa a tocar...",
+          "Key": "As you slowly turn the crank, music plays...",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-01324",
@@ -23972,7 +23984,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ao pegar o Coração Congelado, seu frio entorpecedor começa a se tornar... confortável.",
+          "Value": "Ao pegar o Coração Congelado, o frio entorpecedor começa a parecer... confortável.",
           "Key": "As you take the Frozen Heart it's numbing cold begins to feel... comfortable.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24968,7 +24980,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tente desativar a Armadilha de Ácido.",
+          "Value": "Tente desativar a Armadilha Ácida.",
           "Key": "Attempt to disable the Acid Trap.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -24986,7 +24998,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tente desarmar a Armadilha Serra.",
+          "Value": "Tente desarmar a Armadilha de Serra.",
           "Key": "Attempt to disarm the Saw Trap.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -25706,7 +25718,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Terrivelmente gentil da sua parte nos trazer seu ouro.",
+          "Value": "Que gentileza a sua nos trazer o ouro.",
           "Key": "Awfully kind of you to bring us your gold.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -25742,7 +25754,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cacá!... Eu te dou uma bolacha!",
+          "Value": "Cac! Vou te dar uma bolacha!",
           "Key": "Awk!...I'll give ye a cracker!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -26747,7 +26759,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Valor Modificador do Ponto de Batalha",
+          "Value": "Modificador do Valor de Ponto de Batalha",
           "Key": "Battle Point Value Mod",
           "TranslatorKey": null,
           "Feminine": null,
@@ -26909,7 +26921,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feitiço do Urso",
+          "Value": "Amuleto do Urso",
           "Key": "Bear Charm",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28031,7 +28043,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Bandeirante Alabardeiro",
+          "Value": "Alabardeiro do Guarda Negro",
           "Key": "Blackguard Halberdier",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28703,7 +28715,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Bloquear Tudo",
+          "Value": "Bloqueio Total",
           "Key": "Block All",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28739,7 +28751,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Elemental do Bloco",
+          "Value": "Bloqueio Elemental",
           "Key": "Block Elemental",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28757,7 +28769,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Bloquear Fogo",
+          "Value": "Bloqueio de Fogo",
           "Key": "Block Fire",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28775,7 +28787,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Relâmpago Bloqueador",
+          "Value": "Bloqueio de Raios",
           "Key": "Block Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -28919,7 +28931,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sangue de Amora",
+          "Value": "Amora Sangrenta",
           "Key": "Blood Berry",
           "TranslatorKey": null,
           "Feminine": null,
@@ -29333,7 +29345,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Derramador de Sangue",
+          "Value": "Sangrador",
           "Key": "Bloodletter",
           "TranslatorKey": null,
           "Feminine": null,
@@ -29441,7 +29453,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ovo de Dragonete Azul",
+          "Value": "Ovo de Filhote de Dragão Azul",
           "Key": "Blue Dragon Whelp Egg",
           "TranslatorKey": null,
           "Feminine": null,
@@ -30086,7 +30098,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lâmina Bota",
+          "Value": "Lâmina de Bota",
           "Key": "Boot Blade",
           "TranslatorKey": null,
           "Feminine": null,
@@ -30590,7 +30602,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Soqueira de Bronze",
+          "Value": "Soqueira de Latão",
           "Key": "Brass Knuckles",
           "TranslatorKey": null,
           "Feminine": null,
@@ -31148,7 +31160,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Bosque de Espinhos",
+          "Value": "Moita de Espinheiro",
           "Key": "Bristlethorn Patch",
           "TranslatorKey": null,
           "Feminine": null,
@@ -31724,7 +31736,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Açougue",
+          "Value": "Carnificina",
           "Key": "Butchery",
           "TranslatorKey": null,
           "Feminine": null,
@@ -32516,7 +32528,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Posso te interessar em um upgrade?",
+          "Value": "Posso lhe oferecer uma melhoria?",
           "Key": "Can I interest you in an upgrade?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -32534,7 +32546,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Só pode ser ferido destruindo Fetiches da Alma. Imune a efeitos que prejudicam o movimento.",
+          "Value": "Só pode ser ferido pela destruição dos Fetiches da Alma. Imune a efeitos que prejudicam o movimento.",
           "Key": "Can only be harmed by destroying Soul Fetishes.  Immune to movement imparing effects.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -33254,7 +33266,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Arma Lateral do Capitão",
+          "Value": "Arma Secundária do Capitão",
           "Key": "Captain's Sidearm",
           "TranslatorKey": null,
           "Feminine": null,
@@ -33308,7 +33320,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Zelador dos",
+          "Value": "do Zelador",
           "Key": "Caretaker's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -33938,7 +33950,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aranha das Cavernas Jovem",
+          "Value": "Aranhinha da Caverna",
           "Key": "Cave Spiderling",
           "TranslatorKey": null,
           "Feminine": null,
@@ -34172,7 +34184,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Elmo de Corrente",
+          "Value": "Elmo de Cota de Malha",
           "Key": "Chain Helm",
           "TranslatorKey": null,
           "Feminine": null,
@@ -34424,7 +34436,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano e saúde do campeão aumentados em 50%",
+          "Value": "Dano e vida do campeão aumentados em 50%.",
           "Key": "Champion damage & health increased by 50%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -34604,7 +34616,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mudança",
+          "Value": "Alterar",
           "Key": "Change",
           "TranslatorKey": null,
           "Feminine": null,
@@ -35864,7 +35876,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escolha como Grupo",
+          "Value": "Escolha em grupo",
           "Key": "Choose As Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -35882,7 +35894,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escolha Batalha",
+          "Value": "Escolher batalha",
           "Key": "Choose Battle",
           "TranslatorKey": null,
           "Feminine": null,
@@ -36080,7 +36092,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escolha uma habilidade para jogar novamente.",
+          "Value": "Escolha uma habilidade para rerolar ",
           "Key": "Choose a skill to reroll ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -36585,7 +36597,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Concluído",
+          "Value": "Concluída",
           "Key": "Cleared",
           "TranslatorKey": null,
           "Feminine": null,
@@ -36895,7 +36907,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espingarda do Treinador",
+          "Value": "Espingarda de Cano Duplo",
           "Key": "Coach Gun",
           "TranslatorKey": null,
           "Feminine": null,
@@ -37471,7 +37483,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Venha até mim! O combate é formidável e seus inimigos te interceptam a cada virada. Você entende os detalhes dos RPGs táticos e os perigos específicos que espreitam no Reino Roubado.",
+          "Value": "Venha me enfrentar! O combate é implacável, e seus inimigos interceptam você a cada turno. Você entende as nuances dos RPGs táticos e os perigos específicos que espreitam no Reino Roubado.",
           "Key": "Come at me! Combat is formidable and your enemies cut you off at each turn. You understand the ins and outs of tactical RPGs and the specific dangers that lurk in Stolen Realm.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -37543,7 +37555,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Venha ver as joias mais finas de todo o Reino Roubado!",
+          "Value": "Venha ver as melhores joias de todo o Reino Roubado!",
           "Key": "Come see the finest jewelry in all the Stolen Realm!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38908,7 +38920,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 12% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 12% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 12% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38926,7 +38938,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 20% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 20% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 20% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -38944,7 +38956,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Consumir qualquer Globule cura você em 8% da vida máxima e mana.",
+          "Value": "Consumir qualquer Glóbulo cura você em 8% da vida máxima e mana.",
           "Key": "Consuming any Globule heals you for 8% of max life and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -39931,7 +39943,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Raízes corrompidas te envenenam!",
+          "Value": "Raízes corrompidas envenenam você!",
           "Key": "Corrupted roots poison you!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40659,7 +40671,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Crescendo da Rapidez",
+          "Value": "Crescendo da Agilidade",
           "Key": "Crescendo of Swiftness",
           "TranslatorKey": null,
           "Feminine": null,
@@ -40695,7 +40707,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Crescendo do Verso do Valor. Cada acúmulo aumenta o poder da canção.",
+          "Value": "Crescendo do Verso de Valor. Cada acúmulo aumenta o efeito da canção.",
           "Key": "Crescendo of Verse of Valor. Each stack increases the power of the song.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41451,7 +41463,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de Golpe Crítico e Cura aumentados em [35]%",
+          "Value": "Dano de acerto crítico e cura aumentados em [35]%",
           "Key": "Critical Hit Damage and Healing increased by [35]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41469,7 +41481,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de Acerto Crítico e Cura aumentados em [45]%",
+          "Value": "Dano de acerto crítico e cura aumentados em [45]%",
           "Key": "Critical Hit Damage and Healing increased by [45]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41487,7 +41499,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de Golpe Crítico e Cura aumentados em [55]%",
+          "Value": "Dano de acerto crítico e cura aumentados em [55]%",
           "Key": "Critical Hit Damage and Healing increased by [55]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41505,7 +41517,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chance de Acerto Crítico aumentado em 5%.",
+          "Value": "Chance de acerto crítico aumentada em 5%.",
           "Key": "Critical Hit chance increased by 5%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -41631,7 +41643,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chance de acerto crítico aumentado em [0]%.",
+          "Value": "Chance de acerto crítico aumentada em [0]%.",
           "Key": "Critical hit chance increased by [0]%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -42351,7 +42363,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atualmente em Batalha",
+          "Value": "Em batalha",
           "Key": "Currently In Battle",
           "TranslatorKey": null,
           "Feminine": null,
@@ -42830,7 +42842,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chute Ciclone",
+          "Value": "Chute Ciclônico",
           "Key": "Cyclone Kick",
           "TranslatorKey": null,
           "Feminine": null,
@@ -42866,7 +42878,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Esquerda no D-Pad",
+          "Value": "Direcional para a esquerda",
           "Key": "D-Pad Left",
           "TranslatorKey": null,
           "Feminine": null,
@@ -42884,7 +42896,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Direcional Direita",
+          "Value": "Direcional para a direita",
           "Key": "D-Pad Right",
           "TranslatorKey": null,
           "Feminine": null,
@@ -43518,7 +43530,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O dano causado rouba [0] pontos de <b>Poder</b>. Dura toda a batalha. Acumula até 10 vezes.",
+          "Value": "O dano que você causa rouba [0] pontos de <b>Força</b>. O efeito dura até o fim da batalha e acumula até 10 vezes.",
           "Key": "Damage caused steals [0] points of <b>Might</b>. Lasts the entire battle. Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -44411,7 +44423,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O dano que você causa aplica 2 camadas de <b>Veneno</b>.",
+          "Value": "O dano que você causa aplica 2 acúmulos de <b>Veneno</b>.",
           "Key": "Damage you deal applies 2 stacks of <b>Poison</b>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -44627,7 +44639,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Botão-de-ouro",
+          "Value": "Botão de dente-de-leão",
           "Key": "Dandelion Bud",
           "TranslatorKey": null,
           "Feminine": null,
@@ -44987,7 +44999,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Recentemente Submetido a um Ritual Sombrio",
+          "Value": "Submetido recentemente a um Ritual Sombrio",
           "Key": "Dark Ritualed Recently",
           "TranslatorKey": null,
           "Feminine": null,
@@ -48673,7 +48685,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Derrote O Corretor.",
+          "Value": "Derrote o Corretor.",
           "Key": "Defeat The Broker.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -49321,7 +49333,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Excluir Personagem?",
+          "Value": "Excluir personagem?",
           "Key": "Delete Character?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -49597,7 +49609,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Destrui Item?",
+          "Value": "Destruir item?",
           "Key": "Destroy Item?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -49943,7 +49955,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Destreza aumentada [12]",
+          "Value": "Destreza aumentada em [12]",
           "Key": "Dexterity increased [12]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -49979,7 +49991,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Destreza aumentada [3]",
+          "Value": "Destreza aumentada em [3]",
           "Key": "Dexterity increased [3]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50015,7 +50027,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Destreza aumentada [6]",
+          "Value": "Destreza aumentada em [6]",
           "Key": "Dexterity increased [6]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50321,7 +50333,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Destróz",
+          "Value": "Habilidoso",
           "Key": "Dexterous",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50681,7 +50693,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dificuldade: [difficulty name]",
+          "Value": "[difficulty name]",
           "Key": "Difficulty: [difficulty name]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50735,7 +50747,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Terrível",
+          "Value": "Atroz",
           "Key": "Dire",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50753,7 +50765,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mordida Feroz",
+          "Value": "Mordida Atroz",
           "Key": "Dire Bite",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50771,7 +50783,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Uivo Ameaçador",
+          "Value": "Uivo Atroz",
           "Key": "Dire Howl",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50789,7 +50801,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lobo Feroz",
+          "Value": "Lobo Atroz",
           "Key": "Dire Wolf",
           "TranslatorKey": null,
           "Feminine": null,
@@ -50843,7 +50855,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Imunidade Desativada",
+          "Value": "Imunidade a Desativação",
           "Key": "Disabled Immunity",
           "TranslatorKey": null,
           "Feminine": null,
@@ -51164,7 +51176,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dispensar Transformação",
+          "Value": "Encerrar Transformação",
           "Key": "Dismiss Shapeshift",
           "TranslatorKey": null,
           "Feminine": null,
@@ -51182,7 +51194,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Desfaça sua transformação ativa.",
+          "Value": "Encerre sua transformação ativa.",
           "Key": "Dismiss your active shapeshift.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -52021,7 +52033,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Esquivando de ataques recebidos.",
+          "Value": "Esquivando-se de ataques recebidos.",
           "Key": "Dodging incoming attacks.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -54229,7 +54241,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Efeitos Por Ponto",
+          "Value": "Efeitos por ponto",
           "Key": "Effects Per Point",
           "TranslatorKey": null,
           "Feminine": null,
@@ -54715,7 +54727,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade elemental aumentado",
+          "Value": "Dano de habilidade elemental aumentado",
           "Key": "Elemental skill damage increased",
           "TranslatorKey": null,
           "Feminine": null,
@@ -54931,7 +54943,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Inimigo de Elite",
+          "Value": "Inimigo de elite",
           "Key": "Elite Enemy",
           "TranslatorKey": null,
           "Feminine": null,
@@ -55021,7 +55033,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Embalmador",
+          "Value": "Embalsamador",
           "Key": "Embalmer",
           "TranslatorKey": null,
           "Feminine": null,
@@ -55039,7 +55051,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Embalmador",
+          "Value": "do Embalsamador",
           "Key": "Embalmer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -55759,7 +55771,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espaço Vazio",
+          "Value": "Espaço vazio",
           "Key": "Empty Slot",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57259,7 +57271,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Globulo de Energia",
+          "Value": "Glóbulo de Energia",
           "Key": "Energy Globule",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57605,7 +57617,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Digite a Senha",
+          "Value": "Digite a senha",
           "Key": "Enter Password",
           "TranslatorKey": null,
           "Feminine": null,
@@ -57749,7 +57761,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Equipar Item",
+          "Value": "Equipar item",
           "Key": "Equip Item",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58012,7 +58024,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Etereo",
+          "Value": "Etéreo",
           "Key": "Ethereal",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58066,7 +58078,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Desvie dos escombros caindo e encontre abrigo.",
+          "Value": "Desvie dos escombros que caem e encontre abrigo.",
           "Key": "Evade the falling debris and find cover.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58486,7 +58498,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Todo mundo quer ser um berserker até chegar a hora de enlouquecer!",
+          "Value": "Todo mundo quer ser berserker até chegar a hora de entrar em fúria!",
           "Key": "Everyone wants to be a berserker until its time to go berserk!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58810,7 +58822,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sair do Jogo",
+          "Value": "Sair do jogo",
           "Key": "Exit Game",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58828,7 +58840,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Teste de Batalha de Saída",
+          "Value": "Sair do teste de batalha",
           "Key": "Exit Test Battle",
           "TranslatorKey": null,
           "Feminine": null,
@@ -58864,7 +58876,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Exp",
+          "Value": "EXP",
           "Key": "Exp",
           "TranslatorKey": null,
           "Feminine": null,
@@ -59714,7 +59726,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Falha ao entrar no jogo. Por favor, verifique sua conexão com a internet e tente novamente.",
+          "Value": "Falha ao entrar no jogo. Verifique sua conexão com a internet e tente novamente.",
           "Key": "Failed to join game. Please check your internet connection and try again.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -59732,7 +59744,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Falha ao entrar no jogo. Por favor, tente novamente.",
+          "Value": "Falha ao entrar no jogo. Tente novamente.",
           "Key": "Failed to join game. Please try again.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -60121,7 +60133,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dê-os de comida para os peixes!",
+          "Value": "Joguem eles para os peixes!",
           "Key": "Feed em to the fishes!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -60139,7 +60151,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Se sentindo com sorte?",
+          "Value": "Está se sentindo com sorte?",
           "Key": "Feeling lucky?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -60899,7 +60911,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência a Fogo aumentada em 15%",
+          "Value": "Resistência ao Fogo aumentada em 15%",
           "Key": "Fire Resistance increased by 15%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -60917,7 +60929,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência a Fogo aumentada em 5%",
+          "Value": "Resistência ao Fogo aumentada em 5%",
           "Key": "Fire Resistance increased by 5%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61079,7 +61091,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência a fogo aumentada",
+          "Value": "Resistência ao fogo aumentada",
           "Key": "Fire resistance increased",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61115,7 +61127,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de habilidade de fogo aumentado",
+          "Value": "Dano de habilidade de Fogo aumentado",
           "Key": "Fire skill damage increased",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61151,7 +61163,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade de fogo aumentado em [12]%",
+          "Value": "Dano de habilidade de Fogo aumentado em [12]%",
           "Key": "Fire skill damage increased by [12]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61169,7 +61181,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de habilidade de fogo aumentado em [15]%",
+          "Value": "Dano de habilidade de Fogo aumentado em [15]%",
           "Key": "Fire skill damage increased by [15]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61187,7 +61199,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade de fogo aumentado em [3]%",
+          "Value": "Dano de habilidade de Fogo aumentado em [3]%",
           "Key": "Fire skill damage increased by [3]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61223,7 +61235,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade de fogo aumentado em [6]%",
+          "Value": "Dano de habilidade de Fogo aumentado em [6]%",
           "Key": "Fire skill damage increased by [6]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61259,7 +61271,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade de fogo aumentado em [9]%",
+          "Value": "Dano de habilidade de Fogo aumentado em [9]%",
           "Key": "Fire skill damage increased by [9]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -61787,7 +61799,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Maça com Flanges",
+          "Value": "Maça flangeada",
           "Key": "Flanged Mace",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62075,7 +62087,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Forragem tem 2 modificadores adicionais.",
+          "Value": "Forragens têm 2 modificadores adicionais.",
           "Key": "Fodder have 2 additional modifiers",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62093,7 +62105,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Forragem tem 3 modificadores adicionais.",
+          "Value": "Forragens têm 3 modificadores adicionais.",
           "Key": "Fodder have 3 additional modifiers",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62463,7 +62475,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cancelar Evento de Força",
+          "Value": "Forçar cancelamento do evento",
           "Key": "Force Cancel Event",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62481,7 +62493,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Força Destrutível",
+          "Value": "Forçar destrutível",
           "Key": "Force Destructible",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62499,7 +62511,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mod de Forçar Inimigo",
+          "Value": "Forçar mod de inimigo",
           "Key": "Force Enemy Mod",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62517,7 +62529,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Forçar Evento",
+          "Value": "Forçar evento",
           "Key": "Force Event",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62535,7 +62547,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chute Força",
+          "Value": "Chute de Força",
           "Key": "Force Kick",
           "TranslatorKey": null,
           "Feminine": null,
@@ -62553,7 +62565,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Profissão de Força",
+          "Value": "Forçar profissão",
           "Key": "Force Profession",
           "TranslatorKey": null,
           "Feminine": null,
@@ -63493,7 +63505,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lançamento Livre",
+          "Value": "Conjuração gratuita",
           "Key": "Free Casting",
           "TranslatorKey": null,
           "Feminine": null,
@@ -63835,7 +63847,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O ar gélido circula ao redor do coração em decomposição.",
+          "Value": "Um ar gélido circula ao redor do coração em decomposição.",
           "Key": "Frigid air swirls around the decaying heart.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -64843,7 +64855,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe 1 movimento adicional",
+          "Value": "Ganhe 1 Ponto de Movimento adicional",
           "Key": "Gain 1 additional movement",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65131,7 +65143,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe 2 de movimento adicional.",
+          "Value": "Ganhe 2 Pontos de Movimento adicionais.",
           "Key": "Gain 2 additional movement",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65538,7 +65550,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Frio equivalente a 10% do seu Poder.",
+          "Value": "Ganhe dano de frio adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Cold equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65592,7 +65604,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Fogo igual a 10% do seu Poder.",
+          "Value": "Ganhe dano de fogo adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Fire equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65646,7 +65658,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano Adicional de Raio equivalente a 10% do seu Poder.",
+          "Value": "Ganhe dano de raio adicional equivalente a 10% da sua Força.",
           "Key": "Gain Added Damage to Lightning equal to 10% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65754,7 +65766,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Receba Cura Adicional nas Curações igual a 50% do seu Poder.",
+          "Value": "Suas curas ganham um bônus equivalente a 50% da sua Força.",
           "Key": "Gain Additional Healing to Heals equal to 50% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65880,7 +65892,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Dano de Arma Adicional igual a 35% do seu Poder.",
+          "Value": "Ganhe dano de arma adicional equivalente a 35% da sua Força.",
           "Key": "Gain Additional Weapon Damage equal to 35% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65898,7 +65910,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Obtenha Dano de Arma Adicional igual a 40% do seu Poder.",
+          "Value": "Ganhe dano de arma adicional equivalente a 40% da sua Força.",
           "Key": "Gain Additional Weapon Damage equal to 40% of your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -65970,7 +65982,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Armadura e Armadura Mágica iguais a 2x o seu Poder. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
+          "Value": "Ganhe Armadura e Armadura Mágica equivalentes a 2x sua Força. 10% de chance, ao ser atingido, de conjurar {SKL=Pain Suppression} de nível [level value].",
           "Key": "Gain Armor and Magic Armor equal to 2x your Might. 10% chance upon getting hit to cast Level [level value] {SKL=Pain Suppression}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66042,7 +66054,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Armadura e Armadura Mágica iguais ao seu Poder.",
+          "Value": "Ganhe Armadura e Armadura Mágica em valor igual à sua Força.",
           "Key": "Gain Armor and Magic Armor equal to your Might.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66096,7 +66108,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Obtenha Poder Sagrado aumentado em 20% do seu Poder.",
+          "Value": "Ganhe um bônus de Poder Sagrado equivalente a 20% da sua Força.",
           "Key": "Gain Increased Holy Power equal to 20% of your Might. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66114,7 +66126,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ganhe Poder Sagrado aumentado em 40% do seu Poder.",
+          "Value": "Ganhe um bônus de Poder Sagrado equivalente a 40% da sua Força.",
           "Key": "Gain Increased Holy Power equal to 40% of your Might. ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66719,7 +66731,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A dificuldade do jogo escala com o número de membros do grupo.",
+          "Value": "A dificuldade do jogo se ajusta ao número de membros do grupo.",
           "Key": "Game difficulty scales with the number of party members",
           "TranslatorKey": null,
           "Feminine": null,
@@ -66737,7 +66749,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A dificuldade do jogo escala com o tamanho do seu grupo. Se você decidir embarcar com um único aventureiro ou um grupo completo de 6, seus inimigos estarão à altura do desafio.",
+          "Value": "A dificuldade do jogo se ajusta ao tamanho do grupo. Com um só aventureiro ou um grupo completo de 6, os inimigos estarão à altura do desafio.",
           "Key": "Game difficulty scales with the size of your party.  Whether you decide to embark with a single adventurer or a full party of 6, your enemies will be equal to the challenge.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -67151,7 +67163,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Varinha de Pedra Preciosa",
+          "Value": "Haste de Varinha com Pedra Preciosa",
           "Key": "Gemstone Wand Rod",
           "TranslatorKey": null,
           "Feminine": null,
@@ -67691,7 +67703,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Raio Gigante",
+          "Value": "Raia-gigante",
           "Key": "Giant Ray",
           "TranslatorKey": null,
           "Feminine": null,
@@ -67799,7 +67811,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Machado Dourado",
+          "Value": "Machadinha Dourada",
           "Key": "Gilded Hatchet",
           "TranslatorKey": null,
           "Feminine": null,
@@ -67835,7 +67847,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espada Reta Dourada",
+          "Value": "Florete Dourado",
           "Key": "Gilded Rapier",
           "TranslatorKey": null,
           "Feminine": null,
@@ -68825,7 +68837,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Clube dos Goblins",
+          "Value": "Clava Goblin",
           "Key": "Goblin Club",
           "TranslatorKey": null,
           "Feminine": null,
@@ -68879,7 +68891,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Goblin Machete",
+          "Value": "Machete Goblin",
           "Key": "Goblin Matchete",
           "TranslatorKey": null,
           "Feminine": null,
@@ -69455,7 +69467,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Placa da Valquíria Dourada",
+          "Value": "Armadura de placas da Valquíria Dourada",
           "Key": "Golden Valkyrie Plate",
           "TranslatorKey": null,
           "Feminine": null,
@@ -69940,7 +69952,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Concede 2 Pontos de Ação adicionais. Reduz os pontos de movimento em 5.",
+          "Value": "Concede 2 Pontos de Ação adicionais. Reduz os Pontos de Movimento em 5.",
           "Key": "Grants 2 additional Action Points. Lowers movement points by 5.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -70984,7 +70996,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Patch do Beijo Mortal",
+          "Value": "Campo de Grave Kiss",
           "Key": "Grave Kiss Patch",
           "TranslatorKey": null,
           "Feminine": null,
@@ -71056,7 +71068,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Guardião das Tumbas",
+          "Value": "do Coveiro",
           "Key": "Gravekeeper's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -71326,7 +71338,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Maiores dificuldades recompensam com mais itens saqueados.",
+          "Value": "Dificuldades mais altas oferecem mais itens como saque.",
           "Key": "Greater difficulties reward increased loot drops",
           "TranslatorKey": null,
           "Feminine": null,
@@ -71956,7 +71968,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Guardando",
+          "Value": "Defesa",
           "Key": "Guarding",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72118,7 +72130,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Salve, viajante! Tenho exatamente o que você precisa! Os melhores bibelôs, medalhões, anéis e amuletos de todo o Reino Roubado!",
+          "Value": "Salve, viajante! Tenho exatamente o que você precisa: os melhores acessórios, medalhões, anéis e amuletos de todo o Reino Roubado!",
           "Key": "Hail traveler! I've got just what you need! The best trinkets, medallions, rings, and amulets across all the Stolen Realm!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72190,7 +72202,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cajado de Pedra de Granizo",
+          "Value": "Cajado de Granizo",
           "Key": "Hailstone Staff",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72568,7 +72580,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Personagens hardcore são deletados após a morte do grupo em batalha. Tem certeza?",
+          "Value": "Se o grupo morrer em batalha, os personagens do modo Hardcore serão excluídos. Tem certeza?",
           "Key": "Hardcore characters are deleted upon the party's death in battle.  Are you sure?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72829,7 +72841,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Destreza por acúmulo.",
+          "Value": "Harmonia: +1 de Destreza por acúmulo.",
           "Key": "Harmony: +1 Dexterity per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72887,7 +72899,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Poder por acumulação.",
+          "Value": "Harmonia: +1 de Força por acúmulo.",
           "Key": "Harmony: +1 Might per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72916,7 +72928,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Reflexo por acúmulo.",
+          "Value": "Harmonia: +1 de Reflexo por acúmulo.",
           "Key": "Harmony: +1 Reflex per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -72945,7 +72957,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Harmonia: +1 Vitalidade por acúmulo.",
+          "Value": "Harmonia: +1 de Vitalidade por acúmulo.",
           "Key": "Harmony: +1 Vitality per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -73993,7 +74005,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Custo de Mana como Vida",
+          "Value": "Custo de Mana Pago com Vida",
           "Key": "Health As Mana Cost",
           "TranslatorKey": null,
           "Feminine": null,
@@ -74155,7 +74167,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Anel de Sinete",
+          "Value": "Sinete do Coração",
           "Key": "Heart Signet",
           "TranslatorKey": null,
           "Feminine": null,
@@ -75675,7 +75687,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Honra é ser verdadeiro com o melhor que se sabe.",
+          "Value": "Honra é ser fiel ao que se sabe de melhor.",
           "Key": "Honor is to be true to the best one knows.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -75873,7 +75885,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O anfitrião escolheu Tentar a Missão Novamente.",
+          "Value": "O anfitrião escolheu tentar a missão novamente.",
           "Key": "Host has chosen to Retry the Quest",
           "TranslatorKey": null,
           "Feminine": null,
@@ -75891,7 +75903,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O anfitrião escolheu Retornar à Cidade",
+          "Value": "O anfitrião escolheu retornar à cidade.",
           "Key": "Host has chosen to Return to Town",
           "TranslatorKey": null,
           "Feminine": null,
@@ -75909,7 +75921,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O anfitrião escolheu ir para a Seleção de Personagem.",
+          "Value": "O anfitrião escolheu ir para a seleção de personagem.",
           "Key": "Host has chosen to go to Character Select",
           "TranslatorKey": null,
           "Feminine": null,
@@ -75945,7 +75957,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Hospedando Jogo",
+          "Value": "Hospedando jogo",
           "Key": "Hosting Game",
           "TranslatorKey": null,
           "Feminine": null,
@@ -76269,7 +76281,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Armadilhas do Caçador",
+          "Value": "Equipamento do Caçador",
           "Key": "Hunter's Trappings",
           "TranslatorKey": null,
           "Feminine": null,
@@ -77097,7 +77109,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Eu sou... sou... fungos...",
+          "Value": "Eu sou... sou... fungo...",
           "Key": "I'm... am... fungi...",
           "TranslatorKey": null,
           "Feminine": null,
@@ -77205,7 +77217,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Eu... alimento-me!",
+          "Value": "Eu... me alimento!",
           "Key": "I..feed!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -77853,7 +77865,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Gelo em forma de estalactite",
+          "Value": "Estalactite de Gelo",
           "Key": "Icicle",
           "TranslatorKey": null,
           "Feminine": null,
@@ -77889,7 +77901,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Se você achar que as batalhas estão muito fáceis ou difíceis, você pode ajustar a dificuldade na tela de <color=#CBB396>Seleção de Grupo</color>.\n\nAumentar a dificuldade recompensa com mais saques!",
+          "Value": "Se as batalhas estiverem fáceis ou difíceis demais, você pode ajustar a dificuldade na tela de <color=#CBB396>Seleção de Grupo</color>.\n\nDificuldades maiores oferecem mais saque!",
           "Key": "If you find that battles are too easy or hard, you can adjust the difficulty on the <color=#CBB396>Party Select</color> screen.\n\nIncreased difficulty rewards more loot!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -77907,7 +77919,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Acender",
+          "Value": "Incendiar",
           "Key": "Ignite",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78242,7 +78254,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Imune a todos os efeitos de redução de movimento e repulsão.",
+          "Value": "Imune a todos os efeitos que reduzem o movimento e à repulsão.",
           "Key": "Immune to all movement impairing effects and knockback.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78368,7 +78380,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chifres de Imp",
+          "Value": "Chifres de Diabrete",
           "Key": "Imp Horns",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78582,7 +78594,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão permanentemente deletados.",
+          "Value": "No modo Hardcore, se todo o seu grupo morrer em batalha, seus personagens serão excluídos permanentemente.",
           "Key": "In Hardcore mode if your whole party dies in battle, your characters are permenately deleted.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -78600,7 +78612,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Na Festa",
+          "Value": "No grupo",
           "Key": "In Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -79518,7 +79530,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumente <b>Poder</b> em 20%.",
+          "Value": "Aumente a <b>Força</b> em 20%.",
           "Key": "Increase <b>Might</b> by 20%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -79842,7 +79854,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumente todas as <b>Resistências Elementais</b> em 8% adicionais.",
+          "Value": "Aumente todas as <b>Resistências Elementais</b> em mais 8%.",
           "Key": "Increase all <b>Elemental Resistances</b> by an additional 8%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -83052,7 +83064,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumenta o movimento de todos os aliados em até 4 hexágonos em 3.",
+          "Value": "Aumenta em 3 o movimento de todos os aliados em um raio de 4 hexágonos.",
           "Key": "Increases movement of all allies within 4 hexes by 3.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -85307,7 +85319,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dizia-se que o Rei Ladomir tinha tudo o que um homem poderia desejar antes de se voltar para a Necromancia por mais.",
+          "Value": "Dizia-se que o Rei Ladomir tinha tudo o que um homem poderia desejar antes de recorrer à necromancia em busca de mais.",
           "Key": "It was said King Ladomir had everything a man could desire before he turned to Necromancy for more.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -85865,7 +85877,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Junte-se",
+          "Value": "Entrar",
           "Key": "Join",
           "TranslatorKey": null,
           "Feminine": null,
@@ -85881,7 +85893,19 @@
       "id": "LANG-04707",
       "key": "Join  Debug",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "Entrar  Debug",
+          "Key": "Join  Debug",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-04708",
@@ -85979,7 +86003,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Carniçal da Selva",
+          "Value": "Filhote de Trepadeira da Selva",
           "Key": "Jungle Creeperling",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86015,7 +86039,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Diabo Duende da Selva",
+          "Value": "Diabo Diabrete da Selva",
           "Key": "Jungle Imp Devil",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86051,7 +86075,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ímpio Selvagem da Selva",
+          "Value": "Selvagem Diabrete da Selva",
           "Key": "Jungle Imp Savage",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86105,7 +86129,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Plantação de Esporos da Selva",
+          "Value": "Área de Esporos da Selva",
           "Key": "Jungle Spore Patch",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86278,7 +86302,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Manter Configurações?",
+          "Value": "Manter as configurações?",
           "Key": "Keep Settings?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -86296,7 +86320,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Guardião dos",
+          "Value": "do Guardião",
           "Key": "Keeper's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88327,7 +88351,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vamos nivelar o campo de jogo!",
+          "Value": "Vamos deixar as coisas mais equilibradas!",
           "Key": "Let's even the playing field!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88529,7 +88553,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mago Nível 3",
+          "Value": "Mago de nível 3",
           "Key": "Level 3 Mage",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88673,7 +88697,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Fortunas de Nível Superior",
+          "Value": "Aumentar o nível das Fortunas",
           "Key": "Level Up Fortunes",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88691,7 +88715,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Avance de Nível!",
+          "Value": "Subiu de nível!",
           "Key": "Level Up!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88799,7 +88823,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Placa Leviatã",
+          "Value": "Armadura de Placas do Leviatã",
           "Key": "Leviathan Plate",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88889,7 +88913,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Liches",
+          "Value": "do Lich",
           "Key": "Lich's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -88943,7 +88967,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vida por Acerto Básica",
+          "Value": "Vida por Acerto com Ataque Básico",
           "Key": "Life On Hit Basic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89102,7 +89126,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Roubo de Vida Leve",
+          "Value": "Roubo de Vida de Luz",
           "Key": "Life Steal Light",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89174,7 +89198,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Natureza do Roubo de Vida",
+          "Value": "Roubo de Vida de Natureza",
           "Key": "Life Steal Nature",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89588,7 +89612,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Luz, cegue-te!",
+          "Value": "Luz, cegue-o!",
           "Key": "Light, Blind you!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89660,7 +89684,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Traje Relâmpago",
+          "Value": "Traje de Relâmpago",
           "Key": "Lightning Garb",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89696,7 +89720,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Capuz Relâmpago",
+          "Value": "Capuz de Relâmpago",
           "Key": "Lightning Hood",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89750,7 +89774,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência a Relâmpagos aumentada em 15%",
+          "Value": "Resistência a Relâmpago aumentada em 15%",
           "Key": "Lightning Resistance increased by 15%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -89876,7 +89900,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envoltórios de Relâmpago",
+          "Value": "Faixas de Relâmpago",
           "Key": "Lightning Wraps",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91507,7 +91531,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Mago",
           "Key": "Magician's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -91597,7 +91621,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Magos'",
+          "Value": "do Arquimago",
           "Key": "Magus'",
           "TranslatorKey": null,
           "Feminine": null,
@@ -92555,7 +92579,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Masochismo I",
+          "Value": "Masoquismo I",
           "Key": "Masochism I",
           "TranslatorKey": null,
           "Feminine": null,
@@ -92969,7 +92993,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espadachim Mestre",
+          "Value": "Peixe-espada Mestre",
           "Key": "Master Swordfish",
           "TranslatorKey": null,
           "Feminine": null,
@@ -93077,7 +93101,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mestre dos Mestres",
+          "Value": "do Mestre",
           "Key": "Master's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -94298,7 +94322,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Poder aumentado em 5 por acúmulo.",
+          "Value": "Força aumentada em 5 por acúmulo.",
           "Key": "Might increased by 5 per stack.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95245,7 +95269,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Momento",
+          "Value": "Ímpeto",
           "Key": "Momentum",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95317,7 +95341,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Valor do Momento",
+          "Value": "Valor do Ímpeto",
           "Key": "Momentum Value",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95713,7 +95737,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Funerária",
+          "Value": "do Agente Funerário",
           "Key": "Mortician's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95875,7 +95899,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Estrela da Manhã",
+          "Value": "Estrela Lúgubre",
           "Key": "Mourning Star",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95911,7 +95935,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Designação de Mouse",
+          "Value": "Atribuição do mouse",
           "Key": "Mouse Assignment",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95929,7 +95953,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "BotãoEsquerdoDoMouse",
+          "Value": "Botão esquerdo do mouse",
           "Key": "MouseLeftButton",
           "TranslatorKey": null,
           "Feminine": null,
@@ -95983,7 +96007,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "BotãoDireitoDoMouse",
+          "Value": "Botão direito do mouse",
           "Key": "MouseRightButton",
           "TranslatorKey": null,
           "Feminine": null,
@@ -96199,7 +96223,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Avance até e ative o <b>Portal</b> para iniciar uma nova missão.",
+          "Value": "Vá até o <b>Portal</b> e ative-o para iniciar uma nova missão.",
           "Key": "Move up to, and activate the <b>Portal</b> to start a new quest.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -96865,7 +96889,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Movimento Turvo III",
+          "Value": "Movimento Confuso III",
           "Key": "Muddled Movement III",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97089,7 +97113,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pistola Mosquete",
+          "Value": "Pistola-mosquete",
           "Key": "Musket Pistol",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97201,7 +97225,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Deve completar\n<color=#CBB396><size=16>[difficulty name]</size></color>\npara desbloquear",
+          "Value": "Conclua\n<color=#CBB396><size=16>[difficulty name]</size></color>\npara desbloquear",
           "Key": "Must complete\n<color=#CBB396><size=16>[difficulty name]</size></color>\nto unlock",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97453,7 +97477,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mistério deste item realmente longo que não pode possivelmente caber",
+          "Value": "Mistério deste item tão longo que não cabe",
           "Key": "Mystery fo this really long item that can't possibly fit ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97705,7 +97729,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Navegue para Baixo",
+          "Value": "Navegar para baixo",
           "Key": "Navigate Down",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97723,7 +97747,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Navegar para Cima",
+          "Value": "Navegar para cima",
           "Key": "Navigate Up",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97903,7 +97927,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Necromante",
+          "Value": "do Necromante",
           "Key": "Necromancer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -97993,7 +98017,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Negando",
+          "Value": "Neutralizante",
           "Key": "Negating",
           "TranslatorKey": null,
           "Feminine": null,
@@ -98974,7 +98998,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Não perca mais acúmulos de Crescendo ao tocar outra música.",
+          "Value": "Você não perde mais acúmulos de Crescendo ao tocar outra canção.",
           "Key": "No longer lose Crescendo stacks when playing another song.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -99536,7 +99560,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Novato Gi",
+          "Value": "Gi de Novato",
           "Key": "Novice Gi",
           "TranslatorKey": null,
           "Feminine": null,
@@ -99608,7 +99632,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Anulando",
+          "Value": "Anulador",
           "Key": "Nullifying",
           "TranslatorKey": null,
           "Feminine": null,
@@ -99806,7 +99830,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cesto de Obsidiana",
+          "Value": "Cestus de Obsidiana",
           "Key": "Obsidian Cestus",
           "TranslatorKey": null,
           "Feminine": null,
@@ -100382,7 +100406,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Chapéu de Oliva",
+          "Value": "Chapéu Verde-oliva",
           "Key": "Olive Chapeau",
           "TranslatorKey": null,
           "Feminine": null,
@@ -100400,7 +100424,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Casaco de Oliva",
+          "Value": "Casaco Verde-oliva",
           "Key": "Olive Coat",
           "TranslatorKey": null,
           "Feminine": null,
@@ -100436,7 +100460,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Túnica de Oliva",
+          "Value": "Túnica Verde-oliva",
           "Key": "Olive Tunic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -101682,7 +101706,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ferroadas Paralisantes",
+          "Value": "Ferroada Paralisante",
           "Key": "Paralyzing Sting",
           "TranslatorKey": null,
           "Feminine": null,
@@ -101772,7 +101796,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Festa",
+          "Value": "Grupo",
           "Key": "Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -102616,7 +102640,19 @@
       "id": "LANG-05623",
       "key": "Persisting Events",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "Eventos persistentes",
+          "Key": "Persisting Events",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-05624",
@@ -102714,7 +102750,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Festa Petrificada",
+          "Value": "Grupo Petrificado",
           "Key": "Petrified Party",
           "TranslatorKey": null,
           "Feminine": null,
@@ -103470,7 +103506,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cutelo do Pirata",
+          "Value": "Sabre do Pirata",
           "Key": "Pirate's Cutlass",
           "TranslatorKey": null,
           "Feminine": null,
@@ -104559,7 +104595,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Polonês",
+          "Value": "Polir",
           "Key": "Polish",
           "TranslatorKey": null,
           "Feminine": null,
@@ -104955,7 +104991,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Poção do Poder",
+          "Value": "Poção de Força",
           "Key": "Potion of Might",
           "TranslatorKey": null,
           "Feminine": null,
@@ -105261,7 +105297,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Globulo de Poder",
+          "Value": "Glóbulo de Poder",
           "Key": "Power Globule",
           "TranslatorKey": null,
           "Feminine": null,
@@ -105819,7 +105855,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Trapo Primitivo",
+          "Value": "Trapos Primitivos",
           "Key": "Primitive Rags",
           "TranslatorKey": null,
           "Feminine": null,
@@ -106273,7 +106309,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Capuz do Aprendiz",
+          "Value": "Boné do Aprendiz",
           "Key": "Pupil's Cap",
           "TranslatorKey": null,
           "Feminine": null,
@@ -106435,7 +106471,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Punho Tremor",
+          "Value": "Punho Tremulante",
           "Key": "Quaking Fist",
           "TranslatorKey": null,
           "Feminine": null,
@@ -106543,7 +106579,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Missão Completa!",
+          "Value": "Missão concluída!",
           "Key": "Quest Complete!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -106579,7 +106615,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Missão Fracassada",
+          "Value": "Missão Falhou",
           "Key": "Quest Failed",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107443,7 +107479,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocar Capanga Esquelético",
+          "Value": "Erguer Capanga Esquelético",
           "Key": "Raise Skeletal Henchman",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107623,7 +107659,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Erguer Mago Morto-Vivo",
+          "Value": "Erguer Mago Morto-vivo",
           "Key": "Raise Undead Wizard",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107641,7 +107677,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Erga um Poderoso Golem de Ferro para lutar por você.",
+          "Value": "Erga um poderoso Golem de Ferro para lutar por você.",
           "Key": "Raise a Mighty Iron Golem to fight for you.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107659,7 +107695,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Erga um Feiticeiro Morto-vivo para lutar ao seu lado.",
+          "Value": "Erga um Mago Morto-vivo para lutar ao seu lado.",
           "Key": "Raise a Undead Wizard to fight by your side.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107803,7 +107839,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance",
+          "Value": "Acréscimo de Alcance",
           "Key": "Range Adder",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107821,7 +107857,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance Básico",
+          "Value": "Acréscimo Básico de Alcance",
           "Key": "Range Adder Basic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107857,7 +107893,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance de Fogo",
+          "Value": "Acréscimo de Alcance de Fogo",
           "Key": "Range Adder Fire",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107893,7 +107929,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance Relâmpago",
+          "Value": "Acréscimo de Alcance de Relâmpago",
           "Key": "Range Adder Lightning",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107911,7 +107947,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance Físico",
+          "Value": "Acréscimo de Alcance Físico",
           "Key": "Range Adder Physical",
           "TranslatorKey": null,
           "Feminine": null,
@@ -107929,7 +107965,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adicionador de Alcance Sombrio",
+          "Value": "Acréscimo de Alcance Sombrio",
           "Key": "Range Adder Shadow",
           "TranslatorKey": null,
           "Feminine": null,
@@ -108217,7 +108253,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espada Rápida",
+          "Value": "Florete",
           "Key": "Rapier",
           "TranslatorKey": null,
           "Feminine": null,
@@ -109666,7 +109702,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Diabrete Soprador de Fogo",
+          "Value": "Diabrete Vermelho Soprador de Fogo",
           "Key": "Red Imp Firebreather",
           "TranslatorKey": null,
           "Feminine": null,
@@ -109684,7 +109720,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Diabrete Sapador Vermelho",
+          "Value": "Diabrete Vermelho Sapador",
           "Key": "Red Imp Sapper",
           "TranslatorKey": null,
           "Feminine": null,
@@ -109702,7 +109738,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escaramuçador Diabrete Vermelho",
+          "Value": "Diabrete Vermelho Escaramuçador",
           "Key": "Red Imp Skirmisher",
           "TranslatorKey": null,
           "Feminine": null,
@@ -110871,7 +110907,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Fedorento! Bah!",
+          "Value": "Que fedor! Bah!",
           "Key": "Reek Bah!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -111393,7 +111429,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Reembolsar Tudo",
+          "Value": "Reembolsar tudo",
           "Key": "Refund All",
           "TranslatorKey": null,
           "Feminine": null,
@@ -111818,7 +111854,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Relocalizar",
+          "Value": "Realocar",
           "Key": "Relocate",
           "TranslatorKey": null,
           "Feminine": null,
@@ -111836,7 +111872,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pontos Restantes 3",
+          "Value": "Pontos restantes: 3",
           "Key": "Remaining Points 3",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112218,7 +112254,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Remove todos os efeitos de status negativos. Pode ser usado quando Desabilitado.",
+          "Value": "Remove todos os efeitos de status negativos. Pode ser usado quando estiver Desabilitado.",
           "Key": "Removes all negative status effects.  Can be used when Disabled.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112326,7 +112362,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Remove o custo de AP de todas as habilidades de invocação.",
+          "Value": "Remove o custo de PA de todas as habilidades de invocação.",
           "Key": "Removes the AP cost from all summoning skills.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112488,7 +112524,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Requisitos Não Atendidos",
+          "Value": "Requisitos não atendidos",
           "Key": "Requirements Not Met",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112596,7 +112632,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sortear Novamente os Modificadores",
+          "Value": "Rerolar Modificadores",
           "Key": "Reroll Modifiers",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112632,7 +112668,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Role novamente uma habilidade",
+          "Value": "Rerolar uma habilidade",
           "Key": "Reroll a skill",
           "TranslatorKey": null,
           "Feminine": null,
@@ -112650,7 +112686,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Role novamente uma habilidade!",
+          "Value": "Rerolar uma habilidade!",
           "Key": "Reroll a skill!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -113032,7 +113068,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistir Físico",
+          "Value": "Resistência Física",
           "Key": "Resist Physical",
           "TranslatorKey": null,
           "Feminine": null,
@@ -113317,7 +113353,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Restaure vida e mana.",
+          "Value": "Restaure a vida e a mana.",
           "Key": "Restore health and mana.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -114812,7 +114848,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Erga-se, Campeão! Traga-me o sangue deles.",
+          "Value": "Erga-se, campeão! Traga-me o sangue deles.",
           "Key": "Rise Champion! Bring me their blood.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -114848,7 +114884,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Surgi, demônios, tragam-me suas almas!",
+          "Value": "Ergam-se, demônios! Tragam-me suas almas!",
           "Key": "Rise fiends, Bring me their souls!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -114956,7 +114992,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Doença Ritualistica",
+          "Value": "Doença Ritualística",
           "Key": "Ritual Sickness",
           "TranslatorKey": null,
           "Feminine": null,
@@ -114992,7 +115028,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Rio Musgo",
+          "Value": "Musgo-do-rio",
           "Key": "River Moss",
           "TranslatorKey": null,
           "Feminine": null,
@@ -115262,7 +115298,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Personagens de roguelike devem estar dentro de [level value] níveis um do outro!",
+          "Value": "Personagens no modo roguelike devem estar a no máximo [level value] níveis uns dos outros!",
           "Key": "Roguelike characters must be within [level value] levels of eachother!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -115712,7 +115748,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ruella, a Mestre dos Cães",
+          "Value": "Ruella, Mestre dos Cães",
           "Key": "Ruella, the Houndmaster",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116360,7 +116396,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sultão da Areia Simitar",
+          "Value": "Cimitarra do Sultão das Areias",
           "Key": "Sand Sultan Simitar",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116450,7 +116486,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Enrolado do Sultão das Areias",
+          "Value": "Manto do Sultão das Areias",
           "Key": "Sand Sultan Wrap",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116558,7 +116594,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Mancha do Sábio Sanguíneo",
+          "Value": "Mancha de Sábio Sanguíneo",
           "Key": "Sanguine Sage Patch",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116594,7 +116630,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Cesto de Safira",
+          "Value": "Cestus de Safira",
           "Key": "Sapphire Cestus",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116630,7 +116666,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Machado de Alabarda de Safira",
+          "Value": "Machado de haste de Safira",
           "Key": "Sapphire Poleaxe",
           "TranslatorKey": null,
           "Feminine": null,
@@ -116915,7 +116951,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Salvador",
+          "Value": "do Salvador",
           "Key": "Savior's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -117315,7 +117351,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aura do Selo de Força",
+          "Value": "Aura do Selo da Força",
           "Key": "Seal of Might Aura",
           "TranslatorKey": null,
           "Feminine": null,
@@ -117405,7 +117441,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Procure pelo Castelo pelo <b>O Bobo da Corte</b>, e ponha um fim à sua maldade.",
+          "Value": "Procure no Castelo por <b>O Bobo da Corte</b> e ponha fim à sua maldade.",
           "Key": "Search the Castle for <b>The Jester</b>, and bring an end to his evil.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -117891,7 +117927,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Selecione uma <b>Aba de Habilidade</b> para exibir as habilidades na sua árvore.",
+          "Value": "Selecione uma <b>Aba de Habilidades</b> para exibir as habilidades na árvore correspondente.",
           "Key": "Select a <b>Skill Tab</b> to display the skills in it's tree.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118089,7 +118125,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Auto-dúvida",
+          "Value": "Autodúvida",
           "Key": "Self Doubt",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118143,7 +118179,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envie Ouro",
+          "Value": "Enviar Ouro",
           "Key": "Send Gold",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118341,7 +118377,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aura Serafim",
+          "Value": "Aura de Serafim",
           "Key": "Seraph Aura",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118359,7 +118395,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Santuário Serafim",
+          "Value": "Santuário de Serafim",
           "Key": "Seraph Shrine",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118377,7 +118413,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Esturjão Serpente",
+          "Value": "Esturjão-serpente",
           "Key": "Serpant Sturgeon",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118431,7 +118467,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Definir Todos os Atributos para o Mais Alto",
+          "Value": "Definir todos os atributos com o valor mais alto",
           "Key": "Set All Attributes To Highest",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118701,7 +118737,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Caminhada Sombria",
+          "Value": "Caminhar nas Sombras",
           "Key": "Shadow Walk",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118820,7 +118856,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade Sombria aumentado em [12]%",
+          "Value": "Dano de habilidades de Sombra aumentado em [12]%",
           "Key": "Shadow skill damage increased by [12]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118838,7 +118874,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade Sombria aumentado em [15]%",
+          "Value": "Dano de habilidades de Sombra aumentado em [15]%",
           "Key": "Shadow skill damage increased by [15]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118856,7 +118892,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade Sombria aumentado em [3]%",
+          "Value": "Dano de habilidades de Sombra aumentado em [3]%",
           "Key": "Shadow skill damage increased by [3]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118892,7 +118928,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano da habilidade Sombria aumentado em [6]%",
+          "Value": "Dano de habilidades de Sombra aumentado em [6]%",
           "Key": "Shadow skill damage increased by [6]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -118928,7 +118964,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Dano de habilidade sombria aumentado em [9]%",
+          "Value": "Dano de habilidades de Sombra aumentado em [9]%",
           "Key": "Shadow skill damage increased by [9]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119036,7 +119072,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sombras... têm... um bom gosto!",
+          "Value": "Sombras... têm... gosto bom!",
           "Key": "Shadows... taste... good!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119054,7 +119090,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Armadura Corporal Espreitador das Sombras",
+          "Value": "Armadura corporal do Espreitador das Sombras",
           "Key": "Shadowstalker Body Armor",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119360,7 +119396,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação em Lobisomem Feroz",
+          "Value": "Transformação em Lobisomem Atroz",
           "Key": "Shapeshift Dire Werewolf",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119450,7 +119486,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Morcego Vampiro Metamorfo",
+          "Value": "Transformação em Morcego Vampiro",
           "Key": "Shapeshift Vampire Bat",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119648,7 +119684,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação: Parente do Dragão Negro",
+          "Value": "Transformação: Dragão Negro",
           "Key": "Shapeshift: Black Dragonkin",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119702,7 +119738,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação: Lobisomem Feroz",
+          "Value": "Transformação: Lobisomem Atroz",
           "Key": "Shapeshift: Dire Werewolf",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119720,7 +119756,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação: Parente do Dragão Verde",
+          "Value": "Transformação: Dragão Verde",
           "Key": "Shapeshift: Green Dragonkin",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119738,7 +119774,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação: Parente do Dragão Vermelho",
+          "Value": "Transformação: Dragão Vermelho",
           "Key": "Shapeshift: Red Dragonkin",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119792,7 +119828,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformação: Parente do Dragão Branco",
+          "Value": "Transformação: Dragão Branco",
           "Key": "Shapeshift: White Dragonkin",
           "TranslatorKey": null,
           "Feminine": null,
@@ -119846,7 +119882,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Transformado em um Lobisomem Feroz. Ataque básico fortalecido. Recebe novas habilidades. Saúde Máxima aumentada em 30%.",
+          "Value": "Transformado em um Lobisomem Atroz. Ataque básico fortalecido. Recebe novas habilidades. Saúde Máxima aumentada em 30%.",
           "Key": "Shapeshifted into a Dire Werewolf. Basic attack empowered. Gain new abilities. Max Health increased by 30%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -120462,7 +120498,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escudo da Luz Valor",
+          "Value": "Valor do Escudo da Luz",
           "Key": "Shield Of Light Value",
           "TranslatorKey": null,
           "Feminine": null,
@@ -120498,7 +120534,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Escudo da Retribuição Valor Inicial",
+          "Value": "Valor inicial do Escudo da Retribuição",
           "Key": "Shield Of Retribution Start Value",
           "TranslatorKey": null,
           "Feminine": null,
@@ -121733,7 +121769,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Veia de Prata",
+          "Value": "Veio de Prata",
           "Key": "Silver Vein",
           "TranslatorKey": null,
           "Feminine": null,
@@ -121751,7 +121787,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Machado com Borda de Prata",
+          "Value": "Machado com fio de prata",
           "Key": "Silver-Edged Axe",
           "TranslatorKey": null,
           "Feminine": null,
@@ -121769,7 +121805,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Adaga de Borda Prateada",
+          "Value": "Adaga com fio prateado",
           "Key": "Silver-Edged Dagger",
           "TranslatorKey": null,
           "Feminine": null,
@@ -121805,7 +121841,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Espada Curta de Prata Afiada",
+          "Value": "Espada curta com fio prateado",
           "Key": "Silver-Edged Shortsword",
           "TranslatorKey": null,
           "Feminine": null,
@@ -122165,7 +122201,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Atirador Esquelético Preciso",
+          "Value": "Atirador de elite esquelético",
           "Key": "Skeletal Sharpshooter",
           "TranslatorKey": null,
           "Feminine": null,
@@ -123218,7 +123254,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Andarilho da Pele",
+          "Value": "Metamorfo",
           "Key": "Skin Walker",
           "TranslatorKey": null,
           "Feminine": null,
@@ -123290,7 +123326,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Maça Caveira",
+          "Value": "Maça com caveira",
           "Key": "Skull Mace",
           "TranslatorKey": null,
           "Feminine": null,
@@ -123715,7 +123751,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Martelo de Aríete",
+          "Value": "Marreta",
           "Key": "Sledge Hammer",
           "TranslatorKey": null,
           "Feminine": null,
@@ -123841,7 +123877,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Imunidade Lenta",
+          "Value": "Imunidade a Lentidão",
           "Key": "Slow Immunity",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124392,7 +124428,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tanto faz por uma luta justa!",
+          "Value": "Que luta justa, hein!",
           "Key": "So much for a fair fight!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124731,7 +124767,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "As músicas não limpam mais o Crescendo umas das outras.",
+          "Value": "Tocar outra canção não remove mais os acúmulos de Crescendo.",
           "Key": "Songs no longer clear each other's Crescendo.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -124796,7 +124832,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Feiticeiro",
           "Key": "Sorcerer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -125948,7 +125984,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Empilhar",
+          "Value": "Acúmulo",
           "Key": "Stack",
           "TranslatorKey": null,
           "Feminine": null,
@@ -126258,7 +126294,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Iniciar Batalha Pontos de Movimento Livre",
+          "Value": "Pontos de Movimento Livre no Início da Batalha",
           "Key": "Start Battle Free Movement Points",
           "TranslatorKey": null,
           "Feminine": null,
@@ -126384,7 +126420,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Alterações de Status se Equipado",
+          "Value": "Alterações nos atributos ao equipar",
           "Key": "Stat Changes If Equipped",
           "TranslatorKey": null,
           "Feminine": null,
@@ -126863,7 +126899,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Anfitrião a Vapor",
+          "Value": "Anfitrião Steam",
           "Key": "Steam Host",
           "TranslatorKey": null,
           "Feminine": null,
@@ -127205,7 +127241,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Envoltórios de Pedra",
+          "Value": "Faixas de Pedra",
           "Key": "Stone Wraps",
           "TranslatorKey": null,
           "Feminine": null,
@@ -127511,7 +127547,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tempestade II",
+          "Value": "Portador da Tempestade II",
           "Key": "Stormbringer II",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128123,7 +128159,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Submeter sua vontade àqueles que não podem resistir?",
+          "Value": "Impor sua vontade àqueles que não podem resistir?",
           "Key": "Subjecting your will upon those who cannot resist?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128717,7 +128753,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocar Saúde",
+          "Value": "Saúde das Invocações",
           "Key": "Summon Health",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128735,7 +128771,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocar Vida Fixa",
+          "Value": "Saúde das Invocações (valor fixo)",
           "Key": "Summon Health Flat",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128753,7 +128789,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [10]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [10]%.",
           "Key": "Summon Health increased by [10]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128771,7 +128807,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [12]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [12]%.",
           "Key": "Summon Health increased by [12]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128789,7 +128825,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [4]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [4]%.",
           "Key": "Summon Health increased by [4]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128807,7 +128843,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [6]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [6]%.",
           "Key": "Summon Health increased by [6]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -128825,7 +128861,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento de [8]% na Saúde Invocada",
+          "Value": "Aumenta a Saúde das Invocações em [8]%.",
           "Key": "Summon Health increased by [8]%",
           "TranslatorKey": null,
           "Feminine": null,
@@ -129977,7 +130013,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aumento da saúde invocada.",
+          "Value": "Saúde das invocações aumentada.",
           "Key": "Summon health increased.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130049,7 +130085,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência à invocação aumentada",
+          "Value": "Resistência das invocações aumentada",
           "Key": "Summon resistance increased",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130067,7 +130103,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Resistência à invocação aumentada em 5%.",
+          "Value": "Resistência das invocações aumentada em 5%.",
           "Key": "Summon resistance increased by 5%.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130103,7 +130139,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invocador de",
+          "Value": "do Invocador",
           "Key": "Summoner's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130319,7 +130355,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invoca um Lobo Feroz para lutar por você.",
+          "Value": "Invoca um Lobo Atroz para lutar por você.",
           "Key": "Summons a Dire Wolf to fight for you.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -130427,7 +130463,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Invoca um Lobo Silvestre para lutar por você.",
+          "Value": "Invoca um Lobo Cinzento para lutar por você.",
           "Key": "Summons a Timber Wolf to fight for you",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132386,7 +132422,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Pegue o livro de feitiços para si mesmo.",
+          "Value": "Pegue o livro de feitiços para você.",
           "Key": "Take the spellbook for yourself.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132710,7 +132746,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Domadores",
+          "Value": "do Domador",
           "Key": "Tamer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -132782,7 +132818,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Alvo de Treinamento Inútil",
+          "Value": "Alvo de Treinamento descartável",
           "Key": "Target Dummy Fodder",
           "TranslatorKey": null,
           "Feminine": null,
@@ -133533,7 +133569,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Índice de Superação da Equipe",
+          "Value": "Índice de Substituição da Equipe",
           "Key": "Team Index Override",
           "TranslatorKey": null,
           "Feminine": null,
@@ -133785,7 +133821,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Teletransporta o conjurador para a localização alvo em um relâmpago de luz sagrada. Não é afetado por modificadores de aumento de alcance.",
+          "Value": "Teletransporta o conjurador para o local escolhido com um clarão de luz sagrada. Não é afetado por modificadores de aumento de alcance.",
           "Key": "Teleports the caster to the target location in a flash holy light.  Unaffected by increased range modifiers.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -133803,7 +133839,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Teletransporta o conjurador para a localização alvo num relâmpago. Não é afetado por modificadores de aumento de alcance.",
+          "Value": "Teletransporta o conjurador para o local escolhido com um clarão de relâmpago. Não é afetado por modificadores de aumento de alcance.",
           "Key": "Teleports the caster to the target location in a flash of lightning.  Unaffected by increased range modifiers.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -133821,7 +133857,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Teletransporta o alvo para o local de sua escolha num piscar de relâmpagos. Não é afetado por modificadores de aumento de alcance.",
+          "Value": "Teletransporta o alvo para o local escolhido com um clarão de relâmpago. Não é afetado por modificadores de aumento de alcance.",
           "Key": "Teleports the target to the location of your choosing in a flash of lightning.  Unaffected by increased range modifiers.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -134307,7 +134343,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A funcionalidade <color=#CBB396>Desencalhar</color> é para aqueles que encontram bugs que travam o jogo.\n\n<b>A equipe recarregará o jogo no último ponto em que a missão foi salva</b>.\n\nVocê gostaria de prosseguir?",
+          "Value": "Use <color=#CBB396>Desencalhar</color> se algum erro travar o jogo.\n\n<b>O grupo voltará ao último ponto em que a missão foi salva</b>.\n\nDeseja continuar?",
           "Key": "The <color=#CBB396>Unstuck</color> feature is for those who encounter bugs that lock up the game.  \n\n<b>The party will reload the game at the last point the quest was saved</b>.\n\nWould you like to proceed?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -134775,7 +134811,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O Criomante utiliza feitiços opressores de gelo para desacelerar e congelar seus inimigos, parando-os em seus caminhos.",
+          "Value": "A Criomante usa feitiços de gelo opressivos para desacelerar e congelar seus inimigos, detendo-os no lugar.",
           "Key": "The Cryomancer uses oppressive frost spells to slow and freeze her foes stopping them in their tracks.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -134883,7 +134919,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O elo do Morto com este mundo se enfraquece. Restam mais [0] rodada(s).",
+          "Value": "O elo do Morto com este mundo se enfraquece. Rodadas restantes: [0].",
           "Key": "The Dead One's tether to this world wanes.  Lasts [0] more round(s).",
           "TranslatorKey": null,
           "Feminine": null,
@@ -135099,7 +135135,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "A Batalha Eterna se enfurece!",
+          "Value": "A Batalha Eterna continua!",
           "Key": "The Eternal Battle rages!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -135621,7 +135657,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "O Monge é um poderoso artista marcial com a habilidade de mover inimigos, puxando-os e derrubando-os de seus lugares.",
+          "Value": "O Monge é um poderoso artista marcial capaz de deslocar inimigos, puxando-os e tirando-os de posição.",
           "Key": "The Monk is a powerful martial artist with the ability to move enemies around, pulling them and knocking them out of place.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -138883,7 +138919,19 @@
       "id": "LANG-07591",
       "key": "The shrine to the Merqueen undulates before you. The sirens beautiful melody calls for you to enter, promising glory, gold and companionship.",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "O santuário da Rainha das Sereias ondula diante de você. A bela melodia das sereias chama você a entrar, prometendo glória, ouro e companhia.",
+          "Key": "The shrine to the Merqueen undulates before you. The sirens beautiful melody calls for you to enter, promising glory, gold and companionship.",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-07592",
@@ -141152,7 +141200,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Força Trovão",
+          "Value": "Força do Trovão",
           "Key": "Thunderforce",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141260,7 +141308,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Níveis 4 & 5 Em Breve",
+          "Value": "Níveis 4 e 5 em breve",
           "Key": "Tier 4 & 5 Coming Soon",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141350,7 +141398,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tier [tier value] [skill type] Habilidade Ativa",
+          "Value": "Habilidade ativa de [skill type] de nível [tier value]",
           "Key": "Tier [tier value] [skill type] Active Skill",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141368,7 +141416,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Tier [tier value] [skill type] Habilidade Passiva",
+          "Value": "Habilidade passiva de [skill type] de nível [tier value]",
           "Key": "Tier [tier value] [skill type] Passive Skill",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141458,7 +141506,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Lobo Alfa da Madeira",
+          "Value": "Lobo Cinzento Alfa",
           "Key": "Timber Wolf Alpha",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141656,7 +141704,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Hierofante Tlaloc",
+          "Value": "Hierofante de Tlaloc",
           "Key": "Tlaloc Hierophant",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141692,7 +141740,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Místico Tlaloc",
+          "Value": "Místico de Tlaloc",
           "Key": "Tlaloc Mystic",
           "TranslatorKey": null,
           "Feminine": null,
@@ -141822,7 +141870,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Para adicionar um personagem à <b>Equipe</b>, selecione um <b>Quadrado de Personagem</b>.\n\nA <b>dificuldade</b> aumenta conforme o número de personagens na sua equipe.",
+          "Value": "Para adicionar um personagem ao <b>grupo</b>, selecione o <b>cartão do personagem</b>.\n\nA <b>dificuldade</b> se ajusta ao número de personagens do grupo.",
           "Key": "To add a character to the <b>Party</b>, select a <b>Character Tile</b>.\n\n<b>Difficulty</b> scales with the number of characters in your party.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -142020,7 +142068,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Campo de Cogumelos Venenosos",
+          "Value": "Área de Cogumelos Venenosos",
           "Key": "Toadstool Patch",
           "TranslatorKey": null,
           "Feminine": null,
@@ -142072,13 +142120,37 @@
       "id": "LANG-07767",
       "key": "Toggle Quest Complete ",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "Alternar missão concluída ",
+          "Key": "Toggle Quest Complete ",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-07768",
       "key": "Toggle: Middle Mouse Click",
       "presentInSource": true,
-      "entries": []
+      "entries": [
+        {
+          "Value": "Alternar: clique do botão do meio do mouse",
+          "Key": "Toggle: Middle Mouse Click",
+          "TranslatorKey": null,
+          "Feminine": null,
+          "Masculine": null,
+          "Neutral": null,
+          "LanguageGender": 0,
+          "CanBeGendered": false,
+          "NeedsGenderInfo": false
+        }
+      ]
     },
     {
       "id": "LANG-07769",
@@ -142608,7 +142680,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Treinador(a) de",
+          "Value": "do Treinador",
           "Key": "Trainer's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -144189,7 +144261,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Modo Streamer do Twitch Ativado",
+          "Value": "Modo de transmissão da Twitch ativado",
           "Key": "Twitch Streamer Mode Enabled",
           "TranslatorKey": null,
           "Feminine": null,
@@ -144704,7 +144776,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Piscina Subterrânea",
+          "Value": "Lago Subterrâneo",
           "Key": "Underground Pool",
           "TranslatorKey": null,
           "Feminine": null,
@@ -145209,7 +145281,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Desbloquear Presets Roguelike",
+          "Value": "Desbloquear predefinições roguelike",
           "Key": "Unlock Roguelike Presets",
           "TranslatorKey": null,
           "Feminine": null,
@@ -145227,7 +145299,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Desbloqueado",
+          "Value": "Desbloqueada",
           "Key": "Unlocked",
           "TranslatorKey": null,
           "Feminine": null,
@@ -145627,7 +145699,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Use uma ação selecionando seu ícone na <b>Barra de Habilidades</b>, depois selecione um alvo para lançá-la.\n\nAções requerem <b>Pontos de Ação</b> e/ou <b>Mana</b> para serem usadas.",
+          "Value": "Use uma ação selecionando seu ícone na <b>Barra de Habilidades</b> e, em seguida, selecione um alvo para usá-la.\n\nAs ações exigem <b>Pontos de Ação</b> e/ou <b>Mana</b>.",
           "Key": "Use an action by selecting it's icon in the <b>Skillbar</b>, then select a target to cast it.  \n\nActions require <b>Action Points</b> and/or <b>Mana</b> to use them.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -145843,7 +145915,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Valiosos",
+          "Value": "Itens valiosos",
           "Key": "Valuables",
           "TranslatorKey": null,
           "Feminine": null,
@@ -146956,7 +147028,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Visite o Ferreiro para forjar modificadores poderosos em seus equipamentos com materiais de criação que você encontrar durante suas aventuras.",
+          "Value": "Visite o Ferreiro para forjar modificadores poderosos no seu equipamento usando materiais de criação encontrados durante suas aventuras.",
           "Key": "Visit the Blacksmith to forge powerful modifiers on your gear with crafting materials you find throughout your adventures.  ",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148011,7 +148083,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Manopla Máquina de Guerra",
+          "Value": "Manopla da Máquina de Guerra",
           "Key": "Warmachine Gauntlet",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148209,7 +148281,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Observe enquanto seu reflexo adentra completamente neste mundo.",
+          "Value": "Observe enquanto seu reflexo entra por completo neste mundo.",
           "Key": "Watch as your reflection steps fully into this world.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148335,7 +148407,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Nós realmente não sabemos como sobreviver a esta dificuldade. Talvez você saiba?",
+          "Value": "Não sabemos bem como sobreviver a esta dificuldade. Talvez você consiga?",
           "Key": "We don’t really know how to survive this difficulty. Perhaps you will?",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148437,7 +148509,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Nós vamos pegar seu ouro agora.",
+          "Value": "Vamos pegar teu ouro agora.",
           "Key": "We'll be takin' yer gold now.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -148689,7 +148761,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ataques com armas aplicam 1 camada de sangramento.",
+          "Value": "Ataques com armas aplicam 1 acúmulo de sangramento.",
           "Key": "Weapon attacks apply 1 stack of bleeding.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -149132,7 +149204,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Arma de Escolha",
+          "Value": "Arma Favorita",
           "Key": "Weapon of Choice",
           "TranslatorKey": null,
           "Feminine": null,
@@ -149186,7 +149258,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Ui, todo o caminho até em casa!",
+          "Value": "Eba, até em casa!",
           "Key": "Wee, all the way home!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -149978,7 +150050,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+          "Value": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
           "Key": "Whenever an ally makes an action within 4 hexes of you, give 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -150007,7 +150079,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sempre que um aliado realizar uma ação dentro de 4 hexágonos de você, conceda 1 carga adicional de Harmonia a todos os aliados dentro de 4 hexágonos de você. Harmonia: Concede 1 de um atributo aleatório. Duração de 2 turnos. Cargas renovam a duração.",
+          "Value": "Sempre que um aliado a até 4 hexágonos de você realiza uma ação, todos os aliados a até 4 hexágonos de você ganham 1 acúmulo adicional de Harmonia. Cada acúmulo concede 1 ponto a um atributo aleatório por 2 turnos. Novos acúmulos renovam a duração.",
           "Key": "Whenever an ally makes an action within 4 hexes of you, give an additional 1 stack of Harmony to all allies within 4 hexes of you. Harmony: Grants 1 of a random stat. Duration 2 turns. Stacks refresh duration.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -151483,7 +151555,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Deseje por um monstro poderoso para lutar ao seu lado.",
+          "Value": "Deseje que um monstro poderoso lute ao seu lado.",
           "Key": "Wish for a powerful monster to fight by your side.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -152718,7 +152790,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Feiticeiro(a)",
+          "Value": "do Bruxo",
           "Key": "Wizard's",
           "TranslatorKey": null,
           "Feminine": null,
@@ -152862,7 +152934,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Capuz de Cabeça de Lobo",
+          "Value": "Capuz com Cabeça de Lobo",
           "Key": "Wolfshead Hood",
           "TranslatorKey": null,
           "Feminine": null,
@@ -152916,7 +152988,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Aquecedor de Madeira",
+          "Value": "Escudo Heater de Madeira",
           "Key": "Wooden Heater",
           "TranslatorKey": null,
           "Feminine": null,
@@ -153456,7 +153528,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Vós estareis afundando no Abismo!",
+          "Value": "Cês vão afundar no Abismo!",
           "Key": "Ye be sinkin' to the Abyss!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -153492,7 +153564,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você está com sorte! Sou o melhor ferreiro de armaduras de todo o Reino Roubado. Se está procurando por uma couraça resistente para manter seu peito intacto, ou um balde sólido para proteger sua cabeça, você veio ao lugar certo!",
+          "Value": "Cê tá com sorte! Sou o melhor ferreiro de armaduras de todo o Reino Roubado. Se tá procurando uma couraça resistente pra manter o peito intacto, ou um balde sólido pra proteger a cabeça, veio ao lugar certo!",
           "Key": "Yer in luck! I'm the best Armorsmith in all the Stolen Realm. If yer lookin' for a sturdy breastplate to keep your chest intact, or a solid bucket to protect your noggin', you've come to the right place!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -156329,7 +156401,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Algo aconteceu com você, só não tenho certeza do que.",
+          "Value": "Algo acontece com você, mas não sei bem o quê.",
           "Key": "You have something happen to you just not sure what",
           "TranslatorKey": null,
           "Feminine": null,
@@ -156992,7 +157064,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você deve atribuir um <color=#CBB396>Personagem</color> a este jogador antes de acessar este menu.\n\nVocê pode adicionar um <color=#CBB396>Personagem</color> à equipe abrindo o <color=#CBB396>Menu do Jogo</color> e, em seguida, selecionando <color=#CBB396>Trocar Equipe</color>.",
+          "Value": "Você precisa atribuir um <color=#CBB396>personagem</color> a este jogador antes de abrir este menu.\n\nPara adicionar um <color=#CBB396>personagem</color> ao grupo, abra o <color=#CBB396>Menu do Jogo</color> e selecione <color=#CBB396>Alterar Grupo</color>.",
           "Key": "You must assign a <color=#CBB396>Character</color> to this player before accessing this menu.  \n\nYou can add a <color=#CBB396>Character</color> to the party by opening the <color=#CBB396>Game Menu</color>, then selecting <color=#CBB396>Change Party</color>.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -157424,7 +157496,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você estende a mão e coloca a palma da sua mão sobre o Gelo.",
+          "Value": "Você estende a mão e põe a palma sobre o Gelo.",
           "Key": "You reach out and place the palm of your hand on the Ice.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -157964,7 +158036,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você deve ser curioso, não temeroso.",
+          "Value": "Você deveria estar curioso, não com medo.",
           "Key": "You should be curious, not afraid.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -159404,7 +159476,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Você redefiniu uma habilidade!",
+          "Value": "Você rerolou uma habilidade!",
           "Key": "You've rerolled a skill!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -159840,7 +159912,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Sua coragem falhou com você!",
+          "Value": "Sua coragem o abandonou!",
           "Key": "Your courage has failed you!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160362,7 +160434,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Seus próximos 3 ataques básicos não têm custo de AP.",
+          "Value": "Seus próximos 3 ataques básicos não custam PA.",
           "Key": "Your next 3 basic attacks have no AP cost.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160380,7 +160452,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Seus próximos 3 ataques básicos não têm custo de AP. Aplica {STA=Exhaustion}.",
+          "Value": "Seus próximos 3 ataques básicos não custam PA. Aplica {STA=Exhaustion}.",
           "Key": "Your next 3 basic attacks have no AP cost. Applies {STA=Exhaustion}.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -160722,7 +160794,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "Suas músicas começam com 5 acúmulos de Crescendo.",
+          "Value": "Suas canções começam com 5 acúmulos de Crescendo.",
           "Key": "Your songs start with 5 stacks of Crescendo.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161212,7 +161284,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[0] de <b>Poder</b> absorvido por acúmulo. Acumula até 10 vezes.",
+          "Value": "[0] de <b>Força</b> absorvida por acúmulo. Acumula até 10 vezes.",
           "Key": "[0] <b>Might</b> absorbed per stack.  Stacks up to 10 times.",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161864,7 +161936,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[damage type] de Dano",
+          "Value": "Dano [damage type]",
           "Key": "[damage type] Damage",
           "TranslatorKey": null,
           "Feminine": null,
@@ -161972,7 +162044,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[item prefix] [item name] [item suffix]",
+          "Value": "[item name] [item prefix] [item suffix]",
           "Key": "[item prefix] [item name] [item suffix]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -162680,7 +162752,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[name] enviou para você [value] de Ouro!",
+          "Value": "[name] enviou [value] de Ouro para você!",
           "Key": "[name] sent you [value] Gold!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -163159,7 +163231,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[player] quer iniciar um evento de festa!",
+          "Value": "[player] quer iniciar um evento de grupo!",
           "Key": "[player] wants to start a party event!",
           "TranslatorKey": null,
           "Feminine": null,
@@ -163285,7 +163357,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[source] causou [value] de Dano a [target]",
+          "Value": "[source] causou [value] de dano a [target]",
           "Key": "[source] dealt [value] Damage to [target]",
           "TranslatorKey": null,
           "Feminine": null,
@@ -163303,7 +163375,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "[source] causou [value] de Dano a si mesmo.",
+          "Value": "[source] causou [value] de dano a si mesmo",
           "Key": "[source] dealt [value] Damage to self",
           "TranslatorKey": null,
           "Feminine": null,
@@ -164079,7 +164151,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "das Espinhos",
+          "Value": "dos Espinhos",
           "Key": "of  Spines",
           "TranslatorKey": null,
           "Feminine": null,
@@ -164331,7 +164403,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "das Chamas",
+          "Value": "da Chama",
           "Key": "of Flame",
           "TranslatorKey": null,
           "Feminine": null,
@@ -164457,7 +164529,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "de Lápis",
+          "Value": "de Lápis-lazúli",
           "Key": "of Lapis",
           "TranslatorKey": null,
           "Feminine": null,
@@ -164961,7 +165033,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "dos Gigantescos",
+          "Value": "do Gigantesco",
           "Key": "of the Gargantuan",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165123,7 +165195,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "do Aprendiz",
+          "Value": "do Oficial",
           "Key": "of the Journeyman",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165285,7 +165357,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "dos Curandeiros",
+          "Value": "do Curandeiro",
           "Key": "of the Mender",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165303,7 +165375,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "da Abominação",
+          "Value": "da Monstruosidade",
           "Key": "of the Monstrosity",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165321,7 +165393,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "do Necrotério",
+          "Value": "do Agente funerário",
           "Key": "of the Mortician",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165465,7 +165537,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "do Brilho",
+          "Value": "da Centelha",
           "Key": "of the Spark",
           "TranslatorKey": null,
           "Feminine": null,
@@ -165795,7 +165867,7 @@
       "presentInSource": true,
       "entries": [
         {
-          "Value": "o Monstruo",
+          "Value": "o Monstruoso",
           "Key": "the Monstrous",
           "TranslatorKey": null,
           "Feminine": null,
