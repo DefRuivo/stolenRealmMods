@@ -6,37 +6,40 @@ static void Check(bool ok, string name)
     if (!ok) Environment.ExitCode = 1;
 }
 
-// A) Grupo nivel 15: personagem 1 e aceito e sobe ate 15.
-var d1 = CoopLevelPolicy.DecideLevelDelta(1, 15, 20);
-Check(d1.Accepted && d1.TargetLevel == 15 && d1.LevelsToGrant == 14 && !d1.CeilingLimited,
-    "aceita personagem abaixo do grupo e concede 14 niveis");
+// A) Grupo com ancora 15: personagem 1 e promovido ate 15 (14 niveis) e o jogo aceita.
+var a = CoopLevelPolicy.DecidePromotion(1, 15, 20);
+Check(a.Promote && a.TargetLevel == 15 && a.LevelsToGrant == 14 && !a.CeilingLimited,
+    "promove personagem abaixo da ancora ate a ancora");
 
-// B) Personagem 20 em grupo 15: recusado, nunca rebaixado.
-var d2 = CoopLevelPolicy.DecideLevelDelta(20, 15, 20);
-Check(!d2.Accepted && d2.TargetLevel == 20 && d2.LevelsToGrant == 0,
-    "recusa personagem acima do grupo sem rebaixar");
+// B) Personagem 20 com ancora 15: NAO e promovido nem rebaixado; a recusa e a regra do jogo.
+var b = CoopLevelPolicy.DecidePromotion(20, 15, 20);
+Check(!b.Promote && b.TargetLevel == 20 && b.LevelsToGrant == 0, "acima da ancora nao promove e nunca rebaixa");
 
-// C) Igual ao minimo: aceito, zero niveis.
-var d3 = CoopLevelPolicy.DecideLevelDelta(15, 15, 20);
-Check(d3.Accepted && d3.LevelsToGrant == 0, "aceita nivel igual sem conceder nada");
+// C) Igual a ancora: nada a fazer.
+var c = CoopLevelPolicy.DecidePromotion(15, 15, 20);
+Check(!c.Promote && c.LevelsToGrant == 0, "nivel igual a ancora nao gera promocao");
 
-// D) Grupo acima do teto do jogo: promove ate o teto e marca ceiling.
-var d4 = CoopLevelPolicy.DecideLevelDelta(10, 25, 20);
-Check(d4.Accepted && d4.TargetLevel == 20 && d4.LevelsToGrant == 10 && d4.CeilingLimited,
-    "grupo acima do teto promove so ate o teto e marca ceiling_limited");
+// D) Ancora acima do teto do jogo: promove ate o teto e marca ceiling.
+var d = CoopLevelPolicy.DecidePromotion(10, 25, 20);
+Check(d.Promote && d.TargetLevel == 20 && d.LevelsToGrant == 10 && d.CeilingLimited,
+    "ancora acima do teto promove so ate o teto e marca ceiling_limited");
 
-// E) Sem grupo anterior (minimo 0): aceita, zero niveis.
-var d5 = CoopLevelPolicy.DecideLevelDelta(3, 0, 20);
-Check(d5.Accepted && d5.LevelsToGrant == 0, "aceita sem concessao quando nao ha grupo anterior");
+// E) Sem ancora (grupo vazio): nada acontece.
+var e = CoopLevelPolicy.DecidePromotion(3, 0, 20);
+Check(!e.Promote && e.LevelsToGrant == 0, "sem ancora nao promove");
 
-// F) Grupo com muitos membros: promove ate o menor nivel.
+// F) Entre minimo e ancora: quem manda e o jogo (nao mexemos no nivel).
+var f = CoopLevelPolicy.DecidePromotion(11, 10, 20);
+Check(!f.Promote && f.TargetLevel == 11, "acima da ancora dentro da tolerancia fica com a regra nativa");
+
+// G) Grupo com varios membros: minimo, maximo e promocao ate a ancora.
 var levels = new[] { 15, 18, 22 };
 Check(CoopLevelPolicy.GroupMinimum(levels) == 15, "minimo do grupo e o menor nivel");
 Check(CoopLevelPolicy.GroupMaximum(levels) == 22, "maximo do grupo e o maior nivel");
-var d6 = CoopLevelPolicy.DecideLevelDelta(5, CoopLevelPolicy.GroupMinimum(levels), 20);
-Check(d6.Accepted && d6.TargetLevel == 15 && d6.LevelsToGrant == 10, "membro 5 entra no nivel 15 mesmo com membros 18 e 22");
+var g = CoopLevelPolicy.DecidePromotion(5, 15, 20);
+Check(g.Promote && g.TargetLevel == 15 && g.LevelsToGrant == 10, "membro 5 sobe ate a ancora 15");
 
-// G) Lista vazia ou nula nao inventa nivel.
+// H) Lista vazia ou nula nao inventa nivel.
 Check(CoopLevelPolicy.GroupMinimum(Array.Empty<int>()) == 0, "grupo vazio devolve minimo 0");
 Check(CoopLevelPolicy.GroupMinimum(null!) == 0, "grupo nulo devolve minimo 0");
 

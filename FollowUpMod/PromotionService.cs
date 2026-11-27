@@ -4,33 +4,38 @@ using System.Collections.Generic;
 namespace FollowUpMod
 {
     /// <summary>
-    /// Sobe o nivel efetivo do personagem ate o minimo do grupo (nunca rebaixa) e enfileira
-    /// as recompensas nativas de nivel (Skills/Itens/Atributos) uma unica vez por grupo.
+    /// Sobe o NIVEL do personagem ate a ancora do grupo (nunca rebaixa) e enfileira as
+    /// recompensas nativas de nivel (Skills/Itens/Atributos) uma unica vez por grupo.
+    ///
+    /// Unidades (medido em 1.4.9): `ExperienceLevel` e o NIVEL em float
+    /// (`CalculatedExperienceLevel => Mathf.Max(ExperienceLevel, 1f)`, `Level => FloorToInt(...)`);
+    /// o espaco de XP e `Experience`. Gravar `GetExperienceFloorForLevel(n)` em ExperienceLevel
+    /// jogaria o nivel para milhares - por isso a atribuicao e direta.
     /// </summary>
     internal static class PromotionService
     {
         private static readonly object Gate = new object();
-        private static readonly Dictionary<Character, int> PromotedForGroupMin =
+        private static readonly Dictionary<Character, int> PromotedForTarget =
             new Dictionary<Character, int>(ReferenceComparer<Character>.Instance);
 
         internal static void Promote(Character character, int targetLevel, int levelsToGrant, bool ceilingLimited)
         {
             lock (Gate)
             {
-                if (PromotedForGroupMin.TryGetValue(character, out int alreadyFor) && alreadyFor == targetLevel)
+                if (PromotedForTarget.TryGetValue(character, out int alreadyFor) && alreadyFor == targetLevel)
                 {
                     FollowUpModPlugin.Log.LogInfo("FU: promocao ja aplicada neste grupo");
                     return;
                 }
-                PromotedForGroupMin[character] = targetLevel;
+                PromotedForTarget[character] = targetLevel;
             }
 
             float original = character.ExperienceLevel;
-            float target = Character.GetExperienceFloorForLevel(targetLevel);
-            SessionGuard.MarkPromoted(character, original, target);
-            if (character.ExperienceLevel < target) character.ExperienceLevel = target;
-            FollowUpModPlugin.Log.LogInfo("FU: promovido " + original + "->" + character.ExperienceLevel
-                + " niveis=" + levelsToGrant + (ceilingLimited ? " ceiling_limited" : ""));
+            SessionGuard.MarkPromoted(character, original, targetLevel);
+            character.ExperienceLevel = targetLevel;
+            FollowUpModPlugin.Log.LogInfo("FU: promovido nivel " + original + "->" + character.ExperienceLevel
+                + " (Level=" + character.Level + ") niveis=" + levelsToGrant
+                + (ceilingLimited ? " ceiling_limited" : ""));
 
             EnqueueRewards(character);
         }
@@ -49,7 +54,7 @@ namespace FollowUpMod
 
         internal static void Reset()
         {
-            lock (Gate) PromotedForGroupMin.Clear();
+            lock (Gate) PromotedForTarget.Clear();
         }
 
         private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class

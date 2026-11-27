@@ -75,11 +75,27 @@ namespace FollowUpMod
             try { Marks.Remove(character); } catch { }
         }
 
-        internal static void ForgetAll()
+        /// <summary>
+        /// Devolve o nivel original a cada personagem marcado e so entao descarta a marca.
+        /// Ordem importa: esquecer antes de restaurar deixaria o nivel promovido vivo e
+        /// qualquer save posterior o gravaria.
+        /// </summary>
+        internal static void RestoreAllAndForget()
         {
             var keys = new List<Character>();
             foreach (var entry in Marks) keys.Add(entry.Key);
-            foreach (var key in keys) Forget(key);
+            foreach (var key in keys)
+            {
+                try
+                {
+                    if (Marks.TryGetValue(key, out var mark)) key.ExperienceLevel = mark.OriginalExperienceLevel;
+                }
+                catch (System.Exception ex)
+                {
+                    FollowUpModPlugin.Log.LogWarning("FU: restauracao falhou (" + key.GetType().Name + "): " + ex.GetType().Name);
+                }
+                Forget(key);
+            }
         }
     }
 }

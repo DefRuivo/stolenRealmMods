@@ -3,69 +3,46 @@ using System;
 namespace FollowUpMod
 {
     /// <summary>
-    /// Decide e prepara a entrada do personagem no grupo de co-op. Roda no PREFIXO do
-    /// toggle nativo: a promocao acontece ANTES de o gate original comparar os niveis,
-    /// senao o proprio jogo recusaria o personagem por MaxLevelVariance.
+    /// Prepara a entrada do personagem no grupo de co-op. Roda no PREFIXO do toggle nativo:
+    /// promove ANTES de o jogo comparar os niveis (promover depois seria tarde), e nao decide
+    /// aceitacao - quem aceita ou recusa continua sendo o jogo, com a regra original.
     /// </summary>
     internal static class SelectionGate
     {
-        internal static bool TryEnter(CharacterChoiceManager manager)
+        internal static void Prepare(CharacterChoiceManager manager)
         {
             try
             {
                 var candidate = manager != null && manager.selectedCharacterChoiceItem != null
                     ? manager.selectedCharacterChoiceItem.Character
                     : null;
-                if (candidate == null || candidate.SelectedForBattle) return true;
-
-                var snapshot = GroupAnchors.Read(candidate);
-                if (snapshot.Reason == "root_missing" || snapshot.Reason == "candidate_missing")
-                {
-                    FollowUpModPlugin.Log.LogInfo("FU: estado do grupo ilegivel (" + snapshot.Reason + "); vanilla");
-                    return true;
-                }
+                if (candidate == null || candidate.SelectedForBattle) return;
 
                 var ctx = Context.Read();
-                if (!ctx.IsMultiplayer)
+                if (!ctx.IsMultiplayer) { FollowUpModPlugin.Log.LogInfo("FU: inerte (not_multiplayer)"); return; }
+                if (!ctx.IsRoguelike) { FollowUpModPlugin.Log.LogInfo("FU: inerte (not_roguelike)"); return; }
+                if (!ctx.HostAnnouncesRule) { FollowUpModPlugin.Log.LogInfo("FU: host sem regra (" + CoopLevelPolicy.LobbyKey + "); vanilla"); return; }
+
+                var snapshot = GroupAnchors.Read(candidate);
+                if (snapshot.AnchorLevel <= 0)
                 {
-                    FollowUpModPlugin.Log.LogInfo("FU: gate inerte (not_multiplayer)");
-                    return true;
-                }
-                if (!ctx.IsRoguelike)
-                {
-                    FollowUpModPlugin.Log.LogInfo("FU: gate inerte (not_roguelike)");
-                    return true;
-                }
-                if (!ctx.HostAnnouncesRule)
-                {
-                    FollowUpModPlugin.Log.LogInfo("FU: host sem regra (" + CoopLevelPolicy.LobbyKey + "); vanilla");
-                    return true;
+                    FollowUpModPlugin.Log.LogInfo("FU: sem ancora de grupo (" + snapshot.Reason + "); nada a adequar");
+                    return;
                 }
 
-                int groupMin = CoopLevelPolicy.GroupMinimum(snapshot.OtherCharacterLevels);
-                if (groupMin <= 0) groupMin = (int)candidate.Level; // sem grupo anterior: nada a adequar
                 int ceiling = (int)candidate.MaxLevel;
-                var decision = CoopLevelPolicy.DecideLevelDelta((int)candidate.Level, groupMin, ceiling);
-                FollowUpModPlugin.Log.LogInfo("FU: gate nivel=" + candidate.Level + " grupoMin=" + groupMin
-                    + " aceito=" + decision.Accepted + " delta=" + decision.LevelsToGrant
+                var decision = CoopLevelPolicy.DecidePromotion((int)candidate.Level, snapshot.AnchorLevel, ceiling);
+                FollowUpModPlugin.Log.LogInfo("FU: gate nivel=" + candidate.Level + " ancora=" + snapshot.AnchorLevel
+                    + " minimo=" + CoopLevelPolicy.GroupMinimum(snapshot.OtherCharacterLevels)
+                    + " promove=" + decision.Promote + " delta=" + decision.LevelsToGrant
                     + (decision.CeilingLimited ? " ceiling_limited" : ""));
 
-                if (!decision.Accepted)
-                {
-                    ConfirmWindow.Instance.ShowPopupMessage(
-                        OptionsManager.Localize("Cannot Add To Party"),
-                        "FollowUpMod: personagem acima do nivel minimo do grupo (" + groupMin + ").");
-                    return false;
-                }
-
-                if (decision.LevelsToGrant > 0)
+                if (decision.Promote)
                     PromotionService.Promote(candidate, decision.TargetLevel, decision.LevelsToGrant, decision.CeilingLimited);
-                return true;
             }
             catch (Exception ex)
             {
                 FollowUpModPlugin.Log.LogWarning("FU: gate indisponivel, vanilla: " + ex.GetType().Name + ": " + ex.Message);
-                return true;
             }
         }
     }

@@ -2,16 +2,16 @@ using System;
 
 namespace FollowUpMod
 {
-    public readonly struct LevelDecision
+    public readonly struct PromotionDecision
     {
-        public readonly bool Accepted;
+        public readonly bool Promote;
         public readonly int TargetLevel;
         public readonly int LevelsToGrant;
         public readonly bool CeilingLimited;
 
-        public LevelDecision(bool accepted, int targetLevel, int levelsToGrant, bool ceilingLimited)
+        public PromotionDecision(bool promote, int targetLevel, int levelsToGrant, bool ceilingLimited)
         {
-            Accepted = accepted;
+            Promote = promote;
             TargetLevel = targetLevel;
             LevelsToGrant = levelsToGrant;
             CeilingLimited = ceilingLimited;
@@ -49,19 +49,18 @@ namespace FollowUpMod
         }
 
         /// <summary>
-        /// Abaixo do minimo do grupo: aceito e promovido ate o minimo (ou ate o teto do jogo).
-        /// Acima do minimo: recusado, como no jogo original. Nunca rebaixa.
+        /// Decide apenas a PROMOCAO. Quem esta abaixo da ancora do grupo sobe ate ela (ou ate o
+        /// teto do jogo); quem esta na ancora ou acima dela nao e tocado, e a aceitacao/recusa
+        /// continua sendo a regra do jogo original (MaxLevelVariance). Nunca rebaixa.
         /// </summary>
-        public static LevelDecision DecideLevelDelta(int characterLevel, int groupMinimum, int gameCeiling)
+        public static PromotionDecision DecidePromotion(int characterLevel, int anchorLevel, int gameCeiling)
         {
-            // Sem grupo anterior (minimo desconhecido/0): aceita sem conceder nada.
-            if (groupMinimum <= 0) return new LevelDecision(true, characterLevel, 0, false);
-            if (characterLevel > groupMinimum)
-                return new LevelDecision(false, characterLevel, 0, false);
-            int ceiling = gameCeiling > 0 ? gameCeiling : characterLevel;
-            int target = Math.Min(groupMinimum, ceiling);
+            if (anchorLevel <= 0) return new PromotionDecision(false, characterLevel, 0, false);
+            if (characterLevel >= anchorLevel) return new PromotionDecision(false, characterLevel, 0, false);
+            int ceiling = gameCeiling > 0 ? gameCeiling : anchorLevel;
+            int target = Math.Min(anchorLevel, ceiling);
             int levels = target > characterLevel ? target - characterLevel : 0;
-            return new LevelDecision(true, target, levels, groupMinimum > ceiling);
+            return new PromotionDecision(levels > 0, target, levels, anchorLevel > ceiling);
         }
     }
 }

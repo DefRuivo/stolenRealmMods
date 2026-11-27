@@ -5,8 +5,8 @@ using HarmonyLib;
 namespace FollowUpMod
 {
     /// <summary>
-    /// Gate de entrada no grupo: promove ANTES do toggle nativo comparar os niveis, e recusa
-    /// quem esta acima do minimo do grupo (comportamento do jogo original).
+    /// Adequa o nivel ANTES do toggle nativo comparar os niveis. Nao bloqueia nada: a
+    /// aceitacao/recusa continua sendo a regra do jogo original (MaxLevelVariance).
     /// </summary>
     [HarmonyPatch(typeof(CharacterChoiceManager))]
     internal static class SelectionGatePatch
@@ -21,13 +21,11 @@ namespace FollowUpMod
 
         [HarmonyPrefix]
         [HarmonyPriority(Priority.First)]
-        private static bool Prefix(CharacterChoiceManager __instance) => SelectionGate.TryEnter(__instance);
+        private static void Prefix(CharacterChoiceManager __instance) => SelectionGate.Prepare(__instance);
 
         [HarmonyPostfix]
-        private static void Postfix(bool __runOriginal)
+        private static void Postfix()
         {
-            // __runOriginal=false significa que o prefixo recusou: o grupo nao mudou, nao reanuncia.
-            if (!__runOriginal) return;
             if (NetworkingManager.Instance == null || !NetworkingManager.Instance.IsServer) return;
             HostAnnouncer.Publish();
         }
@@ -36,7 +34,8 @@ namespace FollowUpMod
     /// <summary>
     /// Grava o nivel original no arquivo e devolve o promovido logo depois. A profundidade
     /// corta a recursao: trocar ExperienceLevel dispara QueueCharacterSave, que chama Save()
-    /// de forma sincrona. Sem o contador, o save reentrante chamaria a si mesmo para sempre.
+    /// de forma sincrona (SaveDataThrottler.ProcessSaveData). O contador so e decrementado por
+    /// quem incrementou - o postfix roda mesmo quando o prefixo pulou a chamada.
     /// </summary>
     [HarmonyPatch(typeof(Character))]
     internal static class SaveGuardPatch
@@ -52,11 +51,13 @@ namespace FollowUpMod
         }
 
         [HarmonyPrefix]
-        private static bool Prefix(Character __instance, ref bool __state)
+        private static bool Prefix(Character __instance, ref bool __counted, ref bool __state)
         {
+            __counted = false;
             __state = false;
             if (_depth > 0) return false; // save reentrante causado pela nossa propria troca de nivel
             _depth++;
+            __counted = true;
             __state = SessionGuard.Stash(__instance);
             if (__state) FollowUpModPlugin.Log.LogInfo("FU: save com nivel original para nao persistir a promocao");
             return true;
@@ -65,21 +66,13 @@ namespace FollowUpMod
         [HarmonyPostfix]
         private static void Postfix(Character __instance, bool __state)
         {
-            try
-            {
-                if (__state) SessionGuard.RestorePromoted(__instance);
-            }
-            finally
-            {
-                if (_depth > 0) _depth--;
-            }
+            if (__state) SessionGuard.RestorePromoted(__instance);
         }
 
         [HarmonyFinalizer]
-        private static void Finalizer()
+        private static void Finalizer(bool __counted)
         {
-            // Excecao no original impede o postfix: nao deixar o contador travado.
-            _depth = 0;
+            if (__counted && _depth > 0) _depth--;
         }
     }
 
@@ -102,7 +95,11 @@ namespace FollowUpMod
         }
     }
 
-    /// <summary>Fim de sessao: descarta promocoes e recompensas desta bancada.</summary>
+    /// <summary>
+    /// Saida de sessao: devolve o nivel original aos personagens vivos e descarta as marcas.
+    /// Restaurar ANTES de esquecer e o que garante que nenhum save do encerramento grave o
+    /// nivel promovido.
+    /// </summary>
     [HarmonyPatch(typeof(NetworkingManager))]
     internal static class SessionEndPatch
     {
@@ -117,9 +114,9 @@ namespace FollowUpMod
         [HarmonyPostfix]
         private static void Postfix()
         {
+            SessionGuard.RestoreAllAndForget();
             PromotionService.Reset();
-            SessionGuard.ForgetAll();
-            FollowUpModPlugin.Log.LogInfo("FU: sessao encerrada; promocao descartada");
+            FollowUpModPlugin.Log.LogInfo("FU: sessao encerrada; nivel original restaurado");
         }
     }
 }
