@@ -68,8 +68,8 @@
     {
       "nome": "FollowUpMod",
       "publicar": true,
-      "versao_publicada": null,
-      "publicado_em": null,
+      "versao_publicada": "0.1.0",
+      "publicado_em": "2026-11-27T22:08:09.732233Z",
       "motivo": "PUBLICAR 0.1.0 (27/11/2026): PRIMEIRA publicacao do FollowUpMod (promocao em co-op por etapa, fluxo 1->18 validado em jogo pelo dono). Pacote gumatos-FollowUpMod-0.1.0.zip, pre-flight verde, dependencia apenas do BepInExPack. Envio manual: mod=FollowUpMod."
     },
     {
