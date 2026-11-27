@@ -35,7 +35,7 @@ var patchClasses = types
 
 var hooks = types
     .SelectMany(t => t.GetMethods(All))
-    .Where(m => m.GetCustomAttributes().Any(a => a.GetType().Name is "HarmonyPrefix" or "HarmonyPostfix" or "HarmonyTranspiler"))
+    .Where(m => m.GetCustomAttributes().Any(a => a.GetType().Name is "HarmonyPrefix" or "HarmonyPostfix" or "HarmonyTranspiler" or "HarmonyFinalizer"))
     .Select(m => m.DeclaringType!.Name + "." + m.Name).OrderBy(n => n).ToArray();
 
 var targets = types.SelectMany(t => t.GetMethods(All))
@@ -49,6 +49,7 @@ foreach (var h in hooks) Console.WriteLine("  hook  " + h);
 string[] expectedHooks =
 {
     "HostAnnouncePatch.Postfix",
+    "SaveGuardPatch.Finalizer",
     "SaveGuardPatch.Postfix",
     "SaveGuardPatch.Prefix",
     "SelectionGatePatch.Postfix",

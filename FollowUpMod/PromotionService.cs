@@ -27,7 +27,7 @@ namespace FollowUpMod
 
             float original = character.ExperienceLevel;
             float target = Character.GetExperienceFloorForLevel(targetLevel);
-            SessionGuard.MarkPromoted(character, original);
+            SessionGuard.MarkPromoted(character, original, target);
             if (character.ExperienceLevel < target) character.ExperienceLevel = target;
             FollowUpModPlugin.Log.LogInfo("FU: promovido " + original + "->" + character.ExperienceLevel
                 + " niveis=" + levelsToGrant + (ceilingLimited ? " ceiling_limited" : ""));

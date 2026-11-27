@@ -33,10 +33,16 @@ namespace FollowUpMod
         }
     }
 
-    /// <summary>Grava o nivel original no arquivo e devolve o promovido logo depois.</summary>
+    /// <summary>
+    /// Grava o nivel original no arquivo e devolve o promovido logo depois. A profundidade
+    /// corta a recursao: trocar ExperienceLevel dispara QueueCharacterSave, que chama Save()
+    /// de forma sincrona. Sem o contador, o save reentrante chamaria a si mesmo para sempre.
+    /// </summary>
     [HarmonyPatch(typeof(Character))]
     internal static class SaveGuardPatch
     {
+        private static int _depth;
+
         [HarmonyTargetMethods]
         private static IEnumerable<MethodBase> Targets()
         {
@@ -46,18 +52,34 @@ namespace FollowUpMod
         }
 
         [HarmonyPrefix]
-        private static void Prefix(Character __instance, ref float __state)
+        private static bool Prefix(Character __instance, ref bool __state)
         {
-            __state = __instance != null ? __instance.ExperienceLevel : 0f;
-            if (SessionGuard.Stash(__instance))
-                FollowUpModPlugin.Log.LogInfo("FU: save com nivel original para nao persistir a promocao");
+            __state = false;
+            if (_depth > 0) return false; // save reentrante causado pela nossa propria troca de nivel
+            _depth++;
+            __state = SessionGuard.Stash(__instance);
+            if (__state) FollowUpModPlugin.Log.LogInfo("FU: save com nivel original para nao persistir a promocao");
+            return true;
         }
 
         [HarmonyPostfix]
-        private static void Postfix(Character __instance, float __state)
+        private static void Postfix(Character __instance, bool __state)
         {
-            if (__state <= 0f) return;
-            SessionGuard.RestorePromoted(__instance, __state);
+            try
+            {
+                if (__state) SessionGuard.RestorePromoted(__instance);
+            }
+            finally
+            {
+                if (_depth > 0) _depth--;
+            }
+        }
+
+        [HarmonyFinalizer]
+        private static void Finalizer()
+        {
+            // Excecao no original impede o postfix: nao deixar o contador travado.
+            _depth = 0;
         }
     }
 
