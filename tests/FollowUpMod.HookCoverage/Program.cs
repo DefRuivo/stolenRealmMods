@@ -45,12 +45,10 @@ Console.WriteLine("PATCH_CLASSES=" + patchClasses.Length + " HOOK_METHODS=" + ho
 foreach (var c in patchClasses) Console.WriteLine("  class " + c);
 foreach (var h in hooks) Console.WriteLine("  hook  " + h);
 
-// Contrato EXATO (nao so contagem): 4 classes, 6 hooks e 4 alvos resolvidos por nome.
+// Contrato EXATO (nao so contagem): 4 classes, 5 hooks e 4 alvos resolvidos por nome.
 string[] expectedHooks =
 {
     "HostAnnouncePatch.Postfix",
-    "SaveGuardPatch.Finalizer",
-    "SaveGuardPatch.Postfix",
     "SaveGuardPatch.Prefix",
     "SelectionGatePatch.Postfix",
     "SelectionGatePatch.Prefix",

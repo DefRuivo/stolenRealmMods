@@ -6,7 +6,7 @@
 
 FollowUpMod raises the character you pick for a co-op Roguelike party up to the party's level. A level-1 character joining a group already at level 15 enters at level 15 and receives the native level rewards (skill, item and attribute choices). Characters **above** the party level are left alone: whether they are accepted stays the game's own rule, with the original level tolerance - the mod never lowers a character.
 
-The promoted level belongs to that party session only: the character file keeps the original level, and when the group ends the character is back to where it was.
+The promotion belongs to that party session only. While the character is promoted, its file is not written: the level, the skills and the items granted in that group stay in memory, and when the session ends the character is back to where it was. Other characters in the party keep saving normally.
 
 ## Install and configure
 

@@ -32,16 +32,14 @@ namespace FollowUpMod
     }
 
     /// <summary>
-    /// Grava o nivel original no arquivo e devolve o promovido logo depois. A profundidade
-    /// corta a recursao: trocar ExperienceLevel dispara QueueCharacterSave, que chama Save()
-    /// de forma sincrona (SaveDataThrottler.ProcessSaveData). O contador so e decrementado por
-    /// quem incrementou - o postfix roda mesmo quando o prefixo pulou a chamada.
+    /// Bloqueia o save do personagem promovido: nivel e recompensas desta sessao nao chegam ao
+    /// arquivo. Bloquear (em vez de trocar o nivel durante o save) evita a recursao causada por
+    /// SaveDataThrottler -> Character.Save sincrono + setter de ExperienceLevel enfileirando save.
+    /// O `force` do jogo passa, porque ele e usado no meio do proprio save internamente.
     /// </summary>
     [HarmonyPatch(typeof(Character))]
     internal static class SaveGuardPatch
     {
-        private static int _depth;
-
         [HarmonyTargetMethods]
         private static IEnumerable<MethodBase> Targets()
         {
@@ -51,28 +49,9 @@ namespace FollowUpMod
         }
 
         [HarmonyPrefix]
-        private static bool Prefix(Character __instance, ref bool __counted, ref bool __state)
+        private static bool Prefix(Character __instance)
         {
-            __counted = false;
-            __state = false;
-            if (_depth > 0) return false; // save reentrante causado pela nossa propria troca de nivel
-            _depth++;
-            __counted = true;
-            __state = SessionGuard.Stash(__instance);
-            if (__state) FollowUpModPlugin.Log.LogInfo("FU: save com nivel original para nao persistir a promocao");
-            return true;
-        }
-
-        [HarmonyPostfix]
-        private static void Postfix(Character __instance, bool __state)
-        {
-            if (__state) SessionGuard.RestorePromoted(__instance);
-        }
-
-        [HarmonyFinalizer]
-        private static void Finalizer(bool __counted)
-        {
-            if (__counted && _depth > 0) _depth--;
+            return !SessionGuard.ShouldBlockSave(__instance);
         }
     }
 

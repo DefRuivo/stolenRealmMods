@@ -31,7 +31,7 @@ namespace FollowUpMod
             }
 
             float original = character.ExperienceLevel;
-            SessionGuard.MarkPromoted(character, original, targetLevel);
+            SessionGuard.MarkPromoted(character, original);
             character.ExperienceLevel = targetLevel;
             FollowUpModPlugin.Log.LogInfo("FU: promovido nivel " + original + "->" + character.ExperienceLevel
                 + " (Level=" + character.Level + ") niveis=" + levelsToGrant

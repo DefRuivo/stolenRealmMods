@@ -5,40 +5,37 @@ using System.Runtime.CompilerServices;
 namespace FollowUpMod
 {
     /// <summary>
-    /// Guarda o nivel original de cada personagem promovido. Na hora de gravar, o valor
-    /// original vai para o arquivo e o promovido volta logo depois: o resto do progresso
-    /// continua sendo salvo normalmente e apenas o nivel promovido nao persiste.
+    /// Marca os personagens promovidos nesta sessao. Enquanto a marcacao existir, o save do
+    /// personagem NAO roda: nem o nivel promovido, nem as skills/itens/atributos concedidos
+    /// pela fila de recompensas chegam ao arquivo. O nivel original e devolvido ao objeto
+    /// quando a sessao termina.
     ///
-    /// Importante (medido em 1.4.9): `SaveDataThrottler.AddToSaveQueue` chama
-    /// `Character.Save()` de forma SINCRONA, e o setter de ExperienceLevel chama
-    /// `QueueCharacterSave`. Trocar o nivel dentro do save reentra no proprio save; quem
-    /// corta a recursao e a profundidade contada em SaveGuardPatch, nao este arquivo.
+    /// Bloquear (em vez de trocar o nivel durante o save) e o que evita recursao: em 1.4.9
+    /// `SaveDataThrottler.ProcessSaveData` chama `Character.Save()` de forma sincrona e o
+    /// setter de ExperienceLevel enfileira outro save (Character.cs:5084-5091;
+    /// SaveDataThrottler.cs:152-157).
     /// </summary>
     internal static class SessionGuard
     {
         private sealed class Mark
         {
             internal float OriginalExperienceLevel;
-            internal float PromotedExperienceLevel;
         }
 
         private static readonly ConditionalWeakTable<Character, Mark> Marks =
             new ConditionalWeakTable<Character, Mark>();
+        private static readonly HashSet<Character> LoggedBlocks =
+            new HashSet<Character>(ReferenceComparer<Character>.Instance);
 
-        internal static void MarkPromoted(Character character, float originalExperienceLevel, float promotedExperienceLevel)
+        internal static void MarkPromoted(Character character, float originalExperienceLevel)
         {
             if (character == null) return;
             if (Marks.TryGetValue(character, out var existing))
             {
                 existing.OriginalExperienceLevel = originalExperienceLevel;
-                existing.PromotedExperienceLevel = promotedExperienceLevel;
                 return;
             }
-            Marks.Add(character, new Mark
-            {
-                OriginalExperienceLevel = originalExperienceLevel,
-                PromotedExperienceLevel = promotedExperienceLevel
-            });
+            Marks.Add(character, new Mark { OriginalExperienceLevel = originalExperienceLevel });
         }
 
         internal static bool IsPromoted(Character character)
@@ -46,40 +43,25 @@ namespace FollowUpMod
             return character != null && Marks.TryGetValue(character, out _);
         }
 
-        /// <summary>Devolve o nivel original ao objeto para o save. true = trocou (e ha que voltar).</summary>
-        internal static bool Stash(Character character)
+        internal static bool ShouldBlockSave(Character character)
         {
-            if (character == null || !Marks.TryGetValue(character, out var mark)) return false;
-            try
+            if (!IsPromoted(character)) return false;
+            lock (LoggedBlocks)
             {
-                character.ExperienceLevel = mark.OriginalExperienceLevel;
-                return true;
+                if (LoggedBlocks.Add(character))
+                    FollowUpModPlugin.Log.LogInfo("FU: save do personagem promovido bloqueado (nivel e recompensas ficam so na sessao)");
             }
-            catch (Exception ex)
-            {
-                FollowUpModPlugin.Log.LogWarning("FU: stash falhou: " + ex.GetType().Name + ": " + ex.Message);
-                return false;
-            }
-        }
-
-        internal static void RestorePromoted(Character character)
-        {
-            if (character == null || !Marks.TryGetValue(character, out var mark)) return;
-            try { character.ExperienceLevel = mark.PromotedExperienceLevel; }
-            catch (Exception ex) { FollowUpModPlugin.Log.LogWarning("FU: restore falhou: " + ex.GetType().Name); }
+            return true;
         }
 
         internal static void Forget(Character character)
         {
             if (character == null) return;
             try { Marks.Remove(character); } catch { }
+            lock (LoggedBlocks) LoggedBlocks.Remove(character);
         }
 
-        /// <summary>
-        /// Devolve o nivel original a cada personagem marcado e so entao descarta a marca.
-        /// Ordem importa: esquecer antes de restaurar deixaria o nivel promovido vivo e
-        /// qualquer save posterior o gravaria.
-        /// </summary>
+        /// <summary>Devolve o nivel original a cada personagem marcado e so entao descarta a marca.</summary>
         internal static void RestoreAllAndForget()
         {
             var keys = new List<Character>();
@@ -90,12 +72,19 @@ namespace FollowUpMod
                 {
                     if (Marks.TryGetValue(key, out var mark)) key.ExperienceLevel = mark.OriginalExperienceLevel;
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    FollowUpModPlugin.Log.LogWarning("FU: restauracao falhou (" + key.GetType().Name + "): " + ex.GetType().Name);
+                    FollowUpModPlugin.Log.LogWarning("FU: restauracao falhou: " + ex.GetType().Name);
                 }
                 Forget(key);
             }
+        }
+
+        private sealed class ReferenceComparer<T> : IEqualityComparer<T> where T : class
+        {
+            internal static readonly ReferenceComparer<T> Instance = new ReferenceComparer<T>();
+            public bool Equals(T x, T y) => ReferenceEquals(x, y);
+            public int GetHashCode(T obj) => RuntimeHelpers.GetHashCode(obj);
         }
     }
 }
