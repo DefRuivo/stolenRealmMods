@@ -15,7 +15,8 @@
       "BetterTooltips",
       "BetterCombatText",
       "RoguelikeDebugger",
-      "RoguelikeSkillTreeVisualizer"
+      "RoguelikeSkillTreeVisualizer",
+      "FollowUpMod"
     ],
     "caso_de_hoje": "RealmApi sobe PRIMEIRO (RSTV 0.3.4 declara DefRuivo_StolenRealmMods-RealmApi-0.1.0). ULLP sobe DEPOIS do RealmApi. BetterCombatText 0.1.3 depende de BetterFont-1.0.2 (que ja esta publicado como 1.0.3)."
   },
@@ -63,6 +64,13 @@
       "versao_publicada": "0.1.6",
       "publicado_em": "2026-10-22T00:50:56.523730Z",
       "motivo": "Fora do lote 1.4.9: nenhuma nova versão selecionada. PUBLICAR 0.1.6 (21/10, autorizado pelo dono): valor absoluto por turno nas auras de santuario que regeneram (\"= N de vida por turno\"), calculado sobre o total do proprio personagem."
+    },
+    {
+      "nome": "FollowUpMod",
+      "publicar": true,
+      "versao_publicada": null,
+      "publicado_em": null,
+      "motivo": "PUBLICAR 0.1.0 (27/11/2026): PRIMEIRA publicacao do FollowUpMod (promocao em co-op por etapa, fluxo 1->18 validado em jogo pelo dono). Pacote gumatos-FollowUpMod-0.1.0.zip, pre-flight verde, dependencia apenas do BepInExPack. Envio manual: mod=FollowUpMod."
     },
     {
       "nome": "RealmApi",
