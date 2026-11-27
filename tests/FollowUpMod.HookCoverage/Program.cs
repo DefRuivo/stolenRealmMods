@@ -45,23 +45,31 @@ Console.WriteLine("PATCH_CLASSES=" + patchClasses.Length + " HOOK_METHODS=" + ho
 foreach (var c in patchClasses) Console.WriteLine("  class " + c);
 foreach (var h in hooks) Console.WriteLine("  hook  " + h);
 
-// Contrato EXATO (nao so contagem): 4 classes, 5 hooks e 4 alvos resolvidos por nome.
+// Contrato EXATO: 6 classes (4 do mod + sonda + clique), 7 hooks, ZERO resolvedores dinamicos.
 string[] expectedHooks =
 {
+    "DiagProbePatch.Postfix",
     "HostAnnouncePatch.Postfix",
+    "LevelUpFlowPatch.Prefix",
+    "LevelUpOrderPatch.Postfix",
     "SaveGuardPatch.Prefix",
     "SelectionGatePatch.Postfix",
     "SelectionGatePatch.Prefix",
     "SessionEndPatch.Postfix",
+    "TileClickPatch.Postfix",
 };
 string[] expectedClasses =
 {
+    "FollowUpMod.DiagProbePatch",
     "FollowUpMod.HostAnnouncePatch",
+    "FollowUpMod.LevelUpFlowPatch",
+    "FollowUpMod.LevelUpOrderPatch",
     "FollowUpMod.SaveGuardPatch",
     "FollowUpMod.SelectionGatePatch",
     "FollowUpMod.SessionEndPatch",
+    "FollowUpMod.TileClickPatch",
 };
-if (!hooks.SequenceEqual(expectedHooks) || !patchClasses.SequenceEqual(expectedClasses) || targets != 4)
+if (!hooks.SequenceEqual(expectedHooks) || !patchClasses.SequenceEqual(expectedClasses) || targets != 0)
 {
     Console.WriteLine("FAIL cobertura de patches diferente do contrato");
     return 1;

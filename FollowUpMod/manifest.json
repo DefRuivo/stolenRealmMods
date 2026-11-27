@@ -2,7 +2,7 @@
   "name": "FollowUpMod",
   "version_number": "0.1.0",
   "website_url": "https://github.com/DefRuivo/stolenRealmMods",
-  "description": "Ajusta o nivel do personagem ao minimo do grupo de co-op Roguelike. Nao rebaixa personagens altos e nao grava a promocao no save.",
+  "description": "Raises the character you bring to a co-op Roguelike party to the level of its first accepted member, with native skills, items and attributes. Install it on the low-level side; the host should have it too. Session-only: that character is not saved.",
   "dependencies": [
     "BepInEx-BepInExPack-5.4.2305"
   ],

@@ -52,6 +52,28 @@ namespace FollowUpMod
             FollowUpModPlugin.Log.LogInfo("FU: recompensas enfileiradas; pendentes=" + manager.GetRoguelikeLevelsNeededCount(character));
         }
 
+        /// <summary>
+        /// Remove da fila do jogo as escolhas de nivel ja enfileiradas para o personagem. So
+        /// baixar o nivel nao basta: `CharactersWaitingForLevelUp` guarda um item por nivel
+        /// concedido e e essa fila que a UI cobra (RoguelikeManager.cs:242-256).
+        /// </summary>
+        internal static int ClearPendingLevels(Character character)
+        {
+            var manager = RoguelikeManager.ForcedInstance;
+            if (manager == null || character == null) return 0;
+            var fila = manager.CharactersWaitingForLevelUp;
+            if (fila == null) return 0;
+            int antes = fila.Count;
+            fila.RemoveAll(x => x != null && ReferenceEquals(x.Character, character));
+            return antes - fila.Count;
+        }
+
+        /// <summary>Esquece um personagem especifico (usado quando ele sai da party).</summary>
+        internal static void Forget(Character character)
+        {
+            if (character != null) PromotedForTarget.Remove(character);
+        }
+
         internal static void Reset()
         {
             lock (Gate) PromotedForTarget.Clear();

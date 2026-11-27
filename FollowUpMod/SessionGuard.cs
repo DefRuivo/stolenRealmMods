@@ -61,6 +61,21 @@ namespace FollowUpMod
             lock (LoggedBlocks) LoggedBlocks.Remove(character);
         }
 
+        /// <summary>Devolve o nivel original de um personagem e descarta a marca dele.</summary>
+        internal static bool RestoreOne(Character character)
+        {
+            if (character == null) return false;
+            if (!Marks.TryGetValue(character, out var mark)) return false;
+            try { character.ExperienceLevel = mark.OriginalExperienceLevel; }
+            catch (Exception ex)
+            {
+                FollowUpModPlugin.Log.LogWarning("FU: restauracao individual falhou: " + ex.GetType().Name);
+                return false;
+            }
+            Forget(character);
+            return true;
+        }
+
         /// <summary>Devolve o nivel original a cada personagem marcado e so entao descarta a marca.</summary>
         internal static void RestoreAllAndForget()
         {

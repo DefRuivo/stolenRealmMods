@@ -1,8 +1,17 @@
-# Changelog - FollowUpMod
+# Changelog — FollowUpMod
 
-## 0.1.0
+> Dates use ISO 8601 (BRT, UTC−03:00). This mod is not published on Thunderstore yet.
 
-- First version: raises a Roguelike co-op character up to the party level and grants the native skill, item and attribute rewards for each level gained.
-- Characters above the party level are not modified; acceptance stays the game original rule, including its level tolerance.
-- The promotion is session-only: while promoted, that character is not saved, so neither the level nor the rewards of the group reach the file.
-- Host publishes the party rule in the Steam lobby; a host without the mod keeps vanilla behaviour.
+## 0.1.0 — 2026-11-27
+
+- **First version.** A character picked for a co-op Roguelike party is raised to the level of the first character already accepted in that party — the same number the game compares — before the game compares levels, so a level-1 character in a party whose first accepted member is level 18 enters at 18 with the native rewards (skill, item and attribute choices).
+- **Never lowers a character.** Characters at or above that reference level are untouched; acceptance stays the game's own rule, including its original ±2 level tolerance. Only co-op Roguelike is affected — campaign and singleplayer keep vanilla behaviour. The gate does not check the Hardcore flag.
+- **Session-only promotion.** While a character is promoted its save is not written at all (`Character.Save` prefix), so neither the promoted level, the rewards of that group nor any other progress of that character in the session reaches the file. When the session ends every promoted character is restored to its original level.
+- **Host announces the party rule.** When it is the server, the host publishes the group minimum into the Steam lobby (`followup.level`) — on becoming the server and on every party change. The entry is a marker plus a diagnostic number: **no client reads the value**, the promotion is always computed locally from the synced party. A host without the mod simply never publishes it.
+- **Client mode.** When the host has not announced the rule, a modded client still adjusts the character locally instead of staying idle, and the game decides acceptance with the corrected level.
+- **Auto-revert when the character leaves the party.** Its level is restored immediately *and* its pending level-up entries are removed from `RoguelikeManager.CharactersWaitingForLevelUp` — the queue, not the level, is what the UI charges, and leaving it behind made players owe attribute/skill/item picks for a promotion that no longer applied.
+- **Level-up order resolved by stage.** A promotion of N levels used to repeat *skills → items → attributes* N times. The queue is now rotated stage by stage: all skill choices, then all items, then a single attributes block. Rerolls keep the native single-stage path; no unspent stat points skips the attributes block.
+- **Level-up sequence guarded to `Skills > Items > Attributes`.** Written at `RoguelikeManager.Start` from the prefab value, preserving the presence of a `Currency` stage if a future build adds one. In 1.4.9 the prefab already ships that order, so the write is a no-op there (the log shows the same order on both sides of the arrow).
+- **Diagnostics.** `BepInEx/FollowUpMod.diag.log` records boot, patch attachment (`DMD<...>`), gate context, anchors, tile clicks and each level-up confirmation stage; `LogOutput.log` keeps the human-readable `FU:` lines.
+- **Reliability fix.** The plugin no longer unpatches itself on `OnDestroy`. BepInEx can destroy and recreate the plugin object right after `Awake`, and the self-unpatch removed every hook silently (symptom: *"patch aplicado"* logged and no hook ever running).
+- **Verified in game (client mode):** Choquinho level 1 → 18 inside a level-18 Roguelike party, 17 level-up entries resolved in the stage order above, and the level restored when the character left the party. That session had no host announcement (`regra=False`) and never showed a character *above* the reference level being refused, so those branches (announce, two modded machines, `ceiling_limited`, the native refusal of a higher character) remain unexercised in game — see the README section *Not verified in game yet*.

@@ -11,19 +11,38 @@ namespace FollowUpMod
     {
         internal static void Prepare(CharacterChoiceManager manager)
         {
+            Diag.Write("prefix entrou");
             try
             {
                 var candidate = manager != null && manager.selectedCharacterChoiceItem != null
                     ? manager.selectedCharacterChoiceItem.Character
                     : null;
-                if (candidate == null || candidate.SelectedForBattle) return;
+                Diag.Write("prefix entrou candidato=" + (candidate == null ? "null" : candidate.CharacterName + "/nivel " + candidate.Level));
+                FollowUpModPlugin.Log.LogInfo("FU: prefix entrou candidato=" +
+                    (candidate == null ? "null" : candidate.CharacterName + "/nivel " + candidate.Level + "/selecionado " + candidate.SelectedForBattle));
+                if (candidate == null) return;
+                if (candidate.SelectedForBattle)
+                {
+                    FollowUpModPlugin.Log.LogInfo("FU: candidato ja selecionado; nada a fazer");
+                    return;
+                }
 
                 var ctx = Context.Read();
+                Diag.Write("contexto mp=" + ctx.IsMultiplayer + " rog=" + ctx.IsRoguelike + " regra=" + ctx.HostAnnouncesRule);
                 if (!ctx.IsMultiplayer) { FollowUpModPlugin.Log.LogInfo("FU: inerte (not_multiplayer)"); return; }
                 if (!ctx.IsRoguelike) { FollowUpModPlugin.Log.LogInfo("FU: inerte (not_roguelike)"); return; }
-                if (!ctx.HostAnnouncesRule) { FollowUpModPlugin.Log.LogInfo("FU: host sem regra (" + CoopLevelPolicy.LobbyKey + "); vanilla"); return; }
+                if (!ctx.HostAnnouncesRule)
+                {
+                    // Modo cliente (validacao): o host nao tem o mod, entao a regra nao foi
+                    // anunciada no lobby. Em vez de ficar inerte, adequamos o nivel localmente.
+                    // O jogo continua decidindo aceitar/recusar com a regra original, agora
+                    // comparando o nivel ja adequado.
+                    Diag.Write("host sem regra: modo cliente");
+                    FollowUpModPlugin.Log.LogInfo("FU: host sem regra (" + CoopLevelPolicy.LobbyKey + "); modo cliente (adequa localmente)");
+                }
 
                 var snapshot = GroupAnchors.Read(candidate);
+                Diag.Write("snapshot ancora=" + snapshot.AnchorLevel + " motivo=" + snapshot.Reason);
                 if (snapshot.AnchorLevel <= 0)
                 {
                     FollowUpModPlugin.Log.LogInfo("FU: sem ancora de grupo (" + snapshot.Reason + "); nada a adequar");
@@ -42,6 +61,7 @@ namespace FollowUpMod
             }
             catch (Exception ex)
             {
+                Diag.Write("EXCECAO no gate: " + ex.GetType().Name + ": " + ex.Message + " | " + ex.StackTrace);
                 FollowUpModPlugin.Log.LogWarning("FU: gate indisponivel, vanilla: " + ex.GetType().Name + ": " + ex.Message);
             }
         }
